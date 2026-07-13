@@ -1,0 +1,8 @@
+{
+  "HYPNOSISCREATOR-DOMINATION_POWER.title": "Dom",
+  "HYPNOSISCREATOR-DOMINATION_POWER.description": "Your Domination stacks. Match with an enemy's Sub for bonus effects.",
+  "HYPNOSISCREATOR-DOMINATION_POWER.smartDescription": "Domination {Amount}. Match with Sub for bonus effects.",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.title": "Sub",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.description": "Submission stacks. When equal to the player's Dom, hypnosis syncs.",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.smartDescription": "Submission {Amount}. Syncs with Dom when equal."
+}

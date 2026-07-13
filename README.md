@@ -1,55 +1,36 @@
-# NewCharMod（Slay the Spire 2 キャラクターmod）
+# Hypnosis Creator（催眠制作者）
 
-BaseLib 依存のキャラクター追加テンプレートから生成した開発用プロジェクトです。
+Slay the Spire 2 のキャラクターmod。活動名「ぬぬはら」を原案にした **Hypnosis Creator**。
 
-## 必要なもの
+依存: [BaseLib](https://steamcommunity.com/sharedfiles/filedetails/?id=3737335127)
 
-| 項目 | 状態・場所 |
-|------|------------|
-| Slay the Spire 2 | Steam: `~/Library/Application Support/Steam/steamapps/common/Slay the Spire 2` |
-| BaseLib（Workshop） | 購読済み（`workshop/content/2868840/3737335127/BaseLib`） |
-| .NET SDK 9+ | `~/.dotnet`（PATH に追加済み想定） |
-| MegaDot（アセット出力用） | `~/Applications/MegaDot.app` |
+## 三軸
 
-## 初回セットアップ（別マシン向け）
+| 軸 | 概要 |
+|----|------|
+| **カウント** | 基本高コスト。解決後コストが0のときだけプレイ可（Retain／コスト操作あり） |
+| **トランス** | Dom（自分）と Sub（敵）を積み、一致で割合ダメージ／不一致で敵回復 |
+| **心臓** | リーサルで心臓レリックを奪う（現状は汎用 `StolenHeart`、個別心臓は拡張予定） |
+
+## セットアップ
 
 ```bash
-# .NET
-curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 9.0
-export DOTNET_ROOT="$HOME/.dotnet"
-export PATH="$HOME/.dotnet:$PATH"
-
-# MegaDot
-curl -fsSL https://megadot.megacrit.com/install.sh | sh
-
-# テンプレート（任意・新規作成時）
-dotnet new install Alchyr.Sts2.Templates
-
-# 本リポジトリ
+# .NET 9 + MegaDot 済み想定
 cp Directory.Build.props.example Directory.Build.props
-# GodotPath が違う場合は Directory.Build.props を編集
-```
-
-Steam Workshop で **BaseLib** を購読してください。
-
-## ビルド / 公開
-
-```bash
 export PATH="$HOME/.dotnet:$PATH"
-dotnet build          # コードのみ（.dll を mods へコピー）
-dotnet publish        # 画像・文言込み（.pck も生成）
+dotnet build          # コードのみ
+dotnet publish        # 画像・文言込み（.pck 生成）
 ```
 
-出力先（macOS）:
+出力先（macOS）:  
+`…/Slay the Spire 2/SlayTheSpire2.app/Contents/MacOS/mods/HypnosisCreator/`
 
-`…/Slay the Spire 2/SlayTheSpire2.app/Contents/MacOS/mods/NewCharMod/`
-
-ゲーム起動後、設定 → Mod Settings で **NewCharMod** と **BaseLib** を有効化します。
+ゲーム内で **BaseLib** と **Hypnosis Creator** を有効化。
 
 ## 主なディレクトリ
 
-- `NewCharModCode/` … C#（キャラ・カード・レリック等）
-- `NewCharMod/` … 画像・ローカライズ（文言）
-- `NewCharMod.json` … mod マニフェスト
+- `HypnosisCreatorCode/` … C#（キャラ・カード・レリック・パッチ）
+- `HypnosisCreator/` … 画像・ローカライズ（eng / jpn）
+- `HypnosisCreator.json` … mod マニフェスト
 
-詳細な作り方は [ModTemplate-StS2 Wiki](https://github.com/Alchyr/ModTemplate-StS2/wiki) を参照。
+詳細: [ModTemplate-StS2 Wiki](https://github.com/Alchyr/ModTemplate-StS2/wiki)

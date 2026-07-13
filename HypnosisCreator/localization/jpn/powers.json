@@ -1,0 +1,8 @@
+{
+  "HYPNOSISCREATOR-DOMINATION_POWER.title": "Dom",
+  "HYPNOSISCREATOR-DOMINATION_POWER.description": "支配のスタック。敵のSubと一致すると性癖一致ボーナス。",
+  "HYPNOSISCREATOR-DOMINATION_POWER.smartDescription": "Dom {Amount}。Subと一致で強化。",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.title": "Sub",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.description": "服従のスタック。プレイヤーのDomと一致すると同期する。",
+  "HYPNOSISCREATOR-SUBMISSION_POWER.smartDescription": "Sub {Amount}。Domと一致で同期。"
+}

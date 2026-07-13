@@ -1,0 +1,8 @@
+{
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.title": "催眠メトロノーム",
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "戦闘開始時、{DominationPower} [gold]Dom[/gold]を得る。",
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "チク。タク。ドロップ。",
+  "HYPNOSISCREATOR-STOLEN_HEART.title": "奪った心臓",
+  "HYPNOSISCREATOR-STOLEN_HEART.description": "戦闘開始時、所持している奪った心臓1つにつき2 [gold]ブロック[/gold]を得る。",
+  "HYPNOSISCREATOR-STOLEN_HEART.flavor": "まだ脈打っている。"
+}
