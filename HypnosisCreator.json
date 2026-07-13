@@ -1,8 +1,8 @@
 {
   "id": "HypnosisCreator",
-  "name": "Hypnosis Creator",
+  "name": "Hypno Creator",
   "author": "ぬぬはら",
-  "description": "催眠制作者 Hypnosis Creator — カウント／トランス／心臓の三軸キャラクターmod",
+  "description": "Hypno Creator — カウント／トランス／心臓の三軸キャラクターmod（原案：ぬぬはら）",
   "version": "v0.1.0",
   "min_game_version": "0.108.0",
   "has_pck": true,

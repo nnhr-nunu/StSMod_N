@@ -1,6 +1,6 @@
-# Hypnosis Creator（催眠制作者）
+# Hypno Creator
 
-Slay the Spire 2 のキャラクターmod。活動名「ぬぬはら」を原案にした **Hypnosis Creator**。
+Slay the Spire 2 のキャラクターmod。活動名「ぬぬはら」を原案にした **Hypno Creator**。
 
 依存: [BaseLib](https://steamcommunity.com/sharedfiles/filedetails/?id=3737335127)
 
@@ -25,7 +25,7 @@ dotnet publish        # 画像・文言込み（.pck 生成）
 出力先（macOS）:  
 `…/Slay the Spire 2/SlayTheSpire2.app/Contents/MacOS/mods/HypnosisCreator/`
 
-ゲーム内で **BaseLib** と **Hypnosis Creator** を有効化。
+ゲーム内で **BaseLib** と **Hypno Creator** を有効化。
 
 ## 主なディレクトリ
 
