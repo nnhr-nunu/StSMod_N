@@ -32,5 +32,6 @@ dotnet publish        # 画像・文言込み（.pck 生成）
 - `HypnosisCreatorCode/` … C#（キャラ・カード・レリック・パッチ）
 - `HypnosisCreator/` … 画像・ローカライズ（eng / jpn）
 - `HypnosisCreator.json` … mod マニフェスト
+- `card-asset-template.md` … **カード名・効果・サムネの受け渡し用テンプレート**
 
 詳細: [ModTemplate-StS2 Wiki](https://github.com/Alchyr/ModTemplate-StS2/wiki)
