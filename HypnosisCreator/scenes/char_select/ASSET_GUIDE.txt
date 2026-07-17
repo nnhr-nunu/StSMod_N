@@ -1,0 +1,23 @@
+# キャラクター選択画面の背景シーン
+
+画像素材は images/char_select/select_bg.png を使います。
+ここには Godot の .tscn を置きます。
+
+## 配置するファイル
+
+| ファイル名（推奨）            | 用途 |
+|-------------------------------|------|
+| hypnosis_creator_bg.tscn      | 選択画面の背景シーン |
+
+## 作り方（概要）
+
+1. Godot で Control ルートの新規シーンを作成
+2. TextureRect 等で select_bg.png を表示
+3. このフォルダに保存
+4. HypnosisCreator.cs に追加:
+   CustomCharacterSelectBg => "res://HypnosisCreator/scenes/char_select/hypnosis_creator_bg.tscn"
+
+## 注意
+
+- .tscn を置いただけでは反映されません（C# でのパス指定が必要）
+- 変更後は dotnet publish

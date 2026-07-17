@@ -1,0 +1,36 @@
+# Hypno Creator 画像アセット一覧
+
+各サブフォルダに詳細な ASSET_GUIDE.txt があります。
+
+## フォルダ早見表
+
+| フォルダ | 何を置くか | いまの状態 |
+|----------|------------|------------|
+| char_select/ | 選択画面の1枚絵（素材） | select_bg.png 配置済 |
+| character/combat/ | バトル立ち絵（素材） | idle.png 配置済（GB・左向き） |
+| character/merchant/ | 商店用立ち絵素材 | 未配置 |
+| character/rest_site/ | 篝火用立ち絵素材 | 未配置 |
+| charui/ | 選択ボタン・マップ・エネルギーUI | テンプレ画像あり |
+| card_portraits/ | カード絵（小） | 仮画像のみ |
+| card_portraits/big/ | カード絵（大） | 仮画像のみ |
+| card_portraits/beta/ | カード絵（β差分） | 空 |
+| cards/ | カード枠（任意） | 空 |
+| powers/ | パワーアイコン | 仮画像のみ |
+| relics/ | レリックアイコン | 仮画像のみ |
+
+## 共通ルール
+
+1. 拡張子は原則 .png（透過が必要なものは透過PNG）
+2. ファイル名は小文字 + アンダースコア（snake_case）
+3. カード／パワー／レリックは「C#クラス名 → 小文字アンダースコア」
+4. 画像を置いただけではゲームに出ないものがある
+   - 選択1枚絵・立ち絵 → scenes/ の .tscn + C# パス指定が必要
+5. 反映には dotnet publish（.pck 再生成）が必要
+
+## いま置いてある素材について
+
+- char_select/select_bg.png … 1536×1024。フォルダ配置OK。次はシーン化。
+- character/combat/idle.png … 843×1264・グリーンバック・左向き。
+  - 透過化が必要
+  - 表示時に左右反転（Flip H）が必要
+  - 次は scenes/creature_visuals/ のシーン化

@@ -1,0 +1,15 @@
+# 商店シーン
+
+素材は images/character/merchant/ を使います。
+
+## 配置するファイル
+
+| ファイル名（推奨）                  | 用途 |
+|-------------------------------------|------|
+| hypnosis_creator_merchant.tscn      | 商店でのキャラ表示 |
+
+## 概要
+
+- ルートは Node2D（Sprite2D 1枚でも可）
+- HypnosisCreator.cs の CustomMerchantAnimPath でパス指定
+- 未設定でも動作可（原版仮表示）

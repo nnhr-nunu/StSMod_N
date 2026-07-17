@@ -1,0 +1,43 @@
+# バトル立ち絵・モーション素材
+
+戦闘中のキャラ表示用PNG。PNGだけでは動かず、
+scenes/creature_visuals/ の .tscn から参照します。
+
+## 配置するファイル
+
+| ファイル名（推奨） | 用途 | 必須 |
+|--------------------|------|------|
+| idle.png           | 待機（立ち絵） | ○ |
+| attack.png         | 攻撃（1枚でも可） | 任意 |
+| attack_01.png 〜   | 攻撃フレーム連番 | 任意 |
+| cast.png           | パワー／詠唱 | 任意 |
+| hurt.png           | 被弾 | 任意 |
+| die.png            | 死亡 | 任意 |
+
+最低限 idle.png があれば表示できます。
+
+## 仕様
+
+- 拡張子: .png（透過推奨）
+- 推奨サイズ: 高さ 800〜1400px 程度の全身立ち絵
+  - 現状の idle.png は 843×1264 で問題なし
+- 背景: 透過PNGが理想
+  - グリーンバック（GB）のままなら、後で透過化が必要
+- 向き: ゲーム内では「敵側（画面右）を向く」のが標準
+  - 素材が左向きの場合 → Godot の Sprite2D で Flip H = ON
+  - または scale.x = -1
+  - 画像ファイル自体を反転して保存してもよい
+
+## 命名ルール
+
+- 小文字 + アンダースコア
+- アニメ用連番は 01, 02…（attack_01.png）
+- 例: idle.png / hurt.png / attack_01.png
+
+## 次の作業（実装側）
+
+1. グリーンバックを透過PNGにする（Photoshop / GIMP 等）
+2. scenes/creature_visuals/ に hypnosis_creator.tscn を作成
+3. Visuals ノード（Sprite2D）に idle.png をセットし Flip H を ON
+4. HypnosisCreator.cs で CustomVisualPath を指定
+5. dotnet publish

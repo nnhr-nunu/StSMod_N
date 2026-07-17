@@ -1,0 +1,16 @@
+# エネルギー表盤シーン
+
+戦闘UI左下のエネルギー表示です。未設定でも原版で動きます。
+
+## 配置するファイル
+
+| ファイル名（推奨）                | 用途 |
+|-----------------------------------|------|
+| hypnosis_creator_energy.tscn      | カスタムエネルギー表盤 |
+
+## 概要
+
+- ルートは Control
+- 必要ノード: EnergyVfxBack %, Layers %, RotationLayers %, EnergyVfxFront %, Label
+- HypnosisCreator.cs の CustomEnergyCounterPath でパス指定
+- 画像は images/charui/ のエネルギーアイコンとは別物です

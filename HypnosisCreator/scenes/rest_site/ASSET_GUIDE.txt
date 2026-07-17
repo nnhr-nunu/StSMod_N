@@ -1,0 +1,16 @@
+# 篝火（休憩所）シーン
+
+素材は images/character/rest_site/ を使います。
+
+## 配置するファイル
+
+| ファイル名（推奨）              | 用途 |
+|---------------------------------|------|
+| hypnosis_creator_rest.tscn      | 篝火でのキャラ表示 |
+
+## 概要
+
+- ルートは Node2D
+- 画像または Spine を配置
+- HypnosisCreator.cs の CustomRestSiteAnimPath でパス指定
+- 未設定でも動作可（原版仮表示）

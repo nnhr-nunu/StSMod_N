@@ -1,0 +1,50 @@
+# バトル立ち絵シーン（戦闘中の見た目）
+
+素材は images/character/combat/idle.png などを使います。
+ここには Godot の .tscn を置きます。
+
+## 配置するファイル
+
+| ファイル名（推奨）         | 用途 |
+|----------------------------|------|
+| hypnosis_creator.tscn      | 戦闘中のキャラ見た目 |
+
+## 必須ノード構成
+
+```
+hypnosis_creator (Node2D)
+├── Visuals (Sprite2D など) %   ← ユニーク名必須
+├── Bounds (Control) %
+├── IntentPos (Marker2D) %
+└── CenterPos (Marker2D) %
+```
+
+% は Godot の「ユニーク名としてアクセス」を ON にした印です。
+
+## 左向き素材の反転
+
+idle.png が左向きの場合、Visuals（Sprite2D）で:
+
+- Flip H = ON
+  または
+- Scale X = -1
+
+画像ファイルを左右反転して保存してもよいです。
+
+## アニメ名（任意・将来）
+
+| 名前       | 内容     |
+|------------|----------|
+| idle_loop  | 待機     |
+| attack     | 攻撃     |
+| cast       | 詠唱     |
+| hurt       | 被弾     |
+| die        | 死亡     |
+
+1枚絵だけなら Visuals を Sprite2D にして idle.png を貼るだけでOKです。
+
+## C# 側
+
+HypnosisCreator.cs に:
+
+CustomVisualPath => "res://HypnosisCreator/scenes/creature_visuals/hypnosis_creator.tscn"

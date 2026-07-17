@@ -1,0 +1,27 @@
+# レリック（遺物）アイコン
+
+クラス名から自動でファイル名が決まります。
+アウトライン（縁取り）画像もセットで用意します。
+
+## 配置するファイル
+
+| 場所 | 用途 |
+|------|------|
+| （このフォルダ）/{name}.png          | 通常アイコン |
+| （このフォルダ）/{name}_outline.png  | 縁取り |
+| big/{name}.png                       | 拡大用 |
+| relic.png / relic_outline.png / big/relic.png | 仮画像 |
+
+## 命名ルール
+
+| クラス名           | 通常               | アウトライン                    |
+|--------------------|--------------------|---------------------------------|
+| HypnosisMetronome  | hypnosis_metronome.png | hypnosis_metronome_outline.png |
+| StolenHeart        | stolen_heart.png   | stolen_heart_outline.png        |
+
+## 仕様
+
+- 拡張子: .png（透過）
+- 通常: 64〜128px 角
+- 拡大: それより大きい正方形
+- アウトラインは白シルエット系が一般的

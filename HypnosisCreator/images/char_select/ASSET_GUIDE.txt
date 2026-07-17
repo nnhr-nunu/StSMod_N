@@ -1,0 +1,30 @@
+# キャラクター選択画面・背景1枚絵（素材）
+
+このフォルダは「選択画面の大きな1枚絵」の素材置き場です。
+PNGだけではゲームに出ません。Godotシーン（scenes/char_select/）から参照します。
+
+## 配置するファイル
+
+| ファイル名（推奨） | 用途 |
+|--------------------|------|
+| select_bg.png      | 選択画面の背景＋立ち姿の1枚絵 |
+
+## 仕様
+
+- 拡張子: .png（推奨）/ .webp 可
+- 推奨サイズ: 1920×1080 前後（横長）
+  - 現状の select_bg.png は 1536×1024 で問題なし（シーン側で拡大縮小）
+- 容量目安: 3MB以下推奨（大きいほど .pck が重くなる）
+- 背景: 背景込みでOK（グリーンバック不要）
+- 向き: 正面〜やや横向き、どちらでも可
+
+## 命名ルール
+
+- 小文字 + アンダースコア（snake_case）
+- 例: select_bg.png / select_bg_alt.png
+
+## 次の作業（実装側）
+
+1. scenes/char_select/ に .tscn を作成し、この画像を TextureRect 等で表示
+2. HypnosisCreator.cs で CustomCharacterSelectBg にシーンパスを指定
+3. dotnet publish で .pck を再生成

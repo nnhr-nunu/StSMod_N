@@ -1,0 +1,14 @@
+# カード絵（拡大鑑賞用・大）
+
+手札用と同名の PNG を置きます。
+
+## 例
+
+- cooking_hypnosis.png
+- pleasure_cycle.png
+
+## 仕様
+
+- 拡張子: .png
+- 推奨サイズ: 1000×760
+- 命名: 親フォルダの ASSET_GUIDE.txt と同じルール

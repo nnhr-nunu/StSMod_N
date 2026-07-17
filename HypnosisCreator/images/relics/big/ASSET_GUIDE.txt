@@ -1,0 +1,13 @@
+# レリックアイコン（拡大用）
+
+通常版と同名の PNG を置きます（_outline は不要）。
+
+## 例
+
+- hypnosis_metronome.png
+- stolen_heart.png
+
+## 仕様
+
+- 拡張子: .png（透過）
+- 推奨サイズ: 128×128 以上の正方形
