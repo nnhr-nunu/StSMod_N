@@ -62,8 +62,20 @@
 
     <ItemGroup>
       <Folder Include="HypnosisCreator\images\card_portraits\big\" />
+      <Folder Include="HypnosisCreator\images\card_portraits\beta\" />
+      <Folder Include="HypnosisCreator\images\cards\" />
+      <Folder Include="HypnosisCreator\images\character\combat\" />
+      <Folder Include="HypnosisCreator\images\character\merchant\" />
+      <Folder Include="HypnosisCreator\images\character\rest_site\" />
+      <Folder Include="HypnosisCreator\images\char_select\" />
       <Folder Include="HypnosisCreator\images\powers\big\" />
       <Folder Include="HypnosisCreator\images\relics\big\" />
+      <Folder Include="HypnosisCreator\scenes\creature_visuals\" />
+      <Folder Include="HypnosisCreator\scenes\char_select\" />
+      <Folder Include="HypnosisCreator\scenes\rest_site\" />
+      <Folder Include="HypnosisCreator\scenes\merchant\" />
+      <Folder Include="HypnosisCreator\scenes\energy\" />
+      <Folder Include="HypnosisCreator\audio\" />
     </ItemGroup>
     
     <Target Name="CheckDependencyPaths" >
