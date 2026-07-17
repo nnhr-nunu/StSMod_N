@@ -1,36 +1,41 @@
-# グリーンバック透過（クロマキー）の調整
+# 見た目ライブ調整（Mod設定）
 
-編集ファイル:
-  HypnosisCreator/shaders/chroma_key_material.tres
+ゲーム内:
+  Settings → Mod Settings → Hypno Creator
 
-立ち絵シーン（hypnosis_creator.tscn）の Visuals がこのマテリアルを参照しています。
+スライダーを動かすとその場の立ち絵／選択背景／カード絵へ反映される。
+設定画面を閉じると自動保存（＝確定）。
 
-## パラメータ
+## セクション
 
-| 名前 | 意味 | いじり方 |
-|------|------|----------|
-| key_color | 抜く緑の代表色 | idle.png の角をスポイト（現状 ≈ RGB 8,161,53） |
-| similarity | 抜く範囲の広さ | 背景が残る → 上げる / 体まで消える → 下げる |
-| smoothness | 境界のぼかし | ギザギザ → 上げる / 縁が透ける → 下げる |
-| spill | 緑かぶり抑制 | 縁が緑っぽい → 上げる / 色がくすむ → 下げる |
+### ChromaKey（立ち絵のグリーンバック透過）
+| 項目 | 意味 |
+|------|------|
+| ChromaSimilarity | 抜く範囲（残る→上げる／欠けすぎ→下げる） |
+| ChromaSmoothness | 境界ぼかし |
+| ChromaSpill | 緑かぶり抑制 |
+| ChromaKeyR/G/B | 抜く色（idle.png のGB色に合わせる） |
 
-初期値（idle.png の実測GB色）:
-  key_color   ≈ (0.031, 0.631, 0.208)  … RGB 8,161,53
-  similarity  = 0.22
-  smoothness  = 0.08
-  spill       = 0.25
+初期値は idle.png 実測色（約 RGB 8,161,53）向け。
 
-## おすすめ手順
+### SelectBackground（キャラ選択の1枚絵）
+| 項目 | 意味 |
+|------|------|
+| SelectBgOffsetX/Y | パン（左右／上下） |
+| SelectBgZoom | 拡大（大きいほど寄る＝トリミング感） |
 
-1. key_color を素材のGB色に合わせる（一番大事）
-2. similarity を 0.15〜0.35 で背景が消える位置を探す
-3. smoothness で縁を整える（0.05〜0.15）
-4. まだ緑フチがあれば spill を少し上げる
+### CardArt（カード絵・全 Hypno Creator カード共通）
+| 項目 | 意味 |
+|------|------|
+| CardOffsetX/Y | パン |
+| CardZoom | 拡大 |
 
-## 反映
+手札やカード報酬を出しながらスライダーを動かすと反映される。
 
-変更後は .pck 再生成が必要:
+## ファイル
+- chroma_key.gdshader / chroma_key_material.tres … 立ち絵
+- image_crop.gdshader / image_crop_material.tres … 選択背景・カード
 
-  dotnet publish
-
-（または Godot で BasicExport の export-pack）
+## 反映の注意
+- 初回導入後はゲーム再起動
+- ゲーム起動中は mods フォルダへの上書きがロックされることがある

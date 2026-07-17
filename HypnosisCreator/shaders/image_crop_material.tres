@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://HypnosisCreator/shaders/image_crop.gdshader" id="1_crop"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_crop")
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/zoom = 1.0

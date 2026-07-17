@@ -1,0 +1,17 @@
+{
+  "HYPNOSISCREATOR-chroma_key.title": "Chroma Key (Standing Art)",
+  "HYPNOSISCREATOR-chroma_similarity.title": "Similarity (cut range)",
+  "HYPNOSISCREATOR-chroma_smoothness.title": "Smoothness (edge soft)",
+  "HYPNOSISCREATOR-chroma_spill.title": "Spill (green fringe)",
+  "HYPNOSISCREATOR-chroma_key_r.title": "Key Color R",
+  "HYPNOSISCREATOR-chroma_key_g.title": "Key Color G",
+  "HYPNOSISCREATOR-chroma_key_b.title": "Key Color B",
+  "HYPNOSISCREATOR-select_background.title": "Character Select Art",
+  "HYPNOSISCREATOR-select_bg_offset_x.title": "Select BG Offset X",
+  "HYPNOSISCREATOR-select_bg_offset_y.title": "Select BG Offset Y",
+  "HYPNOSISCREATOR-select_bg_zoom.title": "Select BG Zoom",
+  "HYPNOSISCREATOR-card_art.title": "Card Art Crop",
+  "HYPNOSISCREATOR-card_offset_x.title": "Card Offset X",
+  "HYPNOSISCREATOR-card_offset_y.title": "Card Offset Y",
+  "HYPNOSISCREATOR-card_zoom.title": "Card Zoom"
+}

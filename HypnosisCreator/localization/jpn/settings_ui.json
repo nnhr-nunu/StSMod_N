@@ -1,0 +1,17 @@
+{
+  "HYPNOSISCREATOR-chroma_key.title": "クロマキー（立ち絵GB透過）",
+  "HYPNOSISCREATOR-chroma_similarity.title": "Similarity（抜く範囲）",
+  "HYPNOSISCREATOR-chroma_smoothness.title": "Smoothness（縁ぼかし）",
+  "HYPNOSISCREATOR-chroma_spill.title": "Spill（緑かぶり）",
+  "HYPNOSISCREATOR-chroma_key_r.title": "キー色 R",
+  "HYPNOSISCREATOR-chroma_key_g.title": "キー色 G",
+  "HYPNOSISCREATOR-chroma_key_b.title": "キー色 B",
+  "HYPNOSISCREATOR-select_background.title": "キャラ選択の1枚絵",
+  "HYPNOSISCREATOR-select_bg_offset_x.title": "選択背景 左右",
+  "HYPNOSISCREATOR-select_bg_offset_y.title": "選択背景 上下",
+  "HYPNOSISCREATOR-select_bg_zoom.title": "選択背景 拡大",
+  "HYPNOSISCREATOR-card_art.title": "カード絵の切り抜き",
+  "HYPNOSISCREATOR-card_offset_x.title": "カード 左右",
+  "HYPNOSISCREATOR-card_offset_y.title": "カード 上下",
+  "HYPNOSISCREATOR-card_zoom.title": "カード 拡大"
+}

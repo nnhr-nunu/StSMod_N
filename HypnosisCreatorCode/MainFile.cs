@@ -1,5 +1,7 @@
+using BaseLib.Config;
 using Godot;
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Config;
 using MegaCrit.Sts2.Core.Modding;
 
 namespace HypnosisCreator.HypnosisCreatorCode;
@@ -16,9 +18,11 @@ public partial class MainFile : Node
     {
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
-        
-        Harmony harmony = new(ModId);
 
+        ModConfigRegistry.Register(ModId, new HypnosisCreatorConfig());
+        VisualTuner.ApplyAll();
+
+        Harmony harmony = new(ModId);
         harmony.PatchAll();
     }
 }
