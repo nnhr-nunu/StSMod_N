@@ -14,16 +14,19 @@ Slay the Spire 2 のキャラクターmod。活動名「ぬぬはら」を原案
 
 ## セットアップ
 
+依存: Steam Workshop の **BaseLib**（必須）
+
 ```bash
-# .NET 9 + MegaDot 済み想定
+# .NET 9 + Godot/MegaDot 4.5.1 mono 済み想定
 cp Directory.Build.props.example Directory.Build.props
-export PATH="$HOME/.dotnet:$PATH"
-dotnet build          # コードのみ
-dotnet publish        # 画像・文言込み（.pck 生成）
+# Windows 例: Sts2Path / GodotPath を Directory.Build.props に書く
+dotnet build          # コードのみ → mods/HypnosisCreator/ へ dll コピー
+dotnet publish        # 画像・シーン込み（.pck 生成）
 ```
 
-出力先（macOS）:  
-`…/Slay the Spire 2/SlayTheSpire2.app/Contents/MacOS/mods/HypnosisCreator/`
+出力先:
+- Windows: `…/Steam/steamapps/common/Slay the Spire 2/mods/HypnosisCreator/`
+- macOS: `…/SlayTheSpire2.app/Contents/MacOS/mods/HypnosisCreator/`
 
 ゲーム内で **BaseLib** と **Hypno Creator** を有効化。
 

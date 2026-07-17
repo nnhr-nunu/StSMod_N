@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
+using HypnosisCreator.HypnosisCreatorCode;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
@@ -60,4 +61,12 @@ public class HypnosisCreator : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_char_name.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_char_name_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
+
+    // バトル立ち絵（左向き素材のためシーン側で Flip H）
+    public override string CustomVisualPath =>
+        $"{MainFile.ResPath}/scenes/creature_visuals/hypnosis_creator.tscn";
+
+    // キャラ選択画面の1枚絵背景
+    public override string CustomCharacterSelectBg =>
+        $"{MainFile.ResPath}/scenes/char_select/hypnosis_creator_bg.tscn";
 }

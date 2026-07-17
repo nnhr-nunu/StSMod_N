@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle.png" id="1_idle"]
+
+[node name="HypnosisCreator" type="Node2D"]
+
+[node name="Visuals" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -180)
+scale = Vector2(0.28, 0.28)
+flip_h = true
+texture = ExtResource("1_idle")
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -100.0
+offset_top = -320.0
+offset_right = 100.0
+offset_bottom = 0.0
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -340)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -160)
