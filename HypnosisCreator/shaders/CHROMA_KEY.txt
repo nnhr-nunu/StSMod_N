@@ -1,0 +1,36 @@
+# グリーンバック透過（クロマキー）の調整
+
+編集ファイル:
+  HypnosisCreator/shaders/chroma_key_material.tres
+
+立ち絵シーン（hypnosis_creator.tscn）の Visuals がこのマテリアルを参照しています。
+
+## パラメータ
+
+| 名前 | 意味 | いじり方 |
+|------|------|----------|
+| key_color | 抜く緑の代表色 | idle.png の角をスポイト（現状 ≈ RGB 8,161,53） |
+| similarity | 抜く範囲の広さ | 背景が残る → 上げる / 体まで消える → 下げる |
+| smoothness | 境界のぼかし | ギザギザ → 上げる / 縁が透ける → 下げる |
+| spill | 緑かぶり抑制 | 縁が緑っぽい → 上げる / 色がくすむ → 下げる |
+
+初期値（idle.png の実測GB色）:
+  key_color   ≈ (0.031, 0.631, 0.208)  … RGB 8,161,53
+  similarity  = 0.22
+  smoothness  = 0.08
+  spill       = 0.25
+
+## おすすめ手順
+
+1. key_color を素材のGB色に合わせる（一番大事）
+2. similarity を 0.15〜0.35 で背景が消える位置を探す
+3. smoothness で縁を整える（0.05〜0.15）
+4. まだ緑フチがあれば spill を少し上げる
+
+## 反映
+
+変更後は .pck 再生成が必要:
+
+  dotnet publish
+
+（または Godot で BasicExport の export-pack）

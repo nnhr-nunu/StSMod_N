@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle.png" id="1_idle"]
+[ext_resource type="Material" path="res://HypnosisCreator/shaders/chroma_key_material.tres" id="2_chroma"]
 
 [node name="HypnosisCreator" type="Node2D"]
 
 [node name="Visuals" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+material = ExtResource("2_chroma")
 position = Vector2(0, -180)
 scale = Vector2(0.28, 0.28)
 flip_h = true

@@ -75,6 +75,7 @@
       <Folder Include="HypnosisCreator\scenes\rest_site\" />
       <Folder Include="HypnosisCreator\scenes\merchant\" />
       <Folder Include="HypnosisCreator\scenes\energy\" />
+      <Folder Include="HypnosisCreator\shaders\" />
       <Folder Include="HypnosisCreator\audio\" />
     </ItemGroup>
     

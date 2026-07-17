@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://HypnosisCreator/shaders/chroma_key.gdshader" id="1_chroma"]
+
+[resource]
+shader = ExtResource("1_chroma")
+shader_parameter/key_color = Color(0.0313726, 0.631373, 0.207843, 1)
+shader_parameter/similarity = 0.22
+shader_parameter/smoothness = 0.08
+shader_parameter/spill = 0.25
