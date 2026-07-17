@@ -40,7 +40,7 @@ public class HypnosisCreator : PlaceholderCharacterModel
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
     [
-        ModelDb.Relic<HypnosisMetronome>()
+        ModelDb.Relic<FetishBog>()
     ];
 
     public override CardPoolModel CardPool => ModelDb.CardPool<HypnosisCreatorCardPool>();

@@ -1,0 +1,12 @@
+# 性癖オーブ（仮）アイコン
+
+クラス名から自動でファイル名が決まります。
+
+| クラス名           | ファイル                 |
+|--------------------|--------------------------|
+| SmFetishOrb        | sm_fetish_orb.png        |
+| DsFetishOrb        | ds_fetish_orb.png        |
+| TranceFetishOrb    | trance_fetish_orb.png    |
+| AbnormalFetishOrb  | abnormal_fetish_orb.png  |
+
+通常: images/orbs/ ／ 拡大: images/orbs/big/

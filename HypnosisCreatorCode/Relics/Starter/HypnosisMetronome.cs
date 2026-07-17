@@ -7,12 +7,12 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 
-/// <summary>ぬぬはらのメトロノーム的スターター。戦闘1ターン目開始時に Dom を得る。</summary>
+/// <summary>ぬぬはらのメトロノーム。戦闘1ターン目開始時に Dom を得る（スターターからは外し、報酬プール用）。</summary>
 public class HypnosisMetronome : HypnosisCreatorRelic
 {
     private const int DomAmount = 1;
 
-    public override RelicRarity Rarity => RelicRarity.Starter;
+    public override RelicRarity Rarity => RelicRarity.Common;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new PowerVar<DominationPower>(DomAmount)];

@@ -16,6 +16,7 @@
 
 | クラス名           | 通常               | アウトライン                    |
 |--------------------|--------------------|---------------------------------|
+| FetishBog          | fetish_bog.png         | fetish_bog_outline.png          |
 | HypnosisMetronome  | hypnosis_metronome.png | hypnosis_metronome_outline.png |
 | StolenHeart        | stolen_heart.png   | stolen_heart_outline.png        |
 

@@ -68,4 +68,13 @@ public static class StringExtensions
     {
         return Path.Join(MainFile.ResPath, "images", "charui", path);
     }
+
+    public static string OrbImagePath(this string path)
+    {
+        path = Path.Join(MainFile.ResPath, "images", "orbs", path);
+        if (ResourceLoader.Exists(path)) return path;
+
+        MainFile.Logger.Info("Could not find orb image path: " + path);
+        return Path.Join(MainFile.ResPath, "images", "relics", "relic.png");
+    }
 }
