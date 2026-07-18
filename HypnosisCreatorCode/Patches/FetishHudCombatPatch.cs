@@ -1,15 +1,33 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Runs;
 using HcCharacter = HypnosisCreator.HypnosisCreatorCode.Character.HypnosisCreator;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
-/// <summary>
-/// 催眠クリエイター戦闘中、敵出現時に性癖スロット初期化と頭上オーブHUDを確実に出す。
-/// </summary>
+internal static class FetishOwnerLookup
+{
+    public static Player? Find(ICombatState combatState)
+    {
+        foreach (var player in combatState.Players)
+        {
+            if (player.Character is HcCharacter) return player;
+            if (player.Relics.Any(r => r is FetishBog)) return player;
+            if (player.Character?.Id.Entry.Contains("HYPNOSISCREATOR", StringComparison.OrdinalIgnoreCase) == true)
+                return player;
+        }
+
+        return null;
+    }
+}
+
+/// <summary>敵出現時に性癖を付与し頭上HUDを出す。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCreatureAddedToCombat))]
 public static class FetishHudCombatPatch
 {
@@ -17,10 +35,25 @@ public static class FetishHudCombatPatch
     {
         if (!creature.IsEnemy) return;
 
-        var owner = combatState.Players.FirstOrDefault(p => p.Character is HcCharacter);
+        var owner = FetishOwnerLookup.Find(combatState);
         if (owner == null) return;
 
         var rng = owner.RunState.Rng.CombatOrbGeneration;
         EnemyFetishSlots.EnsureSpawnDefaults(creature, owner, rng);
+    }
+}
+
+/// <summary>戦闘開始時に全敵を再初期化／再描画（取りこぼし防止）。</summary>
+[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
+public static class FetishHudBeforeCombatPatch
+{
+    public static void Postfix(IRunState runState, ICombatState combatState)
+    {
+        var owner = FetishOwnerLookup.Find(combatState);
+        if (owner == null) return;
+
+        var rng = owner.RunState.Rng.CombatOrbGeneration;
+        foreach (var enemy in combatState.HittableEnemies.ToList())
+            EnemyFetishSlots.EnsureSpawnDefaults(enemy, owner, rng);
     }
 }

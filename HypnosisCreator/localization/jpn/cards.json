@@ -6,7 +6,7 @@
   "HYPNOSISCREATOR-FINGER_SNAP.title": "指パッチン",
   "HYPNOSISCREATOR-FINGER_SNAP.description": "トランス{Trance:diff()}。破滅{Doom:diff()}を付与する。",
   "HYPNOSISCREATOR-HARMONY.title": "調和",
-  "HYPNOSISCREATOR-HARMONY.description": "相手の攻撃と同値の[gold]ブロック[/gold]を得る。",
+  "HYPNOSISCREATOR-HARMONY.description": "相手の攻撃と同値の[gold]ブロック[/gold]を得る（脆弱・Dexの影響なし。連撃は合計）。\n[gold]廃棄[/gold]。",
   "HYPNOSISCREATOR-MIRRORING.title": "ミラーリング",
   "HYPNOSISCREATOR-MIRRORING.description": "相手の攻撃予定と同じ攻撃を行う。\nアタック意図があるときのみプレイできる。",
   "HYPNOSISCREATOR-STUN_GUN.title": "スタンガン",

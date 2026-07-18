@@ -6,7 +6,7 @@
   "HYPNOSISCREATOR-FINGER_SNAP.title": "Finger Snap",
   "HYPNOSISCREATOR-FINGER_SNAP.description": "Apply {Trance:diff()} Trance. Apply {Doom:diff()} Doom.",
   "HYPNOSISCREATOR-HARMONY.title": "Harmony",
-  "HYPNOSISCREATOR-HARMONY.description": "Gain [gold]Block[/gold] equal to the target's attack intent.",
+  "HYPNOSISCREATOR-HARMONY.description": "Gain [gold]Block[/gold] equal to the target's attack intent (ignores Frail/Dex. Multi-hits sum).\n[gold]Exhaust[/gold].",
   "HYPNOSISCREATOR-MIRRORING.title": "Mirroring",
   "HYPNOSISCREATOR-MIRRORING.description": "Deal damage equal to the target's attack intent.\nPlayable only if they intend to Attack.",
   "HYPNOSISCREATOR-STUN_GUN.title": "Stun Gun",

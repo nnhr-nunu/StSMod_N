@@ -1,4 +1,4 @@
-using BaseLib.Utils;
+using System.Runtime.CompilerServices;
 using HypnosisCreator.HypnosisCreatorCode.Orbs;
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -8,37 +8,45 @@ using MegaCrit.Sts2.Core.Random;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
-/// <summary>敵ごとの性癖スロット（オーブ流用）。カードからスロット増加・植え付け可能。</summary>
+/// <summary>敵ごとの性癖スロット。出現時は SM / DomSub / アブノーマルから1つ。</summary>
 public static class EnemyFetishSlots
 {
     public const int DefaultCapacity = 1;
 
-    private static readonly NotNullSpireField<Creature, FetishSlotState> Field =
-        new(() => new FetishSlotState());
+    // SpireField だと保持に失敗する事例があるため、敵インスタンスに直結する
+    private static readonly ConditionalWeakTable<Creature, FetishSlotState> Table = new();
 
-    public static FetishSlotState Get(Creature creature) => Field.Get(creature);
+    public static FetishSlotState Get(Creature creature) =>
+        Table.GetValue(creature, static _ => new FetishSlotState());
 
-    /// <summary>出現時: スロット1・ランダム性癖1つを保証する。</summary>
+    /// <summary>出現時: スロット1・トランス以外のランダム性癖1つ。</summary>
     public static void EnsureSpawnDefaults(Creature enemy, Player owner, Rng rng)
     {
         if (!enemy.IsEnemy) return;
 
-        var state = Get(enemy);
-        if (state.Initialized)
+        try
         {
+            var state = Get(enemy);
+            if (!state.Initialized)
+            {
+                state.Capacity = Math.Max(state.Capacity, DefaultCapacity);
+                if (state.Fetishes.Count == 0)
+                    state.Fetishes.Add(CreateSpawnFetish(owner, rng));
+
+                state.Initialized = true;
+                MainFile.Logger.Info(
+                    $"Fetish spawn: {enemy.Name} -> {state.Fetishes[0].Id.Entry} (cap={state.Capacity})");
+            }
+
             FetishOrbHud.QueueRefresh(enemy, visible: true);
-            return;
         }
-
-        state.Capacity = Math.Max(state.Capacity, DefaultCapacity);
-        if (state.Fetishes.Count == 0)
-            state.Fetishes.Add(CreateRandom(owner, rng));
-
-        state.Initialized = true;
-        FetishOrbHud.QueueRefresh(enemy, visible: true);
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Fetish EnsureSpawnDefaults failed: {e}");
+        }
     }
 
-    /// <summary>性癖スロット数を増やす（目覚め時など）。頭上HUDも更新。</summary>
+    /// <summary>性癖スロット数を増やす（目覚め時など）。</summary>
     public static int AddCapacity(Creature enemy, int amount)
     {
         if (!enemy.IsEnemy || amount <= 0) return Get(enemy).Capacity;
@@ -59,7 +67,6 @@ public static class EnemyFetishSlots
         if (plantType != null && state.Fetishes.Any(o => FetishCombat.ToFetishType(o) == plantType))
             return false;
 
-        // 満杯ならスロットを1増やしてから植える（目覚めの「増えたらスロットも増える」）
         if (state.Fetishes.Count >= state.Capacity)
             state.Capacity = state.Fetishes.Count + 1;
 
@@ -75,15 +82,15 @@ public static class EnemyFetishSlots
         TryPlant(enemy, ModelDb.Orb<TFetish>(), owner);
 
     public static bool TryPlantRandom(Creature enemy, Player owner, Rng rng) =>
-        TryPlant(enemy, CreateRandom(owner, rng), owner);
+        TryPlant(enemy, CreateSpawnFetish(owner, rng), owner);
 
-    public static OrbModel CreateRandom(Player owner, Rng rng)
+    /// <summary>出現時／ランダム植え付け: SM・DomSub・アブノーマルのみ（トランス除外）。</summary>
+    public static OrbModel CreateSpawnFetish(Player owner, Rng rng)
     {
-        OrbModel canonical = rng.NextInt(4) switch
+        OrbModel canonical = rng.NextInt(3) switch
         {
             0 => ModelDb.Orb<SmFetishOrb>(),
             1 => ModelDb.Orb<DsFetishOrb>(),
-            2 => ModelDb.Orb<TranceFetishOrb>(),
             _ => ModelDb.Orb<AbnormalFetishOrb>()
         };
 
@@ -91,6 +98,9 @@ public static class EnemyFetishSlots
         mutable.Owner = owner;
         return mutable;
     }
+
+    [Obsolete("Use CreateSpawnFetish")]
+    public static OrbModel CreateRandom(Player owner, Rng rng) => CreateSpawnFetish(owner, rng);
 }
 
 public sealed class FetishSlotState

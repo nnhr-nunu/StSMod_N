@@ -2,13 +2,17 @@ using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>調和 — 相手の攻撃と同値のブロック。</summary>
+/// <summary>
+/// 調和 — 相手の攻撃と同値のブロック。
+/// 脆弱等のデバフ／Dex の影響を受けない。連撃は合計。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Harmony() : HypnosisCreatorCard(2,
     CardType.Skill, CardRarity.Basic,
@@ -23,12 +27,18 @@ public class Harmony() : HypnosisCreatorCard(2,
         ArgumentNullException.ThrowIfNull(play.Target);
         var block = CalcEnemyAttackValue(play.Target);
         if (block > 0)
-            await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, play);
+        {
+            // Unpowered: Dex／脆弱によるブロック増減を受けない（CSV: デバフ影響なし）
+            await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Unpowered, play);
+        }
     }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
-    private static int CalcEnemyAttackValue(MegaCrit.Sts2.Core.Entities.Creatures.Creature enemy)
+    /// <summary>
+    /// 意図に表示される攻撃の生値（ModifyDamage前）を連撃合計する。
+    /// </summary>
+    internal static int CalcEnemyAttackValue(Creature enemy)
     {
         var monster = enemy.Monster;
         if (monster == null || !monster.IntendsToAttack) return 0;
@@ -39,8 +49,12 @@ public class Harmony() : HypnosisCreatorCard(2,
         var total = 0;
         foreach (var intent in move.Intents)
         {
-            if (intent is AttackIntent attack)
-                total += (int)attack.DamageCalc() * Math.Max(1, attack.Repeats);
+            if (intent is not AttackIntent attack) continue;
+            if (attack.DamageCalc == null) continue;
+
+            var perHit = (int)attack.DamageCalc();
+            var repeats = Math.Max(1, attack.Repeats);
+            total += Math.Max(0, perHit) * repeats;
         }
 
         return Math.Max(0, total);
