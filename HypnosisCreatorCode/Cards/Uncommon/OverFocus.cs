@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>オーバーフォーカス — 対象の性癖スロットを増やし、ランダムな性癖を1つ目覚めさせる。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class OverFocus() : HypnosisCreatorCard(1,
+public class OverFocus() : HypnosisCreatorCard(2,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

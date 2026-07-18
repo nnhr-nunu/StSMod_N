@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>スパンキング — SMアタック 5×2。刺さったらリプレイ1。</summary>
+/// <summary>スパンキング — SMアタック 5×2。刺さったらリプレイ1（UGで2）。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Spanking() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -36,5 +36,5 @@ public class Spanking() : HypnosisCreatorCard(1,
             BaseReplayCount = IsUpgraded ? 2 : 1;
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2M);
+    protected override void OnUpgrade() { }
 }

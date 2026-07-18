@@ -17,7 +17,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class LoveHypnosis() : HypnosisCreatorCard(3,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Skill, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;

@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>ちゃんとできるね？ — 対象を励ましトランス2を付与し、ブロック5を得る。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CanDoIt() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Skill, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     public override bool GainsBlock => true;

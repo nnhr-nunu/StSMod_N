@@ -10,7 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>アンコール — パワー。プレイしたカウントカードが廃棄される代わりに手札へ戻る。UGでコスト0。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Encore() : HypnosisCreatorCard(1,
-    CardType.Power, CardRarity.Rare,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>

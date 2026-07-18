@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>赤ちゃん催眠 — カウント。対象のバフを解除し、萎縮を付与、トランスを付与する。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BabyHypnosis() : HypnosisCreatorCard(1,
+public class BabyHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

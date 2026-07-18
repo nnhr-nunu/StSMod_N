@@ -17,7 +17,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class FreeHug() : HypnosisCreatorCard(1,
+public class FreeHug() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

@@ -5,23 +5,19 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// アブノーマル — 支援カードのためカウントキーワードは無い（mechanics-lock.md）。
-/// 手札のカードを最大2枚、ランダムなアブノーマル性癖カードへこの戦闘中だけ変換する（コスト0）。
+/// アブノーマル — X枚まで手札のカードをランダムなアブノーマル性癖カードへこの戦闘中だけ変換する（コスト0）。
+/// UGではアップグレード済みの変換先になる。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class AbnormalTransform() : HypnosisCreatorCard(2,
+public class AbnormalTransform() : HypnosisCreatorCard(-1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new CardsVar(2)];
-
     private static bool IsAbnormalPoolCard(CardModel c) =>
         c is HypnosisCreatorCard { Rarity: not CardRarity.Token } hc &&
         hc.CardFetishes.Contains(FetishType.Abnormal) &&
@@ -35,7 +31,8 @@ public class AbnormalTransform() : HypnosisCreatorCard(2,
         var pool = ModelDb.AllCards.Where(IsAbnormalPoolCard).ToList();
         if (pool.Count == 0) return;
 
-        var count = Math.Min(DynamicVars.Cards.IntValue, hand.Cards.Count(c => c != this));
+        var x = ResolveEnergyXValue();
+        var count = Math.Min(x, hand.Cards.Count(c => c != this));
         if (count <= 0) return;
 
         IReadOnlyList<CardModel> selected;
@@ -56,10 +53,13 @@ public class AbnormalTransform() : HypnosisCreatorCard(2,
         foreach (var card in selected)
         {
             var canonical = pool[rng.NextInt(pool.Count)];
-            var result = await CardCmd.Transform(card, CombatState.CreateCard(canonical, Owner));
+            var generated = CombatState.CreateCard(canonical, Owner);
+            if (IsUpgraded)
+                CardCmd.Upgrade(generated);
+            var result = await CardCmd.Transform(card, generated);
             result?.cardAdded.EnergyCost.SetThisCombat(0);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1M);
+    protected override void OnUpgrade() { }
 }

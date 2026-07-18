@@ -14,8 +14,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// CSV: 支援カードのため CardKeyword.Count は付けない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class ZeroShortcut() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Uncommon,
+public class ZeroShortcut() : HypnosisCreatorCard(3,
+    CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
     private static bool IsCandidate(CardModel c) =>

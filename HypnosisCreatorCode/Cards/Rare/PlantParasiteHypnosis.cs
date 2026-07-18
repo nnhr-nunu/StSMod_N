@@ -16,8 +16,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// 戦闘終了時、付与していれば心臓入手（キル不要）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class PlantParasiteHypnosis() : HypnosisCreatorCard(2,
-    CardType.Skill, CardRarity.Rare,
+public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
+    CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;

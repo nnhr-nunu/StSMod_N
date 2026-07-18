@@ -1,23 +1,36 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>Good! — No.66。従順への褒賞としてトランスを深める。</summary>
+/// <summary>Good! — No.66。廃棄されたカード1枚を選び手札に加える。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class Good() : TrainingCommand
+public class Good() : TrainingCommand(TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Trance", 1M)];
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        ArgumentNullException.ThrowIfNull(play.Target);
-        await TranceCombat.ApplyTrance(
-            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+        var exhaust = Owner.PlayerCombatState?.ExhaustPile;
+        if (exhaust == null || exhaust.Cards.Count == 0) return;
+
+        IReadOnlyList<CardModel> selected;
+        try
+        {
+            selected = (await CardSelectCmd.FromCombatPile(
+                choiceContext, exhaust, Owner,
+                new CardSelectorPrefs(SelectionScreenPrompt, 1))).ToList();
+        }
+        catch
+        {
+            var rng = Owner.RunState.Rng.CombatCardSelection;
+            selected = [exhaust.Cards[rng.NextInt(exhaust.Cards.Count)]];
+        }
+
+        foreach (var card in selected)
+            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this);
     }
 }

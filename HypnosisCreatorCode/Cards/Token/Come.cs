@@ -1,27 +1,22 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using MegaCrit.Sts2.Core.Commands;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>来て — 引き寄せる調教命令アタック。</summary>
+/// <summary>Come! — 引き寄せ＋DomSub性癖に目覚めさせる調教命令。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class Come() : TrainingCommand(type: CardType.Attack)
+public class Come() : TrainingCommand
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(4M, ValueProp.Move)];
+    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-            .Execute(choiceContext);
+        PullTracker.TryPull(play.Target);
+        FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+        await Task.CompletedTask;
     }
 }

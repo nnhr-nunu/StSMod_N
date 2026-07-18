@@ -17,7 +17,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
-    CardType.Skill, CardRarity.Rare,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     private const int BossMaxHpThreshold = 100;

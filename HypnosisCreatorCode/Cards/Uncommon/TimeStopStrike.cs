@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TimeStopStrike() : HypnosisCreatorCard(0,
-    CardType.Attack, CardRarity.Uncommon,
+    CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     private const int MaxPlaysPerTurn = 3;

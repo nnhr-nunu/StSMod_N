@@ -39,5 +39,6 @@ public class ZeroOut() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    // UG: 攻撃値に加えブロックも0にする（OnPlay の IsUpgraded 分岐）
+    protected override void OnUpgrade() { }
 }

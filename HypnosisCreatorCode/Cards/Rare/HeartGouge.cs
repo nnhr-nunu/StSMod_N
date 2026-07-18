@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartGouge() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Rare,
+    CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

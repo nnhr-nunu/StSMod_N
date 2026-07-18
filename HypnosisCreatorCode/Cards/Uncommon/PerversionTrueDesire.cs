@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>性的倒錯の本懐 — アブノーマル。自身の欠損HP分のダメージを与える。廃棄（UGで廃棄しない）。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PerversionTrueDesire() : HypnosisCreatorCard(2,
-    CardType.Attack, CardRarity.Uncommon,
+    CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];

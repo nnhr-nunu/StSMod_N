@@ -9,20 +9,20 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>リラックスして — 対象の警戒を緩め脆弱を与える調教命令。</summary>
+/// <summary>Relax! — 脱力1（Weak）を付与する調教命令。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Relax() : TrainingCommand
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<FrailPower>(1M)];
+        [new PowerVar<WeakPower>(1M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<FrailPower>()];
+        [HoverTipFactory.FromPower<WeakPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await PowerCmd.Apply<FrailPower>(
-            choiceContext, play.Target, DynamicVars["FrailPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<WeakPower>(
+            choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
     }
 }

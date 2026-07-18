@@ -1,26 +1,37 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// ポリネシア式催眠 — 全体トランス2＋破滅8。コスト6の重量級だが[gold]カウント[/gold]を持つ。
+/// ポリネシアン催眠 — カウント。相手すべてに睡眠2、沼2、トランス1。UGで睡眠3・沼3。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PolynesianHypnosis() : HypnosisCreatorCard(6,
-    CardType.Skill, CardRarity.Rare,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.AllEnemies)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Trance", 2M),
-        new DynamicVar("Doom", 8M)
+        new PowerVar<AsleepPower>(2M),
+        new DynamicVar("Bog", 2M),
+        new DynamicVar("Trance", 1M)
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromPower<AsleepPower>(),
+        HoverTipFactory.FromPower<BogPower>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -29,12 +40,18 @@ public class PolynesianHypnosis() : HypnosisCreatorCard(6,
 
         foreach (var enemy in CombatState.HittableEnemies.ToList())
         {
+            await PowerCmd.Apply<AsleepPower>(
+                choiceContext, enemy, DynamicVars["AsleepPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<BogPower>(
+                choiceContext, enemy, DynamicVars["Bog"].BaseValue, Owner.Creature, this);
             await TranceCombat.ApplyTrance(
                 choiceContext, enemy, DynamicVars["Trance"].IntValue, Owner.Creature, this);
-            await FetishCombat.ApplyDoom(
-                choiceContext, enemy, DynamicVars["Doom"].IntValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["Trance"].UpgradeValueBy(1M);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["AsleepPower"].UpgradeValueBy(1M);
+        DynamicVars["Bog"].UpgradeValueBy(1M);
+    }
 }

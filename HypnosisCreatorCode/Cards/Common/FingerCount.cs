@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 /// CSV: 数える動作そのものはカウント判定に関わらないため CardKeyword.Count は付けない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class FingerCount() : HypnosisCreatorCard(0,
+public class FingerCount() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {

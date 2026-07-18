@@ -14,8 +14,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// 無限アップグレード可能で、アップグレードごとに失うHPが+7され、カード名に「+N」が表示される。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class InfiniteUpgradeString() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Rare,
+public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
+    CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override int MaxUpgradeLevel => int.MaxValue;

@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
 /// <summary>腹部への殴打 — SM性癖アタック。8ダメージ。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class AbdominalStrike() : HypnosisCreatorCard(1,
+public class AbdominalStrike() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {

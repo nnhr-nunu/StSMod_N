@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>エリクソン的暗示 — アブノーマル性癖。間接的な暗示で弱体1＋脆弱1を与える。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Ericksonian() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];

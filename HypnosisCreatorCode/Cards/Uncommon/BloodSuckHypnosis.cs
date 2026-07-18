@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>吸血催眠 — カウント・SM・アブノーマル。ダメージを与えて同量回復し、トランスを付与する。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BloodSuckHypnosis() : HypnosisCreatorCard(1,
+public class BloodSuckHypnosis() : HypnosisCreatorCard(3,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

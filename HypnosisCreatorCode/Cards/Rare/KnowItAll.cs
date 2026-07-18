@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class KnowItAll() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Rare,
+    CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

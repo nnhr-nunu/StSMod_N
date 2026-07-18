@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AsmrHypnosis() : HypnosisCreatorCard(2,
-    CardType.Power, CardRarity.Rare,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

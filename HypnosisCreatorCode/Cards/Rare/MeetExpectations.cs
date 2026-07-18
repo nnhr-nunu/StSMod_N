@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>期待に応えて — 手札のカウントカードの解決後コスト合計の2乗ダメージを与え、それらのコストを1下げる。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MeetExpectations() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Rare,
+    CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

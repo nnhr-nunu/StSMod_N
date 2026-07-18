@@ -7,10 +7,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>連続トランス — トランス1を3回付与する（トランス性癖は毎回刺さる）。</summary>
+/// <summary>連続トランス — トランス1を3回付与し性癖にトランスを追加。UGで相手すべてに同効果。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class ContinuousTrance() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Common,
+public class ContinuousTrance() : HypnosisCreatorCard(0,
+    CardType.Skill, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -18,12 +18,24 @@ public class ContinuousTrance() : HypnosisCreatorCard(1,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
+        var times = DynamicVars["Times"].IntValue;
+
+        if (IsUpgraded && CombatState != null)
+        {
+            foreach (var enemy in CombatState.HittableEnemies.ToList())
+            {
+                FetishCombat.Awaken(enemy, FetishType.Trance, Owner);
+                await TranceCombat.ApplyTranceRepeated(
+                    choiceContext, enemy, times, Owner.Creature, this);
+            }
+            return;
+        }
+
         ArgumentNullException.ThrowIfNull(play.Target);
-        // トランス性癖は付与のたびに刺さるため、先に目覚めさせてから付与を繰り返す。
         FetishCombat.Awaken(play.Target, FetishType.Trance, Owner);
         await TranceCombat.ApplyTranceRepeated(
-            choiceContext, play.Target, DynamicVars["Times"].IntValue, Owner.Creature, this);
+            choiceContext, play.Target, times, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Times"].UpgradeValueBy(1M);
+    protected override void OnUpgrade() { }
 }

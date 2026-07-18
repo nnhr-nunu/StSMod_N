@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// UGで敵全体にリダイレクト＋混乱。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BrainSlimeHypnosis() : HypnosisCreatorCard(1,
+public class BrainSlimeHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

@@ -14,8 +14,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// 見た目・名前はスライム系からランダム差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class SlimeHypnosis() : HypnosisCreatorCard(2,
-    CardType.Skill, CardRarity.Rare,
+public class SlimeHypnosis() : HypnosisCreatorCard(3,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;

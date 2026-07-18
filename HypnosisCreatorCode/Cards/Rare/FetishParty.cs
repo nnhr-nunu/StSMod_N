@@ -14,8 +14,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class FetishParty() : HypnosisCreatorCard(2,
-    CardType.Skill, CardRarity.Rare,
+public class FetishParty() : HypnosisCreatorCard(1,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

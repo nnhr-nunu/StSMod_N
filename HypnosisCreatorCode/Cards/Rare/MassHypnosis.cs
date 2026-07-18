@@ -10,7 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>集団催眠 — パワー。単体対象のカウントカードを他の敵全員にも AutoPlay 波及させる。UGでInnate。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MassHypnosis() : HypnosisCreatorCard(1,
-    CardType.Power, CardRarity.Rare,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>

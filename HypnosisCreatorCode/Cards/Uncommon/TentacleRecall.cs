@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>触手の想起 — アブノーマル。ダメージと収縮を与え、次の自ターン開始時にこのカードのコピーを手札に加える。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TentacleRecall() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Uncommon,
+    CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];

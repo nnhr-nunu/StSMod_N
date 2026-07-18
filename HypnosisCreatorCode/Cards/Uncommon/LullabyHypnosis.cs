@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>寝かしつけ催眠 — カウント。対象を睡眠させ、自身のHPを回復し、トランスを付与する。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class LullabyHypnosis() : HypnosisCreatorCard(1,
+public class LullabyHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

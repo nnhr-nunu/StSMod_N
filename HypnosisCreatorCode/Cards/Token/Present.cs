@@ -1,28 +1,44 @@
+using System.Reflection;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>見せて — 対象を無防備にし脆弱（被ダメージ増）を与える調教命令。</summary>
+/// <summary>Present! — ランダムなバフ1つを奪う調教命令。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Present() : TrainingCommand
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<VulnerablePower>(1M)];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<VulnerablePower>()];
+    private static readonly MethodInfo GenericApply = typeof(PowerCmd)
+        .GetMethods(BindingFlags.Public | BindingFlags.Static)
+        .Single(m => m.Name == nameof(PowerCmd.Apply) && m.IsGenericMethodDefinition && m.GetParameters().Length == 5);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await PowerCmd.Apply<VulnerablePower>(
-            choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+
+        var buffs = play.Target.Powers.Where(p => p.Type == PowerType.Buff).ToList();
+        if (buffs.Count == 0) return;
+
+        var rng = Owner.RunState.Rng.CombatCardSelection;
+        var stolen = buffs[rng.NextInt(buffs.Count)];
+        var amount = stolen.Amount;
+        var powerType = stolen.GetType();
+
+        await PowerCmd.Remove(stolen);
+
+        try
+        {
+            var apply = GenericApply.MakeGenericMethod(powerType);
+            var task = (Task)apply.Invoke(null, [choiceContext, Owner.Creature, amount, Owner.Creature, this])!;
+            await task;
+        }
+        catch
+        {
+            // 未知のバフ型は敵から除去のみ（プレイヤーへの付与は best-effort）
+        }
     }
 }

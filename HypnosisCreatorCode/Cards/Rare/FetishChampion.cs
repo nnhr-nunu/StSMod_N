@@ -11,8 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>性癖チャンピオン — 対象の性癖を全種目覚めさせ、破滅を付与する。UGでブロックも得る。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class FetishChampion() : HypnosisCreatorCard(2,
-    CardType.Skill, CardRarity.Rare,
+public class FetishChampion() : HypnosisCreatorCard(3,
+    CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

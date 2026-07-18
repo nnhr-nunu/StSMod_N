@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>底無し沼 — 沼3を付与する。破滅の受けを大きく増幅させる。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BottomlessBog() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Power, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

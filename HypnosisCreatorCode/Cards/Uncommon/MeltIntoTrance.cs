@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// <summary>トランスに溶けゆく — これまでに対象へ付与したトランスの合計回数×係数のダメージを与える。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MeltIntoTrance() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Uncommon,
+    CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

@@ -9,8 +9,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
 /// <summary>催眠導入 — トランス1＋破滅4を付与する初心者向けスキル。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class HypnosisIntro() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Basic,
+public class HypnosisIntro() : HypnosisCreatorCard(0,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

@@ -10,7 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>受容の需要 — パワー。受けた攻撃の回数を記録し、次の自ターン開始時にその数だけエナジーとドローを得る。UGでコスト1。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AcceptanceNeed() : HypnosisCreatorCard(2,
-    CardType.Power, CardRarity.Rare,
+    CardType.Power, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>

@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 /// <summary>カタレプシー — スロウ相当の debuff を付与する。UGで、対象がトランス中ならリセットされなくなる。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Catalepsy() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Common,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

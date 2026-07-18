@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TotalControl() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Rare,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

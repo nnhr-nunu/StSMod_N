@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class HeartbeatShare() : HypnosisCreatorCard(2,
+public class HeartbeatShare() : HypnosisCreatorCard(1,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {

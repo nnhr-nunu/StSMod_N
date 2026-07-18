@@ -17,7 +17,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CollarTraining() : HypnosisCreatorCard(1,
-    CardType.Attack, CardRarity.Uncommon,
+    CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
