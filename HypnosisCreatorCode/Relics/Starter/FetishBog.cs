@@ -20,8 +20,8 @@ public class FetishBog : HypnosisCreatorRelic
 
         Flash();
         var rng = Owner.RunState.Rng.CombatOrbGeneration;
+        // EnsureSpawnDefaults 内で HUD 更新まで行う
         EnemyFetishSlots.EnsureSpawnDefaults(creature, Owner, rng);
-        FetishOrbHud.QueueRefresh(creature, visible: true);
         await Task.CompletedTask;
     }
 

@@ -24,21 +24,27 @@ public static class EnemyFetishSlots
         if (!enemy.IsEnemy) return;
 
         var state = Get(enemy);
-        if (state.Initialized) return;
+        if (state.Initialized)
+        {
+            FetishOrbHud.QueueRefresh(enemy, visible: true);
+            return;
+        }
 
         state.Capacity = Math.Max(state.Capacity, DefaultCapacity);
         if (state.Fetishes.Count == 0)
             state.Fetishes.Add(CreateRandom(owner, rng));
 
         state.Initialized = true;
+        FetishOrbHud.QueueRefresh(enemy, visible: true);
     }
 
-    /// <summary>性癖スロット数を増やす。将来のカード用API。</summary>
+    /// <summary>性癖スロット数を増やす（目覚め時など）。頭上HUDも更新。</summary>
     public static int AddCapacity(Creature enemy, int amount)
     {
         if (!enemy.IsEnemy || amount <= 0) return Get(enemy).Capacity;
         var state = Get(enemy);
         state.Capacity += amount;
+        FetishOrbHud.QueueRefresh(enemy, visible: true);
         return state.Capacity;
     }
 
@@ -53,11 +59,14 @@ public static class EnemyFetishSlots
         if (plantType != null && state.Fetishes.Any(o => FetishCombat.ToFetishType(o) == plantType))
             return false;
 
-        if (state.Fetishes.Count >= state.Capacity) return false;
+        // 満杯ならスロットを1増やしてから植える（目覚めの「増えたらスロットも増える」）
+        if (state.Fetishes.Count >= state.Capacity)
+            state.Capacity = state.Fetishes.Count + 1;
 
         var mutable = fetish.IsMutable ? fetish : fetish.ToMutable(0);
         mutable.Owner = owner;
         state.Fetishes.Add(mutable);
+        FetishOrbHud.QueueRefresh(enemy, visible: true);
         return true;
     }
 
