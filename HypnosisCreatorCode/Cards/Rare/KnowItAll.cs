@@ -8,8 +8,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// ぜんぶ知ってるよ — 性癖の刺さりで得られる破滅を、この戦闘中ずっと1.5倍にする。
-/// CSV: FetishCombat.FetishHitMultiplier は本カード専用の静的倍率。戦闘間のリセットは未実装（既存設計）。
+/// ぜんぶ知ってるよ — 性癖刺さりの破滅倍率をこの戦闘中だけ上げる。
+/// 戦闘終了時のリセットは <see cref="Patches.FetishCombatResetPatch"/> が担当。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class KnowItAll() : HypnosisCreatorCard(1,

@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,17 +10,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心臓えぐり出し — CSV: 「心臓」奪取レリック演出の詳細は個別モンスター対応が未確定のため暫定内容。
-/// 現状は高威力アタックのみ実装（撃破時のレリック付与は既存の HeartCapture フックに委譲）。
-/// TODO: モンスターIDごとの個別ハート効果が確定したら差し替える。
+/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。10ダメージ（UG15）。リーサルで心臓。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class HeartGouge() : HypnosisCreatorCard(2,
+public class HeartGouge() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(14M, ValueProp.Move)];
+        [new DamageVar(10M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -29,7 +31,12 @@ public class HeartGouge() : HypnosisCreatorCard(2,
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
+
+        if (play.Target is { IsAlive: false })
+            await HeartCapture.TryCapture(Owner, play.Target);
+
+        await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6M);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
 }

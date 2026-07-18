@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,9 +12,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 脳くちゅ催眠 — カウント・アブノーマル。
-/// CSV: 本来は対象の攻撃意図を(対象を含む)ランダムな敵へ向けさせる効果を想定。
-/// リダイレクトAPIが未確定のため、暫定で混乱(Confused)+トランスで近似する。UGで敵全体に混乱を付与。
-/// TODO: リダイレクトAPIが確定したら本実装に差し替える。
+/// 攻撃着弾を他の敵へリダイレクト（味方除く）。API限界時は Confused も併用。
+/// UGで敵全体にリダイレクト＋混乱。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BrainSlimeHypnosis() : HypnosisCreatorCard(1,
@@ -36,11 +36,17 @@ public class BrainSlimeHypnosis() : HypnosisCreatorCard(1,
         if (IsUpgraded && CombatState != null)
         {
             foreach (var enemy in CombatState.HittableEnemies.ToList())
+            {
+                await PowerCmd.Apply<BrainSlimeRedirectPower>(
+                    choiceContext, enemy, 1M, Owner.Creature, this);
                 await PowerCmd.Apply<ConfusedPower>(
                     choiceContext, enemy, DynamicVars["ConfusedPower"].BaseValue, Owner.Creature, this);
+            }
         }
         else
         {
+            await PowerCmd.Apply<BrainSlimeRedirectPower>(
+                choiceContext, play.Target, 1M, Owner.Creature, this);
             await PowerCmd.Apply<ConfusedPower>(
                 choiceContext, play.Target, DynamicVars["ConfusedPower"].BaseValue, Owner.Creature, this);
         }

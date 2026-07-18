@@ -7,9 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// アンコール — プレイしたカウントカードが廃棄される代わりに手札へ戻る。
-/// CSV: 「ベースコストに戻す」は本カードのコスト計算簡略化のため未実装（既存の一時的コスト変動はそのまま）。
-/// TODO: コストを完全にベース値へ戻す処理が必要になったら追加する。
+/// アンコール — プレイしたカウントカードが廃棄される代わりに手札へ戻し、コストをカノニカルへ戻す。
 /// </summary>
 public class EncorePower : HypnosisCreatorPower
 {
@@ -25,5 +23,6 @@ public class EncorePower : HypnosisCreatorPower
         if (card.Pile?.Type != PileType.Exhaust) return;
 
         await CardPileCmd.Add(card, PileType.Hand);
+        card.EnergyCost.SetThisCombat(card.EnergyCost.Canonical);
     }
 }

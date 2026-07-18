@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>集団催眠 — パワー。単体対象のカウントカードをプレイすると、破滅が他の敵全員へ延焼する。UGでInnate。</summary>
+/// <summary>集団催眠 — パワー。単体対象のカウントカードを他の敵全員にも AutoPlay 波及させる。UGでInnate。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MassHypnosis() : HypnosisCreatorCard(1,
     CardType.Power, CardRarity.Rare,

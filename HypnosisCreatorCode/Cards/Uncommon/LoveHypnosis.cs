@@ -11,10 +11,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 好き好き催眠 — カウント・DomSub。
-/// CSV: 本来は敵の支援(バフ)意図をプレイヤーへ向けさせる効果を想定。
-/// ターゲットリダイレクトAPIが未確定のため、暫定で混乱(Confused)+トランスで近似する。
-/// UGでは弱体も追加付与し「意図を阻害する」効果を近似する。
-/// TODO: リダイレクトAPIが確定したら本実装に差し替える。
+/// CSV: 敵のバフ意図をプレイヤーへ向ける想定だが、BuffIntent の着弾リダイレクトAPIが無いため
+/// Confused で近似し、トランスを付与する。UGで弱体も追加。
+/// TODO: BuffIntent / 支援対象の書き換えAPIが公開されたら本実装へ差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class LoveHypnosis() : HypnosisCreatorCard(1,
@@ -33,6 +32,7 @@ public class LoveHypnosis() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+        // Buff リダイレクトAPI未検出のため Confused で意図を阻害する近似を継続
         await PowerCmd.Apply<ConfusedPower>(
             choiceContext, play.Target, DynamicVars["ConfusedPower"].BaseValue, Owner.Creature, this);
 
