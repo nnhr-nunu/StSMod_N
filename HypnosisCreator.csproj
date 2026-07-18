@@ -46,6 +46,11 @@
         <Compile Remove="materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
+        <Compile Remove="_reflect_tmp/**" />
+        <Compile Remove="_decompile_tmp/**" />
+        <Compile Remove="tools_reflect/**" />
+        <Compile Remove=".godot/**" />
+        <Compile Remove="agent-tools/**" />
         <EmbeddedResource Remove="HypnosisCreator/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />

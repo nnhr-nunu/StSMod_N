@@ -16,8 +16,7 @@ public class CookingHypnosis() : HypnosisCreatorCard(3,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [HcKeywords.Count, CardKeyword.Retain];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(18M, ValueProp.Move)];

@@ -1,4 +1,4 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "カウント",
-  "HYPNOSISCREATOR-COUNT.description": "解決後のコストが0のときだけプレイできる。"
+  "HYPNOSISCREATOR-COUNT.description": "保留。ターン開始時にコストが1減少する。解決後のコストが0のときだけプレイできる（対象の敵がトランスなら非0でも可）。プレイ時に廃棄。"
 }

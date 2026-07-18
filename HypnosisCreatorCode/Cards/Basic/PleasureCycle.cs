@@ -1,53 +1,30 @@
-using BaseLib.Extensions;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>快の循環 — トランス軸。Sub 付与＋Dom 獲得。一致で割合ダメ／不一致で敵回復。</summary>
+/// <summary>快の循環 — 破滅15。トランス中なら追加で破滅15。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PleasureCycle() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Basic,
+    CardType.Skill, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    private const decimal MatchPercent = 10M;
-    private const decimal MismatchHeal = 4M;
-
+    // CSV上はコモン。トランスタグ相当の効果
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<SubmissionPower>(1M),
-        new PowerVar<DominationPower>(1M),
-        new DynamicVar("MatchPercent", MatchPercent),
-        new DynamicVar("MismatchHeal", MismatchHeal)
-    ];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<SubmissionPower>(),
-        HoverTipFactory.FromPower<DominationPower>()
-    ];
+        [new DynamicVar("Doom", 15M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await PowerCmd.Apply<SubmissionPower>(
-            choiceContext, play.Target, DynamicVars.Power<SubmissionPower>().IntValue, Owner.Creature, this);
-        await PowerCmd.Apply<DominationPower>(
-            choiceContext, Owner.Creature, DynamicVars.Power<DominationPower>().IntValue, Owner.Creature, this);
-        await TranceMatch.ResolveMatchOutcome(
-            choiceContext, Owner.Creature, play.Target, this, MatchPercent, MismatchHeal);
+        var amount = DynamicVars["Doom"].IntValue;
+        await FetishCombat.ApplyDoom(choiceContext, play.Target, amount, Owner.Creature, this);
+        if (TranceCombat.HasTrance(play.Target))
+            await FetishCombat.ApplyDoom(choiceContext, play.Target, amount, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Power<SubmissionPower>().UpgradeValueBy(1M);
-        DynamicVars["MatchPercent"].UpgradeValueBy(5M);
-    }
+    protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
 }

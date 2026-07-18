@@ -3,7 +3,7 @@
   "HYPNOSISCREATOR-FETISH_BOG.description": "Enemy fetish slots are always visible. Each enemy starts with one random fetish.",
   "HYPNOSISCREATOR-FETISH_BOG.flavor": "Once you sink in, you don't climb out.",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.title": "Hypnosis Metronome",
-  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "At the start of each combat, gain {DominationPower} [gold]Dom[/gold].",
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "At the start of the first turn, apply {Trance:diff()} Trance to all enemies.",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "Tick. Tick. Drop.",
   "HYPNOSISCREATOR-STOLEN_HEART.title": "Stolen Heart",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "At the start of combat, gain 2 [gold]Block[/gold] for each Stolen Heart you own.",

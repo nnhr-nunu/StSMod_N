@@ -1,6 +1,7 @@
 using HarmonyLib;
-using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
@@ -19,13 +20,29 @@ public static class CountUnplayablePatch
         ref UnplayableReason reason)
     {
         if (!__result) return;
-        if (!__instance.Keywords.Contains(HcKeywords.Count)) return;
+        if (!CountRules.HasCountKeyword(__instance)) return;
+        if (CountRules.CanStartPlay(__instance)) return;
 
-        // GetResolved: 表示・支払いと同じ解決後コスト
-        if (__instance.EnergyCost.GetResolved() != 0)
+        reason |= CustomEnums.HcUnplayableReasons.CountNotZero;
+        __result = false;
+    }
+}
+
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlayTargeting))]
+public static class CountCanPlayTargetingPatch
+{
+    public static void Postfix(CardModel __instance, Creature target, ref bool __result)
+    {
+        if (!__result) return;
+
+        if (__instance is Cards.Basic.Mirroring && !Cards.Basic.Mirroring.HasAttackIntent(target))
         {
-            reason |= HcUnplayableReasons.CountNotZero;
             __result = false;
+            return;
         }
+
+        if (!CountRules.HasCountKeyword(__instance)) return;
+        if (CountRules.CanPlayTargeting(__instance, target)) return;
+        __result = false;
     }
 }

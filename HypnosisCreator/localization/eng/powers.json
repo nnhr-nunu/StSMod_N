@@ -1,8 +1,14 @@
 {
-  "HYPNOSISCREATOR-DOMINATION_POWER.title": "Dom",
-  "HYPNOSISCREATOR-DOMINATION_POWER.description": "Your Domination stacks. Match with an enemy's Sub for bonus effects.",
-  "HYPNOSISCREATOR-DOMINATION_POWER.smartDescription": "Domination {Amount}. Match with Sub for bonus effects.",
-  "HYPNOSISCREATOR-SUBMISSION_POWER.title": "Sub",
-  "HYPNOSISCREATOR-SUBMISSION_POWER.description": "Submission stacks. When equal to the player's Dom, hypnosis syncs.",
-  "HYPNOSISCREATOR-SUBMISSION_POWER.smartDescription": "Submission {Amount}. Syncs with Dom when equal."
+  "HYPNOSISCREATOR-TRANCE_POWER.title": "Trance",
+  "HYPNOSISCREATOR-TRANCE_POWER.description": "Tranced. Count cards can be played on this enemy even above 0 cost. Decreases by 1 at player turn start.",
+  "HYPNOSISCREATOR-TRANCE_POWER.smartDescription": "Trance {Amount}.",
+  "HYPNOSISCREATOR-BOG_POWER.title": "Bog",
+  "HYPNOSISCREATOR-BOG_POWER.description": "Doom received is increased by 50% (multiplied once). Decreases by 1 at end of turn.",
+  "HYPNOSISCREATOR-BOG_POWER.smartDescription": "Bog {Amount}.",
+  "HYPNOSISCREATOR-SENSITIVITY_POWER.title": "Sensitivity x3000",
+  "HYPNOSISCREATOR-SENSITIVITY_POWER.description": "Takes triple damage from attacks this turn.",
+  "HYPNOSISCREATOR-SENSITIVITY_POWER.smartDescription": "Triple damage this turn.",
+  "HYPNOSISCREATOR-BREATH_CONTROL_POWER.title": "Breath Control",
+  "HYPNOSISCREATOR-BREATH_CONTROL_POWER.description": "Whenever a card is played, lose 1 Strength. If attack value is 0, become Stunned. Removed at end of the player's turn.",
+  "HYPNOSISCREATOR-BREATH_CONTROL_POWER.smartDescription": "Breath Control."
 }

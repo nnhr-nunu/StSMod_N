@@ -23,19 +23,21 @@ public class HypnosisCreator : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 72;
 
+    /// <summary>仮の初期デッキ（mechanics-lock: スターター表記＋防御4）。</summary>
     public override IEnumerable<CardModel> StartingDeck =>
     [
-        ModelDb.Card<HcStrike>(),
-        ModelDb.Card<HcStrike>(),
-        ModelDb.Card<HcStrike>(),
-        ModelDb.Card<HcStrike>(),
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
-        ModelDb.Card<CountBeat>(),
-        ModelDb.Card<PleasureCycle>(),
-        ModelDb.Card<HeartClaim>()
+        ModelDb.Card<StunGun>(),
+        ModelDb.Card<StunGun>(),
+        ModelDb.Card<SayYoureSorry>(),
+        ModelDb.Card<WristCut>(),
+        ModelDb.Card<FingerSnap>(),
+        ModelDb.Card<Harmony>(),
+        ModelDb.Card<Mirroring>(),
+        ModelDb.Card<BeginnerHypnosis>()
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

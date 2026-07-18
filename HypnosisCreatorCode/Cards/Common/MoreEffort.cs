@@ -13,8 +13,8 @@ public class MoreEffort() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [HcKeywords.Count, CardKeyword.Retain];
+    // 自分対象のカウント: トランス解除なし（mechanics-lock）。コスト0まで待つ。
+    public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
 
     public override bool GainsBlock => true;
 

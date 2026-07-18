@@ -2,8 +2,11 @@
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards;
 
@@ -29,4 +32,54 @@ public abstract class HypnosisCreatorCard(int cost, CardType type, CardRarity ra
     //Uses card_portraits/card_name.png as image path. These should be smaller images.
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
     public override string BetaPortraitPath => $"beta/{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
+
+    /// <summary>このカードが持つ性癖タグ。刺さり判定に使う。</summary>
+    public virtual IReadOnlyList<FetishType> CardFetishes => [];
+
+    /// <summary>スロット無視で性癖刺さりを発動する。</summary>
+    public virtual bool AlwaysHitsFetish => false;
+
+    /// <summary>壱佰捌煩悩など、刺さった種類ごとに破滅を別々に付与する。</summary>
+    public virtual bool FetishHitPerType => false;
+
+    /// <summary>カウント共通キーワード（保留・廃棄）。コスト0制約は HcKeywords.Count。</summary>
+    protected static IEnumerable<CardKeyword> CountKeywords =>
+        [HcKeywords.Count, CardKeyword.Retain, CardKeyword.Exhaust];
+
+    protected async Task ResolveFetishOnTarget(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        if (play.Target == null) return;
+        if (CardFetishes.Count == 0 && !AlwaysHitsFetish) return;
+
+        if (FetishHitPerType)
+        {
+            await FetishCombat.TryFetishHitPerType(
+                choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
+        }
+        else
+        {
+            await FetishCombat.TryFetishHit(
+                choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
+        }
+    }
+
+    protected async Task ResolveFetishOnAllEnemies(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        if (CombatState == null) return;
+        if (CardFetishes.Count == 0 && !AlwaysHitsFetish) return;
+
+        foreach (var enemy in CombatState.HittableEnemies.ToList())
+        {
+            if (FetishHitPerType)
+            {
+                await FetishCombat.TryFetishHitPerType(
+                    choiceContext, enemy, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
+            }
+            else
+            {
+                await FetishCombat.TryFetishHit(
+                    choiceContext, enemy, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
+            }
+        }
+    }
 }

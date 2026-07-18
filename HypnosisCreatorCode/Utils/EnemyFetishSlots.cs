@@ -42,13 +42,17 @@ public static class EnemyFetishSlots
         return state.Capacity;
     }
 
-    /// <summary>空スロットへ性癖を植え付ける。将来のカード用API。</summary>
+    /// <summary>空スロットへ性癖を植え付ける。同種は追加しない（mechanics-lock）。</summary>
     public static bool TryPlant(Creature enemy, OrbModel fetish, Player owner)
     {
         if (!enemy.IsEnemy) return false;
         if (fetish is not HypnosisCreatorOrb) return false;
 
         var state = Get(enemy);
+        var plantType = FetishCombat.ToFetishType(fetish);
+        if (plantType != null && state.Fetishes.Any(o => FetishCombat.ToFetishType(o) == plantType))
+            return false;
+
         if (state.Fetishes.Count >= state.Capacity) return false;
 
         var mutable = fetish.IsMutable ? fetish : fetish.ToMutable(0);

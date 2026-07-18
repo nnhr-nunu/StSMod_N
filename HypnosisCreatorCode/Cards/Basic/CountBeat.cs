@@ -1,8 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -10,14 +8,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>カウント軸の入門。基本3コスト・Retain。0コスト時のみプレイ可。</summary>
+/// <summary>旧カウント入門カード。プールに残すが初期デッキからは外す。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CountBeat() : HypnosisCreatorCard(3,
-    CardType.Attack, CardRarity.Basic,
+    CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [HcKeywords.Count, CardKeyword.Retain];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(14M, ValueProp.Move)];

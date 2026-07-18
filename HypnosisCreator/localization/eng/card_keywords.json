@@ -1,4 +1,4 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "Count",
-  "HYPNOSISCREATOR-COUNT.description": "Can only be played when its energy cost is 0."
+  "HYPNOSISCREATOR-COUNT.description": "Retain. Cost decreases by 1 at turn start. Playable at 0 cost (or while targeting a Tranced enemy). Exhaust."
 }
