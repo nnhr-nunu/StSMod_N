@@ -1,18 +1,14 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>
-/// 調和 — 相手の攻撃意図に表示されるダメージと同値のブロック。
-/// 連撃は合計。ブロック取得時は Dex／脆弱の影響を受けない。
-/// </summary>
+/// <summary>調和 — 相手の攻撃と同値のブロック。廃棄。脆弱等デバフ影響なし・連撃は合計（CSV備考）。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Harmony() : HypnosisCreatorCard(2,
     CardType.Skill, CardRarity.Basic,
@@ -25,36 +21,10 @@ public class Harmony() : HypnosisCreatorCard(2,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var block = CalcEnemyAttackValue(play.Target);
+        var block = EnemyAttackIntents.GetTotalDamage(play.Target);
         if (block > 0)
             await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Unpowered, play);
     }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
-
-    /// <summary>
-    /// 意図UIと同じ <see cref="AttackIntent.GetTotalDamage"/>（筋力込み・連撃合計）。
-    /// </summary>
-    internal static int CalcEnemyAttackValue(Creature enemy)
-    {
-        var monster = enemy.Monster;
-        if (monster == null || !monster.IntendsToAttack) return 0;
-
-        var move = monster.NextMove;
-        if (move?.Intents == null) return 0;
-
-        var combat = enemy.CombatState;
-        if (combat == null) return 0;
-
-        // 本家意図表示と同じ引数: 攻撃対象プレイヤー群, 攻撃者
-        var targets = combat.PlayerCreatures;
-        var total = 0;
-        foreach (var intent in move.Intents)
-        {
-            if (intent is not AttackIntent attack) continue;
-            total += Math.Max(0, attack.GetTotalDamage(targets, enemy));
-        }
-
-        return Math.Max(0, total);
-    }
 }

@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -5,7 +6,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
@@ -39,21 +39,7 @@ public class BreathControlPower : HypnosisCreatorPower
         await PowerCmd.Remove(this);
     }
 
-    private static bool IsAttackValueZero(Creature enemy)
-    {
-        var monster = enemy.Monster;
-        if (monster == null || !monster.IntendsToAttack) return false;
-
-        var move = monster.NextMove;
-        if (move?.Intents == null) return false;
-
-        var total = 0;
-        foreach (var intent in move.Intents)
-        {
-            if (intent is not AttackIntent attack) continue;
-            total += (int)attack.DamageCalc() * Math.Max(1, attack.Repeats);
-        }
-
-        return total <= 0;
-    }
+    private static bool IsAttackValueZero(Creature enemy) =>
+        EnemyAttackIntents.IntendsToAttack(enemy) &&
+        EnemyAttackIntents.GetTotalDamage(enemy) <= 0;
 }
