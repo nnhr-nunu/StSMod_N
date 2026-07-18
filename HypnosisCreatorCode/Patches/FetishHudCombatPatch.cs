@@ -1,6 +1,8 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -58,8 +60,19 @@ public static class FetishHudCombatPatch
 [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
 public static class FetishHudBeforeCombatPatch
 {
-    public static void Postfix(IRunState runState, ICombatState combatState) =>
+    public static void Postfix(IRunState runState, ICombatState combatState)
+    {
         FetishOwnerLookup.EnsureAllEnemies(combatState);
+
+        var owner = FetishOwnerLookup.Find(combatState);
+        if (owner == null) return;
+        if (owner.Creature.GetPower<EnemyPlayerAttackTrackerPower>() != null) return;
+
+        PowerCmd.Apply<EnemyPlayerAttackTrackerPower>(
+                null!, owner.Creature, 1M, owner.Creature, null!)
+            .GetAwaiter()
+            .GetResult();
+    }
 }
 
 /// <summary>

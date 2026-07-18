@@ -9,32 +9,37 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>お仕置き — DomSubアタック。9ダメージ＋破滅5。</summary>
+/// <summary>
+/// お仕置き — 対象がプレイヤーを攻撃した回数×8ダメージ（UG13）。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Punishment() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
+    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(9M, ValueProp.Move),
-        new DynamicVar("Doom", 5M)
-    ];
+        [new DamageVar(8M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-            .Execute(choiceContext);
-        await FetishCombat.ApplyDoom(
-            choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
+        var hits = EnemyPlayerAttackTracker.GetCount(play.Target);
+        var perHit = DynamicVars.Damage.BaseValue;
+        var total = perHit * hits;
+
+        if (total > 0)
+        {
+            await DamageCmd.Attack(total)
+                .FromCard(this, play)
+                .Targeting(play.Target)
+                .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+                .Execute(choiceContext);
+        }
+
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
 }

@@ -8,15 +8,17 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 敵頭上に性癖スロットをオーブ風アイコンで可視化する。
+/// 敵の下部（バフ／デバフ行付近）に性癖スロットをオーブ風アイコンで可視化する。
+/// 頭上だと行動予定と重なるため、Hitbox 下辺基準で配置する。
 /// （本家 NOrb はプレイヤー専用前提のため、同見た目の Control で描画）
 /// </summary>
 public static class FetishOrbHud
 {
     private const string NodeName = "HcFetishOrbHud";
-    private const float SlotSize = 36f;
-    private const float SlotGap = 4f;
-    private const float HeadOffsetY = -42f;
+    private const float SlotSize = 32f;
+    private const float SlotGap = 3f;
+    /// <summary>Hitbox 下辺からのオフセット。負で少し上（HP／Power 行のすぐ上付近）。</summary>
+    private const float FeetOffsetY = -36f;
     private const int MaxRetries = 60;
     private const double RetrySeconds = 0.05;
 
@@ -75,7 +77,7 @@ public static class FetishOrbHud
         var capacity = Math.Max(EnemyFetishSlots.DefaultCapacity, state.Capacity);
         var hud = existing ?? CreateHud(creatureNode);
         RebuildSlots(hud, state, capacity);
-        PlaceAboveHead(creatureNode, hud, capacity);
+        PlaceBelowBody(creatureNode, hud, capacity);
         hud.Visible = true;
         hud.Modulate = Colors.White;
         return true;
@@ -226,12 +228,13 @@ public static class FetishOrbHud
         return title.Length <= 3 ? title : title[..2];
     }
 
-    private static void PlaceAboveHead(NCreature creatureNode, Control hud, int capacity)
+    private static void PlaceBelowBody(NCreature creatureNode, Control hud, int capacity)
     {
-        var top = creatureNode.GetTopOfHitbox();
-        var local = creatureNode.MakeCanvasPositionLocal(top);
+        var bottom = creatureNode.GetBottomOfHitbox();
+        var local = creatureNode.MakeCanvasPositionLocal(bottom);
         var width = Math.Max(1, capacity) * SlotSize + Math.Max(0, capacity - 1) * SlotGap;
-        hud.Position = new Vector2(local.X - width * 0.5f, local.Y + HeadOffsetY);
+        // バフ／デバフ行と同帯に寄せ、意図アイコン（頭上）と分離する
+        hud.Position = new Vector2(local.X - width * 0.5f, local.Y + FeetOffsetY);
         hud.Size = new Vector2(width, SlotSize);
     }
 }

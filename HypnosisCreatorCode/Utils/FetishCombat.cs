@@ -147,6 +147,7 @@ public static class FetishCombat
         if (singleHit)
         {
             await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
+            await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
             return 1;
         }
 
@@ -156,6 +157,9 @@ public static class FetishCombat
             await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
             count++;
         }
+
+        if (count > 0)
+            await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
 
         return count;
     }

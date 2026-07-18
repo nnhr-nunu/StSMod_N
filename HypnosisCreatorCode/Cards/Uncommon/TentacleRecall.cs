@@ -8,11 +8,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>触手の想起 — アブノーマル。ダメージと収縮を与え、次の自ターン開始時にこのカードのコピーを手札に加える。</summary>
+/// <summary>触手の想起 — 締め付け5のみ。次ターン開始時にコピーを手札へ。UGで締め付け7。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TentacleRecall() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -21,10 +20,7 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(9M, ValueProp.Move),
-        new PowerVar<ConstrictPower>(5M)
-    ];
+        [new PowerVar<ConstrictPower>(5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<ConstrictPower>()];
@@ -32,11 +28,6 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-            .Execute(choiceContext);
 
         await PowerCmd.Apply<ConstrictPower>(
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);

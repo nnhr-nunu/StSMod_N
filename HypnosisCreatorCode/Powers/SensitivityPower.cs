@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
-/// <summary>このターン、所有者への攻撃ダメージを3倍にする。</summary>
+/// <summary>このターン、所有者への攻撃ダメージを3000倍にする。</summary>
 public class SensitivityPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Debuff;
@@ -25,7 +25,7 @@ public class SensitivityPower : HypnosisCreatorPower
     {
         if (target != Owner) return 1m;
         if (!props.IsPoweredAttack()) return 1m;
-        return 3m;
+        return 3000m;
     }
 
     public override async Task AfterSideTurnEnd(

@@ -1,51 +1,34 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
-using MegaCrit.Sts2.Core.CardSelection;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// ゼロショートカット — 手札のカウントカード1枚のコストをこの戦闘中0にする。
-/// CSV: 支援カードのため CardKeyword.Count は付けない。
+/// ゼロへの近道 — 3→2→1→0ブロックを得て、手札カウントコストを0にする。UGで2コスト。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class ZeroShortcut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    private static bool IsCandidate(CardModel c) =>
-        c.Keywords.Contains(HcKeywords.Count) && c.EnergyCost.GetResolved() > 0;
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new BlockVar(6M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        var combat = Owner.PlayerCombatState;
-        var hand = combat?.Hand;
-        if (hand == null) return;
+        for (var block = 3; block >= 0; block--)
+            await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, play);
 
-        var candidates = hand.Cards.Where(IsCandidate).ToList();
-        if (candidates.Count == 0) return;
-
-        IReadOnlyList<CardModel> selected;
-        try
-        {
-            selected = (await CardSelectCmd.FromCombatPile(
-                choiceContext,
-                hand,
-                Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, 1),
-                IsCandidate)).ToList();
-        }
-        catch
-        {
-            selected = [candidates[Owner.RunState.Rng.CombatCardSelection.NextInt(candidates.Count)]];
-        }
-
-        foreach (var card in selected)
-            card.EnergyCost.AddThisCombat(-card.EnergyCost.GetResolved());
+        CountRules.ZeroHandCountCosts(Owner);
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

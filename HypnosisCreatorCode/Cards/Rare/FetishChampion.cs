@@ -9,26 +9,32 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>性癖チャンピオン — 対象の性癖を全種目覚めさせ、破滅を付与する。UGでブロックも得る。</summary>
+/// <summary>性癖の覇者 — 対象の性癖数×20ダメージ（UG25）。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FetishChampion() : HypnosisCreatorCard(3,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    public override IReadOnlyList<FetishType> CardFetishes =>
+        [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Doom", 8M)];
+        [new DamageVar(20M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        EnemyFetishSlots.AddCapacity(play.Target, 4);
-        FetishCombat.AwakenAll(play.Target, Owner);
-        await FetishCombat.ApplyDoom(
-            choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
+        var hits = FetishCombat.GetFetishes(play.Target).Count;
+        if (hits <= 0) return;
+        var total = DynamicVars.Damage.BaseValue * hits;
 
-        if (IsUpgraded)
-            await CreatureCmd.GainBlock(Owner.Creature, 6M, ValueProp.Move, play);
+        await DamageCmd.Attack(total)
+            .FromCard(this, play)
+            .Targeting(play.Target)
+            .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
+            .Execute(choiceContext);
+        await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(4M);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
 }

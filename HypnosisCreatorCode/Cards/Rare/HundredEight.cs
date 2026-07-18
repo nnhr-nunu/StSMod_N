@@ -57,8 +57,13 @@ public class HundredEight() : HypnosisCreatorCard(1,
     /// コスト3に達した最終カットではプレイ後に廃棄する。
     /// コスト判定は OnPlay より前に確定させる必要があるため、こちらで上書きする。
     /// </summary>
-    protected override CardLocation GetResultLocationForCardPlay() =>
-        EnergyCost.GetResolved() >= FinalCostThreshold
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        if (IsUpgraded)
+            return new CardLocation(Owner, PileType.Draw, CardPilePosition.Random);
+
+        return EnergyCost.GetResolved() >= FinalCostThreshold
             ? new CardLocation(Owner, PileType.Exhaust, CardPilePosition.Bottom)
             : base.GetResultLocationForCardPlay();
+    }
 }

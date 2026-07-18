@@ -1,17 +1,23 @@
+using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 心停止催眠 — 残りターン数を毎プレイヤーターン開始時に1減らし、0になると即死させる。
+/// UG時は停止時に BonusRelicPlayer へ StolenHeart を付与する。
 /// </summary>
 public class CardiacArrestPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    public bool GrantBonusRelic { get; set; }
+    public Player? BonusRelicPlayer { get; set; }
 
     public override async Task AfterSideTurnStart(
         CombatSide side,
@@ -24,6 +30,10 @@ public class CardiacArrestPower : HypnosisCreatorPower
         var target = Owner;
         await PowerCmd.Decrement(this);
         if (target.GetPower<CardiacArrestPower>() == null || target.GetPowerAmount<CardiacArrestPower>() <= 0)
+        {
+            if (GrantBonusRelic && BonusRelicPlayer != null)
+                await RelicCmd.Obtain<StolenHeart>(BonusRelicPlayer);
             await CreatureCmd.Kill(target);
+        }
     }
 }

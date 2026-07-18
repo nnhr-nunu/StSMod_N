@@ -1,6 +1,7 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,8 +11,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// ラポール — パワー。自ターン開始時、手札のカウントカードのコストを追加で1下げる。
-/// 前ターンに敵を攻撃していなければさらに1下げる（UGで無条件化）。
+/// ラポール — パワー。プレイ時に手札カウントを1進める。
+/// ターン開始時、前ターン未攻撃なら追加で1進める（UGで無条件）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Rapport() : HypnosisCreatorCard(0,
@@ -24,9 +25,12 @@ public class Rapport() : HypnosisCreatorCard(0,
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<RapportPower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        CountRules.AdvanceHandCountCards(Owner);
         await PowerCmd.Apply<RapportPower>(
             choiceContext, Owner.Creature, DynamicVars["Stacks"].BaseValue, Owner.Creature, this);
+    }
 
     protected override void OnUpgrade() => DynamicVars["Stacks"].UpgradeValueBy(1M);
 }

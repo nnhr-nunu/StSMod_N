@@ -4,12 +4,14 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>腹部への殴打 — SM性癖アタック。8ダメージ。</summary>
+/// <summary>腹部への殴打 — 16ダメージ＋弱体2。UGで20ダメージ。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AbdominalStrike() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
@@ -18,7 +20,13 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(8M, ValueProp.Move)];
+    [
+        new DamageVar(16M, ValueProp.Move),
+        new PowerVar<VulnerablePower>(2M)
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<VulnerablePower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -28,8 +36,10 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3M);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);
 }

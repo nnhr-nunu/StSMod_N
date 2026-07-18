@@ -20,6 +20,7 @@ public static class FetishCombatResetPatch
     {
         FetishCombat.FetishHitMultiplier = 1M;
         FetishCombat.CultLeaderActive = false;
+        EnemyPlayerAttackTracker.Reset();
 
         if (combatState == null) return;
         foreach (var player in combatState.Players)

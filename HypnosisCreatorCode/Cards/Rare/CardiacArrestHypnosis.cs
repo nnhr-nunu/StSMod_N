@@ -1,7 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
-using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -12,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 心停止催眠 — カウント。指定ターン後に対象を即死させる（ボスは2倍のターン数）。
-/// UGでスタック心臓レリックも入手する。
+/// UG: 心臓停止時に追加レリック報酬（CardiacArrestPower で付与）。
 /// TODO: sts2 側に明確なボス判定APIが見つからないため、最大HP&gt;=100の簡易判定で近似している。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -36,9 +35,12 @@ public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
         var turns = DynamicVars["Turns"].IntValue * (isBoss ? 2 : 1);
 
         await PowerCmd.Apply<CardiacArrestPower>(choiceContext, play.Target, turns, Owner.Creature, this);
-
-        if (IsUpgraded)
-            await RelicCmd.Obtain<StolenHeart>(Owner);
+        var power = play.Target.GetPower<CardiacArrestPower>();
+        if (power != null)
+        {
+            power.GrantBonusRelic = IsUpgraded;
+            power.BonusRelicPlayer = Owner;
+        }
 
         await ResolveFetishOnTarget(choiceContext, play);
     }

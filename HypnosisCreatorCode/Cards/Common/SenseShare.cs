@@ -1,39 +1,25 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>感覚共有 — 対象に脆弱1を与え、その感覚を分けてもらいブロック4を得る。</summary>
+/// <summary>感覚共有 — このターン、単体アタックが全体化する。UGで0コスト。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SenseShare() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
-    TargetType.AnyEnemy)
+    TargetType.Self)
 {
-    public override bool GainsBlock => true;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<FrailPower>(1M),
-        new BlockVar(4M, ValueProp.Move)
-    ];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<FrailPower>()];
+        [HoverTipFactory.FromPower<SenseSharePower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
-    {
-        ArgumentNullException.ThrowIfNull(play.Target);
-        await PowerCmd.Apply<FrailPower>(
-            choiceContext, play.Target, DynamicVars["FrailPower"].BaseValue, Owner.Creature, this);
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, play);
-    }
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
+        await PowerCmd.Apply<SenseSharePower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3M);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

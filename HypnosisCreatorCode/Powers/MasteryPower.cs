@@ -23,7 +23,7 @@ public class MasteryPower : HypnosisCreatorPower
     {
         if (Owner == null || cardPlay.Card.Owner?.Creature != Owner) return Task.CompletedTask;
         if (!CountRules.HasCountKeyword(cardPlay.Card)) return Task.CompletedTask;
-        if (!cardPlay.Card.IsUpgraded) _playedCountCards.Add(cardPlay.Card);
+        _playedCountCards.Add(cardPlay.Card);
         return Task.CompletedTask;
     }
 }

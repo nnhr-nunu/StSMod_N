@@ -30,5 +30,5 @@ public class Catalepsy() : HypnosisCreatorCard(1,
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["Slow"].UpgradeValueBy(1M);
+    protected override void OnUpgrade() { }
 }

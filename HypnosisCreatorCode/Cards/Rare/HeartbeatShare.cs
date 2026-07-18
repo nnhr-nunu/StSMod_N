@@ -8,9 +8,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 鼓動の共有 — パワー・ハート・マルチ用。所持する心臓レリックを味方1人と共有する（UGで味方全員）。
-/// ソロプレイでは他の味方がいないため実質発動しない。
-/// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
+/// 鼓動の共有 — 心臓レリック効果を味方と共有する想定。
+/// TODO(task.md): 心臓パッシブの実効共有APIが無いため、StolenHeart 付与で近似。
+/// ソロでは味方不在のため実質不発。マルチ破壊回避のため best-effort のまま維持。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartbeatShare() : HypnosisCreatorCard(1,

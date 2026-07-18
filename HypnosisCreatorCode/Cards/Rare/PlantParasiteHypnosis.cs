@@ -8,11 +8,12 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 植物寄生催眠 — カウント・ハート・アブノーマル。収縮10（UG15）＋トランス。
+/// 植物寄生催眠 — カウント。15ダメージ＋収縮10（UG15）＋トランス1。
 /// 戦闘終了時、付与していれば心臓入手（キル不要）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -25,6 +26,7 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DamageVar(15M, ValueProp.Move),
         new PowerVar<ConstrictPower>(10M),
         new DynamicVar("Trance", 1M)
     ];
@@ -35,6 +37,12 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, play)
+            .Targeting(play.Target)
+            .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
+            .Execute(choiceContext);
 
         await PowerCmd.Apply<ConstrictPower>(
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);

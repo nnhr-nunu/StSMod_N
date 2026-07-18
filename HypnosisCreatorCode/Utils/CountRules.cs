@@ -1,6 +1,7 @@
 using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -47,5 +48,35 @@ public static class CountRules
                 TranceCombat.AnyEnemyHasTrance(card.CombatState.HittableEnemies),
             _ => false
         };
+    }
+
+    /// <summary>手札のカウントカードのコストを steps だけ下げる（ラポール・指折り数えて等）。</summary>
+    public static void AdvanceHandCountCards(Player player, int steps = 1)
+    {
+        if (steps <= 0) return;
+        var hand = player.PlayerCombatState?.Hand;
+        if (hand == null) return;
+
+        foreach (var card in hand.Cards.ToList())
+        {
+            if (!HasCountKeyword(card)) continue;
+            if (card.EnergyCost.GetResolved() <= 0) continue;
+            card.EnergyCost.AddThisCombat(-steps);
+        }
+    }
+
+    /// <summary>手札の催眠系カウントカードのコストを0にする。</summary>
+    public static void ZeroHandCountCosts(Player player)
+    {
+        var hand = player.PlayerCombatState?.Hand;
+        if (hand == null) return;
+
+        foreach (var card in hand.Cards.ToList())
+        {
+            if (!HasCountKeyword(card)) continue;
+            var resolved = card.EnergyCost.GetResolved();
+            if (resolved <= 0) continue;
+            card.EnergyCost.AddThisCombat(-resolved);
+        }
     }
 }

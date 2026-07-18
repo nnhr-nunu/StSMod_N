@@ -8,8 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// ぜんぶ知ってるよ — 性癖刺さりの破滅倍率をこの戦闘中だけ上げる。
-/// 戦闘終了時のリセットは <see cref="Patches.FetishCombatResetPatch"/> が担当。
+/// ぜんぶ知ってるよ — 性癖刺さり破滅を2倍にする。UGで天賦。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class KnowItAll() : HypnosisCreatorCard(1,
@@ -17,7 +16,7 @@ public class KnowItAll() : HypnosisCreatorCard(1,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Multiplier", 0.5M)];
+        [new DynamicVar("Multiplier", 1M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -25,5 +24,5 @@ public class KnowItAll() : HypnosisCreatorCard(1,
         await Task.CompletedTask;
     }
 
-    protected override void OnUpgrade() => DynamicVars["Multiplier"].UpgradeValueBy(0.5M);
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 }

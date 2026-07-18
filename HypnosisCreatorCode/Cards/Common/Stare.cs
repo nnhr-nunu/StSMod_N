@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>凝視 — DomSubアタック。9ダメージ＋トランス1。</summary>
+/// <summary>凝視 — 9ダメージ＋トランス1。UGで手札カウントを1進める。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Stare() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -33,8 +33,8 @@ public class Stare() : HypnosisCreatorCard(1,
             .Execute(choiceContext);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+        if (IsUpgraded)
+            CountRules.AdvanceHandCountCards(Owner);
         await ResolveFetishOnTarget(choiceContext, play);
     }
-
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3M);
 }

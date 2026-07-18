@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>感度3000倍 — トランス3＋このターン被ダメージ×3。性癖3種必ず刺さる。</summary>
+/// <summary>感度3000倍 — トランス3＋このターン被ダメージ×3000。性癖3種必ず刺さる。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Sensitivity3000() : HypnosisCreatorCard(2,
     CardType.Skill, CardRarity.Common,

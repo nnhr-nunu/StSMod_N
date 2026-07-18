@@ -10,8 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 糸色丁頁 — カウント。SM。自身のHPを失いトランス1を付与する。
-/// 無限アップグレード可能で、アップグレードごとに失うHPが+7され、カード名に「+N」が表示される。
+/// 糸色丁頁 — カウント。対象はHP15を失う。トランス1。無限UGで失HP+7。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
@@ -29,7 +28,7 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await CreatureCmd.Damage(
-            choiceContext, Owner.Creature, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, null, this, play);
+            choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, Owner.Creature, this, play);
         await TranceCombat.ApplyTrance(choiceContext, play.Target, 1, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
