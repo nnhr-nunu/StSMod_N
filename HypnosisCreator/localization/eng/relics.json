@@ -7,5 +7,11 @@
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "Tick. Tick. Drop.",
   "HYPNOSISCREATOR-STOLEN_HEART.title": "Stolen Heart",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "At the start of combat, gain 2 [gold]Block[/gold] for each Stolen Heart you own.",
-  "HYPNOSISCREATOR-STOLEN_HEART.flavor": "Still beating."
+  "HYPNOSISCREATOR-STOLEN_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.title": "Leaf Slime (S) Heart",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.description": "Rare Heart. Add a 0-cost Slimed to your hand.",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.flavor": "Still slimy.",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.title": "Leaf Slime (M) Heart",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.description": "Gain 2 Max HP.",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.flavor": "A bit heavier."
 }

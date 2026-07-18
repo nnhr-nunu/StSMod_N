@@ -17,8 +17,14 @@ public static class FetishCombat
     public const int FetishDoomMinimum = 8;
     public const decimal BogDoomMultiplier = 1.5M;
 
-    /// <summary>ぜんぶ知ってるよ 用。刺さり破滅倍率（既定1）。</summary>
+    /// <summary>ぜんぶ知ってるよ 用。刺さり破滅倍率（既定1）。戦闘終了時にリセットされる。</summary>
     public static decimal FetishHitMultiplier { get; set; } = 1M;
+
+    /// <summary>
+    /// 教祖化 用。有効な間、SM・DomSub・アブノーマルの性癖カードは対象の性癖有無に関わらず必ず刺さる
+    /// （トランス性癖は対象外）。戦闘終了時にリセットされる。
+    /// </summary>
+    public static bool CultLeaderActive { get; set; }
 
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
@@ -130,7 +136,10 @@ public static class FetishCombat
         }
         else
         {
-            types = cardFetishes.Where(f => HasFetish(target, f)).Distinct().ToList();
+            types = cardFetishes
+                .Where(f => HasFetish(target, f) || (CultLeaderActive && f != FetishType.Trance))
+                .Distinct()
+                .ToList();
         }
 
         if (types.Count == 0) return 0;

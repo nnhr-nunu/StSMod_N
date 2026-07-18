@@ -19,6 +19,8 @@ public class ContinuousTrance() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+        // トランス性癖は付与のたびに刺さるため、先に目覚めさせてから付与を繰り返す。
+        FetishCombat.Awaken(play.Target, FetishType.Trance, Owner);
         await TranceCombat.ApplyTranceRepeated(
             choiceContext, play.Target, DynamicVars["Times"].IntValue, Owner.Creature, this);
     }

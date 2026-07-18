@@ -7,5 +7,11 @@
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "チク。タク。ドロップ。",
   "HYPNOSISCREATOR-STOLEN_HEART.title": "奪った心臓",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "戦闘開始時、所持している奪った心臓1つにつき2 [gold]ブロック[/gold]を得る。",
-  "HYPNOSISCREATOR-STOLEN_HEART.flavor": "まだ脈打っている。"
+  "HYPNOSISCREATOR-STOLEN_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.title": "リーフスライム(小)の心臓",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.description": "希少な心臓。手札に0コストの粘液を1枚加える。",
+  "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.flavor": "まだぬるぬるしている。",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.title": "リーフスライム(中)の心臓",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.description": "最大HP2を得る。",
+  "HYPNOSISCREATOR-LEAF_SLIME_MED_HEART.flavor": "少し重い。"
 }

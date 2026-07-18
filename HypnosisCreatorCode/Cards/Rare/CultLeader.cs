@@ -9,20 +9,20 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 剥き出しの本能 — パワー。自ターン開始時、手札のランダムな攻撃カードへ
-/// 「本能」（<c>CardCmd.Enchant&lt;Instinct&gt;</c>、強化攻撃×2）を付与する。UGで対象2枚。
+/// 教祖化 — パワー。有効な間、SM・DomSub・アブノーマルの性癖カードは必ず刺さる（トランス性癖は対象外）。
+/// トランス付与時、次のターンのエナジー+1・ドロー+Amount を得る。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BareInstinct() : HypnosisCreatorCard(1,
+public class CultLeader() : HypnosisCreatorCard(3,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Enchant", 1M)];
+        [new DynamicVar("Draw", 1M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
-        await PowerCmd.Apply<BareInstinctPower>(
-            choiceContext, Owner.Creature, DynamicVars["Enchant"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<CultLeaderPower>(
+            choiceContext, Owner.Creature, DynamicVars["Draw"].BaseValue, Owner.Creature, this);
 
-    protected override void OnUpgrade() => DynamicVars["Enchant"].UpgradeValueBy(1M);
+    protected override void OnUpgrade() => DynamicVars["Draw"].UpgradeValueBy(1M);
 }

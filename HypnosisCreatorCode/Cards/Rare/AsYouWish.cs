@@ -9,20 +9,20 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 剥き出しの本能 — パワー。自ターン開始時、手札のランダムな攻撃カードへ
-/// 「本能」（<c>CardCmd.Enchant&lt;Instinct&gt;</c>、強化攻撃×2）を付与する。UGで対象2枚。
+/// ご主人様の言うとおり — パワー。性癖タグ付きカードをプレイするたび、タグの種類に応じて自己強化する。
+/// アブノーマル→筋力、SM→活力、DomSub→ブロック。UGで数値上昇。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BareInstinct() : HypnosisCreatorCard(1,
+public class AsYouWish() : HypnosisCreatorCard(1,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Enchant", 1M)];
+        [new DynamicVar("Stacks", 1M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
-        await PowerCmd.Apply<BareInstinctPower>(
-            choiceContext, Owner.Creature, DynamicVars["Enchant"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<AsYouWishPower>(
+            choiceContext, Owner.Creature, DynamicVars["Stacks"].BaseValue, Owner.Creature, this);
 
-    protected override void OnUpgrade() => DynamicVars["Enchant"].UpgradeValueBy(1M);
+    protected override void OnUpgrade() => DynamicVars["Stacks"].UpgradeValueBy(1M);
 }
