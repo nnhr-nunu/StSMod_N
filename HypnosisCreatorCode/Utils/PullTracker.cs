@@ -9,6 +9,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class PullTracker
 {
+    /// <summary>マウビースト心臓など、引き寄せ系効果の追加ダメージ（暫定）。</summary>
+    public static int ExtraDamage { get; set; }
+
     private static readonly NotNullSpireField<Creature, PullState> Field = new(() => new PullState());
 
     public static bool IsPulled(Creature creature) => Field.Get(creature).Pulled;
