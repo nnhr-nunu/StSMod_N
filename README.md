@@ -23,8 +23,11 @@ Slay the Spire 2 のキャラクターmod。活動名「ぬぬはら」を原案
 cp Directory.Build.props.example Directory.Build.props
 # Windows 例: Sts2Path / GodotPath を Directory.Build.props に書く
 dotnet build          # コードのみ → mods/HypnosisCreator/ へ dll コピー
-dotnet publish        # 画像・シーン込み（.pck 生成）
+dotnet publish        # 画像・ローカライズ・シーン込み（.pck 生成）【必須】
 ```
+
+**重要:** カード名／説明（`localization/**/*.json`）は `.pck` に入る。`dotnet build` だけでは更新されない。  
+キー名のまま（`card.xxxxx.title` など）表示されるときは、ほぼ確実に `.pck` が古いので `dotnet publish` してからゲームを再起動する。
 
 出力先:
 - Windows: `…/Steam/steamapps/common/Slay the Spire 2/mods/HypnosisCreator/`
