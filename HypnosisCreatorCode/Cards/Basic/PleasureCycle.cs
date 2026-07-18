@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>快の循環 — 破滅15。トランス中なら追加で破滅15。</summary>
+/// <summary>快の循環 — 破滅10（UGで15）。トランス中なら追加で同量の破滅。プレイ後は手札に戻る。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PleasureCycle() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
@@ -15,7 +15,7 @@ public class PleasureCycle() : HypnosisCreatorCard(1,
 {
     // CSV上はコモン。トランスタグ相当の効果
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Doom", 15M)];
+        [new DynamicVar("Doom", 10M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -25,6 +25,9 @@ public class PleasureCycle() : HypnosisCreatorCard(1,
         if (TranceCombat.HasTrance(play.Target))
             await FetishCombat.ApplyDoom(choiceContext, play.Target, amount, Owner.Creature, this);
     }
+
+    protected override CardLocation GetResultLocationForCardPlay() =>
+        new(Owner, PileType.Hand, CardPilePosition.Top);
 
     protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
 }

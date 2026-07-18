@@ -15,22 +15,20 @@ namespace HypnosisCreator.HypnosisCreatorCode.Character;
 public class HypnosisCreator : PlaceholderCharacterModel
 {
     public const string CharacterId = "HypnosisCreator";
-
-    // 催眠っぽいマゼンタ寄り
     public static readonly Color Color = new("e85aad");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 72;
 
-    /// <summary>仮の初期デッキ（mechanics-lock: スターター表記＋防御4）。</summary>
+    /// <summary>防御5＋他スターター各1（mechanics-lock / CSV）。</summary>
     public override IEnumerable<CardModel> StartingDeck =>
     [
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
         ModelDb.Card<HcDefend>(),
-        ModelDb.Card<StunGun>(),
+        ModelDb.Card<HcDefend>(),
         ModelDb.Card<StunGun>(),
         ModelDb.Card<SayYoureSorry>(),
         ModelDb.Card<WristCut>(),
@@ -63,12 +61,8 @@ public class HypnosisCreator : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_char_name.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_char_name_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
-
-    // バトル立ち絵（左向き素材のためシーン側で Flip H）
     public override string CustomVisualPath =>
         $"{MainFile.ResPath}/scenes/creature_visuals/hypnosis_creator.tscn";
-
-    // キャラ選択画面の1枚絵背景
     public override string CustomCharacterSelectBg =>
         $"{MainFile.ResPath}/scenes/char_select/hypnosis_creator_bg.tscn";
 }

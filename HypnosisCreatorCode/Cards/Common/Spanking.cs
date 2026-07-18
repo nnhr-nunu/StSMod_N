@@ -30,10 +30,10 @@ public class Spanking() : HypnosisCreatorCard(1,
             .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
 
-        var hit = await FetishCombat.TryFetishHit(
+        var hitCount = await FetishCombat.TryFetishHit(
             choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
-        if (hit)
-            BaseReplayCount = 1;
+        if (hitCount > 0)
+            BaseReplayCount = IsUpgraded ? 2 : 1;
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2M);

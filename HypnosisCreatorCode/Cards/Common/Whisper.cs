@@ -10,14 +10,19 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>囁き — 手札の性癖カードを選び、その性癖を対象に目覚めさせる。UGで2枚。</summary>
+/// <summary>囁き — 山札の性癖カードを選び、その性癖を対象に目覚めさせる。廃棄。UGで2枚。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Whisper() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Common,
     TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
+
+    private static bool IsCandidate(CardModel c) =>
+        c is HypnosisCreatorCard hc && hc.CardFetishes.Count > 0;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -27,26 +32,26 @@ public class Whisper() : HypnosisCreatorCard(0,
         var combat = Owner.PlayerCombatState;
         if (combat == null) return;
 
-        var handCandidates = combat.Hand.Cards
-            .Where(c => c != this && c is HypnosisCreatorCard hc && hc.CardFetishes.Count > 0)
+        var drawCandidates = combat.DrawPile.Cards
+            .Where(IsCandidate)
             .ToList();
 
-        if (handCandidates.Count == 0) return;
+        if (drawCandidates.Count == 0) return;
 
         IReadOnlyList<CardModel> selected;
         try
         {
-            selected = (await CardSelectCmd.FromHand(
+            selected = (await CardSelectCmd.FromCombatPile(
                 choiceContext,
+                combat.DrawPile,
                 Owner,
                 new CardSelectorPrefs(SelectionScreenPrompt, count),
-                c => c != this && c is HypnosisCreatorCard hc && hc.CardFetishes.Count > 0,
-                this)).ToList();
+                IsCandidate)).ToList();
         }
         catch
         {
-            // 選択UIが使えない場合は手札からランダムに性癖を目覚めさせる
-            selected = handCandidates
+            // 選択UIが使えない場合は山札からランダムに性癖を目覚めさせる
+            selected = drawCandidates
                 .OrderBy(_ => Guid.NewGuid())
                 .Take(count)
                 .ToList();
@@ -54,7 +59,7 @@ public class Whisper() : HypnosisCreatorCard(0,
 
         if (selected.Count == 0)
         {
-            selected = handCandidates
+            selected = drawCandidates
                 .OrderBy(_ => Guid.NewGuid())
                 .Take(count)
                 .ToList();

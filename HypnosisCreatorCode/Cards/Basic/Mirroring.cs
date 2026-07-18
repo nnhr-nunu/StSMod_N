@@ -16,8 +16,12 @@ public class Mirroring() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Basic,
     TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(0M, ValueProp.Move)];
+
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
     public static bool HasAttackIntent(Creature target) =>
         target.Monster?.IntendsToAttack == true;

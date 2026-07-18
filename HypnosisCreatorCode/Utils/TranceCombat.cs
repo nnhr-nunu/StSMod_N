@@ -17,6 +17,10 @@ public static class TranceCombat
     public static bool AnyEnemyHasTrance(IEnumerable<Creature> enemies) =>
         enemies.Any(e => e.IsAlive && HasTrance(e));
 
+    /// <summary>
+    /// トランスを1回付与する（スタック amount）。トランス性癖があれば刺さり1回。
+    /// 「トランス1を3回」は本メソッドを3回呼ぶ。
+    /// </summary>
     public static async Task ApplyTrance(
         PlayerChoiceContext choiceContext,
         Creature target,
@@ -26,8 +30,20 @@ public static class TranceCombat
     {
         if (amount <= 0 || !target.IsEnemy) return;
         await PowerCmd.Apply<TrancePower>(choiceContext, target, amount, applier, cardSource!);
-
-        // トランスに溶けゆく用: 付与回数を累計
         TranceFallTracker.Add(target, amount);
+        await FetishCombat.TryTranceFetishHitOnApply(choiceContext, target, applier, cardSource);
+    }
+
+    /// <summary>トランス1を times 回付与（連続トランス用）。</summary>
+    public static async Task ApplyTranceRepeated(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        int times,
+        Creature applier,
+        CardModel? cardSource = null,
+        int amountPer = 1)
+    {
+        for (var i = 0; i < times; i++)
+            await ApplyTrance(choiceContext, target, amountPer, applier, cardSource);
     }
 }

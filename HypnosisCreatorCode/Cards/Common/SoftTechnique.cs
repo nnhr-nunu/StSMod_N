@@ -7,10 +7,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>軟酥の法 — 自身のデバフをすべて除去する。</summary>
+/// <summary>軟酥の法 — 自身のデバフを1つ（ランダム）除去する。UGですべて除去。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SoftTechnique() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Common,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -19,9 +19,17 @@ public class SoftTechnique() : HypnosisCreatorCard(1,
             .Where(p => p.Type == PowerType.Debuff)
             .ToList();
 
-        foreach (var power in debuffs)
-            await PowerCmd.Remove(power);
-    }
+        if (debuffs.Count == 0) return;
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+        if (IsUpgraded)
+        {
+            foreach (var power in debuffs)
+                await PowerCmd.Remove(power);
+            return;
+        }
+
+        var rng = Owner.RunState.Rng.CombatCardSelection;
+        var chosen = debuffs[rng.NextInt(debuffs.Count)];
+        await PowerCmd.Remove(chosen);
+    }
 }

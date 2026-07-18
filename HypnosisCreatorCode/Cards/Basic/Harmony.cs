@@ -16,6 +16,8 @@ public class Harmony() : HypnosisCreatorCard(2,
 {
     public override bool GainsBlock => true;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
@@ -23,6 +25,8 @@ public class Harmony() : HypnosisCreatorCard(2,
         if (block > 0)
             await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, play);
     }
+
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
     private static int CalcEnemyAttackValue(MegaCrit.Sts2.Core.Entities.Creatures.Creature enemy)
     {

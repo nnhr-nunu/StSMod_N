@@ -98,12 +98,12 @@ public static class CardCropStore
     public static IEnumerable<string> KnownCardKeys()
     {
         yield return DefaultKey;
-        // 実装済みカード（ファイル名規則）
+        // 実装済みカード（ファイル名規則）。網羅目的ではなく開発時のサンプル表示用。
         foreach (var name in new[]
                  {
-                     "hc_strike", "hc_defend", "count_beat", "pleasure_cycle", "heart_claim",
-                     "cooking_hypnosis", "digital_sign", "eat_me", "fool_seeks_peace", "more_effort",
-                     "oshi_log"
+                     "hc_defend", "pleasure_cycle", "kick", "drug_hypnosis", "zero_out",
+                     "soft_technique", "whisper", "harmony", "mirroring", "discipline",
+                     "prefinger", "polynesian_hypnosis", "know_it_all", "total_control"
                  })
             yield return name;
     }

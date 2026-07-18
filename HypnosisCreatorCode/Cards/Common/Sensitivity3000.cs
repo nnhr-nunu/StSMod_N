@@ -33,5 +33,5 @@ public class Sensitivity3000() : HypnosisCreatorCard(2,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Trance"].UpgradeValueBy(1M);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

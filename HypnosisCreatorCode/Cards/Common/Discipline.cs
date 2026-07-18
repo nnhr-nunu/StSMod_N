@@ -21,7 +21,7 @@ public class Discipline() : HypnosisCreatorCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(5M, ValueProp.Move),
-        new DynamicVar("Bog", 2M)
+        new DynamicVar("Bog", 1M)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -37,5 +37,5 @@ public class Discipline() : HypnosisCreatorCard(0,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3M);
+    protected override void OnUpgrade() => DynamicVars["Bog"].UpgradeValueBy(1M);
 }

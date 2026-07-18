@@ -13,9 +13,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 public static class FetishCombat
 {
     public const decimal FetishDoomHpPercent = 0.05M;
-    public const int FetishDoomFlat = 10;
-    public const int FetishDoomMinimum = 11;
+    public const int FetishDoomFlat = 7;
+    public const int FetishDoomMinimum = 8;
     public const decimal BogDoomMultiplier = 1.5M;
+
+    /// <summary>ぜんぶ知ってるよ 用。刺さり破滅倍率（既定1）。</summary>
+    public static decimal FetishHitMultiplier { get; set; } = 1M;
 
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
@@ -24,15 +27,6 @@ public static class FetishCombat
         AbnormalFetishOrb => FetishType.Abnormal,
         TranceFetishOrb => FetishType.Trance,
         _ => null
-    };
-
-    public static Type ToOrbType(FetishType type) => type switch
-    {
-        FetishType.Sm => typeof(SmFetishOrb),
-        FetishType.DomSub => typeof(DsFetishOrb),
-        FetishType.Abnormal => typeof(AbnormalFetishOrb),
-        FetishType.Trance => typeof(TranceFetishOrb),
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
     };
 
     public static bool HasFetish(Creature enemy, FetishType type)
@@ -52,7 +46,6 @@ public static class FetishCombat
             .ToList();
     }
 
-    /// <summary>同種が無ければスロットを増やして植え付ける。</summary>
     public static bool Awaken(Creature enemy, FetishType type, Player owner)
     {
         if (!enemy.IsEnemy) return false;
@@ -78,7 +71,8 @@ public static class FetishCombat
     public static int CalcFetishDoomAmount(Creature enemy)
     {
         var fromHp = (int)Math.Ceiling(enemy.MaxHp * (double)FetishDoomHpPercent);
-        return Math.Max(FetishDoomMinimum, fromHp + FetishDoomFlat);
+        var baseAmount = Math.Max(FetishDoomMinimum, fromHp + FetishDoomFlat);
+        return Math.Max(1, (int)Math.Floor(baseAmount * (double)FetishHitMultiplier));
     }
 
     public static int ScaleDoomByBog(Creature enemy, int amount)
@@ -100,47 +94,52 @@ public static class FetishCombat
         await PowerCmd.Apply<DoomPower>(choiceContext, target, scaled, applier, cardSource!);
     }
 
-    /// <summary>
-    /// 性癖刺さり判定。複数ヒットでも1回呼ぶ想定。リプレイ時はプレイごとに呼ぶ。
-    /// </summary>
-    public static async Task<bool> TryFetishHit(
+    /// <summary>トランス付与1回ごとのトランス性癖刺さり。</summary>
+    public static async Task TryTranceFetishHitOnApply(
         PlayerChoiceContext choiceContext,
         Creature target,
         Creature applier,
-        CardModel card,
-        IReadOnlyList<FetishType> cardFetishes,
-        bool alwaysHit)
+        CardModel? cardSource)
     {
-        if (cardFetishes.Count == 0 && !alwaysHit) return false;
-        if (!target.IsEnemy) return false;
-
-        var hits = alwaysHit
-            ? cardFetishes.DefaultIfEmpty(FetishType.Abnormal).Distinct().ToList()
-            : cardFetishes.Where(f => HasFetish(target, f)).Distinct().ToList();
-
-        // 「必ず刺さる」でトリガーだけ欲しい場合も1回は破滅を付与
-        if (alwaysHit && hits.Count == 0)
-            hits = [FetishType.Abnormal];
-
-        if (hits.Count == 0) return false;
-
-        // 種類ごとに個別判定だが、通常カードはタグ分まとめて1プレイ1回の破滅（壱佰捌煩悩は呼び出し側で分割）
-        await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
-        return true;
+        if (!HasFetish(target, FetishType.Trance)) return;
+        await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, cardSource);
     }
 
-    /// <summary>壱佰捌煩悩用: 刺さった種類ごとに破滅。</summary>
-    public static async Task<int> TryFetishHitPerType(
+    /// <summary>
+    /// カードタグによる刺さり。singleHit=true なら一致があっても破滅は1回（感度3000倍）。
+    /// false なら種類ごと（足蹴・壱佰など）。
+    /// </summary>
+    public static async Task<int> TryFetishHit(
         PlayerChoiceContext choiceContext,
         Creature target,
         Creature applier,
         CardModel card,
         IReadOnlyList<FetishType> cardFetishes,
-        bool alwaysHit)
+        bool alwaysHit,
+        bool singleHit = false)
     {
-        var types = alwaysHit
-            ? cardFetishes.Distinct().ToList()
-            : cardFetishes.Where(f => HasFetish(target, f)).Distinct().ToList();
+        if (cardFetishes.Count == 0 && !alwaysHit) return 0;
+        if (!target.IsEnemy) return 0;
+
+        List<FetishType> types;
+        if (alwaysHit)
+        {
+            types = cardFetishes.Count > 0
+                ? cardFetishes.Distinct().ToList()
+                : [FetishType.Abnormal];
+        }
+        else
+        {
+            types = cardFetishes.Where(f => HasFetish(target, f)).Distinct().ToList();
+        }
+
+        if (types.Count == 0) return 0;
+
+        if (singleHit)
+        {
+            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
+            return 1;
+        }
 
         var count = 0;
         foreach (var _ in types)

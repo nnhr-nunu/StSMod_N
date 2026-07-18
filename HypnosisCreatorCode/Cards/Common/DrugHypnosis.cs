@@ -23,8 +23,8 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<PoisonPower>(10M),
-        new DynamicVar("Doom", 10M),
+        new PowerVar<PoisonPower>(7M),
+        new DynamicVar("Doom", 7M),
         new PowerVar<StrengthPower>("StrengthLoss", 2M),
         new PowerVar<WeakPower>(2M),
         new PowerVar<FrailPower>(2M),
@@ -61,6 +61,10 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
     protected override void OnUpgrade()
     {
         DynamicVars.Poison.UpgradeValueBy(3M);
-        DynamicVars["Doom"].UpgradeValueBy(3M);
+        DynamicVars["Doom"].UpgradeValueBy(8M);
+        DynamicVars["StrengthLoss"].UpgradeValueBy(1M);
+        DynamicVars.Weak.UpgradeValueBy(1M);
+        DynamicVars["FrailPower"].UpgradeValueBy(1M);
+        DynamicVars["Bog"].UpgradeValueBy(1M);
     }
 }

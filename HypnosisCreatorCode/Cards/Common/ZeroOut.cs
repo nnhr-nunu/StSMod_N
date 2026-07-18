@@ -10,10 +10,10 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>ぜーろっ — カウント。ブロック除去＋一時筋力で攻撃を0＋トランス1。</summary>
+/// <summary>ぜーろっ — カウント。筋力を一時的に0にし攻撃意図を無力化＋トランス1。UGでブロックも除去。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class ZeroOut() : HypnosisCreatorCard(3,
-    CardType.Skill, CardRarity.Common,
+    CardType.Skill, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
@@ -25,7 +25,7 @@ public class ZeroOut() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        if (play.Target.Block > 0)
+        if (IsUpgraded && play.Target.Block > 0)
             await CreatureCmd.LoseBlock(choiceContext, play.Target, play.Target.Block, Owner.Creature);
 
         var strength = play.Target.GetPowerAmount<StrengthPower>();
