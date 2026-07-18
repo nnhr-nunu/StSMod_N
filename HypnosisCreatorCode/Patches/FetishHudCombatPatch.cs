@@ -4,6 +4,7 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Runs;
@@ -25,6 +26,16 @@ internal static class FetishOwnerLookup
 
         return null;
     }
+
+    public static void EnsureAllEnemies(ICombatState combatState)
+    {
+        var owner = Find(combatState);
+        if (owner == null) return;
+
+        var rng = owner.RunState.Rng.CombatOrbGeneration;
+        foreach (var enemy in combatState.HittableEnemies.ToList())
+            EnemyFetishSlots.EnsureSpawnDefaults(enemy, owner, rng);
+    }
 }
 
 /// <summary>敵出現時に性癖を付与し頭上HUDを出す。</summary>
@@ -43,17 +54,23 @@ public static class FetishHudCombatPatch
     }
 }
 
-/// <summary>戦闘開始時に全敵を再初期化／再描画（取りこぼし防止）。</summary>
+/// <summary>戦闘開始時に全敵を再初期化／再描画。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
 public static class FetishHudBeforeCombatPatch
 {
-    public static void Postfix(IRunState runState, ICombatState combatState)
-    {
-        var owner = FetishOwnerLookup.Find(combatState);
-        if (owner == null) return;
+    public static void Postfix(IRunState runState, ICombatState combatState) =>
+        FetishOwnerLookup.EnsureAllEnemies(combatState);
+}
 
-        var rng = owner.RunState.Rng.CombatOrbGeneration;
-        foreach (var enemy in combatState.HittableEnemies.ToList())
-            EnemyFetishSlots.EnsureSpawnDefaults(enemy, owner, rng);
+/// <summary>
+/// セーブ続き／取りこぼし対策。プレイヤーターン開始時にも全敵へ性癖＋HUDを保証する。
+/// </summary>
+[HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
+public static class FetishHudTurnStartPatch
+{
+    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
+    {
+        if (FetishOwnerLookup.Find(combatState) == null) return;
+        FetishOwnerLookup.EnsureAllEnemies(combatState);
     }
 }
