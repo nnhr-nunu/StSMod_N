@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// TODO: BuffIntent / 支援対象の書き換えAPIが公開されたら本実装へ差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class LoveHypnosis() : HypnosisCreatorCard(1,
+public class LoveHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {

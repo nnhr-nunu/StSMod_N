@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -11,11 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>
-/// 不動明王 — パワー。自身のデバフを解除し、アーティファクトを得る。
-/// CSV: 「デバフを付与した相手」の個別追跡は未実装のため、暫定で敵全体へダメージを与えて近似する。
-/// TODO: デバフ付与元を追跡する仕組みが確定したら差し替える。
-/// </summary>
+/// <summary>不動明王 — デバフ解除＋アーティファクト。付与してきた敵にダメージ。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FudoMyoo() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Rare,
@@ -40,10 +37,20 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
         await PowerCmd.Apply<ArtifactPower>(
             choiceContext, self, DynamicVars["ArtifactPower"].BaseValue, self, this);
 
-        if (CombatState != null)
-            foreach (var enemy in CombatState.HittableEnemies.ToList())
-                await CreatureCmd.Damage(
-                    choiceContext, enemy, DynamicVars["Damage"].BaseValue, ValueProp.Move, self, this, play);
+        var appliers = DebuffSourceTracker.GetAppliers(self)
+            .Where(e => e.IsAlive)
+            .Distinct()
+            .ToList();
+
+        // 記録が空ならフォールバックで全敵（戦闘開始直後など）
+        if (appliers.Count == 0 && CombatState != null)
+            appliers = CombatState.HittableEnemies.ToList();
+
+        foreach (var enemy in appliers)
+            await CreatureCmd.Damage(
+                choiceContext, enemy, DynamicVars["Damage"].BaseValue, ValueProp.Move, self, this, play);
+
+        DebuffSourceTracker.Clear(self);
     }
 
     protected override void OnUpgrade()
