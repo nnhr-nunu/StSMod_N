@@ -51,7 +51,7 @@
   "HYPNOSISCREATOR-COGNITIVE_VOID_BYPASS_POWER.description": "虚無化によるターン強制終了が起きない。",
   "HYPNOSISCREATOR-COGNITIVE_VOID_BYPASS_POWER.smartDescription": "虚無化の緩和。",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.title": "スライム催眠",
-  "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.description": "このターン、意図が粘液付与へ上書きされる。",
+  "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.description": "このターン、意図が粘液付与へ上書きされ、見た目と名前がランダムなスライムになる。",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.smartDescription": "粘液 {Amount}。",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS_POWER.title": "ASMR催眠",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS_POWER.description": "Left/Rightの交互プレイで破滅を付与する。",

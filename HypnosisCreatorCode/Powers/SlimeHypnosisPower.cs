@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -12,17 +13,33 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// スライム催眠 — 1ターンだけ意図を粘液付与へ上書き。見た目差し替えは任意スタブ。
+/// スライム催眠 — 1ターンだけ意図を粘液付与へ上書きし、見た目・名前をスライム系からランダム差し替え。
 /// </summary>
 public class SlimeHypnosisPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    public string? DisguiseName { get; private set; }
+    private SlimeDisguise.State? _disguise;
+
     public override Task AfterApplied(Creature applier, CardModel cardSource)
     {
         TryOverwriteIntent();
+        TryApplyDisguise(applier);
         return Task.CompletedTask;
+    }
+
+    private void TryApplyDisguise(Creature applier)
+    {
+        if (Owner == null) return;
+
+        var rng = applier.Player?.RunState.Rng.CombatCardSelection
+                  ?? Owner.Monster?.CombatState?.Players.FirstOrDefault()?.RunState.Rng.CombatCardSelection;
+        if (rng == null) return;
+
+        _disguise = SlimeDisguise.Apply(Owner, rng);
+        DisguiseName = _disguise?.DisplayName;
     }
 
     private void TryOverwriteIntent()
@@ -67,6 +84,10 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         if (Owner == null || !Owner.IsAlive) return;
         if (side != CombatSide.Enemy) return;
         if (!participants.Contains(Owner)) return;
+
+        SlimeDisguise.Restore(Owner, _disguise);
+        _disguise = null;
+        DisguiseName = null;
         await PowerCmd.Remove(this);
     }
 }

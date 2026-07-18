@@ -69,9 +69,8 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     protected virtual Task OnPassiveObtain() => Task.CompletedTask;
 
     /// <summary>
-    /// 仮: 戦闘1ターン目開始で未使用の希少心臓を自動発動しない。
-    /// 右クリックAPIが確定するまで ActivateAsync はカード／デバッグから呼ぶ。
     /// No.85 で得た心臓は「戦闘開始トリガーを満たす」＝ AfterPlayerTurnStart turn1 で Activate。
+    /// 手動発動はレリック枠の右クリック（<c>RareHeartRightClickPatch</c>）。
     /// </summary>
     public bool FireCombatStartTrigger { get; set; }
 

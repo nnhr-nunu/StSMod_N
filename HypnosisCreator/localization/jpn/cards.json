@@ -115,7 +115,7 @@
   "HYPNOSISCREATOR-ASMR_HYPNOSIS.title": "ASMR催眠",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "プレイヤーをLeft/Rightに割り当て、左右が切り替わるたびランダムな敵に破滅{Doom:diff()}を付与する。\nソロでも自己交互で動作する。",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.title": "スライム催眠",
-  "HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "[gold]カウント[/gold]。1ターンの間、対象の意図を粘液{Slimed:diff()}枚付与へ上書きする。トランス{Trance:diff()}を付与する。\n[gold]性癖：アブノーマル[/gold]",
+  "HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "[gold]カウント[/gold]。1ターンの間、対象の意図を粘液{Slimed:diff()}枚付与へ上書きし、見た目と名前をランダムなスライムに差し替える。トランス{Trance:diff()}を付与する。\n[gold]性癖：アブノーマル[/gold]",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.title": "認知シャッフル",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "[gold]カウント[/gold]。トランス{Trance:diff()}を付与する。形態カード3枚から1枚選び、その形態を得る。\n対象がトランス中、自ターン開始時にそのキャラのカードを{Cards:diff()}枚加える（エセリアル・廃棄・このターン0コスト）。\n虚無化でもターンは強制終了しない。",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.selectionScreenPrompt": "形態を選んでください。",

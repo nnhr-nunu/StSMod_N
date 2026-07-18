@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// スライム催眠 — カウント・アブノーマル。1ターン意図を粘液×5（UG×8）へ上書き＋トランス1。
-/// 見た目差し替えは任意スタブ。
+/// 見た目・名前はスライム系からランダム差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SlimeHypnosis() : HypnosisCreatorCard(2,

@@ -36,7 +36,7 @@
   "HYPNOSISCREATOR-COGNITIVE_VOID_BYPASS_POWER.description": "Void Form does not force-end your turn.",
   "HYPNOSISCREATOR-COGNITIVE_VOID_BYPASS_POWER.smartDescription": "Void Form Softening.",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.title": "Slime Hypnosis",
-  "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.description": "Intent overwritten to add Slimed this turn.",
+  "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.description": "This turn, intent is overwritten to add Slimed, and appearance/name become a random slime.",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS_POWER.smartDescription": "Slimed {Amount}.",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS_POWER.title": "ASMR Hypnosis",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS_POWER.description": "Alternating Left/Right plays apply Doom.",

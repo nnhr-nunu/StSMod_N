@@ -26,6 +26,10 @@ public abstract class HypnosisCreatorCard(
     /// <summary>複数タグを種類ごとに刺す。未指定時はタグ2種以上なら自動で個別。</summary>
     public virtual bool? FetishHitPerTypeOverride => null;
 
+    /// <summary>性癖が刺さりうるとき黄色ハイライト（mechanics-lock）。</summary>
+    protected override bool ShouldGlowGoldInternal =>
+        FetishGlow.ShouldGlow(this) || base.ShouldGlowGoldInternal;
+
     protected static IEnumerable<CardKeyword> CountKeywords =>
         [HcKeywords.Count, CardKeyword.Retain, CardKeyword.Exhaust];
 
