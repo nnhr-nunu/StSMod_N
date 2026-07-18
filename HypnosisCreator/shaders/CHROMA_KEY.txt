@@ -6,36 +6,37 @@
 スライダーを動かすとその場の立ち絵／選択背景／カード絵へ反映される。
 設定画面を閉じると自動保存（＝確定）。
 
-## セクション
+## SelectBackground（キャラ選択の1枚絵）
 
-### ChromaKey（立ち絵のグリーンバック透過）
+| 項目 | 意味 |
+|------|------|
+| SelectBgOffsetX | 左右（px） |
+| SelectBgOffsetY | 上下（px）。**プラス＝画面下へ**（顔が見切れるときは＋にする） |
+| SelectBgZoom | 拡大 |
+
+※ キャラ選択画面を開いた状態で調整すること（画面に背景ノードがないと効かない）
+
+顔が上で見切れる例:
+  SelectBgOffsetY を +40〜+120 くらいから試す
+
+## CardArt（カード個別切り抜き）
+
+1. CardTargetId にカードIDを入れる（例: `cooking_hypnosis`）
+2. Offset / Zoom を調整（そのカードだけに保存される）
+3. `_default` は「個別設定のないカード」向けの共通値
+4. 「ListCardIds」ボタンで使えるID一覧がログに出る
+
+## ChromaKey（立ち絵GB透過）
+
 | 項目 | 意味 |
 |------|------|
 | ChromaSimilarity | 抜く範囲（残る→上げる／欠けすぎ→下げる） |
 | ChromaSmoothness | 境界ぼかし |
 | ChromaSpill | 緑かぶり抑制 |
-| ChromaKeyR/G/B | 抜く色（idle.png のGB色に合わせる） |
-
-初期値は idle.png 実測色（約 RGB 8,161,53）向け。
-
-### SelectBackground（キャラ選択の1枚絵）
-| 項目 | 意味 |
-|------|------|
-| SelectBgOffsetX/Y | パン（左右／上下） |
-| SelectBgZoom | 拡大（大きいほど寄る＝トリミング感） |
-
-### CardArt（カード絵・全 Hypno Creator カード共通）
-| 項目 | 意味 |
-|------|------|
-| CardOffsetX/Y | パン |
-| CardZoom | 拡大 |
-
-手札やカード報酬を出しながらスライダーを動かすと反映される。
-
-## ファイル
-- chroma_key.gdshader / chroma_key_material.tres … 立ち絵
-- image_crop.gdshader / image_crop_material.tres … 選択背景・カード
+| ChromaKeyR/G/B | 抜く色 |
 
 ## 反映の注意
+
 - 初回導入後はゲーム再起動
-- ゲーム起動中は mods フォルダへの上書きがロックされることがある
+- ゲーム起動中は mods への上書きがロックされることがある
+- 画像差し替え後は .pck 再生成が必要

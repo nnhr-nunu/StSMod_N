@@ -11,7 +11,8 @@ public static class VisualTuner
     private const string CropShaderPath = $"{MainFile.ResPath}/shaders/image_crop.gdshader";
     private const string CardPortraitPathHint = "HypnosisCreator/images/card_portraits";
     private const string IdlePathHint = "HypnosisCreator/images/character/combat/idle";
-    private const string SelectBgPathHint = "HypnosisCreator/images/char_select/select_bg";
+    private const string SelectBgPathHint = "select_bg";
+    private const string BaseOffsetsMeta = "hc_base_offsets";
 
     private static Shader? _cropShader;
 
@@ -36,7 +37,6 @@ public static class VisualTuner
         var smoothness = (float)HypnosisCreatorConfig.ChromaSmoothness;
         var spill = (float)HypnosisCreatorConfig.ChromaSpill;
 
-        // 共有マテリアル（シーンに載っているもの）を更新
         if (ResourceLoader.Exists(ChromaMaterialPath))
         {
             var shared = ResourceLoader.Load<ShaderMaterial>(ChromaMaterialPath);
@@ -55,33 +55,63 @@ public static class VisualTuner
 
     public static void ApplySelectBackground()
     {
-        var offset = new Vector2(
-            (float)HypnosisCreatorConfig.SelectBgOffsetX,
-            (float)HypnosisCreatorConfig.SelectBgOffsetY);
+        // 単位 px。Yプラス＝画面下方向へずらす（顔が見切れるとき正の値）
+        var ox = (float)HypnosisCreatorConfig.SelectBgOffsetX;
+        var oy = (float)HypnosisCreatorConfig.SelectBgOffsetY;
         var zoom = (float)HypnosisCreatorConfig.SelectBgZoom;
 
-        foreach (var rect in FindNodes<TextureRect>())
+        var found = 0;
+        foreach (var rect in FindSelectBackgrounds())
         {
-            if (!LooksLikeSelectBackground(rect)) continue;
+            found++;
+            RememberAndApplyControlOffsets(rect, ox, oy);
+
             EnsureCropMaterial(rect);
             if (rect.Material is ShaderMaterial mat)
-                SetCropParams(mat, offset, zoom);
+            {
+                // 位置は Control オフセットで動かす。シェーダーはズーム専用。
+                SetCropParams(mat, Vector2.Zero, zoom);
+            }
         }
+
+        if (found == 0)
+            MainFile.Logger.Info("VisualTuner: select background TextureRect not found (open character select to adjust).");
     }
 
     public static void ApplyCardArt()
     {
-        var offset = new Vector2(
-            (float)HypnosisCreatorConfig.CardOffsetX,
-            (float)HypnosisCreatorConfig.CardOffsetY);
-        var zoom = (float)HypnosisCreatorConfig.CardZoom;
+        var map = CardCropStore.LoadAll();
 
         foreach (var item in FindCanvasItemsWithCardPortrait())
         {
+            var path = GetTexturePath(item);
+            var key = CardCropStore.KeyFromTexturePath(path);
+            var crop = CardCropStore.Get(key, map);
+
             EnsureCropMaterial(item);
             if (item.Material is ShaderMaterial mat)
-                SetCropParams(mat, offset, zoom);
+            {
+                // UI は「Yプラス＝画面下へ」。UV オフセットは符号が逆なので反転する。
+                SetCropParams(mat,
+                    new Vector2((float)crop.OffsetX, -(float)crop.OffsetY),
+                    (float)crop.Zoom);
+            }
         }
+    }
+
+    private static void RememberAndApplyControlOffsets(Control control, float ox, float oy)
+    {
+        if (!control.HasMeta(BaseOffsetsMeta))
+        {
+            control.SetMeta(BaseOffsetsMeta,
+                new Vector4(control.OffsetLeft, control.OffsetTop, control.OffsetRight, control.OffsetBottom));
+        }
+
+        var baseOff = (Vector4)control.GetMeta(BaseOffsetsMeta);
+        control.OffsetLeft = baseOff.X + ox;
+        control.OffsetTop = baseOff.Y + oy;
+        control.OffsetRight = baseOff.Z + ox;
+        control.OffsetBottom = baseOff.W + oy;
     }
 
     private static void EnsureChromaMaterial(CanvasItem item)
@@ -93,7 +123,6 @@ public static class VisualTuner
         if (!ResourceLoader.Exists(ChromaMaterialPath)) return;
         var shared = ResourceLoader.Load<ShaderMaterial>(ChromaMaterialPath);
         if (shared == null) return;
-        // 個体ごとに複製して、他キャラへ影響しないようにする
         item.Material = (ShaderMaterial)shared.Duplicate();
     }
 
@@ -132,13 +161,39 @@ public static class VisualTuner
         return path.Contains(IdlePathHint, StringComparison.OrdinalIgnoreCase);
     }
 
-    private static bool LooksLikeSelectBackground(TextureRect rect)
+    private static IEnumerable<TextureRect> FindSelectBackgrounds()
     {
-        if (rect.Name == "Background" && rect.GetParent()?.Name == "HypnosisCreatorBg")
-            return true;
-        var path = rect.Texture?.ResourcePath ?? "";
-        return path.Contains(SelectBgPathHint, StringComparison.OrdinalIgnoreCase);
+        foreach (var rect in FindNodes<TextureRect>())
+        {
+            var path = rect.Texture?.ResourcePath ?? "";
+            if (path.Contains(SelectBgPathHint, StringComparison.OrdinalIgnoreCase))
+            {
+                yield return rect;
+                continue;
+            }
+
+            if (rect.Name == "Background" && ParentNameContains(rect, "HypnosisCreator"))
+                yield return rect;
+        }
     }
+
+    private static bool ParentNameContains(Node node, string needle)
+    {
+        for (var p = node.GetParent(); p != null; p = p.GetParent())
+        {
+            if (p.Name.ToString().Contains(needle, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static string GetTexturePath(CanvasItem item) => item switch
+    {
+        TextureRect r => r.Texture?.ResourcePath ?? "",
+        Sprite2D s => s.Texture?.ResourcePath ?? "",
+        _ => ""
+    };
 
     private static IEnumerable<CanvasItem> FindCanvasItemsWithCardPortrait()
     {
