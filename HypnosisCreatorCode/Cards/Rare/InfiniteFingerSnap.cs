@@ -10,7 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 連続指パッチン — すべての敵に1ダメージ×5。リプレイX。廃棄。UGで保留。
-/// 「リプレイX」は本体1回＋追加X回 = 合計 (X+1) 回分の「1×5」。
+/// リプレイX = 5ヒットの攻撃をX回分（合計ヒット 5×X）。1コストなら5回。
 /// 本家 Whirlwind と同様、1回の Attack の HitCount にまとめて解決する
 /// （Execute の手動ループは宙吊り、BaseReplayCount の遅延セットは効かない）。
 /// </summary>
@@ -19,6 +19,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AllEnemies)
 {
+    private const int HitsPerReplay = 5;
+
     protected override bool HasEnergyCostX => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -31,8 +33,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         if (CombatState == null) return;
 
         var x = Math.Max(0, ResolveEnergyXValue());
-        // リプレイX = 追加X回 → 合計 (X+1) セット × 5ヒット
-        var totalHits = 5 * (x + 1);
+        var totalHits = HitsPerReplay * x;
+        if (totalHits <= 0) return;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(totalHits)
