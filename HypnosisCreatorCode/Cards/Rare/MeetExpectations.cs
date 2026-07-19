@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 期待に応えて — 手札のカウントカードの解決後コスト合計の2乗ダメージを与え、それらのコストを1下げる。
+/// 期待に応えて — 手札のカウントカードの解決後コスト合計+1 の2乗ダメージを与え、それらのコストを1下げる。
 /// ダメージ表示は本家 BodySlam / MindBlast と同じ <see cref="CalculatedDamageVar"/> でプレビューする。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -34,7 +34,8 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
         var player = card.Owner;
         if (player == null) return 0M;
         var sum = CountRules.SumResolvedCountCostsInHand(player, exclude: card);
-        return sum * sum;
+        var n = sum + 1;
+        return n * n;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

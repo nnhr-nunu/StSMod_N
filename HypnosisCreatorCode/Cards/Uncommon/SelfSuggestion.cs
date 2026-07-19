@@ -1,9 +1,11 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Relics;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -13,8 +15,8 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手。
-/// 非希少（入手時ゴールド／最大HP等）は抽選外。FireCombatStartTrigger=true。UGで筋力2・スピード2。
+/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手（この戦闘のみ）。
+/// 入手時に戦闘開始トリガー相当で即発動。非希少は抽選外。UGで筋力2・スピード2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SelfSuggestion() : HypnosisCreatorCard(1,
@@ -40,11 +42,10 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         await PowerCmd.Apply<StrengthPower>(choiceContext, self, DynamicVars["StrengthPower"].BaseValue, self, this);
         await PowerCmd.Apply<DexterityPower>(choiceContext, self, DynamicVars["DexterityPower"].BaseValue, self, this);
 
-        // HeartRegistry 抽選（希少のみ・所持済み・戦闘中敵の心臓を除外）
-        await ObtainRandomHearts(DynamicVars["Hearts"].IntValue);
+        await ObtainRandomHearts(choiceContext, DynamicVars["Hearts"].IntValue);
     }
 
-    private async Task ObtainRandomHearts(int count)
+    private async Task ObtainRandomHearts(PlayerChoiceContext choiceContext, int count)
     {
         var ownedTypes = Owner.Relics
             .OfType<EnemyHeartRelic>()
@@ -67,7 +68,6 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
             .Where(IsRareHeartType)
             .Where(t =>
             {
-                // 戦闘中敵に対応する心臓は除外
                 var key = TryMonsterKey(t);
                 if (key == null) return true;
                 return !combatKeys.Any(ck => ck.Contains(key, StringComparison.OrdinalIgnoreCase));
@@ -76,9 +76,11 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
 
         if (pool.Count == 0)
         {
-            // レジストリ未整備時のフォールバック
             for (var i = 0; i < count; i++)
-                await RelicCmd.Obtain<StolenHeart>(Owner);
+            {
+                var obtained = await RelicCmd.Obtain<StolenHeart>(Owner);
+                await MarkTemporaryAndMaybeActivate(choiceContext, Owner, obtained);
+            }
             return;
         }
 
@@ -98,9 +100,22 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
             else
                 continue;
 
-            if (obtained is EnemyHeartRelic heart)
-                heart.FireCombatStartTrigger = true;
+            await MarkTemporaryAndMaybeActivate(choiceContext, Owner, obtained);
         }
+    }
+
+    /// <summary>
+    /// 戦闘限定＋戦闘開始トリガー相当の即発動。
+    /// （ターン1専用の FireCombatStartTrigger では、プレイ後に発動しないため）
+    /// </summary>
+    private static async Task MarkTemporaryAndMaybeActivate(
+        PlayerChoiceContext choiceContext, Player player, RelicModel? obtained)
+    {
+        if (obtained is HypnosisCreatorRelic hc)
+            hc.RemoveAtCombatEnd = true;
+
+        if (obtained is EnemyHeartRelic heart && heart.IsRareHeart && !heart.IsUsedUp)
+            await heart.ActivateAsync(choiceContext, player);
     }
 
     private static bool IsRareHeartType(Type heartType)
