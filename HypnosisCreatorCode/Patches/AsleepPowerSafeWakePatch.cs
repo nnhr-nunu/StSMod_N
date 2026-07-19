@@ -1,4 +1,6 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,8 +12,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// バニラ <see cref="AsleepPower"/> の起床処理は <see cref="LagavulinMatriarch"/> 前提の cast があり、
-/// 他モンスター（寝かしつけ催眠など）では起床時に例外になりうる。ラガヴーリン以外は安全に起床させる。
+/// バニラ <see cref="AsleepPower"/> は起床時に <see cref="LagavulinMatriarch"/> へ cast する。
+/// 本mod 付与分はビートルの <see cref="SlumberPower"/> に合わせ、ダメージ／ターン終了で1減らし、0で消す。
+/// async フックは必ず <c>__result</c> に Task を返し、ターン進行の宙吊りを防ぐ。
 /// </summary>
 [HarmonyPatch(typeof(AsleepPower), nameof(AsleepPower.AfterDamageReceived))]
 public static class AsleepPowerDamageWakePatch
@@ -23,40 +26,30 @@ public static class AsleepPowerDamageWakePatch
         DamageResult result,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource)
+        CardModel? cardSource,
+        ref Task __result)
     {
+        // ラガヴーリンは本家どおり（ダメージで即起床）
         if (__instance.Owner?.Monster is LagavulinMatriarch)
             return true;
 
-        _ = SafeWakeFromDamage(__instance, target, result);
+        __result = SafeOnDamage(__instance, target, result);
         return false;
     }
 
-    private static async Task SafeWakeFromDamage(AsleepPower asleep, Creature target, DamageResult result)
+    private static async Task SafeOnDamage(AsleepPower asleep, Creature target, DamageResult result)
     {
         if (target != asleep.Owner) return;
         if (result.UnblockedDamage <= 0) return;
 
-        var owner = asleep.Owner;
-        if (owner == null) return;
-
-        var plating = owner.GetPower<PlatingPower>();
-        if (plating != null)
-            await PowerCmd.Remove(plating);
-
-        if (owner.Monster is SlumberingBeetle beetle)
-        {
-            await beetle.WakeUpMove(Array.Empty<Creature>());
-            return;
-        }
-
-        if (owner.HasPower<AsleepPower>())
-            await PowerCmd.Remove(asleep);
+        // ビートル（SlumberPower）同様: 1減るだけ。0になったら Decrement 側でパワー消滅
+        await PowerCmd.Decrement(asleep);
+        AsleepPowerWakeHelpers.NotifyVisual(asleep.Owner);
     }
 }
 
 /// <summary>
-/// 睡眠スタック切れ時もラガヴーリン専用 WakeUpMove へ cast しない。
+/// ターン終了時の減算。ラガヴーリン以外は cast せず Decrement のみ。
 /// </summary>
 [HarmonyPatch(typeof(AsleepPower), nameof(AsleepPower.AfterSideTurnEnd))]
 public static class AsleepPowerTurnEndWakePatch
@@ -64,26 +57,29 @@ public static class AsleepPowerTurnEndWakePatch
     public static bool Prefix(
         AsleepPower __instance,
         PlayerChoiceContext choiceContext,
-        MegaCrit.Sts2.Core.Combat.CombatSide side,
-        IEnumerable<Creature> participants)
+        CombatSide side,
+        IEnumerable<Creature> participants,
+        ref Task __result)
     {
         if (__instance.Owner?.Monster is LagavulinMatriarch)
             return true;
 
-        _ = SafeDecrement(__instance, participants);
+        __result = SafeOnTurnEnd(__instance, participants);
         return false;
     }
 
-    private static async Task SafeDecrement(AsleepPower asleep, IEnumerable<Creature> participants)
+    private static async Task SafeOnTurnEnd(AsleepPower asleep, IEnumerable<Creature> participants)
     {
         var owner = asleep.Owner;
         if (owner == null || !participants.Contains(owner)) return;
 
         await PowerCmd.Decrement(asleep);
-
-        if (asleep.Amount > 0) return;
-
-        if (owner.Monster is SlumberingBeetle beetle)
-            await beetle.WakeUpMove(Array.Empty<Creature>());
+        AsleepPowerWakeHelpers.NotifyVisual(owner);
     }
+}
+
+static class AsleepPowerWakeHelpers
+{
+    public static void NotifyVisual(Creature? owner) =>
+        owner?.GetPower<ForcedSleepVisualPower>()?.OnAsleepAmountMaybeChanged();
 }

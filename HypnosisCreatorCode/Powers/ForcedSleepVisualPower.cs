@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
@@ -44,6 +43,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         if (!Owner.HasPower<AsleepPower>())
             return CleanupAndRemove();
 
+        // 敵ターン開始時に睡眠意図を載せ直す（前ターンのムーブ解決後の次意図を上書き）
         RefreshPresentation();
         return Task.CompletedTask;
     }
@@ -56,26 +56,10 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
         if (side != CombatSide.Enemy) return Task.CompletedTask;
 
+        // ターン終了中は SetMoveImmediate しない（進行宙吊りの原因になりうる）
         if (!Owner.HasPower<AsleepPower>())
             return CleanupAndRemove();
 
-        // 次ターンも寝ている見た目を維持（ムーブ実行後にステートマシンが次意図を選ぶのを抑止）
-        RefreshPresentation();
-        return Task.CompletedTask;
-    }
-
-    public override Task AfterDamageReceived(
-        PlayerChoiceContext choiceContext,
-        Creature target,
-        DamageResult result,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource)
-    {
-        if (target != Owner || Owner == null) return Task.CompletedTask;
-        // Asleep 起床とフック順が前後しても、非ガードダメージ／睡眠消失で表示を消す
-        if (result.UnblockedDamage > 0 || !Owner.HasPower<AsleepPower>())
-            return CleanupAndRemove();
         return Task.CompletedTask;
     }
 
@@ -83,6 +67,14 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
     {
         StopOwnedVfx();
         return Task.CompletedTask;
+    }
+
+    /// <summary>睡眠スタック変動後。残っていれば維持、消えていれば VFX／意図用パワーを片付ける。</summary>
+    public void OnAsleepAmountMaybeChanged()
+    {
+        if (Owner == null) return;
+        if (Owner.HasPower<AsleepPower>()) return;
+        _ = CleanupAndRemove();
     }
 
     public void RefreshPresentation()
