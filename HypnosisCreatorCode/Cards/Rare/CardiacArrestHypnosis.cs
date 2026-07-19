@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 心停止催眠 — カウント。指定ターン後に対象を即死させる（ボスは2倍のターン数）。
-/// UG: 心臓停止時に追加レリック報酬（CardiacArrestPower で付与）。
+/// UG: 心臓停止時に敵固有心臓レリックを入手（CardiacArrestPower → HeartCapture）。
 /// TODO: sts2 側に明確なボス判定APIが見つからないため、最大HP&gt;=100の簡易判定で近似している。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]

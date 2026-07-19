@@ -11,7 +11,8 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
 /// <summary>
-/// カタレプシー — 本家スロー（石像エリートと同種）を1付与。重複適用でその分カウントが進む。
+/// カタレプシー — 本家スロー（石像エリートと同種）を1付与。
+/// 2枚目以降（対象に既にスローがある場合）はスローが2ずつ進む（CSV備考）。
 /// UG: 対象がトランス中ならスロー蓄積がリセットされない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -28,8 +29,13 @@ public class Catalepsy() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+
+        // 備考: 2枚以上発動したときはスローカウントが2ずつ進む
+        var alreadySlowed = play.Target.GetPowerAmount<SlowPower>() > 0;
+        var slowAmount = alreadySlowed ? 2M : DynamicVars["Slow"].BaseValue;
+
         await PowerCmd.Apply<SlowPower>(
-            choiceContext, play.Target, DynamicVars["Slow"].BaseValue, Owner.Creature, this);
+            choiceContext, play.Target, slowAmount, Owner.Creature, this);
 
         if (IsUpgraded)
         {

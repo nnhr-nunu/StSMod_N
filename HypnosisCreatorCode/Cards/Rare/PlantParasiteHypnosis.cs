@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 植物寄生催眠 — カウント。15ダメージ＋収縮10（UG15）＋トランス1。
-/// 戦闘終了時、付与していれば心臓入手（キル不要）。
+/// 「心臓寄生催眠」デバフを付与し、戦闘終了時に敵固有心臓を入手（キル不要）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,

@@ -3,8 +3,8 @@ using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// モンスター Id.Entry → 敵固有心臓レリック型。Contains 一致（大文字小文字無視）。
-/// 型一覧はアセンブリ内の具象 <see cref="EnemyHeartRelic"/> を実行時収集する（未実装型の参照でビルドを壊さない）。
+/// モンスター Id.Entry → 敵固有心臓レリック型。
+/// Contains 一致（大文字小文字無視）。複数候補時は最長キー優先。
 /// </summary>
 public static class HeartRegistry
 {
@@ -20,15 +20,29 @@ public static class HeartRegistry
     {
         if (string.IsNullOrWhiteSpace(monsterIdEntry)) return null;
 
+        Type? best = null;
+        var bestKeyLen = -1;
+
         foreach (var type in AllHeartTypes)
         {
             try
             {
                 if (Activator.CreateInstance(type) is not EnemyHeartRelic sample) continue;
                 var key = sample.MonsterIdEntry;
-                if (!string.IsNullOrEmpty(key) &&
-                    monsterIdEntry.Contains(key, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrEmpty(key)) continue;
+                if (!monsterIdEntry.Contains(key, StringComparison.OrdinalIgnoreCase)) continue;
+
+                // 完全一致を最優先。部分一致は最長キー。
+                var keyLen = key.Length;
+                var exact = monsterIdEntry.Equals(key, StringComparison.OrdinalIgnoreCase);
+                if (exact)
                     return type;
+
+                if (keyLen > bestKeyLen)
+                {
+                    best = type;
+                    bestKeyLen = keyLen;
+                }
             }
             catch
             {
@@ -36,6 +50,6 @@ public static class HeartRegistry
             }
         }
 
-        return null;
+        return best;
     }
 }
