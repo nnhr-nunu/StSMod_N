@@ -174,7 +174,7 @@
   "HYPNOSISCREATOR-FUDO_MYOO.title": "不動明王",
   "HYPNOSISCREATOR-FUDO_MYOO.description": "デバフをすべて解除し、アーティファクト{ArtifactPower:diff()}を得る。相手がデバフを付与してくるたび、{FudoMyooPower:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "赤ちゃん催眠",
-  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "カウント。対象のバフをすべて解除し、縮小{ShrinkPower:diff()}を付与する。トランス1。",
+  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "カウント。対象のバフをすべて解除し、縮小{ShrinkPower:diff()}と弱体{WeakPower:diff()}を付与する。トランス1。",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "言葉の洪水",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "催眠系カウントカードをプレイした時、カードを{Draw:diff()}枚引く。",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "暗示解除",

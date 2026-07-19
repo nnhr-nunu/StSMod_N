@@ -174,7 +174,7 @@
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Fudo Myo-o",
   "HYPNOSISCREATOR-FUDO_MYOO.description": "Remove all debuffs from yourself. Gain {ArtifactPower:diff()} Artifact. Whenever an enemy applies a debuff to you, deal {FudoMyooPower:diff()} damage to them.",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Baby Hypnosis",
-  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "[gold]Count.[/gold] Remove all buffs from the target. Apply {ShrinkPower:diff()} Shrink. Apply {Trance:diff()} Trance.",
+  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "[gold]Count.[/gold] Remove all buffs from the target. Apply {ShrinkPower:diff()} Shrink and {WeakPower:diff()} Weak. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Word Flood",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "Whenever you play a [gold]Count[/gold] card, draw {Draw:diff()} card.",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Suggestion Release",

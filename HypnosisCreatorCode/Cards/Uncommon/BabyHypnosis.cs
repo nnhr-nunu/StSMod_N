@@ -11,7 +11,10 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>赤ちゃん催眠 — カウント。対象のバフを解除し、萎縮を付与、トランスを付与する。</summary>
+/// <summary>
+/// 赤ちゃん催眠 — カウント。対象のバフをすべて解除し、縮小2・弱体2・トランス1。
+/// UG: 縮小4・弱体4。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BabyHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
@@ -22,11 +25,15 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<ShrinkPower>(2M),
+        new PowerVar<WeakPower>(2M),
         new DynamicVar("Trance", 1M)
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
-        [HoverTipFactory.FromPower<ShrinkPower>()];
+    [
+        HoverTipFactory.FromPower<ShrinkPower>(),
+        HoverTipFactory.FromPower<WeakPower>()
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -37,9 +44,16 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
 
         await PowerCmd.Apply<ShrinkPower>(
             choiceContext, play.Target, DynamicVars["ShrinkPower"].BaseValue, Owner.Creature, this);
-        await TranceCombat.ApplyTrance(choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+        await PowerCmd.Apply<WeakPower>(
+            choiceContext, play.Target, DynamicVars["WeakPower"].BaseValue, Owner.Creature, this);
+        await TranceCombat.ApplyTrance(
+            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["ShrinkPower"].UpgradeValueBy(2M);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["ShrinkPower"].UpgradeValueBy(2M);
+        DynamicVars["WeakPower"].UpgradeValueBy(2M);
+    }
 }
