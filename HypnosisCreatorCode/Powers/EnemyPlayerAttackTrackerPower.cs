@@ -14,6 +14,9 @@ public class EnemyPlayerAttackTrackerPower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
+    /// <summary>バフ行に出さず、付与時の CustomScaledWait も避ける。</summary>
+    protected override bool IsVisibleInternal => false;
+
     public override Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,
         Creature target,

@@ -71,19 +71,25 @@ public static class FetishCombat
 
     /// <summary>
     /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。
-    /// 獲得演出は問わず、未所持なら付与する。
+    /// 同期フックから呼ぶ。GetResult 禁止 — 表示パワーの CustomScaledWait でゲームループが止まりフリーズする。
     /// </summary>
     public static void SyncFetishPowers(Creature enemy, Player owner)
     {
         if (!enemy.IsEnemy || owner.Creature == null) return;
+        _ = SyncFetishPowersAsync(enemy, owner);
+    }
 
+    private static async Task SyncFetishPowersAsync(Creature enemy, Player owner)
+    {
         try
         {
             var amount = CalcFetishDoomAmount(enemy);
-            EnsureFetishPower<SmFetishPower>(enemy, owner, FetishType.Sm, amount);
-            EnsureFetishPower<DsFetishPower>(enemy, owner, FetishType.DomSub, amount);
-            EnsureFetishPower<AbnormalFetishPower>(enemy, owner, FetishType.Abnormal, amount);
-            EnsureFetishPower<TranceFetishPower>(enemy, owner, FetishType.Trance, amount);
+            // 選択は発生しない表示同期。null だと AfterPowerAmountChanged で落ちうる。
+            var ctx = new ThrowingPlayerChoiceContext();
+            await EnsureFetishPowerAsync<SmFetishPower>(ctx, enemy, owner, FetishType.Sm, amount);
+            await EnsureFetishPowerAsync<DsFetishPower>(ctx, enemy, owner, FetishType.DomSub, amount);
+            await EnsureFetishPowerAsync<AbnormalFetishPower>(ctx, enemy, owner, FetishType.Abnormal, amount);
+            await EnsureFetishPowerAsync<TranceFetishPower>(ctx, enemy, owner, FetishType.Trance, amount);
         }
         catch (Exception e)
         {
@@ -91,7 +97,8 @@ public static class FetishCombat
         }
     }
 
-    private static void EnsureFetishPower<TPower>(
+    private static async Task EnsureFetishPowerAsync<TPower>(
+        PlayerChoiceContext choiceContext,
         Creature enemy,
         Player owner,
         FetishType type,
@@ -99,12 +106,10 @@ public static class FetishCombat
         where TPower : FetishAttributePower
     {
         if (!HasFetish(enemy, type)) return;
-
         if (enemy.GetPower<TPower>() != null) return;
 
-        PowerCmd.Apply<TPower>(null!, enemy, amount, owner.Creature, null!)
-            .GetAwaiter()
-            .GetResult();
+        // silent: 戦闘開始時のフラッシュ連打を避ける（CustomScaledWait 自体は表示パワーなら動くが、待たない）
+        await PowerCmd.Apply<TPower>(choiceContext, enemy, amount, owner.Creature, null, silent: true);
     }
 
     public static void AwakenAll(Creature enemy, Player owner)

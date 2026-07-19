@@ -68,10 +68,9 @@ public static class FetishHudBeforeCombatPatch
         if (owner == null) return;
         if (owner.Creature.GetPower<EnemyPlayerAttackTrackerPower>() != null) return;
 
-        PowerCmd.Apply<EnemyPlayerAttackTrackerPower>(
-                null!, owner.Creature, 1M, owner.Creature, null!)
-            .GetAwaiter()
-            .GetResult();
+        // GetResult 禁止（表示付きパワーだと CustomScaledWait でフリーズ）。非表示トラッカーは待たないが同型回避。
+        _ = PowerCmd.Apply<EnemyPlayerAttackTrackerPower>(
+            new ThrowingPlayerChoiceContext(), owner.Creature, 1M, owner.Creature, null, silent: true);
     }
 }
 
