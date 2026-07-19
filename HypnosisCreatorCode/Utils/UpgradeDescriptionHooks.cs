@@ -53,7 +53,7 @@ public static class UpgradeDescriptionHooks
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is ContinuousTrance,
             "相手すべてに同じ効果を与える。",
-            "Apply the same effect to all enemies.");
+            "Apply the same effect to all opponents.");
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is LoveHypnosis,
             "ブロック行動の対象もプレイヤーに変更する。",
@@ -61,7 +61,7 @@ public static class UpgradeDescriptionHooks
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is BrainSlimeHypnosis,
             "相手すべてに同じ効果を与える。",
-            "Apply the same effect to all enemies.");
+            "Apply the same effect to all opponents.");
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is AllInOne,
             "廃棄山のカードも含める。",
@@ -112,7 +112,7 @@ public static class UpgradeDescriptionHooks
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is Rapport,
             "ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。",
             "ターン開始時、[green]手札のカウントがひとつ追加で進む[/green]。",
-            "If you didn't attack an enemy last turn, reduce it by 1 more.",
+            "If you didn't attack an opponent last turn, reduce it by 1 more.",
             "[green]At the start of your turn, reduce Count costs in your hand by 1 more.[/green]");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AsYouWish,
@@ -124,7 +124,7 @@ public static class UpgradeDescriptionHooks
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AmbushHypnosis,
             "相手の数だけカードを引く",
             "相手の数[green]+1[/green]枚カードを引く",
-            "Draw cards equal to the number of enemies",
-            "Draw cards equal to the number of enemies [green]+ 1[/green]");
+            "Draw cards equal to the number of opponents",
+            "Draw cards equal to the number of opponents [green]+ 1[/green]");
     }
 }
