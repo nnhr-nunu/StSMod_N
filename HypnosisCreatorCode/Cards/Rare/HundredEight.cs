@@ -10,16 +10,16 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 壱佰捌煩悩 — 全性癖タグ。敵全体の性癖を目覚めさせ、プレイするたびコストが+1される。
-/// コストが3に達すると108ダメージを与えて廃棄する。性癖は種類ごとに個別で刺さる。
+/// 壱佰捌煩悩 — 全性癖タグ。敵全体の性癖を目覚めさせ、プレイ後コスト+1。
+/// 3コストでプレイ時、すべての敵に1ダメージ×108回を与えて廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HundredEight() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
-    TargetType.AnyEnemy)
+    TargetType.AllEnemies)
 {
     private const int FinalCostThreshold = 3;
-    private const decimal FinalDamage = 108M;
+    private const int FinalHitCount = 108;
 
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal, FetishType.Trance];
@@ -32,20 +32,34 @@ public class HundredEight() : HypnosisCreatorCard(1,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        ArgumentNullException.ThrowIfNull(play.Target);
+        if (CombatState == null) return;
 
-        if (CombatState != null)
-            foreach (var enemy in CombatState.HittableEnemies.ToList())
-                FetishCombat.AwakenAll(enemy, Owner);
+        foreach (var enemy in CombatState.HittableEnemies.ToList())
+            FetishCombat.AwakenAll(enemy, Owner);
 
         var resolvedCost = EnergyCost.GetResolved();
-        var damage = resolvedCost >= FinalCostThreshold ? FinalDamage : DynamicVars.Damage.BaseValue;
-
-        await DamageCmd.Attack(damage)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-            .Execute(choiceContext);
+        if (resolvedCost >= FinalCostThreshold)
+        {
+            // 1ダメージ×108回を全敵へ。攻撃中は指パッチンをループ
+            CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
+            try
+            {
+                foreach (var enemy in CombatState.HittableEnemies.ToList())
+                {
+                    await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                        .WithHitCount(FinalHitCount)
+                        .FromCard(this, play)
+                        .Targeting(enemy)
+                        .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
+                        .OnlyPlayAnimOnce()
+                        .Execute(choiceContext);
+                }
+            }
+            finally
+            {
+                CombatFrameAnimator.EndAttackLoop(Owner.Creature);
+            }
+        }
 
         await ResolveFetishOnAllEnemies(choiceContext, play);
 
