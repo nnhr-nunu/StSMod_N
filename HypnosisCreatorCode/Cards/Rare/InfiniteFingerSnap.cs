@@ -25,14 +25,24 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         BaseReplayCount = ResolveEnergyXValue();
         if (CombatState == null) return;
 
-        foreach (var enemy in CombatState.HittableEnemies.ToList())
+        // 全敵×5ヒットのあいだ指パッチンを途切れさせない
+        CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
+        try
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .WithHitCount(5)
-                .FromCard(this, play)
-                .Targeting(enemy)
-                .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-                .Execute(choiceContext);
+            foreach (var enemy in CombatState.HittableEnemies.ToList())
+            {
+                await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                    .WithHitCount(5)
+                    .FromCard(this, play)
+                    .Targeting(enemy)
+                    .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+                    .OnlyPlayAnimOnce()
+                    .Execute(choiceContext);
+            }
+        }
+        finally
+        {
+            CombatFrameAnimator.EndAttackLoop(Owner.Creature);
         }
     }
 

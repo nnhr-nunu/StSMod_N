@@ -37,13 +37,26 @@ public class Mirroring() : HypnosisCreatorCard(1,
             return;
 
         DynamicVars.Damage.BaseValue = damage;
-        for (var i = 0; i < hits; i++)
+        // 複数ヒットは Attack を都度差し替えず、指パッチンを攻撃中ループ
+        if (hits > 1)
+            CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
+        try
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this, play)
-                .Targeting(play.Target)
-                .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-                .Execute(choiceContext);
+            for (var i = 0; i < hits; i++)
+            {
+                await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                    .FromCard(this, play)
+                    .Targeting(play.Target)
+                    .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
+                    .OnlyPlayAnimOnce()
+                    .Execute(choiceContext);
+            }
+        }
+        finally
+        {
+            if (hits > 1)
+                CombatFrameAnimator.EndAttackLoop(Owner.Creature);
         }
     }
 }
+

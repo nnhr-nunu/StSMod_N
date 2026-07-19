@@ -38,10 +38,15 @@ hypnosis_creator (Node2D)
 | idle_loop  | idle/        | 待機（ループ） | 実装済 |
 | hurt       | damage/      | 被弾（1回再生→idle） | 実装済 |
 | cast       | power/       | 詠唱／パワー（1回再生→idle） | 実装済 |
-| attack     | attack/      | 攻撃 | 準備中 |
+| attack     | attack/      | 攻撃（単発→idle／多段はループ） | 実装済 |
 
-ゲーム側のトリガー（Idle / Hit / Hurt / Cast など）は
+ゲーム側のトリガー（Idle / Hit / Hurt / Cast / Attack など）は
 `CombatFrameAnimator` が上記アニメ名へ橋渡しします。
+
+解像度が違う素材（例: 1080p系）は、取り込み時に 768×1152 へリサイズして
+idle/damage/power と同じ見た目スケールに揃えます（構図比が近い前提）。
+
+多段ヒット（`WithHitCount`>1）や連続指パッチンは攻撃中 `attack` をループします。
 
 ウォーターマーク隠しは Visuals の chroma_key_material に内蔵（全モーション共用）。
 PNG を消さず、同じ material を付ければ idle / damage / power でも同じ位置のロゴを隠せます。

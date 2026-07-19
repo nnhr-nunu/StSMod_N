@@ -11,7 +11,7 @@ scenes/creature_visuals/ の .tscn から参照します。
 | idle/frame_000001.png 〜 | 待機（idle_loop） | 任意 |
 | damage/frame_000001.png 〜 | 被弾（hurt） | 任意 |
 | power/frame_000001.png 〜 | 詠唱／パワー（cast） | 任意 |
-| attack/frame_000001.png 〜 | 攻撃（attack） | 準備中 |
+| attack/frame_000001.png 〜 | 攻撃（attack） | 任意（768×1152 に揃える） |
 | die.png            | 死亡 | 任意 |
 
 最低限 idle.png、または idle/ の連番フレームがあれば表示できます。
@@ -33,8 +33,9 @@ Hailuo / MiniMax 系の白文字ロゴはだいたい同じ右下位置に出ま
 ## 仕様
 
 - 拡張子: .png（透過推奨）
-- 推奨サイズ: 高さ 800〜1400px 程度の全身立ち絵
-  - 現状の idle 連番は 768×1152
+- **統一キャンバス: 768×1152**（idle / damage / power / attack すべて）
+  - 生成元が 1080p などでも、取り込み時にこのサイズへ揃える
+  - 構図の余白比率が近いほど、モーション切替でサイズ差が出にくい
 - 背景: グリーンバック（GB）のままでOK
   - 戦闘シーンは shaders/chroma_key で緑を透過
   - 手で透過PNGにしてもそのまま使える（二重でも害は少ない）
