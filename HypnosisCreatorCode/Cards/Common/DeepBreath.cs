@@ -23,7 +23,7 @@ public class DeepBreath() : HypnosisCreatorCard(0,
         new EnergyVar(1)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [EnergyHoverTip];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

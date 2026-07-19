@@ -21,7 +21,7 @@ public class Petting() : HypnosisCreatorCard(0,
         new CardsVar(1)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<FrailPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

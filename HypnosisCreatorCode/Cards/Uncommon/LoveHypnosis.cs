@@ -26,7 +26,7 @@ public class LoveHypnosis() : HypnosisCreatorCard(3,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Trance", 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<LoveHypnosisPower>()];
 
     protected override bool ShouldGlowWhenConditionMet() =>

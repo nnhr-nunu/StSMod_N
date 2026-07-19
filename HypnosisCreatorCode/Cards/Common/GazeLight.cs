@@ -24,7 +24,7 @@ public class GazeLight() : HypnosisCreatorCard(1,
         new PowerVar<WeakPower>(1M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<WeakPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

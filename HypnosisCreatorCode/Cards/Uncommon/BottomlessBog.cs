@@ -18,7 +18,7 @@ public class BottomlessBog() : HypnosisCreatorCard(1,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("DoomPerStack", 10M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<BottomlessBogPower>(),
         HoverTipFactory.FromPower<BogPower>()

@@ -36,7 +36,7 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
         new PowerVar<BogPower>(2M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BogPower>()];
 
     private static bool IsCurse(CardModel c) => c.Type == CardType.Curse;

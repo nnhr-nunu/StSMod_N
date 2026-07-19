@@ -19,7 +19,7 @@ public class Kneel() : TrainingCommand
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Bog", 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BogPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

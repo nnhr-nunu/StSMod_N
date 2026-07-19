@@ -14,7 +14,10 @@ public class ContinuousTrance() : HypnosisCreatorCard(0,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Times", 3M)];
+    [
+        new DynamicVar("Times", 3M),
+        new DynamicVar("Trance", 1M)
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

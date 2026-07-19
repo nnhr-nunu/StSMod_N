@@ -15,7 +15,7 @@ public class Ericksonian() : HypnosisCreatorCard(1,
     CardType.Power, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<EricksonianPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

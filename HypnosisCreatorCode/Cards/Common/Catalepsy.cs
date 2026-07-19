@@ -23,7 +23,7 @@ public class Catalepsy() : HypnosisCreatorCard(1,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Slow", 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<SlowPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

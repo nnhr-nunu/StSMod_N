@@ -1,6 +1,6 @@
 {
   "HYPNOSISCREATOR-TRANCE_POWER.title": "トランス",
-  "HYPNOSISCREATOR-TRANCE_POWER.description": "トランス状態。カウントをこの敵に対してコスト0以外でもプレイできる。プレイヤーターン開始時に1減少する。",
+  "HYPNOSISCREATOR-TRANCE_POWER.description": "コストが0ではない状態でもカウントカードをプレイできるようになる。",
   "HYPNOSISCREATOR-TRANCE_POWER.smartDescription": "トランス {Amount}。",
   "HYPNOSISCREATOR-BOG_POWER.title": "沼",
   "HYPNOSISCREATOR-BOG_POWER.description": "受ける破滅が50%増加する（乗算は1回）。ターン終了時に1減少する。",

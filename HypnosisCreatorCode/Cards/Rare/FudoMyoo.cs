@@ -31,7 +31,7 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
         new PowerVar<FudoMyooPower>(ReflectBase)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<ArtifactPower>(),
         HoverTipFactory.FromPower<FudoMyooPower>()

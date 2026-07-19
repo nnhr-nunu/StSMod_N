@@ -17,7 +17,7 @@ public class BreathControl() : HypnosisCreatorCard(0,
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BreathControlPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

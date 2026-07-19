@@ -22,14 +22,18 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("LoseHp", 15M)];
+    [
+        new DynamicVar("LoseHp", 15M),
+        new DynamicVar("Trance", 1M)
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await CreatureCmd.Damage(
             choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, Owner.Creature, this, play);
-        await TranceCombat.ApplyTrance(choiceContext, play.Target, 1, Owner.Creature, this);
+        await TranceCombat.ApplyTrance(
+            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 

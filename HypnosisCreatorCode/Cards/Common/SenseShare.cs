@@ -15,7 +15,7 @@ public class SenseShare() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<SenseSharePower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>

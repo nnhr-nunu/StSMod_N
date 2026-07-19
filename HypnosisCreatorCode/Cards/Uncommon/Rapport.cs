@@ -22,7 +22,7 @@ public class Rapport() : HypnosisCreatorCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Stacks", 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<RapportPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

@@ -16,7 +16,7 @@ public class Roll() : TrainingCommand
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new PowerVar<VulnerablePower>(1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<VulnerablePower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

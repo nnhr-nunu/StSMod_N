@@ -36,7 +36,7 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<TimeStopMarkPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

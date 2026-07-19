@@ -25,7 +25,7 @@ public class CanDoIt() : HypnosisCreatorCard(1,
         new PowerVar<BogPower>(1M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<BogPower>()

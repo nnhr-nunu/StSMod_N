@@ -28,7 +28,7 @@ public class PolynesianHypnosis() : HypnosisCreatorCard(6,
         new DynamicVar("Trance", 1M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<AsleepPower>(),
         HoverTipFactory.FromPower<BogPower>()

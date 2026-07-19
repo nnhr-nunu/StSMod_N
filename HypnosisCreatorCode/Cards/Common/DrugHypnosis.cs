@@ -32,7 +32,7 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
         new DynamicVar("Trance", 1M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<PoisonPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),

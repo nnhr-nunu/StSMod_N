@@ -4,10 +4,12 @@ using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards;
 
@@ -23,6 +25,27 @@ public abstract class HypnosisCreatorCard(
 
     public virtual IReadOnlyList<FetishType> CardFetishes => [];
     public virtual bool AlwaysHitsFetish => false;
+
+    /// <summary>
+    /// カード固有ホバー。トランス付与カードは自動でトランス説明を足すので、
+    /// サブクラスはこちらを上書きする（ExtraHoverTips は使わない）。
+    /// </summary>
+    protected virtual IEnumerable<IHoverTip> CardHoverTips => [];
+
+    /// <summary>CanonicalVars に Trance がある／トランス付与カード向け。</summary>
+    protected virtual bool IncludesTranceHoverTip =>
+        DynamicVars.Values.Any(v => v.Name == "Trance");
+
+    protected sealed override IEnumerable<IHoverTip> ExtraHoverTips
+    {
+        get
+        {
+            foreach (var tip in CardHoverTips)
+                yield return tip;
+            if (IncludesTranceHoverTip)
+                yield return HoverTipFactory.FromPower<TrancePower>();
+        }
+    }
 
     /// <summary>複数タグを種類ごとに刺す。未指定時はタグ2種以上なら自動で個別。</summary>
     public virtual bool? FetishHitPerTypeOverride => null;

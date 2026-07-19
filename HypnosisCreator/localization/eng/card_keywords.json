@@ -1,6 +1,6 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "Count",
-  "HYPNOSISCREATOR-COUNT.description": "Retain. Cost decreases by 1 at turn start. Playable at 0 cost (or while targeting a Tranced enemy). Exhaust.",
+  "HYPNOSISCREATOR-COUNT.description": "Retain. Cost decreases by 1 at turn start. Playable when cost is 0.",
   "HYPNOSISCREATOR-SM.title": "SM",
   "HYPNOSISCREATOR-SM.description": "When played on an enemy with the SM fetish, apply Doom (5% of Max HP + 7, min 8; ×1.5 if they have Bog).",
   "HYPNOSISCREATOR-DOMSUB.title": "DomSub",

@@ -25,7 +25,7 @@ public class Proselytize() : HypnosisCreatorCard(1,
         new DynamicVar("Gold", 15M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<OshiActivityPower>(),
         HoverTipFactory.FromPower<BogPower>()

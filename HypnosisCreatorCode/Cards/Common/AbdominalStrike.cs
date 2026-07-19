@@ -25,7 +25,7 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
         new PowerVar<VulnerablePower>(2M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<VulnerablePower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

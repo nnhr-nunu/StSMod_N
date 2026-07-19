@@ -30,7 +30,7 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         new DynamicVar("Hearts", 3M)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<StrengthPower>(),
         HoverTipFactory.FromPower<DexterityPower>()

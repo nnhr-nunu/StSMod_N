@@ -24,7 +24,7 @@ public class Sensitivity3000() : HypnosisCreatorCard(2,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Trance", 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<TrancePower>(),
         HoverTipFactory.FromPower<SensitivityPower>()
