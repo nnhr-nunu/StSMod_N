@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// バニラ <see cref="AsleepPower"/> は睡眠アイコン／ZZZ を出さない（ラガヴーリン等の専用ムーブ任せ）。
-/// 本mod で睡眠を付与したあと、意図を Sleep に上書きし睡眠 VFX を出す。
+/// 睡眠前の行動予定を保存したうえで Sleep 表示にし、起床時に復元する。
 /// </summary>
 public static class ForcedSleep
 {

@@ -1,9 +1,7 @@
 using Godot;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -14,59 +12,38 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 睡眠中の見た目用（非表示）。行動予定を SleepIntent にし、ZZZ／ぐうぐう VFX を出す。
-/// ターン開始中に SetMoveImmediate すると進行不能になるため、付与時と敵ターン終了後だけ意図を更新する。
+/// 睡眠中の見た目用（非表示）。
+/// 睡眠前の <see cref="MonsterModel.NextMove"/> を保存し、睡眠中は SleepIntent の自己ループ、
+/// 起床時に保存した行動予定へ戻す（カスタムムーブでステートマシンを壊さない）。
 /// </summary>
 public class ForcedSleepVisualPower : HypnosisCreatorPower
 {
+    public const string SleepMoveId = "hypnosis_creator_forced_sleep";
+
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Single;
 
     protected override bool IsVisibleInternal => false;
 
+    private MoveState? _savedMove;
     private NSleepingVfx? _vfx;
     private bool _ownsVfx;
+    private bool _restored;
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        RefreshPresentation();
+        BeginSleepPresentation();
         return Task.CompletedTask;
-    }
-
-    public override Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState)
-    {
-        // ターン開始フックでは意図上書きも Remove もしない（進行宙吊り防止）
-        return Task.CompletedTask;
-    }
-
-    public override async Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
-    {
-        if (Owner == null || !participants.Contains(Owner)) return;
-        if (side != CombatSide.Enemy) return;
-
-        if (!Owner.HasPower<AsleepPower>())
-        {
-            await CleanupAndRemove();
-            return;
-        }
-
-        // 敵の行動が終わったあとなら安全に、次周の睡眠意図を載せ直す
-        RefreshPresentation();
     }
 
     public override Task AfterRemoved(Creature oldOwner)
     {
+        TryRestoreSavedMove(oldOwner);
         StopOwnedVfx();
         return Task.CompletedTask;
     }
 
-    /// <summary>睡眠スタック変動後。消えていれば VFX／意図用パワーを片付ける（呼び出し側で await すること）。</summary>
+    /// <summary>睡眠スタック変動後。消えていれば予定を復元して片付ける。</summary>
     public Task OnAsleepAmountMaybeChangedAsync()
     {
         if (Owner == null) return Task.CompletedTask;
@@ -74,33 +51,104 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         return CleanupAndRemove();
     }
 
+    /// <summary>付与直後や再同期。すでに睡眠ムーブ中なら VFX だけ確認する。</summary>
     public void RefreshPresentation()
     {
         if (Owner?.Monster == null || !Owner.IsAlive) return;
         if (!Owner.HasPower<AsleepPower>()) return;
 
-        TryForceSleepMove();
+        if (IsOurSleepMove(Owner.Monster.NextMove))
+        {
+            TryStartVfx();
+            return;
+        }
+
+        BeginSleepPresentation();
+    }
+
+    private void BeginSleepPresentation()
+    {
+        if (Owner?.Monster == null || !Owner.IsAlive) return;
+        if (!Owner.HasPower<AsleepPower>()) return;
+
+        TryCaptureSavedMove(Owner.Monster);
+        TryForceSleepMove(Owner.Monster);
         TryStartVfx();
     }
 
-    private void TryForceSleepMove()
+    private void TryCaptureSavedMove(MonsterModel monster)
     {
-        if (Owner?.Monster == null) return;
+        if (_savedMove != null) return;
+
+        var current = monster.NextMove;
+        if (current == null || IsOurSleepMove(current)) return;
+
+        _savedMove = current;
+        _restored = false;
+    }
+
+    private void TryForceSleepMove(MonsterModel monster)
+    {
         try
         {
             static Task OnPerform(IReadOnlyList<Creature> _) => Task.CompletedTask;
 
-            var move = new MoveState(
-                "hypnosis_creator_forced_sleep",
-                OnPerform,
-                [new SleepIntent()]);
-            Owner.Monster.SetMoveImmediate(move, forceTransition: true);
+            var sleep = new MoveState(SleepMoveId, OnPerform, [new SleepIntent()]);
+            // 実行後も睡眠に留まり、FollowUp 未設定によるステートマシン破壊を防ぐ
+            sleep.FollowUpState = sleep;
+            monster.SetMoveImmediate(sleep, forceTransition: true);
         }
         catch
         {
-            // Intent API 差異時は Asleep 本体のみで継続
+            // Intent API 差異時は Asleep 本体のみ
         }
     }
+
+    private void TryRestoreSavedMove(Creature? creature)
+    {
+        if (_restored) return;
+        _restored = true;
+
+        var monster = creature?.Monster;
+        if (monster == null || creature is not { IsAlive: true })
+        {
+            _savedMove = null;
+            return;
+        }
+
+        try
+        {
+            if (_savedMove != null && !IsOurSleepMove(_savedMove))
+            {
+                monster.SetMoveImmediate(_savedMove, forceTransition: true);
+            }
+            else
+            {
+                // 保存が無い／壊れているときは通常ロールに戻す
+                var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
+                monster.RollMove(targets);
+            }
+        }
+        catch
+        {
+            try
+            {
+                var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
+                monster.RollMove(targets);
+            }
+            catch
+            {
+                // 復元失敗時はバニラ側の次ロールに委ねる
+            }
+        }
+        finally
+        {
+            _savedMove = null;
+        }
+    }
+
+    private static bool IsOurSleepMove(MoveState? move) =>
+        move != null && move.StateId == SleepMoveId;
 
     private void TryStartVfx()
     {
@@ -135,6 +183,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
 
     private async Task CleanupAndRemove()
     {
+        TryRestoreSavedMove(Owner);
         StopOwnedVfx();
         if (Owner?.GetPower<ForcedSleepVisualPower>() == this)
             await PowerCmd.Remove(this);
