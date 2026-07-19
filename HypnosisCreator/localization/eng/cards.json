@@ -28,7 +28,7 @@
   "HYPNOSISCREATOR-ZERO_OUT.title": "Zero Out",
   "HYPNOSISCREATOR-ZERO_OUT.description": "Remove all Block from the enemy. Set their Strength to 0 this turn. Apply {Trance:diff()} Trance.\n[gold]Count[/gold].",
   "HYPNOSISCREATOR-DRUG_HYPNOSIS.title": "Drug Hypnosis",
-  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "Apply {PoisonPower:diff()} Poison, {Doom:diff()} Doom, {StrengthLoss:diff()} less Strength, {WeakPower:diff()} Weak, {FrailPower:diff()} Frail, and {Bog:diff()} Bog.\n[gold]Count[/gold].",
+  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "[gold]Count.[/gold] Apply {PoisonPower:diff()} Poison, {Doom:diff()} Doom, {StrengthLoss:diff()} less Strength, {VulnerablePower:diff()} Vulnerable, {WeakPower:diff()} Weak, {Bog:diff()} Bog, and {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-SPANKING.title": "Spanking",
   "HYPNOSISCREATOR-SPANKING.description": "Deal {Damage:diff()} damage twice.\nIf Fetish hits, play this card again.",
   "HYPNOSISCREATOR-METRONOME_CARD.title": "Metronome",

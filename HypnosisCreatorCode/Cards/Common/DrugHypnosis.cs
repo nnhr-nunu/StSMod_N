@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>薬物催眠 — カウント。毒・破滅・筋力減・弱体・脱力・沼。アブノーマル性癖。</summary>
+/// <summary>薬物催眠 — カウント。毒・破滅・筋力減・弱体・脱力・沼・トランス1。アブノーマル性癖。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class DrugHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
@@ -28,7 +28,8 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
         new PowerVar<StrengthPower>("StrengthLoss", 2M),
         new PowerVar<VulnerablePower>(2M),
         new PowerVar<WeakPower>(2M),
-        new DynamicVar("Bog", 2M)
+        new DynamicVar("Bog", 2M),
+        new DynamicVar("Trance", 1M)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -56,6 +57,8 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<BogPower>(
             choiceContext, play.Target, DynamicVars["Bog"].BaseValue, Owner.Creature, this);
+        await TranceCombat.ApplyTrance(
+            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
@@ -67,5 +70,6 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
         DynamicVars.Vulnerable.UpgradeValueBy(1M);
         DynamicVars.Weak.UpgradeValueBy(1M);
         DynamicVars["Bog"].UpgradeValueBy(1M);
+        // トランスは UG 後も 1 のまま
     }
 }

@@ -28,7 +28,7 @@
   "HYPNOSISCREATOR-ZERO_OUT.title": "ぜーろっ",
   "HYPNOSISCREATOR-ZERO_OUT.description": "カウント。相手の攻撃値を0にする。トランス1。",
   "HYPNOSISCREATOR-DRUG_HYPNOSIS.title": "薬物催眠",
-  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "カウント。毒{PoisonPower:diff()}、破滅{Doom:diff()}、筋力低下{StrengthLoss:diff()}、弱体{VulnerablePower:diff()}、脱力{WeakPower:diff()}、沼{Bog:diff()}を付与する。",
+  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "カウント。毒{PoisonPower:diff()}、破滅{Doom:diff()}、筋力低下{StrengthLoss:diff()}、弱体{VulnerablePower:diff()}、脱力{WeakPower:diff()}、沼{Bog:diff()}、トランス{Trance:diff()}を付与する。",
   "HYPNOSISCREATOR-SPANKING.title": "スパンキング",
   "HYPNOSISCREATOR-SPANKING.description": "{Damage:diff()}ダメージを2回与える。性癖に刺さった時、もう一度プレイできる。",
   "HYPNOSISCREATOR-METRONOME_CARD.title": "メトロノーム",
