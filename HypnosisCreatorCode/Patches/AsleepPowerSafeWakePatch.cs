@@ -29,7 +29,6 @@ public static class AsleepPowerDamageWakePatch
         CardModel? cardSource,
         ref Task __result)
     {
-        // ラガヴーリンは本家どおり（ダメージで即起床）
         if (__instance.Owner?.Monster is LagavulinMatriarch)
             return true;
 
@@ -42,15 +41,11 @@ public static class AsleepPowerDamageWakePatch
         if (target != asleep.Owner) return;
         if (result.UnblockedDamage <= 0) return;
 
-        // ビートル（SlumberPower）同様: 1減るだけ。0になったら Decrement 側でパワー消滅
         await PowerCmd.Decrement(asleep);
-        AsleepPowerWakeHelpers.NotifyVisual(asleep.Owner);
+        await AsleepPowerWakeHelpers.NotifyVisualAsync(asleep.Owner);
     }
 }
 
-/// <summary>
-/// ターン終了時の減算。ラガヴーリン以外は cast せず Decrement のみ。
-/// </summary>
 [HarmonyPatch(typeof(AsleepPower), nameof(AsleepPower.AfterSideTurnEnd))]
 public static class AsleepPowerTurnEndWakePatch
 {
@@ -74,12 +69,15 @@ public static class AsleepPowerTurnEndWakePatch
         if (owner == null || !participants.Contains(owner)) return;
 
         await PowerCmd.Decrement(asleep);
-        AsleepPowerWakeHelpers.NotifyVisual(owner);
+        await AsleepPowerWakeHelpers.NotifyVisualAsync(owner);
     }
 }
 
 static class AsleepPowerWakeHelpers
 {
-    public static void NotifyVisual(Creature? owner) =>
-        owner?.GetPower<ForcedSleepVisualPower>()?.OnAsleepAmountMaybeChanged();
+    public static Task NotifyVisualAsync(Creature? owner)
+    {
+        var visual = owner?.GetPower<ForcedSleepVisualPower>();
+        return visual?.OnAsleepAmountMaybeChangedAsync() ?? Task.CompletedTask;
+    }
 }

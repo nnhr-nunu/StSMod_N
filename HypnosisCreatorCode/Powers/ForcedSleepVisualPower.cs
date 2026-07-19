@@ -15,6 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 睡眠中の見た目用（非表示）。行動予定を SleepIntent にし、ZZZ／ぐうぐう VFX を出す。
+/// ターン開始中に SetMoveImmediate すると進行不能になるため、付与時と敵ターン終了後だけ意図を更新する。
 /// </summary>
 public class ForcedSleepVisualPower : HypnosisCreatorPower
 {
@@ -37,30 +38,26 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
-        if (side != CombatSide.Enemy) return Task.CompletedTask;
-
-        if (!Owner.HasPower<AsleepPower>())
-            return CleanupAndRemove();
-
-        // 敵ターン開始時に睡眠意図を載せ直す（前ターンのムーブ解決後の次意図を上書き）
-        RefreshPresentation();
+        // ターン開始フックでは意図上書きも Remove もしない（進行宙吊り防止）
         return Task.CompletedTask;
     }
 
-    public override Task AfterSideTurnEnd(
+    public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
-        if (side != CombatSide.Enemy) return Task.CompletedTask;
+        if (Owner == null || !participants.Contains(Owner)) return;
+        if (side != CombatSide.Enemy) return;
 
-        // ターン終了中は SetMoveImmediate しない（進行宙吊りの原因になりうる）
         if (!Owner.HasPower<AsleepPower>())
-            return CleanupAndRemove();
+        {
+            await CleanupAndRemove();
+            return;
+        }
 
-        return Task.CompletedTask;
+        // 敵の行動が終わったあとなら安全に、次周の睡眠意図を載せ直す
+        RefreshPresentation();
     }
 
     public override Task AfterRemoved(Creature oldOwner)
@@ -69,12 +66,12 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         return Task.CompletedTask;
     }
 
-    /// <summary>睡眠スタック変動後。残っていれば維持、消えていれば VFX／意図用パワーを片付ける。</summary>
-    public void OnAsleepAmountMaybeChanged()
+    /// <summary>睡眠スタック変動後。消えていれば VFX／意図用パワーを片付ける（呼び出し側で await すること）。</summary>
+    public Task OnAsleepAmountMaybeChangedAsync()
     {
-        if (Owner == null) return;
-        if (Owner.HasPower<AsleepPower>()) return;
-        _ = CleanupAndRemove();
+        if (Owner == null) return Task.CompletedTask;
+        if (Owner.HasPower<AsleepPower>()) return Task.CompletedTask;
+        return CleanupAndRemove();
     }
 
     public void RefreshPresentation()
