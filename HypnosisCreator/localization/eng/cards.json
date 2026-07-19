@@ -140,7 +140,7 @@
   "HYPNOSISCREATOR-STATUS_HYPNOSIS.title": "Status Hypnosis",
   "HYPNOSISCREATOR-STATUS_HYPNOSIS.description": "Make status and curse cards easier to inflict on Tranced enemies.",
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.title": "Love-Love Hypnosis",
-  "HYPNOSISCREATOR-LOVE_HYPNOSIS.description": "[gold]Count.[/gold] Confuse the target (buff-intent retarget API unavailable; best-effort). Apply {Trance:diff()} Trance.",
+  "HYPNOSISCREATOR-LOVE_HYPNOSIS.description": "[gold]Count.[/gold] If the enemy intends to Buff, change that buff's target to you. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-CULT_LEADER.title": "Cult Leader",
   "HYPNOSISCREATOR-CULT_LEADER.description": "SM, DomSub, and Abnormal Fetish cards always hit, regardless of the target's fetishes (not Trance). Whenever you apply Trance, gain 1 [gold]Energy[/gold] and draw {Draw:diff()} cards next turn.",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.title": "Knife and Gun",
