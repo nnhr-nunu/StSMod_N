@@ -76,7 +76,7 @@ public static class FetishOrbHud
         var state = EnemyFetishSlots.Get(creature);
         var capacity = Math.Max(EnemyFetishSlots.DefaultCapacity, state.Capacity);
         var hud = existing ?? CreateHud(creatureNode);
-        RebuildSlots(hud, state, capacity);
+        RebuildSlots(hud, creature, state, capacity);
         PlaceBelowBody(creatureNode, hud, capacity);
         hud.Visible = true;
         hud.Modulate = Colors.White;
@@ -109,7 +109,7 @@ public static class FetishOrbHud
         return hud;
     }
 
-    private static void RebuildSlots(Control hud, FetishSlotState state, int capacity)
+    private static void RebuildSlots(Control hud, Creature creature, FetishSlotState state, int capacity)
     {
         foreach (var child in hud.GetChildren())
             child.QueueFree();
@@ -117,17 +117,24 @@ public static class FetishOrbHud
         for (var i = 0; i < capacity; i++)
         {
             OrbModel? fetish = i < state.Fetishes.Count ? state.Fetishes[i] : null;
-            hud.AddChild(CreateSlot(fetish));
+            hud.AddChild(CreateSlot(creature, fetish));
         }
     }
 
-    private static Control CreateSlot(OrbModel? fetish)
+    private static Control CreateSlot(Creature creature, OrbModel? fetish)
     {
+        var tip = fetish == null
+            ? "空の性癖スロット"
+            : FetishCombat.ToFetishType(fetish) is { } type
+                ? FetishCombat.FormatEnemyFetishTooltip(type, creature)
+                : fetish.Title.GetFormattedText();
+
+        // Stop: ホバーでツールチップを出す（Ignore だと TooltipText が効かない）
         var root = new Control
         {
             CustomMinimumSize = new Vector2(SlotSize, SlotSize),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
-            TooltipText = fetish?.Title.GetFormattedText() ?? "空の性癖スロット"
+            MouseFilter = Control.MouseFilterEnum.Stop,
+            TooltipText = tip
         };
 
         var color = fetish is HypnosisCreatorOrb hc

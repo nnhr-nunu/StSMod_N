@@ -1,14 +1,14 @@
 {
   "HYPNOSISCREATOR-SM_FETISH_ORB.title": "SM",
-  "HYPNOSISCREATOR-SM_FETISH_ORB.description": "Fetish: SM. When an SM card is played on this enemy, they gain Doom (5% Max HP + 7, min 8; ×1.5 with Bog).",
+  "HYPNOSISCREATOR-SM_FETISH_ORB.description": "SM fetish. When this fetish is hit, gain Doom (amount shown on that enemy's fetish tooltip).",
   "HYPNOSISCREATOR-SM_FETISH_ORB.flavor": "Pain and pleasure, by design.",
   "HYPNOSISCREATOR-DS_FETISH_ORB.title": "DomSub",
-  "HYPNOSISCREATOR-DS_FETISH_ORB.description": "Fetish: DomSub. When a DomSub card is played on this enemy, they gain Doom (5% Max HP + 7, min 8; ×1.5 with Bog).",
+  "HYPNOSISCREATOR-DS_FETISH_ORB.description": "DomSub fetish. When this fetish is hit, gain Doom (amount shown on that enemy's fetish tooltip).",
   "HYPNOSISCREATOR-DS_FETISH_ORB.flavor": "A cue for dominance and submission.",
   "HYPNOSISCREATOR-TRANCE_FETISH_ORB.title": "Trance",
-  "HYPNOSISCREATOR-TRANCE_FETISH_ORB.description": "Fetish: Trance. Whenever Trance is applied, they gain Doom (5% Max HP + 7, min 8; ×1.5 with Bog).",
+  "HYPNOSISCREATOR-TRANCE_FETISH_ORB.description": "Trance fetish. When this fetish is hit, gain Doom (amount shown on that enemy's fetish tooltip).",
   "HYPNOSISCREATOR-TRANCE_FETISH_ORB.flavor": "A soft fall away from waking thought.",
   "HYPNOSISCREATOR-ABNORMAL_FETISH_ORB.title": "Abnormal",
-  "HYPNOSISCREATOR-ABNORMAL_FETISH_ORB.description": "Fetish: Abnormal. When an Abnormal card is played on this enemy, they gain Doom (5% Max HP + 7, min 8; ×1.5 with Bog).",
+  "HYPNOSISCREATOR-ABNORMAL_FETISH_ORB.description": "Abnormal fetish. When this fetish is hit, gain Doom (amount shown on that enemy's fetish tooltip).",
   "HYPNOSISCREATOR-ABNORMAL_FETISH_ORB.flavor": "A switch outside the ordinary."
 }

@@ -106,10 +106,56 @@ public static class FetishCombat
         where TPower : FetishAttributePower
     {
         if (!HasFetish(enemy, type)) return;
-        if (enemy.GetPower<TPower>() != null) return;
+
+        var existing = enemy.GetPower<TPower>();
+        if (existing != null)
+        {
+            // ツールチップの破滅Nをこの敵の実計算値に保つ
+            if (existing.Amount != amount)
+            {
+                await PowerCmd.ModifyAmount(
+                    choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent: true);
+            }
+            return;
+        }
 
         // silent: 戦闘開始時のフラッシュ連打を避ける（CustomScaledWait 自体は表示パワーなら動くが、待たない）
         await PowerCmd.Apply<TPower>(choiceContext, enemy, amount, owner.Creature, null, silent: true);
+    }
+
+    /// <summary>敵性癖HUD／表示用。「○が性癖。性癖を刺された場合、破滅Nを得る。」</summary>
+    public static string FormatEnemyFetishTooltip(FetishType type, int doomAmount)
+    {
+        var name = FetishDisplayName(type);
+        if (IsJapaneseUi())
+            return $"{name}が性癖。性癖を刺された場合、破滅{doomAmount}を得る。";
+        return $"{name} fetish. When this fetish is hit, gain {doomAmount} Doom.";
+    }
+
+    public static string FormatEnemyFetishTooltip(FetishType type, Creature enemy) =>
+        FormatEnemyFetishTooltip(type, CalcFetishDoomAmount(enemy));
+
+    public static string FetishDisplayName(FetishType type) => type switch
+    {
+        FetishType.Sm => "SM",
+        FetishType.DomSub => "DomSub",
+        FetishType.Abnormal => IsJapaneseUi() ? "アブノーマル" : "Abnormal",
+        FetishType.Trance => IsJapaneseUi() ? "トランス" : "Trance",
+        _ => type.ToString()
+    };
+
+    private static bool IsJapaneseUi()
+    {
+        try
+        {
+            var lang = MegaCrit.Sts2.Core.Localization.LocManager.Instance?.Language ?? "";
+            return lang.Contains("jpn", StringComparison.OrdinalIgnoreCase)
+                   || lang.Contains("ja", StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static void AwakenAll(Creature enemy, Player owner)
