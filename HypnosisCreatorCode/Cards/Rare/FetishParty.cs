@@ -18,6 +18,9 @@ public class FetishParty() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(2)];
 

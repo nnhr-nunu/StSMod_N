@@ -17,6 +17,9 @@ public class AsmrHypnosis() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Uncommon,
     TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Doom", 5M)];
 

@@ -19,6 +19,9 @@ public class FreeHug() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Doom", 10M),

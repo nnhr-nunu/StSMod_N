@@ -17,6 +17,9 @@ public class HeartbeatShare() : HypnosisCreatorCard(1,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (CombatState == null) return;
