@@ -25,8 +25,34 @@ public partial class MainFile : Node
         FetishCardText.Register();
         UpgradeDescriptionHooks.Register();
 
+        ApplyHarmonyPatches();
+    }
+
+    /// <summary>
+    /// Harmony.PatchAll と同等だが、1クラス失敗で後続が全滅しない。
+    /// godot.log 例: GetCurrentAnimationLength の float/double 不一致で Count パッチ未適用。
+    /// </summary>
+    private static void ApplyHarmonyPatches()
+    {
         Harmony harmony = new(ModId);
-        // TargetMethod 内の throw は PatchAll を中断し後続パッチを無効化するので禁止。
-        harmony.PatchAll();
+        var ok = 0;
+        var fail = 0;
+
+        foreach (var type in AccessTools.GetTypesFromAssembly(typeof(MainFile).Assembly))
+        {
+            try
+            {
+                var patched = harmony.CreateClassProcessor(type).Patch();
+                if (patched != null && patched.Any())
+                    ok++;
+            }
+            catch (Exception ex)
+            {
+                fail++;
+                Logger.Warn($"Harmony patch failed for {type.FullName}: {ex.Message}");
+            }
+        }
+
+        Logger.Info($"Harmony patches applied: {ok} classes ok, {fail} failed");
     }
 }

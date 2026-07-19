@@ -31,12 +31,13 @@ public static class CombatFrameAnimIdlePatch
 [HarmonyPatch(typeof(NCreature), nameof(NCreature.GetCurrentAnimationLength))]
 public static class CombatFrameAnimLengthPatch
 {
-    public static void Postfix(NCreature __instance, ref double __result)
+    // 本家は float (Single)。double だと PatchAll が例外で止まり後続パッチ全滅する。
+    public static void Postfix(NCreature __instance, ref float __result)
     {
         if (__result > 0) return;
         var len = CombatFrameAnimator.GetCurrentAnimLengthSeconds(__instance);
         if (len > 0)
-            __result = len;
+            __result = (float)len;
     }
 }
 
