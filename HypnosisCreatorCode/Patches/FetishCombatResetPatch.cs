@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode;
 using HypnosisCreator.HypnosisCreatorCode.Relics;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
@@ -18,20 +20,44 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCombatEnd))]
 public static class FetishCombatResetPatch
 {
-    public static void Postfix(IRunState runState, ICombatState? combatState, CombatRoom room)
+    /// <summary>
+    /// <see cref="Hook.AfterCombatEnd"/> は async。通常の Postfix だと最初の await 時点で走るため、
+    /// 完了後にゴールド報酬を載せる。
+    /// </summary>
+    public static void Postfix(
+        ref Task __result,
+        IRunState runState,
+        ICombatState? combatState,
+        CombatRoom room)
     {
+        _ = runState;
         FetishCombat.FetishHitMultiplier = 1M;
         FetishCombat.CultLeaderActive = false;
         EnemyPlayerAttackTracker.Reset();
 
+        var original = __result;
+        __result = ContinueAfterCombatEnd(original, combatState, room);
+    }
+
+    private static async Task ContinueAfterCombatEnd(
+        Task original,
+        ICombatState? combatState,
+        CombatRoom room)
+    {
+        if (original != null)
+            await original;
+
         if (combatState == null) return;
+
         foreach (var player in combatState.Players)
         {
-            var gold = ProselytizeRewards.TakeGold(player.Creature);
+            var gold = ProselytizeRewards.TakeGold(player);
             if (gold > 0)
             {
                 // RoyaltiesPower.AfterCombatEnd と同じ UX（報酬画面にゴールド枠が出る）
                 room.AddExtraReward(player, new GoldReward((int)gold, player, wasGoldStolenBack: false));
+                MainFile.Logger.Info(
+                    $"Proselytize GoldReward +{(int)gold} for {player.Character?.Id.Entry}");
             }
 
             // 自己暗示など「この戦闘中」の一時レリックを除去
@@ -41,6 +67,29 @@ public static class FetishCombatResetPatch
                 .ToList();
             foreach (var relic in temps)
                 _ = RelicCmd.Remove(relic);
+        }
+    }
+}
+
+/// <summary>
+/// 報酬生成直前にも布教ゴールドを載せる（AfterCombatEnd パッチ漏れの保険）。
+/// </summary>
+[HarmonyPatch(typeof(CombatRoom), nameof(CombatRoom.OfferRoomEndRewards))]
+public static class ProselytizeGoldRewardPatch
+{
+    public static void Prefix(CombatRoom __instance)
+    {
+        var combat = __instance.CombatState;
+        if (combat == null) return;
+
+        foreach (var player in combat.Players)
+        {
+            var gold = ProselytizeRewards.TakeGold(player);
+            if (gold <= 0) continue;
+
+            __instance.AddExtraReward(player, new GoldReward((int)gold, player, wasGoldStolenBack: false));
+            MainFile.Logger.Info(
+                $"Proselytize GoldReward (offer) +{(int)gold} for {player.Character?.Id.Entry}");
         }
     }
 }

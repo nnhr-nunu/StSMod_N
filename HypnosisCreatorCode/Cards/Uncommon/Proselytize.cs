@@ -43,7 +43,7 @@ public class Proselytize() : HypnosisCreatorCard(1,
         await PowerCmd.Apply<BogPower>(
             choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
 
-        ProselytizeRewards.AddGold(Owner.Creature, DynamicVars["Gold"].BaseValue);
+        ProselytizeRewards.AddGold(Owner, DynamicVars["Gold"].BaseValue);
     }
 
     protected override void OnUpgrade() => DynamicVars["Gold"].UpgradeValueBy(10M);
