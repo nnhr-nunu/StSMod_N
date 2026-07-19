@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Rooms;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 心臓寄生催眠 — 付与時に敵 ID を予約し、戦闘終了時に敵固有心臓を入手する（キル不要）。
+/// 心臓寄生催眠 — 付与時に敵 ID を予約し、戦闘終了時に追加レリック報酬として心臓を載せる（キル不要）。
 /// </summary>
 public class PlantParasiteMarkPower : HypnosisCreatorPower
 {

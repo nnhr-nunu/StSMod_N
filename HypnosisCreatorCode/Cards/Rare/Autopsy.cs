@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>解剖 — 14＋心臓数×4（UG×7）。リーサルで心臓。廃棄。</summary>
+/// <summary>解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
@@ -38,8 +38,9 @@ public class Autopsy() : HypnosisCreatorCard(2,
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
+        // リーサル時は報酬画面の追加レリックへ（心停止＋・心臓えぐり出しと同じ）
         if (play.Target is { IsAlive: false })
-            await HeartCapture.TryCapture(Owner, play.Target);
+            HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
 
         await ResolveFetishOnTarget(choiceContext, play);
     }

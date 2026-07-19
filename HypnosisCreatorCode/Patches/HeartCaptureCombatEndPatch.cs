@@ -8,14 +8,13 @@ using MegaCrit.Sts2.Core.Runs;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 植物寄生など「戦闘終了時に心臓」予約を、敵死亡でパワーが消えても確実に解決する。
+/// 植物寄生など「戦闘終了時に心臓」予約を、追加レリック報酬として解決する。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCombatEnd))]
 public static class HeartCaptureCombatEndPatch
 {
-    // FetishCombatResetPatch と同様、戦闘終了フックは同期 Postfix＋非同期処理の発火。
     public static void Postfix(IRunState runState, ICombatState? combatState, CombatRoom room)
     {
-        _ = HeartCapture.FlushPending();
+        HeartCapture.FlushPending();
     }
 }

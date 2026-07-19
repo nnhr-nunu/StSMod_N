@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。15ダメージ（UG20）。リーサルで心臓。廃棄。
+/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。15ダメージ（UG20）。リーサルで追加レリック報酬。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartGouge() : HypnosisCreatorCard(1,
@@ -32,8 +32,9 @@ public class HeartGouge() : HypnosisCreatorCard(1,
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
+        // リーサル時は報酬画面の追加レリックへ（心停止＋・解剖と同じ）
         if (play.Target is { IsAlive: false })
-            await HeartCapture.TryCapture(Owner, play.Target);
+            HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
 
         await ResolveFetishOnTarget(choiceContext, play);
     }

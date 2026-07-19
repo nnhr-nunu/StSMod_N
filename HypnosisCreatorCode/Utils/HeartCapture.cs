@@ -8,6 +8,10 @@ using MegaCrit.Sts2.Core.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
+/// <summary>
+/// 敵固有心臓の入手。報酬系（リーサル／寄生／心停止＋）はすべて
+/// 戦闘報酬画面の追加 <see cref="RelicReward"/> に載せる（本家の追加報酬 UX）。
+/// </summary>
 public static class HeartCapture
 {
     private static readonly List<(Player Player, string MonsterId)> Pending = [];
@@ -30,20 +34,20 @@ public static class HeartCapture
         QueueCapture(player, monsterId);
     }
 
-    /// <summary>予約済み捕獲をすべて解決する（戦闘終了フックから呼ぶ）。</summary>
-    public static async Task FlushPending()
+    /// <summary>予約済み捕獲をすべて追加レリック報酬として解決する（戦闘終了フックから呼ぶ）。</summary>
+    public static void FlushPending()
     {
         if (Pending.Count == 0) return;
 
         var batch = Pending.ToList();
         Pending.Clear();
         foreach (var (player, monsterId) in batch)
-            await TryCapture(player, monsterId);
+            TryAddExtraRelicReward(player, monsterId);
     }
 
     /// <summary>
     /// 戦闘報酬画面に「追加のレリック報酬」として敵固有心臓を載せる。
-    /// エリート等の通常報酬と並ぶ（競合して消えない）。部屋が取れない場合は即時 Obtain にフォールバック。
+    /// エリート等の通常報酬と並ぶ。部屋が取れない場合のみ即時 Obtain にフォールバック。
     /// </summary>
     public static void TryAddExtraRelicReward(Player player, Creature slain)
     {
@@ -71,22 +75,15 @@ public static class HeartCapture
         }
 
         MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for {monsterIdEntry}");
-        _ = TryCapture(player, monsterIdEntry);
+        _ = ObtainNow(player, monsterIdEntry);
     }
 
-    /// <summary>リーサル時などに敵固有心臓を即時付与。未登録モンスターは StolenHeart にフォールバック。</summary>
-    public static async Task TryCapture(Player player, Creature slain)
-    {
-        if (!slain.IsMonster) return;
-        var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
-        await TryCapture(player, monsterId);
-    }
-
-    public static async Task TryCapture(Player player, string monsterIdEntry)
+    /// <summary>部屋が無いときなどの即時付与フォールバック。未登録は StolenHeart。</summary>
+    public static async Task ObtainNow(Player player, string monsterIdEntry)
     {
         if (string.IsNullOrWhiteSpace(monsterIdEntry)) return;
 
-        MainFile.Logger.Info($"Heart capture from {monsterIdEntry}");
+        MainFile.Logger.Info($"Heart ObtainNow from {monsterIdEntry}");
 
         var relic = CreateHeartRelic(monsterIdEntry);
         if (relic == null)
