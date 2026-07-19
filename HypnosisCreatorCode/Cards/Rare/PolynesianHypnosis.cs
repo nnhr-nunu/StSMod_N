@@ -42,6 +42,7 @@ public class PolynesianHypnosis() : HypnosisCreatorCard(6,
         {
             await PowerCmd.Apply<AsleepPower>(
                 choiceContext, enemy, DynamicVars["AsleepPower"].BaseValue, Owner.Creature, this);
+            await ForcedSleep.EnsurePresentation(choiceContext, enemy, Owner.Creature, this);
             await PowerCmd.Apply<BogPower>(
                 choiceContext, enemy, DynamicVars["Bog"].BaseValue, Owner.Creature, this);
             await TranceCombat.ApplyTrance(

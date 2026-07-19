@@ -33,6 +33,7 @@ public class LullabyHypnosis() : HypnosisCreatorCard(3,
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<AsleepPower>(
             choiceContext, play.Target, DynamicVars["AsleepPower"].BaseValue, Owner.Creature, this);
+        await ForcedSleep.EnsurePresentation(choiceContext, play.Target, Owner.Creature, this);
         await CreatureCmd.Heal(play.Target, DynamicVars["Heal"].BaseValue);
         await TranceCombat.ApplyTrance(choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
     }
