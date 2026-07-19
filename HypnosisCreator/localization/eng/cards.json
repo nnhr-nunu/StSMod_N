@@ -100,7 +100,7 @@
   "HYPNOSISCREATOR-ZERO_SHORTCUT.title": "Zero Shortcut",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "Set the cost of 1 [gold]Count[/gold] card in your hand to 0 for this combat.",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Infinite Finger Snap",
-  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Apply 1 Trance, {Times:diff()} times.",
+  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Deal {Damage:diff()} damage to ALL enemies 5 times. Replay X. Exhaust.\n[gold]Upgrade: Retain.[/gold]",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Fetish Champion",
   "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Awaken all fetishes on the target. Apply {Doom:diff()} Doom.\n[gold]Upgrade: also gain 6 Block.[/gold]",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "I Know It All",
