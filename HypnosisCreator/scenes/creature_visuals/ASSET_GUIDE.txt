@@ -44,6 +44,10 @@ idle.png が左向きの場合、Visuals（Sprite2D）で:
 待機アニメは Visuals を AnimatedSprite2D にし、idle_frames.tres を割り当てています。
 1枚絵だけなら Visuals を Sprite2D にして idle.png を貼るだけでもOKです。
 
+ウォーターマーク隠しは Visuals の chroma_key_material に内蔵（全モーション共用）。
+PNG を消さず、同じ material を付ければ idle / damage / 他でも同じ位置のロゴを隠せます。
+
+
 ## C# 側
 
 HypnosisCreator.cs に:

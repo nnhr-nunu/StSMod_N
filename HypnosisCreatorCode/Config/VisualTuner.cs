@@ -10,9 +10,15 @@ public static class VisualTuner
     private const string ChromaMaterialPath = $"{MainFile.ResPath}/shaders/chroma_key_material.tres";
     private const string CropShaderPath = $"{MainFile.ResPath}/shaders/image_crop.gdshader";
     private const string CardPortraitPathHint = "HypnosisCreator/images/card_portraits";
-    private const string IdlePathHint = "HypnosisCreator/images/character/combat/idle";
+    /// <summary>待機・被弾など戦闘モーション共通（同じ右下WM帯をシェーダーで隠す）。</summary>
+    private const string CombatVisualPathHint = "HypnosisCreator/images/character/combat";
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
+
+    // Hailuo 系ロゴ位置（768x1152 想定・Flip H ON）。他モーションも同位置ならこのまま共用。
+    private const float WatermarkCropBottom = 0.08f;
+    private const float WatermarkCropSide = 0.48f;
+    private const float WatermarkOnUvLeft = 1.0f;
 
     private static Shader? _cropShader;
 
@@ -44,7 +50,7 @@ public static class VisualTuner
                 SetChromaParams(shared, key, similarity, smoothness, spill);
         }
 
-        foreach (var item in FindCombatIdleVisuals())
+        foreach (var item in FindCombatVisuals())
         {
             EnsureChromaMaterial(item);
             if (item.Material is ShaderMaterial mat)
@@ -145,6 +151,10 @@ public static class VisualTuner
         mat.SetShaderParameter("similarity", similarity);
         mat.SetShaderParameter("smoothness", smoothness);
         mat.SetShaderParameter("spill", spill);
+        // 画像は改変せず、全戦闘モーションで同じ帯を透明化
+        mat.SetShaderParameter("wm_crop_bottom", WatermarkCropBottom);
+        mat.SetShaderParameter("wm_crop_side", WatermarkCropSide);
+        mat.SetShaderParameter("wm_on_uv_left", WatermarkOnUvLeft);
     }
 
     private static void SetCropParams(ShaderMaterial mat, Vector2 offset, float zoom)
@@ -153,25 +163,25 @@ public static class VisualTuner
         mat.SetShaderParameter("zoom", zoom);
     }
 
-    private static IEnumerable<CanvasItem> FindCombatIdleVisuals()
+    private static IEnumerable<CanvasItem> FindCombatVisuals()
     {
         foreach (var sprite in FindNodes<Sprite2D>())
         {
-            if (LooksLikeCombatIdle(sprite.Name, sprite.Texture?.ResourcePath))
+            if (LooksLikeCombatVisual(sprite.Name, sprite.Texture?.ResourcePath))
                 yield return sprite;
         }
 
         foreach (var sprite in FindNodes<AnimatedSprite2D>())
         {
-            if (LooksLikeCombatIdle(sprite.Name, GetAnimatedSpritePathHint(sprite)))
+            if (LooksLikeCombatVisual(sprite.Name, GetAnimatedSpritePathHint(sprite)))
                 yield return sprite;
         }
     }
 
-    private static bool LooksLikeCombatIdle(StringName name, string? pathHint)
+    private static bool LooksLikeCombatVisual(StringName name, string? pathHint)
     {
         if (name == "Visuals") return true;
-        return pathHint?.Contains(IdlePathHint, StringComparison.OrdinalIgnoreCase) == true;
+        return pathHint?.Contains(CombatVisualPathHint, StringComparison.OrdinalIgnoreCase) == true;
     }
 
     private static string GetAnimatedSpritePathHint(AnimatedSprite2D sprite)

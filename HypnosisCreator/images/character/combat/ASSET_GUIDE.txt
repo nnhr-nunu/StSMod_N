@@ -9,6 +9,7 @@ scenes/creature_visuals/ の .tscn から参照します。
 |--------------------|------|------|
 | idle.png           | 待機（1枚フォールバック） | ○（単枚時） |
 | idle/frame_000001.png 〜 | 待機アニメ連番 | 任意 |
+| damage/frame_000001.png 〜 | 被弾アニメ連番 | 任意 |
 | attack.png         | 攻撃（1枚でも可） | 任意 |
 | attack_01.png 〜   | 攻撃フレーム連番 | 任意 |
 | cast.png           | パワー／詠唱 | 任意 |
@@ -18,29 +19,39 @@ scenes/creature_visuals/ の .tscn から参照します。
 最低限 idle.png、または idle/ の連番フレームがあれば表示できます。
 連番待機は scenes/creature_visuals/idle_frames.tres（idle_loop, 10fps）経由で再生します。
 
+## ウォーターマーク（全モーション共通）
+
+Hailuo / MiniMax 系の白文字ロゴはだいたい同じ右下位置に出ます。
+
+- **PNG は改変しない**（靴などを壊しやすいため）
+- 戦闘立ち絵は `shaders/chroma_key`（`chroma_key_material.tres`）を共有
+- シェーダー側の帯マスク（`wm_crop_*`）でロゴだけ透明化
+- idle / damage / attack など、同じ素材規格なら **そのまま使い回し**
+- Visuals は Flip H = ON 前提（ロゴが UV 左側に来る）
+
+位置がズレた素材が出たら `VisualTuner` の `WatermarkCropBottom` / `WatermarkCropSide` だけ調整。
+
 ## 仕様
 
 - 拡張子: .png（透過推奨）
 - 推奨サイズ: 高さ 800〜1400px 程度の全身立ち絵
-  - 現状の idle.png は 843×1264 で問題なし
+  - 現状の idle 連番は 768×1152
 - 背景: グリーンバック（GB）のままでOK
   - 戦闘シーンは shaders/chroma_key で緑を透過
   - 手で透過PNGにしてもそのまま使える（二重でも害は少ない）
 - 向き: ゲーム内では「敵側（画面右）を向く」のが標準
-  - 素材が左向きの場合 → Godot の Sprite2D で Flip H = ON
+  - 素材が左向きの場合 → Godot の Sprite2D / AnimatedSprite2D で Flip H = ON
   - または scale.x = -1
-  - 画像ファイル自体を反転して保存してもよい
 
 ## 命名ルール
 
 - 小文字 + アンダースコア
-- アニメ用連番は 01, 02…（attack_01.png）
-- 例: idle.png / hurt.png / attack_01.png
+- フォルダ連番: frame_000001.png 〜
+- 例: idle/frame_000001.png / damage/frame_000001.png
 
 ## 次の作業（実装側）
 
-1. グリーンバックを透過PNGにする（Photoshop / GIMP 等）
-2. scenes/creature_visuals/ に hypnosis_creator.tscn を作成
-3. Visuals ノード（Sprite2D）に idle.png をセットし Flip H を ON
-4. HypnosisCreator.cs で CustomVisualPath を指定
-5. dotnet publish
+1. モーション連番を images/character/combat/<motion>/ に置く
+2. SpriteFrames（または Animation）を scenes/creature_visuals/ に追加
+3. Visuals に chroma_key_material を割り当て（WM隠し込み）
+4. dotnet publish
