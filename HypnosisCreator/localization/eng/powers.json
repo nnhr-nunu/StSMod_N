@@ -111,6 +111,6 @@
   "HYPNOSISCREATOR-TRANCE_FETISH_POWER.description": "Whenever Trance is applied to this enemy, they gain {Amount} Doom.",
   "HYPNOSISCREATOR-TRANCE_FETISH_POWER.smartDescription": "Trance Fetish {Amount}.",
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.title": "Fudo Myo-o",
-  "HYPNOSISCREATOR-FUDO_MYOO_POWER.description": "Whenever an enemy applies a debuff to you, deal {Amount} damage to them.",
+  "HYPNOSISCREATOR-FUDO_MYOO_POWER.description": "Whenever an enemy applies a debuff to you, deal {Amount} damage to them. Triggers even if Artifact blocks it.",
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.smartDescription": "Debuff Reflect {Amount}."
 }

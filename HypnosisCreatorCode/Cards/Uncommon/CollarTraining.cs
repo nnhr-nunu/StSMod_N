@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// アタックだがダメージは与えない。UGでは破滅発生時にランダムな調教命令カードを2枚手札に加える。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class CollarTraining() : HypnosisCreatorCard(1,
+public class CollarTraining() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
