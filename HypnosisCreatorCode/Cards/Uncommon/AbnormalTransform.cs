@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// アブノーマル — X枚まで手札のカードをランダムなアブノーマル性癖カードへこの戦闘中だけ変換する（コスト0）。
+/// アブノーマル — 性癖：アブノーマル。X枚まで手札のカードをランダムなアブノーマル性癖カードへこの戦闘中だけ変換する（コスト0）。
 /// UGではアップグレード済みの変換先になる。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -18,6 +18,8 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
+    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
+
     private static bool IsAbnormalPoolCard(CardModel c) =>
         c is HypnosisCreatorCard { Rarity: not CardRarity.Token } hc &&
         hc.CardFetishes.Contains(FetishType.Abnormal) &&

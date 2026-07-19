@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 時止めストライク — SM・トランス。トランス中の敵にのみ有効。ダメージはターン終了時にまとめて発生する。
+/// 時止めストライク — SM（トランス中の敵にのみプレイ可）。ダメージはターン終了時にまとめて発生する。
 /// 1ターンに3回まで。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -22,7 +22,7 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     private const int MaxPlaysPerTurn = 3;
     private readonly PerTurnCounter _plays = new();
 
-    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm, FetishType.Trance];
+    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6M, ValueProp.Move)];
