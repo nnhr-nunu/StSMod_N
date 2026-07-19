@@ -12,14 +12,16 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 時止めストライク — SM（トランス中の敵にのみプレイ可）。ダメージはターン終了時にまとめて発生する。
-/// 1ターンに3回まで。
+/// 1ターンに3回までプレイ可＝先の2回は手札に戻り、3回目で通常どおり捨て札へ。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TimeStopStrike() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    private const int MaxPlaysPerTurn = 3;
+    /// <summary>手札に戻る回数（この回数まではプレイ後に手札へ）。</summary>
+    private const int HandReturnsPerTurn = 2;
+
     private readonly PerTurnCounter _plays = new();
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
@@ -39,11 +41,25 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
         if (!TranceCombat.HasTrance(play.Target)) return;
 
         var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        if (_plays.Increment(turn) > MaxPlaysPerTurn) return;
+        _plays.Increment(turn);
 
         await PowerCmd.Apply<TimeStopMarkPower>(
             choiceContext, play.Target, DynamicVars.Damage.BaseValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
+    }
+
+    /// <summary>
+    /// このターンのプレイ前カウントが HandReturnsPerTurn 未満なら手札へ戻す。
+    /// （1・2回目→手札、3回目→捨て札。結果として最大3回プレイできる）
+    /// GetResultLocation は OnPlay より前に呼ばれる想定。
+    /// </summary>
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
+        if (_plays.Get(turn) < HandReturnsPerTurn)
+            return new CardLocation(Owner, PileType.Hand, CardPilePosition.Top);
+
+        return base.GetResultLocationForCardPlay();
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2M);
