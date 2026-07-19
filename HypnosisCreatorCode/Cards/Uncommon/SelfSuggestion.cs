@@ -13,8 +13,8 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の心臓をランダム3つ入手。
-/// FireCombatStartTrigger=true。UGで筋力2・スピード2。
+/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手。
+/// 非希少（入手時ゴールド／最大HP等）は抽選外。FireCombatStartTrigger=true。UGで筋力2・スピード2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SelfSuggestion() : HypnosisCreatorCard(1,
@@ -40,7 +40,7 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         await PowerCmd.Apply<StrengthPower>(choiceContext, self, DynamicVars["StrengthPower"].BaseValue, self, this);
         await PowerCmd.Apply<DexterityPower>(choiceContext, self, DynamicVars["DexterityPower"].BaseValue, self, this);
 
-        // HeartRegistry 抽選（所持済み・戦闘中敵の心臓を除外）
+        // HeartRegistry 抽選（希少のみ・所持済み・戦闘中敵の心臓を除外）
         await ObtainRandomHearts(DynamicVars["Hearts"].IntValue);
     }
 
@@ -64,11 +64,9 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
 
         var pool = HeartRegistry.AllHeartTypes
             .Where(t => !ownedTypes.Contains(t))
+            .Where(IsRareHeartType)
             .Where(t =>
             {
-                var resolved = HeartRegistry.ResolveHeartType(
-                    // 型から MonsterIdEntry を得て戦闘中キーと照合
-                    TryMonsterKey(t) ?? "");
                 // 戦闘中敵に対応する心臓は除外
                 var key = TryMonsterKey(t);
                 if (key == null) return true;
@@ -102,6 +100,18 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
 
             if (obtained is EnemyHeartRelic heart)
                 heart.FireCombatStartTrigger = true;
+        }
+    }
+
+    private static bool IsRareHeartType(Type heartType)
+    {
+        try
+        {
+            return Activator.CreateInstance(heartType) is EnemyHeartRelic { IsRareHeart: true };
+        }
+        catch
+        {
+            return false;
         }
     }
 

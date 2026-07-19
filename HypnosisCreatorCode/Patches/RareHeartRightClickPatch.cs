@@ -32,6 +32,20 @@ public static class RareHeartRightClickPatch
         return false;
     }
 
+    /// <summary>
+    /// Godot ブリッジ経由でも右クリックを拾う（_GuiInput をすり抜ける経路の保険）。
+    /// </summary>
+    [HarmonyPatch(typeof(NClickableControl), "EmitSignalMousePressed")]
+    [HarmonyPrefix]
+    public static void MousePressedPrefix(NClickableControl __instance, InputEvent @event)
+    {
+        if (__instance is not NRelicInventoryHolder holder) return;
+        if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Right }) return;
+
+        if (TryBeginActivate(holder))
+            holder.AcceptEvent();
+    }
+
     private static bool TryBeginActivate(NRelicInventoryHolder holder)
     {
         if (_activating) return false;

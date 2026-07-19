@@ -83,6 +83,7 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 
         FireCombatStartTrigger = false;
         await ActivateAsync(choiceContext, player);
-        MarkUsed();
+        // MarkUsed は ActivateAsync / Helper 側で効果成功時のみ行う。
+        // ここでの二重 MarkUsed は、敵不在などで未発動の心臓を消費してしまう。
     }
 }

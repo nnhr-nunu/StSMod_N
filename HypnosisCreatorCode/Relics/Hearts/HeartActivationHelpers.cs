@@ -88,8 +88,11 @@ internal static class HeartActivationHelpers
     public static async Task ActivateRarePotion<T>(EnemyHeartRelic heart, Player player)
         where T : PotionModel
     {
+        // 空きスロットがない場合は未発動のまま（CSV: シュリンカービートル等）
+        var result = await PotionCmd.TryToProcure<T>(player);
+        if (!result.success) return;
+
         heart.Flash();
-        await PotionCmd.TryToProcure<T>(player);
         heart.MarkUsed();
     }
 
@@ -117,5 +120,12 @@ internal static class HeartActivationHelpers
         if (heart.Owner == null) return;
         heart.Flash();
         await CreatureCmd.GainMaxHp(heart.Owner.Creature, maxHp);
+    }
+
+    public static async Task PassiveHeal(EnemyHeartRelic heart, decimal heal)
+    {
+        if (heart.Owner == null) return;
+        heart.Flash();
+        await CreatureCmd.Heal(heart.Owner.Creature, heal);
     }
 }
