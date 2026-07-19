@@ -78,7 +78,7 @@
   "HYPNOSISCREATOR-ABDOMINAL_STRIKE.title": "Abdominal Strike",
   "HYPNOSISCREATOR-ABDOMINAL_STRIKE.description": "Deal {Damage:diff()} damage.\nApply {VulnerablePower:diff()} Vulnerable.",
   "HYPNOSISCREATOR-TINGSHA.title": "Tingsha",
-  "HYPNOSISCREATOR-TINGSHA.description": "The chime applies {Trance:diff()} Trance. Apply {Doom:diff()} Doom.",
+  "HYPNOSISCREATOR-TINGSHA.description": "Deal {Damage:diff()} damage to ALL opponents. Return this to your hand. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-FINGER_COUNT.title": "Finger Count",
   "HYPNOSISCREATOR-FINGER_COUNT.description": "Draw {Cards:diff()} cards.",
   "HYPNOSISCREATOR-SENSE_SHARE.title": "Sense Share",

@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>ティンシャ — すべての相手に6ダメージ。手札に戻る。各相手にトランス1。</summary>
+/// <summary>ティンシャ — すべての相手に7ダメージ（UGで9）。手札に戻る。各相手にトランス1。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Tingsha() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -17,7 +17,7 @@ public class Tingsha() : HypnosisCreatorCard(1,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6M, ValueProp.Move),
+        new DamageVar(7M, ValueProp.Move),
         new DynamicVar("Trance", 1M)
     ];
 
