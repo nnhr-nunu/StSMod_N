@@ -15,6 +15,16 @@ uniform float smoothness : hint_range(0.0, 1.0, 0.001) = 0.08;
 /// 緑の色かぶり抑制（髪・服の縁の緑残り対策）
 uniform float spill : hint_range(0.0, 1.0, 0.001) = 0.20;
 
+/// 下端から何割をウォーターマーク候補帯にするか
+uniform float wm_crop_bottom : hint_range(0.0, 0.25, 0.001) = 0.08;
+
+/// ウォーターマーク側の横幅（UV）
+uniform float wm_crop_side : hint_range(0.0, 0.8, 0.001) = 0.48;
+
+/// flip_h ON のとき画像右下ロゴは UV 左側に来る → 1.0
+/// flip_h OFF なら 0.0（右側を隠す）
+uniform float wm_on_uv_left : hint_range(0.0, 1.0, 1.0) = 1.0;
+
 void fragment() {
 	vec4 col = texture(TEXTURE, UV);
 	float dist = distance(col.rgb, key_color.rgb);
@@ -25,6 +35,16 @@ void fragment() {
 	// 緑かぶりを少し落とす（キャラ本体の緑はあまり触らない程度）
 	float green_excess = max(col.g - max(col.r, col.b), 0.0);
 	col.rgb -= vec3(0.0, green_excess * spill, 0.0);
+
+	// 右下ウォーターマーク帯を透明化（画像ファイルは改変しない）
+	// 靴は帯の外側（中央寄り）にある前提
+	float in_bottom = step(1.0 - wm_crop_bottom, UV.y);
+	float in_side = mix(
+		step(1.0 - wm_crop_side, UV.x),
+		step(UV.x, wm_crop_side),
+		wm_on_uv_left
+	);
+	alpha_mask *= 1.0 - in_bottom * in_side;
 
 	COLOR = vec4(col.rgb, col.a * alpha_mask);
 }

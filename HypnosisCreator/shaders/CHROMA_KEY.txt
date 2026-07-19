@@ -35,6 +35,9 @@
 | ChromaSpill | 緑かぶり抑制 |
 | ChromaKeyR/G/B | 抜く色 |
 
+右下ウォーターマークは画像を改変せず、シェーダーで帯だけ透明化します
+（`wm_crop_bottom` / `wm_crop_side`。立ち絵は Flip H ON 前提）。
+
 ## 反映の注意
 
 - 初回導入後はゲーム再起動
