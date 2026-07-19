@@ -34,18 +34,19 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
         var count = Math.Min(x, hand.Cards.Count(c => c != this));
         if (count <= 0) return;
 
+        // 「X枚まで」なので 1〜X で確定可能（ちょうどX枚必須にしない）
         IReadOnlyList<CardModel> selected;
         try
         {
             selected = (await CardSelectCmd.FromCombatPile(
                 choiceContext, hand, Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, count),
+                new CardSelectorPrefs(SelectionScreenPrompt, minCount: 1, maxCount: count),
                 c => c != this)).ToList();
         }
         catch
         {
             selected = hand.Cards.Where(c => c != this)
-                .OrderBy(_ => Guid.NewGuid()).Take(count).ToList();
+                .OrderBy(_ => Guid.NewGuid()).Take(1).ToList();
         }
 
         var rng = Owner.RunState.Rng.CombatCardSelection;

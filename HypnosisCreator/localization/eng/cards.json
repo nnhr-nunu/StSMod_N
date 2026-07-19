@@ -128,7 +128,7 @@
   "HYPNOSISCREATOR-TIME_STOP_STRIKE.description": "Playable only if the target is Tranced.\nDeal {Damage:diff()} damage at the end of your turn. Playable up to 3 times per turn.",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.title": "Invitation to Abnormal",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description": "Choose up to X cards in your hand and transform them into random Abnormal-named cards from other characters. Those cards are treated as Abnormal cards. They cost 0 this turn.",
-  "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.selectionScreenPrompt": "Choose cards to transform.",
+  "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.selectionScreenPrompt": "Choose cards to transform (you may confirm with fewer than the maximum).",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.title": "Ambush Hypnosis",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "Draw a card for each enemy, then automatically play each on a random enemy, ignoring their costs.",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.title": "Mass Hypnosis",
