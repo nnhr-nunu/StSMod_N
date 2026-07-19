@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
@@ -25,10 +24,12 @@ public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
     TargetType.AnyEnemy)
 {
     private const int BossMaxHpThreshold = 100;
-    private const string JpnUpgradedDescription =
-        "カウント。3ターン後、相手の心臓が止まり追加のレリック報酬を獲得する。ボスの場合は2倍のターン数になる。トランス1。";
+
+    // 説明全体を差し替えない（[gold]カウント・性癖プレフィックスを消さない）
+    private const string JpnUpgradeFrom = "相手の心臓が止まる。";
+    private const string JpnUpgradeTo = "相手の心臓が止まり[green]追加のレリック報酬を獲得する[/green]。";
     private const string EngUpgradeFrom = "their heart stops.";
-    private const string EngUpgradeTo = "their heart stops and you gain an extra Relic reward.";
+    private const string EngUpgradeTo = "their heart stops and [green]you gain an extra Relic reward[/green].";
 
     static CardiacArrestHypnosis()
     {
@@ -51,28 +52,18 @@ public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
     {
         if (card is not CardiacArrestHypnosis { IsUpgraded: true }) return;
 
-        if (IsJapaneseUi())
+        if (description.Contains("[green]追加のレリック報酬を獲得する[/green]", StringComparison.Ordinal)
+            || description.Contains("[green]you gain an extra Relic reward[/green]", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        if (description.Contains(JpnUpgradeFrom, StringComparison.Ordinal))
         {
-            description = JpnUpgradedDescription;
+            description = description.Replace(JpnUpgradeFrom, JpnUpgradeTo, StringComparison.Ordinal);
             return;
         }
 
-        if (description.Contains(EngUpgradeTo, StringComparison.OrdinalIgnoreCase)) return;
-        description = description.Replace(EngUpgradeFrom, EngUpgradeTo, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static bool IsJapaneseUi()
-    {
-        try
-        {
-            var lang = LocManager.Instance?.Language ?? "";
-            return lang.Contains("jpn", StringComparison.OrdinalIgnoreCase)
-                   || lang.Contains("ja", StringComparison.OrdinalIgnoreCase);
-        }
-        catch
-        {
-            return false;
-        }
+        if (description.Contains(EngUpgradeFrom, StringComparison.OrdinalIgnoreCase))
+            description = description.Replace(EngUpgradeFrom, EngUpgradeTo, StringComparison.OrdinalIgnoreCase);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

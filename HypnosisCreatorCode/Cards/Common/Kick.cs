@@ -19,8 +19,8 @@ public class Kick() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    private const string JpnUpgradeLine = "プレイ後、山札に入る。";
-    private const string EngUpgradeLine = "After play, shuffle this into your draw pile.";
+    private const string JpnUpgradeLine = "[green]プレイ後、山札に入る。[/green]";
+    private const string EngUpgradeLine = "[green]After play, shuffle this into your draw pile.[/green]";
 
     static Kick()
     {

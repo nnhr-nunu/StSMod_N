@@ -21,9 +21,9 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
     TargetType.Self)
 {
     private const string JpnUpgradeInsertFrom = "ランダムなアブノーマル系名称";
-    private const string JpnUpgradeInsertTo = "ランダムなアップグレード済みアブノーマル系名称";
+    private const string JpnUpgradeInsertTo = "ランダムな[green]アップグレード済み[/green]アブノーマル系名称";
     private const string EngUpgradeInsertFrom = "random Abnormal-named";
-    private const string EngUpgradeInsertTo = "random upgraded Abnormal-named";
+    private const string EngUpgradeInsertTo = "random [green]upgraded[/green] Abnormal-named";
 
     static AbnormalTransform()
     {

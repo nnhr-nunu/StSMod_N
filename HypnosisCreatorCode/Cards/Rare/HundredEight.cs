@@ -25,8 +25,8 @@ public class HundredEight() : HypnosisCreatorCard(1,
 {
     private const int FinalCostThreshold = 3;
     private const int FinalHitCount = 108;
-    private const string JpnUpgradeLine = "プレイ後は山札に入る。";
-    private const string EngUpgradeLine = "After play, shuffle this into your draw pile.";
+    private const string JpnUpgradeLine = "[green]プレイ後は山札に入る。[/green]";
+    private const string EngUpgradeLine = "[green]After play, shuffle this into your draw pile.[/green]";
 
     static HundredEight()
     {
