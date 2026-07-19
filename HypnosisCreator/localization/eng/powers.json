@@ -117,8 +117,8 @@
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.description": "Whenever an enemy applies a debuff to you, deal {Amount} damage to them. Triggers even if Artifact blocks it.",
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.smartDescription": "Debuff Reflect {Amount}.",
   "HYPNOSISCREATOR-ZERO_OUT_POWER.title": "Zero Out",
-  "HYPNOSISCREATOR-ZERO_OUT_POWER.description": "Temporarily reduce Strength to neutralize attacks.",
-  "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "Neutralize attacks.",
+  "HYPNOSISCREATOR-ZERO_OUT_POWER.description": "Attack damage is set to 0. Removed after their next turn.",
+  "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "Attack damage 0.",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.title": "Forced Sleep Visual",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.description": "Internal: sleep intent and ZZZ while Asleep.",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "Sleeping."

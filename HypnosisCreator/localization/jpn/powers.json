@@ -117,8 +117,8 @@
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.description": "敵がデバフを付与してくるたび、その敵に{Amount}ダメージを与える。アーティファクトで防がれても発動する。",
   "HYPNOSISCREATOR-FUDO_MYOO_POWER.smartDescription": "デバフ反射 {Amount}。",
   "HYPNOSISCREATOR-ZERO_OUT_POWER.title": "ぜーろっ",
-  "HYPNOSISCREATOR-ZERO_OUT_POWER.description": "一時的に筋力を下げ、攻撃を無力化する。",
-  "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "攻撃無力化。",
+  "HYPNOSISCREATOR-ZERO_OUT_POWER.description": "攻撃ダメージが0になる。次の行動後に消滅する。",
+  "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "攻撃ダメージ0。",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.title": "強制睡眠表示",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.description": "内部用。睡眠中の行動予定とZZZ表示。",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "睡眠中。"

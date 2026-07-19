@@ -7,11 +7,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>ぜーろっ — カウント。筋力を一時的に0にし攻撃意図を無力化＋トランス1。UGでブロックも除去。</summary>
+/// <summary>ぜーろっ — カウント。攻撃値を0にする＋トランス1。UGでブロックも除去。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class ZeroOut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Rare,
@@ -35,12 +34,8 @@ public class ZeroOut() : HypnosisCreatorCard(3,
         if (IsUpgraded && play.Target.Block > 0)
             await CreatureCmd.LoseBlock(choiceContext, play.Target, play.Target.Block, Owner.Creature);
 
-        var strength = play.Target.GetPowerAmount<StrengthPower>();
-        if (strength > 0)
-        {
-            await PowerCmd.Apply<ZeroOutPower>(
-                choiceContext, play.Target, strength, Owner.Creature, this);
-        }
+        await PowerCmd.Apply<ZeroOutPower>(
+            choiceContext, play.Target, 1m, Owner.Creature, this);
 
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
