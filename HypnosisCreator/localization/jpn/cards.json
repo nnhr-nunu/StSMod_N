@@ -158,7 +158,7 @@
   "HYPNOSISCREATOR-MASTERY.title": "練達",
   "HYPNOSISCREATOR-MASTERY.description": "プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。",
   "HYPNOSISCREATOR-MELT_INTO_TRANCE.title": "トランスに溶けゆく",
-  "HYPNOSISCREATOR-MELT_INTO_TRANCE.description": "対象がトランスに落ちた回数分、{Damage:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-MELT_INTO_TRANCE.description": "対象がトランスに落ちた回数×{PerTrance:diff()}のダメージを与える。",
   "HYPNOSISCREATOR-CORROSION.title": "侵食",
   "HYPNOSISCREATOR-CORROSION.description": "アタックをプレイするたび、ランダムな催眠系カウントカードを手札に1枚加える。",
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "触手の想起",

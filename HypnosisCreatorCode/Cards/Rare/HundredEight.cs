@@ -1,14 +1,10 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
@@ -16,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>
 /// 壱佰捌煩悩 — 全性癖タグ。敵全体の性癖を目覚めさせ、プレイ後コスト+1。
 /// 3コストでプレイ時、すべての敵に1ダメージ×108回を与えて廃棄。
-/// UG: プレイ後は山札に入る。
+/// UG: プレイ後は山札に入る（説明は UpgradeDescriptionHooks）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HundredEight() : HypnosisCreatorCard(1,
@@ -25,42 +21,12 @@ public class HundredEight() : HypnosisCreatorCard(1,
 {
     private const int FinalCostThreshold = 3;
     private const int FinalHitCount = 108;
-    private const string JpnUpgradeLine = "[green]プレイ後は山札に入る。[/green]";
-    private const string EngUpgradeLine = "[green]After play, shuffle this into your draw pile.[/green]";
-
-    static HundredEight()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendUpgradeLine;
-    }
 
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal];
 
     public override bool AlwaysHitsFetish => true;
     public override bool? FetishHitPerTypeOverride => true;
-
-    private static void AppendUpgradeLine(CardModel card, Creature? target, ref string description)
-    {
-        if (card is not HundredEight { IsUpgraded: true }) return;
-
-        var line = IsJapaneseUi() ? JpnUpgradeLine : EngUpgradeLine;
-        if (description.Contains(line, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + "\n" + line;
-    }
-
-    private static bool IsJapaneseUi()
-    {
-        try
-        {
-            var lang = LocManager.Instance?.Language ?? "";
-            return lang.Contains("jpn", StringComparison.OrdinalIgnoreCase)
-                   || lang.Contains("ja", StringComparison.OrdinalIgnoreCase);
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     /// <summary>必中タグで常時光らないよう、コスト3到達（108連撃）のときだけ黄ハイライト。</summary>
     protected override bool ShouldGlowGoldInternal =>
