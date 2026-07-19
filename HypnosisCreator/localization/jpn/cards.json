@@ -136,7 +136,7 @@
   "HYPNOSISCREATOR-RAPPORT.title": "ラポール",
   "HYPNOSISCREATOR-RAPPORT.description": "手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。",
   "HYPNOSISCREATOR-CATALEPSY.title": "カタレプシー",
-  "HYPNOSISCREATOR-CATALEPSY.description": "相手にスローを付与する。",
+  "HYPNOSISCREATOR-CATALEPSY.description": "相手にスロー1を付与する。",
   "HYPNOSISCREATOR-STATUS_HYPNOSIS.title": "状態異常催眠",
   "HYPNOSISCREATOR-STATUS_HYPNOSIS.description": "トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。",
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.title": "好き好き催眠",

@@ -1,19 +1,22 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.MonsterMoves.Intents;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// マシュマロ回答 — ランダムな呪いカードを手札に加える。攻撃意図の敵がいれば、代わりに大きなブロックを得て沼を付与する。廃棄。
-/// UGでは加える呪いが1枚に減る。
+/// マシュマロ回答 — ランダムな呪いを手札に加える。攻撃予定の敵がいれば、その行動を
+/// 「ブロック39を得る」に上書きし沼2を付与する（元の行動は消費、次ターンは別行動）。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MarshmallowAnswer() : HypnosisCreatorCard(1,
@@ -53,9 +56,33 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
         var attacker = CombatState.HittableEnemies.FirstOrDefault(e => e.Monster?.IntendsToAttack == true);
         if (attacker == null) return;
 
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars["Block"].BaseValue, ValueProp.Move, null);
+        var block = DynamicVars["Block"].BaseValue;
+        TryOverwriteToDefend(attacker, block);
         await PowerCmd.Apply<BogPower>(
             choiceContext, attacker, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
+    }
+
+    private static void TryOverwriteToDefend(Creature enemy, decimal block)
+    {
+        if (enemy.Monster == null) return;
+        try
+        {
+            async Task OnPerform(IReadOnlyList<Creature> _)
+            {
+                if (!enemy.IsAlive) return;
+                await CreatureCmd.GainBlock(enemy, block, ValueProp.Move, null);
+            }
+
+            var move = new MoveState(
+                "hypnosis_creator_marshmallow_defend",
+                OnPerform,
+                [new DefendIntent()]);
+            enemy.Monster.SetMoveImmediate(move, forceTransition: true);
+        }
+        catch
+        {
+            // Intent API 差異時は沼付与のみ
+        }
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(-1M);

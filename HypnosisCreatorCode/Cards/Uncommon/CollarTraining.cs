@@ -7,13 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 首輪と調教 — DomSub。対象を「引き寄せ」る。既に引き寄せ済みの相手には破滅を与えDomSub性癖を目覚めさせる。
-/// UGでは破滅発生時にランダムな調教命令カードを2枚手札に加える。
+/// アタックだがダメージは与えない。UGでは破滅発生時にランダムな調教命令カードを2枚手札に加える。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CollarTraining() : HypnosisCreatorCard(1,
@@ -23,10 +22,7 @@ public class CollarTraining() : HypnosisCreatorCard(1,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(9M, ValueProp.Move),
-        new DynamicVar("Doom", 15M)
-    ];
+        [new DynamicVar("Doom", 15M)];
 
     private static bool IsCommandCard(CardModel c) => c is TrainingCommand;
 
@@ -34,12 +30,6 @@ public class CollarTraining() : HypnosisCreatorCard(1,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         var alreadyPulled = PullTracker.IsPulled(play.Target);
-
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-            .Execute(choiceContext);
 
         if (alreadyPulled)
         {

@@ -7,14 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// フリーハグ — マルチ用。対象を「引き寄せ」る。既に引き寄せ済みの相手には破滅と沼を与え、
-/// カードを2枚ランダムな味方（マルチ用。ソロでは自分）に渡す。
-/// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
+/// カードを2枚ランダムな味方に渡す。アタックだがダメージは与えない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FreeHug() : HypnosisCreatorCard(0,
@@ -23,7 +21,6 @@ public class FreeHug() : HypnosisCreatorCard(0,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6M, ValueProp.Move),
         new DynamicVar("Doom", 10M),
         new PowerVar<BogPower>(1M),
         new CardsVar(2)
@@ -36,12 +33,6 @@ public class FreeHug() : HypnosisCreatorCard(0,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         var alreadyPulled = PullTracker.IsPulled(play.Target);
-
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, play)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-            .Execute(choiceContext);
 
         if (alreadyPulled)
         {
