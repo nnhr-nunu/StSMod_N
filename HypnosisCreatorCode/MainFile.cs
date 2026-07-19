@@ -26,6 +26,7 @@ public partial class MainFile : Node
         UpgradeDescriptionHooks.Register();
 
         Harmony harmony = new(ModId);
+        // TargetMethod 内の throw は PatchAll を中断し後続パッチを無効化するので禁止。
         harmony.PatchAll();
     }
 }
