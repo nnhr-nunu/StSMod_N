@@ -203,7 +203,7 @@
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.title": "受容の需要",
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "ダメージを受けた回数分、次のターンにエナジーを得てカードを引く。",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.title": "期待に応えて",
-  "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "手札にある催眠系カウントカードのコスト合計の2乗のダメージを与え、該当カードのコストを1下げる。({Damage:diff()}ダメージ）",
+  "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "手札にある催眠系カウントカードのコスト合計の2乗のダメージを与え、該当カードのコストを1下げる。({CalculatedDamage:diff()}ダメージ）",
   "HYPNOSISCREATOR-ENCORE.title": "アンコール",
   "HYPNOSISCREATOR-ENCORE.description": "プレイした催眠系カウントカードは、コストが初期値にリセットされて手札に戻る。",
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.title": "鼓動の共有",

@@ -203,7 +203,7 @@
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.title": "Need for Acceptance",
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "Whenever you take attack damage, remember it. At the start of your next turn, gain [gold]Energy[/gold] and draw cards equal to the number of hits taken.\n[gold]Upgrade: cost 1.[/gold]",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.title": "Meeting Expectations",
-  "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "Deal damage equal to the square of the total resolved cost of [gold]Count[/gold] cards in your hand, then reduce their cost by 1.\n[gold]Upgrade: Retain.[/gold]",
+  "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "Deal damage equal to the square of the total resolved cost of [gold]Count[/gold] cards in your hand, then reduce their cost by 1.\n(Deals {CalculatedDamage:diff()} damage)\n[gold]Upgrade: Retain.[/gold]",
   "HYPNOSISCREATOR-ENCORE.title": "Encore",
   "HYPNOSISCREATOR-ENCORE.description": "Whenever a [gold]Count[/gold] card you played would Exhaust, it returns to your hand instead.\n[gold]Upgrade: cost 0.[/gold]",
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.title": "Sharing a Heartbeat",

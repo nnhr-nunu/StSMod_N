@@ -79,4 +79,35 @@ public static class CountRules
             card.EnergyCost.AddThisCombat(-resolved);
         }
     }
+
+    /// <summary>
+    /// 手札のカウントカードの解決後コスト合計。
+    /// <paramref name="exclude"/> は自分自身（期待に応えて等）を除外するときに使う。
+    /// </summary>
+    public static int SumResolvedCountCostsInHand(Player player, CardModel? exclude = null)
+    {
+        var hand = player.PlayerCombatState?.Hand;
+        if (hand == null) return 0;
+
+        var sum = 0;
+        foreach (var card in hand.Cards)
+        {
+            if (exclude != null && ReferenceEquals(card, exclude)) continue;
+            if (!HasCountKeyword(card)) continue;
+            var resolved = card.EnergyCost.GetResolved();
+            if (resolved > 0) sum += resolved;
+        }
+        return sum;
+    }
+
+    /// <summary>手札のカウントカード一覧（コスト低下処理用）。</summary>
+    public static List<CardModel> GetCountCardsInHand(Player player, CardModel? exclude = null)
+    {
+        var hand = player.PlayerCombatState?.Hand;
+        if (hand == null) return [];
+
+        return hand.Cards
+            .Where(c => (exclude == null || !ReferenceEquals(c, exclude)) && HasCountKeyword(c))
+            .ToList();
+    }
 }
