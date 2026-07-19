@@ -38,7 +38,9 @@ public static class EnemyFetishSlots
                     $"Fetish spawn: {enemy.Name} -> {state.Fetishes[0].Id.Entry} (cap={state.Capacity})");
             }
 
-            FetishOrbHud.QueueRefresh(enemy, visible: true);
+            // オーブHUDは廃止。バフ行の性癖パワーを同期する。
+            FetishOrbHud.QueueRefresh(enemy, visible: false);
+            FetishCombat.SyncFetishPowers(enemy, owner);
         }
         catch (Exception e)
         {
@@ -52,7 +54,7 @@ public static class EnemyFetishSlots
         if (!enemy.IsEnemy || amount <= 0) return Get(enemy).Capacity;
         var state = Get(enemy);
         state.Capacity += amount;
-        FetishOrbHud.QueueRefresh(enemy, visible: true);
+        FetishOrbHud.QueueRefresh(enemy, visible: false);
         return state.Capacity;
     }
 
@@ -73,7 +75,8 @@ public static class EnemyFetishSlots
         var mutable = fetish.IsMutable ? fetish : fetish.ToMutable(0);
         mutable.Owner = owner;
         state.Fetishes.Add(mutable);
-        FetishOrbHud.QueueRefresh(enemy, visible: true);
+        FetishOrbHud.QueueRefresh(enemy, visible: false);
+        FetishCombat.SyncFetishPowers(enemy, owner);
         return true;
     }
 

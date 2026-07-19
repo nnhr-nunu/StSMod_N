@@ -97,5 +97,17 @@
   "HYPNOSISCREATOR-ERICKSONIAN_POWER.smartDescription": "Ericksonian Induction.",
   "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.title": "Attack Tracker",
   "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.description": "Tracks enemy attacks on the player.",
-  "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.smartDescription": "Attack Tracker."
+  "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.smartDescription": "Attack Tracker.",
+  "HYPNOSISCREATOR-SM_FETISH_POWER.title": "SM",
+  "HYPNOSISCREATOR-SM_FETISH_POWER.description": "When an SM card is played on this enemy, they gain {Amount} Doom.",
+  "HYPNOSISCREATOR-SM_FETISH_POWER.smartDescription": "SM Fetish {Amount}.",
+  "HYPNOSISCREATOR-DS_FETISH_POWER.title": "DomSub",
+  "HYPNOSISCREATOR-DS_FETISH_POWER.description": "When a DomSub card is played on this enemy, they gain {Amount} Doom.",
+  "HYPNOSISCREATOR-DS_FETISH_POWER.smartDescription": "DomSub Fetish {Amount}.",
+  "HYPNOSISCREATOR-ABNORMAL_FETISH_POWER.title": "Abnormal",
+  "HYPNOSISCREATOR-ABNORMAL_FETISH_POWER.description": "When an Abnormal card is played on this enemy, they gain {Amount} Doom.",
+  "HYPNOSISCREATOR-ABNORMAL_FETISH_POWER.smartDescription": "Abnormal Fetish {Amount}.",
+  "HYPNOSISCREATOR-TRANCE_FETISH_POWER.title": "Trance Fetish",
+  "HYPNOSISCREATOR-TRANCE_FETISH_POWER.description": "Whenever Trance is applied to this enemy, they gain {Amount} Doom.",
+  "HYPNOSISCREATOR-TRANCE_FETISH_POWER.smartDescription": "Trance Fetish {Amount}."
 }

@@ -58,6 +58,7 @@ public static class FetishCombat
         if (HasFetish(enemy, type)) return false;
 
         EnemyFetishSlots.AddCapacity(enemy, 1);
+        // TryPlant 内で SyncFetishPowers する
         return type switch
         {
             FetishType.Sm => EnemyFetishSlots.TryPlant<SmFetishOrb>(enemy, owner),
@@ -66,6 +67,44 @@ public static class FetishCombat
             FetishType.Trance => EnemyFetishSlots.TryPlant<TranceFetishOrb>(enemy, owner),
             _ => false
         };
+    }
+
+    /// <summary>
+    /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。
+    /// 獲得演出は問わず、未所持なら付与する。
+    /// </summary>
+    public static void SyncFetishPowers(Creature enemy, Player owner)
+    {
+        if (!enemy.IsEnemy || owner.Creature == null) return;
+
+        try
+        {
+            var amount = CalcFetishDoomAmount(enemy);
+            EnsureFetishPower<SmFetishPower>(enemy, owner, FetishType.Sm, amount);
+            EnsureFetishPower<DsFetishPower>(enemy, owner, FetishType.DomSub, amount);
+            EnsureFetishPower<AbnormalFetishPower>(enemy, owner, FetishType.Abnormal, amount);
+            EnsureFetishPower<TranceFetishPower>(enemy, owner, FetishType.Trance, amount);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Fetish SyncFetishPowers failed: {e}");
+        }
+    }
+
+    private static void EnsureFetishPower<TPower>(
+        Creature enemy,
+        Player owner,
+        FetishType type,
+        int amount)
+        where TPower : FetishAttributePower
+    {
+        if (!HasFetish(enemy, type)) return;
+
+        if (enemy.GetPower<TPower>() != null) return;
+
+        PowerCmd.Apply<TPower>(null!, enemy, amount, owner.Creature, null!)
+            .GetAwaiter()
+            .GetResult();
     }
 
     public static void AwakenAll(Creature enemy, Player owner)

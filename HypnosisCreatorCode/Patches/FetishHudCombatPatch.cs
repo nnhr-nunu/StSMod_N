@@ -40,7 +40,7 @@ internal static class FetishOwnerLookup
     }
 }
 
-/// <summary>敵出現時に性癖を付与し頭上HUDを出す。</summary>
+/// <summary>敵出現時に性癖を付与し、バフ行へ同期する。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCreatureAddedToCombat))]
 public static class FetishHudCombatPatch
 {
@@ -76,7 +76,7 @@ public static class FetishHudBeforeCombatPatch
 }
 
 /// <summary>
-/// セーブ続き／取りこぼし対策。プレイヤーターン開始時にも全敵へ性癖＋HUDを保証する。
+/// セーブ続き／取りこぼし対策。プレイヤーターン開始時にも全敵へ性癖バフを保証する。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
 public static class FetishHudTurnStartPatch
