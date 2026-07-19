@@ -44,7 +44,7 @@
   "HYPNOSISCREATOR-PETTING.title": "なでなで",
   "HYPNOSISCREATOR-PETTING.description": "脱力1を付与する。カードを1枚引く。",
   "HYPNOSISCREATOR-WHISPER.title": "囁き",
-  "HYPNOSISCREATOR-WHISPER.description": "山札のカードを1枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。",
+  "HYPNOSISCREATOR-WHISPER.description": "山札のカードを{Cards:diff()}枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。\n[gold]UG: このカードは必ず性癖にささる。[/gold]",
   "HYPNOSISCREATOR-WHISPER.selectionScreenPrompt": "目覚めさせる性癖の元になるカードを選んでください。",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.title": "軟酥の法",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.description": "デバフを1種類解除する。",

@@ -10,13 +10,19 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>囁き — 山札の性癖カードを選び、その性癖を対象に目覚めさせる。廃棄。UGで2枚。</summary>
+/// <summary>
+/// 囁き — 山札の性癖カードを選び、その性癖を対象に目覚めさせる。廃棄。
+/// UG: 2枚選び、このカードは必ず性癖にささる。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Whisper() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Common,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    /// <summary>UG時のみ必中刺さり。</summary>
+    public override bool AlwaysHitsFetish => IsUpgraded;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
@@ -50,7 +56,6 @@ public class Whisper() : HypnosisCreatorCard(0,
         }
         catch
         {
-            // 選択UIが使えない場合は山札からランダムに性癖を目覚めさせる
             selected = drawCandidates
                 .OrderBy(_ => Guid.NewGuid())
                 .Take(count)
@@ -65,14 +70,29 @@ public class Whisper() : HypnosisCreatorCard(0,
                 .ToList();
         }
 
+        var awakened = new List<FetishType>();
         foreach (var card in selected)
         {
             if (card is not HypnosisCreatorCard hc) continue;
             foreach (var fetish in hc.CardFetishes)
+            {
                 FetishCombat.Awaken(play.Target, fetish, Owner);
+                awakened.Add(fetish);
+            }
         }
 
-        await Task.CompletedTask;
+        // UG: 選んだカードの性癖タグで必ず刺さる（感度3000倍と同様に1プレイ1回）
+        if (IsUpgraded && awakened.Count > 0)
+        {
+            await FetishCombat.TryFetishHit(
+                choiceContext,
+                play.Target,
+                Owner.Creature,
+                this,
+                awakened.Distinct().ToList(),
+                alwaysHit: true,
+                singleHit: true);
+        }
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1M);

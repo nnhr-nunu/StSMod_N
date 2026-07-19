@@ -44,7 +44,7 @@
   "HYPNOSISCREATOR-PETTING.title": "Petting",
   "HYPNOSISCREATOR-PETTING.description": "Apply {FrailPower:diff()} Frail.\nDraw {Cards:diff()} card.",
   "HYPNOSISCREATOR-WHISPER.title": "Whisper",
-  "HYPNOSISCREATOR-WHISPER.description": "Choose {Cards:diff()} Fetish card(s) in your hand. Awaken their fetishes on the target.",
+  "HYPNOSISCREATOR-WHISPER.description": "Choose {Cards:diff()} Fetish card(s) from your draw pile. Awaken their fetishes on the target. Exhaust.\n[gold]Upgrade: This card always hits Fetish.[/gold]",
   "HYPNOSISCREATOR-WHISPER.selectionScreenPrompt": "Choose a card to awaken fetishes from.",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.title": "Soft Technique",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.description": "Remove 1 random debuff from yourself.\n[gold]Upgrade: remove all of them.[/gold]",
