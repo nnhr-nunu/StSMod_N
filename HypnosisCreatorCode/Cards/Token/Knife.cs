@@ -18,6 +18,10 @@ public class Knife() : HypnosisCreatorCard(0,
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
+    /// <summary>生成カードのためスキルポーション等の戦闘中生成対象外。</summary>
+    public override bool CanBeGeneratedInCombat => false;
+    public override bool CanBeGeneratedByModifiers => false;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(5M, ValueProp.Move)];
 

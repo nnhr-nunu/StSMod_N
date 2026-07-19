@@ -23,6 +23,14 @@ public class Spanking() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+
+        // 刺さる見込みならダメージ前にリプレイ付与（後付けだと効かないことがある）。
+        // 説明文には「リプレイ」キーワードを書かない（BaseReplayCount の自動追記と二重になるため）。
+        var willHit = FetishCombat.HasFetish(play.Target, FetishType.Sm)
+                      || FetishCombat.CultLeaderActive;
+        if (willHit)
+            BaseReplayCount = IsUpgraded ? 2 : 1;
+
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(2)
             .FromCard(this, play)
@@ -30,10 +38,7 @@ public class Spanking() : HypnosisCreatorCard(1,
             .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
 
-        var hitCount = await FetishCombat.TryFetishHit(
-            choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
-        if (hitCount > 0)
-            BaseReplayCount = IsUpgraded ? 2 : 1;
+        await ResolveFetishOnTarget(choiceContext, play);
     }
 
     protected override void OnUpgrade() { }
