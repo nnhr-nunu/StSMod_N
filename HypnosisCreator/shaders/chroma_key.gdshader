@@ -15,6 +15,9 @@ uniform float smoothness : hint_range(0.0, 1.0, 0.001) = 0.06;
 /// 緑の色かぶり抑制（髪・服の縁の緑残り対策）
 uniform float spill : hint_range(0.0, 1.0, 0.001) = 0.18;
 
+/// 明るい粒子の色かぶりを白へ戻す量（Gだけ落とすと青っぽく残る対策）
+uniform float sparkle_whiten : hint_range(0.0, 1.0, 0.001) = 0.9;
+
 /// 下端から何割をウォーターマーク帯にするか（ハード角抜き）
 uniform float wm_crop_bottom : hint_range(0.0, 0.25, 0.001) = 0.055;
 
@@ -42,6 +45,12 @@ void fragment() {
 	// 緑かぶり抑制（保護画素は弱める）
 	float green_excess = max(green_dom, 0.0);
 	col.rgb -= vec3(0.0, green_excess * spill * (1.0 - protect * 0.7), 0.0);
+
+	// 明るい粒子: 緑を引いただけだと B が残り青〜シアンに見える → 輝度の白へ寄せる
+	float cool_excess = max(max(col.b, col.g) - col.r, 0.0);
+	float sparkle = smoothstep(0.52, 0.72, lum) * (1.0 - smoothstep(0.18, 0.42, sat));
+	float whiten_w = sparkle * clamp(green_excess * 5.0 + cool_excess * 3.0, 0.0, 1.0) * sparkle_whiten;
+	col.rgb = mix(col.rgb, vec3(lum), whiten_w);
 
 	// --- ウォーターマーク ---
 	// 1) 角のハード抜き（靴と重なりにくい外側だけ）

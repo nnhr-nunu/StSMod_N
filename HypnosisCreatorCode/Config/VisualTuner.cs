@@ -161,6 +161,8 @@ public static class VisualTuner
         mat.SetShaderParameter("similarity", similarity);
         mat.SetShaderParameter("smoothness", smoothness);
         mat.SetShaderParameter("spill", spill);
+        // パワー詠唱の粒子が青っぽく残るのを抑える（シェーダー既定と同じ）
+        mat.SetShaderParameter("sparkle_whiten", 0.9f);
         // 画像は改変せず、全戦闘モーションで同じ帯を透明化
         mat.SetShaderParameter("wm_crop_bottom", WatermarkCropBottom);
         mat.SetShaderParameter("wm_crop_side", WatermarkCropSide);
