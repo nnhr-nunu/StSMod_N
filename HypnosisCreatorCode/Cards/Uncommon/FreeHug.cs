@@ -65,7 +65,7 @@ public class FreeHug() : HypnosisCreatorCard(0,
         }
         else
         {
-            PullTracker.TryPull(play.Target);
+            await PullTracker.TryPull(play.Target, Owner.Creature);
         }
     }
 

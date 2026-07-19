@@ -53,7 +53,7 @@ public class CollarTraining() : HypnosisCreatorCard(1,
         }
         else
         {
-            PullTracker.TryPull(play.Target);
+            await PullTracker.TryPull(play.Target, Owner.Creature);
         }
 
         await ResolveFetishOnTarget(choiceContext, play);
