@@ -1,10 +1,14 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
@@ -15,11 +19,42 @@ public class Kick() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
+    private const string JpnUpgradeLine = "プレイ後、山札に入る。";
+    private const string EngUpgradeLine = "After play, shuffle this into your draw pile.";
+
+    static Kick()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendUpgradeLine;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm, FetishType.DomSub];
     public override bool? FetishHitPerTypeOverride => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(10M, ValueProp.Move)];
+
+    private static void AppendUpgradeLine(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Kick { IsUpgraded: true }) return;
+
+        var line = IsJapaneseUi() ? JpnUpgradeLine : EngUpgradeLine;
+        if (description.Contains(line, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + "\n" + line;
+    }
+
+    private static bool IsJapaneseUi()
+    {
+        try
+        {
+            var lang = LocManager.Instance?.Language ?? "";
+            return lang.Contains("jpn", StringComparison.OrdinalIgnoreCase)
+                   || lang.Contains("ja", StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
