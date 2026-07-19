@@ -1,9 +1,9 @@
 {
   "HYPNOSISCREATOR-FETISH_BOG.title": "性癖の沼",
-  "HYPNOSISCREATOR-FETISH_BOG.description": "敵は出現時に性癖バフを1つ持つ（SM／DomSub／アブノーマルのいずれか）。性癖が増えるとスロットも増える。ホバーで刺さり時の破滅量を確認できる。",
+  "HYPNOSISCREATOR-FETISH_BOG.description": "相手は出現時に性癖バフを1つ持つ（SM／DomSub／アブノーマルのいずれか）。性癖が増えるとスロットも増える。ホバーで刺さり時の破滅量を確認できる。",
   "HYPNOSISCREATOR-FETISH_BOG.flavor": "一度沈んだら、抜けられない。",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.title": "催眠メトロノーム",
-  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "戦闘1ターン目開始時、敵全体にトランス{Trance:diff()}を付与する。",
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "戦闘1ターン目開始時、相手全体にトランス{Trance:diff()}を付与する。",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "チク。タク。ドロップ。",
   "HYPNOSISCREATOR-STOLEN_HEART.title": "奪った心臓",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "戦闘開始時、所持している奪った心臓1つにつき2 [gold]ブロック[/gold]を得る。",
