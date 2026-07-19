@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -8,16 +9,18 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// カウントカードはコスト0、またはトランス条件を満たすときだけプレイ可。
-/// 本家 <c>CanPlay(out UnplayableReason, out AbstractModel)</c> は out 引数のため
-/// <see cref="ArgumentType.Out"/> で解決する（Ref だとパッチが掛からず制限が無効になる）。
+/// <c>out</c> 引数は <see cref="Type.MakeByRefType"/> で解決する（ArgumentType 指定ミスでパッチ全体が死ぬのを防ぐ）。
 /// </summary>
-[HarmonyPatch(
-    typeof(CardModel),
-    nameof(CardModel.CanPlay),
-    [typeof(UnplayableReason), typeof(AbstractModel)],
-    [ArgumentType.Out, ArgumentType.Out])]
+[HarmonyPatch]
 public static class CountUnplayablePatch
 {
+    private static MethodBase TargetMethod() =>
+        AccessTools.Method(
+            typeof(CardModel),
+            nameof(CardModel.CanPlay),
+            [typeof(UnplayableReason).MakeByRefType(), typeof(AbstractModel).MakeByRefType()])
+        ?? throw new InvalidOperationException("CardModel.CanPlay(out UnplayableReason, out AbstractModel) not found");
+
     public static void Postfix(
         CardModel __instance,
         ref bool __result,
@@ -28,19 +31,6 @@ public static class CountUnplayablePatch
         if (CountRules.CanStartPlay(__instance)) return;
 
         reason |= CustomEnums.HcUnplayableReasons.CountNotZero;
-        __result = false;
-    }
-}
-
-/// <summary>引数なし <see cref="CardModel.CanPlay()"/> 経由の保険。</summary>
-[HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), [])]
-public static class CountUnplayableNoArgPatch
-{
-    public static void Postfix(CardModel __instance, ref bool __result)
-    {
-        if (!__result) return;
-        if (!CountRules.HasCountKeyword(__instance)) return;
-        if (CountRules.CanStartPlay(__instance)) return;
         __result = false;
     }
 }

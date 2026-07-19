@@ -9,8 +9,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>カウントのプレイ可否。mechanics-lock.md 参照。</summary>
 public static class CountRules
 {
-    public static bool HasCountKeyword(CardModel card) =>
-        card.Keywords.Contains(HcKeywords.Count);
+    public static bool HasCountKeyword(CardModel card)
+    {
+        // Canonical を先に見る（Keywords 経由が一時的に欠ける／未同期でも落とさない）
+        if (card.CanonicalKeywords.Contains(HcKeywords.Count)) return true;
+        return card.Keywords.Contains(HcKeywords.Count);
+    }
 
     public static bool IsResolvedCostZero(CardModel card) =>
         card.EnergyCost.GetResolved() == 0;
@@ -61,6 +65,7 @@ public static class CountRules
         {
             if (!HasCountKeyword(card)) continue;
             if (card.EnergyCost.GetResolved() <= 0) continue;
+            // EndOfCombat 相対修正。ターン終了で消えない（AddThisTurn は毎ターン消える）
             card.EnergyCost.AddThisCombat(-steps);
         }
     }
