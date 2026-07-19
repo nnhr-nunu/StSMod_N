@@ -215,5 +215,5 @@
   "HYPNOSISCREATOR-KNIFE.title": "Knife",
   "HYPNOSISCREATOR-KNIFE.description": "Deal {Damage:diff()} damage.",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "Unconscious Guidance",
-  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an opponent attacks, gain {Block:diff()} [gold]Block[/gold] before the hit."
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an enemy attacks you, gain {Block:diff()} [gold]Block[/gold] before the hit."
 }

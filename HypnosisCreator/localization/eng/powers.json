@@ -121,5 +121,8 @@
   "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "Attack damage 0.",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.title": "Forced Sleep Visual",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.description": "Internal: sleep intent and ZZZ while Asleep.",
-  "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "Sleeping."
+  "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "Sleeping.",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.title": "Unconscious Guidance",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.description": "Whenever an enemy attacks you, gain Block before the hit. Triggers per hit of multi-hit attacks.",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "Unconscious Guidance {Amount}."
 }

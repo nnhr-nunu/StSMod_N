@@ -121,5 +121,8 @@
   "HYPNOSISCREATOR-ZERO_OUT_POWER.smartDescription": "攻撃ダメージ0。",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.title": "強制睡眠表示",
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.description": "内部用。睡眠中の行動予定とZZZ表示。",
-  "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "睡眠中。"
+  "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "睡眠中。",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.title": "無意識下の誘導",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.description": "相手が攻撃するたび、ヒット前にブロックを得る。多段攻撃にもそれぞれ発動する。",
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "無意識下の誘導 {Amount}。"
 }

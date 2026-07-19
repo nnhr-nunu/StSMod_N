@@ -46,7 +46,7 @@ public static class TranceCombat
         await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, applier, cultLeader.Amount, applier, null);
     }
 
-    /// <summary>トランス1を times 回付与（連続トランス用）。</summary>
+    /// <summary>トランス1を times 回付与（付与ごとにトランス性癖刺さり判定）。</summary>
     public static async Task ApplyTranceRepeated(
         PlayerChoiceContext choiceContext,
         Creature target,
