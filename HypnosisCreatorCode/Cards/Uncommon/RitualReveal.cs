@@ -37,8 +37,7 @@ public class RitualReveal() : HypnosisCreatorCard(1,
         var selected = new List<CardModel>();
 
         var fetishMatch = candidates
-            .Where(c => c is HypnosisCreatorCard hc &&
-                        hc.CardFetishes.Any(f => targetFetishes.Contains(f)))
+            .Where(c => CardFetishLookup.GetFetishes(c).Any(f => targetFetishes.Contains(f)))
             .ToList();
         if (fetishMatch.Count > 0)
             selected.Add(fetishMatch[rng.NextInt(fetishMatch.Count)]);

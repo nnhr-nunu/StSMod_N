@@ -34,7 +34,7 @@ public class Whisper() : HypnosisCreatorCard(0,
         [new CardsVar(1)];
 
     private static bool IsCandidate(CardModel c) =>
-        c is HypnosisCreatorCard hc && hc.CardFetishes.Count > 0;
+        CardFetishLookup.HasAnyFetish(c);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -79,8 +79,7 @@ public class Whisper() : HypnosisCreatorCard(0,
         var awakened = new List<FetishType>();
         foreach (var card in selected)
         {
-            if (card is not HypnosisCreatorCard hc) continue;
-            foreach (var fetish in hc.CardFetishes)
+            foreach (var fetish in CardFetishLookup.GetFetishes(card))
             {
                 FetishCombat.Awaken(play.Target, fetish, Owner);
                 awakened.Add(fetish);

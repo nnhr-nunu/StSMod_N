@@ -1,5 +1,4 @@
 using HarmonyLib;
-using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
@@ -7,7 +6,8 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// CardFetishes に応じて性癖キーワードを Keywords へ足し、説明中の色付き文言にツールチップを付ける。
+/// 性癖タグに応じて Keywords へ足し、説明中の色付き文言にツールチップを付ける。
+/// HCカードおよび他色アブノーマル対象カードに適用。
 /// </summary>
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.GetKeywordsWithSources))]
 public static class FetishKeywordPatch
@@ -17,10 +17,7 @@ public static class FetishKeywordPatch
         KeywordSources sources,
         ref IReadOnlySet<CardKeyword> __result)
     {
-        if (__instance is not HypnosisCreatorCard hc) return;
-        if (hc.CardFetishes.Count == 0) return;
-
-        var extra = FetishCardText.KeywordsFor(hc).ToList();
+        var extra = FetishCardText.KeywordsFor(__instance).ToList();
         if (extra.Count == 0) return;
         if (extra.All(__result.Contains)) return;
 

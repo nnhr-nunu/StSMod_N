@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// アブノーマル — 性癖：アブノーマル。X枚まで手札のカードをランダムなアブノーマル性癖カードへこの戦闘中だけ変換する（コスト0）。
+/// アブノーマル — 手札を最大X枚、備考の他色アブノーマルカードへ変化させ、このターンコスト0にする。
 /// UGではアップグレード済みの変換先になる。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -22,17 +22,12 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
-    private static bool IsAbnormalPoolCard(CardModel c) =>
-        c is HypnosisCreatorCard { Rarity: not CardRarity.Token } hc &&
-        hc.CardFetishes.Contains(FetishType.Abnormal) &&
-        c.GetType() != typeof(AbnormalTransform);
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         var hand = Owner.PlayerCombatState?.Hand;
         if (hand == null || CombatState == null) return;
 
-        var pool = ModelDb.AllCards.Where(IsAbnormalPoolCard).ToList();
+        var pool = AbnormalOtherColorPool.GetCanonicalCards();
         if (pool.Count == 0) return;
 
         var x = Math.Max(0, ResolveEnergyXValue());
@@ -61,7 +56,8 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
             if (IsUpgraded)
                 CardCmd.Upgrade(generated);
             var result = await CardCmd.Transform(card, generated);
-            result?.cardAdded.EnergyCost.SetThisCombat(0);
+            // 仕様: このターン、コストなしでプレイできる
+            result?.cardAdded.EnergyCost.SetThisTurn(0);
         }
     }
 

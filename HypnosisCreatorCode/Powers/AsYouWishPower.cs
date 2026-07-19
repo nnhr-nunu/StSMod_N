@@ -1,4 +1,3 @@
-using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -22,10 +21,12 @@ public class AsYouWishPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
-        if (cardPlay.Card is not HypnosisCreatorCard hc || hc.CardFetishes.Count == 0) return;
+
+        var fetishes = CardFetishLookup.GetFetishes(cardPlay.Card);
+        if (fetishes.Count == 0) return;
 
         var upgraded = Amount >= 2;
-        foreach (var fetish in hc.CardFetishes.Distinct())
+        foreach (var fetish in fetishes.Distinct())
         {
             switch (fetish)
             {

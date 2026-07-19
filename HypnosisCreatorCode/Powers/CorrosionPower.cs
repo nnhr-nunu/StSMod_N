@@ -1,5 +1,6 @@
 using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -39,12 +40,11 @@ public class CorrosionPower : HypnosisCreatorPower
         var rng = player.RunState.Rng.CombatCardSelection;
 
         CardModel canonical;
-        if (PreferMatchingFetish && cardPlay.Card is HypnosisCreatorCard sourceCard && sourceCard.CardFetishes.Count > 0)
+        var sourceFetishes = CardFetishLookup.GetFetishes(cardPlay.Card);
+        if (PreferMatchingFetish && sourceFetishes.Count > 0)
         {
             var matching = pool
-                .OfType<HypnosisCreatorCard>()
-                .Where(c => c.CardFetishes.Any(f => sourceCard.CardFetishes.Contains(f)))
-                .Cast<CardModel>()
+                .Where(c => CardFetishLookup.GetFetishes(c).Any(f => sourceFetishes.Contains(f)))
                 .ToList();
             canonical = matching.Count > 0
                 ? matching[rng.NextInt(matching.Count)]

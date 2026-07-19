@@ -1,5 +1,4 @@
 using BaseLib.Patches.Localization;
-using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -25,9 +24,9 @@ public static class FetishCardText
         _ => null
     };
 
-    public static IEnumerable<CardKeyword> KeywordsFor(HypnosisCreatorCard card)
+    public static IEnumerable<CardKeyword> KeywordsFor(CardModel card)
     {
-        foreach (var fetish in card.CardFetishes.Distinct())
+        foreach (var fetish in CardFetishLookup.GetFetishes(card).Distinct())
         {
             var kw = ToKeyword(fetish);
             if (kw is { } keyword) yield return keyword;
@@ -35,13 +34,12 @@ public static class FetishCardText
     }
 
     /// <summary>例: [gold]アブノーマル[/gold]/[gold]DomSub[/gold]。</summary>
-    public static string? FormatPrefix(HypnosisCreatorCard card)
+    public static string? FormatPrefix(CardModel card)
     {
         var titles = new List<string>();
-        foreach (var fetish in card.CardFetishes.Distinct())
+        foreach (var fetish in CardFetishLookup.GetFetishes(card).Distinct())
         {
             if (ToKeyword(fetish) is null) continue;
-            // キーワード title と一致させる（ツールチップ紐付け）
             titles.Add($"[gold]{LocalizedTitle(fetish)}[/gold]");
         }
 
@@ -79,8 +77,7 @@ public static class FetishCardText
 
     private static void PrependFetishLine(CardModel card, Creature? target, ref string description)
     {
-        if (card is not HypnosisCreatorCard hc) return;
-        var prefix = FormatPrefix(hc);
+        var prefix = FormatPrefix(card);
         if (prefix == null) return;
         if (description.StartsWith(prefix, StringComparison.Ordinal)) return;
         description = prefix + "\n" + description;

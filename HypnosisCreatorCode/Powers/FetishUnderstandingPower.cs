@@ -1,4 +1,4 @@
-using HypnosisCreator.HypnosisCreatorCode.Cards;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -17,7 +17,7 @@ public class FetishUnderstandingPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
-        if (cardPlay.Card is not HypnosisCreatorCard hc || hc.CardFetishes.Count == 0) return;
+        if (!CardFetishLookup.HasAnyFetish(cardPlay.Card)) return;
 
         await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null);
     }
