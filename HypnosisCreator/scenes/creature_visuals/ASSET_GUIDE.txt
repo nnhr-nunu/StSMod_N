@@ -40,8 +40,10 @@ hypnosis_creator (Node2D)
 | cast       | power/       | 詠唱／パワー（1回再生→idle） | 実装済 |
 | attack     | attack/      | 攻撃（単発→idle／多段はループ） | 実装済 |
 
-ゲーム側のトリガー（Idle / Hit / Hurt / Cast / Attack など）は
+ゲーム側のトリガー（Idle / Hit / Hurt / Cast / Power / PowerUp / Attack など）は
 `CombatFrameAnimator` が上記アニメ名へ橋渡しします。
+Cast / Attack / Hurt 再生中は ImmediatelySetIdle による Idle 上書きを無視します。
+キャラの CastAnimDelay / AttackAnimDelay は連番の尺（frame/speed）に合わせています。
 
 解像度が違う素材（例: 1080p系）は、取り込み時に 768×1152 へリサイズして
 idle/damage/power と同じ見た目スケールに揃えます（構図比が近い前提）。

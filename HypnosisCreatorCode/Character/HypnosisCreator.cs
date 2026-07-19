@@ -4,6 +4,7 @@ using HypnosisCreator.HypnosisCreatorCode;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
@@ -65,4 +66,9 @@ public class HypnosisCreator : PlaceholderCharacterModel
         $"{MainFile.ResPath}/scenes/creature_visuals/hypnosis_creator.tscn";
     public override string CustomCharacterSelectBg =>
         $"{MainFile.ResPath}/scenes/char_select/hypnosis_creator_bg.tscn";
+
+    // BaseLib 既定 (0.15 / 0.25) だとパワー詠唱がすぐ Idle に戻るため、連番尺に合わせる
+    public override float AttackAnimDelay => CombatFrameAnimator.AttackAnimSeconds;
+    public override float CastAnimDelay => CombatFrameAnimator.CastAnimSeconds;
+    public override float PowerUpAnimDelay => CombatFrameAnimator.CastAnimSeconds;
 }

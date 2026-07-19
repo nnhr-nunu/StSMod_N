@@ -18,6 +18,13 @@ public static class CombatFrameAnimator
     private const string AttackLoopMeta = "hc_attack_loop";
     private const string IdleAnim = "idle_loop";
     private const string AttackAnim = "attack";
+    private const string CastAnim = "cast";
+    private const string HurtAnim = "hurt";
+
+    /// <summary>combat_frames.tres の frame数 / speed と揃える（Character の AnimDelay 用）。</summary>
+    public const float AttackAnimSeconds = 6f / 14f;
+    public const float CastAnimSeconds = 24f / 14f;
+    public const float HurtAnimSeconds = 17f / 28f;
 
     private static readonly Dictionary<string, string> TriggerToAnim =
         new(StringComparer.OrdinalIgnoreCase)
@@ -25,14 +32,16 @@ public static class CombatFrameAnimator
             ["Idle"] = IdleAnim,
             ["idle"] = IdleAnim,
             ["idle_loop"] = IdleAnim,
-            ["Hit"] = "hurt",
-            ["Hurt"] = "hurt",
-            ["hurt"] = "hurt",
-            ["Cast"] = "cast",
-            ["cast"] = "cast",
-            ["start_cast"] = "cast",
-            ["Power"] = "cast",
-            ["power"] = "cast",
+            ["Hit"] = HurtAnim,
+            ["Hurt"] = HurtAnim,
+            ["hurt"] = HurtAnim,
+            ["Cast"] = CastAnim,
+            ["cast"] = CastAnim,
+            ["start_cast"] = CastAnim,
+            ["Power"] = CastAnim,
+            ["power"] = CastAnim,
+            ["PowerUp"] = CastAnim,
+            ["powerup"] = CastAnim,
             ["Attack"] = AttackAnim,
             ["attack"] = AttackAnim
         };
@@ -52,9 +61,15 @@ public static class CombatFrameAnimator
         if (!TryMapAnim(trigger, sprite.SpriteFrames, out var anim))
             return;
 
+        // ImmediatelySetIdle が Cast/Attack/Hurt を即上書きするのを防ぐ
+        if (anim == IdleAnim && ShouldHoldCurrentAnim(sprite))
+            return;
+
         // 単発攻撃トリガーはループOFFで再生（多段は BeginAttackLoop 側）
         if (anim == AttackAnim)
             sprite.SpriteFrames.SetAnimationLoop(AttackAnim, false);
+        else if (anim == CastAnim)
+            sprite.SpriteFrames.SetAnimationLoop(CastAnim, false);
 
         EnsureFinishedHook(sprite);
         sprite.Play(anim);
@@ -119,6 +134,43 @@ public static class CombatFrameAnimator
         {
             MainFile.Logger.Warn($"EndAttackLoop failed: {e.Message}");
         }
+    }
+
+    /// <summary>Spine が無いとき、ゲーム側の待機時間計算用に連番アニメ長を返す。</summary>
+    public static double GetCurrentAnimLengthSeconds(NCreature? creature)
+    {
+        var sprite = FindOurSprite(creature);
+        if (sprite?.SpriteFrames == null) return 0;
+        if (!GodotObject.IsInstanceValid(sprite)) return 0;
+
+        var anim = sprite.Animation;
+        if (anim.IsEmpty || !sprite.SpriteFrames.HasAnimation(anim)) return 0;
+
+        var frames = sprite.SpriteFrames;
+        var count = frames.GetFrameCount(anim);
+        var speed = frames.GetAnimationSpeed(anim);
+        if (count <= 0 || speed <= 0) return 0;
+
+        var durationSum = 0.0;
+        for (var i = 0; i < count; i++)
+            durationSum += frames.GetFrameDuration(anim, i);
+
+        return durationSum / speed;
+    }
+
+    private static bool ShouldHoldCurrentAnim(AnimatedSprite2D sprite)
+    {
+        if (IsAttackLooping(sprite)) return true;
+        if (!GodotObject.IsInstanceValid(sprite) || !sprite.IsPlaying()) return false;
+
+        var current = sprite.Animation;
+        if (current.IsEmpty || current == IdleAnim) return false;
+
+        var frames = sprite.SpriteFrames;
+        if (frames == null || !frames.HasAnimation(current)) return false;
+
+        // ループしないモーション（cast / attack / hurt）再生中は Idle で潰さない
+        return !frames.GetAnimationLoop(current);
     }
 
     private static bool IsAttackTrigger(string trigger) =>

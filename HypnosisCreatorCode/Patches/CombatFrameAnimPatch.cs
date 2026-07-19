@@ -26,6 +26,21 @@ public static class CombatFrameAnimIdlePatch
 }
 
 /// <summary>
+/// Spine が無いキャラはアニメ長が 0 になるため、連番 SpriteFrames の長さを返す。
+/// </summary>
+[HarmonyPatch(typeof(NCreature), nameof(NCreature.GetCurrentAnimationLength))]
+public static class CombatFrameAnimLengthPatch
+{
+    public static void Postfix(NCreature __instance, ref double __result)
+    {
+        if (__result > 0) return;
+        var len = CombatFrameAnimator.GetCurrentAnimLengthSeconds(__instance);
+        if (len > 0)
+            __result = len;
+    }
+}
+
+/// <summary>
 /// WithHitCount による多段ヒット中は攻撃モーションをループ再生する。
 /// Execute は async のため Finalizer では待てず、Postfix で Task を包む。
 /// </summary>
