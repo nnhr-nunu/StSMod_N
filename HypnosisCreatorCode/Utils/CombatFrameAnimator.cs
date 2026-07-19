@@ -1,6 +1,7 @@
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using HypnosisCreator.HypnosisCreatorCode;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -76,15 +77,23 @@ public static class CombatFrameAnimator
 
     public static void BeginAttackLoop(NCreature? creature)
     {
-        var sprite = FindOurSprite(creature);
-        if (sprite?.SpriteFrames == null) return;
-        if (!sprite.SpriteFrames.HasAnimation(AttackAnim)) return;
+        try
+        {
+            var sprite = FindOurSprite(creature);
+            if (sprite?.SpriteFrames == null) return;
+            if (!GodotObject.IsInstanceValid(sprite)) return;
+            if (!sprite.SpriteFrames.HasAnimation(AttackAnim)) return;
 
-        EnsureFinishedHook(sprite);
-        sprite.SpriteFrames.SetAnimationLoop(AttackAnim, true);
-        sprite.SetMeta(AttackLoopMeta, true);
-        if (sprite.Animation != AttackAnim || !sprite.IsPlaying())
-            sprite.Play(AttackAnim);
+            EnsureFinishedHook(sprite);
+            sprite.SpriteFrames.SetAnimationLoop(AttackAnim, true);
+            sprite.SetMeta(AttackLoopMeta, true);
+            if (sprite.Animation != AttackAnim || !sprite.IsPlaying())
+                sprite.Play(AttackAnim);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"BeginAttackLoop failed: {e.Message}");
+        }
     }
 
     public static void EndAttackLoop(Creature? creature) =>
@@ -92,15 +101,24 @@ public static class CombatFrameAnimator
 
     public static void EndAttackLoop(NCreature? creature)
     {
-        var sprite = FindOurSprite(creature);
-        if (sprite?.SpriteFrames == null) return;
+        try
+        {
+            var sprite = FindOurSprite(creature);
+            if (sprite?.SpriteFrames == null) return;
+            if (!GodotObject.IsInstanceValid(sprite)) return;
 
-        sprite.RemoveMeta(AttackLoopMeta);
-        if (sprite.SpriteFrames.HasAnimation(AttackAnim))
-            sprite.SpriteFrames.SetAnimationLoop(AttackAnim, false);
+            if (sprite.HasMeta(AttackLoopMeta))
+                sprite.RemoveMeta(AttackLoopMeta);
+            if (sprite.SpriteFrames.HasAnimation(AttackAnim))
+                sprite.SpriteFrames.SetAnimationLoop(AttackAnim, false);
 
-        if (sprite.SpriteFrames.HasAnimation(IdleAnim))
-            sprite.Play(IdleAnim);
+            if (sprite.SpriteFrames.HasAnimation(IdleAnim))
+                sprite.Play(IdleAnim);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"EndAttackLoop failed: {e.Message}");
+        }
     }
 
     private static bool IsAttackTrigger(string trigger) =>

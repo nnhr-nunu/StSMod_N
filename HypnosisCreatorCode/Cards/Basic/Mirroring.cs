@@ -48,7 +48,7 @@ public class Mirroring() : HypnosisCreatorCard(1,
                     .FromCard(this, play)
                     .Targeting(play.Target)
                     .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-                    .OnlyPlayAnimOnce()
+                    .WithNoAttackerAnim()
                     .Execute(choiceContext);
             }
         }

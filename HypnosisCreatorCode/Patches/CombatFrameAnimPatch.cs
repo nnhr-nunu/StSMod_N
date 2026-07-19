@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading.Tasks;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -26,6 +27,7 @@ public static class CombatFrameAnimIdlePatch
 
 /// <summary>
 /// WithHitCount による多段ヒット中は攻撃モーションをループ再生する。
+/// Execute は async のため Finalizer では待てず、Postfix で Task を包む。
 /// </summary>
 [HarmonyPatch(typeof(AttackCommand), nameof(AttackCommand.Execute))]
 public static class AttackCommandMultiHitAnimPatch
@@ -39,7 +41,7 @@ public static class AttackCommandMultiHitAnimPatch
     public static void Prefix(AttackCommand __instance, out bool __state)
     {
         __state = false;
-        var hitCount = HitCountField?.GetValue(__instance) as int? ?? 1;
+        var hitCount = ReadHitCount(__instance);
         if (hitCount <= 1) return;
 
         var attacker = ResolveAttacker(__instance);
@@ -52,16 +54,41 @@ public static class AttackCommandMultiHitAnimPatch
         __state = true;
     }
 
-    public static void Finalizer(AttackCommand __instance, bool __state)
+    public static void Postfix(AttackCommand __instance, ref Task<AttackCommand> __result, bool __state)
     {
         if (!__state) return;
         var attacker = ResolveAttacker(__instance);
-        CombatFrameAnimator.EndAttackLoop(attacker);
+        var original = __result;
+        __result = AwaitThenEndLoop(original, attacker);
+    }
+
+    private static async Task<AttackCommand> AwaitThenEndLoop(
+        Task<AttackCommand> original, Creature? attacker)
+    {
+        try
+        {
+            return await original;
+        }
+        finally
+        {
+            CombatFrameAnimator.EndAttackLoop(attacker);
+        }
+    }
+
+    private static int ReadHitCount(AttackCommand cmd)
+    {
+        // boxed int を `as int?` すると常に null になるため変換する
+        var raw = HitCountField?.GetValue(cmd);
+        return raw switch
+        {
+            int i => i,
+            _ => 1
+        };
     }
 
     private static Creature? ResolveAttacker(AttackCommand cmd)
     {
-        if (VisualAttackerField?.GetValue(cmd) is Creature visual && visual != null)
+        if (VisualAttackerField?.GetValue(cmd) is Creature visual)
             return visual;
         return cmd.Attacker;
     }

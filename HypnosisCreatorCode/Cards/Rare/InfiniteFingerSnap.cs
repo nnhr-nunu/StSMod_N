@@ -22,21 +22,25 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        BaseReplayCount = ResolveEnergyXValue();
         if (CombatState == null) return;
 
-        // 全敵×5ヒットのあいだ指パッチンを途切れさせない
+        // GeneratePlayCount は virtual ではないため BaseReplayCount では間に合わない。
+        // リプレイX = 追加X回 → 合計 (X+1) 回、攻撃本体を繰り返す。
+        var times = Math.Max(0, ResolveEnergyXValue()) + 1;
+
+        // 攻撃者アニメ待ちはスキップし、連番の指パッチンループだけを回す
         CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
         try
         {
-            foreach (var enemy in CombatState.HittableEnemies.ToList())
+            for (var i = 0; i < times; i++)
             {
+                if (CombatState == null) break;
                 await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
                     .WithHitCount(5)
                     .FromCard(this, play)
-                    .Targeting(enemy)
+                    .TargetingAllOpponents(CombatState)
                     .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-                    .OnlyPlayAnimOnce()
+                    .WithNoAttackerAnim()
                     .Execute(choiceContext);
             }
         }
