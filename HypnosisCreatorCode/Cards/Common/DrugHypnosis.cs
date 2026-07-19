@@ -36,7 +36,8 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
         HoverTipFactory.FromPower<PoisonPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),
         HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<WeakPower>()
+        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<BogPower>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

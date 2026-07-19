@@ -184,7 +184,7 @@
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "Understanding Fetishes",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "Whenever you play a Fetish card, gain {Block:diff()} [gold]Block[/gold].",
   "HYPNOSISCREATOR-PROSELYTIZE.title": "Proselytizing Urge",
-  "HYPNOSISCREATOR-PROSELYTIZE.description": "Apply {BogPower:diff()} Bog to the target. At the end of your turn, copy the target's Doom and Bog to every other enemy.\nGain {Gold:diff()} gold at the end of combat.",
+  "HYPNOSISCREATOR-PROSELYTIZE.description": "Apply {OshiActivityPower:diff()} Oshi Activity and {BogPower:diff()} Bog.\nGain {Gold:diff()} gold at the end of combat. Exhaust.",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "Self-Suggestion",
   "HYPNOSISCREATOR-SELF_SUGGESTION.description": "Gain {StrengthPower:diff()} Strength and {DexterityPower:diff()} Dexterity. Obtain {Hearts:diff()} random enemy Heart relics you don't own (excluding hearts of current combat enemies). They trigger at combat start.",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "Craving for Hearts",

@@ -18,6 +18,8 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
+    protected override bool HasEnergyCostX => true;
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     private static bool IsAbnormalPoolCard(CardModel c) =>
@@ -33,7 +35,7 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
         var pool = ModelDb.AllCards.Where(IsAbnormalPoolCard).ToList();
         if (pool.Count == 0) return;
 
-        var x = ResolveEnergyXValue();
+        var x = Math.Max(0, ResolveEnergyXValue());
         var count = Math.Min(x, hand.Cards.Count(c => c != this));
         if (count <= 0) return;
 

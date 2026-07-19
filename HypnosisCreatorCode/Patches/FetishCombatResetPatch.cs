@@ -1,5 +1,4 @@
 using HarmonyLib;
-using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Relics;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
@@ -27,11 +26,9 @@ public static class FetishCombatResetPatch
         if (combatState == null) return;
         foreach (var player in combatState.Players)
         {
-            var oshi = player.Creature.GetPower<OshiActivityPower>();
-            if (oshi != null && oshi.GoldToGain > 0)
-            {
-                _ = PlayerCmd.GainGold(oshi.GoldToGain, player);
-            }
+            var gold = ProselytizeRewards.TakeGold(player.Creature);
+            if (gold > 0)
+                _ = PlayerCmd.GainGold(gold, player);
 
             // 自己暗示など「この戦闘中」の一時レリックを除去
             var temps = player.Relics

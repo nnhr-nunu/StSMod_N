@@ -2,11 +2,11 @@
   "HYPNOSISCREATOR-COUNT.title": "カウント",
   "HYPNOSISCREATOR-COUNT.description": "保留。ターン開始時にコストが1減少する。解決後のコストが0のときだけプレイできる（対象の敵がトランスなら非0でも可）。プレイ時に廃棄。",
   "HYPNOSISCREATOR-SM.title": "SM",
-  "HYPNOSISCREATOR-SM.description": "SM性癖を持つ敵にプレイした時、破滅を付与する。",
+  "HYPNOSISCREATOR-SM.description": "SM性癖を持つ敵にこのカードをプレイした時、破滅を付与する（量は最大HPの5%+7、最低8。沼があると1.5倍）。",
   "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
-  "HYPNOSISCREATOR-DOMSUB.description": "DomSub性癖を持つ敵にプレイした時、破滅を付与する。",
+  "HYPNOSISCREATOR-DOMSUB.description": "DomSub性癖を持つ敵にこのカードをプレイした時、破滅を付与する（量は最大HPの5%+7、最低8。沼があると1.5倍）。",
   "HYPNOSISCREATOR-ABNORMAL.title": "アブノーマル",
-  "HYPNOSISCREATOR-ABNORMAL.description": "アブノーマル性癖を持つ敵にプレイした時、破滅を付与する。",
-  "HYPNOSISCREATOR-TRANCE.title": "トランス",
-  "HYPNOSISCREATOR-TRANCE.description": "トランス性癖を持つ敵にトランスを付与した時、破滅を付与する。"
+  "HYPNOSISCREATOR-ABNORMAL.description": "アブノーマル性癖を持つ敵にこのカードをプレイした時、破滅を付与する（量は最大HPの5%+7、最低8。沼があると1.5倍）。",
+  "HYPNOSISCREATOR-TRANCE.title": "トランス性癖",
+  "HYPNOSISCREATOR-TRANCE.description": "トランス性癖を持つ敵にトランスを付与するたび、破滅を付与する（量は最大HPの5%+7、最低8。沼があると1.5倍）。"
 }

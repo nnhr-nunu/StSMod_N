@@ -5,6 +5,7 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
@@ -15,6 +16,9 @@ public class BreathControl() : HypnosisCreatorCard(0,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<BreathControlPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

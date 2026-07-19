@@ -184,7 +184,7 @@
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "性倒錯への理解",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "性癖カードをプレイするたび、{Block:diff()}ブロックを得る。",
   "HYPNOSISCREATOR-PROSELYTIZE.title": "布教欲求",
-  "HYPNOSISCREATOR-PROSELYTIZE.description": "推し活と沼{BogPower:diff()}を付与する。戦闘終了時、{Gold:diff()}ゴールドを獲得する。廃棄。",
+  "HYPNOSISCREATOR-PROSELYTIZE.description": "推し活{OshiActivityPower:diff()}と沼{BogPower:diff()}を付与する。戦闘終了時、{Gold:diff()}ゴールドを獲得する。廃棄。",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "自己暗示",
   "HYPNOSISCREATOR-SELF_SUGGESTION.description": "筋力{StrengthPower:diff()}を得る。敏捷{DexterityPower:diff()}を得る。この戦闘中、ランダムな心臓レリックを3つ獲得する。",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "心臓への渇望",

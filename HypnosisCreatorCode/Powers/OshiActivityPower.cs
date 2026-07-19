@@ -8,31 +8,29 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 布教欲求 — カードプレイ時に指定した対象の破滅・沼を、自ターン終了時に他の敵全員へコピーする。
+/// 推し活 — 敵へのデバフ。プレイヤーターン終了時、自身の破滅・沼と同値を他の敵全員へコピーする。
 /// </summary>
 public class OshiActivityPower : HypnosisCreatorPower
 {
-    public override PowerType Type => PowerType.Buff;
+    public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Single;
-
-    public Creature? SourceEnemy { get; set; }
-    public decimal GoldToGain { get; set; }
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         if (side != CombatSide.Player) return;
-        if (Owner == null || !Owner.IsAlive) return;
-        if (CombatState == null || SourceEnemy is not { IsAlive: true }) return;
+        if (Owner is not { IsAlive: true } || CombatState == null) return;
 
-        var doom = SourceEnemy.GetPowerAmount<DoomPower>();
-        var bog = SourceEnemy.GetPowerAmount<BogPower>();
+        var doom = Owner.GetPowerAmount<DoomPower>();
+        var bog = Owner.GetPowerAmount<BogPower>();
         if (doom <= 0 && bog <= 0) return;
 
-        foreach (var enemy in CombatState.HittableEnemies.Where(e => e != SourceEnemy).ToList())
+        foreach (var enemy in CombatState.HittableEnemies.Where(e => e != Owner && e.IsAlive).ToList())
         {
-            if (doom > 0) await PowerCmd.Apply<DoomPower>(choiceContext, enemy, doom, Owner, null);
-            if (bog > 0) await PowerCmd.Apply<BogPower>(choiceContext, enemy, bog, Owner, null);
+            if (doom > 0)
+                await PowerCmd.Apply<DoomPower>(choiceContext, enemy, doom, Owner, null);
+            if (bog > 0)
+                await PowerCmd.Apply<BogPower>(choiceContext, enemy, bog, Owner, null);
         }
     }
 }
