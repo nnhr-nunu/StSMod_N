@@ -1,0 +1,11 @@
+# カード原画（仮置き）
+
+CSV（ヒプノクリエイター.csv）の No でファイル名を付ける。
+拡張子・解像度は問わない（jpg / png / webp 可。拡張子と中身が違っても可）。
+
+例: 12.jpg → 調和 → harmony.png
+
+変換:
+  リポジトリルートで `python tools_process_card_portraits.py`
+
+本番用 PNG は親フォルダと big/ に出力される。このフォルダの原画は残す。

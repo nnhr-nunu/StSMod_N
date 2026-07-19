@@ -1,0 +1,2 @@
+# Keep source art out of Godot import (large / mixed formats).
+# Game uses resized PNGs in ../ and ../big/ only.
