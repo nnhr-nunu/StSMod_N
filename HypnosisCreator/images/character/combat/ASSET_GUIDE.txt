@@ -8,16 +8,15 @@ scenes/creature_visuals/ の .tscn から参照します。
 | ファイル名（推奨） | 用途 | 必須 |
 |--------------------|------|------|
 | idle.png           | 待機（1枚フォールバック） | ○（単枚時） |
-| idle/frame_000001.png 〜 | 待機アニメ連番 | 任意 |
-| damage/frame_000001.png 〜 | 被弾アニメ連番 | 任意 |
-| attack.png         | 攻撃（1枚でも可） | 任意 |
-| attack_01.png 〜   | 攻撃フレーム連番 | 任意 |
-| cast.png           | パワー／詠唱 | 任意 |
-| hurt.png           | 被弾 | 任意 |
+| idle/frame_000001.png 〜 | 待機（idle_loop） | 任意 |
+| damage/frame_000001.png 〜 | 被弾（hurt） | 任意 |
+| power/frame_000001.png 〜 | 詠唱／パワー（cast） | 任意 |
+| attack/frame_000001.png 〜 | 攻撃（attack） | 準備中 |
 | die.png            | 死亡 | 任意 |
 
 最低限 idle.png、または idle/ の連番フレームがあれば表示できます。
-連番待機は scenes/creature_visuals/idle_frames.tres（idle_loop, 10fps）経由で再生します。
+連番は scenes/creature_visuals/combat_frames.tres にまとめ、
+ゲームのアニメリクエスト（被弾・詠唱など）で切り替わります。
 
 ## ウォーターマーク（全モーション共通）
 

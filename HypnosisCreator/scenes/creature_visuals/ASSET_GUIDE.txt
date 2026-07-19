@@ -1,19 +1,21 @@
 # バトル立ち絵シーン（戦闘中の見た目）
 
-素材は images/character/combat/idle.png などを使います。
-ここには Godot の .tscn を置きます。
+素材は images/character/combat/ 配下の連番PNGを使います。
+ここには Godot の .tscn / SpriteFrames を置きます。
 
 ## 配置するファイル
 
 | ファイル名（推奨）         | 用途 | 状態 |
 |----------------------------|------|------|
 | hypnosis_creator.tscn      | 戦闘中のキャラ見た目 | 作成済（Flip H ON） |
+| combat_frames.tres         | idle / hurt / cast 連番 | 作成済 |
+| idle_frames.tres           | 旧・待機のみ | 互換用（未使用可） |
 
 ## 必須ノード構成
 
 ```
 hypnosis_creator (Node2D)
-├── Visuals (Sprite2D など) %   ← ユニーク名必須
+├── Visuals (AnimatedSprite2D など) %   ← ユニーク名必須
 ├── Bounds (Control) %
 ├── IntentPos (Marker2D) %
 └── CenterPos (Marker2D) %
@@ -23,30 +25,26 @@ hypnosis_creator (Node2D)
 
 ## 左向き素材の反転
 
-idle.png が左向きの場合、Visuals（Sprite2D）で:
+素材が左向きの場合、Visuals で:
 
 - Flip H = ON
   または
 - Scale X = -1
 
-画像ファイルを左右反転して保存してもよいです。
+## アニメ名（combat_frames.tres）
 
-## アニメ名
+| 名前       | 素材フォルダ | 内容 | 状態 |
+|------------|--------------|------|------|
+| idle_loop  | idle/        | 待機（ループ） | 実装済 |
+| hurt       | damage/      | 被弾（1回再生→idle） | 実装済 |
+| cast       | power/       | 詠唱／パワー（1回再生→idle） | 実装済 |
+| attack     | attack/      | 攻撃 | 準備中 |
 
-| 名前       | 内容     | 状態 |
-|------------|----------|------|
-| idle_loop  | 待機（連番20枚・10fps） | 実装済 |
-| attack     | 攻撃     | 未 |
-| cast       | 詠唱     | 未 |
-| hurt       | 被弾     | 未 |
-| die        | 死亡     | 未 |
-
-待機アニメは Visuals を AnimatedSprite2D にし、idle_frames.tres を割り当てています。
-1枚絵だけなら Visuals を Sprite2D にして idle.png を貼るだけでもOKです。
+ゲーム側のトリガー（Idle / Hit / Hurt / Cast など）は
+`CombatFrameAnimator` が上記アニメ名へ橋渡しします。
 
 ウォーターマーク隠しは Visuals の chroma_key_material に内蔵（全モーション共用）。
-PNG を消さず、同じ material を付ければ idle / damage / 他でも同じ位置のロゴを隠せます。
-
+PNG を消さず、同じ material を付ければ idle / damage / power でも同じ位置のロゴを隠せます。
 
 ## C# 側
 
