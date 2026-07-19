@@ -6,6 +6,7 @@ using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -88,6 +89,23 @@ public abstract class HypnosisCreatorCard(
 
     protected static IEnumerable<CardKeyword> CountKeywords =>
         [HcKeywords.Count, CardKeyword.Retain, CardKeyword.Exhaust];
+
+    /// <summary>
+    /// 本家パワーと同様、プレイ演出キューで PowerUp（連番では cast）を再生する。
+    /// 個別 OnPlay だけでは TriggerAnim が呼ばれず、詠唱モーションが出ない。
+    /// </summary>
+    public override async Task OnEnqueuePlayVfx(Creature? target)
+    {
+        if (Type == CardType.Power && Owner?.Creature != null)
+        {
+            await CreatureCmd.TriggerAnim(
+                Owner.Creature,
+                "PowerUp",
+                Owner.Character.PowerUpAnimDelay);
+        }
+
+        await base.OnEnqueuePlayVfx(target);
+    }
 
     protected bool ShouldSingleFetishHit()
     {

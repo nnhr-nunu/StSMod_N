@@ -4,6 +4,7 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
@@ -19,6 +20,9 @@ public class CultLeader() : HypnosisCreatorCard(3,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Draw", 1M)];
+
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
+        [HoverTipFactory.FromPower<CultLeaderPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
         await PowerCmd.Apply<CultLeaderPower>(
