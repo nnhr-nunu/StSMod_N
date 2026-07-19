@@ -15,9 +15,9 @@ public static class VisualTuner
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
 
-    // Hailuo 系ロゴ位置（768x1152 想定・Flip H ON）。他モーションも同位置ならこのまま共用。
-    private const float WatermarkCropBottom = 0.08f;
-    private const float WatermarkCropSide = 0.48f;
+    // Hailuo 系ロゴ角抜き（靴と重なりにくい外側のみ）。文字本体はシェーダー側で追加検出。
+    private const float WatermarkCropBottom = 0.055f;
+    private const float WatermarkCropSide = 0.38f;
     private const float WatermarkOnUvLeft = 1.0f;
 
     private static Shader? _cropShader;
@@ -38,6 +38,16 @@ public static class VisualTuner
 
     public static void ApplyChroma()
     {
+        // 旧デフォルト（靴欠けやすい）が設定に残っているときは新デフォルトへ寄せる
+        if (IsApprox(HypnosisCreatorConfig.ChromaSimilarity, 0.22)
+            && IsApprox(HypnosisCreatorConfig.ChromaSmoothness, 0.08)
+            && IsApprox(HypnosisCreatorConfig.ChromaSpill, 0.25))
+        {
+            HypnosisCreatorConfig.ChromaSimilarity = 0.18;
+            HypnosisCreatorConfig.ChromaSmoothness = 0.06;
+            HypnosisCreatorConfig.ChromaSpill = 0.18;
+        }
+
         var key = HypnosisCreatorConfig.GetChromaKeyColor();
         var similarity = (float)HypnosisCreatorConfig.ChromaSimilarity;
         var smoothness = (float)HypnosisCreatorConfig.ChromaSmoothness;
@@ -269,4 +279,6 @@ public static class VisualTuner
                 stack.Push(child);
         }
     }
+
+    private static bool IsApprox(double a, double b) => Math.Abs(a - b) < 0.005;
 }

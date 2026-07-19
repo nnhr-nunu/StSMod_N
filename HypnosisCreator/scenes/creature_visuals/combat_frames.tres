@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=75 format=3]
+[gd_resource type="SpriteFrames" load_steps=68 format=3]
 
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle/frame_000001.png" id="1"]
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle/frame_000002.png" id="2"]
@@ -20,60 +20,53 @@
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle/frame_000018.png" id="18"]
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle/frame_000019.png" id="19"]
 [ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle/frame_000020.png" id="20"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000001.png" id="21"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000002.png" id="22"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000003.png" id="23"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000004.png" id="24"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000005.png" id="25"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000006.png" id="26"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000007.png" id="27"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000008.png" id="28"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000009.png" id="29"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000010.png" id="30"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000011.png" id="31"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000012.png" id="32"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000013.png" id="33"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000014.png" id="34"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000015.png" id="35"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000016.png" id="36"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000017.png" id="37"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000018.png" id="38"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000019.png" id="39"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000020.png" id="40"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000021.png" id="41"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000022.png" id="42"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000023.png" id="43"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000024.png" id="44"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000001.png" id="45"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000002.png" id="46"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000003.png" id="47"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000004.png" id="48"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000005.png" id="49"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000006.png" id="50"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000007.png" id="51"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000008.png" id="52"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000009.png" id="53"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000010.png" id="54"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000011.png" id="55"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000012.png" id="56"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000013.png" id="57"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000014.png" id="58"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000015.png" id="59"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000016.png" id="60"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000017.png" id="61"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000018.png" id="62"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000019.png" id="63"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000020.png" id="64"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000021.png" id="65"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000022.png" id="66"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000023.png" id="67"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000024.png" id="68"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000001.png" id="69"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000002.png" id="70"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000003.png" id="71"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000004.png" id="72"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000005.png" id="73"]
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000006.png" id="74"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000008.png" id="21"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000009.png" id="22"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000010.png" id="23"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000011.png" id="24"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000012.png" id="25"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000013.png" id="26"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000014.png" id="27"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000015.png" id="28"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000016.png" id="29"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000017.png" id="30"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000018.png" id="31"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000019.png" id="32"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000020.png" id="33"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000021.png" id="34"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000022.png" id="35"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000023.png" id="36"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/damage/frame_000024.png" id="37"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000001.png" id="38"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000002.png" id="39"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000003.png" id="40"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000004.png" id="41"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000005.png" id="42"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000006.png" id="43"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000007.png" id="44"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000008.png" id="45"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000009.png" id="46"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000010.png" id="47"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000011.png" id="48"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000012.png" id="49"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000013.png" id="50"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000014.png" id="51"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000015.png" id="52"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000016.png" id="53"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000017.png" id="54"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000018.png" id="55"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000019.png" id="56"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000020.png" id="57"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000021.png" id="58"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000022.png" id="59"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000023.png" id="60"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/power/frame_000024.png" id="61"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000001.png" id="62"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000002.png" id="63"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000003.png" id="64"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000004.png" id="65"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000005.png" id="66"]
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/attack/frame_000006.png" id="67"]
 
 [resource]
 animations = [
@@ -233,7 +226,14 @@ animations = [
 {
 "duration": 1.0,
 "texture": ExtResource("37")
+}
+],
+"loop": false,
+"name": &"hurt",
+"speed": 28.0
 },
+{
+"frames": [
 {
 "duration": 1.0,
 "texture": ExtResource("38")
@@ -261,14 +261,7 @@ animations = [
 {
 "duration": 1.0,
 "texture": ExtResource("44")
-}
-],
-"loop": false,
-"name": &"hurt",
-"speed": 12.0
 },
-{
-"frames": [
 {
 "duration": 1.0,
 "texture": ExtResource("45")
@@ -336,7 +329,14 @@ animations = [
 {
 "duration": 1.0,
 "texture": ExtResource("61")
+}
+],
+"loop": false,
+"name": &"cast",
+"speed": 14.0
 },
+{
+"frames": [
 {
 "duration": 1.0,
 "texture": ExtResource("62")
@@ -360,45 +360,10 @@ animations = [
 {
 "duration": 1.0,
 "texture": ExtResource("67")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("68")
-}
-],
-"loop": false,
-"name": &"cast",
-"speed": 12.0
-},
-{
-"frames": [
-{
-"duration": 1.0,
-"texture": ExtResource("69")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("70")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("71")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("72")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("73")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("74")
 }
 ],
 "loop": false,
 "name": &"attack",
-"speed": 12.0
+"speed": 14.0
 }
 ]

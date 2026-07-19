@@ -23,13 +23,13 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
 
     [ConfigSection("ChromaKey")]
     [ConfigSlider(0.0, 1.0, 0.01, Format = "{0:0.00}")]
-    public static double ChromaSimilarity { get; set; } = 0.22;
+    public static double ChromaSimilarity { get; set; } = 0.18;
 
     [ConfigSlider(0.0, 1.0, 0.01, Format = "{0:0.00}")]
-    public static double ChromaSmoothness { get; set; } = 0.08;
+    public static double ChromaSmoothness { get; set; } = 0.06;
 
     [ConfigSlider(0.0, 1.0, 0.01, Format = "{0:0.00}")]
-    public static double ChromaSpill { get; set; } = 0.25;
+    public static double ChromaSpill { get; set; } = 0.18;
 
     [ConfigSlider(0.0, 1.0, 0.01, Format = "{0:0.00}")]
     public static double ChromaKeyR { get; set; } = 0.03;

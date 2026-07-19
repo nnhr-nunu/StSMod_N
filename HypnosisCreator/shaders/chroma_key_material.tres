@@ -5,9 +5,9 @@
 [resource]
 shader = ExtResource("1_chroma")
 shader_parameter/key_color = Color(0.0313726, 0.631373, 0.207843, 1)
-shader_parameter/similarity = 0.22
-shader_parameter/smoothness = 0.08
-shader_parameter/spill = 0.25
-shader_parameter/wm_crop_bottom = 0.08
-shader_parameter/wm_crop_side = 0.48
+shader_parameter/similarity = 0.18
+shader_parameter/smoothness = 0.06
+shader_parameter/spill = 0.18
+shader_parameter/wm_crop_bottom = 0.055
+shader_parameter/wm_crop_side = 0.38
 shader_parameter/wm_on_uv_left = 1.0

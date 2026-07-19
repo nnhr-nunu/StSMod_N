@@ -24,11 +24,12 @@ Hailuo / MiniMax 系の白文字ロゴはだいたい同じ右下位置に出ま
 
 - **PNG は改変しない**（靴などを壊しやすいため）
 - 戦闘立ち絵は `shaders/chroma_key`（`chroma_key_material.tres`）を共有
-- シェーダー側の帯マスク（`wm_crop_*`）でロゴだけ透明化
+- シェーダー側の角抜き（`wm_crop_*`）＋白いロゴ文字検出で透明化
 - idle / damage / attack など、同じ素材規格なら **そのまま使い回し**
 - Visuals は Flip H = ON 前提（ロゴが UV 左側に来る）
 
 位置がズレた素材が出たら `VisualTuner` の `WatermarkCropBottom` / `WatermarkCropSide` だけ調整。
+被弾はほぼ静止の序盤フレームを飛ばし、`hurt` を高速再生している。
 
 ## 仕様
 
