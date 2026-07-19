@@ -37,7 +37,9 @@ public static class FetishGlow
 
     private static bool WouldHit(HypnosisCreatorCard card, Creature target)
     {
-        if (card.AlwaysHitsFetish) return true;
+        // タグ付き必中（感度3000倍等）は常に刺さるので光る。
+        // タグ無し必中（囁きUG等）はカード固有の条件ハイライトに任せる。
+        if (card.AlwaysHitsFetish && card.CardFetishes.Count > 0) return true;
 
         foreach (var fetish in card.CardFetishes.Distinct())
         {

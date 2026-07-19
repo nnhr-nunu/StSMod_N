@@ -24,6 +24,12 @@ public class Whisper() : HypnosisCreatorCard(0,
     /// <summary>UG時のみ必中刺さり。</summary>
     public override bool AlwaysHitsFetish => IsUpgraded;
 
+    protected override bool ShouldGlowWhenConditionMet()
+    {
+        var draw = Owner.PlayerCombatState?.DrawPile;
+        return draw != null && draw.Cards.Any(IsCandidate);
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
 

@@ -21,6 +21,9 @@ public class CollarTraining() : HypnosisCreatorCard(1,
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(PullTracker.IsPulled);
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Doom", 15M)];
 

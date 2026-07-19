@@ -1,6 +1,7 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -24,6 +25,9 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
     TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfAnyEnemy(EnemyAttackIntents.IntendsToAttack);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

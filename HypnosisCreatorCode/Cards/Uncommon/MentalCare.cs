@@ -1,6 +1,7 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -21,6 +22,10 @@ public class MentalCare() : HypnosisCreatorCard(1,
     TargetType.AnyEnemy)
 {
     public override bool GainsBlock => true;
+
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c =>
+            c.Powers.Any(p => p.Type == PowerType.Debuff && p is not DoomPower));
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

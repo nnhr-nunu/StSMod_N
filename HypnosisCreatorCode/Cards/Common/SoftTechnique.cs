@@ -13,6 +13,9 @@ public class SoftTechnique() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
+    protected override bool ShouldGlowWhenConditionMet() =>
+        Owner.Creature.Powers.Any(p => p.Type == PowerType.Debuff);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         var debuffs = Owner.Creature.Powers

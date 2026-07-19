@@ -19,6 +19,9 @@ public class Punishment() : HypnosisCreatorCard(2,
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c => EnemyPlayerAttackTracker.GetCount(c) > 0);
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(8M, ValueProp.Move)];
 

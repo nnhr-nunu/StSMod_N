@@ -6,6 +6,7 @@ using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards;
@@ -26,9 +27,36 @@ public abstract class HypnosisCreatorCard(
     /// <summary>複数タグを種類ごとに刺す。未指定時はタグ2種以上なら自動で個別。</summary>
     public virtual bool? FetishHitPerTypeOverride => null;
 
-    /// <summary>性癖が刺さりうるとき黄色ハイライト（mechanics-lock）。</summary>
+    /// <summary>
+    /// 黄色ハイライト: 性癖が刺さる／条件達成（トランスあり・引き寄せ済み等）のとき。
+    /// </summary>
     protected override bool ShouldGlowGoldInternal =>
-        FetishGlow.ShouldGlow(this) || base.ShouldGlowGoldInternal;
+        FetishGlow.ShouldGlow(this)
+        || ShouldGlowWhenConditionMet()
+        || base.ShouldGlowGoldInternal;
+
+    /// <summary>使用価値がある状況での黄ハイライト。各カードが条件を上書きする。</summary>
+    protected virtual bool ShouldGlowWhenConditionMet() => false;
+
+    /// <summary>照準中ならその対象、そうでなければ生存中の敵のいずれかで predicate が真なら光る。</summary>
+    protected bool GlowIfTargetOrAnyEnemy(Func<Creature, bool> predicate)
+    {
+        var combat = CombatState;
+        if (combat == null) return false;
+
+        if (CurrentTarget != null)
+            return CurrentTarget.IsAlive && predicate(CurrentTarget);
+
+        return combat.HittableEnemies.Any(e => e.IsAlive && e.IsEnemy && predicate(e));
+    }
+
+    /// <summary>生存中の敵のいずれかで predicate が真なら光る（自分対象カード向け）。</summary>
+    protected bool GlowIfAnyEnemy(Func<Creature, bool> predicate)
+    {
+        var combat = CombatState;
+        if (combat == null) return false;
+        return combat.HittableEnemies.Any(e => e.IsAlive && e.IsEnemy && predicate(e));
+    }
 
     protected static IEnumerable<CardKeyword> CountKeywords =>
         [HcKeywords.Count, CardKeyword.Retain, CardKeyword.Exhaust];

@@ -20,6 +20,9 @@ public class TotalControl() : HypnosisCreatorCard(1,
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c => TranceCombat.GetTrance(c) >= 3);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);

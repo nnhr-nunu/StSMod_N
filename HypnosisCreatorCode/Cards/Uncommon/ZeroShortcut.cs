@@ -19,6 +19,13 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
 {
     public override bool GainsBlock => true;
 
+    protected override bool ShouldGlowWhenConditionMet()
+    {
+        var hand = Owner.PlayerCombatState?.Hand;
+        return hand != null && hand.Cards.Any(c =>
+            CountRules.HasCountKeyword(c) && c.EnergyCost.GetResolved() > 0);
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(6M, ValueProp.Move)];
 

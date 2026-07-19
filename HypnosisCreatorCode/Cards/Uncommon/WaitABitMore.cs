@@ -18,6 +18,12 @@ public class WaitABitMore() : HypnosisCreatorCard(1,
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    protected override bool ShouldGlowWhenConditionMet()
+    {
+        var hand = Owner.PlayerCombatState?.Hand;
+        return hand != null && hand.Cards.Any(c => c != this && CountRules.HasCountKeyword(c));
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
 

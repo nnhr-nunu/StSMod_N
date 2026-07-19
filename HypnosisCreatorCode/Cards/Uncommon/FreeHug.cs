@@ -22,6 +22,9 @@ public class FreeHug() : HypnosisCreatorCard(0,
     public override CardMultiplayerConstraint MultiplayerConstraint =>
         CardMultiplayerConstraint.MultiplayerOnly;
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(PullTracker.IsPulled);
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Doom", 10M),

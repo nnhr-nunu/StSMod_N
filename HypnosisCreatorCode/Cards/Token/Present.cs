@@ -16,6 +16,9 @@ public class Present() : TrainingCommand
         .GetMethods(BindingFlags.Public | BindingFlags.Static)
         .Single(m => m.Name == nameof(PowerCmd.Apply) && m.IsGenericMethodDefinition && m.GetParameters().Length == 5);
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c => c.Powers.Any(p => p.Type == PowerType.Buff));
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);

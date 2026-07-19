@@ -24,6 +24,9 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(TranceCombat.HasTrance);
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6M, ValueProp.Move)];
 
