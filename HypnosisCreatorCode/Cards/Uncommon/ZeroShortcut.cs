@@ -10,13 +10,15 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// ゼロへの近道 — 3→2→1→0ブロックを得て、手札カウントコストを0にする。UGで2コスト。
+/// ゼロへの近道 — 3→2→1→0ブロック（合計6）を得て、手札カウントコストを0にする。UGで2コスト。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class ZeroShortcut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
+    private const int StartBlock = 3;
+
     public override bool GainsBlock => true;
 
     protected override bool ShouldGlowWhenConditionMet()
@@ -26,12 +28,13 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
             CountRules.HasCountKeyword(c) && c.EnergyCost.GetResolved() > 0);
     }
 
+    // 3+2+1+0 = 6。説明の合計ブロックは {Block:diff()} でプレビューする。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(6M, ValueProp.Move)];
+        [new BlockVar(StartBlock * (StartBlock + 1) / 2, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        for (var block = 3; block >= 0; block--)
+        for (var block = StartBlock; block >= 0; block--)
             await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, play);
 
         CountRules.ZeroHandCountCosts(Owner);

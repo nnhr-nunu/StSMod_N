@@ -3,8 +3,10 @@ using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
@@ -17,20 +19,30 @@ public class HypnosisIntro() : HypnosisCreatorCard(0,
     TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Draw", 2M)];
+    [
+        new DynamicVar("Draw", 2M),
+        new CalculationBaseVar(0M),
+        new CalculationExtraVar(1M),
+        new CalculatedVar("CurrentDraw").WithMultiplier(CalcCurrentDraw)
+    ];
+
+    private static decimal CalcCurrentDraw(CardModel card, Creature? target)
+    {
+        var baseDraw = card.DynamicVars["Draw"].BaseValue;
+        if (target == null || card.Owner == null) return baseDraw;
+        var prior = HypnosisIntroDrawTracker.GetPriorPlayCount(card.Owner, target, card.Id.Entry);
+        return Math.Max(0, (int)baseDraw - prior);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        var cardKey = Id.Entry;
-        var prior = HypnosisIntroDrawTracker.GetPriorPlayCount(Owner, play.Target, cardKey);
-        var draw = Math.Max(0, DynamicVars["Draw"].IntValue - prior);
-
+        var draw = (int)CalcCurrentDraw(this, play.Target);
         if (draw > 0)
             await CardPileCmd.Draw(choiceContext, draw, Owner);
 
-        HypnosisIntroDrawTracker.RecordPlay(Owner, play.Target, cardKey);
+        HypnosisIntroDrawTracker.RecordPlay(Owner, play.Target, Id.Entry);
     }
 
     protected override void OnUpgrade() => DynamicVars["Draw"].UpgradeValueBy(1M);

@@ -23,8 +23,8 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
-        new ExtraDamageVar(0M),
-        // result = Func(card, target) + Base * Extra  （Base=Extra=0 なので Func の値がそのままダメージ）
+        new CalculationExtraVar(1M),
+        // result = Base + Extra * Func = Func
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcSquaredHandCountCost)
     ];
 
