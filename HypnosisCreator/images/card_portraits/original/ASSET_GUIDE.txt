@@ -4,8 +4,11 @@ CSV（ヒプノクリエイター.csv）の No でファイル名を付ける。
 拡張子・解像度は問わない（jpg / png / webp 可。拡張子と中身が違っても可）。
 
 例: 12.jpg → 調和 → harmony.png
+例: 48.png → 調教コマンド → training_command_card.png
+     （あわせて No.56-66 の命令カードにも同じサムネを出力）
 
 変換:
   リポジトリルートで `python tools_process_card_portraits.py`
+  特定番号のみ: `python tools_process_card_portraits.py --only 48`
 
 本番用 PNG は親フォルダと big/ に出力される。このフォルダの原画は残す。

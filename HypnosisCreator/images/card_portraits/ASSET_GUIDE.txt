@@ -17,6 +17,10 @@
 
 `original/` の番号付き原画はそのまま残す（差し替え・再変換用）。
 
+共有アート:
+- No.48 調教コマンド → training_command_card.png
+- 生成される No.56-66（Kneel! 等）も同じ絵（コード: TrainingCommand、変換スクリプトも同PNGを出力）
+
 ## 配置するファイル
 
 | 場所 | 用途 | サイズ目安 |

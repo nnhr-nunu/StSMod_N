@@ -33,6 +33,23 @@ SIZE_BIG = (1000, 760)
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif", ".tif", ".tiff"}
 
+# CSV No → 追加で同じアートを書き出す entry（調教コマンド → 生成命令カード）
+SHARED_EXTRA_ENTRIES: dict[int, tuple[str, ...]] = {
+    48: (
+        "kneel",
+        "look",
+        "come",
+        "relax",
+        "present",
+        "trance",
+        "crawl",
+        "dont_move",
+        "roll",
+        "cum",
+        "good",
+    ),
+}
+
 
 def load_title_to_entry() -> dict[str, str]:
     import json
@@ -105,21 +122,30 @@ def open_image(path: Path) -> Image.Image:
     return img.convert("RGB")
 
 
-def process_one(src: Path, entry: str, dry_run: bool = False) -> None:
-    img = open_image(src)
-    cropped = center_crop_to_aspect(img)
-    big = cropped.resize(SIZE_BIG, Image.Resampling.LANCZOS)
-    small = cropped.resize(SIZE_SMALL, Image.Resampling.LANCZOS)
-
+def save_pair(small: Image.Image, big: Image.Image, entry: str, dry_run: bool = False) -> None:
     out_small = PORTRAIT_DIR / f"{entry}.png"
     out_big = BIG_DIR / f"{entry}.png"
-    print(f"  {src.name} ({img.size[0]}x{img.size[1]}) → {entry}.png")
-    print(f"    small {SIZE_SMALL[0]}x{SIZE_SMALL[1]}  big {SIZE_BIG[0]}x{SIZE_BIG[1]}")
+    print(f"    → {entry}.png / big/{entry}.png")
     if dry_run:
         return
     BIG_DIR.mkdir(parents=True, exist_ok=True)
     small.save(out_small, format="PNG", optimize=True)
     big.save(out_big, format="PNG", optimize=True)
+
+
+def process_one(src: Path, entry: str, extras: tuple[str, ...] = (), dry_run: bool = False) -> None:
+    img = open_image(src)
+    cropped = center_crop_to_aspect(img)
+    big = cropped.resize(SIZE_BIG, Image.Resampling.LANCZOS)
+    small = cropped.resize(SIZE_SMALL, Image.Resampling.LANCZOS)
+
+    print(f"  {src.name} ({img.size[0]}x{img.size[1]}) → {entry}.png")
+    print(f"    small {SIZE_SMALL[0]}x{SIZE_SMALL[1]}  big {SIZE_BIG[0]}x{SIZE_BIG[1]}")
+    save_pair(small, big, entry, dry_run=dry_run)
+    for extra in extras:
+        if extra == entry:
+            continue
+        save_pair(small, big, extra, dry_run=dry_run)
 
 
 def discover_numbered(original_dir: Path) -> list[tuple[int, Path]]:
@@ -185,7 +211,8 @@ def main() -> int:
             errors.append(f"No.{no}「{title}」: cards.json に title 一致なし")
             continue
         try:
-            process_one(path, entry, dry_run=args.dry_run)
+            extras = SHARED_EXTRA_ENTRIES.get(no, ())
+            process_one(path, entry, extras=extras, dry_run=args.dry_run)
             ok += 1
         except Exception as exc:  # noqa: BLE001 — report per-file and continue
             errors.append(f"No.{no} ({path.name}): {exc}")
