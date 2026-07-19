@@ -10,7 +10,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>布教欲求 — 対象に推し活（デバフ）と沼を付与。戦闘終了時にゴールド。廃棄。</summary>
+/// <summary>
+/// 布教欲求 — 対象に推し活（デバフ）と沼を付与。
+/// 戦闘終了時にゴールドを報酬画面へ追加（本家 Royalties と同形式）。廃棄。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Proselytize() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,

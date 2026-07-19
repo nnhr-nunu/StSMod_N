@@ -3,7 +3,10 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
-/// <summary>布教欲求の戦闘終了ゴールドをプレイヤー単位で溜める。</summary>
+/// <summary>
+/// 布教欲求の戦闘終了ゴールドをプレイヤー単位で溜める。
+/// 清算時は本家 Royalties と同様、報酬画面の追加 <c>GoldReward</c> として出す。
+/// </summary>
 public static class ProselytizeRewards
 {
     private sealed class GoldState
