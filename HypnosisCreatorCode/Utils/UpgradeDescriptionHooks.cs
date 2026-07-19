@@ -120,5 +120,11 @@ public static class UpgradeDescriptionHooks
             "アブノーマル：筋力1と[green]敏捷1[/green]を得る。SM：活力[green]3[/green]を得る。DomSub：ブロック[green]2[/green]を得る。",
             "Abnormal grants Strength, SM grants Vigor, DomSub grants Block.",
             "Abnormal grants Strength and [green]Dexterity[/green], SM grants [green]3[/green] Vigor, DomSub grants [green]2[/green] Block.");
+
+        UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AmbushHypnosis,
+            "相手の数だけカードを引く",
+            "相手の数[green]+1[/green]枚カードを引く",
+            "Draw cards equal to the number of enemies",
+            "Draw cards equal to the number of enemies [green]+ 1[/green]");
     }
 }

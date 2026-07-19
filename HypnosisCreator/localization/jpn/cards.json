@@ -130,7 +130,7 @@
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description": "手札のカードをX枚まで選び、他キャラクターのランダムなアブノーマル系名称のカードに変化させる。それらのカードはアブノーマルカードとして扱う。このターン、コストなしでプレイできる。",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.selectionScreenPrompt": "変換するカードを選んでください（少なくても確定できます）。",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.title": "不意打ち催眠",
-  "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "敵の数だけドローする。引いたカードをランダムな相手にプレイする。",
+  "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "相手の数だけカードを引く（{Draw:diff()}枚）。引いたカードをランダムな相手にプレイする。",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.title": "集団催眠",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "催眠系カウントカードの対象が相手すべてになる。",
   "HYPNOSISCREATOR-RAPPORT.title": "ラポール",

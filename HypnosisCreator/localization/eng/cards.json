@@ -130,7 +130,7 @@
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description": "Choose up to X cards in your hand and transform them into random Abnormal-named cards from other characters. Those cards are treated as Abnormal cards. They cost 0 this turn.",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.selectionScreenPrompt": "Choose cards to transform (you may confirm with fewer than the maximum).",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.title": "Ambush Hypnosis",
-  "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "Draw a card for each enemy, then automatically play each on a random enemy, ignoring their costs.",
+  "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "Draw cards equal to the number of enemies ({Draw:diff()}). Play each drawn card on a random enemy.",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.title": "Mass Hypnosis",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "Whenever you play a single-target [gold]Count[/gold] card, also play its effect on every other enemy.",
   "HYPNOSISCREATOR-RAPPORT.title": "Rapport",
