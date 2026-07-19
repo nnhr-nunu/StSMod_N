@@ -7,6 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// Spine の代わりに AnimatedSprite2D 連番で待機／被弾／詠唱／攻撃を再生する。
+/// 敗北（Dead）は die 連番ではなく CombatDeathDissolve（シェーダー消滅）。
 /// ウォーターマーク隠しは Visuals に付いた chroma_key_material 側（全モーション共用）。
 /// 全モーションは同一キャンバス（768×1152）前提でスケール差を出さない。
 /// </summary>
@@ -53,6 +54,19 @@ public static class CombatFrameAnimator
         var sprite = FindCombatSprite(creature);
         if (sprite?.SpriteFrames == null) return;
         if (!IsOurCombatSprite(sprite)) return;
+
+        if (IsDeathTrigger(trigger))
+        {
+            CombatDeathDissolve.Begin(sprite);
+            return;
+        }
+
+        if (IsReviveTrigger(trigger))
+            CombatDeathDissolve.Reset(sprite);
+
+        // ディゾルブ中は Idle / 他モーションで上書きしない
+        if (CombatDeathDissolve.IsDissolving(sprite))
+            return;
 
         // 多段ヒット中のループ攻撃は、都度リスタートしない
         if (IsAttackLooping(sprite) && IsAttackTrigger(trigger))
@@ -140,8 +154,13 @@ public static class CombatFrameAnimator
     public static double GetCurrentAnimLengthSeconds(NCreature? creature)
     {
         var sprite = FindOurSprite(creature);
-        if (sprite?.SpriteFrames == null) return 0;
+        if (sprite == null) return 0;
         if (!GodotObject.IsInstanceValid(sprite)) return 0;
+
+        if (CombatDeathDissolve.IsDissolving(sprite))
+            return CombatDeathDissolve.DurationSeconds;
+
+        if (sprite.SpriteFrames == null) return 0;
 
         var anim = sprite.Animation;
         if (anim.IsEmpty || !sprite.SpriteFrames.HasAnimation(anim)) return 0;
@@ -158,8 +177,30 @@ public static class CombatFrameAnimator
         return durationSum / speed;
     }
 
+    /// <summary>AnimDie が待つ残り尺（ディゾルブ中のみ。他用途へ誤って尺を渡さない）。</summary>
+    public static double GetCurrentAnimTimeRemainingSeconds(NCreature? creature)
+    {
+        var sprite = FindOurSprite(creature);
+        if (sprite == null || !GodotObject.IsInstanceValid(sprite)) return 0;
+
+        // ShowRewards 等も同 API を呼ぶため、ディゾルブ中以外は 0 のままにする
+        if (CombatDeathDissolve.IsDissolving(sprite))
+            return CombatDeathDissolve.GetRemainingSeconds(sprite);
+
+        return 0;
+    }
+
+    private static bool IsDeathTrigger(string trigger) =>
+        trigger.Equals("Dead", StringComparison.OrdinalIgnoreCase)
+        || trigger.Equals("Die", StringComparison.OrdinalIgnoreCase)
+        || trigger.Equals("Death", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsReviveTrigger(string trigger) =>
+        trigger.Equals("Revive", StringComparison.OrdinalIgnoreCase);
+
     private static bool ShouldHoldCurrentAnim(AnimatedSprite2D sprite)
     {
+        if (CombatDeathDissolve.IsDissolving(sprite)) return true;
         if (IsAttackLooping(sprite)) return true;
         if (!GodotObject.IsInstanceValid(sprite) || !sprite.IsPlaying()) return false;
 
@@ -251,6 +292,7 @@ public static class CombatFrameAnimator
     {
         if (!GodotObject.IsInstanceValid(sprite)) return;
         if (IsAttackLooping(sprite)) return;
+        if (CombatDeathDissolve.IsDissolving(sprite)) return;
 
         var frames = sprite.SpriteFrames;
         if (frames == null) return;

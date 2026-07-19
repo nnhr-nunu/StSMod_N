@@ -42,6 +42,21 @@ public static class CombatFrameAnimLengthPatch
 }
 
 /// <summary>
+/// AnimDie は残り尺を待つ。Spine 無し＋ディゾルブ時に 0 だと消滅演出が飛ばされる。
+/// </summary>
+[HarmonyPatch(typeof(NCreature), nameof(NCreature.GetCurrentAnimationTimeRemaining))]
+public static class CombatFrameAnimTimeRemainingPatch
+{
+    public static void Postfix(NCreature __instance, ref float __result)
+    {
+        if (__result > 0) return;
+        var rem = CombatFrameAnimator.GetCurrentAnimTimeRemainingSeconds(__instance);
+        if (rem > 0)
+            __result = (float)rem;
+    }
+}
+
+/// <summary>
 /// WithHitCount による多段ヒット中は攻撃モーションをループ再生する。
 /// Execute は async のため Finalizer では待てず、Postfix で Task を包む。
 /// </summary>

@@ -28,7 +28,9 @@ Hailuo / MiniMax 系の白文字ロゴはだいたい同じ右下位置に出ま
 - idle / damage / attack など、同じ素材規格なら **そのまま使い回し**
 - Visuals は Flip H = ON 前提（ロゴが UV 左側に来る）
 
-位置がズレた素材が出たら `VisualTuner` の `WatermarkCropBottom` / `WatermarkCropSide` だけ調整。
+位置がズレた／残るときは Mod設定 → Watermark スライダー
+（CropBottom / CropSide / LogoStrength）で調整。
+敗北は die 連番なしでシェーダー・ディゾルブ消滅（CombatDeathDissolve）。
 被弾はほぼ静止の序盤フレームを飛ばし、`hurt` を高速再生している。
 
 ## 仕様

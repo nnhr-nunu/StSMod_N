@@ -15,9 +15,7 @@ public static class VisualTuner
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
 
-    // Hailuo 系ロゴ角抜き（靴と重なりにくい外側のみ）。文字本体はシェーダー側で追加検出。
-    private const float WatermarkCropBottom = 0.055f;
-    private const float WatermarkCropSide = 0.38f;
+    /// <summary>立ち絵は Flip H ON 前提（Hailuo 右下ロゴ → UV 左）。</summary>
     private const float WatermarkOnUvLeft = 1.0f;
 
     private static Shader? _cropShader;
@@ -52,19 +50,22 @@ public static class VisualTuner
         var similarity = (float)HypnosisCreatorConfig.ChromaSimilarity;
         var smoothness = (float)HypnosisCreatorConfig.ChromaSmoothness;
         var spill = (float)HypnosisCreatorConfig.ChromaSpill;
+        var wmBottom = (float)HypnosisCreatorConfig.WatermarkCropBottom;
+        var wmSide = (float)HypnosisCreatorConfig.WatermarkCropSide;
+        var wmLogo = (float)HypnosisCreatorConfig.WatermarkLogoStrength;
 
         if (ResourceLoader.Exists(ChromaMaterialPath))
         {
             var shared = ResourceLoader.Load<ShaderMaterial>(ChromaMaterialPath);
             if (shared != null)
-                SetChromaParams(shared, key, similarity, smoothness, spill);
+                SetChromaParams(shared, key, similarity, smoothness, spill, wmBottom, wmSide, wmLogo);
         }
 
         foreach (var item in FindCombatVisuals())
         {
             EnsureChromaMaterial(item);
             if (item.Material is ShaderMaterial mat)
-                SetChromaParams(mat, key, similarity, smoothness, spill);
+                SetChromaParams(mat, key, similarity, smoothness, spill, wmBottom, wmSide, wmLogo);
         }
     }
 
@@ -155,7 +156,15 @@ public static class VisualTuner
         item.Material = new ShaderMaterial { Shader = _cropShader };
     }
 
-    private static void SetChromaParams(ShaderMaterial mat, Color key, float similarity, float smoothness, float spill)
+    private static void SetChromaParams(
+        ShaderMaterial mat,
+        Color key,
+        float similarity,
+        float smoothness,
+        float spill,
+        float wmBottom,
+        float wmSide,
+        float wmLogo)
     {
         mat.SetShaderParameter("key_color", key);
         mat.SetShaderParameter("similarity", similarity);
@@ -163,10 +172,12 @@ public static class VisualTuner
         mat.SetShaderParameter("spill", spill);
         // パワー詠唱の粒子が青っぽく残るのを抑える（シェーダー既定と同じ）
         mat.SetShaderParameter("sparkle_whiten", 0.9f);
-        // 画像は改変せず、全戦闘モーションで同じ帯を透明化
-        mat.SetShaderParameter("wm_crop_bottom", WatermarkCropBottom);
-        mat.SetShaderParameter("wm_crop_side", WatermarkCropSide);
+        // 画像は改変せず、全戦闘モーションで同じ帯を透明化（Mod設定スライダー）
+        mat.SetShaderParameter("wm_crop_bottom", wmBottom);
+        mat.SetShaderParameter("wm_crop_side", wmSide);
         mat.SetShaderParameter("wm_on_uv_left", WatermarkOnUvLeft);
+        mat.SetShaderParameter("wm_logo_strength", wmLogo);
+        // dissolve_amount は敗北演出中に触らない（VisualTuner 再適用で途中リセットしない）
     }
 
     private static void SetCropParams(ShaderMaterial mat, Vector2 offset, float zoom)

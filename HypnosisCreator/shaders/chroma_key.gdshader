@@ -27,6 +27,44 @@ uniform float wm_crop_side : hint_range(0.0, 0.8, 0.001) = 0.38;
 /// flip_h ON のとき画像右下ロゴは UV 左側に来る → 1.0
 uniform float wm_on_uv_left : hint_range(0.0, 1.0, 1.0) = 1.0;
 
+/// ロゴ文字検出の強さ（1＝既定。上げると白文字をもっと落とす）
+uniform float wm_logo_strength : hint_range(0.0, 2.0, 0.01) = 1.0;
+
+/// 敗北ディゾルブ進行度（0＝通常表示、1＝完全消滅）
+uniform float dissolve_amount : hint_range(0.0, 1.0, 0.001) = 0.0;
+
+/// ディゾルブ縁のぼかし幅
+uniform float dissolve_edge : hint_range(0.01, 0.25, 0.001) = 0.07;
+
+/// ディゾルブ縁の色（催眠っぽい淡い紫）
+uniform vec4 dissolve_color : source_color = vec4(0.72, 0.45, 0.95, 0.85);
+
+float hash21(vec2 p) {
+	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float value_noise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	float a = hash21(i);
+	float b = hash21(i + vec2(1.0, 0.0));
+	float c = hash21(i + vec2(0.0, 1.0));
+	float d = hash21(i + vec2(1.0, 1.0));
+	vec2 u = f * f * (3.0 - 2.0 * f);
+	return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+float fbm(vec2 p) {
+	float v = 0.0;
+	float amp = 0.5;
+	for (int i = 0; i < 4; i++) {
+		v += value_noise(p) * amp;
+		p *= 2.05;
+		amp *= 0.5;
+	}
+	return v;
+}
+
 void fragment() {
 	vec4 col = texture(TEXTURE, UV);
 	float dist = distance(col.rgb, key_color.rgb);
@@ -63,18 +101,33 @@ void fragment() {
 	alpha_mask *= 1.0 - in_bottom * in_side;
 
 	// 2) 足元ロゴ帯の「白い文字」だけ落とす（靴は中央寄りなので角ゾーンに限定）
-	// ロゴ文字: 明るい・ほぼ無彩度。靴の白い面は彩度や位置で残りやすい
-	float logo_band = smoothstep(0.915, 0.948, UV.y);
-	// ハード角より少し内側まで文字が伸びるので、そこだけ追加で落とす
+	// strength=1 は旧既定（band 0.915〜0.948 / 左 0.38〜0.48）と一致。上げると帯と閾値を広げる。
+	float boost = clamp(wm_logo_strength - 1.0, 0.0, 1.0);
+	float logo_band = smoothstep(mix(0.915, 0.900, boost), mix(0.948, 0.960, boost), UV.y);
 	float logo_x = mix(
-		smoothstep(0.52, 0.62, UV.x),
-		1.0 - smoothstep(0.38, 0.48, UV.x),
+		smoothstep(mix(0.52, 0.45, boost), mix(0.62, 0.58, boost), UV.x),
+		1.0 - smoothstep(mix(0.38, 0.30, boost), mix(0.48, 0.55, boost), UV.x),
 		wm_on_uv_left
 	);
-	float logo_flat = step(0.78, lum) * step(sat, 0.16);
+	float lum_th = mix(0.78, 0.70, boost);
+	float sat_th = mix(0.16, 0.22, boost);
+	float logo_flat = step(lum_th, lum) * step(sat, sat_th);
 	float logo_on_green = step(0.12, green_dom) * step(0.72, lum) * step(sat, 0.20);
-	float logo_kill = logo_band * logo_x * max(logo_flat, logo_on_green);
-	alpha_mask *= 1.0 - logo_kill;
+	float logo_kill = logo_band * logo_x * max(logo_flat, logo_on_green) * clamp(wm_logo_strength, 0.0, 2.0);
+	alpha_mask *= 1.0 - clamp(logo_kill, 0.0, 1.0);
+
+	// --- 敗北ディゾルブ（ノイズで欠けて消える） ---
+	if (dissolve_amount > 0.001) {
+		// 縦長立ち絵向けにやや縦伸びノイズ
+		float n = fbm(UV * vec2(6.5, 9.5) + vec2(1.7, 0.3));
+		float edge = max(dissolve_edge, 0.01);
+		float cutoff = mix(-edge, 1.0 + edge, dissolve_amount);
+		float keep = smoothstep(cutoff - edge, cutoff + edge * 0.15, n);
+		float rim = 1.0 - smoothstep(0.0, edge, abs(n - cutoff));
+		rim *= smoothstep(0.0, 0.15, dissolve_amount) * (1.0 - smoothstep(0.85, 1.0, dissolve_amount));
+		col.rgb = mix(col.rgb, dissolve_color.rgb, rim * dissolve_color.a);
+		alpha_mask *= keep;
+	}
 
 	COLOR = vec4(col.rgb, col.a * alpha_mask);
 }

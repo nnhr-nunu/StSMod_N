@@ -40,6 +40,19 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
     [ConfigSlider(0.0, 1.0, 0.01, Format = "{0:0.00}")]
     public static double ChromaKeyB { get; set; } = 0.21;
 
+    // --- ウォーターマーク隠し（立ち絵右下ロゴ。PNGは改変せずシェーダーで透過） ---
+
+    [ConfigSection("Watermark")]
+    [ConfigSlider(0.0, 0.25, 0.005, Format = "{0:0.000}")]
+    public static double WatermarkCropBottom { get; set; } = 0.055;
+
+    [ConfigSlider(0.0, 0.8, 0.01, Format = "{0:0.00}")]
+    public static double WatermarkCropSide { get; set; } = 0.38;
+
+    /// <summary>1＝既定。上げると足元の白文字ロゴ検出を強める（靴欠けに注意）。</summary>
+    [ConfigSlider(0.0, 2.0, 0.05, Format = "{0:0.00}")]
+    public static double WatermarkLogoStrength { get; set; } = 1.0;
+
     // --- キャラ選択 1枚背景（単位: px。Yプラス＝画面下へ） ---
 
     [ConfigSection("SelectBackground")]
