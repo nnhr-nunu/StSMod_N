@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -19,33 +20,31 @@ public class Punishment() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    static Punishment()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendHitPreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => EnemyPlayerAttackTracker.GetCount(c) > 0);
 
+    // FetishChampion と同様、CalculatedDamageVar+CalculatedVar 併用を避ける。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(8M, ValueProp.Move),
-        new CalculationBaseVar(0M),
-        new CalculationExtraVar(1M),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcTotalDamage),
-        new CalculatedVar("HitCount").WithMultiplier(CalcHitCount)
-    ];
+        [new DamageVar(8M, ValueProp.Move)];
 
-    private static decimal CalcHitCount(CardModel card, Creature? target) =>
-        target == null ? 0M : EnemyPlayerAttackTracker.GetCount(target);
-
-    private static decimal CalcTotalDamage(CardModel card, Creature? target) =>
-        card.DynamicVars.Damage.BaseValue * CalcHitCount(card, target);
+    private static int CalcHitCount(CardModel card, Creature? target) =>
+        target == null ? 0 : EnemyPlayerAttackTracker.GetCount(target);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        if (CalcTotalDamage(this, play.Target) > 0)
+        var hits = CalcHitCount(this, play.Target);
+        if (hits > 0)
         {
-            await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue * hits)
                 .FromCard(this, play)
                 .Targeting(play.Target)
                 .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
@@ -56,4 +55,21 @@ public class Punishment() : HypnosisCreatorCard(2,
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
+
+    private static void AppendHitPreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Punishment punishment) return;
+
+        var previewTarget = target ?? punishment.CurrentTarget;
+        var hits = CalcHitCount(punishment, previewTarget);
+        var perHit = punishment.DynamicVars.Damage.BaseValue;
+        var total = perHit * hits;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（現在の攻撃回数：{hits}回／{total}ダメージ）"
+            : $" ({hits} hits / {total} damage)";
+
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + suffix;
+    }
 }
