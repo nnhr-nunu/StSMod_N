@@ -172,7 +172,7 @@
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "壱佰捌煩悩",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "不動明王",
-  "HYPNOSISCREATOR-FUDO_MYOO.description": "デバフをすべて解除し、アーティファクト1を得る。デバフを付与してきた相手に{Damage:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-FUDO_MYOO.description": "デバフをすべて解除し、アーティファクト{ArtifactPower:diff()}を得る。デバフを付与してきた相手に{Damage:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "赤ちゃん催眠",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "カウント。対象のバフをすべて解除し、縮小2を付与する。トランス1。",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "言葉の洪水",

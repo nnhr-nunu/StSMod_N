@@ -12,15 +12,21 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>不動明王 — デバフ解除＋アーティファクト。付与してきた敵にダメージ。</summary>
+/// <summary>
+/// 不動明王 — デバフ解除＋アーティファクト1（UG108）。
+/// デバフを付与してきた敵に5ダメージ（UG10）。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FudoMyoo() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
+    private const decimal ArtifactBase = 1M;
+    private const decimal ArtifactUpgraded = 108M;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<ArtifactPower>(1M),
+        new PowerVar<ArtifactPower>(ArtifactBase),
         new DamageVar(5M, ValueProp.Move)
     ];
 
@@ -34,8 +40,10 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
         foreach (var power in self.Powers.Where(p => p.Type == PowerType.Debuff).ToList())
             await PowerCmd.Remove(power);
 
-        await PowerCmd.Apply<ArtifactPower>(
-            choiceContext, self, DynamicVars["ArtifactPower"].BaseValue, self, this);
+        // IsUpgraded を正として付与（表示用 DynamicVar と必ず一致させる）
+        var artifact = IsUpgraded ? ArtifactUpgraded : ArtifactBase;
+        DynamicVars["ArtifactPower"].BaseValue = artifact;
+        await PowerCmd.Apply<ArtifactPower>(choiceContext, self, artifact, self, this);
 
         var appliers = DebuffSourceTracker.GetAppliers(self)
             .Where(e => e.IsAlive)
@@ -58,7 +66,7 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade()
     {
-        DynamicVars["ArtifactPower"].UpgradeValueBy(107M);
+        DynamicVars["ArtifactPower"].BaseValue = ArtifactUpgraded;
         DynamicVars.Damage.UpgradeValueBy(5M);
     }
 }
