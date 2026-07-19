@@ -21,7 +21,7 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<ArtifactPower>(1M),
-        new DynamicVar("Damage", 5M)
+        new DamageVar(5M, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -47,8 +47,11 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
             appliers = CombatState.HittableEnemies.ToList();
 
         foreach (var enemy in appliers)
-            await CreatureCmd.Damage(
-                choiceContext, enemy, DynamicVars["Damage"].BaseValue, ValueProp.Move, self, this, play);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                .FromCard(this, play)
+                .Targeting(enemy)
+                .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+                .Execute(choiceContext);
 
         DebuffSourceTracker.Clear(self);
     }
@@ -56,6 +59,6 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
     protected override void OnUpgrade()
     {
         DynamicVars["ArtifactPower"].UpgradeValueBy(107M);
-        DynamicVars["Damage"].UpgradeValueBy(5M);
+        DynamicVars.Damage.UpgradeValueBy(5M);
     }
 }

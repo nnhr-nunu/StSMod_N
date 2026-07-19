@@ -1,4 +1,12 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "Count",
-  "HYPNOSISCREATOR-COUNT.description": "Retain. Cost decreases by 1 at turn start. Playable at 0 cost (or while targeting a Tranced enemy). Exhaust."
+  "HYPNOSISCREATOR-COUNT.description": "Retain. Cost decreases by 1 at turn start. Playable at 0 cost (or while targeting a Tranced enemy). Exhaust.",
+  "HYPNOSISCREATOR-SM.title": "SM",
+  "HYPNOSISCREATOR-SM.description": "When played on an enemy with the SM fetish, they gain Doom.",
+  "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
+  "HYPNOSISCREATOR-DOMSUB.description": "When played on an enemy with the DomSub fetish, they gain Doom.",
+  "HYPNOSISCREATOR-ABNORMAL.title": "Abnormal",
+  "HYPNOSISCREATOR-ABNORMAL.description": "When played on an enemy with the Abnormal fetish, they gain Doom.",
+  "HYPNOSISCREATOR-TRANCE.title": "Trance",
+  "HYPNOSISCREATOR-TRANCE.description": "When Trance is applied to an enemy with the Trance fetish, they gain Doom."
 }

@@ -2,6 +2,7 @@ using BaseLib.Config;
 using Godot;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Config;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Modding;
 
 namespace HypnosisCreator.HypnosisCreatorCode;
@@ -21,6 +22,7 @@ public partial class MainFile : Node
 
         ModConfigRegistry.Register(ModId, new HypnosisCreatorConfig());
         VisualTuner.ApplyAll();
+        FetishCardText.Register();
 
         Harmony harmony = new(ModId);
         harmony.PatchAll();
