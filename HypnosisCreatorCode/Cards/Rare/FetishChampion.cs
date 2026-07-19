@@ -11,7 +11,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>性癖の覇者 — 対象の性癖数×20ダメージ（UG25）。</summary>
+/// <summary>
+/// 性癖の覇者 — 対象の性癖数だけ20ダメージを与える（UG25）。
+/// CSV備考: 性癖の数だけ攻撃し、性癖を刺す（最大4回）。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FetishChampion() : HypnosisCreatorCard(3,
     CardType.Attack, CardRarity.Rare,
@@ -19,6 +22,9 @@ public class FetishChampion() : HypnosisCreatorCard(3,
 {
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
+
+    /// <summary>複数タグを種類ごとに刺す（最大3種。攻撃回数は対象性癖数で最大4）。</summary>
+    public override bool? FetishHitPerTypeOverride => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -38,9 +44,12 @@ public class FetishChampion() : HypnosisCreatorCard(3,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        if (CalcHitCount(this, play.Target) <= 0) return;
+        var hits = (int)CalcHitCount(this, play.Target);
+        if (hits <= 0) return;
 
-        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+        // 性癖1つにつき1ヒット（CSV: 攻撃回数N回）
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(hits)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")

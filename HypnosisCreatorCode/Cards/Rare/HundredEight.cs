@@ -23,7 +23,7 @@ public class HundredEight() : HypnosisCreatorCard(1,
     private const int FinalHitCount = 108;
 
     public override IReadOnlyList<FetishType> CardFetishes =>
-        [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal];
+        [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal, FetishType.Trance];
 
     public override bool AlwaysHitsFetish => true;
     public override bool? FetishHitPerTypeOverride => true;

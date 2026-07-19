@@ -168,7 +168,7 @@
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Training Commands",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Add {Cards:diff()} random Training Command cards to your hand.",
   "HYPNOSISCREATOR-AUTOPSY.title": "Autopsy",
-  "HYPNOSISCREATOR-AUTOPSY.description": "Deal {Damage:diff()} damage. Deal additional {PerHeart:diff()} damage for each Heart relic you have. If Fatal, gain an extra Heart relic.",
+  "HYPNOSISCREATOR-AUTOPSY.description": "Deal {Damage:diff()} damage. Deal additional {PerHeart:diff()} damage for each Heart relic you have. If Fatal, gain an extra Heart relic. Exhaust.",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "108 Earthly Desires",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "Awaken every fetish on all enemies. After play, this card's cost increases by 1.\nWhen you play this card at cost 3, deal {Damage:diff()} damage 108 times to all enemies and [gold]Exhaust[/gold].\n[gold]Always hits Fetish[/gold] (each type hits separately).",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Fudo Myo-o",
