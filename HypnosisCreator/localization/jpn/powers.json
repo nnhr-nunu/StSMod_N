@@ -109,5 +109,8 @@
   "HYPNOSISCREATOR-ABNORMAL_FETISH_POWER.smartDescription": "アブノーマル性癖 {Amount}。",
   "HYPNOSISCREATOR-TRANCE_FETISH_POWER.title": "トランス性癖",
   "HYPNOSISCREATOR-TRANCE_FETISH_POWER.description": "トランスを付与された時、破滅{Amount}を得る。",
-  "HYPNOSISCREATOR-TRANCE_FETISH_POWER.smartDescription": "トランス性癖 {Amount}。"
+  "HYPNOSISCREATOR-TRANCE_FETISH_POWER.smartDescription": "トランス性癖 {Amount}。",
+  "HYPNOSISCREATOR-FUDO_MYOO_POWER.title": "不動明王",
+  "HYPNOSISCREATOR-FUDO_MYOO_POWER.description": "敵がデバフを付与してくるたび、その敵に{Amount}ダメージを与える。",
+  "HYPNOSISCREATOR-FUDO_MYOO_POWER.smartDescription": "デバフ反射 {Amount}。"
 }

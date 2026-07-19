@@ -172,7 +172,7 @@
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "108 Earthly Desires",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "Awaken every fetish on all enemies. After play, this card's cost increases by 1.\nWhen you play this card at cost 3, deal {Damage:diff()} damage 108 times to all enemies and [gold]Exhaust[/gold].\n[gold]Always hits Fetish[/gold] (each type hits separately).",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Fudo Myo-o",
-  "HYPNOSISCREATOR-FUDO_MYOO.description": "Remove all debuffs from yourself. Gain {ArtifactPower:diff()} Artifact. Deal {Damage:diff()} damage to enemies that applied a debuff to you.",
+  "HYPNOSISCREATOR-FUDO_MYOO.description": "Remove all debuffs from yourself. Gain {ArtifactPower:diff()} Artifact. Whenever an enemy applies a debuff to you, deal {FudoMyooPower:diff()} damage to them.",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Baby Hypnosis",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "[gold]Count.[/gold] Remove all buffs from the target. Apply {ShrinkPower:diff()} Shrink. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Word Flood",
