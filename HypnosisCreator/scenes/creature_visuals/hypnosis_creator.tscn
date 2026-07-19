@@ -1,17 +1,19 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/combat/idle.png" id="1_idle"]
+[ext_resource type="SpriteFrames" path="res://HypnosisCreator/scenes/creature_visuals/idle_frames.tres" id="1_frames"]
 [ext_resource type="Material" path="res://HypnosisCreator/shaders/chroma_key_material.tres" id="2_chroma"]
 
 [node name="HypnosisCreator" type="Node2D"]
 
-[node name="Visuals" type="Sprite2D" parent="."]
+[node name="Visuals" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 material = ExtResource("2_chroma")
 position = Vector2(0, -180)
 scale = Vector2(0.28, 0.28)
+sprite_frames = ExtResource("1_frames")
+animation = &"idle_loop"
+autoplay = "idle_loop"
 flip_h = true
-texture = ExtResource("1_idle")
 
 [node name="Bounds" type="Control" parent="."]
 unique_name_in_owner = true

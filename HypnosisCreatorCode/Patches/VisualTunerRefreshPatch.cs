@@ -27,7 +27,7 @@ public static class VisualTunerRefreshPatch
 
     private static void OnNodeAdded(Node node)
     {
-        if (node is not (Sprite2D or TextureRect)) return;
+        if (node is not (Sprite2D or AnimatedSprite2D or TextureRect)) return;
 
         // パスが後から付くこともあるので、名前か種類で軽く絞る
         var name = node.Name.ToString();
@@ -38,6 +38,8 @@ public static class VisualTunerRefreshPatch
         }
 
         if (node is Sprite2D sprite && sprite.Texture != null)
+            QueueApply();
+        else if (node is AnimatedSprite2D animated && animated.SpriteFrames != null)
             QueueApply();
         else if (node is TextureRect rect && rect.Texture != null)
             QueueApply();

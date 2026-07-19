@@ -31,17 +31,18 @@ idle.png が左向きの場合、Visuals（Sprite2D）で:
 
 画像ファイルを左右反転して保存してもよいです。
 
-## アニメ名（任意・将来）
+## アニメ名
 
-| 名前       | 内容     |
-|------------|----------|
-| idle_loop  | 待機     |
-| attack     | 攻撃     |
-| cast       | 詠唱     |
-| hurt       | 被弾     |
-| die        | 死亡     |
+| 名前       | 内容     | 状態 |
+|------------|----------|------|
+| idle_loop  | 待機（連番20枚・10fps） | 実装済 |
+| attack     | 攻撃     | 未 |
+| cast       | 詠唱     | 未 |
+| hurt       | 被弾     | 未 |
+| die        | 死亡     | 未 |
 
-1枚絵だけなら Visuals を Sprite2D にして idle.png を貼るだけでOKです。
+待機アニメは Visuals を AnimatedSprite2D にし、idle_frames.tres を割り当てています。
+1枚絵だけなら Visuals を Sprite2D にして idle.png を貼るだけでもOKです。
 
 ## C# 側
 

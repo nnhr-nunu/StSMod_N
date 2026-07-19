@@ -44,11 +44,10 @@ public static class VisualTuner
                 SetChromaParams(shared, key, similarity, smoothness, spill);
         }
 
-        foreach (var sprite in FindNodes<Sprite2D>())
+        foreach (var item in FindCombatIdleVisuals())
         {
-            if (!LooksLikeCombatIdle(sprite)) continue;
-            EnsureChromaMaterial(sprite);
-            if (sprite.Material is ShaderMaterial mat)
+            EnsureChromaMaterial(item);
+            if (item.Material is ShaderMaterial mat)
                 SetChromaParams(mat, key, similarity, smoothness, spill);
         }
     }
@@ -154,11 +153,42 @@ public static class VisualTuner
         mat.SetShaderParameter("zoom", zoom);
     }
 
-    private static bool LooksLikeCombatIdle(Sprite2D sprite)
+    private static IEnumerable<CanvasItem> FindCombatIdleVisuals()
     {
-        if (sprite.Name == "Visuals") return true;
-        var path = sprite.Texture?.ResourcePath ?? "";
-        return path.Contains(IdlePathHint, StringComparison.OrdinalIgnoreCase);
+        foreach (var sprite in FindNodes<Sprite2D>())
+        {
+            if (LooksLikeCombatIdle(sprite.Name, sprite.Texture?.ResourcePath))
+                yield return sprite;
+        }
+
+        foreach (var sprite in FindNodes<AnimatedSprite2D>())
+        {
+            if (LooksLikeCombatIdle(sprite.Name, GetAnimatedSpritePathHint(sprite)))
+                yield return sprite;
+        }
+    }
+
+    private static bool LooksLikeCombatIdle(StringName name, string? pathHint)
+    {
+        if (name == "Visuals") return true;
+        return pathHint?.Contains(IdlePathHint, StringComparison.OrdinalIgnoreCase) == true;
+    }
+
+    private static string GetAnimatedSpritePathHint(AnimatedSprite2D sprite)
+    {
+        var frames = sprite.SpriteFrames;
+        if (frames == null) return "";
+
+        var anim = sprite.Animation;
+        if (anim.IsEmpty || !frames.HasAnimation(anim))
+            return frames.ResourcePath ?? "";
+
+        if (frames.GetFrameCount(anim) <= 0)
+            return frames.ResourcePath ?? "";
+
+        return frames.GetFrameTexture(anim, 0)?.ResourcePath
+               ?? frames.ResourcePath
+               ?? "";
     }
 
     private static IEnumerable<TextureRect> FindSelectBackgrounds()
