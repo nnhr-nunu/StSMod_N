@@ -186,7 +186,7 @@
   "HYPNOSISCREATOR-PROSELYTIZE.title": "Proselytizing Urge",
   "HYPNOSISCREATOR-PROSELYTIZE.description": "Apply {OshiActivityPower:diff()} Oshi Activity and {BogPower:diff()} Bog.\nAt the end of combat, gain {Gold:diff()} Gold as a reward. Exhaust.",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "Self-Suggestion",
-  "HYPNOSISCREATOR-SELF_SUGGESTION.description": "Gain {StrengthPower:diff()} Strength and {DexterityPower:diff()} Dexterity. Obtain {Hearts:diff()} random enemy Heart relics you don't own (excluding hearts of current combat opponents). They trigger at combat start.",
+  "HYPNOSISCREATOR-SELF_SUGGESTION.description": "Gain {StrengthPower:diff()} Strength and {DexterityPower:diff()} Dexterity. Obtain {Hearts:diff()} random Heart relics you don't own (excluding those of current combat opponents). They trigger at combat start.",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "Craving for Hearts",
   "HYPNOSISCREATOR-HEART_CRAVING.description": "All Heart relics you own become reusable this combat.",
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.title": "Just a Little Longer",
