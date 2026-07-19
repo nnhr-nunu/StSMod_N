@@ -24,6 +24,9 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
+    // トランス対象がいないとプレイ不可 → 性癖一致だけでは光らせない
+    protected override bool FetishGlowAllowed => ShouldGlowWhenConditionMet();
+
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(TranceCombat.HasTrance);
 

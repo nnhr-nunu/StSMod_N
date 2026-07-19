@@ -31,9 +31,14 @@ public abstract class HypnosisCreatorCard(
     /// 黄色ハイライト: 性癖が刺さる／条件達成（トランスあり・引き寄せ済み等）のとき。
     /// </summary>
     protected override bool ShouldGlowGoldInternal =>
-        FetishGlow.ShouldGlow(this)
+        (FetishGlowAllowed && FetishGlow.ShouldGlow(this))
         || ShouldGlowWhenConditionMet()
         || base.ShouldGlowGoldInternal;
+
+    /// <summary>
+    /// false のとき性癖一致だけでは光らない（プレイ条件未達のカード用）。
+    /// </summary>
+    protected virtual bool FetishGlowAllowed => true;
 
     /// <summary>使用価値がある状況での黄ハイライト。各カードが条件を上書きする。</summary>
     protected virtual bool ShouldGlowWhenConditionMet() => false;

@@ -20,6 +20,9 @@ public class TotalControl() : HypnosisCreatorCard(1,
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
+    // トランス≥3 がいないとプレイ不可 → 性癖一致だけでは光らせない
+    protected override bool FetishGlowAllowed => ShouldGlowWhenConditionMet();
+
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => TranceCombat.GetTrance(c) >= 3);
 
