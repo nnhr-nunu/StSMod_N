@@ -3,6 +3,8 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -39,6 +41,39 @@ public static class HeartCapture
             await TryCapture(player, monsterId);
     }
 
+    /// <summary>
+    /// 戦闘報酬画面に「追加のレリック報酬」として敵固有心臓を載せる。
+    /// エリート等の通常報酬と並ぶ（競合して消えない）。部屋が取れない場合は即時 Obtain にフォールバック。
+    /// </summary>
+    public static void TryAddExtraRelicReward(Player player, Creature slain)
+    {
+        if (!slain.IsMonster) return;
+        var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
+        TryAddExtraRelicReward(player, monsterId);
+    }
+
+    public static void TryAddExtraRelicReward(Player player, string monsterIdEntry)
+    {
+        if (string.IsNullOrWhiteSpace(monsterIdEntry)) return;
+
+        var relic = CreateHeartRelic(monsterIdEntry);
+        if (relic == null)
+        {
+            MainFile.Logger.Warn($"Failed to create heart relic for {monsterIdEntry}");
+            return;
+        }
+
+        if (player.RunState.CurrentRoom is CombatRoom room)
+        {
+            room.AddExtraReward(player, new RelicReward(relic, player));
+            MainFile.Logger.Info($"Extra relic reward added: {relic.Id.Entry} from {monsterIdEntry}");
+            return;
+        }
+
+        MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for {monsterIdEntry}");
+        _ = TryCapture(player, monsterIdEntry);
+    }
+
     /// <summary>リーサル時などに敵固有心臓を即時付与。未登録モンスターは StolenHeart にフォールバック。</summary>
     public static async Task TryCapture(Player player, Creature slain)
     {
@@ -53,22 +88,26 @@ public static class HeartCapture
 
         MainFile.Logger.Info($"Heart capture from {monsterIdEntry}");
 
-        var heartType = HeartRegistry.ResolveHeartType(monsterIdEntry);
-        if (heartType != null)
+        var relic = CreateHeartRelic(monsterIdEntry);
+        if (relic == null)
         {
-            await ObtainHeart(player, heartType);
+            await RelicCmd.Obtain<StolenHeart>(player);
             return;
         }
 
-        MainFile.Logger.Info($"No enemy heart mapped for {monsterIdEntry}; fallback StolenHeart");
-        await RelicCmd.Obtain<StolenHeart>(player);
+        await RelicCmd.Obtain(relic, player);
     }
 
-    private static async Task ObtainHeart(Player player, Type heartType)
+    private static RelicModel? CreateHeartRelic(string monsterIdEntry)
     {
-        var method = typeof(RelicCmd).GetMethods()
-            .First(m => m.Name == nameof(RelicCmd.Obtain) && m.IsGenericMethodDefinition && m.GetParameters().Length == 1);
-        var task = (Task)method.MakeGenericMethod(heartType).Invoke(null, [player])!;
-        await task;
+        var heartType = HeartRegistry.ResolveHeartType(monsterIdEntry) ?? typeof(StolenHeart);
+        var canonical = ModelDb.AllRelics.FirstOrDefault(r => r.GetType() == heartType);
+        if (canonical != null)
+            return canonical.ToMutable();
+
+        if (Activator.CreateInstance(heartType) is RelicModel created)
+            return created;
+
+        return null;
     }
 }
