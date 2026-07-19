@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。10ダメージ（UG15）。リーサルで心臓。廃棄。
+/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。15ダメージ（UG20）。リーサルで心臓。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartGouge() : HypnosisCreatorCard(1,
@@ -21,7 +21,7 @@ public class HeartGouge() : HypnosisCreatorCard(1,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(10M, ValueProp.Move)];
+        [new DamageVar(15M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
