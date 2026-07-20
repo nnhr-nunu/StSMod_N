@@ -23,6 +23,7 @@ public partial class MainFile : Node
         ModConfigRegistry.Register(ModId, new HypnosisCreatorConfig());
         VisualTuner.ApplyAll();
         FetishCardText.Register();
+        CountCardText.Register();
         FetishDoomPreview.Register();
         UpgradeDescriptionHooks.Register();
 

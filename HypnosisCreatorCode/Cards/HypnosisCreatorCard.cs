@@ -87,6 +87,9 @@ public abstract class HypnosisCreatorCard(
         return combat.HittableEnemies.Any(e => e.IsAlive && e.IsEnemy && predicate(e));
     }
 
+    /// <summary>
+    /// カウント共通キーワード。Retain は機能用（説明欄の「保留。」は CountCardText で抑制）。
+    /// </summary>
     protected static IEnumerable<CardKeyword> CountKeywords =>
         [HcKeywords.Count, CardKeyword.Retain, CardKeyword.Exhaust];
 
