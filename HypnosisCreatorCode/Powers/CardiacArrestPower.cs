@@ -5,13 +5,14 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 心停止催眠 — 残りターン数を毎プレイヤーターン開始時に1減らし、0になると即死させる。
-/// UG時は停止時に敵固有心臓を「追加のレリック報酬」として戦闘報酬へ載せる。
+/// 心停止 — 残りターンを数え、0になった後の対象の行動終了時に即死する。
+/// 重ねがけ（心停止催眠の再適用）は <see cref="AdvanceCountdown"/> で残りを1減らす。
 /// </summary>
 public class CardiacArrestPower : HypnosisCreatorPower
 {
@@ -21,12 +22,38 @@ public class CardiacArrestPower : HypnosisCreatorPower
     public bool GrantBonusRelic { get; set; }
     public Player? BonusRelicPlayer { get; set; }
 
+    /// <summary>
+    /// 残り0になったあと、対象の行動終了時に即死させる。
+    /// このあいだ Amount=0 でもパワーを残す（<c>CardiacArrestKeepAtZeroPatch</c>）。
+    /// </summary>
+    public bool KillAfterActionEnd { get; set; }
+
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         BonusRelicPlayer ??= applier?.Player ?? cardSource?.Owner;
         if (cardSource is CardiacArrestHypnosis { IsUpgraded: true })
             GrantBonusRelic = true;
         return Task.CompletedTask;
+    }
+
+    /// <summary>重ねがけ: 残りターンを1進め（減らし）、0なら行動終了時キル待ちにする。</summary>
+    public static async Task AdvanceCountdown(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        Creature applier,
+        CardModel cardSource)
+    {
+        var power = target.GetPower<CardiacArrestPower>();
+        if (power == null) return;
+
+        if (cardSource is CardiacArrestHypnosis { IsUpgraded: true })
+            power.GrantBonusRelic = true;
+        power.BonusRelicPlayer ??= applier.Player ?? cardSource.Owner;
+
+        if (power.KillAfterActionEnd)
+            return;
+
+        await power.TickCountdown();
     }
 
     public override async Task AfterSideTurnStart(
@@ -36,18 +63,45 @@ public class CardiacArrestPower : HypnosisCreatorPower
     {
         if (side != CombatSide.Player) return;
         if (Owner == null || !Owner.IsAlive) return;
+        if (KillAfterActionEnd) return;
 
-        var target = Owner;
-        await PowerCmd.Decrement(this);
-        if (target.GetPower<CardiacArrestPower>() == null || target.GetPowerAmount<CardiacArrestPower>() <= 0)
+        await TickCountdown();
+    }
+
+    public override async Task AfterSideTurnEnd(
+        PlayerChoiceContext choiceContext,
+        CombatSide side,
+        IEnumerable<Creature> participants)
+    {
+        if (side != CombatSide.Enemy) return;
+        if (Owner == null || !Owner.IsAlive) return;
+        if (!participants.Contains(Owner)) return;
+        if (!KillAfterActionEnd) return;
+
+        await ExecuteKill();
+    }
+
+    private async Task TickCountdown()
+    {
+        if (KillAfterActionEnd) return;
+
+        if (Amount <= 1)
         {
-            if (GrantBonusRelic && BonusRelicPlayer != null)
-            {
-                // 死亡前に ID を確定し、通常報酬と並ぶ追加報酬スロットへ載せる
-                HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, target);
-            }
-
-            await CreatureCmd.Kill(target);
+            KillAfterActionEnd = true;
+            SetAmount(0, true);
+            return;
         }
+
+        await PowerCmd.Decrement(this);
+    }
+
+    private async Task ExecuteKill()
+    {
+        if (Owner == null || !Owner.IsAlive) return;
+
+        if (GrantBonusRelic && BonusRelicPlayer != null)
+            HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, Owner);
+
+        await CreatureCmd.Kill(Owner);
     }
 }

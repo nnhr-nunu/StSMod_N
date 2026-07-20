@@ -123,7 +123,7 @@
   "HYPNOSISCREATOR-ALL_IN_ONE.title": "オールインワン催眠",
   "HYPNOSISCREATOR-ALL_IN_ONE.description": "すべての催眠系カウントカードを対象にプレイする。トランス1。",
   "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.title": "心停止催眠",
-  "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description": "3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。トランス1。",
+  "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description": "{Turns:diff()}ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。重ねがけすると心停止が1ターン早まる。トランス{Trance:diff()}。",
   "HYPNOSISCREATOR-TIME_STOP_STRIKE.title": "時止めストライク",
   "HYPNOSISCREATOR-TIME_STOP_STRIKE.description": "相手がトランス時にのみプレイできる。ターン終了時に{Damage:diff()}ダメージを与える。このカードは1ターンに3回までプレイできる。",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.title": "アブノーマルへの誘い",

@@ -123,7 +123,7 @@
   "HYPNOSISCREATOR-ALL_IN_ONE.title": "All In One",
   "HYPNOSISCREATOR-ALL_IN_ONE.description": "Play every other [gold]Count[/gold] card from your draw pile, hand, and discard on the target. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.title": "Cardiac Arrest Hypnosis",
-  "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description": "After {Turns:diff()} turns, their heart stops. Doubled against bosses. Apply {Trance:diff()} Trance.",
+  "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description": "After {Turns:diff()} turns, their heart stops. Doubled against bosses. Stacking advances Cardiac Arrest by 1 turn. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-TIME_STOP_STRIKE.title": "Time Stop Strike",
   "HYPNOSISCREATOR-TIME_STOP_STRIKE.description": "Playable only if the target is Tranced.\nDeal {Damage:diff()} damage at the end of your turn. Playable up to 3 times per turn.",
   "HYPNOSISCREATOR-ABNORMAL_TRANSFORM.title": "Invitation to Abnormal",
