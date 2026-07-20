@@ -90,7 +90,7 @@
   "HYPNOSISCREATOR-PUNISHMENT.title": "Punishment",
   "HYPNOSISCREATOR-PUNISHMENT.description": "Deal {Damage:diff()} damage for each time the target attacked you this combat.",
   "HYPNOSISCREATOR-ERICKSONIAN.title": "Ericksonian Suggestion",
-  "HYPNOSISCREATOR-ERICKSONIAN.description": "Whenever a Fetish hit lands on the target, advance Count in hand.",
+  "HYPNOSISCREATOR-ERICKSONIAN.description": "Whenever you land a Fetish hit, advance Count in hand.",
   "HYPNOSISCREATOR-OVER_FOCUS.title": "Over Focus",
   "HYPNOSISCREATOR-OVER_FOCUS.description": "Increase the target's fetish slots by {Slots:diff()} and awaken 1 random fetish.",
   "HYPNOSISCREATOR-BOTTOMLESS_BOG.title": "Bottomless Bog",
