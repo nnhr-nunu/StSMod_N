@@ -177,6 +177,7 @@
 
 - カード説明・ホバー・黄ハイライト・実ダメージ／ブロックは **同一の計算関数**を使う
 - 失敗例: 調和の `GetTotalDamage` 引数誤り、期待に応えての2乗、弱体プレビューずれ、ゼロへの近道の合計未連動
+- `CalculatedVar` / `CalculatedDamageVar` は **`Base + Extra × Func`**。プレビュー用なら `CalculationBaseVar(0)`＋`CalculationExtraVar(1)`（または `ExtraDamageVar(1)`）。`Extra=0` だと表示が常に0になる（不意打ち催眠）
 - 「性癖が一致するだけで黄ハイライト」は禁止。**今プレイ可能なときだけ**（条件未達の時止め等）
 
 #### 6. 仕様正本とタグ

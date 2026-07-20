@@ -20,9 +20,11 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        // UG用の追加ドロー（CalculatedVar の CalculationExtra とは別）
         new DynamicVar("Extra", 0M),
+        // CalculatedVar = Base + CalculationExtra * Func。Extra=0 だとプレビューが常に0になる
         new CalculationBaseVar(0M),
-        new CalculationExtraVar(0M),
+        new CalculationExtraVar(1M),
         new CalculatedVar("Draw").WithMultiplier(CalcDraw)
     ];
 
