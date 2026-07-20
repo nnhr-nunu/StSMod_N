@@ -1,10 +1,13 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
@@ -15,11 +18,19 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    static MeltIntoTrance()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("PerTrance", 15M),
         new DamageVar(0M, ValueProp.Move)
     ];
+
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c => TranceFallTracker.Get(c) > 0);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -35,4 +46,21 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     }
 
     protected override void OnUpgrade() => DynamicVars["PerTrance"].UpgradeValueBy(5M);
+
+    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not MeltIntoTrance melt) return;
+
+        var previewTarget = target ?? melt.CurrentTarget;
+        var fallen = previewTarget != null ? TranceFallTracker.Get(previewTarget) : 0;
+        var per = melt.DynamicVars["PerTrance"].BaseValue;
+        var total = fallen * per;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（現在：{fallen}回／{total}ダメージ）"
+            : $" (Now: {fallen}× / {total} damage)";
+
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + suffix;
+    }
 }

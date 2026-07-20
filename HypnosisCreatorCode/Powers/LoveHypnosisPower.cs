@@ -3,12 +3,13 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 好き好き催眠 — バフ行動（UG時はブロックも）の着弾先をプレイヤーへ寄せる。
+/// 好き好き催眠 — 専用デバフ。バフ行動（UG時はブロックも）の着弾先をプレイヤーへ寄せる。
 /// 実際の付け替えは <c>LoveHypnosisRedirectPatch</c> が担当する。
 /// </summary>
 public class LoveHypnosisPower : HypnosisCreatorPower
@@ -21,6 +22,16 @@ public class LoveHypnosisPower : HypnosisCreatorPower
 
     /// <summary>防御意図の GainBlock をプレイヤーへ（UG）。</summary>
     public bool StealBlock { get; set; }
+
+    public override LocString Description
+    {
+        get
+        {
+            if (!StealBlock) return base.Description;
+            var loc = new LocString(base.Description.LocTable, "HYPNOSISCREATOR-LOVE_HYPNOSIS_POWER.description_with_block");
+            return loc;
+        }
+    }
 
     public Creature? ResolvePlayerCreature()
     {

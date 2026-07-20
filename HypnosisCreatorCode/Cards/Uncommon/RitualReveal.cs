@@ -22,6 +22,12 @@ public class RitualReveal() : HypnosisCreatorCard(1,
 
     private const int PullCount = 2;
 
+    protected override bool ShouldGlowWhenConditionMet()
+    {
+        var draw = Owner.PlayerCombatState?.DrawPile;
+        return draw != null && draw.Cards.Any(CountRules.HasCountKeyword);
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);

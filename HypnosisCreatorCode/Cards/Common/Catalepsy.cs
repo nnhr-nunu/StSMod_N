@@ -26,6 +26,10 @@ public class Catalepsy() : HypnosisCreatorCard(1,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<SlowPower>()];
 
+    /// <summary>既にスローがある相手へは付与量が2になるので、その状況で光る。</summary>
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(c => c.GetPowerAmount<SlowPower>() > 0);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);

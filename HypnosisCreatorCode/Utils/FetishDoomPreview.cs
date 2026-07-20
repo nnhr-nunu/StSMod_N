@@ -1,0 +1,76 @@
+using BaseLib.Patches.Localization;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models;
+
+namespace HypnosisCreator.HypnosisCreatorCode.Utils;
+
+/// <summary>
+/// 性癖カードを敵にドラッグ／照準中、説明末尾へ（破滅Nを付与する）を付ける。沼の1.5倍も反映。
+/// </summary>
+public static class FetishDoomPreview
+{
+    public static void Register() =>
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDoomPreview;
+
+    private static void AppendDoomPreview(CardModel card, Creature? target, ref string description)
+    {
+        if (!CardFetishLookup.HasAnyFetish(card)) return;
+
+        var enemy = target ?? card.CurrentTarget;
+        if (enemy is not { IsAlive: true, IsEnemy: true }) return;
+
+        var hits = CountPreviewHits(card, enemy);
+        if (hits <= 0) return;
+
+        var perHit = FetishCombat.ScaleDoomByBog(enemy, FetishCombat.CalcFetishDoomAmount(enemy));
+        var total = perHit * hits;
+        if (total <= 0) return;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（破滅{total}を付与する）"
+            : $" (Apply {total} Doom)";
+
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + suffix;
+    }
+
+    /// <summary>照準対象に対して、実際の刺さりと同じ回数を返す。</summary>
+    public static int CountPreviewHits(CardModel card, Creature target)
+    {
+        var fetishes = CardFetishLookup.GetFetishes(card);
+        var alwaysHit = CardFetishLookup.AlwaysHitsFetish(card);
+        if (fetishes.Count == 0 && !alwaysHit) return 0;
+
+        List<FetishType> types;
+        if (alwaysHit)
+        {
+            types = fetishes.Count > 0
+                ? fetishes.Distinct().ToList()
+                : [FetishType.Abnormal];
+        }
+        else
+        {
+            types = fetishes
+                .Where(f => FetishCombat.HasFetish(target, f)
+                            || (FetishCombat.CultLeaderActive && f != FetishType.Trance))
+                .Distinct()
+                .ToList();
+        }
+
+        if (types.Count == 0) return 0;
+        return IsSingleHit(card) ? 1 : types.Count;
+    }
+
+    private static bool IsSingleHit(CardModel card)
+    {
+        if (card is Cards.HypnosisCreatorCard hc)
+        {
+            if (hc.FetishHitPerTypeOverride == true) return false;
+            if (hc.FetishHitPerTypeOverride == false) return true;
+            if (hc.AlwaysHitsFetish) return true;
+            return hc.CardFetishes.Count <= 1;
+        }
+
+        return true;
+    }
+}

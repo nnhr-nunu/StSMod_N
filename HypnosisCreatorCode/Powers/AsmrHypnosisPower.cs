@@ -1,5 +1,7 @@
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
@@ -8,6 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// ASMR催眠 — プレイヤーを Left/Right に割り当て、左右交互のプレイで破滅を付与する。
 /// ソロでは自己交互（1プレイおき）で同様に動作する。
+/// 最後にプレイされた側は AsmrLeftPower / AsmrRightPower で表示する。
 /// </summary>
 public class AsmrHypnosisPower : HypnosisCreatorPower
 {
@@ -36,10 +39,15 @@ public class AsmrHypnosisPower : HypnosisCreatorPower
         if (_lastWasLeft is null)
         {
             _lastWasLeft = isLeft;
+            await SyncSideMarker(choiceContext, isLeft);
             return;
         }
 
-        if (_lastWasLeft == isLeft) return;
+        if (_lastWasLeft == isLeft)
+        {
+            await SyncSideMarker(choiceContext, isLeft);
+            return;
+        }
 
         var enemies = CombatState.HittableEnemies.ToList();
         if (enemies.Count > 0)
@@ -50,5 +58,40 @@ public class AsmrHypnosisPower : HypnosisCreatorPower
         }
 
         _lastWasLeft = isLeft;
+        await SyncSideMarker(choiceContext, isLeft);
+    }
+
+    public override async Task AfterRemoved(Creature oldOwner)
+    {
+        await ClearSideMarkers(oldOwner);
+        await base.AfterRemoved(oldOwner);
+    }
+
+    private async Task SyncSideMarker(PlayerChoiceContext choiceContext, bool isLeft)
+    {
+        if (Owner == null) return;
+
+        if (isLeft)
+        {
+            var right = Owner.GetPower<AsmrRightPower>();
+            if (right != null) await PowerCmd.Remove(right);
+            if (Owner.GetPower<AsmrLeftPower>() == null)
+                await PowerCmd.Apply<AsmrLeftPower>(choiceContext, Owner, 1M, Owner, null!, silent: true);
+        }
+        else
+        {
+            var left = Owner.GetPower<AsmrLeftPower>();
+            if (left != null) await PowerCmd.Remove(left);
+            if (Owner.GetPower<AsmrRightPower>() == null)
+                await PowerCmd.Apply<AsmrRightPower>(choiceContext, Owner, 1M, Owner, null!, silent: true);
+        }
+    }
+
+    private static async Task ClearSideMarkers(Creature owner)
+    {
+        var left = owner.GetPower<AsmrLeftPower>();
+        if (left != null) await PowerCmd.Remove(left);
+        var right = owner.GetPower<AsmrRightPower>();
+        if (right != null) await PowerCmd.Remove(right);
     }
 }

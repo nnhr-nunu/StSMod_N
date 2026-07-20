@@ -31,6 +31,9 @@ public class Mirroring() : HypnosisCreatorCard(1,
     public static bool HasAttackIntent(Creature target) =>
         EnemyAttackIntents.IntendsToAttack(target);
 
+    protected override bool ShouldGlowWhenConditionMet() =>
+        GlowIfTargetOrAnyEnemy(HasAttackIntent);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);

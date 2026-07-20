@@ -1,10 +1,13 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
@@ -15,6 +18,11 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    static VitalPoint()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -22,6 +30,12 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         new DamageVar(10M, ValueProp.Move),
         new DynamicVar("PerTurn", 10M)
     ];
+
+    protected override bool ShouldGlowWhenConditionMet()
+    {
+        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
+        return PlayerAttackTracker.TurnsSinceLastAttack(Owner, turn) > 0;
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -40,4 +54,20 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     }
 
     protected override void OnUpgrade() => DynamicVars["PerTurn"].UpgradeValueBy(5M);
+
+    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not VitalPoint vital) return;
+
+        var turn = vital.Owner.PlayerCombatState?.TurnNumber ?? 0;
+        var gap = PlayerAttackTracker.TurnsSinceLastAttack(vital.Owner, turn);
+        var total = vital.DynamicVars.Damage.BaseValue + gap * vital.DynamicVars["PerTurn"].BaseValue;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（未攻撃{gap}ターン／{total}ダメージ）"
+            : $" ({gap} idle turns / {total} damage)";
+
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + suffix;
+    }
 }

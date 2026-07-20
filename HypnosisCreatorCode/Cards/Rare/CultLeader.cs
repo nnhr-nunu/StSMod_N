@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 教祖化 — パワー。有効な間、SM・DomSub・アブノーマルの性癖カードは必ず刺さる（トランス性癖は対象外）。
+/// 教祖化 — パワー。有効な間、アブノーマル／DomSub／SMカードが必ず性癖に刺さる。
 /// トランス付与時、次のターンのエナジー+1・ドロー+Amount を得る。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]

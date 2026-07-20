@@ -199,6 +199,7 @@ public static class FetishCombat
     {
         if (!HasFetish(target, FetishType.Trance)) return;
         await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, cardSource);
+        FetishHitFloat.Show(target);
     }
 
     /// <summary>
@@ -237,6 +238,7 @@ public static class FetishCombat
         if (singleHit)
         {
             await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
+            FetishHitFloat.Show(target);
             await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
             return 1;
         }
@@ -249,7 +251,10 @@ public static class FetishCombat
         }
 
         if (count > 0)
+        {
+            FetishHitFloat.Show(target);
             await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
+        }
 
         return count;
     }

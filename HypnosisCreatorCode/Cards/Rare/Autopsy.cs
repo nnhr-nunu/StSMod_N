@@ -1,11 +1,13 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
@@ -16,6 +18,11 @@ public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    static Autopsy()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -25,6 +32,9 @@ public class Autopsy() : HypnosisCreatorCard(2,
         new DamageVar(14M, ValueProp.Move),
         new DynamicVar("PerHeart", 4M)
     ];
+
+    protected override bool ShouldGlowWhenConditionMet() =>
+        HeartInventory.CountHearts(Owner) > 0;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -46,4 +56,19 @@ public class Autopsy() : HypnosisCreatorCard(2,
     }
 
     protected override void OnUpgrade() => DynamicVars["PerHeart"].UpgradeValueBy(3M); // 4 → 7
+
+    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Autopsy autopsy) return;
+
+        var hearts = HeartInventory.CountHearts(autopsy.Owner);
+        var total = autopsy.DynamicVars.Damage.BaseValue + hearts * autopsy.DynamicVars["PerHeart"].BaseValue;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（心臓{hearts}個／{total}ダメージ）"
+            : $" ({hearts} Hearts / {total} damage)";
+
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+        description = description.TrimEnd() + suffix;
+    }
 }
