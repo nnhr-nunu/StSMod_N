@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
@@ -10,10 +11,13 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 /// <summary>
 /// 性癖の沼 — 相対する存在の性癖を可視化するスターター。
 /// 性癖に刺さる行動で相手に破滅を付与できる。
+/// エンシェント強化先は <see cref="FetishAbyss"/>。
 /// </summary>
 public class FetishBog : HypnosisCreatorRelic
 {
     public override RelicRarity Rarity => RelicRarity.Starter;
+
+    public override RelicModel GetUpgradeReplacement() => ModelDb.Relic<FetishAbyss>();
 
     public override async Task AfterCreatureAddedToCombat(Creature creature)
     {

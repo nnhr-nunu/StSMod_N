@@ -1,5 +1,6 @@
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
+using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -16,6 +17,8 @@ public static class FetishCombat
     public const int FetishDoomFlat = 7;
     public const int FetishDoomMinimum = 8;
     public const decimal BogDoomMultiplier = 1.5M;
+    /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
+    public const decimal FetishAbyssDoomMultiplier = 1.5M;
 
     /// <summary>ぜんぶ知ってるよ 用。刺さり破滅倍率（既定1）。戦闘終了時にリセットされる。</summary>
     public static decimal FetishHitMultiplier { get; set; } = 1M;
@@ -83,7 +86,7 @@ public static class FetishCombat
     {
         try
         {
-            var amount = CalcFetishDoomAmount(enemy);
+            var amount = CalcFetishDoomAmount(enemy, owner.Creature);
             // 選択は発生しない表示同期。null だと AfterPowerAmountChanged で落ちうる。
             var ctx = new ThrowingPlayerChoiceContext();
             await EnsureFetishPowerAsync<SmFetishPower>(ctx, enemy, owner, FetishType.Sm, amount);
@@ -132,8 +135,8 @@ public static class FetishCombat
         return $"{name} fetish. When receiving an action that hits this fetish, gain {doomAmount} Doom.";
     }
 
-    public static string FormatEnemyFetishTooltip(FetishType type, Creature enemy) =>
-        FormatEnemyFetishTooltip(type, CalcFetishDoomAmount(enemy));
+    public static string FormatEnemyFetishTooltip(FetishType type, Creature enemy, Creature? applier = null) =>
+        FormatEnemyFetishTooltip(type, CalcFetishDoomAmount(enemy, applier));
 
     public static string FetishDisplayName(FetishType type) => type switch
     {
@@ -143,6 +146,9 @@ public static class FetishCombat
         FetishType.Trance => IsJapaneseUi() ? "トランス" : "Trance",
         _ => type.ToString()
     };
+
+    public static bool OwnerHasFetishAbyss(Creature? applier) =>
+        applier?.Player?.Relics.Any(r => r is FetishAbyss) == true;
 
     private static bool IsJapaneseUi()
     {
@@ -164,11 +170,14 @@ public static class FetishCombat
             Awaken(enemy, type, owner);
     }
 
-    public static int CalcFetishDoomAmount(Creature enemy)
+    public static int CalcFetishDoomAmount(Creature enemy, Creature? applier = null)
     {
         var fromHp = (int)Math.Ceiling(enemy.MaxHp * (double)FetishDoomHpPercent);
         var baseAmount = Math.Max(FetishDoomMinimum, fromHp + FetishDoomFlat);
-        return Math.Max(1, (int)Math.Floor(baseAmount * (double)FetishHitMultiplier));
+        var amount = Math.Max(1, (int)Math.Floor(baseAmount * (double)FetishHitMultiplier));
+        if (OwnerHasFetishAbyss(applier))
+            amount = Math.Max(1, (int)Math.Floor(amount * (double)FetishAbyssDoomMultiplier));
+        return amount;
     }
 
     public static int ScaleDoomByBog(Creature enemy, int amount)
@@ -198,7 +207,7 @@ public static class FetishCombat
         CardModel? cardSource)
     {
         if (!HasFetish(target, FetishType.Trance)) return;
-        await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, cardSource);
+        await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, cardSource);
         FetishHitFloat.Show(target);
     }
 
@@ -237,7 +246,7 @@ public static class FetishCombat
 
         if (singleHit)
         {
-            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
+            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, card);
             FetishHitFloat.Show(target);
             await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
             return 1;
@@ -246,7 +255,7 @@ public static class FetishCombat
         var count = 0;
         foreach (var _ in types)
         {
-            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target), applier, card);
+            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, card);
             count++;
         }
 

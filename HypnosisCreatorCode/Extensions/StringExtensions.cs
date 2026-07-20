@@ -77,4 +77,13 @@ public static class StringExtensions
         MainFile.Logger.Info("Could not find orb image path: " + path);
         return Path.Join(MainFile.ResPath, "images", "relics", "relic.png");
     }
+
+    public static string PotionImagePath(this string path)
+    {
+        path = Path.Join(MainFile.ResPath, "images", "potions", path);
+        if (ResourceLoader.Exists(path)) return path;
+
+        MainFile.Logger.Info("Could not find potion image path: " + path);
+        return Path.Join(MainFile.ResPath, "images", "potions", "potion.png");
+    }
 }

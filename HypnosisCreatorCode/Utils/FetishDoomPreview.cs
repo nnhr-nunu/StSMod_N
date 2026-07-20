@@ -22,7 +22,8 @@ public static class FetishDoomPreview
         var hits = CountPreviewHits(card, enemy);
         if (hits <= 0) return;
 
-        var perHit = FetishCombat.ScaleDoomByBog(enemy, FetishCombat.CalcFetishDoomAmount(enemy));
+        var perHit = FetishCombat.ScaleDoomByBog(
+            enemy, FetishCombat.CalcFetishDoomAmount(enemy, card.Owner?.Creature));
         var total = perHit * hits;
         if (total <= 0) return;
 

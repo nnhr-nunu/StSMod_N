@@ -123,10 +123,13 @@ public static class FetishOrbHud
 
     private static Control CreateSlot(Creature creature, OrbModel? fetish)
     {
+        var applier = creature.CombatState?.Players
+            .Select(p => p.Creature)
+            .FirstOrDefault(c => FetishCombat.OwnerHasFetishAbyss(c));
         var tip = fetish == null
             ? "空の性癖スロット"
             : FetishCombat.ToFetishType(fetish) is { } type
-                ? FetishCombat.FormatEnemyFetishTooltip(type, creature)
+                ? FetishCombat.FormatEnemyFetishTooltip(type, creature, applier)
                 : fetish.Title.GetFormattedText();
 
         // Stop: ホバーでツールチップを出す（Ignore だと TooltipText が効かない）
