@@ -32,6 +32,22 @@
 
 ## 蓄積知見
 
+### 「更新して」＝ゲーム反映コマンド一式
+
+ユーザーが「更新して」「反映して」などと言ったときは、描画・文言・ローカライズ・アセット系の反映として次を実行する（報告前に済ませる）。
+
+```powershell
+# リポジトリルート（StSMod_N）で
+dotnet publish
+```
+
+- `dotnet build` … コード（dll）だけ。文言・画像は古いままになりやすい
+- `dotnet publish` … dll + `.pck`（ローカライズ／画像／シーン）。**普段はこちら**
+- 反映後はゲームを再起動する（起動中のままでは古い dll / pck のまま）
+- 出力先: `C:/Program Files (x86)/Steam/steamapps/common/Slay the Spire 2/mods/HypnosisCreator/`（`Directory.Build.props` の `Sts2Path` 準拠）
+
+キー名のまま表示される／アイコンが古いときは、ほぼ確実に `.pck` 未更新かゲーム未再起動。
+
 ### モデル運用（Grok / Composer 既定・高級モデルは許可制）
 
 失敗例: チャットログ網羅調査のため、指示なく `Task` に GPT 系高級モデルを指定した。
