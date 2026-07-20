@@ -50,6 +50,7 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
     {
         if (card is not MeltIntoTrance melt) return;
+        if (!CombatPreviewText.IsActive(melt)) return;
 
         var previewTarget = target ?? melt.CurrentTarget;
         var fallen = previewTarget != null ? TranceFallTracker.Get(previewTarget) : 0;
@@ -59,8 +60,6 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
         var suffix = UpgradeCardText.IsJapaneseUi()
             ? $"（現在：{fallen}回／{total}ダメージ）"
             : $" (Now: {fallen}× / {total} damage)";
-
-        if (description.Contains(suffix, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + suffix;
+        CombatPreviewText.AppendSuffix(melt, ref description, suffix);
     }
 }

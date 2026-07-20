@@ -59,6 +59,7 @@ public class Punishment() : HypnosisCreatorCard(2,
     private static void AppendHitPreview(CardModel card, Creature? target, ref string description)
     {
         if (card is not Punishment punishment) return;
+        if (!CombatPreviewText.IsActive(punishment)) return;
 
         var previewTarget = target ?? punishment.CurrentTarget;
         var hits = CalcHitCount(punishment, previewTarget);
@@ -68,8 +69,6 @@ public class Punishment() : HypnosisCreatorCard(2,
         var suffix = UpgradeCardText.IsJapaneseUi()
             ? $"（現在の攻撃回数：{hits}回／{total}ダメージ）"
             : $" ({hits} hits / {total} damage)";
-
-        if (description.Contains(suffix, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + suffix;
+        CombatPreviewText.AppendSuffix(punishment, ref description, suffix);
     }
 }

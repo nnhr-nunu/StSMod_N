@@ -58,6 +58,7 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
     {
         if (card is not VitalPoint vital) return;
+        if (!CombatPreviewText.IsActive(vital)) return;
 
         var turn = vital.Owner.PlayerCombatState?.TurnNumber ?? 0;
         var gap = PlayerAttackTracker.TurnsSinceLastAttack(vital.Owner, turn);
@@ -66,8 +67,6 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         var suffix = UpgradeCardText.IsJapaneseUi()
             ? $"（未攻撃{gap}ターン／{total}ダメージ）"
             : $" ({gap} idle turns / {total} damage)";
-
-        if (description.Contains(suffix, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + suffix;
+        CombatPreviewText.AppendSuffix(vital, ref description, suffix);
     }
 }

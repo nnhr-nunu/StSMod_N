@@ -64,7 +64,7 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         CardModel card, Creature? target, ref string description)
     {
         if (card is not InfiniteFingerSnap snap) return;
-        if (snap.CombatState == null) return;
+        if (!CombatPreviewText.IsActive(snap)) return;
 
         var x = Math.Max(0, snap.ResolveEnergyXValue());
         var hits = HitsPerCycle * x;
@@ -72,7 +72,7 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
         // 全体攻撃: 照準中ならその敵、なければ先頭の敵で弱体などを反映
         var previewTarget = target
-            ?? snap.CombatState.HittableEnemies.FirstOrDefault(e => e.IsAlive && e.IsEnemy);
+            ?? snap.CombatState!.HittableEnemies.FirstOrDefault(e => e.IsAlive && e.IsEnemy);
         var perHit = PreviewModifiedDamage(snap, previewTarget);
         var total = perHit * hits;
         if (total <= 0) return;
@@ -80,11 +80,7 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         var totalText = UpgradeCardText.IsJapaneseUi()
             ? $"（合計{FormatDamage(total)}ダメージ）"
             : $" (Total {FormatDamage(total)} damage)";
-
-        if (description.Contains(totalText, StringComparison.Ordinal)) return;
-
-        // 廃棄は CanonicalKeywords 側。合計は本文末尾へ（キーワード行の前／後どちらでも可）
-        description = description.TrimEnd() + totalText;
+        CombatPreviewText.AppendSuffix(snap, ref description, totalText);
     }
 
     private static decimal PreviewModifiedDamage(InfiniteFingerSnap card, Creature? target)

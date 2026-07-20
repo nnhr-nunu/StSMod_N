@@ -1,5 +1,7 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,25 +13,22 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 不意打ち催眠 — 相手の数だけドローし、引いたカードをランダムな相手へ自動プレイ。
-/// UGでドロー枚数+1。
+/// UGでドロー枚数+1。枚数プレビューは戦闘中のみ（本家 CalculatedVar と同様、非戦闘では出さない）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AmbushHypnosis() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        // UG用の追加ドロー（CalculatedVar の CalculationExtra とは別）
-        new DynamicVar("Extra", 0M),
-        // CalculatedVar = Base + CalculationExtra * Func。Extra=0 だとプレビューが常に0になる
-        new CalculationBaseVar(0M),
-        new CalculationExtraVar(1M),
-        new CalculatedVar("Draw").WithMultiplier(CalcDraw)
-    ];
+    static AmbushHypnosis()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDrawPreview;
+    }
 
-    /// <summary>静的必須（CalculatedVar.WithMultiplier の制約）。</summary>
-    private static decimal CalcDraw(CardModel card, Creature? _)
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar("Extra", 0M)];
+
+    private static int CalcDraw(CardModel card)
     {
         var enemies = card.CombatState?.HittableEnemies.Count ?? 0;
         var extra = (int)card.DynamicVars["Extra"].BaseValue;
@@ -40,7 +39,7 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
     {
         if (CombatState == null) return;
 
-        var drawCount = (int)CalcDraw(this, null);
+        var drawCount = CalcDraw(this);
         if (drawCount <= 0) return;
 
         var player = Owner;
@@ -57,4 +56,16 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
     }
 
     protected override void OnUpgrade() => DynamicVars["Extra"].UpgradeValueBy(1M);
+
+    private static void AppendDrawPreview(CardModel card, Creature? _, ref string description)
+    {
+        if (card is not AmbushHypnosis ambush) return;
+        var n = CalcDraw(ambush);
+        if (n <= 0) return;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（{n}枚）"
+            : $" ({n})";
+        CombatPreviewText.AppendSuffix(ambush, ref description, suffix);
+    }
 }
