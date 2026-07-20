@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqy0wn81enqxc"
-path="res://.godot/imported/kaiser_crab_heart.png-fe8af33dae6d061020d1caac916ea1be.ctex"
+uid="uid://bluvqeelob70w"
+path="res://.godot/imported/crusher_heart_outline.png-95e0d792e7dd255074718d166d26a989.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HypnosisCreator/images/relics/big/kaiser_crab_heart.png"
-dest_files=["res://.godot/imported/kaiser_crab_heart.png-fe8af33dae6d061020d1caac916ea1be.ctex"]
+source_file="res://HypnosisCreator/images/relics/crusher_heart_outline.png"
+dest_files=["res://.godot/imported/crusher_heart_outline.png-95e0d792e7dd255074718d166d26a989.ctex"]
 
 [params]
 
