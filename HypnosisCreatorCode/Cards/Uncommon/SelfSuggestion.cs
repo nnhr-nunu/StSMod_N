@@ -57,7 +57,7 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         {
             foreach (var enemy in CombatState.HittableEnemies)
             {
-                var id = enemy.Monster?.Id.Entry ?? enemy.ModelId.Entry;
+                var id = HeartRegistry.GetMonsterId(enemy);
                 if (!string.IsNullOrEmpty(id))
                     combatKeys.Add(id);
             }

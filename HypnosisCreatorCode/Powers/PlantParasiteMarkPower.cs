@@ -21,7 +21,7 @@ public class PlantParasiteMarkPower : HypnosisCreatorPower
     {
         if (Owner == null) return Task.CompletedTask;
 
-        CapturedMonsterId = Owner.Monster?.Id.Entry ?? Owner.ModelId.Entry;
+        CapturedMonsterId = HeartRegistry.GetMonsterId(Owner);
         TryQueue(applier?.Player);
         return Task.CompletedTask;
     }
@@ -31,7 +31,7 @@ public class PlantParasiteMarkPower : HypnosisCreatorPower
         // 本体の解決は HeartCaptureCombatEndPatch で一括 Flush。
         // AfterApplied が飛ばなかった場合の保険として、ここで ID を拾い直す。
         if (string.IsNullOrWhiteSpace(CapturedMonsterId) && Owner != null)
-            CapturedMonsterId = Owner.Monster?.Id.Entry ?? Owner.ModelId.Entry;
+            CapturedMonsterId = HeartRegistry.GetMonsterId(Owner);
 
         TryQueue(Applier?.Player ?? Owner?.CombatState?.Players.FirstOrDefault());
         return Task.CompletedTask;

@@ -43,7 +43,7 @@ public class HypnosisMetronome : HypnosisCreatorRelic
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player != Owner) return;
-        if (Owner.PlayerCombatState.TurnNumber > 1) return;
+        if (Owner.PlayerCombatState == null || Owner.PlayerCombatState.TurnNumber > 1) return;
         if (Owner.Creature.CombatState == null) return;
 
         Flash();
