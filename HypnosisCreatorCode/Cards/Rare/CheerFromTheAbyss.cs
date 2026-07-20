@@ -30,7 +30,8 @@ public class CheerFromTheAbyss() : HypnosisCreatorCard(1,
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
+    // CardTag.Defend は付けない。本家締め直し(Fasten)はタグDefend付き全カードに乗るため、
+    // スターター「防御」と「究極の防御」以外へ付けると誤って＋ブロックされる。
 
     [SavedProperty]
     public int CurrentBlock
