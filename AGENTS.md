@@ -8,6 +8,7 @@
 - 詳細手順は `.cursor/rules/composer-self-review.mdc`
 - 完了チェックリスト・返信形式は `.cursor/rules/hypnosis-creator.mdc`
 - 知見の提案フローは `.cursor/rules/skills_collector.mdc`（**承認前に本ファイルを書き換えない**）
+- **モデル既定は Grok / Composer。高級モデルはユーザー明示指示があるときだけ**（詳細は下記・`.cursor/rules/cursor-model-routing.mdc`）
 
 ## 正本の役割分担
 
@@ -28,6 +29,16 @@
 | アセット | `dotnet publish` で `.pck` 更新（build だけではローカライズが載らない） |
 
 ## 蓄積知見
+
+### モデル運用（Grok / Composer 既定・高級モデルは許可制）
+
+失敗例: チャットログ網羅調査のため、指示なく `Task` に GPT 系高級モデルを指定した。
+
+- **既定は Grok と Composer（C2）のみ**。調査が長くても、独断で GPT / Claude 等へ切り替えない
+- モデル選択・切替はユーザー操作。エージェントは「高級モデル向きかも」と **提案するだけ**
+- `Task` / サブエージェントでも `model:` に高級モデルを付けない（ユーザーが明示したときだけ）
+- 「thorough / 網羅 / 複雑な調査」は高級モデル起動の理由にならない。Grok / Composer のツール（grep・read・git log）で進める
+- 詳細の提案基準は `.cursor/rules/cursor-model-routing.mdc`
 
 ### ローカライズ文体（本家 StS2 準拠）
 
