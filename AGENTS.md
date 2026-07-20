@@ -90,7 +90,29 @@
 | あらゆる場所から手札へ | `SummonForth`（顕現） | `PlayerCombatState.AllCards` を絞り `CardPileCmd.Add(..., Hand)` |
 | 破滅キル時 | `AbstractModel.AfterDiedToDoom`（例: レリック `BookRepairKnife`） | カードは戦闘山札にいるときだけ `ShouldReceiveCombatHooks`（`Pile.IsCombatPile`） |
 | 廃棄の代わりに手札 | `Rebound` / 本mod `EncorePower` | `ModifyCardPlayResultLocation` |
-| 通常の Block スキル | 本mod `HcDefend` | `GainsBlock` + `BlockVar` + `CreatureCmd.GainBlock` |
+| 通常の Block スキル | 本mod `HcDefend` / 本家 `Defend*` | `GainsBlock` + `BlockVar(n, ValueProp.Move)` + `CreatureCmd.GainBlock`（敏捷が乗る） |
+| 永続 Block（敏捷あり） | `GeneticAlgorithm` | `BlockVar(CurrentBlock, ValueProp.Move)`。`CardTag.Defend` は付けない |
+| 敵攻撃コピーの Block | 本mod `Harmony` | `CreatureCmd.GainBlock(..., ValueProp.Unpowered, ...)`（敏捷が乗らない） |
+
+#### CardTag.Defend と締め直し（Fasten）
+
+本家 `sts2.dll` 調査済み（`FastenPower.ModifyBlockAdditive` / 各 `Defend*`・`UltimateDefend` の `CanonicalTags`）。
+
+- 本家で `CardTag.Defend` が付くのは **各キャラのスターター「防御」と「究極の防御」だけ**（`DefendIronclad` 等 5種 + `UltimateDefend`）
+- 締め直し（`FastenPower`）は「ブロックを得るカード全部」ではなく、`card.Tags` に `CardTag.Defend` があるときだけ追加ブロックする（さらに後述の powered block であること）
+- **本mod は `HcDefend` にだけ `CardTag.Defend` を付ける**。その他のブロックスキル（深淵からの声援・凝視の光・メトロノーム等）には付けない
+- `CardTag.Defend` を安易に付けると、締め直し UG 後に＋6 されて基礎値がおかしく見える（声援 1＋6＝7 の事故）
+
+#### ブロックと敏捷（Dexterity）
+
+本家 `DexterityPower.ModifyBlockAdditive` と `ValuePropExtensions.IsPoweredCardOrMonsterMoveBlock` 調査済み。
+
+- 敏捷が乗る条件: `ValueProp` が **Move あり、かつ Unpowered なし**（`IsPoweredCardOrMonsterMoveBlock`）
+- **多くのブロックスキルは敏捷が乗る**。本家も `BlockVar(n, ValueProp.Move)`（防御・Impervious・GeneticAlgorithm 等）。本mod の声援・`HcDefend`・凝視の光なども同じ
+- **敏捷が乗らない主な例**:
+  - 敵の攻撃値を参照してブロックする類 → `ValueProp.Unpowered`（本mod「調和」）
+  - パワー等が固定値でブロックを付与するとき → 本mod では `ValueProp.Unpowered` が多い（例: 性癖理解・無意識の導き）
+- 締め直し（Defend タグ）と敏捷（ValueProp）は別判定。タグを外しても `ValueProp.Move` なら敏捷は通常どおり乗る
 
 #### 「デッキにある」の解釈
 
