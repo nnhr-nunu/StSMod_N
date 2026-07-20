@@ -15,7 +15,7 @@
   "HYPNOSISCREATOR-BARE_INSTINCT_POWER.description": "At the start of your turn, Enchant a random Attack in hand with Instinct.",
   "HYPNOSISCREATOR-BARE_INSTINCT_POWER.smartDescription": "Bare Instinct {Amount}.",
   "HYPNOSISCREATOR-CARDIAC_ARREST_POWER.title": "Cardiac Arrest",
-  "HYPNOSISCREATOR-CARDIAC_ARREST_POWER.description": "{Amount} turns until cardiac arrest. After it reaches 0, they die at the end of their action. Stacking advances the countdown by 1.",
+  "HYPNOSISCREATOR-CARDIAC_ARREST_POWER.description": "{Amount} turns until cardiac arrest. When it reaches 0 turns, dies at the end of their action. Stacking advances the countdown by 1 turn.",
   "HYPNOSISCREATOR-CARDIAC_ARREST_POWER.smartDescription": "{Amount} turns until cardiac arrest.",
   "HYPNOSISCREATOR-TIME_STOP_MARK_POWER.title": "Time Stop",
   "HYPNOSISCREATOR-TIME_STOP_MARK_POWER.description": "Takes damage at end of turn.",
