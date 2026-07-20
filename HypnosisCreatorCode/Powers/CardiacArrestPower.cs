@@ -99,8 +99,10 @@ public class CardiacArrestPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
 
+        // ムカデ節など同心臓の複数体でも、心停止＋は止めた対象からその場で心臓を得られる。
         if (GrantBonusRelic && BonusRelicPlayer != null)
-            HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, Owner);
+            HeartCapture.TryAddExtraRelicReward(
+                BonusRelicPlayer, Owner, allowWhileSiblingsAlive: true);
 
         await CreatureCmd.Kill(Owner);
     }

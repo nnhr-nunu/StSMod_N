@@ -11,7 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// 敵固有心臓の入手。報酬系（リーサル／寄生／心停止＋）はすべて
 /// 戦闘報酬画面の追加 <see cref="RelicReward"/> に載せる（本家の追加報酬 UX）。
-/// ムカデ節など「同一心臓を複数体が共有」する場合は、その心臓側の最後の1体を倒したときだけ落とす。
+/// ムカデ節など「同一心臓を複数体が共有」する場合、リーサル系は最後の1体トドメ時のみ。
+/// 心停止催眠＋は例外で、止めた対象からその場で落とす（<c>allowWhileSiblingsAlive</c>）。
 /// </summary>
 public static class HeartCapture
 {
@@ -62,11 +63,16 @@ public static class HeartCapture
     /// 戦闘報酬画面に「追加のレリック報酬」として敵固有心臓を載せる。
     /// エリート等の通常報酬と並ぶ。部屋が取れない場合のみ即時 Obtain にフォールバック。
     /// </summary>
-    public static void TryAddExtraRelicReward(Player player, Creature slain)
+    /// <param name="allowWhileSiblingsAlive">
+    /// true のとき、同心臓の生存兄弟（ムカデ節など）がいても落とす。
+    /// 心停止催眠＋の例外用。解剖／えぐりは false のまま。
+    /// </param>
+    public static void TryAddExtraRelicReward(
+        Player player, Creature slain, bool allowWhileSiblingsAlive = false)
     {
         if (!slain.IsMonster) return;
 
-        if (HasLivingSiblingForSameHeart(slain))
+        if (!allowWhileSiblingsAlive && HasLivingSiblingForSameHeart(slain))
         {
             var mid = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
             MainFile.Logger.Info($"Heart deferred until last sibling dies: {mid}");
