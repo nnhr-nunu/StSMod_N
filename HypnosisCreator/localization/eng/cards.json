@@ -44,7 +44,7 @@
   "HYPNOSISCREATOR-PETTING.title": "Petting",
   "HYPNOSISCREATOR-PETTING.description": "Apply {WeakPower:diff()} Weak.\nDraw {Cards:diff()} card.",
   "HYPNOSISCREATOR-WHISPER.title": "Whisper",
-  "HYPNOSISCREATOR-WHISPER.description": "Choose {Cards:diff()} Fetish card(s) from your draw pile. Awaken their fetishes on the target. Exhaust.",
+  "HYPNOSISCREATOR-WHISPER.description": "Choose {Cards:diff()} Fetish card(s) from your draw pile. Awaken their fetishes on the target.",
   "HYPNOSISCREATOR-WHISPER.selectionScreenPrompt": "Choose a card to awaken fetishes from.",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.title": "Soft Technique",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.description": "Remove 1 random debuff from yourself.",
@@ -100,7 +100,7 @@
   "HYPNOSISCREATOR-ZERO_SHORTCUT.title": "Zero Shortcut",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "Gain 3 Block, then 2, then 1, then 0. Set the cost of [gold]Count[/gold] cards in your hand to 0. (Total {Block:diff()} Block)",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Infinite Finger Snap",
-  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Deal {Damage:diff()} damage to ALL opponents 5 times. Do this X times. Exhaust.",
+  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Deal {Damage:diff()} damage to ALL opponents 5 times. Do this X times.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Fetish Champion",
   "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Deal {Damage:diff()} damage once for each fetish the target has.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "I Know It All",
@@ -168,7 +168,7 @@
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Training Commands",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Add {Cards:diff()} random Training Command cards to your hand.",
   "HYPNOSISCREATOR-AUTOPSY.title": "Autopsy",
-  "HYPNOSISCREATOR-AUTOPSY.description": "Deal {Damage:diff()} damage. Deal additional {PerHeart:diff()} damage for each Heart relic you have. If Fatal, gain an extra Heart relic. Exhaust.",
+  "HYPNOSISCREATOR-AUTOPSY.description": "Deal {Damage:diff()} damage. Deal additional {PerHeart:diff()} damage for each Heart relic you have. If Fatal, gain an extra Heart relic.",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "108 Earthly Desires",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "Awaken every fetish on all opponents. After play, this card's cost increases by 1.\nWhen you play this card at cost 3, deal {Damage:diff()} damage 108 times to all opponents and [gold]Exhaust[/gold].\n[gold]Always hits Fetish[/gold] (each type hits separately).",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Fudo Myo-o",
@@ -184,7 +184,7 @@
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "Understanding Fetishes",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "Whenever you play a Fetish card, gain {Block:diff()} [gold]Block[/gold].",
   "HYPNOSISCREATOR-PROSELYTIZE.title": "Proselytizing Urge",
-  "HYPNOSISCREATOR-PROSELYTIZE.description": "Apply {OshiActivityPower:diff()} Oshi Activity and {BogPower:diff()} Bog.\nAt the end of combat, gain {Gold:diff()} Gold as a reward. Exhaust.",
+  "HYPNOSISCREATOR-PROSELYTIZE.description": "Apply {OshiActivityPower:diff()} Oshi Activity and {BogPower:diff()} Bog.\nAt the end of combat, gain {Gold:diff()} Gold as a reward.",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "Self-Suggestion",
   "HYPNOSISCREATOR-SELF_SUGGESTION.description": "Gain {StrengthPower:diff()} Strength and {DexterityPower:diff()} Dexterity. Obtain {Hearts:diff()} random Heart relics you don't own (excluding those of current combat opponents). They trigger at combat start.",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "Craving for Hearts",
@@ -217,5 +217,5 @@
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "Unconscious Guidance",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an opponent attacks you, gain {Block:diff()} [gold]Block[/gold] before the hit.",
   "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "Cheer from the Abyss",
-  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "Gain {Block:diff()} [gold]Block[/gold]. Whenever you kill someone with [gold]Doom[/gold], permanently increase this card's [gold]Block[/gold] in your deck by {Increase:diff()}. Exhaust."
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "Gain {Block:diff()} [gold]Block[/gold]. Whenever you kill someone with [gold]Doom[/gold], permanently increase this card's [gold]Block[/gold] in your deck by {Increase:diff()}."
 }

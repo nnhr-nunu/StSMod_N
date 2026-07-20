@@ -127,10 +127,11 @@ public static class UpgradeDescriptionHooks
             "Draw cards equal to the number of opponents",
             "Draw cards equal to the number of opponents [green]+ 1[/green]");
 
+        // 廃棄は CanonicalKeywords の自動挿入に任せる（説明文に書くと「廃棄。廃棄。」になる）
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is CheerFromTheAbyss,
-            "増加する。廃棄。",
-            "増加し、[green]次のターン開始時にあらゆる場所から手札に加える[/green]。廃棄。",
-            ". Exhaust.",
-            " and [green]put it into your hand from anywhere at the start of your next turn[/green]. Exhaust.");
+            "増加する。",
+            "増加し、[green]次のターン開始時にあらゆる場所から手札に加える[/green]。",
+            "in your deck by {Increase:diff()}.",
+            "in your deck by {Increase:diff()} and [green]put it into your hand from anywhere at the start of your next turn[/green].");
     }
 }

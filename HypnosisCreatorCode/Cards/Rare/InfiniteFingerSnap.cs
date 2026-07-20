@@ -83,18 +83,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
         if (description.Contains(totalText, StringComparison.Ordinal)) return;
 
-        // 「廃棄。」／"Exhaust." の直前に挿入
-        if (UpgradeCardText.IsJapaneseUi())
-        {
-            description = description.Contains("廃棄。", StringComparison.Ordinal)
-                ? description.Replace("廃棄。", totalText + "廃棄。", StringComparison.Ordinal)
-                : description.TrimEnd() + totalText;
-            return;
-        }
-
-        description = description.Contains("Exhaust.", StringComparison.OrdinalIgnoreCase)
-            ? description.Replace("Exhaust.", totalText.TrimStart() + " Exhaust.", StringComparison.OrdinalIgnoreCase)
-            : description.TrimEnd() + totalText;
+        // 廃棄は CanonicalKeywords 側。合計は本文末尾へ（キーワード行の前／後どちらでも可）
+        description = description.TrimEnd() + totalText;
     }
 
     private static decimal PreviewModifiedDamage(InfiniteFingerSnap card, Creature? target)

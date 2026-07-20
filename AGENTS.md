@@ -47,12 +47,15 @@
 カード／パワー／レリックの説明文は、本家 `SlayTheSpire2.pck` の `localization/{eng,jpn}/powers.json` に合わせる。参照抽出: `_vanilla_loc_extract/sts2/localization/`。
 
 - **完全な一文**で書く（`Whenever…` / `〜するたび` / `ターン開始時`）。タイトル繰り返し・電報調（`ドロー3。`／`性癖必中。`／`名前 {Amount}。`）は禁止
-- 数値は `[blue]…[/blue]`、キーワードは `[gold]…[/gold]`（Block／Exhaust／Strength、本modなら Count・Trance・Bog・Doom 等）
-- Power: `description` は固定例の数値、`smartDescription` は同じ構文で `{Amount}` 化（残像／激怒型）。スタック表示だけの Amount は文中に無理に入れない
+- **色の基準（本家 StS2 準拠）**:
+  - `[gold]…[/gold]` … キーワード名・固有名詞（Block／Strength／Exhaust／Trance／沼／破滅 等）
+  - `[blue]…[/blue]` … **文中の固定数値**（`1`／`3`／`20%`／`50%` など）。本家の脱力・弱体・残像・悪魔化などと同じ
+  - カードの可変数値（UGで緑差分が出るもの）は `[blue]` ではなく `{Damage:diff()}` / `{Block:diff()}` 等
+- Power: `description` は固定例の数値を `[blue]`、`smartDescription` は同じ構文で `{Amount}` 化（残像／激怒型）。スタック表示だけの Amount は文中に無理に入れない
 - 日本語はだ体（`〜を得る。`／`〜する。`）。ですます禁止
 - 性癖パワーの定型: `性癖に刺さる行動を受けた時、[gold]破滅[/gold][blue]{Amount}[/blue]を得る。`（eng: `When receiving an action that hits Fetish, gain [blue]{Amount}[/blue] [gold]Doom[/gold].`）
+- 例（ふにゃへにゃ）: `[gold]トランス[/gold][blue]1[/blue]につき…[blue]20%[/blue]減少` → キーワードは金、固定数値は青で正しい
 - ローカライズ変更後は `dotnet publish`（build だけでは `.pck` に載らない）
-
 ### UIアイコンの縁（レリック／バフ・デバフ）
 
 - 暗いUI向けアイコンで、外側の明るい縁・ハロー・ステッカー枠は避ける（背景から浮いて見える）
@@ -83,7 +86,7 @@
 | 日本語 | だ体。ユーザー指定の文面を優先し、構造だけ本家／既存modに合わせる |
 
 - カード説明に `{Amount}` は使わない（Power 用）。カードは `{VarName:diff()}`
-- Exhaust / Retain 等は `CanonicalKeywords` で付ける。説明文に「廃棄。」を書くかは既存カードに合わせる（本modは書く例が多い）
+- Exhaust / Retain 等は `CanonicalKeywords` で付ける。**説明文末に「廃棄。」／`Exhaust.` を書かない**（キーワードが自動挿入するため「廃棄。廃棄。」になる）。調和・ミラーリング側に合わせる
 - 定性UGは全文差し替え禁止。`UpgradeCardText.ReplaceWhenUpgraded` / `AppendGreenLine` で差分だけ `[green]`
 
 #### UG の型

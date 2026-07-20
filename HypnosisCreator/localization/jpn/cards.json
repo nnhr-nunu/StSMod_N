@@ -44,7 +44,7 @@
   "HYPNOSISCREATOR-PETTING.title": "なでなで",
   "HYPNOSISCREATOR-PETTING.description": "脱力{WeakPower:diff()}を付与する。カードを{Cards:diff()}枚引く。",
   "HYPNOSISCREATOR-WHISPER.title": "囁き",
-  "HYPNOSISCREATOR-WHISPER.description": "山札のカードを{Cards:diff()}枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。",
+  "HYPNOSISCREATOR-WHISPER.description": "山札のカードを{Cards:diff()}枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。",
   "HYPNOSISCREATOR-WHISPER.selectionScreenPrompt": "目覚めさせる性癖の元になるカードを選んでください。",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.title": "軟酥の法",
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.description": "デバフを1種類解除する。",
@@ -100,7 +100,7 @@
   "HYPNOSISCREATOR-ZERO_SHORTCUT.title": "ゼロへの近道",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（合計{Block:diff()}ブロック）",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "連続指パッチン",
-  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "すべての相手に{Damage:diff()}ダメージを5回与える。これをX回行う。廃棄。",
+  "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "すべての相手に{Damage:diff()}ダメージを5回与える。これをX回行う。",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "性癖の覇者",
   "HYPNOSISCREATOR-FETISH_CHAMPION.description": "対象の性癖の数だけ{Damage:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "ぜんぶ知ってるよ",
@@ -168,7 +168,7 @@
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "調教コマンド",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "ランダムな{Cards:diff()}枚のDomSubコマンドカードを手札に加える。",
   "HYPNOSISCREATOR-AUTOPSY.title": "解剖",
-  "HYPNOSISCREATOR-AUTOPSY.description": "{Damage:diff()}ダメージを与える。保有している心臓レリックの数だけ、追加で{PerHeart:diff()}ダメージを与える。リーサル時、追加のレリック報酬を得る。廃棄。",
+  "HYPNOSISCREATOR-AUTOPSY.description": "{Damage:diff()}ダメージを与える。保有している心臓レリックの数だけ、追加で{PerHeart:diff()}ダメージを与える。リーサル時、追加のレリック報酬を得る。",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "壱佰捌煩悩",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての相手に1ダメージを108回与えて廃棄される。",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "不動明王",
@@ -184,7 +184,7 @@
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "性倒錯への理解",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "性癖カードをプレイするたび、{Block:diff()}ブロックを得る。",
   "HYPNOSISCREATOR-PROSELYTIZE.title": "布教欲求",
-  "HYPNOSISCREATOR-PROSELYTIZE.description": "推し活{OshiActivityPower:diff()}と沼{BogPower:diff()}を付与する。戦闘終了時、報酬として{Gold:diff()}ゴールドを得る。廃棄。",
+  "HYPNOSISCREATOR-PROSELYTIZE.description": "推し活{OshiActivityPower:diff()}と沼{BogPower:diff()}を付与する。戦闘終了時、報酬として{Gold:diff()}ゴールドを得る。",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "自己暗示",
   "HYPNOSISCREATOR-SELF_SUGGESTION.description": "筋力{StrengthPower:diff()}を得る。敏捷{DexterityPower:diff()}を得る。この戦闘中、ランダムな心臓レリックを3つ獲得する。",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "心臓への渇望",
@@ -217,5 +217,5 @@
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "無意識下の誘導",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "相手が攻撃するたび、その攻撃がヒットする前に{Block:diff()}ブロックを得る。",
   "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "深淵からの声援",
-  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "{Block:diff()}ブロックを得る。誰かを破滅させた時、デッキにあるこのカードのブロックが永続的に{Increase:diff()}増加する。廃棄。"
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "{Block:diff()}ブロックを得る。誰かを破滅させた時、デッキにあるこのカードのブロックが永続的に{Increase:diff()}増加する。"
 }
