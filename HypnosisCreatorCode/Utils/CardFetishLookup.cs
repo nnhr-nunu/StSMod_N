@@ -22,4 +22,16 @@ public static class CardFetishLookup
 
     public static bool HasAnyFetish(CardModel card) =>
         GetFetishes(card).Count > 0 || AlwaysHitsFetish(card);
+
+    /// <summary>CanonicalVars に Trance があり、付与時のトランス性癖刺さりが起きうるカード。</summary>
+    public static bool AppliesTrance(CardModel card)
+    {
+        foreach (var v in card.DynamicVars.Values)
+        {
+            if (v.Name == "Trance" && v.BaseValue > 0M)
+                return true;
+        }
+
+        return false;
+    }
 }

@@ -6,6 +6,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 性癖カードを敵にドラッグ／照準中、説明末尾へ（破滅Nを付与する）を付ける。沼の1.5倍も反映。
+/// タグ刺さりに加え、トランス付与によるトランス性癖刺さりも回数に含める。
 /// </summary>
 public static class FetishDoomPreview
 {
@@ -14,7 +15,7 @@ public static class FetishDoomPreview
 
     private static void AppendDoomPreview(CardModel card, Creature? target, ref string description)
     {
-        if (!CardFetishLookup.HasAnyFetish(card)) return;
+        if (!CardFetishLookup.HasAnyFetish(card) && !CardFetishLookup.AppliesTrance(card)) return;
 
         var enemy = target ?? card.CurrentTarget;
         if (enemy is not { IsAlive: true, IsEnemy: true }) return;
@@ -38,6 +39,13 @@ public static class FetishDoomPreview
     /// <summary>照準対象に対して、実際の刺さりと同じ回数を返す。</summary>
     public static int CountPreviewHits(CardModel card, Creature target)
     {
+        var tagHits = CountTagPreviewHits(card, target);
+        var tranceHits = CountTranceApplyPreviewHits(card, target);
+        return tagHits + tranceHits;
+    }
+
+    private static int CountTagPreviewHits(CardModel card, Creature target)
+    {
         var fetishes = CardFetishLookup.GetFetishes(card);
         var alwaysHit = CardFetishLookup.AlwaysHitsFetish(card);
         if (fetishes.Count == 0 && !alwaysHit) return 0;
@@ -60,6 +68,16 @@ public static class FetishDoomPreview
 
         if (types.Count == 0) return 0;
         return IsSingleHit(card) ? 1 : types.Count;
+    }
+
+    /// <summary>
+    /// ApplyTrance 1回あたりトランス性癖刺さり1回（スタック量ではなく呼び出し回数）。
+    /// プレビューは「このカードが1回プレイされたとき」の1回分。
+    /// </summary>
+    private static int CountTranceApplyPreviewHits(CardModel card, Creature target)
+    {
+        if (!CardFetishLookup.AppliesTrance(card)) return 0;
+        return FetishCombat.HasFetish(target, FetishType.Trance) ? 1 : 0;
     }
 
     private static bool IsSingleHit(CardModel card)

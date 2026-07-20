@@ -10,7 +10,8 @@ public static class FetishGlow
     {
         var fetishes = CardFetishLookup.GetFetishes(card);
         var alwaysHit = CardFetishLookup.AlwaysHitsFetish(card);
-        if (fetishes.Count == 0 && !alwaysHit) return false;
+        var appliesTrance = CardFetishLookup.AppliesTrance(card);
+        if (fetishes.Count == 0 && !alwaysHit && !appliesTrance) return false;
 
         var combat = card.CombatState;
         if (combat == null) return false;
@@ -19,6 +20,7 @@ public static class FetishGlow
         {
             if (!enemy.IsAlive || !enemy.IsEnemy) continue;
             if (WouldHit(card, enemy, fetishes, alwaysHit)) return true;
+            if (appliesTrance && FetishCombat.HasFetish(enemy, FetishType.Trance)) return true;
         }
 
         return false;

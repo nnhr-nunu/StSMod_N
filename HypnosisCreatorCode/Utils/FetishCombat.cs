@@ -1,6 +1,8 @@
+using System.Threading;
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -28,6 +30,12 @@ public static class FetishCombat
     /// （トランス性癖は対象外）。戦闘終了時にリセットされる。
     /// </summary>
     public static bool CultLeaderActive { get; set; }
+
+    /// <summary>
+    /// カードプレイ開始時点の沼スタック。同一プレイ内で付与した沼は×1.5に使わない。
+    /// AutoPlay 入れ子に備えスタックする。
+    /// </summary>
+    private static readonly AsyncLocal<Stack<Dictionary<Creature, int>>?> BogSnapshotStack = new();
 
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
@@ -180,11 +188,53 @@ public static class FetishCombat
         return amount;
     }
 
+    public static void PushBogSnapshot(ICombatState combatState)
+    {
+        var snap = new Dictionary<Creature, int>();
+        foreach (var enemy in combatState.HittableEnemies)
+            snap[enemy] = enemy.GetPowerAmount<BogPower>();
+
+        var stack = BogSnapshotStack.Value;
+        if (stack == null)
+        {
+            stack = new Stack<Dictionary<Creature, int>>();
+            BogSnapshotStack.Value = stack;
+        }
+
+        stack.Push(snap);
+    }
+
+    public static void PopBogSnapshot()
+    {
+        var stack = BogSnapshotStack.Value;
+        if (stack == null || stack.Count == 0) return;
+        stack.Pop();
+        if (stack.Count == 0)
+            BogSnapshotStack.Value = null;
+    }
+
+    public static void ClearBogSnapshots() => BogSnapshotStack.Value = null;
+
+    /// <summary>
+    /// 沼×1.5。カードプレイ中はプレイ開始前の沼のみ見る（同一プレイで付与した沼は対象外）。
+    /// </summary>
     public static int ScaleDoomByBog(Creature enemy, int amount)
     {
         if (amount <= 0) return 0;
-        if (enemy.GetPowerAmount<BogPower>() <= 0) return amount;
+        if (GetBogAmountForDoomScale(enemy) <= 0) return amount;
         return Math.Max(1, (int)Math.Floor(amount * (double)BogDoomMultiplier));
+    }
+
+    private static int GetBogAmountForDoomScale(Creature enemy)
+    {
+        var stack = BogSnapshotStack.Value;
+        if (stack is { Count: > 0 })
+        {
+            var snap = stack.Peek();
+            return snap.TryGetValue(enemy, out var bog) ? bog : 0;
+        }
+
+        return enemy.GetPowerAmount<BogPower>();
     }
 
     public static async Task ApplyDoom(

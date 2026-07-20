@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>
 /// 深淵からの声援 — 1ブロック。敵を破滅キルするたび、デッキ共有のこのカードのブロックが永続増加。廃棄。
 /// UG: 増加量2→3。破滅キル時、次ターン開始にあらゆる場所から手札へ戻る（顕現 / SummonForth 型）。
-/// 永続値は本家 GeneticAlgorithm と同じ SavedProperty パターン。
+/// 永続値は本家 GeneticAlgorithm と同じ SavedProperty ＋ DynamicVars.Block 同期パターン。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CheerFromTheAbyss() : HypnosisCreatorCard(1,
@@ -23,6 +23,9 @@ public class CheerFromTheAbyss() : HypnosisCreatorCard(1,
 {
     private const int BaseBlock = 1;
 
+    private int _currentBlock = BaseBlock;
+    private int _increasedBlock;
+
     public override bool GainsBlock => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -30,10 +33,27 @@ public class CheerFromTheAbyss() : HypnosisCreatorCard(1,
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     [SavedProperty]
-    public int CurrentBlock { get; set; } = BaseBlock;
+    public int CurrentBlock
+    {
+        get => _currentBlock;
+        set
+        {
+            AssertMutable();
+            _currentBlock = value;
+            DynamicVars.Block.BaseValue = value;
+        }
+    }
 
     [SavedProperty]
-    public int IncreasedBlock { get; set; }
+    public int IncreasedBlock
+    {
+        get => _increasedBlock;
+        set
+        {
+            AssertMutable();
+            _increasedBlock = value;
+        }
+    }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
