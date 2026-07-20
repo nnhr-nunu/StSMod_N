@@ -215,5 +215,7 @@
   "HYPNOSISCREATOR-KNIFE.title": "Knife",
   "HYPNOSISCREATOR-KNIFE.description": "Deal {Damage:diff()} damage.",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "Unconscious Guidance",
-  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an opponent attacks you, gain {Block:diff()} [gold]Block[/gold] before the hit."
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an opponent attacks you, gain {Block:diff()} [gold]Block[/gold] before the hit.",
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "Cheer from the Abyss",
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "Gain {Block:diff()} [gold]Block[/gold]. Whenever you kill someone with [gold]Doom[/gold], permanently increase this card's [gold]Block[/gold] in your deck by {Increase:diff()}. Exhaust."
 }

@@ -131,5 +131,8 @@
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "睡眠中。",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.title": "無意識下の誘導",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.description": "攻撃を受けるたび、ヒット前に[blue]3[/blue][gold]ブロック[/gold]を得る。多段攻撃はヒットごとに発動する。",
-  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "攻撃を受けるたび、ヒット前に[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。"
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "攻撃を受けるたび、ヒット前に[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.title": "深淵からの声援",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。"
 }

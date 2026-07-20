@@ -131,5 +131,8 @@
   "HYPNOSISCREATOR-FORCED_SLEEP_VISUAL_POWER.smartDescription": "Sleeping.",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.title": "Unconscious Guidance",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.description": "Whenever you are attacked, gain [blue]3[/blue] [gold]Block[/gold] before the hit. Triggers once per hit.",
-  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "Whenever you are attacked, gain [blue]{Amount}[/blue] [gold]Block[/gold] before the hit."
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "Whenever you are attacked, gain [blue]{Amount}[/blue] [gold]Block[/gold] before the hit.",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.title": "Cheer from the Abyss",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere.",
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere."
 }

@@ -126,5 +126,11 @@ public static class UpgradeDescriptionHooks
             "相手の数[green]+1[/green]枚カードを引く",
             "Draw cards equal to the number of opponents",
             "Draw cards equal to the number of opponents [green]+ 1[/green]");
+
+        UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is CheerFromTheAbyss,
+            "増加する。廃棄。",
+            "増加し、[green]次のターン開始時にあらゆる場所から手札に加える[/green]。廃棄。",
+            ". Exhaust.",
+            " and [green]put it into your hand from anywhere at the start of your next turn[/green]. Exhaust.");
     }
 }

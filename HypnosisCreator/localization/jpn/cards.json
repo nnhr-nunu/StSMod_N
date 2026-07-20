@@ -215,5 +215,7 @@
   "HYPNOSISCREATOR-KNIFE.title": "ナイフ",
   "HYPNOSISCREATOR-KNIFE.description": "{Damage:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "無意識下の誘導",
-  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "相手が攻撃するたび、その攻撃がヒットする前に{Block:diff()}ブロックを得る。"
+  "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "相手が攻撃するたび、その攻撃がヒットする前に{Block:diff()}ブロックを得る。",
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "深淵からの声援",
+  "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.description": "{Block:diff()}ブロックを得る。誰かを破滅させた時、デッキにあるこのカードのブロックが永続的に{Increase:diff()}増加する。廃棄。"
 }
