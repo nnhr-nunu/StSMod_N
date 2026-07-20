@@ -25,6 +25,10 @@ public static class FetishHitFloat
         "！！！",
         "顔ない",
         "……！",
+        "尊死",
+        "好きすぎてしんどい",
+        "推ししか勝たん",
+        "顔が良すぎる",
     ];
 
     private static readonly string[] EnglishLines =
@@ -44,6 +48,10 @@ public static class FetishHitFloat
         "!!!",
         "No face left",
         "...!",
+        "Oshideath",
+        "Love them so much it hurts",
+        "Only oshi wins",
+        "Face too good",
     ];
 
     public static void Show(Creature target)
