@@ -1,7 +1,11 @@
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Runs;
 using HcCharacter = HypnosisCreator.HypnosisCreatorCode.Character.HypnosisCreator;
@@ -11,6 +15,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 /// <summary>
 /// 催眠メトロノーム — ヒプノクリエイター専用。
 /// 戦闘1ターン目: 開幕ドロー+1（Bag of Preparation と同様）＋敵全体にトランス1。
+/// トランス減少は AfterSideTurnStart のため、付与は AfterSideTurnStartLate で行う
+/// （AfterPlayerTurnStart だと直後の減少で消える）。本家 Bag of Marbles 系の開幕デバフと同趣旨。
 /// </summary>
 public class HypnosisMetronome : HypnosisCreatorRelic
 {
@@ -24,6 +30,9 @@ public class HypnosisMetronome : HypnosisCreatorRelic
         new DynamicVar("Trance", TranceAmount),
         new DynamicVar("Cards", ExtraDraw)
     ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<TrancePower>()];
 
     /// <summary>他キャラの報酬・ショップ・Neow に出さない。</summary>
     public override bool IsAllowed(IRunState runState) =>
@@ -40,14 +49,21 @@ public class HypnosisMetronome : HypnosisCreatorRelic
         return count + ExtraDraw;
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    /// <summary>
+    /// SetupPlayerTurn（AfterPlayerTurnStart 含む）のあと、AfterSideTurnStart の減少パスを抜けた Late で付与する。
+    /// </summary>
+    public override async Task AfterSideTurnStartLate(
+        CombatSide side,
+        IReadOnlyList<Creature> participants,
+        ICombatState combatState)
     {
-        if (player != Owner) return;
+        if (Owner == null || side != CombatSide.Player) return;
+        if (!participants.Contains(Owner.Creature)) return;
         if (Owner.PlayerCombatState == null || Owner.PlayerCombatState.TurnNumber > 1) return;
-        if (Owner.Creature.CombatState == null) return;
 
         Flash();
-        foreach (var enemy in Owner.Creature.CombatState.HittableEnemies.ToList())
+        var choiceContext = new ThrowingPlayerChoiceContext();
+        foreach (var enemy in combatState.HittableEnemies.ToList())
         {
             await TranceCombat.ApplyTrance(
                 choiceContext, enemy, TranceAmount, Owner.Creature, cardSource: null);
