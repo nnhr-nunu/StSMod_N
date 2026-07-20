@@ -40,7 +40,8 @@ public class AsYouWishPower : HypnosisCreatorPower
                         choiceContext, Owner, upgraded ? 3M : 2M, Owner, cardPlay.Card);
                     break;
                 case FetishType.DomSub:
-                    await CreatureCmd.GainBlock(Owner, upgraded ? 2M : 1M, ValueProp.Move, null);
+                    // 固定値表記。Move だと敏捷が乗りカード説明とずれる。
+                    await CreatureCmd.GainBlock(Owner, upgraded ? 2M : 1M, ValueProp.Unpowered, null);
                     break;
             }
         }

@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class ProgenitorBugHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "PROGENITOR_BUG";
+    public override string MonsterIdEntry => "LOUSE_PROGENITOR";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 14);

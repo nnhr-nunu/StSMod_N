@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class MawBeastHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "MAW_BEAST";
+    public override string MonsterIdEntry => "THE_INSATIABLE";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {

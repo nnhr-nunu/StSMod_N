@@ -8,7 +8,7 @@ public class TwigSlimeSmallHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
     // 細枝スライム小
-    public override string MonsterIdEntry => "TWIG_SLIME_SMALL";
+    public override string MonsterIdEntry => "TWIG_SLIME_S";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareZeroCostSlimed(this, choiceContext, player);

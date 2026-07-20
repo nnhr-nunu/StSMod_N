@@ -19,6 +19,7 @@ public class FetishUnderstandingPower : HypnosisCreatorPower
         if (cardPlay.Card.Owner?.Creature != Owner) return;
         if (!CardFetishLookup.HasAnyFetish(cardPlay.Card)) return;
 
-        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null);
+        // Feel No Pain と同様 Unpowered: Amount＝カード表記。Move だと敏捷が乗って説明より多くなる。
+        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);
     }
 }

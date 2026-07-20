@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class TrackerRaiderHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "TRACKER_RAIDER";
+    public override string MonsterIdEntry => "TRACKER_RUBY_RAIDER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareRandomEnemyPower<VulnerablePower>(

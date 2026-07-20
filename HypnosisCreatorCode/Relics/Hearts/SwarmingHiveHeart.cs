@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class SwarmingHiveHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "SWARMING_HIVE";
+    public override string MonsterIdEntry => "SKULKING_COLONY";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfPower<HardToKillPower>(this, choiceContext, player, 20);

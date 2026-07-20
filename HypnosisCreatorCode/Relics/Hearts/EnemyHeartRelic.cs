@@ -17,8 +17,14 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     /// <summary>希少な心臓（右クリック／手動発動・1回限り）。</summary>
     public abstract bool IsRareHeart { get; }
 
-    /// <summary>対応モンスター ID（抽選除外・捕獲マッピング用）。</summary>
+    /// <summary>対応モンスター Id.Entry の代表値（ローカライズ／アイコン生成用）。</summary>
     public abstract string MonsterIdEntry { get; }
+
+    /// <summary>
+    /// 捕獲・抽選除外に使う実ゲーム Id.Entry 一覧。
+    /// カイザークラブ左右爪・ムカデ節など、複数 ID が同一心臓に対応する場合に上書きする。
+    /// </summary>
+    public virtual IReadOnlyList<string> MonsterIdEntries => [MonsterIdEntry];
 
     public bool WasUsed { get; set; }
 

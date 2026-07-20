@@ -68,9 +68,9 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
             .Where(IsRareHeartType)
             .Where(t =>
             {
-                var key = TryMonsterKey(t);
-                if (key == null) return true;
-                return !combatKeys.Any(ck => ck.Contains(key, StringComparison.OrdinalIgnoreCase));
+                var ids = HeartRegistry.GetMonsterIds(t);
+                if (ids.Count == 0) return true;
+                return !ids.Any(id => combatKeys.Contains(id));
             })
             .ToList();
 
@@ -128,21 +128,6 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         {
             return false;
         }
-    }
-
-    private static string? TryMonsterKey(Type heartType)
-    {
-        try
-        {
-            if (Activator.CreateInstance(heartType) is EnemyHeartRelic sample)
-                return sample.MonsterIdEntry;
-        }
-        catch
-        {
-            // ignore
-        }
-
-        return null;
     }
 
     protected override void OnUpgrade()

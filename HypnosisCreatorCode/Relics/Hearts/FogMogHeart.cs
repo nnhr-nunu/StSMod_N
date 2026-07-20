@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class FogMogHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "FOG_MOG";
+    public override string MonsterIdEntry => "FOGMOG";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         Task.CompletedTask;

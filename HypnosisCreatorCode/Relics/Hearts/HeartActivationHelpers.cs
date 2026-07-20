@@ -60,13 +60,20 @@ internal static class HeartActivationHelpers
 
     public static async Task ActivateRareRandomEnemyPower<T>(
         EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player, decimal amount)
+        where T : PowerModel =>
+        await ActivateRareRandomEnemyPowerTimes<T>(heart, ctx, player, amount, 1);
+
+    /// <summary>同一ランダム敵へパワーを times 回付与（マイトの毒5×2 など）。</summary>
+    public static async Task ActivateRareRandomEnemyPowerTimes<T>(
+        EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player, decimal amount, int times)
         where T : PowerModel
     {
         var enemy = PickRandomEnemy(player);
         if (enemy == null) return;
 
         heart.Flash();
-        await PowerCmd.Apply<T>(ctx, enemy, amount, player.Creature, null!);
+        for (var i = 0; i < times; i++)
+            await PowerCmd.Apply<T>(ctx, enemy, amount, player.Creature, null!);
         heart.MarkUsed();
     }
 

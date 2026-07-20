@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class RitualBeastHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "RITUAL_BEAST";
+    public override string MonsterIdEntry => "CEREMONIAL_BEAST";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         Task.CompletedTask;

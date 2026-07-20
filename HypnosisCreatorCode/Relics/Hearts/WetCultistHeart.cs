@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class WetCultistHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "WET_CULTIST";
+    public override string MonsterIdEntry => "DAMP_CULTIST";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfPower<RitualPower>(this, choiceContext, player, 1);

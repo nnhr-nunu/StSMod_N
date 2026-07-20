@@ -31,6 +31,7 @@ public class UnconsciousGuidancePower : HypnosisCreatorPower
         if (!props.IsPoweredAttack()) return;
 
         Flash();
-        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null);
+        // Feel No Pain と同様 Unpowered: Amount はカード表記どおり。Move だと敏捷が加算され説明より多くなる。
+        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);
     }
 }

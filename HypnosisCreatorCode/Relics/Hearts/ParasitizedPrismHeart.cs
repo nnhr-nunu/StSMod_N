@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class ParasitizedPrismHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "PARASITIZED_PRISM";
+    public override string MonsterIdEntry => "INFESTED_PRISM";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRarePotion<SkillPotion>(this, player);

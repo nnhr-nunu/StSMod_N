@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class LeafSlimeMedHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "LEAF_SLIME_MED";
+    public override string MonsterIdEntry => "LEAF_SLIME_M";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         Task.CompletedTask;

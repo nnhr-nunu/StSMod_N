@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class BloodPriestHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "BLOOD_PRIEST";
+    public override string MonsterIdEntry => "KIN_PRIEST";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         Task.CompletedTask;

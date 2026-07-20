@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class SpikeToadHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "SPIKE_TOAD";
+    public override string MonsterIdEntry => "SPINY_TOAD";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfPower<ThornsPower>(this, choiceContext, player, 5);

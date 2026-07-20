@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class ThiefGrasshopperHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "THIEF_GRASSHOPPER";
+    public override string MonsterIdEntry => "THIEVING_HOPPER";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         Task.CompletedTask;

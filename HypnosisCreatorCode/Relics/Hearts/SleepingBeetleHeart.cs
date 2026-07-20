@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class SleepingBeetleHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "SLEEPING_BEETLE";
+    public override string MonsterIdEntry => "SLUMBERING_BEETLE";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRarePotion<BeetleJuice>(this, player);

@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class BowlBugHoneyHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "BOWL_BUG_HONEY";
+    public override string MonsterIdEntry => "BOWLBUG_NECTAR";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfPower<StrengthPower>(this, choiceContext, player, 2);

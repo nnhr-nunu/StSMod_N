@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class ConstrictorHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "CONSTRICTOR";
+    public override string MonsterIdEntry => "SLITHERING_STRANGLER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {

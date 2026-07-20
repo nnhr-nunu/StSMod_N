@@ -8,8 +8,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
-/// 奪った心臓の汎用レリック。スタックする。
-/// 個別モンスター心臓は今後この枠を拡張する。
+/// 奪った心臓の汎用フォールバック。スタックする。
+/// 敵固有心臓のマッピングに失敗したときのみ付与される。
 /// </summary>
 public class StolenHeart : HypnosisCreatorRelic
 {

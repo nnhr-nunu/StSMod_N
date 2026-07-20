@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class BristleWormHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => true;
-    public override string MonsterIdEntry => "BRISTLE_WORM";
+    public override string MonsterIdEntry => "FUZZY_WURM_CRAWLER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareSelfPower<StrengthPower>(this, choiceContext, player, 1);

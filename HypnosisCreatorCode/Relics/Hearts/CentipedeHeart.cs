@@ -9,7 +9,14 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class CentipedeHeart : EnemyHeartRelic
 {
     public override bool IsRareHeart => false;
-    public override string MonsterIdEntry => "CENTIPEDE";
+    public override string MonsterIdEntry => "DECIMILLIPEDE_SEGMENT_FRONT";
+
+    public override IReadOnlyList<string> MonsterIdEntries { get; } =
+    [
+        "DECIMILLIPEDE_SEGMENT_FRONT",
+        "DECIMILLIPEDE_SEGMENT_MIDDLE",
+        "DECIMILLIPEDE_SEGMENT_BACK"
+    ];
 
     public override bool IsUsedUp => WasUsed;
 
