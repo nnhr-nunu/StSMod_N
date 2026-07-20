@@ -32,7 +32,7 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
-        [HoverTipFactory.FromPower<ConstrictPower>()];
+        [ConstrictPowerHcText.CardHoverTip()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

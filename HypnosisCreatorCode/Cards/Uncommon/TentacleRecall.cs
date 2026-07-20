@@ -23,7 +23,7 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
         [new PowerVar<ConstrictPower>(5M)];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
-        [HoverTipFactory.FromPower<ConstrictPower>()];
+        [ConstrictPowerHcText.CardHoverTip()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
