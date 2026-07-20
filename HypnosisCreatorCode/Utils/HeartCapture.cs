@@ -11,6 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// 敵固有心臓の入手。報酬系（リーサル／寄生／心停止＋）はすべて
 /// 戦闘報酬画面の追加 <see cref="RelicReward"/> に載せる（本家の追加報酬 UX）。
+/// ムカデ節など「同一心臓を複数体が共有」する場合は、その心臓側の最後の1体を倒したときだけ落とす。
 /// </summary>
 public static class HeartCapture
 {
@@ -41,8 +42,20 @@ public static class HeartCapture
 
         var batch = Pending.ToList();
         Pending.Clear();
+
+        // 同心臓タイプは1回だけ（寄生を複数節に付けた場合など）
+        var seenHeartTypes = new HashSet<Type>();
         foreach (var (player, monsterId) in batch)
+        {
+            var heartType = HeartRegistry.ResolveHeartType(monsterId) ?? typeof(StolenHeart);
+            if (!seenHeartTypes.Add(heartType))
+            {
+                MainFile.Logger.Info($"Heart capture skipped (duplicate type {heartType.Name}) for {monsterId}");
+                continue;
+            }
+
             TryAddExtraRelicReward(player, monsterId);
+        }
     }
 
     /// <summary>
@@ -52,6 +65,14 @@ public static class HeartCapture
     public static void TryAddExtraRelicReward(Player player, Creature slain)
     {
         if (!slain.IsMonster) return;
+
+        if (HasLivingSiblingForSameHeart(slain))
+        {
+            var mid = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
+            MainFile.Logger.Info($"Heart deferred until last sibling dies: {mid}");
+            return;
+        }
+
         var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
         TryAddExtraRelicReward(player, monsterId);
     }
@@ -76,6 +97,34 @@ public static class HeartCapture
 
         MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for {monsterIdEntry}");
         _ = ObtainNow(player, monsterIdEntry);
+    }
+
+    /// <summary>
+    /// 倒した敵と同じ心臓に紐づく生存敵がまだいるか（ムカデ FRONT/MIDDLE/BACK など）。
+    /// いるあいだは心臓を落とさない。
+    /// </summary>
+    public static bool HasLivingSiblingForSameHeart(Creature slain)
+    {
+        if (!slain.IsMonster) return false;
+
+        var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
+        var heartType = HeartRegistry.ResolveHeartType(monsterId);
+        if (heartType == null) return false;
+
+        var combat = slain.CombatState;
+        if (combat == null) return false;
+
+        foreach (var enemy in combat.HittableEnemies)
+        {
+            if (ReferenceEquals(enemy, slain)) continue;
+            if (!enemy.IsAlive || !enemy.IsMonster) continue;
+
+            var otherId = enemy.Monster?.Id.Entry ?? enemy.ModelId.Entry;
+            if (HeartRegistry.ResolveHeartType(otherId) == heartType)
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>部屋が無いときなどの即時付与フォールバック。未登録は StolenHeart。</summary>
