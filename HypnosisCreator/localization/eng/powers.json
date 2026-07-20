@@ -134,5 +134,7 @@
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE_POWER.smartDescription": "Whenever you are attacked, gain [blue]{Amount}[/blue] [gold]Block[/gold] before the hit.",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.title": "Cheer from the Abyss",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere.",
-  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere."
+  "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere.",
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.description": "While Hypno Creator is alive, at the end of your turn, take [blue]1[/blue] damage.",
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "While Hypno Creator is alive, at the end of your turn, take [blue]{Amount}[/blue] damage."
 }
