@@ -1,5 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Text;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -33,17 +35,8 @@ public static class HeartRegistry
     /// <summary>戦闘中敵の除外判定など、心臓が持つ全モンスター ID。</summary>
     public static IReadOnlyList<string> GetMonsterIds(Type heartType)
     {
-        try
-        {
-            if (Activator.CreateInstance(heartType) is EnemyHeartRelic sample)
-                return sample.MonsterIdEntries;
-        }
-        catch
-        {
-            // ignore
-        }
-
-        return [];
+        var sample = TrySampleHeart(heartType);
+        return sample?.MonsterIdEntries ?? [];
     }
 
     /// <summary>
@@ -98,29 +91,66 @@ public static class HeartRegistry
     private static IReadOnlyDictionary<string, Type> BuildByMonsterId()
     {
         var map = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+
+        // CustomRelicModel は Activator.CreateInstance 不可（ログ: HeartRegistry loaded 0 keys）。
+        // 登録済み ModelDb インスタンスを優先し、無い型だけ未初期化オブジェクトで ID 定数を読む。
+        foreach (var relic in ModelDb.AllRelics.OfType<EnemyHeartRelic>())
+            RegisterIds(map, relic.GetType(), relic.MonsterIdEntries);
+
         foreach (var type in AllHeartTypes)
         {
-            try
-            {
-                if (Activator.CreateInstance(type) is not EnemyHeartRelic sample) continue;
-                foreach (var id in sample.MonsterIdEntries)
-                {
-                    if (string.IsNullOrWhiteSpace(id)) continue;
-                    map.TryAdd(NormalizeMonsterId(id), type);
-                }
-            }
-            catch (Exception e)
-            {
-                MainFile.Logger.Warn($"HeartRegistry skip {type.Name}: {e.Message}");
-            }
+            if (map.Values.Contains(type)) continue;
+            var sample = TrySampleUninitialized(type);
+            if (sample == null) continue;
+            RegisterIds(map, type, sample.MonsterIdEntries);
         }
 
         // 旧仮キー → 実ID（セーブ互換・取りこぼし防止）
         TryAlias(map, "SWARMING_HIVE", "SKULKING_COLONY");
         TryAlias(map, "KAISER_CRAB", "CRUSHER");
 
-        MainFile.Logger.Info($"HeartRegistry loaded {map.Count} monster→heart keys");
+        if (map.Count == 0)
+            MainFile.Logger.Error("HeartRegistry loaded 0 monster→heart keys — all hearts will fall back to StolenHeart");
+        else
+            MainFile.Logger.Info($"HeartRegistry loaded {map.Count} monster→heart keys");
+
         return map;
+    }
+
+    private static void RegisterIds(
+        Dictionary<string, Type> map, Type heartType, IReadOnlyList<string>? ids)
+    {
+        if (ids == null) return;
+        foreach (var id in ids)
+        {
+            if (string.IsNullOrWhiteSpace(id)) continue;
+            map.TryAdd(NormalizeMonsterId(id), heartType);
+        }
+    }
+
+    private static EnemyHeartRelic? TrySampleHeart(Type heartType)
+    {
+        var fromDb = ModelDb.AllRelics.FirstOrDefault(r => r.GetType() == heartType) as EnemyHeartRelic;
+        if (fromDb != null) return fromDb;
+        return TrySampleUninitialized(heartType);
+    }
+
+    /// <summary>
+    /// ctor を走らせずに MonsterIdEntry 定数を読む。
+    /// フィールド初期化付きプロパティは null になり得るため、式本体の Entries を使うこと。
+    /// </summary>
+    private static EnemyHeartRelic? TrySampleUninitialized(Type type)
+    {
+        try
+        {
+            return (EnemyHeartRelic)RuntimeHelpers.GetUninitializedObject(type);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn(
+                $"HeartRegistry uninitialized sample failed {type.Name}: {e.GetBaseException().Message}");
+            return null;
+        }
     }
 
     private static void TryAlias(Dictionary<string, Type> map, string alias, string canonicalId)

@@ -11,7 +11,8 @@ public class CentipedeHeart : EnemyHeartRelic
     public override bool IsRareHeart => false;
     public override string MonsterIdEntry => "DECIMILLIPEDE_SEGMENT_FRONT";
 
-    public override IReadOnlyList<string> MonsterIdEntries { get; } =
+    // 式本体にする（HeartRegistry の未初期化サンプルでフィールド初期化が走らないため）
+    public override IReadOnlyList<string> MonsterIdEntries =>
     [
         "DECIMILLIPEDE_SEGMENT_FRONT",
         "DECIMILLIPEDE_SEGMENT_MIDDLE",

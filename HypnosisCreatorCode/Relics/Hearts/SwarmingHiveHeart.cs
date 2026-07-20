@@ -11,7 +11,7 @@ public class SwarmingHiveHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "SKULKING_COLONY";
 
     /// <summary>旧仮キー SWARMING_HIVE も受け付ける。</summary>
-    public override IReadOnlyList<string> MonsterIdEntries { get; } =
+    public override IReadOnlyList<string> MonsterIdEntries =>
         ["SKULKING_COLONY", "SWARMING_HIVE"];
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
