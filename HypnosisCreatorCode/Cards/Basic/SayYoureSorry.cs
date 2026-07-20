@@ -17,8 +17,6 @@ public class SayYoureSorry() : HypnosisCreatorCard(1,
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(5M, ValueProp.Move)];
 
