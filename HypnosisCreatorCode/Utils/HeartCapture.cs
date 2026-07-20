@@ -32,7 +32,8 @@ public static class HeartCapture
     public static void QueueCapture(Player player, Creature target)
     {
         if (!target.IsMonster) return;
-        var monsterId = target.Monster?.Id.Entry ?? target.ModelId.Entry;
+        var monsterId = HeartRegistry.GetMonsterId(target);
+        if (string.IsNullOrWhiteSpace(monsterId)) return;
         QueueCapture(player, monsterId);
     }
 
@@ -74,34 +75,44 @@ public static class HeartCapture
 
         if (!allowWhileSiblingsAlive && HasLivingSiblingForSameHeart(slain))
         {
-            var mid = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
+            var mid = HeartRegistry.GetMonsterId(slain) ?? slain.ModelId.Entry;
             MainFile.Logger.Info($"Heart deferred until last sibling dies: {mid}");
             return;
         }
 
-        var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
+        var monsterId = HeartRegistry.GetMonsterId(slain);
+        if (string.IsNullOrWhiteSpace(monsterId))
+        {
+            MainFile.Logger.Warn(
+                $"HeartCapture: no monster id for slain (ModelId={slain.ModelId.Entry}); StolenHeart fallback");
+            TryAddExtraRelicReward(player, "");
+            return;
+        }
+
         TryAddExtraRelicReward(player, monsterId);
     }
 
     public static void TryAddExtraRelicReward(Player player, string monsterIdEntry)
     {
-        if (string.IsNullOrWhiteSpace(monsterIdEntry)) return;
-
         var relic = CreateHeartRelic(monsterIdEntry);
         if (relic == null)
         {
-            MainFile.Logger.Warn($"Failed to create heart relic for {monsterIdEntry}");
+            MainFile.Logger.Warn($"Failed to create heart relic for '{monsterIdEntry}'");
             return;
         }
+
+        if (relic is StolenHeart)
+            MainFile.Logger.Warn(
+                $"HeartCapture fell back to StolenHeart for '{monsterIdEntry}' (unmapped monster id)");
 
         if (player.RunState.CurrentRoom is CombatRoom room)
         {
             room.AddExtraReward(player, new RelicReward(relic, player));
-            MainFile.Logger.Info($"Extra relic reward added: {relic.Id.Entry} from {monsterIdEntry}");
+            MainFile.Logger.Info($"Extra relic reward added: {relic.Id.Entry} from '{monsterIdEntry}'");
             return;
         }
 
-        MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for {monsterIdEntry}");
+        MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for '{monsterIdEntry}'");
         _ = ObtainNow(player, monsterIdEntry);
     }
 
@@ -113,8 +124,8 @@ public static class HeartCapture
     {
         if (!slain.IsMonster) return false;
 
-        var monsterId = slain.Monster?.Id.Entry ?? slain.ModelId.Entry;
-        var heartType = HeartRegistry.ResolveHeartType(monsterId);
+        var monsterId = HeartRegistry.GetMonsterId(slain);
+        var heartType = monsterId == null ? null : HeartRegistry.ResolveHeartType(monsterId);
         if (heartType == null) return false;
 
         var combat = slain.CombatState;
@@ -125,8 +136,8 @@ public static class HeartCapture
             if (ReferenceEquals(enemy, slain)) continue;
             if (!enemy.IsAlive || !enemy.IsMonster) continue;
 
-            var otherId = enemy.Monster?.Id.Entry ?? enemy.ModelId.Entry;
-            if (HeartRegistry.ResolveHeartType(otherId) == heartType)
+            var otherId = HeartRegistry.GetMonsterId(enemy);
+            if (otherId != null && HeartRegistry.ResolveHeartType(otherId) == heartType)
                 return true;
         }
 
@@ -136,9 +147,7 @@ public static class HeartCapture
     /// <summary>部屋が無いときなどの即時付与フォールバック。未登録は StolenHeart。</summary>
     public static async Task ObtainNow(Player player, string monsterIdEntry)
     {
-        if (string.IsNullOrWhiteSpace(monsterIdEntry)) return;
-
-        MainFile.Logger.Info($"Heart ObtainNow from {monsterIdEntry}");
+        MainFile.Logger.Info($"Heart ObtainNow from '{monsterIdEntry}'");
 
         var relic = CreateHeartRelic(monsterIdEntry);
         if (relic == null)
@@ -152,7 +161,10 @@ public static class HeartCapture
 
     private static RelicModel? CreateHeartRelic(string monsterIdEntry)
     {
-        var heartType = HeartRegistry.ResolveHeartType(monsterIdEntry) ?? typeof(StolenHeart);
+        var heartType = string.IsNullOrWhiteSpace(monsterIdEntry)
+            ? typeof(StolenHeart)
+            : HeartRegistry.ResolveHeartType(monsterIdEntry) ?? typeof(StolenHeart);
+
         var canonical = ModelDb.AllRelics.FirstOrDefault(r => r.GetType() == heartType);
         if (canonical != null)
             return canonical.ToMutable();

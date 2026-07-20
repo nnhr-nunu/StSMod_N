@@ -9,7 +9,7 @@
   "HYPNOSISCREATOR-HYPNOSIS_TOOLKIT.description": "戦闘開始時、山札の[gold]カウント[/gold]カードを最大[blue]2[/blue]枚、通常のドローより先に手札に加える。",
   "HYPNOSISCREATOR-HYPNOSIS_TOOLKIT.flavor": "七つの道具。一つの意図。",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.title": "催眠メトロノーム",
-  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "戦闘1ターン目開始時、相手全体にトランス{Trance:diff()}を付与する。",
+  "HYPNOSISCREATOR-HYPNOSIS_METRONOME.description": "戦闘1ターン目開始時、カードを{Cards:diff()}枚追加で引き、相手全体にトランス{Trance:diff()}を付与する。",
   "HYPNOSISCREATOR-HYPNOSIS_METRONOME.flavor": "チク。タク。ドロップ。",
   "HYPNOSISCREATOR-STOLEN_HEART.title": "奪った心臓",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "戦闘開始時、所持している奪った心臓1つにつき2 [gold]ブロック[/gold]を得る。",
