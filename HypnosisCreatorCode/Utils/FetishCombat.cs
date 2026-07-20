@@ -123,13 +123,13 @@ public static class FetishCombat
         await PowerCmd.Apply<TPower>(choiceContext, enemy, amount, owner.Creature, null, silent: true);
     }
 
-    /// <summary>敵性癖HUD／表示用。「○が性癖。性癖を刺された場合、破滅Nを得る。」</summary>
+    /// <summary>敵性癖HUD／表示用。「○が性癖。性癖に刺さる行動を受けた時、破滅Nを得る。」</summary>
     public static string FormatEnemyFetishTooltip(FetishType type, int doomAmount)
     {
         var name = FetishDisplayName(type);
         if (IsJapaneseUi())
-            return $"{name}が性癖。性癖を刺された場合、破滅{doomAmount}を得る。";
-        return $"{name} fetish. When this fetish is hit, gain {doomAmount} Doom.";
+            return $"{name}が性癖。性癖に刺さる行動を受けた時、破滅{doomAmount}を得る。";
+        return $"{name} fetish. When receiving an action that hits this fetish, gain {doomAmount} Doom.";
     }
 
     public static string FormatEnemyFetishTooltip(FetishType type, Creature enemy) =>
