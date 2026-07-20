@@ -8,8 +8,8 @@ using MegaCrit.Sts2.Core.Rooms;
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 
 /// <summary>
-/// 性癖の沼 — 敵の性癖スロットを常に可視化するスターター。
-/// 敵出現時に SM/DomSub/アブノーマルのいずれか1つを付与する。
+/// 性癖の沼 — 相対する存在の性癖を可視化するスターター。
+/// 性癖に刺さる行動で相手に破滅を付与できる。
 /// </summary>
 public class FetishBog : HypnosisCreatorRelic
 {
