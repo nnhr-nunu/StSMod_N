@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using BaseLib.Patches.Localization;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
@@ -11,6 +12,11 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CountCardText
 {
+    // キーワードは \n 区切りの1行。行ごと（末尾改行込み）消して空行を残さない。
+    private static readonly Regex RetainKeywordLine = new(
+        @"^\[gold\](?:保留|Retain)\[/gold\][。.](?:\r?\n)?",
+        RegexOptions.CultureInvariant | RegexOptions.Compiled | RegexOptions.Multiline);
+
     public static void Register() =>
         DescriptionOverrides.CustomizeDescriptionPost += StripRedundantRetainText;
 
@@ -20,10 +26,6 @@ public static class CountCardText
 
         // CardKeyword.Retain は beforeDescription へ [gold]保留[/gold]。 を自動挿入する。
         // カウントのキーワード説明がすでに「保留。」を含むため、説明欄だけ重複を外す。
-        description = description
-            .Replace("[gold]保留[/gold]。", "", StringComparison.Ordinal)
-            .Replace("[gold]保留[/gold].", "", StringComparison.Ordinal)
-            .Replace("[gold]Retain[/gold].", "", StringComparison.Ordinal)
-            .Replace("[gold]Retain[/gold]。", "", StringComparison.Ordinal);
+        description = RetainKeywordLine.Replace(description, "");
     }
 }
