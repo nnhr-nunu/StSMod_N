@@ -1,6 +1,9 @@
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
@@ -28,4 +31,20 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
     public override bool CanBeGeneratedInCombat => false;
 
     public override bool CanBeGeneratedByModifiers => false;
+
+    /// <summary>
+    /// 調教コマンド等で手札生成するとき、生成バッチ内で左側に寄せる。
+    /// 沼付与・DomSub性癖目覚めなど、先に使われやすいコマンド向け。
+    /// </summary>
+    public virtual bool PreferLeftWhenGenerated => false;
+
+    /// <summary>生成カードを手札へ。PreferLeftWhenGenerated をバッチ内左寄せしてから追加する。</summary>
+    public static async Task AddGeneratedToHandOrderedAsync(IEnumerable<CardModel> cards, Player owner)
+    {
+        foreach (var card in cards.OrderByDescending(c =>
+                     c is TrainingCommand { PreferLeftWhenGenerated: true }))
+        {
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, owner);
+        }
+    }
 }

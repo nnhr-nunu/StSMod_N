@@ -2,7 +2,6 @@ using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -32,12 +31,14 @@ public class TrainingCommandCard() : HypnosisCreatorCard(2,
         if (pool.Count == 0) return;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
+        var generated = new List<CardModel>(DynamicVars.Cards.IntValue);
         for (var i = 0; i < DynamicVars.Cards.IntValue; i++)
         {
             var canonical = pool[rng.NextInt(pool.Count)];
-            var generated = CombatState.CreateCard(canonical, Owner);
-            await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+            generated.Add(CombatState.CreateCard(canonical, Owner));
         }
+
+        await TrainingCommand.AddGeneratedToHandOrderedAsync(generated, Owner);
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(2M);

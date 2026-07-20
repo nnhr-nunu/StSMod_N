@@ -15,6 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 public class Crawl() : TrainingCommand
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
+    public override bool PreferLeftWhenGenerated => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Bog", 1M)];

@@ -2,7 +2,6 @@ using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -45,12 +44,14 @@ public class CollarTraining() : HypnosisCreatorCard(0,
                 if (pool.Count > 0)
                 {
                     var rng = Owner.RunState.Rng.CombatCardSelection;
+                    var generated = new List<CardModel>(2);
                     for (var i = 0; i < 2; i++)
                     {
                         var canonical = pool[rng.NextInt(pool.Count)];
-                        var generated = CombatState.CreateCard(canonical, Owner);
-                        await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+                        generated.Add(CombatState.CreateCard(canonical, Owner));
                     }
+
+                    await TrainingCommand.AddGeneratedToHandOrderedAsync(generated, Owner);
                 }
             }
         }

@@ -11,6 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 public class Come() : TrainingCommand
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
+    public override bool PreferLeftWhenGenerated => true;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
