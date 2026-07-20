@@ -29,6 +29,17 @@
 
 ## 蓄積知見
 
+### ローカライズ文体（本家 StS2 準拠）
+
+カード／パワー／レリックの説明文は、本家 `SlayTheSpire2.pck` の `localization/{eng,jpn}/powers.json` に合わせる。参照抽出: `_vanilla_loc_extract/sts2/localization/`。
+
+- **完全な一文**で書く（`Whenever…` / `〜するたび` / `ターン開始時`）。タイトル繰り返し・電報調（`ドロー3。`／`性癖必中。`／`名前 {Amount}。`）は禁止
+- 数値は `[blue]…[/blue]`、キーワードは `[gold]…[/gold]`（Block／Exhaust／Strength、本modなら Count・Trance・Bog・Doom 等）
+- Power: `description` は固定例の数値、`smartDescription` は同じ構文で `{Amount}` 化（残像／激怒型）。スタック表示だけの Amount は文中に無理に入れない
+- 日本語はだ体（`〜を得る。`／`〜する。`）。ですます禁止
+- 性癖パワーの定型: `性癖に刺さる行動を受けた時、[gold]破滅[/gold][blue]{Amount}[/blue]を得る。`（eng: `When receiving an action that hits Fetish, gain [blue]{Amount}[/blue] [gold]Doom[/gold].`）
+- ローカライズ変更後は `dotnet publish`（build だけでは `.pck` に載らない）
+
 ### UIアイコンの縁（レリック／バフ・デバフ）
 
 - 暗いUI向けアイコンで、外側の明るい縁・ハロー・ステッカー枠は避ける（背景から浮いて見える）
