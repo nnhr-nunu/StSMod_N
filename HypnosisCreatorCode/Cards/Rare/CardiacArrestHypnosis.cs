@@ -4,25 +4,24 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心停止催眠 — カウント。指定ターン後に対象を即死させる（ボスは2倍のターン数）。トランス1。
+/// 心停止催眠 — カウント。指定ターン後に対象を即死させる（ボス部屋は2倍のターン数。エリートは通常）。トランス1。
 /// 既に心停止がある相手へ重ねがけすると、残りターンが1早くなる。
 /// UG: 心臓停止時に追加のレリック報酬を獲得（説明は UpgradeDescriptionHooks）。
-/// TODO: sts2 側に明確なボス判定APIが見つからないため、最大HP&gt;=100の簡易判定で近似している。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    private const int BossMaxHpThreshold = 100;
-
     public override IEnumerable<CardKeyword> CanonicalKeywords => CountKeywords;
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
@@ -47,8 +46,7 @@ public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
         }
         else
         {
-            var isBoss = play.Target.MaxHp >= BossMaxHpThreshold;
-            var turns = DynamicVars["Turns"].IntValue * (isBoss ? 2 : 1);
+            var turns = DynamicVars["Turns"].IntValue * (IsBossEncounter(play.Target) ? 2 : 1);
 
             await PowerCmd.Apply<CardiacArrestPower>(
                 choiceContext, play.Target, turns, Owner.Creature, this);
@@ -64,4 +62,10 @@ public class CardiacArrestHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
+
+    /// <summary>
+    /// ボス部屋のみ倍速対象。エリート（RoomType.Elite）は通常ターン。
+    /// </summary>
+    private static bool IsBossEncounter(Creature target) =>
+        target.CombatState?.Encounter?.RoomType == RoomType.Boss;
 }
