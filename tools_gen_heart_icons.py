@@ -117,9 +117,12 @@ STEM_ALIASES: dict[str, str] = {
     "QUEEN": "queen",
     "TEST_SUBJECT": "test_subject",
     "AEONGLASS": "aeonglass",
-    "MYSTERIOUS_KNIGHT": "mysterious_knight",
-    "FAKE_MERCHANT_MONSTER": "fake_merchant_monster",
-    "BATTLE_FRIEND_V1": "battle_friend_v1",
+    # 謎の騎士は見た目がフレイルナイトと同一
+    "MYSTERIOUS_KNIGHT": "flail_knight",
+    # 偽商人は通常商人（shop_merchant_top）の見た目を使う
+    "FAKE_MERCHANT_MONSTER": "shop_merchant_top",
+    # バトルフレンド心臓は V2 スキン（battleworn_dummy）
+    "BATTLE_FRIEND_V1": "battleworn_dummy",
     "CHOMPER": "chomper",
     "CORPSE_SLUG": "corpse_slug",
     "FAT_GREMLIN": "fat_gremlin",
@@ -173,6 +176,21 @@ def read_pck_index(path: Path):
 def gst2_to_image(blob: bytes) -> Image.Image:
     if blob[:4] != b"GST2":
         raise ValueError("not GST2")
+    # VRAM 圧縮（商人など）: ver/w/h … format@48, payload@52
+    # Godot Image.FORMAT_DXT5 == 19
+    if len(blob) > 52:
+        ver, w, h = struct.unpack_from("<III", blob, 4)
+        fmt = struct.unpack_from("<I", blob, 48)[0]
+        bw, bh = (w + 3) // 4, (h + 3) // 4
+        if fmt == 19 and len(blob) - 52 == bw * bh * 16:
+            try:
+                import texture2ddecoder  # type: ignore
+
+                rgba = texture2ddecoder.decode_bc3(blob[52:], w, h)
+                return Image.frombytes("RGBA", (w, h), rgba)
+            except Exception:
+                pass
+
     # header: ver,w,h,df,mipmap_limit,reserved*3
     off = 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4
     data_format, w16, h16, mipmaps, fmt = struct.unpack_from("<IHHII", blob, off)
@@ -257,9 +275,17 @@ def resolve_stem(entry: str, visuals: dict[str, str], atlas_stems: set[str]) -> 
 def find_ctex(stem: str, files: dict[str, tuple[int, int]], data: bytes) -> str | None:
     """Resolve atlas PNG name via .import, then find matching GST2/WebP .ctex."""
     png_names: list[str] = [stem, stem.replace("_", "")]
-    # animations/monsters/{stem}/*.png.import -> source_file / dest_files
+    # animations/monsters/{stem}/ および backgrounds（商人など）の .png.import
+    import_prefixes = (
+        f"animations/monsters/{stem}/",
+        f"animations/backgrounds/",
+    )
     for n, (o, s) in files.items():
-        if not (n.startswith(f"animations/monsters/{stem}/") and n.endswith(".png.import")):
+        if not n.endswith(".png.import"):
+            continue
+        under_monster = n.startswith(import_prefixes[0])
+        under_bg = n.startswith(import_prefixes[1]) and n.endswith(f"/{stem}.png.import")
+        if not (under_monster or under_bg):
             continue
         text = data[o : o + s].decode("utf-8", "replace")
         m = re.search(r'path="res://\.godot/imported/([^"]+\.ctex)"', text)
@@ -267,7 +293,7 @@ def find_ctex(stem: str, files: dict[str, tuple[int, int]], data: bytes) -> str 
             imported = ".godot/imported/" + m.group(1)
             if imported in files:
                 return imported
-        m2 = re.search(r'source_file="res://animations/monsters/[^"]+/([^"/]+\.png)"', text)
+        m2 = re.search(r'source_file="res://animations/[^"]+/([^"/]+\.png)"', text)
         if m2:
             png_names.append(Path(m2.group(1)).stem)
 
@@ -395,8 +421,11 @@ def score_region(name: str, w: int, h: int, skin_prefix: str | None) -> int:
         else:
             score += 50_000
     # Prefer recognizable portrait pieces — but tiny “head*” chips lose to large body.
+    # ハイライト／影バリアントは本体より優先しない（商人 head vs head_highlight など）。
+    if "_highlight" in base or base.endswith("_s") or base.endswith(" stroke") or "_stroke" in base:
+        score -= 80_000
     if base in ("head", "head-top", "head_top", "head top", "face", "skull"):
-        score += 200_000 if area >= 800 else area  # tiny chips: don't over-prefer
+        score += 400_000 if area >= 800 else area  # tiny chips: don't over-prefer
     elif "head" in base:
         score += 180_000 if area >= 800 else area
     elif base in ("helmet", "helmet_top", "hood", "mask", "helmet_bottom"):
