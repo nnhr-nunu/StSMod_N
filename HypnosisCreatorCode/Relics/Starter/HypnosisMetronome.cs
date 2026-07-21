@@ -14,13 +14,13 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Starter;
 
 /// <summary>
 /// 催眠メトロノーム — ヒプノクリエイター専用。
-/// 戦闘1ターン目: 開幕ドロー+1（Bag of Preparation と同様）＋敵全体にトランス1。
+/// 戦闘1ターン目: 開幕ドロー+1（Bag of Preparation と同様）＋敵全体にトランス2。
 /// トランス減少は AfterSideTurnStart のため、付与は AfterSideTurnStartLate で行う
 /// （AfterPlayerTurnStart だと直後の減少で消える）。本家 Bag of Marbles 系の開幕デバフと同趣旨。
 /// </summary>
 public class HypnosisMetronome : HypnosisCreatorRelic
 {
-    private const int TranceAmount = 1;
+    private const int TranceAmount = 2;
     private const int ExtraDraw = 1;
 
     public override RelicRarity Rarity => RelicRarity.Rare;

@@ -421,27 +421,18 @@ def extract_portrait(
 
 
 def make_icon(src: Image.Image, size: int) -> Image.Image:
+    """Subject only on true alpha. No red ring / dark disc (vanilla relic style)."""
     img = src.convert("RGBA")
     bbox = img.getbbox()
     if bbox:
         img = img.crop(bbox)
-    # Circular clip so atlas corners don't poke the frame
-    img.thumbnail((size - 18, size - 18), Image.Resampling.LANCZOS)
+    # Leave a little padding; do not clip to a circle (sticker frame looks wrong on dark UI).
+    img.thumbnail((size - 12, size - 12), Image.Resampling.LANCZOS)
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    disc = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(disc)
-    m = 3
-    draw.ellipse((m, m, size - 1 - m, size - 1 - m), fill=(24, 12, 20, 230), outline=(190, 50, 80, 255), width=3)
-    canvas = Image.alpha_composite(canvas, disc)
     ox = (size - img.width) // 2
     oy = (size - img.height) // 2
     canvas.alpha_composite(img, (ox, oy))
-    # Soft circular mask on the composite (keep ring)
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse((m, m, size - 1 - m, size - 1 - m), fill=255)
-    out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    out.paste(canvas, mask=mask)
-    return out
+    return canvas
 
 
 def make_outline(icon: Image.Image) -> Image.Image:
