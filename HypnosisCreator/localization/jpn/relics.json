@@ -132,7 +132,7 @@
   "HYPNOSISCREATOR-OBSCURA_HEART.description": "希少な心臓。ランダムな相手に16ダメージを与える。",
   "HYPNOSISCREATOR-OBSCURA_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-OVICOPTER_HEART.title": "オビコプターの心臓",
-  "HYPNOSISCREATOR-OVICOPTER_HEART.description": "HPが15回復する。",
+  "HYPNOSISCREATOR-OVICOPTER_HEART.description": "戦闘開始時、所持している心臓レリック1つにつき2 [gold]ブロック[/gold]を得る。",
   "HYPNOSISCREATOR-OVICOPTER_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-PARASITIZED_PRISM_HEART.title": "寄生されたプリズムの心臓",
   "HYPNOSISCREATOR-PARASITIZED_PRISM_HEART.description": "希少な心臓。スキルポーションを得る。",
