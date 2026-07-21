@@ -71,6 +71,8 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
         if (enemy.Monster == null) return;
         try
         {
+            var saved = enemy.Monster.NextMove;
+
             async Task OnPerform(IReadOnlyList<Creature> _)
             {
                 if (!enemy.IsAlive) return;
@@ -81,6 +83,8 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
                 "hypnosis_creator_marshmallow_defend",
                 OnPerform,
                 [new DefendIntent()]);
+            // FollowUp 未設定だと実行後にステートマシンが壊れて進行不能になることがある
+            move.FollowUpState = saved != null && saved.StateId != move.StateId ? saved : move;
             enemy.Monster.SetMoveImmediate(move, forceTransition: true);
         }
         catch

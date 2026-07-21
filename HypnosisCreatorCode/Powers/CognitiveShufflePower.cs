@@ -10,6 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 認知シャッフル — 対象がトランス中のプレイヤーターン開始時、選んだ形態と同プールのカードを生成する。
+/// トランス減少（AfterSideTurnStart）のあと Late で判定し、0 なら見た目を戻して自己解除する。
 /// </summary>
 public class CognitiveShufflePower : HypnosisCreatorPower
 {
@@ -22,14 +23,29 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     /// <summary>トランス継続を見る対象敵。</summary>
     public Creature? TranceTarget { get; set; }
 
-    public override async Task AfterSideTurnStart(
+    private CharacterDisguise.State? _disguise;
+
+    public void ApplyDisguise(CharacterModel character)
+    {
+        if (Owner == null) return;
+        _disguise = CharacterDisguise.Apply(Owner, character);
+    }
+
+    public override async Task AfterSideTurnStartLate(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
         if (side != CombatSide.Player) return;
         if (Owner == null || !participants.Contains(Owner)) return;
-        if (TranceTarget == null || !TranceCombat.HasTrance(TranceTarget)) return;
+
+        // トランス減少後: 0 なら見た目復帰＋自己解除（次ターン開始時点で既に無い）
+        if (TranceTarget == null || !TranceTarget.IsAlive || !TranceCombat.HasTrance(TranceTarget))
+        {
+            await ExpireAsync();
+            return;
+        }
+
         if (FormCanonical?.Pool == null || CombatState == null) return;
 
         var player = Owner.Player;
@@ -56,5 +72,20 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             generated.EnergyCost.SetThisTurn(0);
             await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
         }
+    }
+
+    public override Task AfterRemoved(Creature oldOwner)
+    {
+        CharacterDisguise.Restore(oldOwner, _disguise);
+        _disguise = null;
+        return Task.CompletedTask;
+    }
+
+    private async Task ExpireAsync()
+    {
+        if (Owner != null)
+            CharacterDisguise.Restore(Owner, _disguise);
+        _disguise = null;
+        await PowerCmd.Remove(this);
     }
 }

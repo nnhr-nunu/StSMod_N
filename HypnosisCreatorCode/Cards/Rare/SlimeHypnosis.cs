@@ -10,8 +10,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// スライム催眠 — カウント・アブノーマル。1ターン意図を粘液×5（UGは×3＝付与枚数を減らす）へ上書き＋トランス1。
-/// 見た目・名前はスライム系からランダム差し替え。
+/// スライム催眠 — カウント・アブノーマル。1ターン意図を粘液×5（UGは×3）へ上書き＋トランス1。
+/// 見た目・名前は全スライム敵（S/M・バーサーカー含む）からランダム差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SlimeHypnosis() : HypnosisCreatorCard(3,

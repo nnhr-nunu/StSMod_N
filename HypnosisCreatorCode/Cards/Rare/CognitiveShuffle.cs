@@ -1,4 +1,5 @@
 using BaseLib.Utils;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -14,9 +15,9 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 認知シャッフル催眠 — カウント3。トランス2。形態カード3枚から1枚選び対応パワーを得る。
+/// 認知シャッフル催眠 — カウント。トランス3。キャラクターカード3枚から1枚選び対応パワーを得る。
 /// 対象がトランス中、ターン開始に同キャラプールのカードを生成（エセリアル・廃棄・このターン0コスト）。
-/// 虚無化の強制ターン終了はバイパス。UGで生成3枚。性癖タグなし。
+/// プレイヤー見た目を一時差し替え。虚無化の強制ターン終了はバイパス。UGで生成3枚。性癖タグなし。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CognitiveShuffle() : HypnosisCreatorCard(3,
@@ -27,7 +28,7 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Trance", 2M),
+        new DynamicVar("Trance", 3M),
         new DynamicVar("Cards", 2M)
     ];
 
@@ -50,75 +51,64 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
         var pickedTypes = FormCardTypes.OrderBy(_ => rng.NextInt(int.MaxValue)).Take(3).ToList();
-        var options = pickedTypes
-            .Select(t => CombatState.CreateCard(ModelDb.AllCards.First(c => c.GetType() == t), Owner))
-            .ToList();
+        var options = new List<CardModel>();
+        foreach (var formType in pickedTypes)
+        {
+            var choice = (CognitiveCharacterChoice)CombatState.CreateCard(
+                ModelDb.Card<CognitiveCharacterChoice>(), Owner);
+            choice.FormCardType = formType;
+            choice.LinkedCharacter = CognitiveCharacterFaces.CharacterForFormType(formType);
+            options.Add(choice);
+        }
 
-        CardModel chosen;
+        CardModel chosenCard;
         try
         {
             var selected = (await CardSelectCmd.FromSimpleGrid(
                 choiceContext, options, Owner,
                 new CardSelectorPrefs(SelectionScreenPrompt, 1))).ToList();
-            chosen = selected.FirstOrDefault() ?? options[rng.NextInt(options.Count)];
+            chosenCard = selected.FirstOrDefault() ?? options[rng.NextInt(options.Count)];
         }
         catch
         {
-            chosen = options[rng.NextInt(options.Count)];
+            chosenCard = options[rng.NextInt(options.Count)];
         }
 
-        await ApplyFormPower(choiceContext, chosen);
+        var chosen = chosenCard as CognitiveCharacterChoice;
+        var formTypeChosen = chosen?.FormCardType ?? pickedTypes[0];
+        var linked = chosen?.LinkedCharacter
+                     ?? CognitiveCharacterFaces.CharacterForFormType(formTypeChosen);
 
+        await ApplyFormPower(choiceContext, formTypeChosen);
+
+        var formCanonical = ModelDb.AllCards.First(c => c.GetType() == formTypeChosen);
         var shuffle = await PowerCmd.Apply<CognitiveShufflePower>(
             choiceContext, Owner.Creature, DynamicVars["Cards"].BaseValue, Owner.Creature, this);
         if (shuffle != null)
         {
-            shuffle.FormCanonical = chosen.CanonicalInstance ?? ModelDb.AllCards.First(c => c.GetType() == chosen.GetType());
+            shuffle.FormCanonical = formCanonical;
             shuffle.TranceTarget = play.Target;
+            if (linked != null)
+                shuffle.ApplyDisguise(linked);
         }
     }
 
-    private async Task ApplyFormPower(PlayerChoiceContext choiceContext, CardModel formCard)
+    private async Task ApplyFormPower(PlayerChoiceContext choiceContext, Type formCardType)
     {
         var self = Owner.Creature;
-        switch (formCard)
-        {
-            case DemonForm:
-                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 2M, self, this);
-                break;
-            case SerpentForm:
-                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 1M, self, this);
-                break;
-            case VoidForm:
-                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 1M, self, this);
-                await PowerCmd.Apply<CognitiveVoidBypassPower>(choiceContext, self, 1M, self, this);
-                break;
-            case ReaperForm:
-                await PowerCmd.Apply<ReaperFormPower>(choiceContext, self, 1M, self, this);
-                break;
-            case EchoForm:
-                await PowerCmd.Apply<EchoFormPower>(choiceContext, self, 1M, self, this);
-                break;
-            default:
-                // 型不一致時はカノニカル名で再判定
-                await ApplyFormPowerByTypeName(choiceContext, formCard.GetType().Name);
-                break;
-        }
-    }
-
-    private async Task ApplyFormPowerByTypeName(PlayerChoiceContext choiceContext, string typeName)
-    {
-        var self = Owner.Creature;
-        switch (typeName)
+        switch (formCardType.Name)
         {
             case nameof(DemonForm):
-                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 2M, self, this);
+                // 本家 DemonForm CanonicalVars Amount=3
+                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 3M, self, this);
                 break;
             case nameof(SerpentForm):
-                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 1M, self, this);
+                // 本家 SerpentForm Amount=4
+                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 4M, self, this);
                 break;
             case nameof(VoidForm):
-                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 1M, self, this);
+                // 本家 VoidForm Amount=2
+                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 2M, self, this);
                 await PowerCmd.Apply<CognitiveVoidBypassPower>(choiceContext, self, 1M, self, this);
                 break;
             case nameof(ReaperForm):
