@@ -135,6 +135,6 @@
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.title": "深淵からの声援",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。",
-  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.description": "ヒプノクリエイターが生存中、ターン終了時、[blue]1[/blue]ダメージを受ける。",
-  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "ヒプノクリエイターが生存中、ターン終了時、[blue]{Amount}[/blue]ダメージを受ける。"
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.description": "ヒプノクリエイターが生存中、ターン終了時、HPを[blue]1[/blue]失う。",
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "ヒプノクリエイターが生存中、ターン終了時、HPを[blue]{Amount}[/blue]失う。"
 }

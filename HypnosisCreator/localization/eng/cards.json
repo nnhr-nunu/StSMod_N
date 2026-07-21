@@ -148,7 +148,7 @@
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.title": "Brain Slime Hypnosis",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description": "This turn, redirect the target's attacks to another opponent (never the player). Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.title": "Plant Parasite Hypnosis",
-  "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description": "Apply {ConstrictPower:diff()} Constrict. Apply {Trance:diff()} Trance. At end of combat, obtain a Heart relic if this was applied.",
+  "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description": "Deal {Damage:diff()} damage. The target loses {ConstrictPower:diff()} HP at the end of its turn. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.title": "Blood Suck Hypnosis",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description": "Deal {Damage:diff()} damage and heal for the same amount. Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-SOFTEN.title": "Squishy Softening",

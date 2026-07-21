@@ -58,8 +58,12 @@ public class CardiacArrestPower : HypnosisCreatorPower
         power.BonusRelicPlayer ??= applier.Player ?? cardSource.Owner;
         power.CaptureMonsterId();
 
-        if (power.KillAfterActionEnd)
+        // すでに残り0（行動終了待ち）なら、重ねがけで即心停止する。
+        if (power.KillAfterActionEnd || power.Amount <= 0)
+        {
+            await power.ExecuteKill();
             return;
+        }
 
         await power.TickCountdown();
     }
@@ -111,7 +115,7 @@ public class CardiacArrestPower : HypnosisCreatorPower
         await PowerCmd.Decrement(this);
     }
 
-    private async Task ExecuteKill()
+    public async Task ExecuteKill()
     {
         if (Owner == null || !Owner.IsAlive) return;
 

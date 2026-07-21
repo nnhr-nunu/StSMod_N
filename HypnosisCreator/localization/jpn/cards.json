@@ -148,7 +148,7 @@
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.title": "脳くちゅ催眠",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description": "このターン、対象の攻撃を他の相手へ移し替える（プレイヤーには当てない）。トランス{Trance:diff()}。",
   "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.title": "植物寄生催眠",
-  "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description": "{Damage:diff()}ダメージを与える。対象は毎ターンHPを{ConstrictPower:diff()}失う。戦闘終了後、追加のレリック報酬を獲得する。トランス1。",
+  "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description": "{Damage:diff()}ダメージを与える。対象は毎ターンHPを{ConstrictPower:diff()}失う。トランス1。",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.title": "吸血催眠",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description": "{Damage:diff()}ダメージを与える。与えたダメージに等しいHPを回復する。トランス1。",
   "HYPNOSISCREATOR-SOFTEN.title": "ふにゃへにゃ",

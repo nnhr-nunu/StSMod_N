@@ -24,6 +24,10 @@ public static class UpgradeDescriptionHooks
             "their heart stops.",
             "their heart stops and [green]you gain an extra Relic reward[/green].");
 
+        UpgradeCardText.AppendGreenLine(card, ref description, c => c is PlantParasiteHypnosis,
+            "戦闘終了後、追加のレリック報酬を獲得する。",
+            "At end of combat, gain an extra Relic reward.");
+
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is Kick,
             "プレイ後、山札に入る。",
             "After play, shuffle this into your draw pile.");
