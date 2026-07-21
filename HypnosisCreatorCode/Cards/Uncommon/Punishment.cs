@@ -13,7 +13,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// お仕置き — 対象がプレイヤーを攻撃した回数×8ダメージ（UG13）。
+/// お仕置き — 対象がプレイヤーを攻撃した回数だけ、8ダメージの多段攻撃（UG13）。
+/// 多段は WithHitCount 1回で解決（手動ループ禁止）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Punishment() : HypnosisCreatorCard(2,
@@ -44,7 +45,8 @@ public class Punishment() : HypnosisCreatorCard(2,
         var hits = CalcHitCount(this, play.Target);
         if (hits > 0)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue * hits)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                .WithHitCount(hits)
                 .FromCard(this, play)
                 .Targeting(play.Target)
                 .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
@@ -67,7 +69,7 @@ public class Punishment() : HypnosisCreatorCard(2,
         var total = perHit * hits;
 
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（現在の攻撃回数：{hits}回／{total}ダメージ）"
+            ? $"（攻撃回数：{hits}回／{total}ダメージ）"
             : $" ({hits} hits / {total} damage)";
         CombatPreviewText.AppendSuffix(punishment, ref description, suffix);
     }
