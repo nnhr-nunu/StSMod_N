@@ -163,5 +163,8 @@
   "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.smartDescription": "Whenever you deal unblocked damage, add {Amount:diff()} playable Wound(s) to your hand.",
   "HYPNOSISCREATOR-AEONGLASS_POWER.title": "Aeonglass",
   "HYPNOSISCREATOR-AEONGLASS_POWER.description": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand.",
-  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand."
+  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand.",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.title": "Nunu Hell",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.description": "Pull cards deal {Amount:diff()} additional damage.",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.smartDescription": "Pull cards deal {Amount:diff()} additional damage."
 }

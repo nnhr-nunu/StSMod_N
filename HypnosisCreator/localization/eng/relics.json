@@ -277,5 +277,14 @@
   "HYPNOSISCREATOR-TEST_SUBJECT_HEART.flavor": "Still beating.",
   "HYPNOSISCREATOR-AEONGLASS_HEART.title": "Aeonglass Heart",
   "HYPNOSISCREATOR-AEONGLASS_HEART.description": "Rare Heart. Every 6 cards played, add 1 playable Wither to your hand.",
-  "HYPNOSISCREATOR-AEONGLASS_HEART.flavor": "Still beating."
+  "HYPNOSISCREATOR-AEONGLASS_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.title": "Mysterious Knight Heart",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.description": "Rare Heart. Gain 3 Strength and 3 Plating.",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.title": "Fake Merchant Heart",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.description": "Rare Heart. Gain 333 Gold.",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.title": "Battle Friend Heart",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.description": "Rare Heart. Permanently upgrade a random card in your deck.",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.flavor": "Still beating."
 }

@@ -277,5 +277,14 @@
   "HYPNOSISCREATOR-TEST_SUBJECT_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-AEONGLASS_HEART.title": "永劫の砂時計の心臓",
   "HYPNOSISCREATOR-AEONGLASS_HEART.description": "希少な心臓。カードを6枚プレイするたび、相手へプレイ可能な衰微を1枚手札に加える。",
-  "HYPNOSISCREATOR-AEONGLASS_HEART.flavor": "まだ脈打っている。"
+  "HYPNOSISCREATOR-AEONGLASS_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.title": "謎の騎士の心臓",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.description": "希少な心臓。筋力3とプレート3を得る。",
+  "HYPNOSISCREATOR-MYSTERIOUS_KNIGHT_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.title": "偽商人の心臓",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.description": "希少な心臓。333ゴールドを得る。",
+  "HYPNOSISCREATOR-FAKE_MERCHANT_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.title": "バトルフレンドの心臓",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.description": "希少な心臓。ランダムなカード1枚を永続的にアップグレードする。",
+  "HYPNOSISCREATOR-BATTLE_FRIEND_HEART.flavor": "まだ脈打っている。"
 }

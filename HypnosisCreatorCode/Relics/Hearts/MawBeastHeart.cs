@@ -1,19 +1,20 @@
-using HypnosisCreator.HypnosisCreatorCode.Utils;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>マウビーストの心臓 — 希少。引き寄せ追加ダメージ+15。</summary>
+/// <summary>貪りの獣の心臓 — 希少。ぬぬ地獄（引き寄せ系＋15ダメージ）。</summary>
 public class MawBeastHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "THE_INSATIABLE";
 
-    public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
+    public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
         Flash();
-        PullTracker.ExtraDamage = 15;
+        await PowerCmd.Apply<NunuHellPower>(
+            choiceContext, player.Creature, 15, player.Creature, null!);
         MarkUsed();
-        return Task.CompletedTask;
     }
 }

@@ -60,6 +60,8 @@ public class CollarTraining() : HypnosisCreatorCard(0,
             await PullTracker.TryPull(play.Target, Owner.Creature);
         }
 
+        await PullTracker.TryNunuHellBonusDamageAsync(
+            choiceContext, Owner.Creature, play.Target, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 

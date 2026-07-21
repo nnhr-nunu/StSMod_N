@@ -163,5 +163,8 @@
   "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.smartDescription": "ブロックされずにダメージを与えるたび、プレイ可能な負傷を{Amount:diff()}枚手札に加える。",
   "HYPNOSISCREATOR-AEONGLASS_POWER.title": "永劫の砂時計",
   "HYPNOSISCREATOR-AEONGLASS_POWER.description": "カードを{CardsLeft:diff()}枚プレイすると、プレイ可能な衰微を1枚手札に加える。",
-  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "カードを{CardsLeft:diff()}枚プレイすると、プレイ可能な衰微を1枚手札に加える。"
+  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "カードを{CardsLeft:diff()}枚プレイすると、プレイ可能な衰微を1枚手札に加える。",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.title": "ぬぬ地獄",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.description": "引き寄せ効果のあるカードが追加で{Amount:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.smartDescription": "引き寄せ効果のあるカードが追加で{Amount:diff()}ダメージを与える。"
 }

@@ -70,6 +70,9 @@ public class FreeHug() : HypnosisCreatorCard(0,
         {
             await PullTracker.TryPull(play.Target, Owner.Creature);
         }
+
+        await PullTracker.TryNunuHellBonusDamageAsync(
+            choiceContext, Owner.Creature, play.Target, this);
     }
 
     protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
