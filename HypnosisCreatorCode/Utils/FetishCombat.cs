@@ -37,6 +37,11 @@ public static class FetishCombat
     /// </summary>
     private static readonly AsyncLocal<Stack<Dictionary<Creature, int>>?> BogSnapshotStack = new();
 
+    /// <summary>
+    /// 同一カードプレイ中に目覚めた性癖。そのプレイの刺さり判定からは除外する（次のカード／リプレイから有効）。
+    /// </summary>
+    private static readonly AsyncLocal<Stack<HashSet<(Creature Enemy, FetishType Type)>>?> AwakenedThisPlayStack = new();
+
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
         SmFetishOrb => FetishType.Sm,
@@ -70,7 +75,7 @@ public static class FetishCombat
 
         EnemyFetishSlots.AddCapacity(enemy, 1);
         // TryPlant 内で SyncFetishPowers する
-        return type switch
+        var planted = type switch
         {
             FetishType.Sm => EnemyFetishSlots.TryPlant<SmFetishOrb>(enemy, owner),
             FetishType.DomSub => EnemyFetishSlots.TryPlant<DsFetishOrb>(enemy, owner),
@@ -78,7 +83,47 @@ public static class FetishCombat
             FetishType.Trance => EnemyFetishSlots.TryPlant<TranceFetishOrb>(enemy, owner),
             _ => false
         };
+        if (planted)
+            MarkAwakenedThisPlay(enemy, type);
+        return planted;
     }
+
+    public static bool WasAwakenedThisPlay(Creature enemy, FetishType type)
+    {
+        var stack = AwakenedThisPlayStack.Value;
+        if (stack is not { Count: > 0 }) return false;
+        return stack.Peek().Contains((enemy, type));
+    }
+
+    private static void MarkAwakenedThisPlay(Creature enemy, FetishType type)
+    {
+        var stack = AwakenedThisPlayStack.Value;
+        if (stack is not { Count: > 0 }) return;
+        stack.Peek().Add((enemy, type));
+    }
+
+    public static void PushAwakenPlayScope()
+    {
+        var stack = AwakenedThisPlayStack.Value;
+        if (stack == null)
+        {
+            stack = new Stack<HashSet<(Creature Enemy, FetishType Type)>>();
+            AwakenedThisPlayStack.Value = stack;
+        }
+
+        stack.Push([]);
+    }
+
+    public static void PopAwakenPlayScope()
+    {
+        var stack = AwakenedThisPlayStack.Value;
+        if (stack == null || stack.Count == 0) return;
+        stack.Pop();
+        if (stack.Count == 0)
+            AwakenedThisPlayStack.Value = null;
+    }
+
+    public static void ClearAwakenPlayScopes() => AwakenedThisPlayStack.Value = null;
 
     /// <summary>
     /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。
@@ -215,6 +260,12 @@ public static class FetishCombat
 
     public static void ClearBogSnapshots() => BogSnapshotStack.Value = null;
 
+    public static void ClearPlayScopes()
+    {
+        ClearBogSnapshots();
+        ClearAwakenPlayScopes();
+    }
+
     /// <summary>
     /// 沼×1.5。カードプレイ中はプレイ開始前の沼のみ見る（同一プレイで付与した沼は対象外）。
     /// </summary>
@@ -257,6 +308,8 @@ public static class FetishCombat
         CardModel? cardSource)
     {
         if (!HasFetish(target, FetishType.Trance)) return;
+        // 同一プレイで目覚めたばかりのトランス性癖は、この付与では刺さらない
+        if (WasAwakenedThisPlay(target, FetishType.Trance)) return;
         await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, cardSource);
         FetishHitFloat.Show(target);
     }
@@ -264,6 +317,7 @@ public static class FetishCombat
     /// <summary>
     /// カードタグによる刺さり。singleHit=true なら一致があっても破滅は1回（感度3000倍）。
     /// false なら種類ごと（足蹴・壱佰など）。
+    /// 同一プレイで目覚めた性癖は除外（必中・教祖化は従来どおり）。
     /// </summary>
     public static async Task<int> TryFetishHit(
         PlayerChoiceContext choiceContext,
@@ -287,7 +341,12 @@ public static class FetishCombat
         else
         {
             types = cardFetishes
-                .Where(f => HasFetish(target, f) || (CultLeaderActive && f != FetishType.Trance))
+                .Where(f =>
+                {
+                    if (CultLeaderActive && f != FetishType.Trance) return true;
+                    if (WasAwakenedThisPlay(target, f)) return false;
+                    return HasFetish(target, f);
+                })
                 .Distinct()
                 .ToList();
         }

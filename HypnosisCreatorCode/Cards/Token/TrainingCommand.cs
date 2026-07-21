@@ -49,7 +49,10 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
         }
     }
 
-    /// <summary>本体効果のあと、DomSub 性癖刺さりを必ず解決する（タグだけ付いて破滅が無い事故の防止）。</summary>
+    /// <summary>
+    /// 本体効果のあと DomSub 刺さりを解決する。
+    /// 同一プレイで目覚めたばかりの DomSub は刺さらない（FetishCombat 側で除外）。
+    /// </summary>
     protected sealed override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await OnCommandPlay(choiceContext, play);

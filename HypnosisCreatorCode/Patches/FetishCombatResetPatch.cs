@@ -33,7 +33,7 @@ public static class FetishCombatResetPatch
         _ = runState;
         FetishCombat.FetishHitMultiplier = 1M;
         FetishCombat.CultLeaderActive = false;
-        FetishCombat.ClearBogSnapshots();
+        FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
 
         var original = __result;
