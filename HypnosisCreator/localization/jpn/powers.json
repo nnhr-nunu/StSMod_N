@@ -148,5 +148,8 @@
   "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.smartDescription": "死亡時、HPを25回復して復活する。残り回数: {Amount:diff()}",
   "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.smartDescription": "HPが0になりそうな時、HP1で踏みとどまる。残り回数: {Amount:diff()}",
   "HYPNOSISCREATOR-GLOBE_HEAD_POWER.smartDescription": "パワーカードをプレイするたび、{Amount:diff()}ブロックを得る。",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.title": "ザップマシン",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "あなたのターン終了時、ランダムな敵を攻撃する。",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "あなたのターン終了時、ランダムな敵を攻撃する。",
   "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。"
 }

@@ -1,21 +1,31 @@
+using HypnosisCreator.HypnosisCreatorCode.Powers;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models.Monsters;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
 /// ファブリケーターの心臓 — 希少。
-/// CSV 効果欄が空のため、現状は発動で消費のみ（効果追記待ち）。
+/// ザップマシン（Zapbot）を味方ペットとして召喚し、以降プレイヤーターン終了時にランダム敵を攻撃する。
 /// </summary>
 public class FabricatorHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "FABRICATOR";
 
-    public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
+    public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
-        // CSV No.187 効果未記載。未発動扱いだと No.86／自己暗示と相性が悪いため消費のみ。
+        if (player.Creature.CombatState == null) return;
+
         Flash();
+        var zapbot = await PlayerCmd.AddPet<Zapbot>(player);
+        await PowerCmd.Apply<AllyZapbotPower>(
+            choiceContext, zapbot, 1, player.Creature, null!);
+
+        // 召喚直後に1回攻撃。以降は AllyZapbotPower がターン終了時に攻撃する。
+        await AllyZapbotAttacks.Perform(choiceContext, zapbot);
         MarkUsed();
-        return Task.CompletedTask;
     }
 }
