@@ -16,10 +16,11 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// 「引き寄せ（Pull）」— 対象をプレイヤー側へ寄せ、戦闘中は引き寄せ済みとして扱う。
 /// 位置移動は本家 Sandpit と同様に global_position:x を Tween する。
 /// 画面外への押し出し・プレイヤーとの過度な重なりをクランプする。
+/// 寄せ／遠ざかりは使うたびに行い、移動量は回数ごとに半減する。
 /// </summary>
 public static class PullTracker
 {
-    /// <summary>一度に寄せる／遠ざける距離（ピクセル）。</summary>
+    /// <summary>初回の寄せる／遠ざける距離（ピクセル）。以降は半減。</summary>
     private const float PullDistance = 280f;
 
     /// <summary>ヒットボックス端同士の最低すき間。</summary>
@@ -59,25 +60,37 @@ public static class PullTracker
     }
 
     /// <summary>
-    /// まだ引き寄せていなければプレイヤー側へ動かして true。
-    /// 既に引き寄せ済みなら false。
+    /// プレイヤー側へ寄せる（毎回アニメ。移動量は寄せ回数ごとに半減）。
+    /// 戻り値は「今回が初回の引き寄せか」（カード効果分岐用。フラグは初回で立つ）。
     /// </summary>
     public static async Task<bool> TryPull(Creature creature, Creature? towardPlayer)
     {
         var state = Field.Get(creature);
-        if (state.Pulled) return false;
+        var wasFirst = !state.Pulled;
         state.Pulled = true;
-        await AnimateX(creature, towardPlayer, towardPlayer: true);
-        return true;
+        var distance = NextStepDistance(state.PullAnimCount);
+        state.PullAnimCount++;
+        await AnimateX(creature, towardPlayer, towardPlayer: true, distance);
+        return wasFirst;
     }
 
-    /// <summary>対象をプレイヤーから離す（決死の逃亡）。引き寄せ済みフラグは変更しない。</summary>
+    /// <summary>対象をプレイヤーから離す（決死の逃亡）。移動量は押し出し回数ごとに半減。引き寄せ済みフラグは変更しない。</summary>
     public static async Task TryPushAway(Creature creature, Creature? fromPlayer)
     {
-        await AnimateX(creature, fromPlayer, towardPlayer: false);
+        var state = Field.Get(creature);
+        var distance = NextStepDistance(state.PushAnimCount);
+        state.PushAnimCount++;
+        await AnimateX(creature, fromPlayer, towardPlayer: false, distance);
     }
 
-    private static async Task AnimateX(Creature creature, Creature? player, bool towardPlayer)
+    private static float NextStepDistance(int priorCount)
+    {
+        // 0回目=100%、1回目=50%、2回目=25% …
+        var distance = PullDistance * MathF.Pow(0.5f, priorCount);
+        return Math.Max(distance, MinMoveEpsilon);
+    }
+
+    private static async Task AnimateX(Creature creature, Creature? player, bool towardPlayer, float distance)
     {
         var room = NCombatRoom.Instance;
         if (room == null) return;
@@ -104,24 +117,24 @@ public static class PullTracker
             {
                 // 敵が右・プレイヤーが左が通常配置。左右どちらでもプレイヤーへ近づけるが、通過しない。
                 if (enemyX >= playerX.Value)
-                    targetX = Math.Max(playerX.Value + minGap, enemyX - PullDistance);
+                    targetX = Math.Max(playerX.Value + minGap, enemyX - distance);
                 else
-                    targetX = Math.Min(playerX.Value - minGap, enemyX + PullDistance);
+                    targetX = Math.Min(playerX.Value - minGap, enemyX + distance);
             }
             else
             {
                 // プレイヤーから離す（画面外・過度な遠ざかりは後でクランプ）
                 if (enemyX >= playerX.Value)
-                    targetX = enemyX + PullDistance;
+                    targetX = enemyX + distance;
                 else
-                    targetX = enemyX - PullDistance;
+                    targetX = enemyX - distance;
 
                 targetX = ClampAwayFromPlayer(playerX.Value, enemyX, targetX, minGap);
             }
         }
         else
         {
-            targetX = towardPlayer ? enemyX - PullDistance : enemyX + PullDistance;
+            targetX = towardPlayer ? enemyX - distance : enemyX + distance;
         }
 
         targetX = ClampToVisibleX(room, enemyNode, targetX);
@@ -235,5 +248,9 @@ public static class PullTracker
 
 public sealed class PullState
 {
+    /// <summary>カード効果用（初回引き寄せ済みか）。アニメ回数とは独立。</summary>
     public bool Pulled { get; set; }
+
+    public int PullAnimCount { get; set; }
+    public int PushAnimCount { get; set; }
 }

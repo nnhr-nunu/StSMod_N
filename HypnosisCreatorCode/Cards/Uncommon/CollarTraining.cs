@@ -55,10 +55,9 @@ public class CollarTraining() : HypnosisCreatorCard(0,
                 }
             }
         }
-        else
-        {
-            await PullTracker.TryPull(play.Target, Owner.Creature);
-        }
+
+        // 初回も2回目以降も寄る（移動量は PullTracker 側で半減）
+        await PullTracker.TryPull(play.Target, Owner.Creature);
 
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);
