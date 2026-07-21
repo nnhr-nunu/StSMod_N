@@ -19,7 +19,11 @@ public class OvicopterHeart : EnemyHeartRelic
         if (hearts <= 0) return;
 
         Flash();
-        await CreatureCmd.GainBlock(player.Creature, hearts * 2m, ValueProp.Move, null);
+        await CreatureCmd.GainBlock(
+            player.Creature,
+            HeartActivationHelpers.BlockAmountWithDexterity(player.Creature, hearts * 2m),
+            ValueProp.Unpowered,
+            null);
         MarkUsed();
     }
 }

@@ -27,9 +27,16 @@ internal static class HeartActivationHelpers
         EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player, decimal block)
     {
         heart.Flash();
-        await CreatureCmd.GainBlock(player.Creature, block, ValueProp.Move, null);
+        // レリック発動は CardModel が無いため、DexterityPower が自動加算しないことがある。
+        // 敏捷を明示加算し、二重適用を避けるため Unpowered で付与する。
+        await CreatureCmd.GainBlock(
+            player.Creature, BlockAmountWithDexterity(player.Creature, block), ValueProp.Unpowered, null);
         heart.MarkUsed();
     }
+
+    /// <summary>カード無しブロック付与用。敏捷をダメージの筋力と同様に加算する。</summary>
+    public static decimal BlockAmountWithDexterity(Creature creature, decimal block) =>
+        block + creature.GetPowerAmount<DexterityPower>();
 
     public static async Task ActivateRareSelfHeal(
         EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player, decimal heal)

@@ -23,6 +23,7 @@ public class GlobeHeadPower : HypnosisCreatorPower
         if (cardPlay.Card.Type != CardType.Power) return;
         if (Amount <= 0) return;
 
-        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null);
+        // パワーカード経由なので CardPlay を渡し、敏捷が自動で乗る（ValueProp.Move）
+        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, cardPlay);
     }
 }

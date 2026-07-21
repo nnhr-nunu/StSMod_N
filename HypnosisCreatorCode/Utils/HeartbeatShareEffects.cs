@@ -45,7 +45,13 @@ public static class HeartbeatShareEffects
         // StolenHeart は戦闘1ターン目のみブロック。共有が2ターン目以降なら即時付与する。
         var turn = ally.PlayerCombatState?.TurnNumber ?? 0;
         if (turn > 1 && ally.Creature != null)
-            await CreatureCmd.GainBlock(ally.Creature, 2m, ValueProp.Move, null);
+        {
+            await CreatureCmd.GainBlock(
+                ally.Creature,
+                HeartActivationHelpers.BlockAmountWithDexterity(ally.Creature, 2m),
+                ValueProp.Unpowered,
+                null);
+        }
     }
 
     private static async Task ShareEnemyHeart(

@@ -26,6 +26,10 @@ public class StolenHeart : HypnosisCreatorRelic
         var stacks = Owner.Relics.Count(r => r is StolenHeart);
         if (stacks <= 0) return;
         Flash();
-        await CreatureCmd.GainBlock(Owner.Creature, stacks * 2m, ValueProp.Move, null);
+        await CreatureCmd.GainBlock(
+            Owner.Creature,
+            HeartActivationHelpers.BlockAmountWithDexterity(Owner.Creature, stacks * 2m),
+            ValueProp.Unpowered,
+            null);
     }
 }
