@@ -149,7 +149,7 @@
   "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.smartDescription": "HPが0になりそうな時、HP1で踏みとどまる。残り回数: {Amount:diff()}",
   "HYPNOSISCREATOR-GLOBE_HEAD_POWER.smartDescription": "パワーカードをプレイするたび、{Amount:diff()}ブロックを得る。",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.title": "ザップマシン",
-  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "あなたのターン終了時、ランダムな敵を攻撃する。",
-  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "あなたのターン終了時、ランダムな敵を攻撃する。",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "あなたのターン終了時、ランダムな敵に14ダメージを与える。",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "あなたのターン終了時、ランダムな敵に14ダメージを与える。",
   "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。"
 }

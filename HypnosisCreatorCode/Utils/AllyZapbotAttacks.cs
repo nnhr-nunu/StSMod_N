@@ -26,12 +26,15 @@ internal static class AllyZapbotAttacks
     private static readonly MethodInfo? ZapDamageGetter =
         AccessTools.PropertyGetter(typeof(Zapbot), "ZapDamage");
 
-    /// <summary>Zapbot 本体と同じ基礎ダメージ（取れなければ 9）。</summary>
+    /// <summary>
+    /// Zapbot 本体と同じダメージ（通常 14、Deadly Enemies アセンション時 15）。
+    /// プロパティが取れない場合のフォールバックは通常値 14。
+    /// </summary>
     public static decimal ResolveZapDamage(Creature zapbot)
     {
         if (zapbot.Monster is Zapbot zap && ZapDamageGetter != null)
             return Convert.ToDecimal(ZapDamageGetter.Invoke(zap, null));
-        return 9m;
+        return 14m;
     }
 
     public static async Task Perform(PlayerChoiceContext choiceContext, Creature zapbot)

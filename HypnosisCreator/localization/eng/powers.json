@@ -149,7 +149,7 @@
   "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.smartDescription": "When you would die, survive at 1 HP. Charges: {Amount:diff()}",
   "HYPNOSISCREATOR-GLOBE_HEAD_POWER.smartDescription": "Whenever you play a Power, gain {Amount:diff()} Block.",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.title": "Zap Machine",
-  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "At the end of your turn, attacks a random enemy.",
-  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "At the end of your turn, attacks a random enemy.",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "At the end of your turn, deals 14 damage to a random enemy.",
+  "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "At the end of your turn, deals 14 damage to a random enemy.",
   "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage."
 }

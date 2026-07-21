@@ -246,6 +246,6 @@
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.description": "Rare Heart. Gain 7 Plated Armor.",
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.flavor": "Still beating.",
   "HYPNOSISCREATOR-FABRICATOR_HEART.title": "Fabricator Heart",
-  "HYPNOSISCREATOR-FABRICATOR_HEART.description": "Rare Heart. Summon a Zap Machine as an ally. At the end of your turn, it attacks a random enemy.",
+  "HYPNOSISCREATOR-FABRICATOR_HEART.description": "Rare Heart. Summon a Zap Machine as an ally. At the end of your turn, it deals 14 damage to a random enemy.",
   "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "Still beating."
 }

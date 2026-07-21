@@ -246,6 +246,6 @@
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.description": "希少な心臓。プレートアーマー7を得る。",
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-FABRICATOR_HEART.title": "ファブリケーターの心臓",
-  "HYPNOSISCREATOR-FABRICATOR_HEART.description": "希少な心臓。ザップマシンを味方として召喚する。あなたのターン終了時、ランダムな敵に攻撃する。",
+  "HYPNOSISCREATOR-FABRICATOR_HEART.description": "希少な心臓。ザップマシンを味方として召喚する。あなたのターン終了時、ランダムな敵に14ダメージを与える。",
   "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "まだ脈打っている。"
 }

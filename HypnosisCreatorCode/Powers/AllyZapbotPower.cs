@@ -19,9 +19,6 @@ public class AllyZapbotPower : HypnosisCreatorPower
     public override string CustomPackedIconPath => "fabricator_heart.png".RelicImagePath();
     public override string CustomBigIconPath => "fabricator_heart.png".BigRelicImagePath();
 
-    /// <summary>召喚直後はすでに1回攻撃済みなので、最初のターン終了攻撃はスキップする。</summary>
-    private bool _skipNextPlayerTurnEnd = true;
-
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,
@@ -36,12 +33,6 @@ public class AllyZapbotPower : HypnosisCreatorPower
 
         var list = participants as ICollection<Creature> ?? participants.ToList();
         if (!list.Contains(ownerCreature) && !list.Contains(Owner)) return;
-
-        if (_skipNextPlayerTurnEnd)
-        {
-            _skipNextPlayerTurnEnd = false;
-            return;
-        }
 
         Flash();
         await AllyZapbotAttacks.Perform(choiceContext, Owner);
