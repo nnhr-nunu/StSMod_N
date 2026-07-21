@@ -1,31 +1,33 @@
-using MegaCrit.Sts2.Core.Commands;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models.Enchantments;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>リグラーの心臓 — 希少。手札のランダム攻撃に寄生（ダメージ+3）をエンチャント。</summary>
+/// <summary>
+/// リグラー／寄生キャエルの心臓 — 希少。
+/// 手札にプレイ可能な感染カード1枚を加える。
+/// </summary>
 public class WrigglerHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "WRIGGLER";
 
-    public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
+    /// <summary>寄生キャエル（Phrog Parasite）も同一心臓。リーサルで入手可。</summary>
+    public override IReadOnlyList<string> MonsterIdEntries =>
+        ["WRIGGLER", "PHROG_PARASITE"];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        HoverTipFactory.FromCardWithCardHoverTips<Infect>(false);
+
+    public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
-        var hand = player.PlayerCombatState?.Hand;
-        if (hand == null) return Task.CompletedTask;
-
-        var attacks = hand.Cards.Where(c => c.Type == CardType.Attack).ToList();
-        if (attacks.Count == 0) return Task.CompletedTask;
-
-        var rng = player.RunState.Rng.CombatCardSelection;
-        var card = attacks[rng.NextInt(attacks.Count)];
+        if (player.Creature.CombatState == null) return;
 
         Flash();
-        // Sharp の Amount＝加算ダメージ。CSV「寄生：ダメージを3増加」
-        CardCmd.Enchant<Sharp>(card, 3);
+        await StatusHypnosisConvert.AddPlayableStatusAsync<Infect>(player, 1, PileType.Hand);
         MarkUsed();
-        return Task.CompletedTask;
     }
 }

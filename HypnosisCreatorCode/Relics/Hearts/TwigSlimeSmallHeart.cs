@@ -1,5 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Cards;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
@@ -8,6 +10,9 @@ public class TwigSlimeSmallHeart : EnemyHeartRelic
 {
     // 細枝スライム小
     public override string MonsterIdEntry => "TWIG_SLIME_S";
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        HoverTipFactory.FromCardWithCardHoverTips<Slimed>(false);
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
         await HeartActivationHelpers.ActivateRareZeroCostSlimed(this, choiceContext, player);

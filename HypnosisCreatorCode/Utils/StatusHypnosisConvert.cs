@@ -76,8 +76,17 @@ public static class StatusHypnosisConvert
         }
     }
 
-    /// <summary>心臓用：プレイ可能状態異常を指定枚数・指定山へ。</summary>
+    /// <summary>心臓用：プレイ可能状態異常を指定枚数・指定山へ（敵へプレイ可）。</summary>
     public static async Task AddFreePlayableAsync<T>(Player player, int count, PileType pile)
+        where T : PlayableStatusCard
+        => await AddPlayableStatusAsync<T>(player, count, pile, freeEnemyPlay: true);
+
+    /// <summary>
+    /// 心臓用：状態異常を指定枚数・指定山へ。
+    /// <paramref name="freeEnemyPlay"/> は敵対象カード用。自分対象（感染など）は false。
+    /// </summary>
+    public static async Task AddPlayableStatusAsync<T>(
+        Player player, int count, PileType pile, bool freeEnemyPlay = false)
         where T : PlayableStatusCard
     {
         var combat = player.Creature?.CombatState;
@@ -87,7 +96,7 @@ public static class StatusHypnosisConvert
         {
             var card = combat.CreateCard(ModelDb.Card<T>(), player);
             if (card is PlayableStatusCard playable)
-                playable.FreeEnemyPlay = true;
+                playable.FreeEnemyPlay = freeEnemyPlay;
             await CardPileCmd.AddGeneratedCardToCombat(card, pile, player);
         }
     }

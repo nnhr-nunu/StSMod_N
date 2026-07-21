@@ -3,6 +3,7 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
@@ -13,6 +14,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class MechaKnightHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "MECHA_KNIGHT";
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        HoverTipFactory.FromCardWithCardHoverTips<AbnormalBurn>(false);
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {

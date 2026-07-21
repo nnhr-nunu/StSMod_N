@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 
@@ -11,6 +12,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 public class LeafSlimeSmallHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "LEAF_SLIME_S";
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        HoverTipFactory.FromCardWithCardHoverTips<Slimed>(false);
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
