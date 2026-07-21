@@ -7,19 +7,19 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
-/// スライムバーサーカーの心臓 — 希少。
-/// 相手へプレイ可能な粘液を5枚捨て札に加える。
+/// メカナイトの心臓 — 希少。
+/// 相手へプレイ可能な火傷を4枚手札に加える。
 /// </summary>
-public class SlimedBerserkerHeart : EnemyHeartRelic
+public class MechaKnightHeart : EnemyHeartRelic
 {
-    public override string MonsterIdEntry => "SLIMED_BERSERKER";
+    public override string MonsterIdEntry => "MECHA_KNIGHT";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
         if (player.Creature.CombatState == null) return;
 
         Flash();
-        await StatusHypnosisConvert.AddFreePlayableAsync<AbnormalSlime>(player, 5, PileType.Discard);
+        await StatusHypnosisConvert.AddFreePlayableAsync<AbnormalBurn>(player, 4, PileType.Hand);
         MarkUsed();
     }
 }

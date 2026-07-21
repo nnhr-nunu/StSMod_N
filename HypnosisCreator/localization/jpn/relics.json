@@ -252,6 +252,9 @@
   "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.description": "希少な心臓。このターン、飛翔を得る。",
   "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.title": "スライムバーサーカーの心臓",
-  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "希少な心臓。相手へプレイ可能な粘液を5枚手札に加える。",
-  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "まだ脈打っている。"
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "希少な心臓。相手へプレイ可能な粘液を5枚捨て札に加える。",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.title": "メカナイトの心臓",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.description": "希少な心臓。相手へプレイ可能な火傷を4枚手札に加える。",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.flavor": "まだ脈打っている。"
 }

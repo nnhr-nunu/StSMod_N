@@ -252,6 +252,9 @@
   "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.description": "Rare Heart. Gain Soar this turn.",
   "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.flavor": "Still beating.",
   "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.title": "Slimed Berserker Heart",
-  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "Rare Heart. Add 5 playable Slimed to your hand.",
-  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "Still beating."
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "Rare Heart. Add 5 playable Slimed to your discard pile.",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.title": "Mecha Knight Heart",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.description": "Rare Heart. Add 4 playable Burn to your hand.",
+  "HYPNOSISCREATOR-MECHA_KNIGHT_HEART.flavor": "Still beating."
 }

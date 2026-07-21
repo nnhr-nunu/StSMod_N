@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 敵対象の状態異常／呪い：状態異常催眠＋トランス、または粘液の自由プレイ時のみ使用可。
+/// 敵対象の状態異常／呪い：状態異常催眠＋トランス、または心臓の自由プレイ時のみ使用可。
 /// </summary>
 [HarmonyPatch(
     typeof(CardModel),
@@ -20,12 +20,11 @@ public static class StatusHypnosisUnplayablePatch
     public static void Postfix(CardModel __instance, ref bool __result)
     {
         if (!NeedsGate(__instance)) return;
-
         __result = StatusHypnosisRules.CanStartPlay(__instance);
     }
 
     internal static bool NeedsGate(CardModel card) =>
-        card is AbnormalSlime || StatusHypnosisRules.IsGated(card);
+        card is PlayableStatusCard || StatusHypnosisRules.IsGated(card);
 }
 
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), [])]
