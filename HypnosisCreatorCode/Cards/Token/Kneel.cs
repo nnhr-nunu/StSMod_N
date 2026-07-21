@@ -14,7 +14,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Kneel() : TrainingCommand
 {
-    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
     public override bool PreferLeftWhenGenerated => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -23,7 +22,7 @@ public class Kneel() : TrainingCommand
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BogPower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<BogPower>(

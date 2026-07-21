@@ -15,7 +15,7 @@ public class Cum() : TrainingCommand
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("LoseHp", 19M)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await CreatureCmd.Damage(

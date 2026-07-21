@@ -14,7 +14,7 @@ public class Trance() : TrainingCommand
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Trance", 1M)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await TranceCombat.ApplyTrance(

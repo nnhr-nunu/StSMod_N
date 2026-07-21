@@ -3,13 +3,14 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
 /// <summary>
 /// 調教命令カード（No.56-66）の共通基盤。コスト0・廃棄・アップグレード無し・報酬プールに出ない。
-/// CSVビルドはすべて性癖：DomSub。
+/// CSVビルドはすべて性癖：DomSub。本体効果のあと DomSub 性癖刺さり（破滅）を自動解決する。
 /// サムネは調教コマンド（No.48 / training_command_card）と共通。
 /// </summary>
 public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, CardType type = CardType.Skill) :
@@ -47,4 +48,14 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
             await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, owner);
         }
     }
+
+    /// <summary>本体効果のあと、DomSub 性癖刺さりを必ず解決する（タグだけ付いて破滅が無い事故の防止）。</summary>
+    protected sealed override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        await OnCommandPlay(choiceContext, play);
+        await ResolveFetishOnTarget(choiceContext, play);
+    }
+
+    /// <summary>調教命令の固有効果。性癖刺さりは OnPlay 側で行う。</summary>
+    protected abstract Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play);
 }

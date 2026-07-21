@@ -10,10 +10,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Come() : TrainingCommand
 {
-    public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
     public override bool PreferLeftWhenGenerated => true;
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PullTracker.TryPull(play.Target, Owner.Creature);

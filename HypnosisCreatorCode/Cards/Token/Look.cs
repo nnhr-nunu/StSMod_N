@@ -14,7 +14,7 @@ public class Look() : TrainingCommand
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Doom", 5M)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await FetishCombat.ApplyDoom(

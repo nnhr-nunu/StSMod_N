@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Good() : TrainingCommand(TargetType.Self)
 {
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         var exhaust = Owner.PlayerCombatState?.ExhaustPile;
         if (exhaust == null || exhaust.Cards.Count == 0) return;
