@@ -76,16 +76,16 @@ public static class UpgradeDescriptionHooks
             "Prefer Count cards matching the Attack's fetish.");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is HeartCraving,
-            "この戦闘中、再使用可能状態になる。",
-            "[green]再使用可能状態になる[/green]。",
-            "become reusable this combat.",
-            "[green]become reusable[/green].");
+            "この戦闘中に限り再使用可能状態になる。",
+            "再使用可能状態になる（[green]戦闘後も残る[/green]）。",
+            "become reusable for this combat only.",
+            "become reusable ([green]persists after combat[/green]).");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is HeartbeatShare,
-            "味方プレイヤー1人に共有する。",
-            "味方プレイヤー[green]すべて[/green]に共有する。",
-            "with one ally.",
-            "with [green]all allies[/green].");
+            "味方プレイヤー1人と共有して発動する。",
+            "味方プレイヤー[green]すべて[/green]と共有して発動する。",
+            "for one ally.",
+            "for [green]all allies[/green].");
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is CollarTraining,
             "すでに引き寄せられている場合、ランダムな調教命令を2枚手札に加える。",

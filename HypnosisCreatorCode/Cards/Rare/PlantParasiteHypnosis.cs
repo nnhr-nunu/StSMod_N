@@ -13,9 +13,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 植物寄生催眠 — カウント。15ダメージ＋締め付け12（UG15）＋トランス1。
-/// UG時のみ「心臓寄生催眠」を付与し、戦闘終了時に敵固有心臓を入手（キル不要）。
-/// 締め付けは Counter のため重ねがけで増加する。
+/// 植物寄生催眠 — カウント。15ダメージ＋締め付け12（UGで15）＋トランス1。
+/// UG時のみ「心臓寄生催眠」で戦闘終了時に敵固有心臓を入手。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,

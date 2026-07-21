@@ -10,5 +10,5 @@ public class FrogKnightHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "FROG_KNIGHT";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfPower<HardenedShellPower>(this, choiceContext, player, 7);
+        await HeartActivationHelpers.ActivateRareSelfPower<PlatingPower>(this, choiceContext, player, 7);
 }

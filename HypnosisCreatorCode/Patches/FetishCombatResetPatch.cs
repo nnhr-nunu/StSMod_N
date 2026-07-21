@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode;
 using HypnosisCreator.HypnosisCreatorCode.Relics;
+using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -60,6 +61,10 @@ public static class FetishCombatResetPatch
                 MainFile.Logger.Info(
                     $"Proselytize GoldReward +{(int)gold} for {player.Character?.Id.Entry}");
             }
+
+            // No.86 未UG: 戦闘中再使用フラグをクリア（使用済みは WasUsed のまま戻る）
+            foreach (var heart in player.Relics.OfType<EnemyHeartRelic>())
+                heart.EndCombatReuse();
 
             // 自己暗示など「この戦闘中」の一時レリックを除去
             var temps = player.Relics

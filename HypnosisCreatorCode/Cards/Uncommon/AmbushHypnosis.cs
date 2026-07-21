@@ -17,7 +17,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AmbushHypnosis() : HypnosisCreatorCard(1,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
     static AmbushHypnosis()

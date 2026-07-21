@@ -9,8 +9,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 状態異常催眠 — パワー。トランス敵へ状態異常・呪いをプレイ可能にし、
-/// 手元／これから得る対応状態異常（粘液・火傷など）をプレイ可能版へ置き換える。UGでInnate。
+/// 状態異常催眠 — パワー。トランス状態の相手に状態異常・呪いをプレイ可能にする。
+/// （戦闘中は対応カードをプレイ可能版へ置き換える。UGでInnate。）
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class StatusHypnosis() : HypnosisCreatorCard(1,

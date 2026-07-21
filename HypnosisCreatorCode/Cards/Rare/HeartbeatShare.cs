@@ -7,8 +7,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 鼓動の共有 — 保有している心臓レリックの効果を味方と共有する（マルチ専用）。
-/// UG: 味方全員へ。共有分は戦闘終了時に消える一時レリック。
+/// 鼓動の共有 — 希少心臓の右クリック効果を味方と共有発動する（マルチ専用）。
+/// 未UG: 味方1人（計2人分）。UG: 味方全員。共有分は戦闘終了時に消える。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartbeatShare() : HypnosisCreatorCard(1,

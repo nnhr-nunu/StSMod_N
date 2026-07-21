@@ -10,5 +10,5 @@ public class LivingShieldHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "LIVING_SHIELD";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfPower<HardenedShellPower>(this, choiceContext, player, 4);
+        await HeartActivationHelpers.ActivateRareSelfPower<PlatingPower>(this, choiceContext, player, 4);
 }

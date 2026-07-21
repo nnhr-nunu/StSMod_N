@@ -69,10 +69,16 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     /// <summary>No.86 戦闘中再使用フラグ。</summary>
     public bool CombatReuseActive { get; set; }
 
+    /// <summary>
+    /// No.86 未UG: 使用済み心臓だけ戦闘中再使用可。
+    /// WasUsed は維持し、戦闘終了で <see cref="EndCombatReuse"/> すれば再び使用済みに戻る。
+    /// 未使用の心臓は触らない。
+    /// </summary>
     public void RefreshForCombat()
     {
         if (!IsRareHeart) return;
-        WasUsed = false;
+        if (PermanentlyReusable) return;
+        if (!WasUsed) return;
         CombatReuseActive = true;
         Flash();
     }
@@ -82,8 +88,14 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
         if (!IsRareHeart) return;
         WasUsed = false;
         PermanentlyReusable = true;
-        CombatReuseActive = true;
+        CombatReuseActive = false;
         Flash();
+    }
+
+    /// <summary>戦闘終了時: 戦闘中再使用フラグを落とし、使用済み状態を復元する。</summary>
+    public void EndCombatReuse()
+    {
+        CombatReuseActive = false;
     }
 
     public void MarkUsed()
