@@ -8,6 +8,9 @@ public class CrossbowRaiderHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "CROSSBOW_RUBY_RAIDER";
 
+    protected override decimal PreviewDamage => 14;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 14);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue);
 }

@@ -8,6 +8,9 @@ public class NibbitHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "NIBBIT";
 
+    protected override decimal PreviewBlock => 5;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 5);
+        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, DynamicVars.Block.BaseValue);
 }

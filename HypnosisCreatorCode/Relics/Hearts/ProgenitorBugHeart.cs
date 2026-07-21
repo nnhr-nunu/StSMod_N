@@ -8,6 +8,9 @@ public class ProgenitorBugHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "LOUSE_PROGENITOR";
 
+    protected override decimal PreviewBlock => 14;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 14);
+        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, DynamicVars.Block.BaseValue);
 }

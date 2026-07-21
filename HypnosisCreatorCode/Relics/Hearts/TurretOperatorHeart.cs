@@ -8,6 +8,10 @@ public class TurretOperatorHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "TURRET_OPERATOR";
 
+    protected override decimal PreviewDamage => 2;
+    protected override int PreviewHits => 5;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 2, 5);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue, 5);
 }

@@ -8,6 +8,10 @@ public class HunterKillerHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "HUNTER_KILLER";
 
+    protected override decimal PreviewDamage => 7;
+    protected override int PreviewHits => 3;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 7, 3);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue, 3);
 }

@@ -1,7 +1,9 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
@@ -25,6 +27,37 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     /// カイザークラブ左右爪・ムカデ節など、複数 ID が同一心臓に対応する場合に上書きする。
     /// </summary>
     public virtual IReadOnlyList<string> MonsterIdEntries => [MonsterIdEntry];
+
+    /// <summary>プレビュー用ダメージ（0で無し）。筋力反映対象。</summary>
+    protected virtual decimal PreviewDamage => 0;
+
+    /// <summary>プレビュー用ヒット数（多段）。</summary>
+    protected virtual int PreviewHits => 1;
+
+    /// <summary>プレビュー用ブロック基礎値（0で無し）。敏捷反映対象。</summary>
+    protected virtual decimal PreviewBlock => 0;
+
+    /// <summary>true ならブロック＝所持心臓数×PreviewBlock（オビコプター）。</summary>
+    protected virtual bool PreviewBlockPerOwnedHeart => false;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars
+    {
+        get
+        {
+            if (PreviewDamage > 0)
+            {
+                yield return new DamageVar(PreviewDamage, ValueProp.Move);
+                if (PreviewHits > 1)
+                    yield return new DynamicVar("Hits", PreviewHits);
+            }
+
+            if (PreviewBlock > 0 || PreviewBlockPerOwnedHeart)
+                yield return new BlockVar(PreviewBlock > 0 ? PreviewBlock : 2m, ValueProp.Move);
+
+            if (PreviewBlockPerOwnedHeart)
+                yield return new DynamicVar("Hearts", 1m);
+        }
+    }
 
     public bool WasUsed { get; set; }
 

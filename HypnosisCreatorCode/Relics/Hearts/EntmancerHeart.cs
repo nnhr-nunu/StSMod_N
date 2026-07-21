@@ -8,6 +8,10 @@ public class EntmancerHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "ENTOMANCER";
 
+    protected override decimal PreviewDamage => 3;
+    protected override int PreviewHits => 7;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 3, 7);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue, 7);
 }

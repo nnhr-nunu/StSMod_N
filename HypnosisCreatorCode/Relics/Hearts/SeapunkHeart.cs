@@ -8,6 +8,10 @@ public class SeapunkHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "SEAPUNK";
 
+    protected override decimal PreviewDamage => 2;
+    protected override int PreviewHits => 4;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 2, 4);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue, 4);
 }

@@ -13,6 +13,10 @@ public class OvicopterHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "OVICOPTER";
 
+    protected override decimal PreviewBlock => 2;
+    protected override bool PreviewBlockPerOwnedHeart => true;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
         var hearts = HeartInventory.CountHearts(player);

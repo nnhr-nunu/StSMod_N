@@ -8,6 +8,9 @@ public class SneakyGremlinHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "SNEAKY_GREMLIN";
 
+    protected override decimal PreviewDamage => 9;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, 9);
+        await HeartActivationHelpers.ActivateRareRandomEnemyDamage(this, choiceContext, player, DynamicVars.Damage.BaseValue);
 }

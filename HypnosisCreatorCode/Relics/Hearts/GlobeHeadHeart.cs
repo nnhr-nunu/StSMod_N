@@ -10,11 +10,14 @@ public class GlobeHeadHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "GLOBE_HEAD";
 
+    protected override decimal PreviewBlock => 6;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
         Flash();
         await PowerCmd.Apply<GlobeHeadPower>(
-            choiceContext, player.Creature, 6, player.Creature, null!);
+            choiceContext, player.Creature, DynamicVars.Block.BaseValue, player.Creature, null!);
         MarkUsed();
     }
 }

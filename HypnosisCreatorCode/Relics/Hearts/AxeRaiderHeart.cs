@@ -8,6 +8,9 @@ public class AxeRaiderHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "AXE_RUBY_RAIDER";
 
+    protected override decimal PreviewBlock => 5;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 5);
+        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, DynamicVars.Block.BaseValue);
 }

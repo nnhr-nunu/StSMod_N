@@ -17,7 +17,10 @@ public class StolenHeart : HypnosisCreatorRelic
     public override bool IsStackable => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Hearts", 1M)];
+    [
+        new DynamicVar("Hearts", 1M),
+        new BlockVar(2M, ValueProp.Move)
+    ];
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {

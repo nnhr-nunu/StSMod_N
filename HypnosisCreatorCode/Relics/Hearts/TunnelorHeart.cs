@@ -8,6 +8,9 @@ public class TunnelorHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "TUNNELER";
 
+    protected override decimal PreviewBlock => 32;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 32);
+        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, DynamicVars.Block.BaseValue);
 }

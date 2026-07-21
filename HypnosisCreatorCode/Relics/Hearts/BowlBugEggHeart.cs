@@ -8,6 +8,9 @@ public class BowlBugEggHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "BOWLBUG_EGG";
 
+    protected override decimal PreviewBlock => 7;
+
+
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, 7);
+        await HeartActivationHelpers.ActivateRareSelfBlock(this, choiceContext, player, DynamicVars.Block.BaseValue);
 }
