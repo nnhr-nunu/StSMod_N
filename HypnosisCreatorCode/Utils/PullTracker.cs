@@ -56,11 +56,17 @@ public static class PullTracker
         var state = Field.Get(creature);
         if (state.Pulled) return false;
         state.Pulled = true;
-        await AnimateTowardPlayer(creature, towardPlayer);
+        await AnimateX(creature, towardPlayer, towardPlayer: true);
         return true;
     }
 
-    private static async Task AnimateTowardPlayer(Creature creature, Creature? towardPlayer)
+    /// <summary>対象をプレイヤーから離す（決死の逃亡）。引き寄せ済みフラグは変更しない。</summary>
+    public static async Task TryPushAway(Creature creature, Creature? fromPlayer)
+    {
+        await AnimateX(creature, fromPlayer, towardPlayer: false);
+    }
+
+    private static async Task AnimateX(Creature creature, Creature? player, bool towardPlayer)
     {
         var room = NCombatRoom.Instance;
         if (room == null) return;
@@ -72,22 +78,32 @@ public static class PullTracker
         float targetX;
 
         NCreature? playerNode = null;
-        if (towardPlayer != null)
-            playerNode = room.GetCreatureNode(towardPlayer);
+        if (player != null)
+            playerNode = room.GetCreatureNode(player);
 
         if (playerNode != null && GodotObject.IsInstanceValid(playerNode))
         {
             var playerX = playerNode.GlobalPosition.X;
-            // 敵が右・プレイヤーが左が通常配置。左右どちらでもプレイヤーへ近づける。
-            if (enemyX >= playerX)
-                targetX = Math.Max(playerX + MinGapFromPlayer, enemyX - PullDistance);
+            if (towardPlayer)
+            {
+                // 敵が右・プレイヤーが左が通常配置。左右どちらでもプレイヤーへ近づける。
+                if (enemyX >= playerX)
+                    targetX = Math.Max(playerX + MinGapFromPlayer, enemyX - PullDistance);
+                else
+                    targetX = Math.Min(playerX - MinGapFromPlayer, enemyX + PullDistance);
+            }
             else
-                targetX = Math.Min(playerX - MinGapFromPlayer, enemyX + PullDistance);
+            {
+                // プレイヤーから離す
+                if (enemyX >= playerX)
+                    targetX = enemyX + PullDistance;
+                else
+                    targetX = enemyX - PullDistance;
+            }
         }
         else
         {
-            // ノード未取得時は左（プレイヤー側）へ寄せる
-            targetX = enemyX - PullDistance;
+            targetX = towardPlayer ? enemyX - PullDistance : enemyX + PullDistance;
         }
 
         if (Math.Abs(targetX - enemyX) < 4f) return;

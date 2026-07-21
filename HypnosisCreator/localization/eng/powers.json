@@ -166,5 +166,14 @@
   "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand.",
   "HYPNOSISCREATOR-NUNU_HELL_POWER.title": "Nunu Hell",
   "HYPNOSISCREATOR-NUNU_HELL_POWER.description": "Pull cards deal {Amount:diff()} additional damage.",
-  "HYPNOSISCREATOR-NUNU_HELL_POWER.smartDescription": "Pull cards deal {Amount:diff()} additional damage."
+  "HYPNOSISCREATOR-NUNU_HELL_POWER.smartDescription": "Pull cards deal {Amount:diff()} additional damage.",
+  "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.title": "Temporary Strength Down",
+  "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.description": "Strength is reduced. Removed at end of turn.",
+  "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.smartDescription": "Strength {Amount:diff()}. Removed at end of turn.",
+  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.title": "Temporary Dexterity Down",
+  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.description": "Dexterity is reduced. Removed at end of turn.",
+  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.smartDescription": "Dexterity {Amount:diff()}. Removed at end of turn.",
+  "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.title": "Poor Sleep",
+  "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.description": "At the start of your next turn, apply Asleep.",
+  "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.smartDescription": "At the start of your next turn, apply {Amount:diff()} Asleep."
 }

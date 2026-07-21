@@ -10,24 +10,51 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 状態異常催眠中、本家状態異常をプレイ可能版へ置き換える。
-/// Slimed→粘液、Burn→火傷、Wound→負傷、Wither→衰微。
+/// 状態異常催眠中、本家状態異常／呪いをプレイ可能版へ置き換える。
 /// </summary>
 public static class StatusHypnosisConvert
 {
     private static int _reentry;
 
-    /// <summary>本家状態異常 → プレイ可能版の canonical。</summary>
+    /// <summary>本家状態異常／呪い → プレイ可能版の canonical。</summary>
     public static CardModel? ResolvePlayableCanonical(CardModel card)
     {
-        if (card is PlayableStatusCard) return null;
+        if (card is PlayableStatusCard or PlayableCurseCard) return null;
 
         return card switch
         {
+            // Status
             Slimed => ModelDb.Card<AbnormalSlime>(),
             Burn => ModelDb.Card<AbnormalBurn>(),
             Wound => ModelDb.Card<AbnormalWound>(),
             Wither => ModelDb.Card<AbnormalWither>(),
+            Soot => ModelDb.Card<SootStatus>(),
+            Dazed => ModelDb.Card<DazedStatus>(),
+            Infection => ModelDb.Card<Infect>(),
+            MegaCrit.Sts2.Core.Models.Cards.Void => ModelDb.Card<VoidStatus>(),
+            Debris => ModelDb.Card<DebrisStatus>(),
+            FranticEscape => ModelDb.Card<FranticEscapeStatus>(),
+            Toxic => ModelDb.Card<ToxicStatus>(),
+            Beckon => ModelDb.Card<BeckonStatus>(),
+            // Curse
+            AscendersBane => ModelDb.Card<AscendersBaneCurse>(),
+            Injury => ModelDb.Card<InjuryCurse>(),
+            Greed => ModelDb.Card<GreedCurse>(),
+            Doubt => ModelDb.Card<DoubtCurse>(),
+            Writhe => ModelDb.Card<WritheCurse>(),
+            Folly => ModelDb.Card<FollyCurse>(),
+            Regret => ModelDb.Card<RegretCurse>(),
+            Guilty => ModelDb.Card<GuiltyCurse>(),
+            CurseOfTheBell => ModelDb.Card<CurseOfTheBellCurse>(),
+            PoorSleep => ModelDb.Card<PoorSleepCurse>(),
+            BadLuck => ModelDb.Card<BadLuckCurse>(),
+            Clumsy => ModelDb.Card<ClumsyCurse>(),
+            Decay => ModelDb.Card<DecayCurse>(),
+            Debt => ModelDb.Card<DebtCurse>(),
+            Normality => ModelDb.Card<NormalityCurse>(),
+            Shame => ModelDb.Card<ShameCurse>(),
+            SporeMind => ModelDb.Card<SporeMindCurse>(),
+            Enthralled => ModelDb.Card<EnthralledCurse>(),
             _ => null
         };
     }
@@ -35,7 +62,7 @@ public static class StatusHypnosisConvert
     public static bool OwnerHasStatusHypnosis(Player player) =>
         player.Creature?.GetPower<StatusHypnosisPower>() != null;
 
-    /// <summary>戦闘中の手札・山札・捨て札・廃棄にある対象状態異常をすべて置き換える。</summary>
+    /// <summary>戦闘中の手札・山札・捨て札・廃棄にある対象をすべて置き換える。</summary>
     public static async Task ConvertAllCombatStatuses(Player player)
     {
         if (!OwnerHasStatusHypnosis(player)) return;
@@ -67,7 +94,6 @@ public static class StatusHypnosisConvert
         try
         {
             var replacement = combat.CreateCard(canonical, player);
-            // 催眠経由の置き換えは FreeEnemyPlay なし（トランス敵のみ）
             await CardCmd.Transform(card, replacement, CardPreviewStyle.None);
         }
         finally

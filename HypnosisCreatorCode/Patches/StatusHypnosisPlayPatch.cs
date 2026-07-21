@@ -24,7 +24,7 @@ public static class StatusHypnosisUnplayablePatch
     }
 
     internal static bool NeedsGate(CardModel card) =>
-        card is PlayableStatusCard || StatusHypnosisRules.IsGated(card);
+        card is PlayableStatusCard or PlayableCurseCard || StatusHypnosisRules.IsGated(card);
 }
 
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), [])]
