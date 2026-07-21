@@ -8,12 +8,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
-using HypnosisCreator.HypnosisCreatorCode.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>不器用 — エセリアル。敏捷低下2。廃棄。</summary>
+/// <summary>不器用 — エセリアル。敏捷低下2（永続）。廃棄。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class ClumsyCurse() : PlayableCurseCard(0,
     CardType.Curse, CardRarity.Curse, TargetType.AnyEnemy)
@@ -25,7 +23,7 @@ public class ClumsyCurse() : PlayableCurseCard(0,
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<ClumsyTempDexterityDownPower>(2M)];
+        [new PowerVar<DexterityPower>(2M)];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<DexterityPower>()];
@@ -33,9 +31,8 @@ public class ClumsyCurse() : PlayableCurseCard(0,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await PowerCmd.Apply<ClumsyTempDexterityDownPower>(
-            choiceContext, play.Target, DynamicVars["ClumsyTempDexterityDownPower"].BaseValue,
+        await PowerCmd.Apply<DexterityPower>(
+            choiceContext, play.Target, -DynamicVars["DexterityPower"].BaseValue,
             Owner.Creature, this);
     }
-
 }

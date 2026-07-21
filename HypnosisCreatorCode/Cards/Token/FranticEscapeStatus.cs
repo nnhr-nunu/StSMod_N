@@ -12,8 +12,8 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
 /// <summary>
-/// 決死の逃亡 — 相手を遠ざけ、蟻地獄+1、このカードのコスト+1。廃棄。
-/// 備考: 貪りの獣想定。自分が逃げるのではなく相手が離れる。
+/// 決死の逃亡 — 相手を遠ざけ、蟻地獄+1、このカードのコスト+1。
+/// 備考: 貪りの獣想定。自分が逃げるのではなく相手が離れる。CSVに廃棄なし。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FranticEscapeStatus() : PlayableStatusCard(0,
@@ -22,7 +22,6 @@ public class FranticEscapeStatus() : PlayableStatusCard(0,
     public override string PortraitPath => "frantic_escape.png".CardImagePath();
     public override string CustomPortraitPath => "frantic_escape.png".BigCardImagePath();
 
-    // CSV: 廃棄なし（コスト増加を積み上げる想定）
     public override IEnumerable<CardKeyword> CanonicalKeywords => [];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>

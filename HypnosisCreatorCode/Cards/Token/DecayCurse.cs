@@ -13,7 +13,7 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 
-/// <summary>腐敗 — 2ダメージ。廃棄。アブノーマル。</summary>
+/// <summary>腐敗 — 2ダメージ＋アブノーマル目覚め。廃棄。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class DecayCurse() : PlayableCurseCard(0,
     CardType.Curse, CardRarity.Curse, TargetType.AnyEnemy)

@@ -29,7 +29,8 @@ public class RegretCurse() : PlayableCurseCard(0,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var count = Owner.PlayerCombatState?.Hand?.Cards.Count ?? 0;
+        // このカード自身は枚数に含めない
+        var count = Owner.PlayerCombatState?.Hand?.Cards.Count(c => !ReferenceEquals(c, this)) ?? 0;
         if (count > 0)
         {
             await CreatureCmd.Damage(

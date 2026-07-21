@@ -170,9 +170,6 @@
   "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.title": "一時的筋力低下",
   "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.description": "筋力が低下している。ターン終了時に解除される。",
   "HYPNOSISCREATOR-DAZED_TEMP_STRENGTH_DOWN_POWER.smartDescription": "筋力{Amount:diff()}。ターン終了時に解除される。",
-  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.title": "一時的敏捷低下",
-  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.description": "敏捷が低下している。ターン終了時に解除される。",
-  "HYPNOSISCREATOR-CLUMSY_TEMP_DEXTERITY_DOWN_POWER.smartDescription": "敏捷{Amount:diff()}。ターン終了時に解除される。",
   "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.title": "寝不足",
   "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.description": "次のあなたのターン開始時、睡眠を付与する。",
   "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.smartDescription": "次のあなたのターン開始時、睡眠{Amount:diff()}を付与する。"
