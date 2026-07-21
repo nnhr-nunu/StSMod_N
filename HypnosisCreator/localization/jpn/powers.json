@@ -154,5 +154,14 @@
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.title": "飛翔",
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.description": "着陸するまで、アタックによるダメージを[gold]50%[/gold]軽減する。",
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.smartDescription": "このターン、アタックによるダメージを[blue]{DamageDecrease}%[/blue]軽減する。",
-  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。"
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.title": "激怒",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.description": "相手がブロックを獲得するたび、筋力{Amount:diff()}を得る。",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.smartDescription": "相手がブロックを獲得するたび、筋力{Amount:diff()}を得る。",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.title": "苦痛の一刺し",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.description": "ブロックされずにダメージを与えるたび、プレイ可能な負傷を{Amount:diff()}枚手札に加える。",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.smartDescription": "ブロックされずにダメージを与えるたび、プレイ可能な負傷を{Amount:diff()}枚手札に加える。",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.title": "永劫の砂時計",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.description": "カードを{CardsLeft:diff()}枚プレイすると、プレイ可能な衰微を1枚手札に加える。",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "カードを{CardsLeft:diff()}枚プレイすると、プレイ可能な衰微を1枚手札に加える。"
 }

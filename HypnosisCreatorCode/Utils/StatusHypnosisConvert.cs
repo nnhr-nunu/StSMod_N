@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 状態異常催眠中、本家状態異常をプレイ可能版へ置き換える。
-/// Slimed→粘液、Burn→火傷（今後の対応表もここに足す）。
+/// Slimed→粘液、Burn→火傷、Wound→負傷、Wither→衰微。
 /// </summary>
 public static class StatusHypnosisConvert
 {
@@ -26,6 +26,8 @@ public static class StatusHypnosisConvert
         {
             Slimed => ModelDb.Card<AbnormalSlime>(),
             Burn => ModelDb.Card<AbnormalBurn>(),
+            Wound => ModelDb.Card<AbnormalWound>(),
+            Wither => ModelDb.Card<AbnormalWither>(),
             _ => null
         };
     }

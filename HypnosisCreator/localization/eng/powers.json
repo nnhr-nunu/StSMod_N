@@ -154,5 +154,14 @@
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.title": "Soar",
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.description": "Receives [gold]50%[/gold] less attack damage until it lands.",
   "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.smartDescription": "This turn, receive [blue]{DamageDecrease}%[/blue] less attack damage.",
-  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage."
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage.",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.title": "Enrage",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.description": "Whenever an enemy gains Block, gain {Amount:diff()} Strength.",
+  "HYPNOSISCREATOR-TEST_SUBJECT_ENRAGE_POWER.smartDescription": "Whenever an enemy gains Block, gain {Amount:diff()} Strength.",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.title": "Painful Stabs",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.description": "Whenever you deal unblocked damage, add {Amount:diff()} playable Wound(s) to your hand.",
+  "HYPNOSISCREATOR-TEST_SUBJECT_PAINFUL_STABS_POWER.smartDescription": "Whenever you deal unblocked damage, add {Amount:diff()} playable Wound(s) to your hand.",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.title": "Aeonglass",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.description": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand.",
+  "HYPNOSISCREATOR-AEONGLASS_POWER.smartDescription": "After playing {CardsLeft:diff()} more card(s), add 1 playable Wither to your hand."
 }

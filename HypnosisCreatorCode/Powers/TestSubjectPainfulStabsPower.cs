@@ -1,5 +1,7 @@
+using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
-using MegaCrit.Sts2.Core.Commands;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,17 +11,15 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 噛みつきの巻物 — ブロックされずにダメージを与えるたび、追加で Amount ダメージ。
+/// 苦痛の一刺し（実験体）— ブロックされずにダメージを与えるたび、プレイ可能な負傷を Amount 枚手札に加える。
 /// </summary>
-public class ScrollOfBitingPower : HypnosisCreatorPower
+public class TestSubjectPainfulStabsPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string CustomPackedIconPath => "scroll_of_biting_heart.png".RelicImagePath();
-    public override string CustomBigIconPath => "scroll_of_biting_heart.png".BigRelicImagePath();
-
-    private bool _echoing;
+    public override string CustomPackedIconPath => "test_subject_heart.png".RelicImagePath();
+    public override string CustomBigIconPath => "test_subject_heart.png".BigRelicImagePath();
 
     public override async Task AfterDamageGiven(
         PlayerChoiceContext choiceContext,
@@ -29,28 +29,14 @@ public class ScrollOfBitingPower : HypnosisCreatorPower
         Creature? target,
         CardModel? cardSource)
     {
-        if (_echoing) return;
         if (Owner == null || !Owner.IsAlive) return;
         if (dealer != Owner) return;
-        if (target == null || !target.IsAlive) return;
         if (result.UnblockedDamage <= 0) return;
         if (Amount <= 0) return;
+        if (Owner.Player == null) return;
 
-        _echoing = true;
-        try
-        {
-            await CreatureCmd.Damage(
-                choiceContext,
-                target,
-                Amount,
-                ValueProp.Unpowered | ValueProp.SkipHurtAnim,
-                Owner,
-                null,
-                null);
-        }
-        finally
-        {
-            _echoing = false;
-        }
+        Flash();
+        await StatusHypnosisConvert.AddFreePlayableAsync<AbnormalWound>(
+            Owner.Player, Amount, PileType.Hand);
     }
 }
