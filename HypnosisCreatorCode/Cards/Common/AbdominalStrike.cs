@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>腹部への殴打 — 16ダメージ＋弱体2。UGで20ダメージ。</summary>
+/// <summary>腹部への殴打 — 16ダメージ＋弱体2。UGで20ダメージ・弱体3。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AbdominalStrike() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
@@ -41,5 +41,9 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4M);
+        DynamicVars["VulnerablePower"].UpgradeValueBy(1M);
+    }
 }
