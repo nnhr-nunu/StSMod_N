@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>クロスボウレイダーの心臓 — 希少。ランダム敵に14ダメージ。</summary>
 public class CrossbowRaiderHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "CROSSBOW_RUBY_RAIDER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

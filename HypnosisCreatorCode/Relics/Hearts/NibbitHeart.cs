@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>ニビットの心臓 — 希少。ブロック+5。</summary>
 public class NibbitHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "NIBBIT";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

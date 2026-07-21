@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>エントマンサーの心臓 — 希少。ランダム敵に3ダメージ×7。</summary>
 public class EntmancerHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "ENTOMANCER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

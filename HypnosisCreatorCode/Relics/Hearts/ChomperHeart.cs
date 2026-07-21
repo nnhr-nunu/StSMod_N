@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>チョンパーの心臓 — 希少。アーティファクト+2。</summary>
 public class ChomperHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "CHOMPER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

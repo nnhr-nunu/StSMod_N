@@ -116,6 +116,16 @@ STEM_ALIASES: dict[str, str] = {
     "NIBBIT": "nibbit",
     "SNEAKY_GREMLIN": "sneaky_gremlin",
     "WATERFALL_GIANT": "waterfall_giant",
+    "LIVING_SHIELD": "living_shield",
+    "TURRET_OPERATOR": "turret_operator",
+    "THE_LOST": "the_lost",
+    "THE_FORGOTTEN": "the_forgotten",
+    "AXEBOT": "axebot",
+    "DEVOTED_SCULPTOR": "devoted_sculptor",
+    "GLOBE_HEAD": "globe_head",
+    "SCROLL_OF_BITING": "scroll_of_biting",
+    "FROG_KNIGHT": "frog_knight",
+    "FABRICATOR": "fabricator",
 }
 
 

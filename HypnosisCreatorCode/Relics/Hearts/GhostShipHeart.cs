@@ -3,15 +3,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>幽霊船の心臓 — 非希少。ゴールド75。</summary>
+/// <summary>幽霊船の心臓 — 希少。55ゴールド。</summary>
 public class GhostShipHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => false;
     public override string MonsterIdEntry => "HAUNTED_SHIP";
 
-    public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        Task.CompletedTask;
-
-    protected override async Task OnPassiveObtain() =>
-        await HeartActivationHelpers.PassiveGold(this, 75);
+    public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
+        await HeartActivationHelpers.ActivateRareGold(this, player, 55);
 }

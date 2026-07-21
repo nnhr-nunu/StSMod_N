@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>原虫の心臓 — 希少。ブロック+14。</summary>
 public class ProgenitorBugHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "LOUSE_PROGENITOR";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

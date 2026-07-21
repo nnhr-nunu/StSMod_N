@@ -136,5 +136,17 @@
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere.",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "At the start of your next turn, put Cheer from the Abyss into your [gold]Hand[/gold] from anywhere.",
   "HYPNOSISCREATOR-CONSTRICT_FROM_HC.description": "While Hypno Creator is alive, at the end of your turn, lose [blue]1[/blue] HP.",
-  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "While Hypno Creator is alive, at the end of your turn, lose [blue]{Amount}[/blue] HP."
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "While Hypno Creator is alive, at the end of your turn, lose [blue]{Amount}[/blue] HP.",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.title": "Decimillipede",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.description": "The next time you would die, heal 25 HP instead. Charges: {Amount:diff()}",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.title": "Axebot",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.description": "When you would die, survive at 1 HP. Charges: {Amount:diff()}",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.title": "Globe Head",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.description": "Whenever you play a Power, gain {Amount:diff()} Block.",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.title": "Scroll of Biting",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.description": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage.",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.smartDescription": "The next time you would die, heal 25 HP instead. Charges: {Amount:diff()}",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.smartDescription": "When you would die, survive at 1 HP. Charges: {Amount:diff()}",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.smartDescription": "Whenever you play a Power, gain {Amount:diff()} Block.",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage."
 }

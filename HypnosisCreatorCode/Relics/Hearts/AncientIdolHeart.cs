@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>古代偶像の心臓 — 希少。筋力+3。</summary>
 public class AncientIdolHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "BYGONE_EFFIGY";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

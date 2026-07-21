@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>魂魚の心臓 — 希少。幽体+1（CSV: Spectral/Wraith）。</summary>
 public class SoulFishHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "SOUL_FYSH";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

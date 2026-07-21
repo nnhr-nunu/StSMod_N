@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>忍びグレmlinの心臓 — 希少。ランダム敵に9ダメージ。</summary>
 public class SneakyGremlinHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "SNEAKY_GREMLIN";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

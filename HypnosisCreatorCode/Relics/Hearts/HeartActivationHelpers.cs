@@ -115,24 +115,20 @@ internal static class HeartActivationHelpers
         return enemies[rng.NextInt(enemies.Count)];
     }
 
-    public static async Task PassiveGold(EnemyHeartRelic heart, int gold)
+    public static async Task ActivateRareGold(
+        EnemyHeartRelic heart, Player player, int gold)
     {
-        if (heart.Owner == null) return;
         heart.Flash();
-        await PlayerCmd.GainGold(gold, heart.Owner);
+        await PlayerCmd.GainGold(gold, player);
+        heart.MarkUsed();
     }
 
-    public static async Task PassiveMaxHp(EnemyHeartRelic heart, int maxHp)
+    public static async Task ActivateRareMaxHpAndGold(
+        EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player, decimal maxHp, int gold)
     {
-        if (heart.Owner == null) return;
         heart.Flash();
-        await CreatureCmd.GainMaxHp(heart.Owner.Creature, maxHp);
-    }
-
-    public static async Task PassiveHeal(EnemyHeartRelic heart, decimal heal)
-    {
-        if (heart.Owner == null) return;
-        heart.Flash();
-        await CreatureCmd.Heal(heart.Owner.Creature, heal);
+        await CreatureCmd.GainMaxHp(player.Creature, maxHp);
+        await PlayerCmd.GainGold(gold, player);
+        heart.MarkUsed();
     }
 }

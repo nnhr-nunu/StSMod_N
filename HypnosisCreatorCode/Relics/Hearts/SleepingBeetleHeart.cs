@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>眠り甲虫の心臓 — 希少。ビートルジュースを入手。</summary>
 public class SleepingBeetleHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "SLUMBERING_BEETLE";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

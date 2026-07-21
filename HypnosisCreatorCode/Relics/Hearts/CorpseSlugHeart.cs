@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>死体ナメクジの心臓 — 希少。筋力+1。</summary>
 public class CorpseSlugHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "CORPSE_SLUG";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

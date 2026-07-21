@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>パンチマシンの心臓 — 希少。アーティファクト+1。</summary>
 public class PunchMachineHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "PUNCH_CONSTRUCT";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

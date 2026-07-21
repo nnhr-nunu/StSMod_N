@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>インクレットの心臓 — 希少。滑り+1（CSV: Slip）。</summary>
 public class InkletHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "INKLET";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

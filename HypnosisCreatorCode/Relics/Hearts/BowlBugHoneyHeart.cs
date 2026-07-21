@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>ボウル虫(蜜)の心臓 — 希少。筋力+2。</summary>
 public class BowlBugHoneyHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "BOWLBUG_NECTAR";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

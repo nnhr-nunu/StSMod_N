@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>細枝スライム(小)の心臓 — 希少。0コスト粘液を手札へ。</summary>
 public class TwigSlimeSmallHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     // 細枝スライム小
     public override string MonsterIdEntry => "TWIG_SLIME_S";
 

@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>ボウル虫(岩)の心臓 — 希少。岩形ポーションを入手。</summary>
 public class BowlBugRockHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "BOWLBUG_ROCK";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

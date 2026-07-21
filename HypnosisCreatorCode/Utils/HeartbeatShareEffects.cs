@@ -67,21 +67,8 @@ public static class HeartbeatShareEffects
 
         if (obtained is not EnemyHeartRelic shared) return;
 
-        // 非希少は Obtain→AfterObtained→OnPassiveObtain 済み。
         // 希少は所有者を消費せず、共有コピーだけを発動する。
         if (shared.IsRareHeart && !shared.IsUsedUp)
             await shared.ActivateAsync(choiceContext, ally);
-
-        // Ovicopter は戦闘開始ブロック。共有が2ターン目以降なら即時付与する（StolenHeart と同趣旨）。
-        if (shared is OvicopterHeart && ally.Creature != null)
-        {
-            var turn = ally.PlayerCombatState?.TurnNumber ?? 0;
-            if (turn > 1)
-            {
-                var hearts = HeartInventory.CountHearts(ally);
-                if (hearts > 0)
-                    await CreatureCmd.GainBlock(ally.Creature, hearts * 2m, ValueProp.Move, null);
-            }
-        }
     }
 }

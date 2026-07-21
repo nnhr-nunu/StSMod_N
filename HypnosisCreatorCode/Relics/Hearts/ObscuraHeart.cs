@@ -6,7 +6,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>オブスキュラの心臓 — 希少。ランダム敵に16ダメージ。</summary>
 public class ObscuraHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "THE_OBSCURA";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

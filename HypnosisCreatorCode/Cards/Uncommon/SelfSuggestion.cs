@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手（この戦闘のみ）。
-/// 入手時に戦闘開始トリガー相当で即発動。非希少は抽選外。UGで筋力2・スピード2。
+/// 入手時に戦闘開始トリガー相当で即発動。UGで筋力2・スピード2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SelfSuggestion() : HypnosisCreatorCard(1,
@@ -120,14 +120,8 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
 
     private static bool IsRareHeartType(Type heartType)
     {
-        try
-        {
-            return Activator.CreateInstance(heartType) is EnemyHeartRelic { IsRareHeart: true };
-        }
-        catch
-        {
-            return false;
-        }
+        // CustomRelic は Activator.CreateInstance 不可。全 EnemyHeart は希少に統一済み。
+        return typeof(EnemyHeartRelic).IsAssignableFrom(heartType) && !heartType.IsAbstract;
     }
 
     protected override void OnUpgrade()

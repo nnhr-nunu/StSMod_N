@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>蠢く群生体の心臓 — 希少。このターンに20以上のHPを失わない。</summary>
 public class SwarmingHiveHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "SKULKING_COLONY";
 
     /// <summary>旧仮キー SWARMING_HIVE も受け付ける。</summary>

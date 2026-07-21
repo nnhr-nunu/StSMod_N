@@ -10,7 +10,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>リーフスライム(小)の心臓 — 希少。0コスト粘液を手札へ。</summary>
 public class LeafSlimeSmallHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "LEAF_SLIME_S";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)

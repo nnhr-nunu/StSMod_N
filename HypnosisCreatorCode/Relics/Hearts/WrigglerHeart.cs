@@ -6,10 +6,9 @@ using MegaCrit.Sts2.Core.Models.Enchantments;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>リグラーの心臓 — 希少。手札のランダム攻撃に鋭利+1（CSV: Parasite +3 dmg）。</summary>
+/// <summary>リグラーの心臓 — 希少。手札のランダム攻撃に寄生（ダメージ+3）をエンチャント。</summary>
 public class WrigglerHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "WRIGGLER";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
@@ -24,7 +23,8 @@ public class WrigglerHeart : EnemyHeartRelic
         var card = attacks[rng.NextInt(attacks.Count)];
 
         Flash();
-        CardCmd.Enchant<Sharp>(card, 1);
+        // Sharp の Amount＝加算ダメージ。CSV「寄生：ダメージを3増加」
+        CardCmd.Enchant<Sharp>(card, 3);
         MarkUsed();
         return Task.CompletedTask;
     }

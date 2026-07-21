@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>ファントムの心臓 — 希少。滑り+2。</summary>
 public class PhantomHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "VANTOM";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

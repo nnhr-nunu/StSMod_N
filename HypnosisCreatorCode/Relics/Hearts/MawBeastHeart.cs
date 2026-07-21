@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>マウビーストの心臓 — 希少。引き寄せ追加ダメージ+15。</summary>
 public class MawBeastHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "THE_INSATIABLE";
 
     public override Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)

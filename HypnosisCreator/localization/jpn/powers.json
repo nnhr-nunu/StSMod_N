@@ -136,5 +136,17 @@
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.description": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-ABYSS_CHEER_RETURN_POWER.smartDescription": "次のターン開始時、[gold]深淵からの声援[/gold]をあらゆる場所から[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-CONSTRICT_FROM_HC.description": "ヒプノクリエイターが生存中、ターン終了時、HPを[blue]1[/blue]失う。",
-  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "ヒプノクリエイターが生存中、ターン終了時、HPを[blue]{Amount}[/blue]失う。"
+  "HYPNOSISCREATOR-CONSTRICT_FROM_HC.smartDescription": "ヒプノクリエイターが生存中、ターン終了時、HPを[blue]{Amount}[/blue]失う。",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.title": "万足ムカデ",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.description": "死亡時、HPを25回復して復活する。残り回数: {Amount:diff()}",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.title": "アックスマシン",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.description": "HPが0になりそうな時、HP1で踏みとどまる。残り回数: {Amount:diff()}",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.title": "グローブヘッド",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.description": "パワーカードをプレイするたび、{Amount:diff()}ブロックを得る。",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.title": "噛みつきの巻物",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.description": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-CENTIPEDE_REVIVE_POWER.smartDescription": "死亡時、HPを25回復して復活する。残り回数: {Amount:diff()}",
+  "HYPNOSISCREATOR-AXEBOT_SURVIVE_POWER.smartDescription": "HPが0になりそうな時、HP1で踏みとどまる。残り回数: {Amount:diff()}",
+  "HYPNOSISCREATOR-GLOBE_HEAD_POWER.smartDescription": "パワーカードをプレイするたび、{Amount:diff()}ブロックを得る。",
+  "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。"
 }

@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>蛮族レイダーの心臓 — 希少。筋力+1。</summary>
 public class BruteRaiderHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "BRUTE_RUBY_RAIDER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

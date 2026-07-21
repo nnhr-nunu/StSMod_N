@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>外骨格蟲の心臓 — 希少。このターン、不死身9（Buffer）。</summary>
 public class ExoskeletonBugHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "EXOSKELETON";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

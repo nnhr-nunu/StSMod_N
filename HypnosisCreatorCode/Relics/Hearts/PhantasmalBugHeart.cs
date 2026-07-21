@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>幻影蟲の心臓 — 希少。臆病6。</summary>
 public class PhantasmalBugHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "PHANTASMAL_GARDENER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

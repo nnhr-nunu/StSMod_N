@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>化石ストーカーの心臓 — 希少。吸血1。</summary>
 public class FossilStalkerHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "FOSSIL_STALKER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

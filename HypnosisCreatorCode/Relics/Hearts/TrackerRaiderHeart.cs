@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>追跡レイダーの心臓 — 希少。ランダム敵に脆弱+2。</summary>
 public class TrackerRaiderHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "TRACKER_RUBY_RAIDER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>

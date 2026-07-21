@@ -8,7 +8,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>フライコニドの心臓 — 希少。ランダム敵に脆弱+1・弱体+1。</summary>
 public class FlyconidHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "FLYCONID";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)

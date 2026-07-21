@@ -7,15 +7,15 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
 /// 敵固有心臓の基底。
-/// 希少な心臓: 使用済みになると IsUsedUp。No.86 で再使用可能になる。
-/// 非希少（最大HP・ゴールド等）: 入手時に効果。
+/// CSV No.111〜はすべて希少な心臓（右クリック発動・冒険中1回）。
+/// 使用済みは IsUsedUp。No.86 で再使用可能になる。
 /// </summary>
 public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 
-    /// <summary>希少な心臓（右クリック／手動発動・1回限り）。</summary>
-    public abstract bool IsRareHeart { get; }
+    /// <summary>希少な心臓（右クリック／手動発動・1回限り）。常に true。</summary>
+    public virtual bool IsRareHeart => true;
 
     /// <summary>対応モンスター Id.Entry の代表値（ローカライズ／アイコン生成用）。</summary>
     public abstract string MonsterIdEntry { get; }

@@ -7,7 +7,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>モーラーの心臓 — 希少。ランダム敵に弱体+2。</summary>
 public class MaulerHeart : EnemyHeartRelic
 {
-    public override bool IsRareHeart => true;
     public override string MonsterIdEntry => "MAWLER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
