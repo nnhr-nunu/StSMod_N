@@ -214,6 +214,8 @@
   "HYPNOSISCREATOR-FREE_HUG.description": "[gold]Multiplayer.[/gold] Pull the target. If they were already Pulled, apply {Doom:diff()} Doom and {BogPower:diff()} Bog, then pass {Cards:diff()} cards to a random ally.",
   "HYPNOSISCREATOR-KNIFE.title": "Knife",
   "HYPNOSISCREATOR-KNIFE.description": "Deal {Damage:diff()} damage.",
+  "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "Slimed",
+  "HYPNOSISCREATOR-ABNORMAL_SLIME.description": "Awaken Abnormal fetish. Draw {Cards:diff()} card(s).",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "Unconscious Guidance",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "Whenever an opponent attacks you, gain {Block:diff()} [gold]Block[/gold] before the hit.",
   "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "Cheer from the Abyss",

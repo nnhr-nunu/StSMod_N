@@ -151,5 +151,8 @@
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.title": "Zap Machine",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "At the end of your turn, deals 14 damage to a random enemy.",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "At the end of your turn, deals 14 damage to a random enemy.",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.title": "Soar",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.description": "Receives [gold]50%[/gold] less attack damage until it lands.",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.smartDescription": "This turn, receive [blue]{DamageDecrease}%[/blue] less attack damage.",
   "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "Whenever you deal unblocked damage, deal {Amount:diff()} additional damage."
 }

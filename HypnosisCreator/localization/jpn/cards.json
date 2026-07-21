@@ -214,6 +214,8 @@
   "HYPNOSISCREATOR-FREE_HUG.description": "相手を引き寄せる。すでに相手が引き寄せられている場合、破滅{Doom:diff()}と沼1を与え、ランダムな味方に2枚パスする。",
   "HYPNOSISCREATOR-KNIFE.title": "ナイフ",
   "HYPNOSISCREATOR-KNIFE.description": "{Damage:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "粘液",
+  "HYPNOSISCREATOR-ABNORMAL_SLIME.description": "アブノーマル性癖に目覚めさせる。カードを{Cards:diff()}枚引く。",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.title": "無意識下の誘導",
   "HYPNOSISCREATOR-UNCONSCIOUS_GUIDANCE.description": "相手が攻撃するたび、その攻撃がヒットする前に{Block:diff()}ブロックを得る。",
   "HYPNOSISCREATOR-CHEER_FROM_THE_ABYSS.title": "深淵からの声援",

@@ -247,5 +247,11 @@
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-FABRICATOR_HEART.title": "ファブリケーターの心臓",
   "HYPNOSISCREATOR-FABRICATOR_HEART.description": "希少な心臓。ザップマシンを味方として召喚する。あなたのターン終了時、ランダムな敵に14ダメージを与える。",
-  "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "まだ脈打っている。"
+  "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.title": "フクロウ判事の心臓",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.description": "希少な心臓。このターン、飛翔を得る。",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.flavor": "まだ脈打っている。",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.title": "スライムバーサーカーの心臓",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "希少な心臓。相手へプレイ可能な粘液を5枚手札に加える。",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "まだ脈打っている。"
 }

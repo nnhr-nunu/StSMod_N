@@ -247,5 +247,11 @@
   "HYPNOSISCREATOR-FROG_KNIGHT_HEART.flavor": "Still beating.",
   "HYPNOSISCREATOR-FABRICATOR_HEART.title": "Fabricator Heart",
   "HYPNOSISCREATOR-FABRICATOR_HEART.description": "Rare Heart. Summon a Zap Machine as an ally. At the end of your turn, it deals 14 damage to a random enemy.",
-  "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "Still beating."
+  "HYPNOSISCREATOR-FABRICATOR_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.title": "Owl Magistrate Heart",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.description": "Rare Heart. Gain Soar this turn.",
+  "HYPNOSISCREATOR-OWL_MAGISTRATE_HEART.flavor": "Still beating.",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.title": "Slimed Berserker Heart",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.description": "Rare Heart. Add 5 playable Slimed to your hand.",
+  "HYPNOSISCREATOR-SLIMED_BERSERKER_HEART.flavor": "Still beating."
 }

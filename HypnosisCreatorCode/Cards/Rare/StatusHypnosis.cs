@@ -9,9 +9,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 状態異常催眠 — パワー。CSV: トランス中の敵へ状態異常・呪いを付与しやすくする効果を想定。
-/// 個別の状態異常・呪い付与カードは未確定のため、暫定でマーカーパワーのみ付与する。UGでInnate。
-/// TODO: mechanics-lock.md「後送」の状態異常・呪い個別効果が確定したら実装する。
+/// 状態異常催眠 — パワー。トランス状態の敵へ状態異常・呪いをプレイ可能にする。
+/// 粘液（AbnormalSlime）等の個別効果は各カード。UGでInnate。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class StatusHypnosis() : HypnosisCreatorCard(1,

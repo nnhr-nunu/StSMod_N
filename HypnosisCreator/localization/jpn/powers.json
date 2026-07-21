@@ -151,5 +151,8 @@
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.title": "ザップマシン",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.description": "あなたのターン終了時、ランダムな敵に14ダメージを与える。",
   "HYPNOSISCREATOR-ALLY_ZAPBOT_POWER.smartDescription": "あなたのターン終了時、ランダムな敵に14ダメージを与える。",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.title": "飛翔",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.description": "着陸するまで、アタックによるダメージを[gold]50%[/gold]軽減する。",
+  "HYPNOSISCREATOR-THIS_TURN_SOAR_POWER.smartDescription": "このターン、アタックによるダメージを[blue]{DamageDecrease}%[/blue]軽減する。",
   "HYPNOSISCREATOR-SCROLL_OF_BITING_POWER.smartDescription": "ブロックされずにダメージを与えるたび、追加で{Amount:diff()}ダメージを与える。"
 }

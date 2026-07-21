@@ -107,6 +107,8 @@ STEM_ALIASES: dict[str, str] = {
     "ROCKET": "kaiser_crab",
     "MYTE": "myte",
     "KNOWLEDGE_DEMON": "knowledge_demon",
+    "OWL_MAGISTRATE": "owl_magistrate",
+    "SLIMED_BERSERKER": "slimed_berserker",
     "CHOMPER": "chomper",
     "CORPSE_SLUG": "corpse_slug",
     "FAT_GREMLIN": "fat_gremlin",
