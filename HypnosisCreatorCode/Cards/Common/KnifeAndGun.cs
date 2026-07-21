@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>ナイフと拳銃 — アブノーマル。ダメージを与え、ナイフを1枚手札に加える。</summary>
+/// <summary>ナイフと拳銃 — アブノーマル。ダメージ＋ナイフ生成＋アブノーマル目覚め。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class KnifeAndGun() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -36,6 +36,7 @@ public class KnifeAndGun() : HypnosisCreatorCard(1,
             await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
         }
 
+        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 

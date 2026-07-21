@@ -144,7 +144,7 @@
   "HYPNOSISCREATOR-CULT_LEADER.title": "Cult Leader",
   "HYPNOSISCREATOR-CULT_LEADER.description": "Abnormal, DomSub, and SM cards always hit Fetish. Whenever you apply Trance, gain 1 [gold]Energy[/gold] and draw {Draw:diff()} cards next turn.",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.title": "Knife and Gun",
-  "HYPNOSISCREATOR-KNIFE_AND_GUN.description": "Deal {Damage:diff()} damage. Add a Knife to your hand.",
+  "HYPNOSISCREATOR-KNIFE_AND_GUN.description": "Deal {Damage:diff()} damage. Add a Knife to your hand. Awaken Abnormal.",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.title": "Brain Slime Hypnosis",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description": "This turn, redirect the target's attacks to another opponent (never the player). Apply {Trance:diff()} Trance.",
   "HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.title": "Plant Parasite Hypnosis",
