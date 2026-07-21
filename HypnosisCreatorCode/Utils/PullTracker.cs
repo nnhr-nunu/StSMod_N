@@ -15,16 +15,27 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// 「引き寄せ（Pull）」— 対象をプレイヤー側へ寄せ、戦闘中は引き寄せ済みとして扱う。
 /// 位置移動は本家 Sandpit と同様に global_position:x を Tween する。
+/// 画面外への押し出し・プレイヤーとの過度な重なりをクランプする。
 /// </summary>
 public static class PullTracker
 {
-    /// <summary>一度に寄せる距離（ピクセル）。</summary>
+    /// <summary>一度に寄せる／遠ざける距離（ピクセル）。</summary>
     private const float PullDistance = 280f;
 
-    /// <summary>プレイヤーと重ならないよう残す最低間隔。</summary>
-    private const float MinGapFromPlayer = 150f;
+    /// <summary>ヒットボックス端同士の最低すき間。</summary>
+    private const float MinEdgePadding = 48f;
+
+    /// <summary>ヒットボックスが取れないときのフォールバック間隔（中心間）。</summary>
+    private const float FallbackMinGapFromPlayer = 220f;
+
+    /// <summary>プレイヤー中心からこれ以上遠くへは押し出さない。</summary>
+    private const float MaxDistanceFromPlayer = 820f;
+
+    /// <summary>画面端に残すマージン（スプライト半幅に加えて確保）。</summary>
+    private const float ScreenEdgeMargin = 64f;
 
     private const float TweenSeconds = 0.35f;
+    private const float MinMoveEpsilon = 4f;
 
     private static readonly NotNullSpireField<Creature, PullState> Field = new(() => new PullState());
 
@@ -81,24 +92,31 @@ public static class PullTracker
         if (player != null)
             playerNode = room.GetCreatureNode(player);
 
+        float? playerX = null;
+        var minGap = FallbackMinGapFromPlayer;
+
         if (playerNode != null && GodotObject.IsInstanceValid(playerNode))
         {
-            var playerX = playerNode.GlobalPosition.X;
+            playerX = playerNode.GlobalPosition.X;
+            minGap = GetMinCenterGap(playerNode, enemyNode);
+
             if (towardPlayer)
             {
-                // 敵が右・プレイヤーが左が通常配置。左右どちらでもプレイヤーへ近づける。
-                if (enemyX >= playerX)
-                    targetX = Math.Max(playerX + MinGapFromPlayer, enemyX - PullDistance);
+                // 敵が右・プレイヤーが左が通常配置。左右どちらでもプレイヤーへ近づけるが、通過しない。
+                if (enemyX >= playerX.Value)
+                    targetX = Math.Max(playerX.Value + minGap, enemyX - PullDistance);
                 else
-                    targetX = Math.Min(playerX - MinGapFromPlayer, enemyX + PullDistance);
+                    targetX = Math.Min(playerX.Value - minGap, enemyX + PullDistance);
             }
             else
             {
-                // プレイヤーから離す
-                if (enemyX >= playerX)
+                // プレイヤーから離す（画面外・過度な遠ざかりは後でクランプ）
+                if (enemyX >= playerX.Value)
                     targetX = enemyX + PullDistance;
                 else
                     targetX = enemyX - PullDistance;
+
+                targetX = ClampAwayFromPlayer(playerX.Value, enemyX, targetX, minGap);
             }
         }
         else
@@ -106,13 +124,112 @@ public static class PullTracker
             targetX = towardPlayer ? enemyX - PullDistance : enemyX + PullDistance;
         }
 
-        if (Math.Abs(targetX - enemyX) < 4f) return;
+        targetX = ClampToVisibleX(room, enemyNode, targetX);
+
+        // 引き寄せのみ: 画面クランプでプレイヤー側へ押されても通過しない
+        // 遠ざかりは画面端クランプを優先（何度逃亡しても画面外へ出さない）
+        if (towardPlayer && playerX is float px)
+            targetX = EnforcePlayerGapOnPull(px, enemyX, targetX, minGap);
+
+        if (Math.Abs(targetX - enemyX) < MinMoveEpsilon) return;
 
         var tween = room.CreateTween();
         tween.SetEase(Tween.EaseType.Out);
         tween.SetTrans(Tween.TransitionType.Cubic);
         tween.TweenProperty(enemyNode, "global_position:x", targetX, TweenSeconds);
         await TweenHelper.AwaitFinished(tween, room);
+    }
+
+    /// <summary>プレイヤーを通り過ぎないよう、遠ざけ方向の上限も中心間隔で抑える。</summary>
+    private static float ClampAwayFromPlayer(float playerX, float enemyX, float targetX, float minGap)
+    {
+        if (enemyX >= playerX)
+        {
+            var maxX = playerX + MaxDistanceFromPlayer;
+            var minX = playerX + minGap;
+            return Math.Clamp(targetX, minX, maxX);
+        }
+
+        var minLeft = playerX - MaxDistanceFromPlayer;
+        var maxLeft = playerX - minGap;
+        return Math.Clamp(targetX, minLeft, maxLeft);
+    }
+
+    /// <summary>画面クランプ後もプレイヤーとの最低間隔を守る（引き寄せ用）。</summary>
+    private static float EnforcePlayerGapOnPull(
+        float playerX, float enemyX, float targetX, float minGap)
+    {
+        if (enemyX >= playerX)
+            return Math.Max(targetX, playerX + minGap);
+        return Math.Min(targetX, playerX - minGap);
+    }
+
+    /// <summary>敵の体が画面内に残るよう X をクランプする。</summary>
+    private static float ClampToVisibleX(NCombatRoom room, NCreature enemyNode, float targetX)
+    {
+        var body = GetBodyRect(enemyNode);
+        var width = Math.Max(80f, body.Size.X);
+        var pivotFromLeft = enemyNode.GlobalPosition.X - body.Position.X;
+
+        if (!TryGetVisibleGlobalXRange(room, enemyNode, out var minVisible, out var maxVisible))
+            return targetX;
+
+        // 体の左端／右端が画面マージン内に収まるノード X
+        var minX = minVisible + ScreenEdgeMargin + pivotFromLeft;
+        var maxX = maxVisible - ScreenEdgeMargin - width + pivotFromLeft;
+        if (minX > maxX)
+            return (minX + maxX) * 0.5f;
+
+        return Math.Clamp(targetX, minX, maxX);
+    }
+
+    private static bool TryGetVisibleGlobalXRange(NCombatRoom room, NCreature enemyNode, out float minX, out float maxX)
+    {
+        minX = 0f;
+        maxX = 0f;
+
+        try
+        {
+            var viewport = enemyNode.GetViewport() ?? room.GetViewport();
+            if (viewport == null) return false;
+
+            var localRect = viewport.GetVisibleRect();
+            var xf = enemyNode.GetViewportTransform().AffineInverse();
+            var p0 = xf * localRect.Position;
+            var p1 = xf * (localRect.Position + localRect.Size);
+            minX = Math.Min(p0.X, p1.X);
+            maxX = Math.Max(p0.X, p1.X);
+            return maxX - minX > 100f;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static float GetMinCenterGap(NCreature playerNode, NCreature enemyNode)
+    {
+        var playerRect = GetBodyRect(playerNode);
+        var enemyRect = GetBodyRect(enemyNode);
+        var fromBoxes = playerRect.Size.X * 0.5f + enemyRect.Size.X * 0.5f + MinEdgePadding;
+        return Math.Max(FallbackMinGapFromPlayer, fromBoxes);
+    }
+
+    private static Rect2 GetBodyRect(NCreature node)
+    {
+        if (node.Hitbox != null && GodotObject.IsInstanceValid(node.Hitbox))
+        {
+            var hit = node.Hitbox.GetGlobalRect();
+            if (hit.Size.X > 1f)
+                return hit;
+        }
+
+        var rect = node.GetGlobalRect();
+        if (rect.Size.X > 1f)
+            return rect;
+
+        // 最終手段: 現在位置を中心にした仮の幅
+        return new Rect2(node.GlobalPosition.X - 80f, node.GlobalPosition.Y - 80f, 160f, 160f);
     }
 }
 
