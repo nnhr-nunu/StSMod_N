@@ -41,6 +41,8 @@ public static class SlimeDisguise
         public required MonsterModel Disguise { get; init; }
         public NCreatureVisuals? OriginalVisuals { get; init; }
         public NCreatureVisuals? DisguiseVisuals { get; init; }
+        /// <summary>左配置の敵向けに Scale.X を反転したとき true。</summary>
+        public bool FlippedForLeftSide { get; init; }
     }
 
     public static State? Apply(Creature creature, Rng rng)
@@ -60,6 +62,7 @@ public static class SlimeDisguise
         var displayName = disguise.Title.GetFormattedText();
         NCreatureVisuals? original = null;
         NCreatureVisuals? created = null;
+        var flipped = false;
 
         try
         {
@@ -70,6 +73,8 @@ public static class SlimeDisguise
                 created = disguise.CreateVisuals();
                 SwapVisuals(node, original, created);
                 RefreshAnimator(node, disguise);
+                // 通常スライムは左向き。画面左の敵（カイザーのクラッシャー等）はプレイヤーへ向くよう反転する。
+                flipped = TryFaceTowardPlayer(creature, node, created);
             }
         }
         catch (Exception e)
@@ -82,7 +87,8 @@ public static class SlimeDisguise
             DisplayName = displayName,
             Disguise = disguise,
             OriginalVisuals = original,
-            DisguiseVisuals = created
+            DisguiseVisuals = created,
+            FlippedForLeftSide = flipped
         };
     }
 
@@ -153,6 +159,42 @@ public static class SlimeDisguise
         catch (Exception e)
         {
             MainFile.Logger.Warn($"Slime disguise animator refresh failed: {e.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 敵がプレイヤーより左にいるとき、デフォルト左向きのスライム見た目を右向きへ反転する。
+    /// </summary>
+    private static bool TryFaceTowardPlayer(Creature enemy, NCreature enemyNode, NCreatureVisuals disguise)
+    {
+        try
+        {
+            var player = enemy.CombatState?.GetOpponentsOf(enemy).FirstOrDefault();
+            if (player == null) return false;
+
+            var playerNode = NCombatRoom.Instance?.GetCreatureNode(player);
+            if (playerNode == null) return false;
+
+            // 画面左の敵 → プレイヤー（右）を向くため Scale.X を負にする
+            if (enemyNode.GlobalPosition.X >= playerNode.GlobalPosition.X)
+                return false;
+
+            var scale = disguise.Scale;
+            var absX = Math.Abs(scale.X);
+            if (absX < 0.001f)
+            {
+                var def = Math.Abs(disguise.DefaultScale);
+                absX = def > 0.001f ? def : 1f;
+            }
+
+            var y = Math.Abs(scale.Y) > 0.001f ? scale.Y : absX;
+            disguise.Scale = new Vector2(-absX, y);
+            return true;
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Slime disguise facing flip failed: {e.Message}");
+            return false;
         }
     }
 }
