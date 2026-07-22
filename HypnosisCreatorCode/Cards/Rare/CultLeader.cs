@@ -22,7 +22,7 @@ public class CultLeader() : HypnosisCreatorCard(3,
         [new DynamicVar("Draw", 1M)];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
-        [HoverTipFactory.FromPower<CultLeaderPower>()];
+        [HoverTipFactory.FromPower<CultLeaderPower>(DynamicVars["Draw"].IntValue)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
         await PowerCmd.Apply<CultLeaderPower>(

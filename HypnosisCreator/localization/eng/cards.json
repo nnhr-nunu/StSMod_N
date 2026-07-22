@@ -144,7 +144,7 @@
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.title": "Love-Love Hypnosis",
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.description": "If the opponent intends to Buff, change that buff's target to you. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-CULT_LEADER.title": "Cult Leader",
-  "HYPNOSISCREATOR-CULT_LEADER.description": "[gold]Abnormal[/gold], DomSub, and SM cards always hit Fetish. Whenever you apply [gold]Trance[/gold], next turn gain {energyPrefix:energyIcons(1)} and draw {Draw:diff()} {Draw:plural:card|cards}.",
+  "HYPNOSISCREATOR-CULT_LEADER.description": "[gold]Abnormal[/gold], [gold]DomSub[/gold], and [gold]SM[/gold] cards always hit Fetish. Whenever you apply [gold]Trance[/gold], next turn gain {energyPrefix:energyIcons(1)} and draw {Draw:diff()} {Draw:plural:card|cards}.",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.title": "Knife and Gun",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.description": "Add [blue]1[/blue] Knife into your [gold]Hand[/gold]. Deal {Damage:diff()} damage. Awaken Abnormal.",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.title": "Brain Slime Hypnosis",
