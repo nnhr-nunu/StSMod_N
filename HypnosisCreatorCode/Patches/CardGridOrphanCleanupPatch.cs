@@ -4,14 +4,16 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Cards.Holders;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 本家 NGridCardHolder のプール回収が Visible を落とさないため、
-/// カードライブラリ再構築（レア絞り込み等）で枠がツリーに残ると画面左上(0,0)に浮いて見える。
+/// カードライブラリ専用。報酬／選択画面の NGridCardHolder プールには触らない。
+/// 絞り込み再構築後に scroll 直下へ残った枠だけ回収する。
 /// </summary>
-internal static class CardGridOrphanCleanup
+[HarmonyPatch(typeof(NCardGrid), "InitGrid", [])]
+public static class CardLibraryOrphanCleanupPatch
 {
     private static readonly FieldInfo? CardRowsField =
         AccessTools.Field(typeof(NCardGrid), "_cardRows");
@@ -19,18 +21,31 @@ internal static class CardGridOrphanCleanup
     private static readonly FieldInfo? ScrollContainerField =
         AccessTools.Field(typeof(NCardGrid), "_scrollContainer");
 
-    public static void HideFreedHolder(NGridCardHolder holder)
+    private static readonly MethodInfo? IsCardLibraryGetter =
+        AccessTools.PropertyGetter(typeof(NCardGrid), "IsCardLibrary");
+
+    public static void Postfix(NCardGrid __instance)
     {
-        if (!GodotObject.IsInstanceValid(holder)) return;
-        holder.Visible = false;
-        holder.Position = Vector2.Zero;
-        holder.MouseFilter = Control.MouseFilterEnum.Ignore;
+        // 報酬画面など他の NCardGrid には絶対に掛けない
+        if (!IsLibraryGrid(__instance)) return;
+        CleanupOrphans(__instance);
     }
 
-    /// <summary>
-    /// scrollContainer 直下にあるが _cardRows に載っていないホルダーを回収する。
-    /// </summary>
-    public static void CleanupOrphans(NCardGrid grid)
+    private static bool IsLibraryGrid(NCardGrid grid)
+    {
+        if (grid is NCardLibraryGrid) return true;
+        if (IsCardLibraryGetter == null) return false;
+        try
+        {
+            return (bool)IsCardLibraryGetter.Invoke(grid, null)!;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static void CleanupOrphans(NCardGrid grid)
     {
         if (CardRowsField == null || ScrollContainerField == null) return;
         if (ScrollContainerField.GetValue(grid) is not Control scroll) return;
@@ -52,47 +67,11 @@ internal static class CardGridOrphanCleanup
             if (child is not NGridCardHolder holder) continue;
             if (tracked.Contains(holder)) continue;
 
-            HideFreedHolder(holder);
-            GodotTreeExtensions.QueueFreeSafely(holder);
+            if (GodotObject.IsInstanceValid(holder))
+            {
+                holder.Visible = false;
+                GodotTreeExtensions.QueueFreeSafely(holder);
+            }
         }
-    }
-}
-
-/// <summary>プール回収時に必ず非表示へ（本家 OnFreedToPool が空なのが穴）。</summary>
-[HarmonyPatch(typeof(NGridCardHolder), "OnFreedToPool")]
-public static class GridCardHolderFreedToPoolPatch
-{
-    public static void Postfix(NGridCardHolder __instance) =>
-        CardGridOrphanCleanup.HideFreedHolder(__instance);
-}
-
-/// <summary>
-/// 本家 OnReturnedFromPool は Position=(0,0) かつ Visible=true にする。
-/// 親から外しきれない瞬間や再配置前に左上へ描画されるため、配置役が Visible を立てるまで隠す。
-/// </summary>
-[HarmonyPatch(typeof(NGridCardHolder), "OnReturnedFromPool")]
-public static class GridCardHolderReturnedFromPoolPatch
-{
-    public static void Postfix(NGridCardHolder __instance)
-    {
-        if (!GodotObject.IsInstanceValid(__instance)) return;
-        __instance.Visible = false;
-    }
-}
-
-/// <summary>グリッド再構築後に、行リスト外の取り残し枠を掃除する。</summary>
-[HarmonyPatch(typeof(NCardGrid), "InitGrid", [])]
-public static class CardGridInitOrphanCleanupPatch
-{
-    public static void Postfix(NCardGrid __instance)
-    {
-        CardGridOrphanCleanup.CleanupOrphans(__instance);
-        // RemoveChild / Free が遅延のとき用に1フレーム後も掃除
-        var grid = __instance;
-        Callable.From(() =>
-        {
-            if (GodotObject.IsInstanceValid(grid))
-                CardGridOrphanCleanup.CleanupOrphans(grid);
-        }).CallDeferred();
     }
 }
