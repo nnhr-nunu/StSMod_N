@@ -1,4 +1,8 @@
+using System.Reflection;
 using Godot;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Config;
 
@@ -18,6 +22,12 @@ public static class VisualTuner
     /// <summary>立ち絵は Flip H ON 前提（Hailuo 右下ロゴ → UV 左）。</summary>
     private const float WatermarkOnUvLeft = 1.0f;
 
+    private static readonly FieldInfo? NCardPortraitField =
+        AccessTools.Field(typeof(NCard), "_portrait");
+
+    private static readonly FieldInfo? NCardAncientPortraitField =
+        AccessTools.Field(typeof(NCard), "_ancientPortrait");
+
     private static Shader? _cropShader;
 
     public static void ApplyAll()
@@ -32,6 +42,45 @@ public static class VisualTuner
         {
             MainFile.Logger.Warn($"VisualTuner.ApplyAll failed: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// カード絵差し替え直後に呼ぶ。ライブラリ一覧では本家表示のままにし、
+    /// それ以外ではテクスチャに合わせたクロップを都度当てる（使い回しホルダーのズレ防止）。
+    /// </summary>
+    public static void ApplyCardPortraitCrop(NCard card)
+    {
+        try
+        {
+            if (IsUnderCardLibrary(card))
+            {
+                ClearPortraitField(card, NCardPortraitField);
+                ClearPortraitField(card, NCardAncientPortraitField);
+                return;
+            }
+
+            var map = CardCropStore.LoadAll();
+            ApplyPortraitField(card, NCardPortraitField, map);
+            ApplyPortraitField(card, NCardAncientPortraitField, map);
+        }
+        catch (Exception ex)
+        {
+            MainFile.Logger.Warn($"VisualTuner.ApplyCardPortraitCrop failed: {ex.Message}");
+        }
+    }
+
+    private static void ClearPortraitField(NCard card, FieldInfo? field)
+    {
+        if (field?.GetValue(card) is TextureRect portrait)
+            ClearCropMaterial(portrait);
+    }
+
+    private static void ApplyPortraitField(NCard card, FieldInfo? field, Dictionary<string, CardCropStore.Crop> map)
+    {
+        if (field?.GetValue(card) is not TextureRect portrait)
+            return;
+
+        ApplyCropToItem(portrait, map);
     }
 
     public static void ApplyChroma()
@@ -100,19 +149,68 @@ public static class VisualTuner
 
         foreach (var item in FindCanvasItemsWithCardPortrait())
         {
-            var path = GetTexturePath(item);
-            var key = CardCropStore.KeyFromTexturePath(path);
-            var crop = CardCropStore.Get(key, map);
-
-            EnsureCropMaterial(item);
-            if (item.Material is ShaderMaterial mat)
+            if (IsUnderCardLibrary(item))
             {
-                // UI は「Yプラス＝画面下へ」。UV オフセットは符号が逆なので反転する。
-                SetCropParams(mat,
-                    new Vector2((float)crop.OffsetX, -(float)crop.OffsetY),
-                    (float)crop.Zoom);
+                ClearCropMaterial(item);
+                continue;
             }
+
+            ApplyCropToItem(item, map);
         }
+    }
+
+    /// <summary>カードライブラリ内のノード追加では全再適用を起こさない（一覧のちらつき／負荷防止）。</summary>
+    public static bool IsCardPortraitNode(Node node)
+    {
+        var path = node switch
+        {
+            TextureRect r => r.Texture?.ResourcePath ?? "",
+            Sprite2D s => s.Texture?.ResourcePath ?? "",
+            _ => ""
+        };
+        return path.Contains(CardPortraitPathHint, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void ApplyCropToItem(CanvasItem item, Dictionary<string, CardCropStore.Crop> map)
+    {
+        var path = GetTexturePath(item);
+        if (!path.Contains(CardPortraitPathHint, StringComparison.OrdinalIgnoreCase))
+        {
+            ClearCropMaterial(item);
+            return;
+        }
+
+        var key = CardCropStore.KeyFromTexturePath(path);
+        var crop = CardCropStore.Get(key, map);
+
+        EnsureCropMaterial(item);
+        if (item.Material is ShaderMaterial mat)
+        {
+            // UI は「Yプラス＝画面下へ」。UV オフセットは符号が逆なので反転する。
+            SetCropParams(mat,
+                new Vector2((float)crop.OffsetX, -(float)crop.OffsetY),
+                (float)crop.Zoom);
+        }
+    }
+
+    private static void ClearCropMaterial(CanvasItem item)
+    {
+        if (item.Material is ShaderMaterial mat &&
+            mat.Shader?.ResourcePath?.Contains("image_crop", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            item.Material = null;
+        }
+    }
+
+    private static bool IsUnderCardLibrary(Node node)
+    {
+        for (var p = node; p != null; p = p.GetParent())
+        {
+            if (p is NCardLibrary or NCardLibraryGrid)
+                return true;
+        }
+
+        return false;
     }
 
     private static void RememberAndApplyControlOffsets(Control control, float ox, float oy)

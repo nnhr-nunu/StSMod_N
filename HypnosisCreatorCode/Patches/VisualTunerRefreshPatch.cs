@@ -7,6 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// 新しいノードが出たタイミングで見た目設定を再適用する（短時間にまとめて1回）。
+/// カードライブラリのポートレート追加では全再適用しない（本家一覧を壊さない）。
 /// </summary>
 [HarmonyPatch(typeof(NGame), nameof(NGame._Ready))]
 public static class VisualTunerRefreshPatch
@@ -28,6 +29,10 @@ public static class VisualTunerRefreshPatch
     private static void OnNodeAdded(Node node)
     {
         if (node is not (Sprite2D or AnimatedSprite2D or TextureRect)) return;
+
+        // カード絵は UpdatePortrait 側で都度適用。ここで ApplyAll するとライブラリ一覧が荒れる。
+        if (VisualTuner.IsCardPortraitNode(node))
+            return;
 
         // パスが後から付くこともあるので、名前か種類で軽く絞る
         var name = node.Name.ToString();
