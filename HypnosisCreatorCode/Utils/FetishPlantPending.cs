@@ -8,7 +8,10 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
-/// <summary>初心者向け催眠: 次にプレイする性癖カードのタグを対象へ植え付ける。</summary>
+/// <summary>
+/// 初心者向け催眠: 次にプレイする性癖カードのタグを、アーム済みの敵へ植え付ける。
+/// 集団催眠で波及した場合は対象を複数保持し、1枚の性癖カードで全員に植え付ける。
+/// </summary>
 public static class FetishPlantPending
 {
     private static readonly NotNullSpireField<Player, PlantState> Field =
@@ -21,12 +24,21 @@ public static class FetishPlantPending
         int remainingCards,
         CardModel? source)
     {
-        var state = Field.Get(player);
-        state.Target = target;
-        state.Remaining = Math.Max(0, remainingCards);
+        if (target is not { IsAlive: true, IsEnemy: true }) return;
 
-        if (state.Remaining <= 0 || player.Creature == null)
+        var state = Field.Get(player);
+        PruneDead(state);
+
+        if (!state.Targets.Contains(target))
+            state.Targets.Add(target);
+
+        // 波及コピーは同じ PlantCards。枚数は Max で揃え、対象だけ増やす。
+        state.Remaining = Math.Max(state.Remaining, Math.Max(0, remainingCards));
+
+        if (state.Remaining <= 0 || state.Targets.Count == 0 || player.Creature == null)
         {
+            state.Targets.Clear();
+            state.Remaining = 0;
             await ClearPlayerPower(choiceContext, player);
             return;
         }
@@ -43,28 +55,27 @@ public static class FetishPlantPending
     {
         _ = playTarget;
         var state = Field.Get(player);
-        if (state.Remaining <= 0 || state.Target == null) return;
+        PruneDead(state);
+        if (state.Remaining <= 0 || state.Targets.Count == 0) return;
         if (fetishes.Count == 0) return;
 
-        // 対象はアーム時の敵（プレイ対象と異なっても植え付け先は固定）
-        var enemy = state.Target;
-        if (!enemy.IsAlive)
+        var distinct = fetishes.Distinct().ToList();
+        foreach (var enemy in state.Targets.ToList())
         {
-            state.Remaining = 0;
-            state.Target = null;
-            await ClearPlayerPower(choiceContext, player);
-            return;
+            if (!enemy.IsAlive) continue;
+            foreach (var fetish in distinct)
+                FetishCombat.Awaken(enemy, fetish, player);
         }
-
-        foreach (var fetish in fetishes.Distinct())
-            FetishCombat.Awaken(enemy, fetish, player);
 
         state.Remaining--;
         if (state.Remaining <= 0)
-            state.Target = null;
+            state.Targets.Clear();
 
         await SyncPlayerPower(choiceContext, player, source);
     }
+
+    private static void PruneDead(PlantState state) =>
+        state.Targets.RemoveAll(t => t is not { IsAlive: true, IsEnemy: true });
 
     private static async Task SyncPlayerPower(
         PlayerChoiceContext choiceContext,
@@ -75,10 +86,13 @@ public static class FetishPlantPending
         if (creature == null) return;
 
         var state = Field.Get(player);
+        PruneDead(state);
         var existing = creature.GetPower<FetishPlantPendingPower>();
 
-        if (state.Remaining <= 0)
+        if (state.Remaining <= 0 || state.Targets.Count == 0)
         {
+            state.Remaining = 0;
+            state.Targets.Clear();
             await ClearPlayerPower(choiceContext, player);
             return;
         }
@@ -108,7 +122,7 @@ public static class FetishPlantPending
 
     private sealed class PlantState
     {
-        public Creature? Target { get; set; }
+        public List<Creature> Targets { get; } = [];
         public int Remaining { get; set; }
     }
 }

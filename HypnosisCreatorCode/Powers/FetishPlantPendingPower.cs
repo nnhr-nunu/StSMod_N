@@ -23,6 +23,8 @@ public class FetishPlantPendingPower : HypnosisCreatorPower
         var player = Owner?.Player;
         if (player == null) return;
         if (cardPlay.Card.Owner != player) return;
+        // 集団催眠の AutoPlay 波及では消費しない（手動プレイ1回でアーム済み全員へ植え付け済み）
+        if (MassHypnosisPower.IsPropagating) return;
         if (!CardFetishLookup.HasAnyFetish(cardPlay.Card)) return;
 
         var fetishes = CardFetishLookup.GetFetishes(cardPlay.Card);

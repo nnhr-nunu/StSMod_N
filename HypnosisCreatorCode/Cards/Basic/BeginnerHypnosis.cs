@@ -1,6 +1,5 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
-using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,7 +7,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>初心者向け催眠 — カウント。破滅12＋次の性癖カードのタグを植え付け＋トランス1。</summary>
+/// <summary>
+/// 初心者向け催眠 — カウント。破滅12＋次の性癖カードのタグを植え付け＋トランス1。
+/// 集団催眠で波及した対象も Arm に積み上げ、次の性癖カードで全員へ植え付ける。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BeginnerHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Basic,
@@ -30,10 +32,6 @@ public class BeginnerHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
-
-        // 集団催眠の AutoPlay 波及では Arm しない。
-        // 後から来るコピーが Target を上書きすると、手動で狙った敵と違う相手へ植え付く。
-        if (MassHypnosisPower.IsPropagating) return;
 
         await FetishPlantPending.Arm(
             choiceContext, Owner, play.Target, DynamicVars["PlantCards"].IntValue, this);
