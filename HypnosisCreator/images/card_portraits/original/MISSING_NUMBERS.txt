@@ -1,0 +1,55 @@
+# 原画未配置（CSV + cards.json に存在するが original/ に番号ファイルなし）
+# 更新: python tools_process_card_portraits.py --write-lists
+# 形式: No | 日本語名 | 出力ファイル名
+#
+# No.56-66（Kneel! 等）は No.48 調教コマンドと同一絵のため、別原画は不要
+
+1	完全掌握	total_control.png
+8	ASMR催眠	asmr_hypnosis.png
+14	集団催眠	mass_hypnosis.png
+15	前戯	prefinger.png
+17	カタレプシー	catalepsy.png
+29	ちゃんとできるね？	can_do_it.png
+35	指折り数えて	finger_count.png
+36	ふにゃへにゃ	soften.png
+37	寝かしつけ催眠	lullaby_hypnosis.png
+39	腹部への殴打	abdominal_strike.png
+44	意識を飛ばす光	gaze_light.png
+45	凝視	stare.png
+50	練達	mastery.png
+52	トランスに溶けゆく	melt_into_trance.png
+70	ティンシャ	tingsha.png
+71	連続指パッチン	infinite_finger_snap.png
+72	壱佰捌煩悩	hundred_eight.png
+96	鼓動の共有	heartbeat_share.png
+98	フリーハグ<3	free_hug.png
+226	粘液	abnormal_slime.png
+227	火傷	abnormal_burn.png
+228	負傷	abnormal_wound.png
+229	衰微	abnormal_wither.png
+230	すす	soot_status.png
+231	めまい	dazed_status.png
+232	感染	infect.png
+233	虚無	void_status.png
+234	デブリ	debris_status.png
+235	決死の逃亡	frantic_escape_status.png
+236	毒素	toxic_status.png
+237	誘い	beckon_status.png
+238	アセンダーの災厄	ascenders_bane_curse.png
+239	怪我	injury_curse.png
+240	強欲	greed_curse.png
+241	疑念	doubt_curse.png
+242	苦悩	writhe_curse.png
+243	愚行	folly_curse.png
+244	後悔	regret_curse.png
+245	罪悪感	guilty_curse.png
+246	鐘の呪い	curse_of_the_bell_curse.png
+247	寝不足	poor_sleep_curse.png
+248	不運	bad_luck_curse.png
+249	不器用	clumsy_curse.png
+250	腐敗	decay_curse.png
+251	負債	debt_curse.png
+252	凡庸	normality_curse.png
+253	羞恥	shame_curse.png
+254	菌糸の汚染	spore_mind_curse.png
+255	心酔	enthralled_curse.png

@@ -249,9 +249,13 @@ def process_one(
     return method
 
 
-def discover_numbered(original_dir: Path) -> list[tuple[int, Path]]:
-    """One file per CSV No; if duplicates, pick largest (usually highest quality)."""
-    by_no: dict[int, Path] = {}
+def discover_numbered(
+    original_dir: Path,
+    *,
+    on_duplicate: str = "error",
+) -> list[tuple[int, Path]]:
+    """One file per CSV No. on_duplicate: error | largest."""
+    by_no: dict[int, list[Path]] = {}
     for path in original_dir.iterdir():
         if not path.is_file():
             continue
@@ -261,13 +265,94 @@ def discover_numbered(original_dir: Path) -> list[tuple[int, Path]]:
         if not m:
             print(f"  skip (not numbered): {path.name}")
             continue
-        no = int(m.group(1))
-        prev = by_no.get(no)
-        if prev is None or path.stat().st_size > prev.stat().st_size:
-            if prev is not None:
-                print(f"  No.{no}: use {path.name} (skip {prev.name}, smaller duplicate)")
-            by_no[no] = path
-    return sorted(by_no.items())
+        by_no.setdefault(int(m.group(1)), []).append(path)
+
+    dup_errors: list[str] = []
+    out: list[tuple[int, Path]] = []
+    for no, paths in sorted(by_no.items()):
+        if len(paths) > 1:
+            names = ", ".join(p.name for p in sorted(paths, key=lambda p: p.name))
+            if on_duplicate == "error":
+                dup_errors.append(f"No.{no}: {names}")
+                continue
+            chosen = max(paths, key=lambda p: p.stat().st_size)
+            skipped = [p.name for p in paths if p != chosen]
+            print(f"  No.{no}: use {chosen.name} (skip {', '.join(skipped)}, duplicate)")
+            out.append((no, chosen))
+        else:
+            out.append((no, paths[0]))
+
+    if dup_errors:
+        msg = "番号が重複しています。1枚だけ残してから再実行してください:\n" + "\n".join(
+            f"  - {e}" for e in dup_errors
+        )
+        raise SystemExit(msg)
+    return out
+
+
+def list_unnumbered_images(original_dir: Path) -> list[Path]:
+    return sorted(
+        p
+        for p in original_dir.iterdir()
+        if p.is_file() and p.suffix.lower() in IMAGE_EXTS and not re.fullmatch(r"\d+", p.stem)
+    )
+
+
+def write_tracking_lists(
+    original_dir: Path,
+    no_to_title: dict[int, str],
+    title_to_entry: dict[str, str],
+    numbered: list[tuple[int, Path]],
+) -> None:
+    """Write MISSING_NUMBERS.txt and UNNUMBERED_FILES.txt under original/."""
+    have = {no for no, _ in numbered}
+    missing_lines = [
+        "# 原画未配置（CSV + cards.json に存在するが original/ に番号ファイルなし）",
+        "# 更新: python tools_process_card_portraits.py --write-lists",
+        "# 形式: No | 日本語名 | 出力ファイル名",
+        "#",
+        "# No.56-66（Kneel! 等）は No.48 調教コマンドと同一絵のため、別原画は不要",
+        "",
+    ]
+    shared_targets = set()
+    for extras in SHARED_EXTRA_ENTRIES.values():
+        for entry in extras:
+            for no, title in no_to_title.items():
+                if title_to_entry.get(title) == entry:
+                    shared_targets.add(no)
+                    break
+
+    for no in sorted(no_to_title):
+        title = no_to_title[no]
+        entry = title_to_entry.get(title)
+        if entry is None:
+            continue
+        if no in have:
+            continue
+        if no in shared_targets:
+            continue
+        missing_lines.append(f"{no}\t{title}\t{entry}.png")
+
+    unnumbered = list_unnumbered_images(original_dir)
+    unnum_lines = [
+        "# 番号未指定ファイル（{No}.ext 形式ではない画像）",
+        "# カード原画としては使われません。番号付きファイル名にリネームしてください。",
+        "",
+    ]
+    if unnumbered:
+        for p in unnumbered:
+            unnum_lines.append(p.name)
+    else:
+        unnum_lines.append("(なし)")
+
+    (original_dir / "MISSING_NUMBERS.txt").write_text(
+        "\n".join(missing_lines) + "\n", encoding="utf-8"
+    )
+    (original_dir / "UNNUMBERED_FILES.txt").write_text(
+        "\n".join(unnum_lines) + "\n", encoding="utf-8"
+    )
+    print(f"Wrote {original_dir / 'MISSING_NUMBERS.txt'} ({len(missing_lines) - 4} entries)")
+    print(f"Wrote {original_dir / 'UNNUMBERED_FILES.txt'}")
 
 
 def main() -> int:
@@ -281,6 +366,17 @@ def main() -> int:
     parser.add_argument("--original", type=Path, default=ORIGINAL_DIR)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
+        "--on-duplicate",
+        choices=("error", "largest"),
+        default="error",
+        help="Duplicate CSV numbers in original/ (default: error)",
+    )
+    parser.add_argument(
+        "--write-lists",
+        action="store_true",
+        help="Write MISSING_NUMBERS.txt / UNNUMBERED_FILES.txt only (no PNG export)",
+    )
+    parser.add_argument(
         "--only",
         type=str,
         default="",
@@ -292,7 +388,6 @@ def main() -> int:
     if not csv_path.is_file():
         print(f"CSV/JSON not found: {csv_path}", file=sys.stderr)
         return 1
-    print(f"Using card list: {csv_path.name}")
 
     if not args.original.is_dir():
         print(f"original dir not found: {args.original}", file=sys.stderr)
@@ -300,12 +395,27 @@ def main() -> int:
 
     no_to_title = load_no_to_title(csv_path)
     title_to_entry = load_title_to_entry()
+
+    try:
+        items = discover_numbered(args.original, on_duplicate=args.on_duplicate)
+    except SystemExit as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+
+    if args.write_lists:
+        write_tracking_lists(args.original, no_to_title, title_to_entry, items)
+        return 0
+
+    print(f"Using card list: {csv_path.name}")
+
     only = {int(x) for x in args.only.split(",") if x.strip().isdigit()} if args.only else None
 
-    items = discover_numbered(args.original)
     if not items:
         print("No numbered images in original/")
+        write_tracking_lists(args.original, no_to_title, title_to_entry, items)
         return 0
+
+    write_tracking_lists(args.original, no_to_title, title_to_entry, items)
 
     ok = 0
     errors: list[str] = []

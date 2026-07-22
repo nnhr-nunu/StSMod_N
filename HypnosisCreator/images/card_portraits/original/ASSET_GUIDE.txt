@@ -12,3 +12,8 @@ CSV（ヒプノクリエイター.csv）の No でファイル名を付ける。
   特定番号のみ: `python tools_process_card_portraits.py --only 48`
 
 本番用 PNG は親フォルダと big/ に出力される。このフォルダの原画は残す。
+
+追跡リスト（自動更新）:
+- MISSING_NUMBERS.txt … 原画未配置のカード番号
+- UNNUMBERED_FILES.txt … 番号未指定の画像ファイル
+  更新: `python tools_process_card_portraits.py --write-lists`
