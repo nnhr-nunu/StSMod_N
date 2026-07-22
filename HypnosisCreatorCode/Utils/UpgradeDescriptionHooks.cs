@@ -51,17 +51,16 @@ public static class UpgradeDescriptionHooks
 
         // --- 定性UG（水平展開） ---
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is SoftTechnique,
-            "デバフを1種類解除する。",
+            "デバフを[blue]1[/blue]種類解除する。",
             "デバフを[green]すべて[/green]解除する。",
-            "Remove 1 random debuff from yourself.",
-            "Remove [green]all[/green] debuffs from yourself.");
+            "Remove [blue]1[/blue] debuff.",
+            "Remove [green]all[/green] debuffs.");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is ZeroOut,
-            "相手の攻撃値を0にする。",
-            "相手の攻撃値を0にし、[green]ブロックも0にする[/green]。",
-            "Set their attack value to 0.",
-            "Set their attack value to 0 and [green]remove all Block[/green].");
-
+            "相手の攻撃値を[blue]0[/blue]にする。",
+            "相手の攻撃値を[blue]0[/blue]にし、[green]ブロックも0にする[/green]。",
+            "Set their attack value to [blue]0[/blue].",
+            "Set their attack value to [blue]0[/blue] and [green]remove all Block[/green].");
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is ContinuousTrance,
             "相手すべてに同じ効果を与える。",
             "Apply the same effect to all opponents.");
@@ -89,11 +88,10 @@ public static class UpgradeDescriptionHooks
             "become reusable ([green]persists after combat[/green]).");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is HeartbeatShare,
-            "味方プレイヤー1人と共有して発動する。",
+            "味方プレイヤー[blue]1[/blue]人と共有して発動する。",
             "味方プレイヤー[green]すべて[/green]と共有して発動する。",
-            "for one ally.",
-            "for [green]all allies[/green].");
-
+            "shared with [blue]1[/blue] ally player.",
+            "shared with [green]all[/green] ally players.");
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is CollarTraining,
             "すでに引き寄せられている場合、ランダムな調教命令を2枚手札に加える。",
             "If already Pulled, add 2 random Training Command cards to your hand.");
@@ -117,21 +115,20 @@ public static class UpgradeDescriptionHooks
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is Spanking,
             "もう一度プレイできる。",
             "[green]さらに2回[/green]プレイできる。",
-            "play this card again.",
-            "play this card [green]2 more times[/green].");
+            "you may play this again.",
+            "you may play this [green]2 more times[/green].");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is Rapport,
-            "ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。",
-            "ターン開始時、[green]手札のカウントがひとつ追加で進む[/green]。",
-            "If you didn't attack an opponent last turn, reduce it by 1 more.",
-            "[green]At the start of your turn, reduce Count costs in your hand by 1 more.[/green]");
+            "ターン開始時、前のターンに相手を攻撃していなかった場合に[gold]手札[/gold]の[gold]カウント[/gold]がひとつ追加で進む。",
+            "ターン開始時、[green][gold]手札[/gold]の[gold]カウント[/gold]がひとつ追加で進む[/green]。",
+            "At the start of your turn, if you did not attack an opponent last turn, advance [gold]Count[/gold] in your [gold]Hand[/gold] once more.",
+            "[green]At the start of your turn, advance [gold]Count[/gold] in your [gold]Hand[/gold] once more.[/green]");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AsYouWish,
-            "アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。",
-            "アブノーマル：筋力1と[green]敏捷1[/green]を得る。SM：活力[green]3[/green]を得る。DomSub：ブロック[green]2[/green]を得る。",
-            "Abnormal grants Strength, SM grants Vigor, DomSub grants Block.",
-            "Abnormal grants Strength and [green]Dexterity[/green], SM grants [green]3[/green] Vigor, DomSub grants [green]2[/green] Block.");
-
+            "アブノーマル：[gold]筋力[/gold][blue]1[/blue]（強化時はさらに[gold]敏捷[/gold][blue]1[/blue]）。SM：[gold]活力[/gold][blue]2[/blue]。DomSub：[blue]1[/blue][gold]ブロック[/gold]。",
+            "アブノーマル：[gold]筋力[/gold][blue]1[/blue]と[green][gold]敏捷[/gold][blue]1[/blue][/green]。SM：[gold]活力[/gold][green][blue]3[/blue][/green]。DomSub：[green][blue]2[/blue][/green][gold]ブロック[/gold]。",
+            "Abnormal grants [blue]1[/blue] [gold]Strength[/gold] (and [blue]1[/blue] [gold]Dexterity[/gold] if upgraded), SM grants [gold]Vigor[/gold], DomSub grants [gold]Block[/gold].",
+            "Abnormal grants [blue]1[/blue] [gold]Strength[/gold] and [green][blue]1[/blue] [gold]Dexterity[/gold][/green], SM grants [green][blue]3[/blue][/green] [gold]Vigor[/gold], DomSub grants [green][blue]2[/blue][/green] [gold]Block[/gold].");
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AmbushHypnosis,
             "相手の数だけカードを引く",
             "相手の数[green]+1[/green]枚カードを引く",

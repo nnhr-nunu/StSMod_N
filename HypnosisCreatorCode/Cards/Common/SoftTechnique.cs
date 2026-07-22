@@ -35,4 +35,7 @@ public class SoftTechnique() : HypnosisCreatorCard(1,
         var chosen = debuffs[rng.NextInt(debuffs.Count)];
         await PowerCmd.Remove(chosen);
     }
+
+    // UG: デバフすべて解除（OnPlay の IsUpgraded 分岐）
+    protected override void OnUpgrade() { }
 }
