@@ -9,7 +9,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
-/// <summary>受容の需要 — 受けた攻撃の回数を記録し、次の自ターン開始時にその数だけエナジーとドローを得る。</summary>
+/// <summary>
+/// 受容の需要 — 受けた攻撃ヒットを記録し、次の自ターン開始時に
+/// （ヒット数 × Amount）ぶんのエナジーとドローを得る。
+/// </summary>
 public class AcceptanceNeedPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
@@ -32,7 +35,7 @@ public class AcceptanceNeedPower : HypnosisCreatorPower
         if (Owner == null || player.Creature != Owner) return;
         if (_hitsTaken <= 0) return;
 
-        var amount = _hitsTaken;
+        var amount = _hitsTaken * Math.Max(1, Amount);
         _hitsTaken = 0;
         await PlayerCmd.GainEnergy(amount, player);
         await CardPileCmd.Draw(choiceContext, amount, player);
