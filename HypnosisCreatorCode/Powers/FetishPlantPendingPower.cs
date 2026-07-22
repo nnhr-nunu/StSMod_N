@@ -1,4 +1,3 @@
-using HypnosisCreator.HypnosisCreatorCode.Extensions;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -14,9 +13,6 @@ public class FetishPlantPendingPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    public override string CustomPackedIconPath => "love_hypnosis_power.png".PowerImagePath();
-    public override string CustomBigIconPath => "love_hypnosis_power.png".BigPowerImagePath();
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
