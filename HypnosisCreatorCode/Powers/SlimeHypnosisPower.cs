@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// スライム催眠 — 1ターンだけ意図を粘液付与へ上書きし、見た目・名前をスライム系からランダム差し替え。
 /// FollowUp と行動復元でステートマシン破壊（進行不能）を防ぐ。
-/// カイザークラブ左右（Crusher / Rocket）は背景一体型のため意図上書きを避け、粘液は即時付与する。
+/// Crusher / Rocket は意図ステートを書き換えず、PerformMove 差し替えで同等効果にする。
 /// </summary>
 public class SlimeHypnosisPower : HypnosisCreatorPower
 {
@@ -31,25 +31,46 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public string? DisguiseName { get; private set; }
+
+    /// <summary>
+    /// true のとき意図ステートは触らず、PerformMove / PerformIntent を粘液付与に差し替える。
+    /// </summary>
+    public bool ShouldReplacePerform => _replacePerform && !_delivered;
+
     private SlimeDisguise.State? _disguise;
     private MoveState? _savedMove;
     private bool _restoredMove;
+    private bool _replacePerform;
+    private bool _delivered;
 
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         TryApplyDisguise(applier);
 
-        if (Owner == null || CombatState == null) return;
+        if (Owner == null || CombatState == null)
+            return Task.CompletedTask;
 
-        var count = Math.Max(1, Amount);
         if (IsIntentOverwriteUnsafe(Owner))
         {
-            var targets = CombatState.GetOpponentsOf(Owner).ToList();
-            await ApplySlimeCardsAsync(CombatState, Owner, targets, count);
-            return;
+            _replacePerform = true;
+            return Task.CompletedTask;
         }
 
-        TryOverwriteIntent();
+        if (!TryOverwriteIntent())
+            _replacePerform = true;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>敵ターンの PerformMove 差し替え。未配信なら粘液を付与して完了とする。</summary>
+    public async Task TryReplacePerformAsync()
+    {
+        if (_delivered || Owner == null || CombatState == null) return;
+        _delivered = true;
+
+        var count = Math.Max(1, Amount);
+        var targets = CombatState.GetOpponentsOf(Owner).ToList();
+        await ApplySlimeCardsAsync(CombatState, Owner, targets, count);
     }
 
     private void TryApplyDisguise(Creature? applier)
@@ -64,10 +85,11 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         DisguiseName = _disguise?.DisplayName;
     }
 
-    private void TryOverwriteIntent()
+    /// <returns>意図上書きに成功したら true。</returns>
+    private bool TryOverwriteIntent()
     {
-        if (Owner?.Monster == null || CombatState == null) return;
-        if (IsIntentOverwriteUnsafe(Owner)) return;
+        if (Owner?.Monster == null || CombatState == null) return false;
+        if (IsIntentOverwriteUnsafe(Owner)) return false;
 
         var count = Math.Max(1, Amount);
         var combat = CombatState;
@@ -91,10 +113,12 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
                 move.FollowUpState = move;
 
             monster.SetMoveImmediate(move, forceTransition: true);
+            return IsOurSlimeMove(monster.NextMove);
         }
         catch
         {
-            // Intent API 差異時はトランス付与のみで継続
+            // Intent API 差異時は PerformMove 差し替えへフォールバック
+            return false;
         }
     }
 
@@ -106,7 +130,14 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     {
         if (count <= 0 || targets.Count == 0) return;
 
-        await CreatureCmd.TriggerAnim(source, "Attack", SlimeAttackAnimDelay);
+        try
+        {
+            await CreatureCmd.TriggerAnim(source, "Attack", SlimeAttackAnimDelay);
+        }
+        catch
+        {
+            // 背景一体型など Attack アニメが無い敵でもカード付与は続行
+        }
 
         foreach (var target in targets)
         {
@@ -181,7 +212,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
             return;
         }
 
-        if (IsIntentOverwriteUnsafe(creature))
+        // PerformMove 差し替え経路／不安全モンスターはステートを触らない
+        if (_replacePerform || IsIntentOverwriteUnsafe(creature))
         {
             _savedMove = null;
             return;
