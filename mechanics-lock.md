@@ -65,7 +65,7 @@
 ## リプレイ・本家要素
 
 - リプレイ = `BaseReplayCount`
-- スタン / 睡眠(`AsleepPower`) / 粘液(`Slimed`) / 本能(`Instinct`) / 弱体・脱力・毒・スロー・縮小・アーティファクト 等は本家準拠
+- スタン / 睡眠(`AsleepPower`) / 粘液(`Slimed`) / 本能(`Instinct`) / 弱体・脱力・毒・スロー・縮小・アーティファクト 等は本家準拠。Crusher/Rocket は意図ステート書き換えを避け、睡眠は PerformMove スキップ・スタンは本家 StunInternal をスキップ予約に差し替えて進行不能を防ぐ
 - コマンド `Don't Move!`（表記はこの通り）
 
 ## 初期デッキ（確定）

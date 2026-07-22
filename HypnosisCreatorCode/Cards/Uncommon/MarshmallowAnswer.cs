@@ -69,6 +69,8 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
     private static void TryOverwriteToDefend(Creature enemy, decimal block)
     {
         if (enemy.Monster == null) return;
+        // Crusher / Rocket は SetMoveImmediate が進行不能になりうるため意図上書きしない（沼は付与済み）
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(enemy)) return;
         try
         {
             var saved = enemy.Monster.NextMove;

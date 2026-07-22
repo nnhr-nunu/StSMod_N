@@ -1,4 +1,5 @@
 using Godot;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -15,6 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// 睡眠中の見た目用（非表示）。
 /// 睡眠前の <see cref="MonsterModel.NextMove"/> を保存し、睡眠中は SleepIntent の自己ループ、
 /// 起床時に保存した行動予定へ戻す（カスタムムーブでステートマシンを壊さない）。
+/// Crusher / Rocket は意図ステートを書き換えず、PerformMove スキップで睡眠相当にする。
 /// </summary>
 public class ForcedSleepVisualPower : HypnosisCreatorPower
 {
@@ -25,10 +27,18 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
 
     protected override bool IsVisibleInternal => false;
 
+    /// <summary>
+    /// 不安全敵向け: 意図上書きせず、敵ターンの PerformMove / PerformIntent を止める。
+    /// </summary>
+    public bool ShouldSkipPerform =>
+        IntentOverwriteUnsafeMonsters.IsUnsafe(Owner)
+        && Owner?.HasPower<AsleepPower>() == true;
+
     private MoveState? _savedMove;
     private NSleepingVfx? _vfx;
     private bool _ownsVfx;
     private bool _restored;
+    private bool _skipPerformMode;
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
@@ -57,7 +67,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         if (Owner?.Monster == null || !Owner.IsAlive) return;
         if (!Owner.HasPower<AsleepPower>()) return;
 
-        if (IsOurSleepMove(Owner.Monster.NextMove))
+        if (_skipPerformMode || IsOurSleepMove(Owner.Monster.NextMove))
         {
             TryStartVfx();
             return;
@@ -70,6 +80,13 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
     {
         if (Owner?.Monster == null || !Owner.IsAlive) return;
         if (!Owner.HasPower<AsleepPower>()) return;
+
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
+        {
+            _skipPerformMode = true;
+            TryStartVfx();
+            return;
+        }
 
         TryCaptureSavedMove(Owner.Monster);
         TryForceSleepMove(Owner.Monster);
@@ -100,7 +117,8 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         }
         catch
         {
-            // Intent API 差異時は Asleep 本体のみ
+            // Intent API 差異時は PerformMove スキップへフォールバック
+            _skipPerformMode = true;
         }
     }
 
@@ -116,6 +134,23 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
             return;
         }
 
+        // 不安全／スキップ経路はステートを触らず通常ロールへ戻す
+        if (_skipPerformMode || IntentOverwriteUnsafeMonsters.IsUnsafe(creature))
+        {
+            _savedMove = null;
+            try
+            {
+                var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
+                monster.RollMove(targets);
+            }
+            catch
+            {
+                // 復元失敗時はバニラ側の次ロールに委ねる
+            }
+
+            return;
+        }
+
         try
         {
             if (_savedMove != null && !IsOurSleepMove(_savedMove))
@@ -124,7 +159,6 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
             }
             else
             {
-                // 保存が無い／壊れているときは通常ロールに戻す
                 var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
                 monster.RollMove(targets);
             }
@@ -162,7 +196,16 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
             var marker = creatureNode.GetSpecialNode<Node2D>("%SleepVfxPos");
             var spawnPos = marker != null ? marker.GlobalPosition : creatureNode.VfxSpawnPosition;
 
-            var vfx = NSleepingVfx.Create(spawnPos, goingRight: true);
+            // 左側配置（クラッシャー等）はプレイヤー側（右）へ向ける
+            var goingRight = true;
+            var player = Owner.CombatState?.GetOpponentsOf(Owner).FirstOrDefault();
+            var playerNode = player != null
+                ? MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance?.GetCreatureNode(player)
+                : null;
+            if (playerNode != null)
+                goingRight = creatureNode.GlobalPosition.X < playerNode.GlobalPosition.X;
+
+            var vfx = NSleepingVfx.Create(spawnPos, goingRight);
             if (vfx == null) return;
 
             var parent = (Node?)marker
@@ -177,7 +220,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         }
         catch
         {
-            // VFX 失敗時は意図上書きのみ
+            // VFX 失敗時は意図上書き／スキップのみ
         }
     }
 

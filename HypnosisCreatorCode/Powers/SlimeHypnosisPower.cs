@@ -21,10 +21,6 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 {
     public const string SlimeMoveId = "hypnosis_creator_slime_intent";
 
-    /// <summary>SetMoveImmediate するとステートマシンが壊れやすいモンスター ID。</summary>
-    private static readonly HashSet<string> IntentOverwriteUnsafeMonsterIds =
-        new(StringComparer.OrdinalIgnoreCase) { "CRUSHER", "ROCKET" };
-
     private const float SlimeAttackAnimDelay = 0.65f;
 
     public override PowerType Type => PowerType.Debuff;
@@ -50,7 +46,7 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         if (Owner == null || CombatState == null)
             return Task.CompletedTask;
 
-        if (IsIntentOverwriteUnsafe(Owner))
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
         {
             _replacePerform = true;
             return Task.CompletedTask;
@@ -89,7 +85,7 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     private bool TryOverwriteIntent()
     {
         if (Owner?.Monster == null || CombatState == null) return false;
-        if (IsIntentOverwriteUnsafe(Owner)) return false;
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner)) return false;
 
         var count = Math.Max(1, Amount);
         var combat = CombatState;
@@ -155,12 +151,6 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         }
     }
 
-    private static bool IsIntentOverwriteUnsafe(Creature creature)
-    {
-        var id = HeartRegistry.GetMonsterId(creature);
-        return id != null && IntentOverwriteUnsafeMonsterIds.Contains(id);
-    }
-
     private void TryCaptureSavedMove(MonsterModel monster)
     {
         if (_savedMove != null) return;
@@ -213,7 +203,7 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         }
 
         // PerformMove 差し替え経路／不安全モンスターはステートを触らない
-        if (_replacePerform || IsIntentOverwriteUnsafe(creature))
+        if (_replacePerform || IntentOverwriteUnsafeMonsters.IsUnsafe(creature))
         {
             _savedMove = null;
             return;
