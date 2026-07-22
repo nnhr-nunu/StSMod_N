@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄。</summary>
+/// <summary>解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄なし。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
@@ -24,8 +24,6 @@ public class Autopsy() : HypnosisCreatorCard(2,
     }
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
