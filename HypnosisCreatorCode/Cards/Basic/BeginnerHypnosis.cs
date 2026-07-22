@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -29,6 +30,10 @@ public class BeginnerHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+
+        // 集団催眠の AutoPlay 波及では Arm しない。
+        // 後から来るコピーが Target を上書きすると、手動で狙った敵と違う相手へ植え付く。
+        if (MassHypnosisPower.IsPropagating) return;
 
         await FetishPlantPending.Arm(
             choiceContext, Owner, play.Target, DynamicVars["PlantCards"].IntValue, this);

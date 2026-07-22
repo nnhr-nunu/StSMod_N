@@ -18,6 +18,9 @@ public class MassHypnosisPower : HypnosisCreatorPower
     [ThreadStatic]
     private static bool _resolving;
 
+    /// <summary>集団催眠の AutoPlay 波及中か。副作用の二重アーム等を避ける判定用。</summary>
+    public static bool IsPropagating => _resolving;
+
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (_resolving) return;
