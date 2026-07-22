@@ -29,6 +29,7 @@ public class AeonglassPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
+        if (MassHypnosisPower.IsPropagating) return;
 
         // 衰微プレイ自体はカウントせず、スタックを6に固定（備考の使用後リセット）
         if (cardPlay.Card is AbnormalWither)

@@ -29,6 +29,7 @@ public class CorrosionPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
+        if (MassHypnosisPower.IsPropagating) return;
         if (cardPlay.Card.Type != CardType.Attack) return;
 
         var pool = ModelDb.AllCards.Where(IsCountCandidate).ToList();

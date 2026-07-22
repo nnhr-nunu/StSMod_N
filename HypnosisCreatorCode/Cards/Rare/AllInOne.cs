@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -38,8 +39,18 @@ public class AllInOne() : HypnosisCreatorCard(5,
             .Distinct()
             .ToList();
 
-        foreach (var card in snapshot)
-            await CardCmd.AutoPlay(choiceContext, card, play.Target);
+        // 内部 AutoPlay がそれぞれ集団催眠を発火すると敵数×枚数で連鎖するため抑止する。
+        // オールインワン本体の集団催眠波及（他敵への再プレイ）は抑止しない。
+        MassHypnosisPower.BeginSuppressPropagation();
+        try
+        {
+            foreach (var card in snapshot)
+                await CardCmd.AutoPlay(choiceContext, card, play.Target);
+        }
+        finally
+        {
+            MassHypnosisPower.EndSuppressPropagation();
+        }
 
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);

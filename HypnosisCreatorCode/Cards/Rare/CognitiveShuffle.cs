@@ -49,6 +49,13 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
 
+        // 集団催眠の波及: トランスのみ。選択・形態パワーは手動1回だけ。
+        if (MassHypnosisPower.IsPropagating)
+        {
+            Owner.Creature?.GetPower<CognitiveShufflePower>()?.TrackTranceTarget(play.Target);
+            return;
+        }
+
         var rng = Owner.RunState.Rng.CombatCardSelection;
         var pickedTypes = FormCardTypes.OrderBy(_ => rng.NextInt(int.MaxValue)).Take(3).ToList();
         var options = new List<CardModel>();
@@ -87,7 +94,7 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         if (shuffle != null)
         {
             shuffle.FormCanonical = formCanonical;
-            shuffle.TranceTarget = play.Target;
+            shuffle.TrackTranceTarget(play.Target);
             if (linked != null)
                 shuffle.ApplyDisguise(linked);
         }

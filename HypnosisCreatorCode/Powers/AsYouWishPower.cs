@@ -21,6 +21,7 @@ public class AsYouWishPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
+        if (MassHypnosisPower.IsPropagating) return;
 
         var fetishes = CardFetishLookup.GetFetishes(cardPlay.Card);
         if (fetishes.Count == 0) return;

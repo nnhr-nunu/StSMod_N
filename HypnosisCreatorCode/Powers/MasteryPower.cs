@@ -22,6 +22,8 @@ public class MasteryPower : HypnosisCreatorPower
     public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (Owner == null || cardPlay.Card.Owner?.Creature != Owner) return Task.CompletedTask;
+        // 波及コピーは一時カード。デッキ実体の追跡に混ぜない。
+        if (MassHypnosisPower.IsPropagating) return Task.CompletedTask;
         if (!CountRules.HasCountKeyword(cardPlay.Card)) return Task.CompletedTask;
         _playedCountCards.Add(cardPlay.Card);
         return Task.CompletedTask;

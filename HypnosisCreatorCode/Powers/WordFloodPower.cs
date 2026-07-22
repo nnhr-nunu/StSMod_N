@@ -16,6 +16,7 @@ public class WordFloodPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
+        if (MassHypnosisPower.IsPropagating) return;
         if (!CountRules.HasCountKeyword(cardPlay.Card)) return;
 
         var player = Owner.Player;

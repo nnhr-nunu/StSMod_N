@@ -27,15 +27,24 @@ public class BrainSlimeHypnosis() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        if (IsUpgraded && CombatState != null)
+        // UGの全敵付与は手動1回だけ。波及側ではリダイレクトを重ねない（トランス／性癖のみ）。
+        if (!MassHypnosisPower.IsPropagating)
         {
-            foreach (var enemy in CombatState.HittableEnemies.ToList())
+            if (IsUpgraded && CombatState != null)
+            {
+                foreach (var enemy in CombatState.HittableEnemies.ToList())
+                {
+                    await PowerCmd.Apply<BrainSlimeRedirectPower>(
+                        choiceContext, enemy, 1M, Owner.Creature, this);
+                }
+            }
+            else
             {
                 await PowerCmd.Apply<BrainSlimeRedirectPower>(
-                    choiceContext, enemy, 1M, Owner.Creature, this);
+                    choiceContext, play.Target, 1M, Owner.Creature, this);
             }
         }
-        else
+        else if (!IsUpgraded)
         {
             await PowerCmd.Apply<BrainSlimeRedirectPower>(
                 choiceContext, play.Target, 1M, Owner.Creature, this);

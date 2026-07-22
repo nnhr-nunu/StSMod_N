@@ -10,7 +10,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 認知シャッフル — 対象がトランス中のプレイヤーターン開始時、選んだ形態と同プールのカードを生成する。
-/// トランス減少（AfterSideTurnStart）のあと Late で判定し、0 なら見た目を戻して自己解除する。
+/// トランス減少（AfterSideTurnStart）のあと Late で判定し、追跡対象が全員トランス切れなら見た目を戻して自己解除する。
+/// 集団催眠で複数敵へ波及した場合は、いずれかがトランス中なら継続する。
 /// </summary>
 public class CognitiveShufflePower : HypnosisCreatorPower
 {
@@ -20,10 +21,16 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     /// <summary>生成元となる形態カードのカノニカル。</summary>
     public CardModel? FormCanonical { get; set; }
 
-    /// <summary>トランス継続を見る対象敵。</summary>
-    public Creature? TranceTarget { get; set; }
+    private readonly List<Creature> _tranceTargets = [];
 
     private CharacterDisguise.State? _disguise;
+
+    public void TrackTranceTarget(Creature target)
+    {
+        if (target is not { IsAlive: true, IsEnemy: true }) return;
+        if (!_tranceTargets.Contains(target))
+            _tranceTargets.Add(target);
+    }
 
     public void ApplyDisguise(CharacterModel character)
     {
@@ -39,8 +46,10 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         if (side != CombatSide.Player) return;
         if (Owner == null || !participants.Contains(Owner)) return;
 
-        // トランス減少後: 0 なら見た目復帰＋自己解除（次ターン開始時点で既に無い）
-        if (TranceTarget == null || !TranceTarget.IsAlive || !TranceCombat.HasTrance(TranceTarget))
+        PruneDeadTargets();
+
+        // トランス減少後: 追跡対象の誰もトランス中でなければ見た目復帰＋自己解除
+        if (_tranceTargets.Count == 0 || !_tranceTargets.Any(TranceCombat.HasTrance))
         {
             await ExpireAsync();
             return;
@@ -78,14 +87,19 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     {
         CharacterDisguise.Restore(oldOwner, _disguise);
         _disguise = null;
+        _tranceTargets.Clear();
         return Task.CompletedTask;
     }
+
+    private void PruneDeadTargets() =>
+        _tranceTargets.RemoveAll(t => t is not { IsAlive: true, IsEnemy: true });
 
     private async Task ExpireAsync()
     {
         if (Owner != null)
             CharacterDisguise.Restore(Owner, _disguise);
         _disguise = null;
+        _tranceTargets.Clear();
         await PowerCmd.Remove(this);
     }
 }

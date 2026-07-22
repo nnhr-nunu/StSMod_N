@@ -18,12 +18,29 @@ public class MassHypnosisPower : HypnosisCreatorPower
     [ThreadStatic]
     private static bool _resolving;
 
-    /// <summary>集団催眠の AutoPlay 波及中か。副作用の二重アーム等を避ける判定用。</summary>
+    [ThreadStatic]
+    private static int _suppressDepth;
+
+    /// <summary>集団催眠の AutoPlay 波及中か。プレイヤー側の「1枚1回」副作用を抑止する判定用。</summary>
     public static bool IsPropagating => _resolving;
+
+    /// <summary>
+    /// オールインワン等の内部 AutoPlay 中。
+    /// 集団催眠の再波及を止め、内部プレイは対象1体に留める。
+    /// </summary>
+    public static bool IsPropagationSuppressed => _suppressDepth > 0;
+
+    public static void BeginSuppressPropagation() => _suppressDepth++;
+
+    public static void EndSuppressPropagation()
+    {
+        if (_suppressDepth > 0)
+            _suppressDepth--;
+    }
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (_resolving) return;
+        if (_resolving || IsPropagationSuppressed) return;
         if (Owner == null || CombatState == null) return;
         if (!CountRules.HasCountKeyword(cardPlay.Card)) return;
         if (cardPlay.Card.TargetType != TargetType.AnyEnemy) return;

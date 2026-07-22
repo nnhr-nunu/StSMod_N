@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>寝かしつけ催眠 — カウント。対象を睡眠させ、自身のHPを回復し、トランスを付与する。</summary>
+/// <summary>寝かしつけ催眠 — カウント。対象を睡眠させ、対象のHPを回復し、トランスを付与する。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class LullabyHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Uncommon,
