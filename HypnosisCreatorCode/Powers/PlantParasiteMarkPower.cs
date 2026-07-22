@@ -40,7 +40,7 @@ public class PlantParasiteMarkPower : HypnosisCreatorPower
     private void TryQueue(MegaCrit.Sts2.Core.Entities.Players.Player? player)
     {
         if (_queued || player == null || string.IsNullOrWhiteSpace(CapturedMonsterId)) return;
-        HeartCapture.QueueCapture(player, CapturedMonsterId);
+        HeartCapture.QueueCapture(player, CapturedMonsterId, Owner);
         _queued = true;
     }
 }

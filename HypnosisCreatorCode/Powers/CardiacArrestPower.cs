@@ -33,6 +33,9 @@ public class CardiacArrestPower : HypnosisCreatorPower
     /// </summary>
     public bool KillAfterActionEnd { get; set; }
 
+    /// <summary>心停止＋の追加心臓を既に予約済みか（複数体同時到達・撃破フック欠落の二重付与防止）。</summary>
+    private bool _bonusHeartGranted;
+
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         BonusRelicPlayer ??= applier?.Player ?? cardSource?.Owner;
@@ -109,6 +112,7 @@ public class CardiacArrestPower : HypnosisCreatorPower
         {
             KillAfterActionEnd = true;
             SetAmount(0, true);
+            GrantBonusHeartIfNeeded();
             return;
         }
 
@@ -119,27 +123,37 @@ public class CardiacArrestPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
 
-        // 付与時 ID を優先。無ければキル直前に再取得。
-        if (GrantBonusRelic && BonusRelicPlayer != null)
-        {
-            CaptureMonsterId();
-            var monsterId = CapturedMonsterId ?? HeartRegistry.GetMonsterId(Owner);
-            if (!string.IsNullOrWhiteSpace(monsterId))
-            {
-                MainFile.Logger.Info(
-                    $"CardiacArrest heart from stored id={monsterId} (owner={Owner.Monster?.Id.Entry}/{Owner.ModelId.Entry})");
-                // 文字列経由＝同心臓兄弟ゲートなし（ムカデ／カイザー例外）
-                HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, monsterId);
-            }
-            else
-            {
-                MainFile.Logger.Warn(
-                    $"CardiacArrest heart: no monster id; owner ModelId={Owner.ModelId.Entry}");
-                HeartCapture.TryAddExtraRelicReward(
-                    BonusRelicPlayer, Owner, allowWhileSiblingsAlive: true);
-            }
-        }
+        GrantBonusHeartIfNeeded();
 
         await CreatureCmd.Kill(Owner);
+    }
+
+    /// <summary>
+    /// 心停止＋の追加心臓を戦闘報酬へ載せる。
+    /// 残り0到達時にも呼ぶ（同一ターン複数体・撃破フック欠落でも各体ぶん付与する）。
+    /// </summary>
+    private void GrantBonusHeartIfNeeded()
+    {
+        if (_bonusHeartGranted || !GrantBonusRelic || BonusRelicPlayer == null || Owner == null)
+            return;
+
+        CaptureMonsterId();
+        var monsterId = CapturedMonsterId ?? HeartRegistry.GetMonsterId(Owner);
+        if (!string.IsNullOrWhiteSpace(monsterId))
+        {
+            MainFile.Logger.Info(
+                $"CardiacArrest heart from stored id={monsterId} (owner={Owner.Monster?.Id.Entry}/{Owner.ModelId.Entry})");
+            // 文字列経由＝同心臓兄弟ゲートなし（ムカデ節ごと／カイザー左右）
+            HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, monsterId, Owner);
+        }
+        else
+        {
+            MainFile.Logger.Warn(
+                $"CardiacArrest heart: no monster id; owner ModelId={Owner.ModelId.Entry}");
+            HeartCapture.TryAddExtraRelicReward(
+                BonusRelicPlayer, Owner, allowWhileSiblingsAlive: true);
+        }
+
+        _bonusHeartGranted = true;
     }
 }

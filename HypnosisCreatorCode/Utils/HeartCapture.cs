@@ -22,9 +22,16 @@ public static class HeartCapture
     /// 戦闘終了時に解決する捕獲を予約する。
     /// 付与対象が死亡してパワーが消えても心臓を落とせるようにする。
     /// </summary>
-    public static void QueueCapture(Player player, string monsterIdEntry)
+    public static void QueueCapture(Player player, string monsterIdEntry, Creature? source = null)
     {
         if (string.IsNullOrWhiteSpace(monsterIdEntry)) return;
+        if (!ShouldGrantHeart(source, monsterIdEntry))
+        {
+            MainFile.Logger.Info(
+                $"Heart capture queue skipped (minion without mapped heart): {monsterIdEntry}");
+            return;
+        }
+
         Pending.Add((player, monsterIdEntry));
         MainFile.Logger.Info($"Heart capture queued for {monsterIdEntry}");
     }
@@ -34,7 +41,7 @@ public static class HeartCapture
         if (!target.IsMonster) return;
         var monsterId = HeartRegistry.GetMonsterId(target);
         if (string.IsNullOrWhiteSpace(monsterId)) return;
-        QueueCapture(player, monsterId);
+        QueueCapture(player, monsterId, target);
     }
 
     /// <summary>予約済み捕獲をすべて追加レリック報酬として解決する（戦闘終了フックから呼ぶ）。</summary>
@@ -83,17 +90,31 @@ public static class HeartCapture
         var monsterId = HeartRegistry.GetMonsterId(slain);
         if (string.IsNullOrWhiteSpace(monsterId))
         {
+            if (!ShouldGrantHeart(slain, null))
+            {
+                MainFile.Logger.Info(
+                    $"Heart capture skipped (minion without monster id): ModelId={slain.ModelId.Entry}");
+                return;
+            }
+
             MainFile.Logger.Warn(
                 $"HeartCapture: no monster id for slain (ModelId={slain.ModelId.Entry}); StolenHeart fallback");
-            TryAddExtraRelicReward(player, "");
+            TryAddExtraRelicReward(player, "", slain);
             return;
         }
 
-        TryAddExtraRelicReward(player, monsterId);
+        TryAddExtraRelicReward(player, monsterId, slain);
     }
 
-    public static void TryAddExtraRelicReward(Player player, string monsterIdEntry)
+    public static void TryAddExtraRelicReward(Player player, string monsterIdEntry, Creature? source = null)
     {
+        if (!ShouldGrantHeart(source, monsterIdEntry))
+        {
+            MainFile.Logger.Info(
+                $"Heart capture skipped (minion without mapped heart): '{monsterIdEntry}'");
+            return;
+        }
+
         var relic = CreateHeartRelic(monsterIdEntry);
         if (relic == null)
         {
@@ -113,7 +134,20 @@ public static class HeartCapture
         }
 
         MainFile.Logger.Info($"No CombatRoom for extra reward; fallback Obtain for '{monsterIdEntry}'");
-        _ = ObtainNow(player, monsterIdEntry);
+        _ = ObtainNow(player, monsterIdEntry, source);
+    }
+
+    /// <summary>
+    /// 心臓を落とすか。登録済み ID は常に可。
+    /// 未登録は通常敵のみ <see cref="StolenHeart"/> フォールバック可。ミニオンはドロップなし。
+    /// </summary>
+    internal static bool ShouldGrantHeart(Creature? source, string? monsterIdEntry)
+    {
+        if (!string.IsNullOrWhiteSpace(monsterIdEntry)
+            && HeartRegistry.ResolveHeartType(monsterIdEntry) != null)
+            return true;
+
+        return source is not { IsSecondaryEnemy: true };
     }
 
     /// <summary>
@@ -145,8 +179,15 @@ public static class HeartCapture
     }
 
     /// <summary>部屋が無いときなどの即時付与フォールバック。未登録は StolenHeart。</summary>
-    public static async Task ObtainNow(Player player, string monsterIdEntry)
+    public static async Task ObtainNow(Player player, string monsterIdEntry, Creature? source = null)
     {
+        if (!ShouldGrantHeart(source, monsterIdEntry))
+        {
+            MainFile.Logger.Info(
+                $"Heart ObtainNow skipped (minion without mapped heart): '{monsterIdEntry}'");
+            return;
+        }
+
         MainFile.Logger.Info($"Heart ObtainNow from '{monsterIdEntry}'");
 
         var relic = CreateHeartRelic(monsterIdEntry);
