@@ -24,6 +24,13 @@ public static class UpgradeDescriptionHooks
             "their heart stops.",
             "their heart stops and [green]you gain an extra Relic reward[/green].");
 
+        // 心臓えぐり出し+: リーサル → 破滅とどめ（通常戦闘のみ）。ダメージ強化なし。
+        UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is HeartGouge,
+            "リーサル時、追加のレリック報酬を獲得する。",
+            "[green]対象の[gold]破滅[/gold]が残りHPの[blue]50%[/blue]以上の場合、とどめを刺し追加のレリック報酬を獲得する。とどめは通常戦闘でのみ発生する。[/green]",
+            "If Fatal, gain an extra Relic reward.",
+            "[green]If the target's [gold]Doom[/gold] is at least [blue]50%[/blue] of their remaining HP, Execute them and gain an extra Relic reward. Execute only occurs in normal combats.[/green]");
+
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is PlantParasiteHypnosis,
             "戦闘終了後、追加のレリック報酬を獲得する。",
             "At end of combat, gain an extra Relic reward.");

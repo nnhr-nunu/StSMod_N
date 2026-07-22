@@ -48,7 +48,7 @@ public class Autopsy() : HypnosisCreatorCard(2,
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
-        // リーサル時は報酬画面の追加レリックへ（心停止＋・心臓えぐり出しと同じ）
+        // リーサル時は報酬画面の追加レリックへ（心停止＋・未UGの心臓えぐり出しと同じ）
         if (play.Target is { IsAlive: false })
             HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
 
