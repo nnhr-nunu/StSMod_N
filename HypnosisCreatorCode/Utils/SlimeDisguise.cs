@@ -60,6 +60,21 @@ public static class SlimeDisguise
         }
 
         var displayName = disguise.Title.GetFormattedText();
+
+        // Crusher / Rocket は背景一体型。Visuals 差し替えは共有 spine を壊して進行不能になりやすい。
+        // 名前表示だけスライム化し、見た目スワップはしない。
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(creature))
+        {
+            return new State
+            {
+                DisplayName = displayName,
+                Disguise = disguise,
+                OriginalVisuals = null,
+                DisguiseVisuals = null,
+                FlippedForLeftSide = false
+            };
+        }
+
         NCreatureVisuals? original = null;
         NCreatureVisuals? created = null;
         var flipped = false;
@@ -73,7 +88,7 @@ public static class SlimeDisguise
                 created = disguise.CreateVisuals();
                 SwapVisuals(node, original, created);
                 RefreshAnimator(node, disguise);
-                // 通常スライムは左向き。画面左の敵（カイザーのクラッシャー等）はプレイヤーへ向くよう反転する。
+                // 通常スライムは左向き。画面左の敵はプレイヤーへ向くよう反転する。
                 flipped = TryFaceTowardPlayer(creature, node, created);
             }
         }

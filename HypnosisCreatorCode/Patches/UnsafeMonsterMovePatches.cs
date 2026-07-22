@@ -21,42 +21,38 @@ public static class UnsafeMonsterPerformMovePatch
         var slime = creature.GetPower<SlimeHypnosisPower>();
         if (slime is { ShouldReplacePerform: true })
         {
-            __result = slime.TryReplacePerformAsync();
+            __result = RunSlimeReplaceAsync(__instance, slime);
             return false;
         }
 
         var sleep = creature.GetPower<ForcedSleepVisualPower>();
         if (sleep is { ShouldSkipPerform: true })
         {
-            __result = Task.CompletedTask;
+            // 睡眠中は毎ターンスキップ。起床時に ForcedSleep 側で RollMove する。
+            __result = RunSkipAsync(__instance, rollNext: false);
             return false;
         }
 
         if (IntentOverwriteUnsafeMonsters.TryConsumeSkip(creature))
         {
-            __result = AfterOneShotSkipAsync(__instance);
+            // スタン等の1回スキップ後は次行動をロールする
+            __result = RunSkipAsync(__instance, rollNext: true);
             return false;
         }
 
         return true;
     }
 
-    private static async Task AfterOneShotSkipAsync(MonsterModel monster)
+    private static async Task RunSlimeReplaceAsync(MonsterModel monster, SlimeHypnosisPower slime)
     {
-        // スタン等で今ターンの行動を止めたあと、次ターン用に通常ロールへ戻す
-        try
-        {
-            var creature = monster.Creature;
-            if (creature is not { IsAlive: true }) return;
-            var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
-            monster.RollMove(targets);
-        }
-        catch
-        {
-            // ロール失敗時はバニラ側に委ねる
-        }
+        await slime.TryReplacePerformAsync();
+        UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext: true);
+    }
 
+    private static async Task RunSkipAsync(MonsterModel monster, bool rollNext)
+    {
         await Task.CompletedTask;
+        UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext);
     }
 }
 
@@ -71,6 +67,7 @@ public static class UnsafeMonsterPerformIntentPatch
         var slime = creature.GetPower<SlimeHypnosisPower>();
         if (slime is { ShouldReplacePerform: true })
         {
+            UnsafeMonsterMoveCompletion.HideIntentImmediate(__instance);
             __result = Task.CompletedTask;
             return false;
         }
@@ -78,12 +75,14 @@ public static class UnsafeMonsterPerformIntentPatch
         var sleep = creature.GetPower<ForcedSleepVisualPower>();
         if (sleep is { ShouldSkipPerform: true })
         {
+            UnsafeMonsterMoveCompletion.HideIntentImmediate(__instance);
             __result = Task.CompletedTask;
             return false;
         }
 
         if (IntentOverwriteUnsafeMonsters.HasPendingSkip(creature))
         {
+            UnsafeMonsterMoveCompletion.HideIntentImmediate(__instance);
             __result = Task.CompletedTask;
             return false;
         }

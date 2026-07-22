@@ -126,13 +126,17 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     {
         if (count <= 0 || targets.Count == 0) return;
 
-        try
+        // Crusher / Rocket は背景一体型。本体 Attack 待ちは進行不能の原因になるので飛ばす。
+        if (!IntentOverwriteUnsafeMonsters.IsUnsafe(source))
         {
-            await CreatureCmd.TriggerAnim(source, "Attack", SlimeAttackAnimDelay);
-        }
-        catch
-        {
-            // 背景一体型など Attack アニメが無い敵でもカード付与は続行
+            try
+            {
+                await CreatureCmd.TriggerAnim(source, "Attack", SlimeAttackAnimDelay);
+            }
+            catch
+            {
+                // Attack アニメが無い敵でもカード付与は続行
+            }
         }
 
         foreach (var target in targets)
