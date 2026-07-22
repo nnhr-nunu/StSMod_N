@@ -16,6 +16,7 @@ public static class VisualTuner
     private const string CardPortraitPathHint = "HypnosisCreator/images/card_portraits";
     /// <summary>待機・被弾など戦闘モーション共通（同じ右下WM帯をシェーダーで隠す）。</summary>
     private const string CombatVisualPathHint = "HypnosisCreator/images/character/combat";
+    private const string MerchantVisualPathHint = "HypnosisCreator/images/character/merchant";
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
 
@@ -110,7 +111,7 @@ public static class VisualTuner
                 SetChromaParams(shared, key, similarity, smoothness, spill, wmBottom, wmSide, wmLogo);
         }
 
-        foreach (var item in FindCombatVisuals())
+        foreach (var item in FindChromaVisuals())
         {
             EnsureChromaMaterial(item);
             if (item.Material is ShaderMaterial mat)
@@ -284,25 +285,27 @@ public static class VisualTuner
         mat.SetShaderParameter("zoom", zoom);
     }
 
-    private static IEnumerable<CanvasItem> FindCombatVisuals()
+    private static IEnumerable<CanvasItem> FindChromaVisuals()
     {
         foreach (var sprite in FindNodes<Sprite2D>())
         {
-            if (LooksLikeCombatVisual(sprite.Name, sprite.Texture?.ResourcePath))
+            if (LooksLikeChromaVisual(sprite.Name, sprite.Texture?.ResourcePath))
                 yield return sprite;
         }
 
         foreach (var sprite in FindNodes<AnimatedSprite2D>())
         {
-            if (LooksLikeCombatVisual(sprite.Name, GetAnimatedSpritePathHint(sprite)))
+            if (LooksLikeChromaVisual(sprite.Name, GetAnimatedSpritePathHint(sprite)))
                 yield return sprite;
         }
     }
 
-    private static bool LooksLikeCombatVisual(StringName name, string? pathHint)
+    private static bool LooksLikeChromaVisual(StringName name, string? pathHint)
     {
         if (name == "Visuals") return true;
-        return pathHint?.Contains(CombatVisualPathHint, StringComparison.OrdinalIgnoreCase) == true;
+        if (pathHint == null) return false;
+        return pathHint.Contains(CombatVisualPathHint, StringComparison.OrdinalIgnoreCase)
+               || pathHint.Contains(MerchantVisualPathHint, StringComparison.OrdinalIgnoreCase);
     }
 
     private static string GetAnimatedSpritePathHint(AnimatedSprite2D sprite)

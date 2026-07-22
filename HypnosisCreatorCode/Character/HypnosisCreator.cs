@@ -64,6 +64,8 @@ public class HypnosisCreator : PlaceholderCharacterModel
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
     public override string CustomVisualPath =>
         $"{MainFile.ResPath}/scenes/creature_visuals/hypnosis_creator.tscn";
+    public override string CustomMerchantAnimPath =>
+        $"{MainFile.ResPath}/scenes/merchant/hypnosis_creator_merchant.tscn";
     public override string CustomCharacterSelectBg =>
         $"{MainFile.ResPath}/scenes/char_select/hypnosis_creator_bg.tscn";
     public override string CustomRestSiteAnimPath =>
