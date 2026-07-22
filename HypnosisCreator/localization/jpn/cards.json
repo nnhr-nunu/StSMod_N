@@ -80,7 +80,7 @@
   "HYPNOSISCREATOR-TINGSHA.title": "ティンシャ",
   "HYPNOSISCREATOR-TINGSHA.description": "すべての相手に{Damage:diff()}ダメージを与える。このカードを[gold]手札[/gold]に戻す。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-FINGER_COUNT.title": "指折り数えて",
-  "HYPNOSISCREATOR-FINGER_COUNT.description": "[gold]手札[/gold]の[gold]カウント[/gold]カードすべてのコストを[blue]1[/blue]下げる。",
+  "HYPNOSISCREATOR-FINGER_COUNT.description": "[gold]再生[/gold]{RegenPower:diff()}を得る。[gold]手札[/gold]の[gold]カウント[/gold]カードすべてのコストを[blue]1[/blue]下げる。",
   "HYPNOSISCREATOR-SENSE_SHARE.title": "感覚共有",
   "HYPNOSISCREATOR-SENSE_SHARE.description": "このターン中、単体への[gold]アタック[/gold]カードは全体が対象になる。",
   "HYPNOSISCREATOR-CAN_DO_IT.title": "ちゃんとできるね？",

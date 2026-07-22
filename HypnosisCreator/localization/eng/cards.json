@@ -80,7 +80,7 @@
   "HYPNOSISCREATOR-TINGSHA.title": "Tingsha",
   "HYPNOSISCREATOR-TINGSHA.description": "Deal {Damage:diff()} damage to ALL opponents. Return this to your [gold]Hand[/gold]. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-FINGER_COUNT.title": "Finger Count",
-  "HYPNOSISCREATOR-FINGER_COUNT.description": "Reduce the cost of all [gold]Count[/gold] cards in your [gold]Hand[/gold] by [blue]1[/blue].",
+  "HYPNOSISCREATOR-FINGER_COUNT.description": "Gain {RegenPower:diff()} [gold]Regen[/gold]. Reduce the cost of all [gold]Count[/gold] cards in your [gold]Hand[/gold] by [blue]1[/blue].",
   "HYPNOSISCREATOR-SENSE_SHARE.title": "Sense Share",
   "HYPNOSISCREATOR-SENSE_SHARE.description": "This turn, single-target [gold]Attack[/gold] cards hit ALL opponents.",
   "HYPNOSISCREATOR-CAN_DO_IT.title": "You Can Do It",
