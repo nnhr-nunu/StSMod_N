@@ -15,7 +15,6 @@
 37	寝かしつけ催眠	lullaby_hypnosis.png
 39	腹部への殴打	abdominal_strike.png
 44	意識を飛ばす光	gaze_light.png
-45	凝視	stare.png
 50	練達	mastery.png
 52	トランスに溶けゆく	melt_into_trance.png
 70	ティンシャ	tingsha.png
