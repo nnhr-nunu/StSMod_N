@@ -143,7 +143,7 @@ public class CardiacArrestPower : HypnosisCreatorPower
         {
             MainFile.Logger.Info(
                 $"CardiacArrest heart from stored id={monsterId} (owner={Owner.Monster?.Id.Entry}/{Owner.ModelId.Entry})");
-            // 文字列経由＝同心臓兄弟ゲートなし（ムカデ節ごと／カイザー左右）
+            // 兄弟生存中でも落とせるが、同心臓タイプの重複は HeartCapture 側で1個に抑止
             HeartCapture.TryAddExtraRelicReward(BonusRelicPlayer, monsterId, Owner);
         }
         else

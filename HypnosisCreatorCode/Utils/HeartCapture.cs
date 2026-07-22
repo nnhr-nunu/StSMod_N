@@ -12,7 +12,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// 敵固有心臓の入手。報酬系（リーサル／寄生／心停止＋）はすべて
 /// 戦闘報酬画面の追加 <see cref="RelicReward"/> に載せる（本家の追加報酬 UX）。
 /// ムカデ節など「同一心臓を複数体が共有」する場合、リーサル系は最後の1体トドメ時のみ。
-/// 心停止催眠＋は例外で、止めた対象からその場で落とす（<c>allowWhileSiblingsAlive</c>）。
+/// 心停止催眠＋は兄弟が生存中でも落とせるが、同心臓タイプの重複付与はしない（1戦闘1個）。
+/// カイザー左右（別心臓タイプ）は従来どおり各1個まで。
 /// </summary>
 public static class HeartCapture
 {
@@ -52,19 +53,8 @@ public static class HeartCapture
         var batch = Pending.ToList();
         Pending.Clear();
 
-        // 同心臓タイプは1回だけ（寄生を複数節に付けた場合など）
-        var seenHeartTypes = new HashSet<Type>();
         foreach (var (player, monsterId) in batch)
-        {
-            var heartType = HeartRegistry.ResolveHeartType(monsterId) ?? typeof(StolenHeart);
-            if (!seenHeartTypes.Add(heartType))
-            {
-                MainFile.Logger.Info($"Heart capture skipped (duplicate type {heartType.Name}) for {monsterId}");
-                continue;
-            }
-
             TryAddExtraRelicReward(player, monsterId);
-        }
     }
 
     /// <summary>
@@ -72,8 +62,8 @@ public static class HeartCapture
     /// エリート等の通常報酬と並ぶ。部屋が取れない場合のみ即時 Obtain にフォールバック。
     /// </summary>
     /// <param name="allowWhileSiblingsAlive">
-    /// true のとき、同心臓の生存兄弟（ムカデ節など）がいても落とす。
-    /// 心停止催眠＋の例外用。解剖／えぐりは false のまま。
+    /// true のとき、同心臓の生存兄弟（ムカデ節など）がいても落とす（心停止＋用）。
+    /// 同心臓タイプの重複付与は <c>TryAddExtraRelicReward(player, monsterId)</c> 側で抑止する。
     /// </param>
     public static void TryAddExtraRelicReward(
         Player player, Creature slain, bool allowWhileSiblingsAlive = false)
@@ -112,6 +102,14 @@ public static class HeartCapture
         {
             MainFile.Logger.Info(
                 $"Heart capture skipped (minion without mapped heart): '{monsterIdEntry}'");
+            return;
+        }
+
+        var heartType = ResolveHeartTypeOrStolen(monsterIdEntry);
+        if (AlreadyGrantedHeartTypeThisCombat(player, heartType))
+        {
+            MainFile.Logger.Info(
+                $"Heart capture skipped (duplicate type {heartType.Name}) for '{monsterIdEntry}'");
             return;
         }
 
@@ -200,11 +198,39 @@ public static class HeartCapture
         await RelicCmd.Obtain(relic, player);
     }
 
-    private static RelicModel? CreateHeartRelic(string monsterIdEntry)
-    {
-        var heartType = string.IsNullOrWhiteSpace(monsterIdEntry)
+    private static Type ResolveHeartTypeOrStolen(string monsterIdEntry) =>
+        string.IsNullOrWhiteSpace(monsterIdEntry)
             ? typeof(StolenHeart)
             : HeartRegistry.ResolveHeartType(monsterIdEntry) ?? typeof(StolenHeart);
+
+    /// <summary>
+    /// この戦闘で既に追加レリック報酬（または寄生予約）に載せた心臓タイプか。
+    /// ムカデ節・同一敵複数体など、判定が複数回走っても同心臓は1個まで。
+    /// </summary>
+    private static bool AlreadyGrantedHeartTypeThisCombat(Player player, Type heartType)
+    {
+        foreach (var (p, monsterId) in Pending)
+        {
+            if (!ReferenceEquals(p, player)) continue;
+            if (ResolveHeartTypeOrStolen(monsterId) == heartType)
+                return true;
+        }
+
+        if (player.RunState.CurrentRoom is not CombatRoom room) return false;
+        if (!room.ExtraRewards.ContainsKey(player)) return false;
+
+        foreach (var reward in room.ExtraRewards[player])
+        {
+            if (reward is RelicReward { Relic: { } relic } && relic.GetType() == heartType)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static RelicModel? CreateHeartRelic(string monsterIdEntry)
+    {
+        var heartType = ResolveHeartTypeOrStolen(monsterIdEntry);
 
         var canonical = ModelDb.AllRelics.FirstOrDefault(r => r.GetType() == heartType);
         if (canonical != null)
