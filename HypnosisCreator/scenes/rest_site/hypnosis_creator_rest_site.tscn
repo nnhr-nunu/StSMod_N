@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://HypnosisCreator/images/character/rest_site/original.png" id="1_sprite"]
+[ext_resource type="Material" path="res://HypnosisCreator/shaders/campfire_warmth_material.tres" id="2_warmth"]
+
+[node name="HypnosisCreatorRestSite" type="Node2D"]
+position = Vector2(-2, 42)
+scale = Vector2(0.76, 0.76)
+
+[node name="ControlRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Visuals" type="Sprite2D" parent="ControlRoot"]
+material = ExtResource("2_warmth")
+position = Vector2(-618, -548)
+texture = ExtResource("1_sprite")
+centered = false
+
+[node name="Hitbox" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -590.0
+offset_top = -610.0
+offset_right = 434.0
+offset_bottom = 132.0
+
+[node name="ThoughtBubbleRight" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 180.0
+offset_top = -470.0
+offset_right = 180.0
+offset_bottom = -470.0
+
+[node name="ThoughtBubbleLeft" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -260.0
+offset_top = -480.0
+offset_right = -260.0
+offset_bottom = -480.0

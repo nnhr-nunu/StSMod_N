@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://HypnosisCreator/shaders/campfire_warmth.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/fire_color = Color(1, 0.78, 0.48, 1)
+shader_parameter/warmth_strength = 0.32
+shader_parameter/flicker_speed = 2.4
+shader_parameter/fire_from_left = 1.0

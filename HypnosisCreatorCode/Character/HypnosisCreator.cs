@@ -66,6 +66,8 @@ public class HypnosisCreator : PlaceholderCharacterModel
         $"{MainFile.ResPath}/scenes/creature_visuals/hypnosis_creator.tscn";
     public override string CustomCharacterSelectBg =>
         $"{MainFile.ResPath}/scenes/char_select/hypnosis_creator_bg.tscn";
+    public override string CustomRestSiteAnimPath =>
+        $"{MainFile.ResPath}/scenes/rest_site/hypnosis_creator_rest_site.tscn";
 
     // BaseLib 既定 (0.15 / 0.25) だとパワー詠唱がすぐ Idle に戻るため、連番尺に合わせる
     public override float AttackAnimDelay => CombatFrameAnimator.AttackAnimSeconds;
