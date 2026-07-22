@@ -9,8 +9,9 @@ using MegaCrit.Sts2.Core.Hooks;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 性癖カードプレイ後: 植え付け予約の消費。
-/// 他色アブノーマルカードは OnPlay 内で刺さり処理しないため、ここで破滅刺さりも解決する。
+/// 他色アブノーマルカードは OnPlay 内で刺さり処理しないため、AfterCardPlayed で破滅刺さりを解決する。
+/// 植え付け予約の消費は <see cref="Powers.FetishPlantPendingPower"/> の AfterCardPlayed で行う
+/// （Harmony Postfix から PowerCmd を GetResult すると CustomScaledWait で詰まる）。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class FetishCardPlayedPatch
@@ -19,21 +20,13 @@ public static class FetishCardPlayedPatch
     {
         if (!CardFetishLookup.HasAnyFetish(play.Card)) return;
 
-        var fetishes = CardFetishLookup.GetFetishes(play.Card);
-        var owner = play.Card.Owner;
-        if (owner == null) return;
-
-        FetishPlantPending.TryConsumeOnPlay(owner, play.Target, fetishes)
-            .GetAwaiter()
-            .GetResult();
-
         // HCカードは各 OnPlay で刺さり済み
         if (play.Card is HypnosisCreatorCard) return;
+
+        var fetishes = CardFetishLookup.GetFetishes(play.Card);
         if (fetishes.Count == 0) return;
 
-        ResolveOtherColorFetishHit(combatState, choiceContext, play, fetishes)
-            .GetAwaiter()
-            .GetResult();
+        _ = ResolveOtherColorFetishHit(combatState, choiceContext, play, fetishes);
     }
 
     private static async Task ResolveOtherColorFetishHit(

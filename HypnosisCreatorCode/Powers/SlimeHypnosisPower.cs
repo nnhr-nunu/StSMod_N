@@ -15,10 +15,17 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// スライム催眠 — 1ターンだけ意図を粘液付与へ上書きし、見た目・名前をスライム系からランダム差し替え。
 /// FollowUp と行動復元でステートマシン破壊（進行不能）を防ぐ。
+/// カイザークラブ左右（Crusher / Rocket）は背景一体型のため意図上書きを避け、粘液は即時付与する。
 /// </summary>
 public class SlimeHypnosisPower : HypnosisCreatorPower
 {
     public const string SlimeMoveId = "hypnosis_creator_slime_intent";
+
+    /// <summary>SetMoveImmediate するとステートマシンが壊れやすいモンスター ID。</summary>
+    private static readonly HashSet<string> IntentOverwriteUnsafeMonsterIds =
+        new(StringComparer.OrdinalIgnoreCase) { "CRUSHER", "ROCKET" };
+
+    private const float SlimeAttackAnimDelay = 0.65f;
 
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -28,11 +35,21 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     private MoveState? _savedMove;
     private bool _restoredMove;
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        TryOverwriteIntent();
         TryApplyDisguise(applier);
-        return Task.CompletedTask;
+
+        if (Owner == null || CombatState == null) return;
+
+        var count = Math.Max(1, Amount);
+        if (IsIntentOverwriteUnsafe(Owner))
+        {
+            var targets = CombatState.GetOpponentsOf(Owner).ToList();
+            await ApplySlimeCardsAsync(CombatState, Owner, targets, count);
+            return;
+        }
+
+        TryOverwriteIntent();
     }
 
     private void TryApplyDisguise(Creature? applier)
@@ -50,9 +67,12 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     private void TryOverwriteIntent()
     {
         if (Owner?.Monster == null || CombatState == null) return;
+        if (IsIntentOverwriteUnsafe(Owner)) return;
+
         var count = Math.Max(1, Amount);
         var combat = CombatState;
         var monster = Owner.Monster;
+        var source = Owner;
 
         try
         {
@@ -60,17 +80,7 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 
             async Task OnPerform(IReadOnlyList<Creature> targets)
             {
-                foreach (var target in targets)
-                {
-                    var player = target.Player;
-                    if (player == null) continue;
-                    for (var i = 0; i < count; i++)
-                    {
-                        // 通常の粘液。状態異常催眠中は StatusHypnosisPower のフックで AbnormalSlime に置換される。
-                        var slime = combat.CreateCard(ModelDb.Card<Slimed>(), player);
-                        await CardPileCmd.AddGeneratedCardToCombat(slime, PileType.Discard, player);
-                    }
-                }
+                await ApplySlimeCardsAsync(combat, source, targets, count);
             }
 
             var move = new MoveState(SlimeMoveId, OnPerform, [new StatusIntent(count)]);
@@ -86,6 +96,38 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         {
             // Intent API 差異時はトランス付与のみで継続
         }
+    }
+
+    private static async Task ApplySlimeCardsAsync(
+        ICombatState combat,
+        Creature source,
+        IReadOnlyList<Creature> targets,
+        int count)
+    {
+        if (count <= 0 || targets.Count == 0) return;
+
+        await CreatureCmd.TriggerAnim(source, "Attack", SlimeAttackAnimDelay);
+
+        foreach (var target in targets)
+        {
+            var player = target.Player;
+            if (player == null) continue;
+
+            var cards = new List<CardModel>(count);
+            for (var i = 0; i < count; i++)
+            {
+                // 通常の粘液。状態異常催眠中は StatusHypnosisPower のフックで AbnormalSlime に置換される。
+                cards.Add(combat.CreateCard(ModelDb.Card<Slimed>(), player));
+            }
+
+            await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Discard, player);
+        }
+    }
+
+    private static bool IsIntentOverwriteUnsafe(Creature creature)
+    {
+        var id = HeartRegistry.GetMonsterId(creature);
+        return id != null && IntentOverwriteUnsafeMonsterIds.Contains(id);
     }
 
     private void TryCaptureSavedMove(MonsterModel monster)
@@ -134,6 +176,12 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 
         var monster = creature?.Monster;
         if (monster == null || creature is not { IsAlive: true })
+        {
+            _savedMove = null;
+            return;
+        }
+
+        if (IsIntentOverwriteUnsafe(creature))
         {
             _savedMove = null;
             return;

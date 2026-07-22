@@ -1,6 +1,10 @@
 using BaseLib.Utils;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -10,27 +14,45 @@ public static class FetishPlantPending
     private static readonly NotNullSpireField<Player, PlantState> Field =
         new(() => new PlantState());
 
-    public static void Arm(Player player, Creature target, int remainingCards)
+    public static async Task Arm(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        Creature target,
+        int remainingCards,
+        CardModel? source)
     {
         var state = Field.Get(player);
         state.Target = target;
         state.Remaining = Math.Max(0, remainingCards);
+
+        if (state.Remaining <= 0 || player.Creature == null)
+        {
+            await ClearPlayerPower(choiceContext, player);
+            return;
+        }
+
+        await SyncPlayerPower(choiceContext, player, source);
     }
 
     public static async Task TryConsumeOnPlay(
+        PlayerChoiceContext choiceContext,
         Player player,
         Creature? playTarget,
-        IReadOnlyList<FetishType> fetishes)
+        IReadOnlyList<FetishType> fetishes,
+        CardModel? source)
     {
+        _ = playTarget;
         var state = Field.Get(player);
         if (state.Remaining <= 0 || state.Target == null) return;
         if (fetishes.Count == 0) return;
+
         // 対象はアーム時の敵（プレイ対象と異なっても植え付け先は固定）
         var enemy = state.Target;
-        if (!enemy.IsAlive) 
+        if (!enemy.IsAlive)
         {
             state.Remaining = 0;
             state.Target = null;
+            await ClearPlayerPower(choiceContext, player);
             return;
         }
 
@@ -41,7 +63,47 @@ public static class FetishPlantPending
         if (state.Remaining <= 0)
             state.Target = null;
 
-        await Task.CompletedTask;
+        await SyncPlayerPower(choiceContext, player, source);
+    }
+
+    private static async Task SyncPlayerPower(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        CardModel? source)
+    {
+        var creature = player.Creature;
+        if (creature == null) return;
+
+        var state = Field.Get(player);
+        var existing = creature.GetPower<FetishPlantPendingPower>();
+
+        if (state.Remaining <= 0)
+        {
+            await ClearPlayerPower(choiceContext, player);
+            return;
+        }
+
+        if (existing != null)
+        {
+            var delta = state.Remaining - existing.Amount;
+            if (delta != 0)
+            {
+                await PowerCmd.ModifyAmount(
+                    choiceContext, existing, delta, creature, source);
+            }
+            return;
+        }
+
+        await PowerCmd.Apply<FetishPlantPendingPower>(
+            choiceContext, creature, state.Remaining, creature, source);
+    }
+
+    private static async Task ClearPlayerPower(PlayerChoiceContext choiceContext, Player player)
+    {
+        _ = choiceContext;
+        var existing = player.Creature?.GetPower<FetishPlantPendingPower>();
+        if (existing != null)
+            await PowerCmd.Remove(existing);
     }
 
     private sealed class PlantState

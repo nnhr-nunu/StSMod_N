@@ -30,7 +30,8 @@ public class BeginnerHypnosis() : HypnosisCreatorCard(3,
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
 
-        FetishPlantPending.Arm(Owner, play.Target, DynamicVars["PlantCards"].IntValue);
+        await FetishPlantPending.Arm(
+            choiceContext, Owner, play.Target, DynamicVars["PlantCards"].IntValue, this);
     }
 
     protected override void OnUpgrade() => DynamicVars["PlantCards"].UpgradeValueBy(1M);
