@@ -121,7 +121,7 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 
     /// <summary>
     /// No.85 で得た心臓は「戦闘開始トリガーを満たす」＝ AfterPlayerTurnStart turn1 で Activate。
-    /// 手動発動はレリック枠の右クリック（<c>RareHeartRightClickPatch</c>）。
+    /// 手動発動はレリック枠の右クリック（<c>HeartRelicInputPatch</c>）。
     /// </summary>
     public bool FireCombatStartTrigger { get; set; }
 

@@ -1,6 +1,7 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -34,7 +35,13 @@ public static class HeartRelicActivation
         if (heart.Owner != null && !ReferenceEquals(heart.Owner, player)) return false;
 
         var combat = CombatManager.Instance;
-        return combat is { IsInProgress: true } && !combat.PlayerActionsDisabled;
+        if (combat is not { IsInProgress: true }) return false;
+        if (combat.PlayerActionsDisabled) return false;
+
+        var side = player.Creature.CombatState?.CurrentSide;
+        if (side is not null and not CombatSide.Player) return false;
+
+        return true;
     }
 
     public static bool ShouldHighlight(EnemyHeartRelic heart, Player? player) =>
@@ -72,7 +79,24 @@ public static class HeartRelicActivation
         if (model?.Owner != null) return model.Owner;
 
         var inventory = holder.Inventory;
-        return inventory == null ? null : InventoryPlayer(inventory);
+        if (inventory != null)
+        {
+            var fromInventory = InventoryPlayer(inventory);
+            if (fromInventory != null) return fromInventory;
+        }
+
+        try
+        {
+            var state = CombatManager.Instance?.DebugOnlyGetState();
+            if (state != null)
+                return LocalContext.GetMe(state);
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return null;
     }
 
     /// <summary>
