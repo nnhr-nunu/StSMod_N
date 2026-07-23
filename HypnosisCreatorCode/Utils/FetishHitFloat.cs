@@ -1,4 +1,5 @@
 using Godot;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -87,6 +88,10 @@ public static class FetishHitFloat
 
     private static Vector2 ResolveSpeechPosition(Creature target, NCreature? node)
     {
+        var slimeSpeech = target.GetPower<SlimeHypnosisPower>()?.TryGetDisguiseSpeechPosition();
+        if (slimeSpeech is Vector2 disguised)
+            return disguised;
+
         try
         {
             var talk = node?.Visuals?.TalkPosition;

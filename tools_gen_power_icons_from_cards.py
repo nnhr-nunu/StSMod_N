@@ -3,11 +3,14 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import shutil
 from pathlib import Path
 
-from PIL import Image, ImageEnhance
+from PIL import Image
+
+from tools_power_icon_style import center_square_crop, make_power_icon
 
 ROOT = Path(__file__).resolve().parent
 PORTRAITS = ROOT / "HypnosisCreator" / "images" / "card_portraits"
@@ -91,34 +94,6 @@ def portrait_path(stem: str, *, big: bool) -> Path | None:
     return path if path.exists() else None
 
 
-def center_square_crop(img: Image.Image) -> Image.Image:
-    w, h = img.size
-    side = min(w, h)
-    left = (w - side) // 2
-    top = (h - side) // 2
-    return img.crop((left, top, left + side, top + side))
-
-
-def make_icon(content: Image.Image, size: int) -> Image.Image:
-    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    pad = max(2, size // 16)
-    fit = size - pad * 2
-
-    img = content.copy()
-    if img.mode != "RGBA":
-        img = img.convert("RGBA")
-    img.thumbnail((fit, fit), Image.Resampling.LANCZOS)
-
-    rgb = ImageEnhance.Contrast(img.convert("RGB")).enhance(1.05)
-    alpha = img.split()[-1]
-    img = Image.merge("RGBA", (*rgb.split(), alpha))
-
-    ox = (size - img.width) // 2
-    oy = (size - img.height) // 2
-    canvas.alpha_composite(img, (ox, oy))
-    return canvas
-
-
 def load_card_content(stem: str) -> Image.Image | None:
     src = portrait_path(stem, big=True) or portrait_path(stem, big=False)
     if src is None:
@@ -149,26 +124,39 @@ def load_bog_nu_content() -> Image.Image:
 
 
 def save_pair(stem: str, content: Image.Image) -> None:
-    small = make_icon(content, SMALL_SIZE)
-    big = make_icon(content, BIG_SIZE)
+    small = make_power_icon(content, SMALL_SIZE)
+    big = make_power_icon(content, BIG_SIZE)
     (POWERS / "big").mkdir(parents=True, exist_ok=True)
     small.save(POWERS / f"{stem}.png")
     big.save(POWERS / "big" / f"{stem}.png")
 
 
+def should_generate(power_stem: str, *, force: bool) -> bool:
+    if power_stem in SKIP_POWERS:
+        return False
+    if force:
+        return True
+    out_small = POWERS / f"{power_stem}.png"
+    if power_stem == "bog_power":
+        return True
+    return is_placeholder(out_small)
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Regenerate even when a non-placeholder icon already exists.",
+    )
+    args = parser.parse_args()
+
     missing_cards: list[str] = []
     generated: list[str] = []
     skipped: list[str] = []
 
     for power_stem, card_stem in CARD_POWER_MAP.items():
-        if power_stem in SKIP_POWERS:
-            skipped.append(power_stem)
-            continue
-
-        out_small = POWERS / f"{power_stem}.png"
-        if out_small.exists() and not is_placeholder(out_small) and power_stem != "bog_power":
-            # Keep existing custom icons unless they are still placeholders.
+        if not should_generate(power_stem, force=args.force):
             skipped.append(power_stem)
             continue
 
