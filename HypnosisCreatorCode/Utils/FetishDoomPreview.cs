@@ -23,14 +23,16 @@ public static class FetishDoomPreview
         var hits = CountPreviewHits(card, enemy);
         if (hits <= 0) return;
 
-        var perHit = FetishCombat.ScaleDoomByBog(
-            enemy, FetishCombat.CalcFetishDoomAmount(enemy, card.Owner?.Creature));
-        var total = perHit * hits;
+        var basePerHit = FetishCombat.CalcFetishDoomAmount(enemy, card.Owner?.Creature);
+        var scaledPerHit = FetishCombat.ScaleDoomByBog(enemy, basePerHit);
+        var baseTotal = basePerHit * hits;
+        var total = scaledPerHit * hits;
         if (total <= 0) return;
 
+        var formatted = CombatPreviewText.FormatPreviewAmount(total, baseTotal);
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（破滅{total}を付与する）"
-            : $" (Apply {total} Doom)";
+            ? $"（破滅{formatted}を付与する）"
+            : $" (Apply {formatted} Doom)";
 
         if (description.Contains(suffix, StringComparison.Ordinal)) return;
         description = description.TrimEnd() + suffix;

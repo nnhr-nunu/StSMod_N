@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -31,4 +32,17 @@ public static class CombatPreviewText
         if (description.Contains(suffix, StringComparison.Ordinal)) return;
         description = description.TrimEnd() + suffix;
     }
+
+    /// <summary>プレビュー数値。基準値と異なるときだけ [green]（:diff() と同趣旨）。</summary>
+    public static string FormatPreviewAmount(decimal preview, decimal baseline)
+    {
+        var culture = LocManager.Instance?.CultureInfo;
+        var text = preview == decimal.Truncate(preview)
+            ? ((int)preview).ToString(culture)
+            : preview.ToString("0.##", culture);
+        return preview != baseline ? $"[green]{text}[/green]" : text;
+    }
+
+    public static string FormatPreviewAmount(int preview, int baseline) =>
+        FormatPreviewAmount((decimal)preview, (decimal)baseline);
 }

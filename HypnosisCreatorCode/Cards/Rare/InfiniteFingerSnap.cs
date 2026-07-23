@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -71,22 +70,11 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         var total = perHit * hits;
         if (total <= 0) return;
 
-        var formatted = FormatDamage(total);
-        // 弱体・筋力で1ヒットが変わったときだけ緑（:diff() と同じ見た目）
-        if (perHit != perHitRaw)
-            formatted = $"[green]{formatted}[/green]";
+        var formatted = CombatPreviewText.FormatPreviewAmount(total, perHitRaw * hits);
 
         var totalText = UpgradeCardText.IsJapaneseUi()
             ? $"（合計{formatted}ダメージ）"
             : $" (Total {formatted} damage)";
         CombatPreviewText.AppendSuffix(snap, ref description, totalText);
-    }
-
-    private static string FormatDamage(decimal amount)
-    {
-        var culture = LocManager.Instance?.CultureInfo;
-        return amount == decimal.Truncate(amount)
-            ? ((int)amount).ToString(culture)
-            : amount.ToString("0.##", culture);
     }
 }

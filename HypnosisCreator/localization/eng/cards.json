@@ -121,7 +121,7 @@
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "Apply [blue]5[/blue] [gold]Trance[/gold].\nChoose 1 of [blue]3[/blue] colors and gain that color's [blue]3[/blue]-cost [gold]Power[/gold] effect. At the start of your turn, generate {Cards:diff()} random matching cards from that color and play them for free. Continues while the target is [gold]Tranced[/gold].",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.selectionScreenPrompt": "Choose a character.",
   "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.title": "Character",
-  "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.description": "Selection card for Cognitive Shuffle.",
+  "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.description": "Gain that color's [gold]Power[/gold] effect.",
   "HYPNOSISCREATOR-ALL_IN_ONE.title": "All In One",
   "HYPNOSISCREATOR-ALL_IN_ONE.description": "Play every Hypnosis [gold]Count[/gold] card on the target. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.title": "Cardiac Arrest Hypnosis",

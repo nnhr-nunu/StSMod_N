@@ -121,7 +121,7 @@
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "[gold]トランス[/gold][blue]5[/blue]。\n3色からひとつ選び、対応する[blue]3[/blue]コスト[gold]パワー[/gold]効果を得る。ターン開始時に対応する色のカードをランダムに{Cards:diff()}枚生成し、コストなしでプレイできる。対象が[gold]トランス[/gold]状態中継続する。",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.selectionScreenPrompt": "キャラクターを選んでください。",
   "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.title": "キャラクター",
-  "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.description": "認知シャッフルの選択用。",
+  "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.description": "対応する[gold]パワー[/gold]効果を得る。",
   "HYPNOSISCREATOR-ALL_IN_ONE.title": "オールインワン催眠",
   "HYPNOSISCREATOR-ALL_IN_ONE.description": "すべての催眠系[gold]カウント[/gold]カードを対象にプレイする。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.title": "心停止催眠",

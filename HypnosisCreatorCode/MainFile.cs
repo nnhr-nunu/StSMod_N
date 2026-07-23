@@ -27,6 +27,7 @@ public partial class MainFile : Node
         FetishDoomPreview.Register();
         UpgradeDescriptionHooks.Register();
         KeywordLineLayout.Register();
+        CognitiveCharacterChoiceText.Register();
 
         ApplyHarmonyPatches();
     }
