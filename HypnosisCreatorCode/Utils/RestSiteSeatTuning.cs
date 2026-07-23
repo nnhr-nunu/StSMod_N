@@ -8,7 +8,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 篝火の席番号・マルチ人数に応じて立ち絵の位置と縮尺を調整する。
-/// ソロ用の .tscn 調整値を基準に、席ごとのオフセットとマルチ時縮小を足す。
+/// ソロ（index 0）は .tscn の焚き火向きポーズ。マルチ index 1〜3 は頭側を内側へ向け、
+/// 足が隣席に刺さらず肩身を寄せ合う見え方にする。
 /// </summary>
 public static class RestSiteSeatTuning
 {
@@ -18,15 +19,19 @@ public static class RestSiteSeatTuning
     private static readonly FieldInfo CharacterIndexField =
         AccessTools.Field(typeof(NRestSiteCharacter), "_characterIndex")!;
 
-    private readonly record struct SeatProfile(Vector2 VisualOffset, Vector2 RootOffset, float ScaleMul);
+    private readonly record struct SeatProfile(
+        Vector2 VisualOffset,
+        Vector2 RootOffset,
+        float ScaleMul,
+        bool HeadInwardPose);
 
-    /// <summary>Character_1〜4（index 0〜3）。本家コンテナ位置差を踏まえた仮調整。</summary>
+    /// <summary>Character_1〜4（index 0〜3）。HeadInwardPose はマルチ時のみ有効。</summary>
     private static readonly SeatProfile[] Profiles =
     [
-        new(Vector2.Zero, Vector2.Zero, 1f),
-        new(new Vector2(36, 8), new Vector2(-52, 10), 0.94f),
-        new(new Vector2(-24, 12), new Vector2(28, -28), 0.91f),
-        new(new Vector2(32, 12), new Vector2(-40, -24), 0.91f),
+        new(Vector2.Zero, Vector2.Zero, 1f, false),
+        new(new Vector2(-32, 10), new Vector2(-56, 12), 0.94f, true),
+        new(new Vector2(24, 6), new Vector2(20, -22), 0.91f, true),
+        new(new Vector2(-36, 8), new Vector2(-52, -18), 0.91f, true),
     ];
 
     public static void Apply(NRestSiteCharacter character)
@@ -49,10 +54,24 @@ public static class RestSiteSeatTuning
         if (controlRoot == null)
             return;
 
-        ApplyOffset(controlRoot.GetNodeOrNull<Sprite2D>("Visuals"), profile.VisualOffset);
+        if (playerCount > 1 && profile.HeadInwardPose)
+            ApplyHeadInwardPose(controlRoot);
+
+        var visuals = controlRoot.GetNodeOrNull<Sprite2D>("Visuals");
+        ApplyOffset(visuals, profile.VisualOffset);
         ApplyControlOffset(controlRoot.GetNodeOrNull<Control>("%Hitbox"), profile.VisualOffset);
         ApplyControlOffset(controlRoot.GetNodeOrNull<Control>("%ThoughtBubbleLeft"), profile.VisualOffset);
         ApplyControlOffset(controlRoot.GetNodeOrNull<Control>("%ThoughtBubbleRight"), profile.VisualOffset);
+    }
+
+    /// <summary>
+    /// 本家 FlipX の代わりに ControlRoot を反転し、頭側が内側・足が外側を向くポーズにする。
+    /// index 2 は本家では反転されないため、ここで初めて向きを変える。
+    /// </summary>
+    private static void ApplyHeadInwardPose(Control controlRoot)
+    {
+        var scale = controlRoot.Scale;
+        controlRoot.Scale = new Vector2(-Mathf.Abs(scale.X), scale.Y);
     }
 
     private static void ApplyOffset(Node2D? node, Vector2 offset)
