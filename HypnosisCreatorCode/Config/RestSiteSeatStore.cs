@@ -20,10 +20,10 @@ public static class RestSiteSeatStore
 
     public static Offset GetDefault(int seat) => seat switch
     {
-        0 => new Offset(6, 77),
+        0 => new Offset(-57, 134),
         1 => new Offset(-38, 172),
-        2 => new Offset(-200, 103),
-        3 => new Offset(28, 88),
+        2 => new Offset(-325, 1),
+        3 => new Offset(0, 0),
         _ => new Offset(0, 0)
     };
 

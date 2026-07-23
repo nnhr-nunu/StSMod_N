@@ -30,15 +30,13 @@ public static class RestSiteSeatTuning
         float ScaleMul,
         bool MirrorForFire);
 
-    /// <summary>
-    /// index 0=手前左 / 1=手前右端 / 2=奥・左 / 3=奥・右（本家 rest_site_room.tscn）
-    /// </summary>
+    /// <summary>右側の席（1,3）は大きく +X してから Mod設定で微調整。左側（2）は反転。</summary>
     private static readonly SeatProfile[] Profiles =
     [
         new(Vector2.Zero, Vector2.Zero, 1f, false),
-        new(new Vector2(-48, 16), new Vector2(-72, 14), 0.94f, false),
-        new(new Vector2(40, 8), new Vector2(24, -18), 0.91f, true),
-        new(new Vector2(-44, 10), new Vector2(-68, -16), 0.91f, false),
+        new(new Vector2(800, 0), new Vector2(0, 14), 0.94f, false),
+        new(Vector2.Zero, new Vector2(0, -18), 0.91f, true),
+        new(new Vector2(800, 0), new Vector2(0, -16), 0.91f, false),
     ];
 
     public static void ReapplyAll()
