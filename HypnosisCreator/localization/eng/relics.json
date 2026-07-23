@@ -14,7 +14,7 @@
   "HYPNOSISCREATOR-STOLEN_HEART.title": "Stolen Heart",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "At the start of combat, gain 2 Block for each Stolen Heart (total {Block:diff()}).",
   "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.title": "Rare Heart",
-  "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.description": "Right-click to activate this effect. Can be used once per act.",
+  "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.description": "Right-click during combat to activate this effect. Can be used once per act.",
   "HYPNOSISCREATOR-STOLEN_HEART.flavor": "Still beating.",
   "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.title": "Leaf Slime (S) Heart",
   "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.description": "Rare Heart. Add a 0-cost Slimed to your hand.",
