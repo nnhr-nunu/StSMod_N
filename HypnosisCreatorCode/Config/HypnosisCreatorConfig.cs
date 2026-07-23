@@ -57,10 +57,10 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
 
     [ConfigSection("SelectBackground")]
     [ConfigSlider(-400, 400, 1, Format = "{0:0}px")]
-    public static double SelectBgOffsetX { get; set; }
+    public static double SelectBgOffsetX { get; set; } = 70;
 
     [ConfigSlider(-400, 400, 1, Format = "{0:0}px")]
-    public static double SelectBgOffsetY { get; set; }
+    public static double SelectBgOffsetY { get; set; } = 55;
 
     [ConfigSlider(0.5, 3.0, 0.01, Format = "{0:0.00}x")]
     public static double SelectBgZoom { get; set; } = 1.0;
