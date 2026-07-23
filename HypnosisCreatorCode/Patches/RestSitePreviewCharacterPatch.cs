@@ -13,7 +13,7 @@ public static class RestSitePreviewCharacterPatch
         if (!__instance.HasMeta(RestSiteLayoutSimulator.PreviewMeta))
             return true;
 
-        __instance.Scale = new Godot.Vector2(0.76f, 0.76f);
+        // 本家キャラはシーン既定のスケール・構造のまま。_Ready だけスキップ（Player 無しで落ちるため）。
         return false;
     }
 }
