@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 public static class FetishCombat
 {
     public const decimal FetishDoomHpPercent = 0.05M;
-    public const int FetishDoomFlat = 7;
+    public const int FetishDoomFlat = 5;
     public const int FetishDoomMinimum = 8;
     public const decimal BogDoomMultiplier = 1.5M;
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
