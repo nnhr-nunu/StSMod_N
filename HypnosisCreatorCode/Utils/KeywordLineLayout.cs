@@ -19,10 +19,6 @@ public static class KeywordLineLayout
         @"\{[^{}]+\}",
         RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
-    private static readonly Regex PlainTextOutsideTags = new(
-        @"[\p{IsLatin}\p{IsCJKUnifiedIdeographs}\p{IsHiragana}\p{IsKatakana}]",
-        RegexOptions.CultureInvariant | RegexOptions.Compiled);
-
     public static void Register() =>
         DescriptionOverrides.CustomizeDescriptionPost += CollapseConsecutiveKeywordLines;
 
@@ -64,8 +60,8 @@ public static class KeywordLineLayout
         withoutTags = DynamicPlaceholder.Replace(withoutTags, "");
         withoutTags = withoutTags.Trim();
 
-        if (withoutTags is not "。" and not ".") return false;
-        return !PlainTextOutsideTags.IsMatch(withoutTags);
+        // タグ・プレースホルダ除去後は句点だけ（本文テキストなし）
+        return withoutTags is "。" or ".";
     }
 
     private static bool IsHeaderLine(string line) =>
