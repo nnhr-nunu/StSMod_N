@@ -25,6 +25,8 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
 
     private readonly PerTurnCounter _plays = new();
 
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     // トランス対象がいないとプレイ不可 → 性癖一致だけでは光らせない
@@ -48,7 +50,12 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
         _plays.Increment(turn);
 
         await PowerCmd.Apply<TimeStopMarkPower>(
-            choiceContext, play.Target, DynamicVars.Damage.BaseValue, Owner.Creature, this);
+            choiceContext,
+            play.Target,
+            CardSourceDamageBonus.AmountToStack(
+                this, play.Target, play, DynamicVars.Damage.BaseValue, ValueProp.Move),
+            Owner.Creature,
+            this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
