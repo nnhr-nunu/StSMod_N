@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -18,17 +17,13 @@ public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
-    static Autopsy()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(14M, ValueProp.Move),
-        new DynamicVar("PerHeart", 4M)
+        new CalculationBaseVar(14M),
+        new ExtraDamageVar(4M),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(HeartCountMultiplier)
     ];
 
     protected override bool ShouldGlowWhenConditionMet() =>
@@ -37,10 +32,8 @@ public class Autopsy() : HypnosisCreatorCard(2,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var hearts = HeartInventory.CountHearts(Owner);
-        var damage = DynamicVars.Damage.BaseValue + hearts * DynamicVars["PerHeart"].BaseValue;
 
-        await DamageCmd.Attack(damage)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
@@ -53,20 +46,8 @@ public class Autopsy() : HypnosisCreatorCard(2,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["PerHeart"].UpgradeValueBy(3M); // 4 → 7
+    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(3M); // 4 → 7
 
-    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
-    {
-        if (card is not Autopsy autopsy) return;
-
-        var hearts = HeartInventory.CountHearts(autopsy.Owner);
-        var total = autopsy.DynamicVars.Damage.BaseValue + hearts * autopsy.DynamicVars["PerHeart"].BaseValue;
-
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（心臓{hearts}個／{total}ダメージ）"
-            : $" ({hearts} Hearts / {total} damage)";
-
-        if (description.Contains(suffix, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + suffix;
-    }
+    private static decimal HeartCountMultiplier(CardModel card, Creature? target) =>
+        HeartInventory.CountHearts(card.Owner);
 }

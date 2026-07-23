@@ -3,13 +3,14 @@ using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>スパンキング — SMアタック 5×2。刺さったらリプレイ1（UGで2）。</summary>
+/// <summary>スパンキング — SMアタック 5×2。刺さったらリプレイ1（UGで2）。説明はリプレイキーワードと二重化しない。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Spanking() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -18,18 +19,23 @@ public class Spanking() : HypnosisCreatorCard(1,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(5M, ValueProp.Move)];
+    [
+        new DamageVar(5M, ValueProp.Move),
+        new DynamicVar("Replays", 1M)
+    ];
+
+    /// <summary>Hook.BeforeCardPlayed から呼ぶ。リプレイ付与は OnPlay より前に確定させる。</summary>
+    internal void PrepareReplay(Creature? target)
+    {
+        BaseReplayCount = 0;
+        if (target is not { IsAlive: true, IsEnemy: true }) return;
+        if (!ShouldReplayForTarget(target)) return;
+        BaseReplayCount = DynamicVars["Replays"].IntValue;
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-
-        // 刺さる見込みならダメージ前にリプレイ付与（後付けだと効かないことがある）。
-        // 説明文には「リプレイ」キーワードを書かない（BaseReplayCount の自動追記と二重になるため）。
-        var willHit = FetishCombat.HasFetish(play.Target, FetishType.Sm)
-                      || FetishCombat.CultLeaderActive;
-        if (willHit)
-            BaseReplayCount = IsUpgraded ? 2 : 1;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(2)
@@ -41,5 +47,12 @@ public class Spanking() : HypnosisCreatorCard(1,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade() => DynamicVars["Replays"].UpgradeValueBy(1M);
+
+    private bool ShouldReplayForTarget(Creature target)
+    {
+        if (FetishCombat.CultLeaderActive) return true;
+        if (FetishCombat.WasAwakenedThisPlay(target, FetishType.Sm)) return false;
+        return FetishCombat.HasFetish(target, FetishType.Sm);
+    }
 }
