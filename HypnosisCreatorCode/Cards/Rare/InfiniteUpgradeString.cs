@@ -10,7 +10,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 糸色丁頁 — カウント。対象はHP15を失う。トランス1。無限UGで失HP+7。
+/// 糸色丁頁 — カウント。対象はHP19を失う。トランス1。
+/// 無限UG：1回目でリプレイ1、以降UGするたびリプレイ+1（説明にリプレイは書かない）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
@@ -23,9 +24,16 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("LoseHp", 15M),
-        new DynamicVar("Trance", 1M)
+        new DynamicVar("LoseHp", 19M),
+        new DynamicVar("Trance", 1M),
+        new DynamicVar("Replays", 0M)
     ];
+
+    /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
+    internal void PrepareReplay()
+    {
+        BaseReplayCount = Math.Max(0, DynamicVars["Replays"].IntValue);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -37,5 +45,12 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["LoseHp"].UpgradeValueBy(7M);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["Replays"].UpgradeValueBy(1M);
+        SyncReplayCount();
+    }
+
+    private void SyncReplayCount() =>
+        BaseReplayCount = Math.Max(0, DynamicVars["Replays"].IntValue);
 }

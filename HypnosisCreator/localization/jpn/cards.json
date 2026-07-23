@@ -166,7 +166,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "触手の想起",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "[gold]締め付け[/gold]{ConstrictPower:diff()}を付与する。次のターン、このカードのコピーを[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "糸色 丁頁 イ崔 目民",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "対象はHP{LoseHp:diff()}を失う。[gold]トランス[/gold]{Trance:diff()}。このカードは何度でもアップグレードできる。",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "対象はHP{LoseHp:diff()}を失う。[gold]トランス[/gold]{Trance:diff()}。アップグレードするたびにリプレイが1増える。このカードは何度でもアップグレードできる。",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "調教コマンド",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "ランダムな{Cards:diff()}枚のDomSubコマンドカードを[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-AUTOPSY.title": "解剖",
