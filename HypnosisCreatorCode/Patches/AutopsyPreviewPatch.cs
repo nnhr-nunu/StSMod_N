@@ -24,6 +24,8 @@ public static class AutopsyPreviewPatch
         _ = runGlobalHooks;
         if (card is not Autopsy autopsy) return;
 
+        var raw = autopsy.ComputeHeartScaledDamage();
+        __instance.EnchantedValue = raw;
         __instance.PreviewValue = autopsy.PreviewModifiedDamage(target, previewMode);
     }
 }

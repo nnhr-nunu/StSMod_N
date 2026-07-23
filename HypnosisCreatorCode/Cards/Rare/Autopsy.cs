@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -7,24 +6,21 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄なし。</summary>
+/// <summary>
+/// 解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄なし。
+/// 合計ダメージのプレビューは説明文の {CalculatedDamage:diff()} と枠表示（AutopsyPreviewPatch）。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
-    static Autopsy()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -99,27 +95,5 @@ public class Autopsy() : HypnosisCreatorCard(2,
         {
             return raw;
         }
-    }
-
-    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
-    {
-        if (card is not Autopsy autopsy) return;
-        if (!CombatPreviewText.IsActive(autopsy)) return;
-
-        var total = autopsy.PreviewModifiedDamage(target ?? autopsy.CurrentTarget);
-        if (total <= autopsy.DynamicVars.CalculationBase.BaseValue) return;
-
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{FormatDamage(total)}ダメージ）"
-            : $" ({FormatDamage(total)} damage)";
-        CombatPreviewText.AppendSuffix(autopsy, ref description, suffix);
-    }
-
-    private static string FormatDamage(decimal amount)
-    {
-        var culture = LocManager.Instance?.CultureInfo;
-        return amount == decimal.Truncate(amount)
-            ? ((int)amount).ToString(culture)
-            : amount.ToString("0.##", culture);
     }
 }

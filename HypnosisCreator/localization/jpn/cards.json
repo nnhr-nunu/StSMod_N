@@ -170,7 +170,7 @@
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "調教コマンド",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "ランダムな{Cards:diff()}枚のDomSubコマンドカードを[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-AUTOPSY.title": "解剖",
-  "HYPNOSISCREATOR-AUTOPSY.description": "{CalculationBase:diff()}ダメージを与える。保有している心臓レリックの数だけ、追加で{ExtraDamage:diff()}ダメージを与える。リーサル時、追加のレリック報酬を得る。",
+  "HYPNOSISCREATOR-AUTOPSY.description": "{CalculatedDamage:diff()}ダメージを与える。保有している心臓レリックの数だけ、追加で{ExtraDamage:diff()}ダメージを与える。リーサル時、追加のレリック報酬を得る。",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.title": "壱佰捌煩悩",
   "HYPNOSISCREATOR-HUNDRED_EIGHT.description": "すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが[blue]1[/blue]増加する。[blue]3[/blue]コストのこのカードをプレイした時、すべての相手に{Damage:diff()}ダメージを[blue]108[/blue]回与えて[gold]廃棄[/gold]される。",
   "HYPNOSISCREATOR-FUDO_MYOO.title": "不動明王",
