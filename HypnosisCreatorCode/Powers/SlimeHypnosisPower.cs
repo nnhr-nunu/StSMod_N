@@ -1,4 +1,3 @@
-using Godot;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -28,27 +27,6 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public string? DisguiseName { get; private set; }
-
-    /// <summary>
-    /// 見た目差し替え中はスライムの TalkPosition が低く出るため、元モンスターの口元を返す。
-    /// </summary>
-    public Vector2? TryGetDisguiseSpeechPosition()
-    {
-        if (_disguise?.OriginalVisuals == null) return null;
-
-        try
-        {
-            var talk = _disguise.OriginalVisuals.TalkPosition;
-            if (talk != null && GodotObject.IsInstanceValid(talk))
-                return talk.GlobalPosition;
-        }
-        catch
-        {
-            // フォールバックへ
-        }
-
-        return null;
-    }
 
     /// <summary>
     /// true のとき意図ステートは触らず、PerformMove / PerformIntent を粘液付与に差し替える。

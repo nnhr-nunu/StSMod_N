@@ -35,6 +35,13 @@ public static class SlimeDisguise
         "ConnectSpineAnimatorSignals",
         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
+    private static readonly MethodInfo? UpdateBoundsMethod = typeof(NCreature).GetMethod(
+        "UpdateBounds",
+        BindingFlags.Instance | BindingFlags.NonPublic,
+        binder: null,
+        types: [typeof(Node)],
+        modifiers: null);
+
     public sealed class State
     {
         public required string DisplayName { get; init; }
@@ -152,6 +159,20 @@ public static class SlimeDisguise
         }
 
         SetVisuals(node, to);
+        // 見た目差し替え直後に Hitbox を新ビジュアルへ追従（吹き出し・選択枠のずれ防止）
+        RefreshHitbox(node, to);
+    }
+
+    private static void RefreshHitbox(NCreature node, NCreatureVisuals visuals)
+    {
+        try
+        {
+            UpdateBoundsMethod?.Invoke(node, [visuals]);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Slime disguise hitbox refresh failed: {e.Message}");
+        }
     }
 
     private static void SetVisuals(NCreature node, NCreatureVisuals visuals) =>
