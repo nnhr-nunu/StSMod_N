@@ -35,7 +35,7 @@ public class Autopsy() : HypnosisCreatorCard(2,
     ];
 
     /// <summary>
-    /// 心臓数はラン進行データ。本家 CalculatedVar.Calculate は戦闘外で倍率を 0 にするため、
+    /// 心臓数はラン進行データ。本家 CalculatedVar.Calculate は card.CombatState 未設定時に倍率 0 になるため、
     /// AutopsyPreviewPatch からも呼ぶ。
     /// </summary>
     internal decimal ComputeHeartScaledDamage()
@@ -74,13 +74,17 @@ public class Autopsy() : HypnosisCreatorCard(2,
     {
         var raw = ComputeHeartScaledDamage();
         var owner = Owner;
-        if (owner?.Creature == null || CombatState == null) return raw;
+        if (owner?.Creature == null) return raw;
+
+        // 手札ホバー時は card.CombatState が null のことがある（本家 CalculatedDamageVar と同じフォールバック）
+        var combat = CombatState ?? owner.Creature.CombatState;
+        if (combat == null) return raw;
 
         try
         {
             return Hook.ModifyDamage(
                 owner.RunState,
-                CombatState,
+                combat,
                 target,
                 owner.Creature,
                 raw,
