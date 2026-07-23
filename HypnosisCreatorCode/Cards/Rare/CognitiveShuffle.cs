@@ -3,7 +3,6 @@ using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -70,10 +69,9 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         CardModel chosenCard;
         try
         {
-            var selected = (await CardSelectCmd.FromSimpleGrid(
-                choiceContext, options, Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, 1))).ToList();
-            chosenCard = selected.FirstOrDefault() ?? options[rng.NextInt(options.Count)];
+            chosenCard = await CardSelectCmd.FromChooseACardScreen(
+                choiceContext, options, Owner, canSkip: false)
+                ?? options[rng.NextInt(options.Count)];
         }
         catch
         {
@@ -87,7 +85,8 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
 
         var formCanonical = ModelDb.AllCards.First(c => c.GetType() == formTypeChosen);
         var shuffle = await PowerCmd.Apply<CognitiveShufflePower>(
-            choiceContext, Owner.Creature, DynamicVars["Cards"].BaseValue, Owner.Creature, this);
+            choiceContext, Owner.Creature, DynamicVars["Cards"].BaseValue, Owner.Creature, this,
+            silent: true);
         if (shuffle != null)
         {
             shuffle.FormCanonical = formCanonical;
@@ -105,24 +104,21 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         switch (formCardType.Name)
         {
             case nameof(DemonForm):
-                // 本家 DemonForm CanonicalVars Amount=3
-                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 3M, self, this);
+                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 3M, self, this, silent: true);
                 break;
             case nameof(SerpentForm):
-                // 本家 SerpentForm Amount=4
-                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 4M, self, this);
+                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 4M, self, this, silent: true);
                 break;
             case nameof(VoidForm):
-                // 本家 VoidForm Amount=2。ターン強制終了は非表示の CognitiveVoidBypassPower で抑止。
-                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 2M, self, this);
                 await PowerCmd.Apply<CognitiveVoidBypassPower>(
                     choiceContext, self, 1M, self, this, silent: true);
+                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 2M, self, this, silent: true);
                 break;
             case nameof(ReaperForm):
-                await PowerCmd.Apply<ReaperFormPower>(choiceContext, self, 1M, self, this);
+                await PowerCmd.Apply<ReaperFormPower>(choiceContext, self, 1M, self, this, silent: true);
                 break;
             case nameof(EchoForm):
-                await PowerCmd.Apply<EchoFormPower>(choiceContext, self, 1M, self, this);
+                await PowerCmd.Apply<EchoFormPower>(choiceContext, self, 1M, self, this, silent: true);
                 break;
         }
     }

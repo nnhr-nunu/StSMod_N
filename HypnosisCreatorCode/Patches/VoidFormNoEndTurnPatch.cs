@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -17,6 +18,8 @@ public static class VoidFormNoEndTurnPatch
         _ = choiceContext;
         _ = cardPlay;
         if (__instance.Owner?.GetPower<CognitiveVoidBypassPower>() != null)
+            return false;
+        if (cardPlay.Card is CognitiveShuffle)
             return false;
         return true;
     }
