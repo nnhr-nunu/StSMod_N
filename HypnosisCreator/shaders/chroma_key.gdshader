@@ -24,8 +24,8 @@ uniform float wm_crop_bottom : hint_range(0.0, 0.25, 0.001) = 0.055;
 /// ウォーターマーク側の横幅（UV）— 靴を避けるため控えめ
 uniform float wm_crop_side : hint_range(0.0, 0.8, 0.001) = 0.38;
 
-/// flip_h ON のとき画像右下ロゴは UV 左側に来る → 1.0
-uniform float wm_on_uv_left : hint_range(0.0, 1.0, 1.0) = 1.0;
+/// flip_h ON のとき画像右下ロゴは UV 右側（テクスチャ座標）。1.0 だと左下角を隠して効かない。
+uniform float wm_on_uv_left : hint_range(0.0, 1.0, 1.0) = 0.0;
 
 /// ロゴ文字検出の強さ（1＝既定。上げると白文字をもっと落とす）
 uniform float wm_logo_strength : hint_range(0.0, 2.0, 0.01) = 1.0;

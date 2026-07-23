@@ -87,6 +87,15 @@ public static class CardCropStore
         SaveAll(map);
     }
 
+    public static void RemoveKey(string key)
+    {
+        var normalized = NormalizeKey(key);
+        var map = LoadAll();
+        if (!map.Remove(normalized))
+            return;
+        SaveAll(map);
+    }
+
     public static void ApplyCropToSliders(string key)
     {
         var crop = Get(key);

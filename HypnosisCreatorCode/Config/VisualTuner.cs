@@ -19,9 +19,11 @@ public static class VisualTuner
     private const string MerchantVisualPathHint = "HypnosisCreator/images/character/merchant";
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
+    private const string ChromaUniqueMeta = "hc_chroma_unique";
 
-    /// <summary>立ち絵は Flip H ON 前提（Hailuo 右下ロゴ → UV 左）。</summary>
-    private const float WatermarkOnUvLeft = 1.0f;
+    /// <summary>flip_h 立ち絵は素材右下ロゴ＝UV 右側。旧実装の 1（UV左）だとロゴに当たらない。</summary>
+    private static float WatermarkOnUvLeft =>
+        (float)HypnosisCreatorConfigDefaults.WatermarkMaskOnUvLeft;
 
     private static readonly FieldInfo? NCardPortraitField =
         AccessTools.Field(typeof(NCard), "_portrait");
@@ -258,13 +260,16 @@ public static class VisualTuner
     private static void EnsureChromaMaterial(CanvasItem item)
     {
         if (item.Material is ShaderMaterial existing &&
-            existing.Shader?.ResourcePath?.Contains("chroma_key") == true)
+            existing.Shader?.ResourcePath?.Contains("chroma_key") == true &&
+            existing.HasMeta(ChromaUniqueMeta))
             return;
 
         if (!ResourceLoader.Exists(ChromaMaterialPath)) return;
         var shared = ResourceLoader.Load<ShaderMaterial>(ChromaMaterialPath);
         if (shared == null) return;
-        item.Material = (ShaderMaterial)shared.Duplicate();
+        var mat = (ShaderMaterial)shared.Duplicate();
+        mat.SetMeta(ChromaUniqueMeta, true);
+        item.Material = mat;
     }
 
     private static void EnsureCropMaterial(CanvasItem item)
