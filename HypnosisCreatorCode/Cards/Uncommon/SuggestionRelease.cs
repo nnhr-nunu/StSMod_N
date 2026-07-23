@@ -54,11 +54,13 @@ public class SuggestionRelease() : HypnosisCreatorCard(0,
         var stacks = TranceCombat.GetTrance(play.Target);
         if (stacks <= 0) return;
 
+        var energy = CalcEnergyGain(this, stacks);
+
         var trance = play.Target.GetPower<TrancePower>();
         if (trance != null) await PowerCmd.Remove(trance);
 
-        await PlayerCmd.GainEnergy(CalcEnergyGain(this, stacks), Owner);
-        await CardPileCmd.Draw(choiceContext, stacks, Owner);
+        await PlayerCmd.GainEnergy(energy, Owner);
+        await CardPileCmd.Draw(choiceContext, energy, Owner);
     }
 
     protected override void OnUpgrade() { }
@@ -77,8 +79,8 @@ public class SuggestionRelease() : HypnosisCreatorCard(0,
         var energy = CalcEnergyGain(release, trance);
 
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（ダメージ：{(int)damage}／エナジー：{energy}／ドロー：{trance}枚）"
-            : $" (Damage: {(int)damage} / Energy: {energy} / Draw: {trance})";
+            ? $"（ダメージ：{(int)damage}／エナジー：{energy}／ドロー：{energy}枚）"
+            : $" (Damage: {(int)damage} / Energy: {energy} / Draw: {energy})";
         CombatPreviewText.AppendSuffix(release, ref description, suffix);
     }
 }
