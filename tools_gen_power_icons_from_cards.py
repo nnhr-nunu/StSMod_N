@@ -45,7 +45,6 @@ CARD_DERIVED_POWER_MAP: dict[str, str] = {
     "ericksonian_power": "ericksonian",
     "encore_power": "encore",
     "fudo_myoo_power": "fudo_myoo",
-    "catalepsy_power": "catalepsy",
     "sense_share_power": "sense_share",
     "bottomless_bog_power": "bottomless_bog",
     "tentacle_recall_power": "tentacle_recall",
