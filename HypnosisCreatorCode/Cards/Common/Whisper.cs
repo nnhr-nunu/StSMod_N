@@ -4,6 +4,7 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -12,6 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
 /// <summary>
 /// 囁き — 山札の性癖カードを選び、その性癖を対象に目覚めさせる。廃棄。
+/// 対象がすでに持つ性癖だけのカードは選べない。候補がなければ廃棄のみ。
 /// UG: 2枚選び、このカードは必ず性癖にささる。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -27,14 +29,17 @@ public class Whisper() : HypnosisCreatorCard(0,
     protected override bool ShouldGlowWhenConditionMet()
     {
         var draw = Owner.PlayerCombatState?.DrawPile;
-        return draw != null && draw.Cards.Any(IsCandidate);
+        if (draw == null) return false;
+
+        return GlowIfTargetOrAnyEnemy(target =>
+            draw.Cards.Any(c => IsCandidate(c, target)));
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
 
-    private static bool IsCandidate(CardModel c) =>
-        CardFetishLookup.HasAnyFetish(c);
+    private static bool IsCandidate(CardModel c, Creature target) =>
+        CardFetishLookup.GetFetishes(c).Any(f => !FetishCombat.HasFetish(target, f));
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -44,8 +49,11 @@ public class Whisper() : HypnosisCreatorCard(0,
         var combat = Owner.PlayerCombatState;
         if (combat == null) return;
 
+        var target = play.Target;
+        bool IsSelectable(CardModel c) => IsCandidate(c, target);
+
         var drawCandidates = combat.DrawPile.Cards
-            .Where(IsCandidate)
+            .Where(IsSelectable)
             .ToList();
 
         if (drawCandidates.Count == 0) return;
@@ -58,7 +66,7 @@ public class Whisper() : HypnosisCreatorCard(0,
                 combat.DrawPile,
                 Owner,
                 new CardSelectorPrefs(SelectionScreenPrompt, count),
-                IsCandidate)).ToList();
+                IsSelectable)).ToList();
         }
         catch
         {
