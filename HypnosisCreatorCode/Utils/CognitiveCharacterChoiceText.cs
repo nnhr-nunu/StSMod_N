@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Models.Cards;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 認知シャッフル選択カードの説明を、各キャラ色の Form パワー効果文に差し替える。
+/// 認知シャッフル選択カードの説明を、キャラ色の一文＋改行＋Form パワー効果に差し替える。
 /// </summary>
 public static class CognitiveCharacterChoiceText
 {
@@ -28,24 +28,27 @@ public static class CognitiveCharacterChoiceText
         if (formCardType == null) return null;
         var japanese = UpgradeCardText.IsJapaneseUi();
 
-        return formCardType.Name switch
+        var (flavor, effect) = formCardType.Name switch
         {
             nameof(DemonForm) => japanese
-                ? "[red]ターン開始時、[gold]筋力[/gold][blue]3[/blue]を得る。[/red]"
-                : "[red]At the start of your turn, gain [blue]3[/blue] [gold]Strength[/gold].[/red]",
+                ? ("[red]血のような赤色。[/red]", "ターン開始時、[gold]筋力[/gold][blue]3[/blue]を得る。")
+                : ("[red]A blood-like red.[/red]", "At the start of your turn, gain [blue]3[/blue] [gold]Strength[/gold]."),
             nameof(SerpentForm) => japanese
-                ? "[green]カードをプレイするたび、ランダムな敵に[blue]4[/blue]ダメージを与える。[/green]"
-                : "[green]Whenever you play a card, deal [blue]4[/blue] damage to a random enemy.[/green]",
+                ? ("[green]毒々しい緑色。[/green]", "カードをプレイするたび、ランダムな敵に[blue]4[/blue]ダメージを与える。")
+                : ("[green]A venomous green.[/green]", "Whenever you play a card, deal [blue]4[/blue] damage to a random enemy."),
             nameof(VoidForm) => japanese
-                ? "[orange]毎ターン、最初にプレイする[blue]2[/blue]枚のカードはコストを支払わずにプレイできる。[/orange]"
-                : "[orange]The first [blue]2[/blue] cards you play each turn cost [blue]0[/blue].[/orange]",
+                ? ("[orange]高貴な橙色。[/orange]", "毎ターン、最初にプレイする[blue]2[/blue]枚のカードはコストを支払わずにプレイできる。")
+                : ("[orange]A noble orange.[/orange]", "The first [blue]2[/blue] cards you play each turn are free to play."),
             nameof(ReaperForm) => japanese
-                ? "[purple]アタックでダメージを与えるたび、そのダメージに等しい[gold]破滅[/gold]を付与する。[/purple]"
-                : "[purple]Whenever you deal Attack damage, apply [gold]Doom[/gold] equal to the damage dealt.[/purple]",
+                ? ("[purple]闇をまとう紫色。[/purple]", "アタックでダメージを与えるたび、そのダメージに等しい[gold]破滅[/gold]を付与する。")
+                : ("[purple]A purple shrouded in darkness.[/purple]", "Whenever Attacks deal damage, apply that much [gold]Doom[/gold]."),
             nameof(EchoForm) => japanese
-                ? "[aqua]毎ターン、最初にプレイするカードをもう一度プレイする。[/aqua]"
-                : "[aqua]The first card you play each turn is played an extra time.[/aqua]",
-            _ => null
+                ? ("[aqua]輝きをはなつ水色。[/aqua]", "毎ターン、最初にプレイするカードをもう一度プレイする。")
+                : ("[aqua]A shining aqua.[/aqua]", "The first card you play each turn is played an extra time."),
+            _ => (null, null)
         };
+
+        if (flavor == null || effect == null) return null;
+        return $"{flavor}\n{effect}";
     }
 }

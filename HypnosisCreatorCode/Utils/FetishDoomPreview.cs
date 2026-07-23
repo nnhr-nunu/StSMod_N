@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using BaseLib.Patches.Localization;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
@@ -10,6 +11,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class FetishDoomPreview
 {
+    private static readonly Regex JapaneseDoomSuffix =
+        new(@"（破滅.*を付与する）\s*$", RegexOptions.Compiled);
+
+    private static readonly Regex EnglishDoomSuffix =
+        new(@" \(Apply .* Doom\)\s*$", RegexOptions.Compiled);
+
     public static void Register() =>
         DescriptionOverrides.CustomizeDescriptionPost += AppendDoomPreview;
 
@@ -23,20 +30,21 @@ public static class FetishDoomPreview
         var hits = CountPreviewHits(card, enemy);
         if (hits <= 0) return;
 
-        var basePerHit = FetishCombat.CalcFetishDoomAmount(enemy, card.Owner?.Creature);
-        var scaledPerHit = FetishCombat.ScaleDoomByBog(enemy, basePerHit);
-        var baseTotal = basePerHit * hits;
-        var total = scaledPerHit * hits;
+        var perHit = FetishCombat.ScaleDoomByBog(
+            enemy, FetishCombat.CalcFetishDoomAmount(enemy, card.Owner?.Creature));
+        var total = perHit * hits;
         if (total <= 0) return;
 
-        var formatted = CombatPreviewText.FormatPreviewAmount(total, baseTotal);
+        var formatted = CombatPreviewText.FormatCombatPreviewAmount(total);
         var suffix = UpgradeCardText.IsJapaneseUi()
             ? $"（破滅{formatted}を付与する）"
             : $" (Apply {formatted} Doom)";
 
-        if (description.Contains(suffix, StringComparison.Ordinal)) return;
-        description = description.TrimEnd() + suffix;
+        description = StripDoomPreviewSuffix(description).TrimEnd() + suffix;
     }
+
+    private static string StripDoomPreviewSuffix(string description) =>
+        EnglishDoomSuffix.Replace(JapaneseDoomSuffix.Replace(description, string.Empty), string.Empty);
 
     /// <summary>照準対象に対して、実際の刺さりと同じ回数を返す。</summary>
     public static int CountPreviewHits(CardModel card, Creature target)

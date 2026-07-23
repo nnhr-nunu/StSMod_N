@@ -33,16 +33,26 @@ public static class CombatPreviewText
         description = description.TrimEnd() + suffix;
     }
 
-    /// <summary>プレビュー数値。基準値と異なるときだけ [green]（:diff() と同趣旨）。</summary>
-    public static string FormatPreviewAmount(decimal preview, decimal baseline)
+    /// <summary>ローカライズ済み数値文字列（色タグなし）。</summary>
+    public static string FormatAmount(decimal amount)
     {
         var culture = LocManager.Instance?.CultureInfo;
-        var text = preview == decimal.Truncate(preview)
-            ? ((int)preview).ToString(culture)
-            : preview.ToString("0.##", culture);
-        return preview != baseline ? $"[green]{text}[/green]" : text;
+        return amount == decimal.Truncate(amount)
+            ? ((int)amount).ToString(culture)
+            : amount.ToString("0.##", culture);
     }
+
+    /// <summary>戦闘プレビュー用の数値（常に [green]）。</summary>
+    public static string FormatCombatPreviewAmount(decimal amount) =>
+        $"[green]{FormatAmount(amount)}[/green]";
+
+    /// <summary>プレビュー数値。基準値と異なるときだけ [green]（:diff() と同趣旨）。</summary>
+    public static string FormatPreviewAmount(decimal preview, decimal baseline) =>
+        preview != baseline ? FormatCombatPreviewAmount(preview) : FormatAmount(preview);
 
     public static string FormatPreviewAmount(int preview, int baseline) =>
         FormatPreviewAmount((decimal)preview, (decimal)baseline);
+
+    public static string FormatCombatPreviewAmount(int amount) =>
+        FormatCombatPreviewAmount((decimal)amount);
 }
