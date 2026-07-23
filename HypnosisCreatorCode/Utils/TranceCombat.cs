@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -36,14 +35,14 @@ public static class TranceCombat
         await NotifyTranceAppliedForCultLeader(choiceContext, applier);
     }
 
-    /// <summary>教祖化: トランス付与時、次のターンのエナジー・ドローを得る。</summary>
+    /// <summary>教祖化: トランス付与時、即時にエナジー1・ドロー1を得る。</summary>
     private static async Task NotifyTranceAppliedForCultLeader(PlayerChoiceContext choiceContext, Creature applier)
     {
-        var cultLeader = applier.GetPower<CultLeaderPower>();
-        if (cultLeader == null) return;
+        if (applier.GetPower<CultLeaderPower>() == null) return;
+        if (applier.Player == null) return;
 
-        await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, applier, 1M, applier, null);
-        await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, applier, cultLeader.Amount, applier, null);
+        await PlayerCmd.GainEnergy(1, applier.Player);
+        await CardPileCmd.Draw(choiceContext, 1, applier.Player);
     }
 
     /// <summary>トランス1を times 回付与（付与ごとにトランス性癖刺さり判定）。</summary>

@@ -144,7 +144,7 @@
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.title": "好き好き催眠",
   "HYPNOSISCREATOR-LOVE_HYPNOSIS.description": "相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-CULT_LEADER.title": "教祖化",
-  "HYPNOSISCREATOR-CULT_LEADER.description": "[gold]アブノーマル[/gold]、[gold]DomSub[/gold]、[gold]SM[/gold]カードが必ず性癖に刺さる。[gold]トランス[/gold]を付与するたび、次のターンに{energyPrefix:energyIcons(1)}を得て、カードを{Draw:diff()}枚引く。",
+  "HYPNOSISCREATOR-CULT_LEADER.description": "すべての性癖カードが相手の性癖に刺さるようになる。ターン開始時、ランダムな催眠系[gold]カウント[/gold]カードを[gold]手札[/gold]に{Cards:diff()}枚加える。[gold]トランス[/gold]を付与するたび、{energyPrefix:energyIcons(1)}を得てカードを[blue]1[/blue]枚引く。",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.title": "ナイフと拳銃",
   "HYPNOSISCREATOR-KNIFE_AND_GUN.description": "ナイフを[blue]1[/blue]枚[gold]手札[/gold]に加える。{Damage:diff()}ダメージを与える。アブノーマル性癖に目覚めさせる。",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.title": "脳くちゅ催眠",
