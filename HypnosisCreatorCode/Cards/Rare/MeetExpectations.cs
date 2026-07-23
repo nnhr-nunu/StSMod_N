@@ -13,7 +13,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 期待に応えて — 手札のカウントカードの解決後コスト合計+1 の2乗ダメージを与え、それらのコストを1下げる。
-/// ダメージ表示は本家 BodySlam / MindBlast と同じ <see cref="CalculatedDamageVar"/> でプレビューする。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MeetExpectations() : HypnosisCreatorCard(1,
@@ -23,15 +22,15 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
-        // CalculatedDamageVar は CalculationExtraVar ではなく ExtraDamageVar を使う
         new ExtraDamageVar(1M),
-        // result = Base + Extra * Func = Func
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcSquaredHandCountCost)
     ];
 
-    /// <summary>静的必須（CalculatedVar.WithMultiplier の制約）。</summary>
+    internal static decimal ComputeDamage(CardModel card) => CalcSquaredHandCountCost(card, null);
+
     private static decimal CalcSquaredHandCountCost(CardModel card, Creature? target)
     {
+        _ = target;
         var player = card.Owner;
         if (player == null) return 0M;
         var sum = CountRules.SumResolvedCountCostsInHand(player, exclude: card);
@@ -43,7 +42,6 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        // プレビューと同じ経路で算出されたダメージを使用
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, play)
             .Targeting(play.Target)

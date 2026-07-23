@@ -4,6 +4,7 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
@@ -17,6 +18,10 @@ public class Harmony() : HypnosisCreatorCard(2,
     public override bool GainsBlock => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    // Unpowered: 敏捷は乗せない。プレビューは IntentDerivedPreviewPatch が意図合計で上書き。
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new BlockVar(0M, ValueProp.Unpowered)];
 
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => EnemyAttackIntents.GetTotalDamage(c) > 0);

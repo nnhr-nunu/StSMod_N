@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// お仕置き — 対象がプレイヤーを攻撃した回数だけ、8ダメージの多段攻撃（UG13）。
-/// 多段は WithHitCount 1回で解決（手動ループ禁止）。
+/// 1ヒットは {Damage:diff()}、回数は戦闘中プレビュー。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Punishment() : HypnosisCreatorCard(2,
@@ -31,7 +31,6 @@ public class Punishment() : HypnosisCreatorCard(2,
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => EnemyPlayerAttackTracker.GetCount(c) > 0);
 
-    // FetishChampion と同様、CalculatedDamageVar+CalculatedVar 併用を避ける。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(8M, ValueProp.Move)];
 
@@ -65,12 +64,12 @@ public class Punishment() : HypnosisCreatorCard(2,
 
         var previewTarget = target ?? punishment.CurrentTarget;
         var hits = CalcHitCount(punishment, previewTarget);
-        var perHit = punishment.DynamicVars.Damage.BaseValue;
-        var total = perHit * hits;
+        if (hits <= 0) return;
 
+        // 1ヒットの弱体等は {Damage:diff()} が緑表示。括弧は回数のみ（手計算合計は誤認しやすい）。
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（攻撃回数：{hits}回／{total}ダメージ）"
-            : $" ({hits} hits / {total} damage)";
+            ? $"（攻撃回数：{hits}回）"
+            : $" ({hits} hits)";
         CombatPreviewText.AppendSuffix(punishment, ref description, suffix);
     }
 }

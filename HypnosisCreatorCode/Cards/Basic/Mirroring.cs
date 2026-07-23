@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 /// <summary>
 /// ミラーリング — 相手の攻撃予定と同じ攻撃。廃棄。
 /// 数値は相手と同じ。こちら側の筋力は反映しない。弱体は敵デバフなので有効（CSV備考）。
-/// 多段は <c>WithHitCount</c> 1回で解決（Execute の手動ループは宙吊りになる）。
+/// 多段は WithHitCount 1回で解決。プレビューは IntentDerivedPreviewPatch。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Mirroring() : HypnosisCreatorCard(1,
@@ -43,7 +43,6 @@ public class Mirroring() : HypnosisCreatorCard(1,
         DynamicVars.Damage.BaseValue = damage;
         if (hits <= 0) return;
 
-        // 連続指パッチン／Whirlwind と同じ経路。多段アニメは AttackCommandMultiHitAnimPatch が担当。
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(hits)
             .FromCard(this, play)

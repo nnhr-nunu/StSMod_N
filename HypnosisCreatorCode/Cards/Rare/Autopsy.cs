@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -14,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄なし。
-/// 合計ダメージのプレビューは説明文の {CalculatedDamage:diff()} と枠表示（AutopsyPreviewPatch）。
+/// 合計ダメージのプレビューは説明文の {CalculatedDamage:diff()} と枠表示。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Autopsy() : HypnosisCreatorCard(2,
@@ -32,7 +31,7 @@ public class Autopsy() : HypnosisCreatorCard(2,
 
     /// <summary>
     /// 心臓数はラン進行データ。本家 CalculatedVar.Calculate は card.CombatState 未設定時に倍率 0 になるため、
-    /// AutopsyPreviewPatch からも呼ぶ。
+    /// HypnosisCalculatedDamagePreviewPatch からも呼ぶ。
     /// </summary>
     internal decimal ComputeHeartScaledDamage()
     {
@@ -54,7 +53,6 @@ public class Autopsy() : HypnosisCreatorCard(2,
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
-        // リーサル時は報酬画面の追加レリックへ（心停止＋・未UGの心臓えぐり出しと同じ）
         if (play.Target is { IsAlive: false })
             HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
 
@@ -63,37 +61,6 @@ public class Autopsy() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(3M); // 4 → 7
 
-    private static decimal HeartCountMultiplier(CardModel card, Creature? target) =>
+    private static decimal HeartCountMultiplier(CardModel card, Creature? _) =>
         HeartInventory.CountHearts(card.Owner);
-
-    internal decimal PreviewModifiedDamage(Creature? target, CardPreviewMode previewMode = CardPreviewMode.Normal)
-    {
-        var raw = ComputeHeartScaledDamage();
-        var owner = Owner;
-        if (owner?.Creature == null) return raw;
-
-        // 手札ホバー時は card.CombatState が null のことがある（本家 CalculatedDamageVar と同じフォールバック）
-        var combat = CombatState ?? owner.Creature.CombatState;
-        if (combat == null) return raw;
-
-        try
-        {
-            return Hook.ModifyDamage(
-                owner.RunState,
-                combat,
-                target,
-                owner.Creature,
-                raw,
-                ValueProp.Move,
-                this,
-                cardPlay: null,
-                ModifyDamageHookType.All,
-                previewMode,
-                out _);
-        }
-        catch
-        {
-            return raw;
-        }
-    }
 }

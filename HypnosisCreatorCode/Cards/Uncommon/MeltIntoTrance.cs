@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -12,22 +11,34 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>トランスに溶けゆく — これまでに対象へ付与したトランスの合計回数×係数のダメージを与える。</summary>
+/// <summary>
+/// トランスに溶けゆく — 対象へ付与したトランス合計回数×係数のダメージ。
+/// 合計は {CalculatedDamage:diff()} で枠・説明・緑表示を統一。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MeltIntoTrance() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
-    static MeltIntoTrance()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
-    }
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new CalculationBaseVar(0M),
+        new ExtraDamageVar(15M),
         new DynamicVar("PerTrance", 15M),
-        new DamageVar(0M, ValueProp.Move)
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(FallenTranceMultiplier)
     ];
+
+    internal static decimal ComputeDamage(CardModel card, Creature? target)
+    {
+        var fallen = target != null ? TranceFallTracker.Get(target) : 0;
+        return fallen * card.DynamicVars.ExtraDamage.BaseValue;
+    }
+
+    private static decimal FallenTranceMultiplier(CardModel card, Creature? target)
+    {
+        if (target == null) return 0M;
+        return TranceFallTracker.Get(target);
+    }
 
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => TranceFallTracker.Get(c) > 0);
@@ -35,31 +46,17 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var fallen = TranceFallTracker.Get(play.Target);
-        DynamicVars.Damage.BaseValue = fallen * DynamicVars["PerTrance"].BaseValue;
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars["PerTrance"].UpgradeValueBy(5M);
-
-    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    protected override void OnUpgrade()
     {
-        if (card is not MeltIntoTrance melt) return;
-        if (!CombatPreviewText.IsActive(melt)) return;
-
-        var previewTarget = target ?? melt.CurrentTarget;
-        var fallen = previewTarget != null ? TranceFallTracker.Get(previewTarget) : 0;
-        var per = melt.DynamicVars["PerTrance"].BaseValue;
-        var total = fallen * per;
-
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（現在：{fallen}回／{total}ダメージ）"
-            : $" (Now: {fallen}× / {total} damage)";
-        CombatPreviewText.AppendSuffix(melt, ref description, suffix);
+        DynamicVars.ExtraDamage.UpgradeValueBy(5M);
+        DynamicVars["PerTrance"].UpgradeValueBy(5M);
     }
 }

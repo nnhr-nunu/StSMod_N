@@ -27,8 +27,11 @@ public class PerversionTrueDesire() : HypnosisCreatorCard(2,
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcMissingHp)
     ];
 
+    internal static decimal ComputeDamage(CardModel card) => CalcMissingHp(card, null);
+
     private static decimal CalcMissingHp(CardModel card, Creature? target)
     {
+        _ = target;
         var self = card.Owner?.Creature;
         if (self == null) return 0M;
         return Math.Max(0, self.MaxHp - self.CurrentHp);

@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -16,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 連続指パッチン — 全敵に1ダメージ×5をX回。廃棄。UGで保留。
-/// 合計ダメージは戦闘中（プレイ可能時）のみ表示し、筋力／弱体などを反映する。
+/// 合計ダメージは戦闘中のみ表示し、筋力／弱体などを反映する。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
@@ -45,7 +44,6 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         var totalHits = HitsPerCycle * x;
         if (totalHits <= 0) return;
 
-        // 本家 Whirlwind と同様、1回の Attack の HitCount にまとめて解決する
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(totalHits)
             .FromCard(this, play)
@@ -56,10 +54,6 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
-    /// <summary>
-    /// （合計Nダメージ）は戦闘中かつ X&gt;0 のときだけ差し込む。
-    /// ヒットごとの ModifyDamage（筋力・弱体）×ヒット数で実ダメージに合わせる。
-    /// </summary>
     private static void AppendTotalDamageWhenPlayable(
         CardModel card, Creature? target, ref string description)
     {
@@ -70,45 +64,22 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         var hits = HitsPerCycle * x;
         if (hits <= 0) return;
 
-        // 全体攻撃: 照準中ならその敵、なければ先頭の敵で弱体などを反映
         var previewTarget = target
             ?? snap.CombatState!.HittableEnemies.FirstOrDefault(e => e.IsAlive && e.IsEnemy);
-        var perHit = PreviewModifiedDamage(snap, previewTarget);
+        var perHitRaw = snap.DynamicVars.Damage.BaseValue;
+        var perHit = CardDamagePreview.ApplyModifiers(snap, previewTarget, perHitRaw, ValueProp.Move);
         var total = perHit * hits;
         if (total <= 0) return;
 
+        var formatted = FormatDamage(total);
+        // 弱体・筋力で1ヒットが変わったときだけ緑（:diff() と同じ見た目）
+        if (perHit != perHitRaw)
+            formatted = $"[green]{formatted}[/green]";
+
         var totalText = UpgradeCardText.IsJapaneseUi()
-            ? $"（合計{FormatDamage(total)}ダメージ）"
-            : $" (Total {FormatDamage(total)} damage)";
+            ? $"（合計{formatted}ダメージ）"
+            : $" (Total {formatted} damage)";
         CombatPreviewText.AppendSuffix(snap, ref description, totalText);
-    }
-
-    private static decimal PreviewModifiedDamage(InfiniteFingerSnap card, Creature? target)
-    {
-        var amount = card.DynamicVars.Damage.BaseValue;
-        var owner = card.Owner;
-        if (owner?.Creature == null) return amount;
-
-        try
-        {
-            // 引数順: target → dealer（CalculatedDamageVar と同じ）
-            return Hook.ModifyDamage(
-                owner.RunState,
-                card.CombatState,
-                target,
-                owner.Creature,
-                amount,
-                ValueProp.Move,
-                card,
-                cardPlay: null,
-                ModifyDamageHookType.All,
-                CardPreviewMode.Normal,
-                out _);
-        }
-        catch
-        {
-            return amount;
-        }
     }
 
     private static string FormatDamage(decimal amount)

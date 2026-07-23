@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 性癖の覇者 — 対象の性癖数だけ20ダメージを与える（UG25）。
-/// CSV備考: 性癖の数だけ攻撃し、性癖を刺す（最大4回）。
+/// 1ヒットは {Damage:diff()}、回数は戦闘中プレビュー。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FetishChampion() : HypnosisCreatorCard(3,
@@ -29,11 +29,8 @@ public class FetishChampion() : HypnosisCreatorCard(3,
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
 
-    /// <summary>複数タグを種類ごとに刺す（最大3種。攻撃回数は対象性癖数で最大4）。</summary>
     public override bool? FetishHitPerTypeOverride => true;
 
-    // CalculatedDamageVar と CalculatedVar を併用すると CalculationBase/Extra が衝突し、
-    // 説明文が "If you can read this, there is a bug." になるため、DamageVar のみにする。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(20M, ValueProp.Move)];
 
@@ -64,12 +61,11 @@ public class FetishChampion() : HypnosisCreatorCard(3,
 
         var previewTarget = target ?? champion.CurrentTarget;
         var hits = CalcHitCount(champion, previewTarget);
-        var perHit = champion.DynamicVars.Damage.BaseValue;
-        var total = perHit * hits;
+        if (hits <= 0) return;
 
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（攻撃回数：{hits}回／{total}ダメージ）"
-            : $" ({hits} hits / {total} damage)";
+            ? $"（攻撃回数：{hits}回）"
+            : $" ({hits} hits)";
         CombatPreviewText.AppendSuffix(champion, ref description, suffix);
     }
 }

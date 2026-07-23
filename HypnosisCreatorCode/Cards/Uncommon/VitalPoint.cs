@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -12,24 +11,38 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>急所の一刺し — アブノーマル。直前にアタックカードをプレイしていないターン数が多いほどダメージが増加する。</summary>
+/// <summary>
+/// 急所の一刺し — アブノーマル。アタック未プレイのターン数が多いほどダメージ増加。
+/// 合計は {CalculatedDamage:diff()} で枠・説明・緑表示を統一。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class VitalPoint() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static VitalPoint()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(10M, ValueProp.Move),
-        new DynamicVar("PerTurn", 10M)
+        new CalculationBaseVar(10M),
+        new ExtraDamageVar(10M),
+        new DynamicVar("PerTurn", 10M),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(IdleTurnMultiplier)
     ];
+
+    internal static decimal ComputeDamage(CardModel card)
+    {
+        var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
+        var gap = PlayerAttackTracker.TurnsSinceLastAttack(card.Owner, turn);
+        return card.DynamicVars.CalculationBase.BaseValue
+               + gap * card.DynamicVars.ExtraDamage.BaseValue;
+    }
+
+    private static decimal IdleTurnMultiplier(CardModel card, Creature? _)
+    {
+        var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
+        return PlayerAttackTracker.TurnsSinceLastAttack(card.Owner, turn);
+    }
 
     protected override bool ShouldGlowWhenConditionMet()
     {
@@ -41,11 +54,7 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        var gap = PlayerAttackTracker.TurnsSinceLastAttack(Owner, turn);
-        var damage = DynamicVars.Damage.BaseValue + gap * DynamicVars["PerTurn"].BaseValue;
-
-        await DamageCmd.Attack(damage)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
@@ -53,20 +62,9 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["PerTurn"].UpgradeValueBy(5M);
-
-    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    protected override void OnUpgrade()
     {
-        if (card is not VitalPoint vital) return;
-        if (!CombatPreviewText.IsActive(vital)) return;
-
-        var turn = vital.Owner.PlayerCombatState?.TurnNumber ?? 0;
-        var gap = PlayerAttackTracker.TurnsSinceLastAttack(vital.Owner, turn);
-        var total = vital.DynamicVars.Damage.BaseValue + gap * vital.DynamicVars["PerTurn"].BaseValue;
-
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（未攻撃{gap}ターン／{total}ダメージ）"
-            : $" ({gap} idle turns / {total} damage)";
-        CombatPreviewText.AppendSuffix(vital, ref description, suffix);
+        DynamicVars.ExtraDamage.UpgradeValueBy(5M);
+        DynamicVars["PerTurn"].UpgradeValueBy(5M);
     }
 }
