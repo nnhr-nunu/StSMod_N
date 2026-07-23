@@ -180,7 +180,7 @@
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Word Flood",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "Whenever you play a Hypnosis [gold]Count[/gold] card, draw {Draw:diff()} {Draw:plural:card|cards}.",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Suggestion Release",
-  "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Remove all [gold]Trance[/gold] from the target. Gain {Energy:energyIcons()} equal to the amount removed.",
+  "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Deal [blue]0[/blue] damage. Remove the target's [gold]Trance[/gold]. Gain {energyPrefix:energyIcons(1)} equal to the amount removed and draw the same number of cards.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "As You Wish, Master",
   "HYPNOSISCREATOR-AS_YOU_WISH.description": "Whenever you play a Fetish card, gain a bonus based on its fetish: Abnormal grants [blue]1[/blue] [gold]Strength[/gold] (and [blue]1[/blue] [gold]Dexterity[/gold] if upgraded), SM grants [gold]Vigor[/gold], DomSub grants [gold]Block[/gold].",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "Understanding Fetishes",

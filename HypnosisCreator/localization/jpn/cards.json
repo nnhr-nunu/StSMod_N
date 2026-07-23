@@ -180,7 +180,7 @@
   "HYPNOSISCREATOR-WORD_FLOOD.title": "言葉の洪水",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "催眠系[gold]カウント[/gold]カードをプレイした時、カードを{Draw:diff()}枚引く。",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "暗示解除",
-  "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "相手の[gold]トランス[/gold]をすべて解除し、解除した量に応じて{Energy:energyIcons()}を得る。",
+  "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "0ダメージを与える。相手の[gold]トランス[/gold]状態を解除する。その数値に応じて{energyPrefix:energyIcons(1)}を獲得し、同じ数だけカードを引く。",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "ご主人様の言うとおり",
   "HYPNOSISCREATOR-AS_YOU_WISH.description": "性癖カードをプレイするたび、性癖に応じた効果を得る。アブノーマル：[gold]筋力[/gold][blue]1[/blue]（強化時はさらに[gold]敏捷[/gold][blue]1[/blue]）。SM：[gold]活力[/gold][blue]2[/blue]。DomSub：[blue]1[/blue][gold]ブロック[/gold]。",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "性倒錯への理解",
