@@ -153,10 +153,10 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
     [ConfigSlider(0, 1, 1, Format = "{0:0}")]
     public static double RestSiteUsePreviewLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteUsePreviewLayout;
 
-    [ConfigSlider(-200, 200, 1, Format = "{0:0}px")]
+    [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
     public static double RestSiteOffsetX { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetX;
 
-    [ConfigSlider(-200, 200, 1, Format = "{0:0}px")]
+    [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
     public static double RestSiteOffsetY { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetY;
 
     [ConfigHideInUI]

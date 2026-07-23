@@ -25,7 +25,7 @@
   "HYPNOSISCREATOR-reset_card_art_defaults.title": "このセクションを既定値に戻す",
   "HYPNOSISCREATOR-list_card_ids.title": "カードID一覧をログ出力",
   "HYPNOSISCREATOR-rest_site.title": "篝火（休憩所）立ち絵",
-  "HYPNOSISCREATOR-rest_site_preview_seat.title": "編集する席（0=ソロ席）",
+  "HYPNOSISCREATOR-rest_site_preview_seat.title": "編集する席（0=ソロ手前右 / 1=手前最右 / 2=奥・中央寄り / 3=奥・右端）",
   "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "プレビュー席で表示（1=ON）",
   "HYPNOSISCREATOR-rest_site_offset_x.title": "左右（px）",
   "HYPNOSISCREATOR-rest_site_offset_y.title": "上下（px・＋で下へ）",

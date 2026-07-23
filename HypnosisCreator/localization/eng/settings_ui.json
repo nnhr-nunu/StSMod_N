@@ -25,7 +25,7 @@
   "HYPNOSISCREATOR-reset_card_art_defaults.title": "Reset section to defaults",
   "HYPNOSISCREATOR-list_card_ids.title": "Log card id list",
   "HYPNOSISCREATOR-rest_site.title": "Rest Site Character",
-  "HYPNOSISCREATOR-rest_site_preview_seat.title": "Edit Seat (0 = solo seat)",
+  "HYPNOSISCREATOR-rest_site_preview_seat.title": "Edit Seat (0=solo front-R / 1=front far-R / 2=back center / 3=back far-R)",
   "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "Show Preview Seat Layout (1 = ON)",
   "HYPNOSISCREATOR-rest_site_offset_x.title": "Offset X (px)",
   "HYPNOSISCREATOR-rest_site_offset_y.title": "Offset Y (px, + = down)",

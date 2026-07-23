@@ -18,8 +18,13 @@ public static class RestSiteSeatStore
 
     public static int ClampSeat(int seat) => Math.Clamp(seat, 0, SeatCount - 1);
 
-    public static Offset GetDefault(int seat) =>
-        seat == 0 ? new Offset(0, HypnosisCreatorConfigDefaults.RestSiteSeat0OffsetY) : new Offset(0, 0);
+    public static Offset GetDefault(int seat) => seat switch
+    {
+        0 => new Offset(6, 77),
+        1 => new Offset(-38, 172),
+        2 => new Offset(-200, 103),
+        _ => new Offset(0, 0)
+    };
 
     public static Dictionary<string, Offset> LoadAll()
     {

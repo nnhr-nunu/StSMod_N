@@ -26,8 +26,6 @@ internal static class HypnosisCreatorConfigDefaults
 
     public const double RestSitePreviewSeat = 0;
     public const double RestSiteUsePreviewLayout = 0;
-    public const double RestSiteOffsetX = 0;
-    /// <summary>席0（ソロ）の初期値。Yプラス＝下へ。</summary>
-    public const double RestSiteSeat0OffsetY = 24;
-    public const double RestSiteOffsetY = RestSiteSeat0OffsetY;
+    public const double RestSiteOffsetX = 6;
+    public const double RestSiteOffsetY = 77;
 }
