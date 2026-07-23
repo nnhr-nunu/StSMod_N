@@ -37,49 +37,20 @@ public abstract class HypnosisCreatorCard(
     protected virtual bool IncludesTranceHoverTip =>
         DynamicVars.Values.Any(v => v.Name == "Trance");
 
-    /// <summary>
-    /// 自動トランスホバーを足す前の推定数がこの値以上なら省略する。
-    /// 拡大画面で見切れやすい組み合わせ（カウント3＋エンチャント＋固有パワー等）向け。
-    /// </summary>
-    private const int CrowdedHoverTipThreshold = 5;
-
     protected sealed override IEnumerable<IHoverTip> ExtraHoverTips
     {
         get
         {
             foreach (var tip in CardHoverTips)
                 yield return tip;
-            if (IncludesTranceHoverTip && !ShouldOmitAutoTranceHoverTip())
+            if (IncludesTranceHoverTip && !HoverTipCrowding.ShouldOmitAutoTranceHoverTip(this))
                 yield return HoverTipFactory.FromPower<TrancePower>();
         }
     }
 
-    /// <summary>本家 <see cref="CardModel.HoverTips"/> の非 Extra 部分を含め、自動トランスを足す前の件数。</summary>
-    private int EstimateHoverTipCountWithoutAutoTrance()
-    {
-        var count = CardHoverTips.Count();
-        if (Enchantment != null)
-            count += Enchantment.HoverTips.Count();
-        if (Affliction != null)
-            count += Affliction.HoverTips.Count();
-        if (GetEnchantedReplayCount() > 0)
-            count++;
-        if (OrbEvokeType != OrbEvokeType.None)
-            count++;
-        if (GainsBlock)
-            count++;
-        foreach (var keyword in Keywords)
-        {
-            count++;
-            if (keyword == CardKeyword.Ethereal)
-                count++;
-        }
+    internal int CountCardHoverTipsForCrowding() => CardHoverTips.Count();
 
-        return count;
-    }
-
-    private bool ShouldOmitAutoTranceHoverTip() =>
-        EstimateHoverTipCountWithoutAutoTrance() >= CrowdedHoverTipThreshold;
+    internal bool IncludesAutoTranceHoverTipForCrowding() => IncludesTranceHoverTip;
 
     /// <summary>複数タグを種類ごとに刺す。未指定時はタグ2種以上なら自動で個別。</summary>
     public virtual bool? FetishHitPerTypeOverride => null;
