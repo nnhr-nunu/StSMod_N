@@ -26,6 +26,7 @@ public partial class MainFile : Node
         CountCardText.Register();
         FetishDoomPreview.Register();
         UpgradeDescriptionHooks.Register();
+        KeywordLineLayout.Register();
 
         ApplyHarmonyPatches();
     }

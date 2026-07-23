@@ -166,7 +166,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "Tentacle Recall",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Apply {ConstrictPower:diff()} [gold]Constrict[/gold]. Next turn, add a copy of this card into your [gold]Hand[/gold].",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "String of Infinite Upgrades",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "The target loses {LoseHp:diff()} HP. Apply {Trance:diff()} [gold]Trance[/gold]. Each time this card is upgraded, its replay count increases by [blue]1[/blue]. This card can be upgraded infinitely.",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "The target loses {LoseHp:diff()} HP. Apply {Trance:diff()} [gold]Trance[/gold]. This card can be upgraded infinitely.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Training Commands",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Add {Cards:diff()} random DomSub Training Command {Cards:plural:card|cards} into your [gold]Hand[/gold].",
   "HYPNOSISCREATOR-AUTOPSY.title": "Autopsy",
