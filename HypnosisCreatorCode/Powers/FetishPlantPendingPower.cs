@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 初心者向け催眠 — 次にプレイする性癖カードのタグを、催眠対象の敵へ植え付ける予約。
-/// 実体は <see cref="FetishPlantPending"/> が保持する。
+/// 実体は <see cref="FetishPlantPending"/> が保持する。植え付けが実際に起きたときだけ消費する。
 /// </summary>
 public class FetishPlantPendingPower : HypnosisCreatorPower
 {

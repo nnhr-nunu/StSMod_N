@@ -11,6 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// 初心者向け催眠: 次にプレイする性癖カードのタグを、アーム済みの敵へ植え付ける。
 /// 集団催眠で波及した場合は対象を複数保持し、1枚の性癖カードで全員に植え付ける。
+/// 予約は実際に植え付けが起きたときだけ消費する（目覚め済みの性癖カードでは消費しない）。
 /// </summary>
 public static class FetishPlantPending
 {
@@ -60,12 +61,18 @@ public static class FetishPlantPending
         if (fetishes.Count == 0) return;
 
         var distinct = fetishes.Distinct().ToList();
+        var plantedAny = false;
         foreach (var enemy in state.Targets.ToList())
         {
             if (!enemy.IsAlive) continue;
             foreach (var fetish in distinct)
-                FetishCombat.Awaken(enemy, fetish, player);
+            {
+                if (FetishCombat.Awaken(enemy, fetish, player))
+                    plantedAny = true;
+            }
         }
+
+        if (!plantedAny) return;
 
         state.Remaining--;
         if (state.Remaining <= 0)
