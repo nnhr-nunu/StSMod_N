@@ -3,15 +3,15 @@ namespace HypnosisCreator.HypnosisCreatorCode.Config;
 /// <summary>Mod設定の配布時デフォルト（HypnosisCreatorConfig の初期値とリセット先）。</summary>
 internal static class HypnosisCreatorConfigDefaults
 {
-    public const double ChromaSimilarity = 0.18;
-    public const double ChromaSmoothness = 0.06;
+    public const double ChromaSimilarity = 0.21;
+    public const double ChromaSmoothness = 0.13;
     public const double ChromaSpill = 0.18;
     public const double ChromaKeyR = 0.03;
     public const double ChromaKeyG = 0.63;
     public const double ChromaKeyB = 0.21;
 
     public const double WatermarkCropBottom = 0.055;
-    public const double WatermarkCropSide = 0.38;
+    public const double WatermarkCropSide = 0.43;
     public const double WatermarkLogoStrength = 1.0;
     /// <summary>0＝テクスチャ右下（flip_h 立ち絵のロゴ位置）。1＝テクスチャ左下。</summary>
     public const double WatermarkMaskOnUvLeft = 0.0;

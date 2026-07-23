@@ -7,10 +7,10 @@ shader_type canvas_item;
 uniform vec4 key_color : source_color = vec4(0.0, 1.0, 0.0, 1.0);
 
 /// この距離以内の色を「背景」とみなす（大きいほど多く抜ける）
-uniform float similarity : hint_range(0.0, 1.0, 0.001) = 0.18;
+uniform float similarity : hint_range(0.0, 1.0, 0.001) = 0.21;
 
 /// 境界のぼかし幅（大きいほど縁がなめらか／少し透ける）
-uniform float smoothness : hint_range(0.0, 1.0, 0.001) = 0.06;
+uniform float smoothness : hint_range(0.0, 1.0, 0.001) = 0.13;
 
 /// 緑の色かぶり抑制（髪・服の縁の緑残り対策）
 uniform float spill : hint_range(0.0, 1.0, 0.001) = 0.18;
@@ -22,7 +22,7 @@ uniform float sparkle_whiten : hint_range(0.0, 1.0, 0.001) = 0.9;
 uniform float wm_crop_bottom : hint_range(0.0, 0.25, 0.001) = 0.055;
 
 /// ウォーターマーク側の横幅（UV）— 靴を避けるため控えめ
-uniform float wm_crop_side : hint_range(0.0, 0.8, 0.001) = 0.38;
+uniform float wm_crop_side : hint_range(0.0, 0.8, 0.001) = 0.43;
 
 /// flip_h ON のとき画像右下ロゴは UV 右側（テクスチャ座標）。1.0 だと左下角を隠して効かない。
 uniform float wm_on_uv_left : hint_range(0.0, 1.0, 1.0) = 0.0;

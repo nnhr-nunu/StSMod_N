@@ -31,7 +31,7 @@
 
 | 項目 | 意味 |
 |------|------|
-| ChromaSimilarity | 抜く範囲（緑が残る→上げる／靴などが欠ける→下げる）目安 0.16〜0.20 |
+| ChromaSimilarity | 抜く範囲（緑が残る→上げる／靴などが欠ける→下げる）目安 0.19〜0.22 |
 | ChromaSmoothness | 境界ぼかし |
 | ChromaSpill | 緑かぶり抑制（白い靴が緑っぽいとき下げめ） |
 | ChromaKeyR/G/B | 抜く色 |

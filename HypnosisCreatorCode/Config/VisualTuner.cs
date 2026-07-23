@@ -93,9 +93,9 @@ public static class VisualTuner
             && IsApprox(HypnosisCreatorConfig.ChromaSmoothness, 0.08)
             && IsApprox(HypnosisCreatorConfig.ChromaSpill, 0.25))
         {
-            HypnosisCreatorConfig.ChromaSimilarity = 0.18;
-            HypnosisCreatorConfig.ChromaSmoothness = 0.06;
-            HypnosisCreatorConfig.ChromaSpill = 0.18;
+            HypnosisCreatorConfig.ChromaSimilarity = HypnosisCreatorConfigDefaults.ChromaSimilarity;
+            HypnosisCreatorConfig.ChromaSmoothness = HypnosisCreatorConfigDefaults.ChromaSmoothness;
+            HypnosisCreatorConfig.ChromaSpill = HypnosisCreatorConfigDefaults.ChromaSpill;
         }
 
         var key = HypnosisCreatorConfig.GetChromaKeyColor();
