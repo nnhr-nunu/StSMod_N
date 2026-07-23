@@ -223,10 +223,11 @@ public static class VisualTuner
         }
 
         var baseOff = (Vector4)control.GetMeta(BaseOffsetsMeta);
+        // 四辺を逆方向にずらしてサイズを保ったまま平行移動する（左右同加算だと縮小だけになる）
         control.OffsetLeft = baseOff.X + ox;
         control.OffsetTop = baseOff.Y + oy;
-        control.OffsetRight = baseOff.Z + ox;
-        control.OffsetBottom = baseOff.W + oy;
+        control.OffsetRight = baseOff.Z - ox;
+        control.OffsetBottom = baseOff.W - oy;
     }
 
     private static void EnsureChromaMaterial(CanvasItem item)
