@@ -99,6 +99,11 @@ public static class RestSiteSeatStore
         HypnosisCreatorConfig.RestSiteSeatOffsetsJson = "{}";
         HypnosisCreatorConfig.RestSitePreviewSeat = 0;
         HypnosisCreatorConfig.RestSiteUsePreviewLayout = 0;
+        HypnosisCreatorConfig.RestSiteSimulateMultiLayout = 0;
+        HypnosisCreatorConfig.RestSiteSimSeat0 = HypnosisCreatorConfigDefaults.RestSiteSimSeat0;
+        HypnosisCreatorConfig.RestSiteSimSeat1 = HypnosisCreatorConfigDefaults.RestSiteSimSeat1;
+        HypnosisCreatorConfig.RestSiteSimSeat2 = HypnosisCreatorConfigDefaults.RestSiteSimSeat2;
+        HypnosisCreatorConfig.RestSiteSimSeat3 = HypnosisCreatorConfigDefaults.RestSiteSimSeat3;
         ApplyToSliders(0);
     }
 

@@ -153,6 +153,23 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
     [ConfigSlider(0, 1, 1, Format = "{0:0}")]
     public static double RestSiteUsePreviewLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteUsePreviewLayout;
 
+    /// <summary>1＝席0〜3にキャラを並べてマルチ配置をシミュレート。</summary>
+    [ConfigSlider(0, 1, 1, Format = "{0:0}")]
+    public static double RestSiteSimulateMultiLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimulateMultiLayout;
+
+    /// <summary>0=空 / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnosis Creator</summary>
+    [ConfigSlider(0, 6, 1, Format = "Seat0 {0:0}")]
+    public static double RestSiteSimSeat0 { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimSeat0;
+
+    [ConfigSlider(0, 6, 1, Format = "Seat1 {0:0}")]
+    public static double RestSiteSimSeat1 { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimSeat1;
+
+    [ConfigSlider(0, 6, 1, Format = "Seat2 {0:0}")]
+    public static double RestSiteSimSeat2 { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimSeat2;
+
+    [ConfigSlider(0, 6, 1, Format = "Seat3 {0:0}")]
+    public static double RestSiteSimSeat3 { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimSeat3;
+
     [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
     public static double RestSiteOffsetX { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetX;
 

@@ -27,6 +27,11 @@
   "HYPNOSISCREATOR-rest_site.title": "篝火（休憩所）立ち絵",
   "HYPNOSISCREATOR-rest_site_preview_seat.title": "編集する席（0=手前左 / 1=手前右 / 2=奥左 / 3=奥右）",
   "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "プレビュー席で表示（1=ON）",
+  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "マルチ配置シミュレート（1=ON）",
+  "HYPNOSISCREATOR-rest_site_sim_seat0.title": "席0キャラ（0=空 / 1=アイクラ / 2=サイレント / 3=ディフェクト / 4=リージェント / 5=ネクロ / 6=催眠師）",
+  "HYPNOSISCREATOR-rest_site_sim_seat1.title": "席1キャラ（0=空 / 1=アイクラ / 2=サイレント / 3=ディフェクト / 4=リージェント / 5=ネクロ / 6=催眠師）",
+  "HYPNOSISCREATOR-rest_site_sim_seat2.title": "席2キャラ（0=空 / 1=アイクラ / 2=サイレント / 3=ディフェクト / 4=リージェント / 5=ネクロ / 6=催眠師）",
+  "HYPNOSISCREATOR-rest_site_sim_seat3.title": "席3キャラ（0=空 / 1=アイクラ / 2=サイレント / 3=ディフェクト / 4=リージェント / 5=ネクロ / 6=催眠師）",
   "HYPNOSISCREATOR-rest_site_offset_x.title": "左右（px）",
   "HYPNOSISCREATOR-rest_site_offset_y.title": "上下（px・＋で下へ）",
   "HYPNOSISCREATOR-reset_rest_site_defaults.title": "このセクションを既定値に戻す"

@@ -22,7 +22,7 @@ public static class RestSiteSeatTuning
     private static readonly FieldInfo CharacterIndexField =
         AccessTools.Field(typeof(NRestSiteCharacter), "_characterIndex")!;
 
-  /// <summary>
+    /// <summary>
     /// VisualOffset / RootOffset はコード側の構造調整。細かい位置は RestSiteSeatStore（Mod設定）。
     /// MirrorForFire: 左側の席は true（素材は左向きのため反転して火を向く）、右側の席は false。
     /// </summary>
@@ -50,7 +50,9 @@ public static class RestSiteSeatTuning
             count++;
         }
 
-        if (count == 0)
+        RestSiteLayoutSimulator.Refresh();
+
+        if (count == 0 && !RestSiteLayoutSimulator.IsSimulating())
             MainFile.Logger.Info("VisualTuner: rest site character not found (open rest site to adjust).");
     }
 
@@ -60,10 +62,23 @@ public static class RestSiteSeatTuning
             return;
 
         var actualIndex = (int)CharacterIndexField.GetValue(character)!;
-        if (actualIndex < 0 || actualIndex >= Profiles.Length)
-            actualIndex = 0;
+        ApplyHypnosisCreatorVisual(character, ResolveEffectiveSeatIndex(actualIndex), GetLayoutPlayerCount(character));
+    }
 
-        var controlRoot = character.GetNodeOrNull<Control>("ControlRoot");
+    public static void ApplyHypnosisCreatorPreview(Node2D root, int seatIndex)
+    {
+        var layoutCount = RestSiteLayoutSimulator.IsSimulating()
+            ? Math.Max(RestSiteLayoutSimulator.SimOccupiedSeatCount(), 1)
+            : 1;
+        ApplyHypnosisCreatorVisual(root, RestSiteSeatStore.ClampSeat(seatIndex), layoutCount);
+    }
+
+    private static void ApplyHypnosisCreatorVisual(Node2D root, int effectiveIndex, int layoutPlayerCount)
+    {
+        if (effectiveIndex < 0 || effectiveIndex >= Profiles.Length)
+            effectiveIndex = 0;
+
+        var controlRoot = root.GetNodeOrNull<Control>("ControlRoot");
         var visuals = controlRoot?.GetNodeOrNull<Sprite2D>("Visuals");
         if (controlRoot == null || visuals == null)
             return;
@@ -71,16 +86,15 @@ public static class RestSiteSeatTuning
         var hitbox = controlRoot.GetNodeOrNull<Control>("%Hitbox");
         var thoughtLeft = controlRoot.GetNodeOrNull<Control>("%ThoughtBubbleLeft");
         var thoughtRight = controlRoot.GetNodeOrNull<Control>("%ThoughtBubbleRight");
-        ResetToBase(character, controlRoot, visuals, hitbox, thoughtLeft, thoughtRight);
+        ResetToBase(root, controlRoot, visuals, hitbox, thoughtLeft, thoughtRight);
 
-        var effectiveIndex = ResolveEffectiveSeatIndex(actualIndex);
         var profile = Profiles[effectiveIndex];
-        var playerCount = character.Player.RunState.Players.Count;
-        var useMpLayout = playerCount > 1 || (UsePreviewLayout() && effectiveIndex >= 1);
+        var useMpLayout = layoutPlayerCount > 1
+            || (UsePreviewLayout() && effectiveIndex >= 1 && !RestSiteLayoutSimulator.IsSimulating());
         var mpScale = useMpLayout ? MultiplayerScale : 1f;
         var scale = BaseRootScale * mpScale * profile.ScaleMul;
-        character.Scale = new Vector2(scale, scale);
-        character.Position += profile.RootOffset;
+        root.Scale = new Vector2(scale, scale);
+        root.Position += profile.RootOffset;
 
         var mirror = effectiveIndex == 0 ? false : profile.MirrorForFire;
         ApplyMirror(controlRoot, mirror);
@@ -93,8 +107,19 @@ public static class RestSiteSeatTuning
         ApplyControlOffset(thoughtRight, totalVisualOffset);
     }
 
+    private static int GetLayoutPlayerCount(NRestSiteCharacter character)
+    {
+        if (RestSiteLayoutSimulator.IsSimulating())
+            return Math.Max(RestSiteLayoutSimulator.SimOccupiedSeatCount(), 1);
+
+        return character.Player?.RunState?.Players?.Count ?? 1;
+    }
+
     private static int ResolveEffectiveSeatIndex(int actualIndex)
     {
+        if (RestSiteLayoutSimulator.IsSimulating())
+            return actualIndex;
+
         if (!UsePreviewLayout())
             return actualIndex;
 
@@ -104,36 +129,44 @@ public static class RestSiteSeatTuning
     private static bool UsePreviewLayout() => HypnosisCreatorConfig.RestSiteUsePreviewLayout > 0.5;
 
     private static void ResetToBase(
-        NRestSiteCharacter character,
+        Node root,
         Control controlRoot,
         Sprite2D visuals,
         Control? hitbox,
         Control? thoughtLeft,
         Control? thoughtRight)
     {
-        if (!character.HasMeta(BaseCapturedMeta))
+        if (!root.HasMeta(BaseCapturedMeta))
         {
-            character.SetMeta(BaseCapturedMeta, true);
-            character.SetMeta("hc_rest_root_pos", character.Position);
-            character.SetMeta("hc_rest_root_scale", character.Scale);
-            character.SetMeta("hc_rest_cr_scale", controlRoot.Scale);
-            character.SetMeta("hc_rest_visual_pos", visuals.Position);
-            if (hitbox != null) character.SetMeta("hc_rest_hitbox_pos", hitbox.Position);
-            if (thoughtLeft != null) character.SetMeta("hc_rest_thought_l_pos", thoughtLeft.Position);
-            if (thoughtRight != null) character.SetMeta("hc_rest_thought_r_pos", thoughtRight.Position);
+            root.SetMeta(BaseCapturedMeta, true);
+            if (root is Node2D node2D)
+            {
+                root.SetMeta("hc_rest_root_pos", node2D.Position);
+                root.SetMeta("hc_rest_root_scale", node2D.Scale);
+            }
+
+            root.SetMeta("hc_rest_cr_scale", controlRoot.Scale);
+            root.SetMeta("hc_rest_visual_pos", visuals.Position);
+            if (hitbox != null) root.SetMeta("hc_rest_hitbox_pos", hitbox.Position);
+            if (thoughtLeft != null) root.SetMeta("hc_rest_thought_l_pos", thoughtLeft.Position);
+            if (thoughtRight != null) root.SetMeta("hc_rest_thought_r_pos", thoughtRight.Position);
             return;
         }
 
-        character.Position = (Vector2)character.GetMeta("hc_rest_root_pos");
-        character.Scale = (Vector2)character.GetMeta("hc_rest_root_scale");
-        controlRoot.Scale = (Vector2)character.GetMeta("hc_rest_cr_scale");
-        visuals.Position = (Vector2)character.GetMeta("hc_rest_visual_pos");
-        if (hitbox != null && character.HasMeta("hc_rest_hitbox_pos"))
-            hitbox.Position = (Vector2)character.GetMeta("hc_rest_hitbox_pos");
-        if (thoughtLeft != null && character.HasMeta("hc_rest_thought_l_pos"))
-            thoughtLeft.Position = (Vector2)character.GetMeta("hc_rest_thought_l_pos");
-        if (thoughtRight != null && character.HasMeta("hc_rest_thought_r_pos"))
-            thoughtRight.Position = (Vector2)character.GetMeta("hc_rest_thought_r_pos");
+        if (root is Node2D resetNode)
+        {
+            resetNode.Position = (Vector2)root.GetMeta("hc_rest_root_pos");
+            resetNode.Scale = (Vector2)root.GetMeta("hc_rest_root_scale");
+        }
+
+        controlRoot.Scale = (Vector2)root.GetMeta("hc_rest_cr_scale");
+        visuals.Position = (Vector2)root.GetMeta("hc_rest_visual_pos");
+        if (hitbox != null && root.HasMeta("hc_rest_hitbox_pos"))
+            hitbox.Position = (Vector2)root.GetMeta("hc_rest_hitbox_pos");
+        if (thoughtLeft != null && root.HasMeta("hc_rest_thought_l_pos"))
+            thoughtLeft.Position = (Vector2)root.GetMeta("hc_rest_thought_l_pos");
+        if (thoughtRight != null && root.HasMeta("hc_rest_thought_r_pos"))
+            thoughtRight.Position = (Vector2)root.GetMeta("hc_rest_thought_r_pos");
     }
 
     /// <summary>本家 FlipX を打ち消し、席ごとの向きを明示する。</summary>
@@ -170,7 +203,7 @@ public static class RestSiteSeatTuning
         while (stack.Count > 0)
         {
             var node = stack.Pop();
-            if (node is NRestSiteCharacter character)
+            if (node is NRestSiteCharacter character && !character.HasMeta(RestSiteLayoutSimulator.PreviewMeta))
                 yield return character;
 
             foreach (var child in node.GetChildren())

@@ -26,6 +26,11 @@ internal static class HypnosisCreatorConfigDefaults
 
     public const double RestSitePreviewSeat = 0;
     public const double RestSiteUsePreviewLayout = 0;
+    public const double RestSiteSimulateMultiLayout = 0;
+    public const double RestSiteSimSeat0 = 6;
+    public const double RestSiteSimSeat1 = 1;
+    public const double RestSiteSimSeat2 = 0;
+    public const double RestSiteSimSeat3 = 0;
     public const double RestSiteOffsetX = -57;
     public const double RestSiteOffsetY = 134;
 }

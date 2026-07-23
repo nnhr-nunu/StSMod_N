@@ -27,6 +27,11 @@
   "HYPNOSISCREATOR-rest_site.title": "Rest Site Character",
   "HYPNOSISCREATOR-rest_site_preview_seat.title": "Edit Seat (0=front-L / 1=front-R / 2=back-L / 3=back-R)",
   "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "Show Preview Seat Layout (1 = ON)",
+  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "Simulate Multi Layout (1 = ON)",
+  "HYPNOSISCREATOR-rest_site_sim_seat0.title": "Seat 0 char (0=Empty / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnosis Creator)",
+  "HYPNOSISCREATOR-rest_site_sim_seat1.title": "Seat 1 char (0=Empty / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnosis Creator)",
+  "HYPNOSISCREATOR-rest_site_sim_seat2.title": "Seat 2 char (0=Empty / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnosis Creator)",
+  "HYPNOSISCREATOR-rest_site_sim_seat3.title": "Seat 3 char (0=Empty / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnosis Creator)",
   "HYPNOSISCREATOR-rest_site_offset_x.title": "Offset X (px)",
   "HYPNOSISCREATOR-rest_site_offset_y.title": "Offset Y (px, + = down)",
   "HYPNOSISCREATOR-reset_rest_site_defaults.title": "Reset section to defaults"
