@@ -15,6 +15,8 @@ public static class RestSiteSeatTuning
 {
     private const float BaseRootScale = 0.76f;
     private const float MultiplayerScale = 0.88f;
+    /// <summary>右側席（1,3）の立ち絵基準X。本家コンテナ位置に加え、シーン内ローカルで右へ寄せる。</summary>
+    private const float RightSeatBaseVisualX = 1400f;
     private const string BaseCapturedMeta = "hc_rest_base_captured";
 
     private static readonly FieldInfo CharacterIndexField =
@@ -34,9 +36,9 @@ public static class RestSiteSeatTuning
     private static readonly SeatProfile[] Profiles =
     [
         new(Vector2.Zero, Vector2.Zero, 1f, false),
-        new(new Vector2(800, 0), new Vector2(0, 14), 0.94f, false),
+        new(new Vector2(RightSeatBaseVisualX, 0), new Vector2(0, 14), 0.94f, false),
         new(Vector2.Zero, new Vector2(0, -18), 0.91f, true),
-        new(new Vector2(800, 0), new Vector2(0, -16), 0.91f, false),
+        new(new Vector2(RightSeatBaseVisualX, 0), new Vector2(0, -16), 0.91f, false),
     ];
 
     public static void ReapplyAll()
