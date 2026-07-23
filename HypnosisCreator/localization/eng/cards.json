@@ -154,7 +154,7 @@
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.title": "Blood Suck Hypnosis",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description": "Deal {Damage:diff()} damage and heal for the unblocked damage dealt. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-SOFTEN.title": "Squishy Softening",
-  "HYPNOSISCREATOR-SOFTEN.description": "Enemies with [gold]Trance[/gold] deal [blue]30%[/blue] less [gold]Attack[/gold] damage per [blue]1[/blue] [gold]Trance[/gold]. Each additional copy increases this by [blue]10%[/blue].",
+  "HYPNOSISCREATOR-SOFTEN.description": "Enemies with [gold]Trance[/gold] deal [blue]20%[/blue] less [gold]Attack[/gold] damage per [blue]1[/blue] [gold]Trance[/gold]. Each additional copy increases this by [blue]10%[/blue].",
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.title": "Lullaby Hypnosis",
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.description": "Apply {AsleepPower:diff()} [gold]Asleep[/gold]. Heal the target for {Heal:diff()} HP. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-MASTERY.title": "Mastery",

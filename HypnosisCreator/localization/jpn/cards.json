@@ -154,7 +154,7 @@
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.title": "吸血催眠",
   "HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description": "{Damage:diff()}ダメージを与える。与えたダメージに等しいHPを回復する。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-SOFTEN.title": "ふにゃへにゃ",
-  "HYPNOSISCREATOR-SOFTEN.description": "[gold]トランス[/gold]状態の敵は、[gold]トランス[/gold][blue]1[/blue]につきアタックダメージが[blue]30%[/blue]減少する。重ねがけするたび、減少率がさらに[blue]10%[/blue]上がる。",
+  "HYPNOSISCREATOR-SOFTEN.description": "[gold]トランス[/gold]状態の敵は、[gold]トランス[/gold][blue]1[/blue]につきアタックダメージが[blue]20%[/blue]減少する。重ねがけするたび、減少率がさらに[blue]10%[/blue]上がる。",
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.title": "寝かしつけ催眠",
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.description": "[gold]睡眠[/gold]{AsleepPower:diff()}を与える。対象のHPを{Heal:diff()}回復する。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-MASTERY.title": "練達",
