@@ -166,7 +166,17 @@ def main() -> int:
         action="store_true",
         help="Regenerate bog (ぬ) plain icon only.",
     )
+    parser.add_argument(
+        "--only",
+        type=str,
+        default="",
+        help="Comma-separated power stems to generate (e.g. word_flood_power)",
+    )
     args = parser.parse_args()
+
+    only: set[str] | None = None
+    if args.only.strip():
+        only = {x.strip() for x in args.only.split(",") if x.strip()}
 
     missing_cards: list[str] = []
     generated: list[str] = []
@@ -179,6 +189,8 @@ def main() -> int:
         return 0
 
     for power_stem, card_stem in CARD_DERIVED_POWER_MAP.items():
+        if only is not None and power_stem not in only:
+            continue
         if not should_generate(power_stem, force=args.force):
             skipped.append(power_stem)
             continue

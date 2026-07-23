@@ -27,3 +27,12 @@
 
 - 拡張子: .png（透過）
 - 未配置時は power.png が使われます
+
+## 付与カード由来のアイコン
+
+`tools_gen_power_icons_from_cards.py` がカード絵からメダル枠アイコンを生成する。
+カード絵を差し替えたら、該当パワーだけ再生成:
+
+```powershell
+python tools_gen_power_icons_from_cards.py --force --only word_flood_power
+```
