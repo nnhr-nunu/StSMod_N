@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.Relics;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 戦闘中の希少な心臓を金色に光らせ、ホバーに右クリック発動の案内を足す。
+/// 希少な心臓の金色ハイライトと右クリック説明ホバー。
 /// </summary>
 [HarmonyPatch]
 public static class HeartRelicUiPatch
@@ -30,7 +30,7 @@ public static class HeartRelicUiPatch
     public static void HoverTipsPostfix(RelicModel __instance, ref IEnumerable<IHoverTip> __result)
     {
         if (__instance is not EnemyHeartRelic heart) return;
-        if (!HeartRelicUi.ShouldShowActivationHint(heart, heart.Owner)) return;
+        if (!HeartRelicUi.ShouldShowActivationHover(heart, heart.Owner)) return;
 
         var tips = __result.ToList();
         tips.Add(HeartRelicUi.CreateActivationHoverTip());

@@ -9,14 +9,14 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
 /// 敵固有心臓の基底。
-/// CSV No.111〜はすべて希少な心臓（右クリック発動・冒険中1回）。
-/// 使用済みは IsUsedUp。No.86 で再使用可能になる。
+/// CSV No.111〜はすべて希少な心臓（右クリック発動・各層1回）。
+/// 使用済みは IsUsedUp。層クリアで再使用可。No.86 で戦闘中／永続再使用。
 /// </summary>
 public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 
-    /// <summary>希少な心臓（右クリック／手動発動・1回限り）。常に true。</summary>
+    /// <summary>希少な心臓（右クリック／手動発動・各層1回）。常に true。</summary>
     public virtual bool IsRareHeart => true;
 
     /// <summary>対応モンスター Id.Entry の代表値（ローカライズ／アイコン生成用）。</summary>
@@ -95,6 +95,16 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     /// <summary>戦闘終了時: 戦闘中再使用フラグを落とし、使用済み状態を復元する。</summary>
     public void EndCombatReuse()
     {
+        CombatReuseActive = false;
+    }
+
+    /// <summary>次の層へ進んだとき、当該層での使用済みフラグをリセットする。</summary>
+    public void RefreshForNewAct()
+    {
+        if (!IsRareHeart) return;
+        if (PermanentlyReusable) return;
+
+        WasUsed = false;
         CombatReuseActive = false;
     }
 

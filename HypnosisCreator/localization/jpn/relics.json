@@ -14,7 +14,7 @@
   "HYPNOSISCREATOR-STOLEN_HEART.title": "奪った心臓",
   "HYPNOSISCREATOR-STOLEN_HEART.description": "戦闘開始時、所持している奪った心臓1つにつき2ブロックを得る（合計 {Block:diff()}）。",
   "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.title": "希少な心臓",
-  "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.description": "右クリックで効果を発動する。",
+  "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.description": "右クリックで効果を発揮する。各層で1度のみ使用できる。",
   "HYPNOSISCREATOR-STOLEN_HEART.flavor": "まだ脈打っている。",
   "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.title": "リーフスライム(小)の心臓",
   "HYPNOSISCREATOR-LEAF_SLIME_SMALL_HEART.description": "希少な心臓。手札に0コストの粘液を1枚加える。",

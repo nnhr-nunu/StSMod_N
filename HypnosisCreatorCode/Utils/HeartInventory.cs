@@ -29,4 +29,11 @@ public static class HeartInventory
         foreach (var heart in OwnedEnemyHearts(player))
             heart.RefreshPermanently();
     }
+
+    /// <summary>層クリア後: 希少心臓を当該層で再使用可能にする。</summary>
+    public static void RefreshAllForNewAct(Player player)
+    {
+        foreach (var heart in OwnedEnemyHearts(player))
+            heart.RefreshForNewAct();
+    }
 }

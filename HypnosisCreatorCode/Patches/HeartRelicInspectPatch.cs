@@ -57,7 +57,7 @@ public static class HeartRelicInspectPatch
 
         var model = relics[index];
         if (model is not EnemyHeartRelic heart) return;
-        if (!HeartRelicUi.ShouldShowActivationHint(heart, heart.Owner)) return;
+        if (!HeartRelicUi.ShouldHighlightForActivation(heart, heart.Owner)) return;
 
         var label = RarityLabel(__instance);
         if (label == null) return;
