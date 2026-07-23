@@ -13,7 +13,7 @@ anchors_preset = 0
 
 [node name="Visuals" type="Sprite2D" parent="ControlRoot"]
 material = ExtResource("2_warmth")
-position = Vector2(-618, -476)
+position = Vector2(-642, -452)
 texture = ExtResource("1_sprite")
 centered = false
 
@@ -21,25 +21,25 @@ centered = false
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = -590.0
-offset_top = -538.0
-offset_right = 434.0
-offset_bottom = 204.0
+offset_left = -614.0
+offset_top = -514.0
+offset_right = 410.0
+offset_bottom = 228.0
 
 [node name="ThoughtBubbleRight" type="Control" parent="ControlRoot"]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = 180.0
-offset_top = -398.0
-offset_right = 180.0
-offset_bottom = -398.0
+offset_left = 156.0
+offset_top = -374.0
+offset_right = 156.0
+offset_bottom = -374.0
 
 [node name="ThoughtBubbleLeft" type="Control" parent="ControlRoot"]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = -260.0
-offset_top = -408.0
-offset_right = -260.0
-offset_bottom = -408.0
+offset_left = -284.0
+offset_top = -384.0
+offset_right = -284.0
+offset_bottom = -384.0
