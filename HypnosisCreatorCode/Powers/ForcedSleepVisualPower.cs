@@ -88,6 +88,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         _skipPerformMode = true;
         EnsureNextMoveForSkip(Owner.Monster);
         TryStartVfx();
+        _ = SleepIntentPresentation.TryRefreshAsync(Owner);
     }
 
     private void TryCaptureSavedMove(MonsterModel monster)
@@ -206,10 +207,12 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
 
     private async Task CleanupAndRemove()
     {
-        TryRestoreSavedMove(Owner);
+        var owner = Owner;
+        TryRestoreSavedMove(owner);
         StopOwnedVfx();
-        if (Owner?.GetPower<ForcedSleepVisualPower>() == this)
+        if (owner?.GetPower<ForcedSleepVisualPower>() == this)
             await PowerCmd.Remove(this);
+        await SleepIntentPresentation.TryRefreshAsync(owner);
     }
 
     private void StopOwnedVfx()

@@ -1,4 +1,6 @@
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -52,6 +54,8 @@ public static class EnemyAttackIntents
     {
         intents = Array.Empty<AbstractIntent>();
         targets = Array.Empty<Creature>();
+
+        if (SleepIntentPresentation.ShouldOverride(enemy)) return false;
 
         var monster = enemy.Monster;
         if (monster == null || !monster.IntendsToAttack) return false;
