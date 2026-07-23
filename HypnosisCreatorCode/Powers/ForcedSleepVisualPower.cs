@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
@@ -14,9 +13,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 睡眠中の見た目用（非表示）。
-/// 睡眠前の <see cref="MonsterModel.NextMove"/> を保存し、睡眠中は SleepIntent の自己ループ、
-/// 起床時に保存した行動予定へ戻す（カスタムムーブでステートマシンを壊さない）。
-/// Crusher / Rocket は意図ステートを書き換えず、PerformMove スキップで睡眠相当にする。
+/// 睡眠前の <see cref="MonsterModel.NextMove"/> を保存し、睡眠中は PerformMove / PerformIntent をスキップして
+/// ターン進行だけ完了させる。起床時に保存した行動予定へ戻す。
+/// SetMoveImmediate による睡眠ムーブ差し替えは、蠢く群生体等で NextMove が空になり進行不能になるため使わない。
 /// </summary>
 public class ForcedSleepVisualPower : HypnosisCreatorPower
 {
@@ -27,12 +26,9 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
 
     protected override bool IsVisibleInternal => false;
 
-    /// <summary>
-    /// 不安全敵向け: 意図上書きせず、敵ターンの PerformMove / PerformIntent を止める。
-    /// </summary>
+    /// <summary>睡眠中は敵ターンの PerformMove / PerformIntent を止める。</summary>
     public bool ShouldSkipPerform =>
-        IntentOverwriteUnsafeMonsters.IsUnsafe(Owner)
-        && Owner?.HasPower<AsleepPower>() == true;
+        _skipPerformMode && Owner?.HasPower<AsleepPower>() == true;
 
     private MoveState? _savedMove;
     private NSleepingVfx? _vfx;
@@ -53,27 +49,26 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         return Task.CompletedTask;
     }
 
-    /// <summary>睡眠スタック変動後。消えていれば予定を復元して片付ける。</summary>
+    /// <summary>睡眠スタック変動後。継続中はスキップ経路を維持し、消えていれば予定を復元して片付ける。</summary>
     public Task OnAsleepAmountMaybeChangedAsync()
     {
         if (Owner == null) return Task.CompletedTask;
-        if (Owner.HasPower<AsleepPower>()) return Task.CompletedTask;
+        if (Owner.HasPower<AsleepPower>())
+        {
+            EnsureSleepSkipReady();
+            return Task.CompletedTask;
+        }
+
         return CleanupAndRemove();
     }
 
-    /// <summary>付与直後や再同期。すでに睡眠ムーブ中なら VFX だけ確認する。</summary>
+    /// <summary>付与直後や再同期。</summary>
     public void RefreshPresentation()
     {
         if (Owner?.Monster == null || !Owner.IsAlive) return;
         if (!Owner.HasPower<AsleepPower>()) return;
 
-        if (_skipPerformMode || IsOurSleepMove(Owner.Monster.NextMove))
-        {
-            TryStartVfx();
-            return;
-        }
-
-        BeginSleepPresentation();
+        EnsureSleepSkipReady();
     }
 
     private void BeginSleepPresentation()
@@ -81,15 +76,17 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         if (Owner?.Monster == null || !Owner.IsAlive) return;
         if (!Owner.HasPower<AsleepPower>()) return;
 
-        if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
-        {
-            _skipPerformMode = true;
-            TryStartVfx();
-            return;
-        }
+        EnsureSleepSkipReady();
+    }
+
+    private void EnsureSleepSkipReady()
+    {
+        if (Owner?.Monster == null || !Owner.IsAlive) return;
+        if (!Owner.HasPower<AsleepPower>()) return;
 
         TryCaptureSavedMove(Owner.Monster);
-        TryForceSleepMove(Owner.Monster);
+        _skipPerformMode = true;
+        EnsureNextMoveForSkip(Owner.Monster);
         TryStartVfx();
     }
 
@@ -98,27 +95,27 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         if (_savedMove != null) return;
 
         var current = monster.NextMove;
-        if (current == null || IsOurSleepMove(current)) return;
+        if (current == null || IsLegacySleepMove(current)) return;
 
         _savedMove = current;
         _restored = false;
     }
 
-    private void TryForceSleepMove(MonsterModel monster)
+    /// <summary>スキップ経路で OnMovePerformed できるよう、行動予定が空ならロールする。</summary>
+    private static void EnsureNextMoveForSkip(MonsterModel monster)
     {
+        if (monster.NextMove != null) return;
+
         try
         {
-            static Task OnPerform(IReadOnlyList<Creature> _) => Task.CompletedTask;
-
-            var sleep = new MoveState(SleepMoveId, OnPerform, [new SleepIntent()]);
-            // 実行後も睡眠に留まり、FollowUp 未設定によるステートマシン破壊を防ぐ
-            sleep.FollowUpState = sleep;
-            monster.SetMoveImmediate(sleep, forceTransition: true);
+            var creature = monster.Creature;
+            if (creature is not { IsAlive: true }) return;
+            var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
+            monster.RollMove(targets);
         }
         catch
         {
-            // Intent API 差異時は PerformMove スキップへフォールバック
-            _skipPerformMode = true;
+            // ロール失敗時はバニラ側の次ターン処理に委ねる
         }
     }
 
@@ -134,26 +131,9 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
             return;
         }
 
-        // 不安全／スキップ経路はステートを触らず通常ロールへ戻す
-        if (_skipPerformMode || IntentOverwriteUnsafeMonsters.IsUnsafe(creature))
-        {
-            _savedMove = null;
-            try
-            {
-                var targets = creature.CombatState?.GetOpponentsOf(creature) ?? [];
-                monster.RollMove(targets);
-            }
-            catch
-            {
-                // 復元失敗時はバニラ側の次ロールに委ねる
-            }
-
-            return;
-        }
-
         try
         {
-            if (_savedMove != null && !IsOurSleepMove(_savedMove))
+            if (_savedMove != null && !IsLegacySleepMove(_savedMove))
             {
                 monster.SetMoveImmediate(_savedMove, forceTransition: true);
             }
@@ -181,7 +161,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         }
     }
 
-    private static bool IsOurSleepMove(MoveState? move) =>
+    private static bool IsLegacySleepMove(MoveState? move) =>
         move != null && move.StateId == SleepMoveId;
 
     private void TryStartVfx()
@@ -220,7 +200,7 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         }
         catch
         {
-            // VFX 失敗時は意図上書き／スキップのみ
+            // VFX 失敗時はスキップ経路のみ
         }
     }
 

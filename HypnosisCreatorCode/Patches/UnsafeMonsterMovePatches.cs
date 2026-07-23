@@ -8,7 +8,8 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// Crusher / Rocket 向け: SetMoveImmediate を使わずに睡眠・スタン・スライム催眠の行動上書きを実現する。
+/// Crusher / Rocket 向け: SetMoveImmediate を使わずにスタン・スライム催眠の行動上書きを実現する。
+/// 睡眠は全敵で PerformMove スキップ（<see cref="ForcedSleepVisualPower"/>）。
 /// </summary>
 [HarmonyPatch(typeof(MonsterModel), nameof(MonsterModel.PerformMove))]
 public static class UnsafeMonsterPerformMovePatch

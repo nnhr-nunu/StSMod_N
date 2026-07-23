@@ -6,7 +6,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// Crusher / Rocket など、意図ステート書き換え（SetMoveImmediate）や
 /// 本体 Attack アニメ待ちが進行不能を招きやすいモンスター。
-/// 見た目が戦闘背景一体の敵向け。行動ルール自体は通常敵と同じに保つ。
+/// 睡眠は全敵共通の PerformMove スキップで扱う。ここはスタン等の1回スキップ予約用。
 /// </summary>
 public static class IntentOverwriteUnsafeMonsters
 {

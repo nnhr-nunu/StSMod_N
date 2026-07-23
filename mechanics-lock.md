@@ -65,7 +65,7 @@
 ## リプレイ・本家要素
 
 - リプレイ = `BaseReplayCount`
-- スタン / 睡眠(`AsleepPower`) / 粘液(`Slimed`) / 本能(`Instinct`) / 弱体・脱力・毒・スロー・縮小・アーティファクト 等は本家準拠。Crusher/Rocket は意図ステート書き換えを避け、睡眠は PerformMove スキップ・スタンは本家 StunInternal をスキップ予約に差し替えて進行不能を防ぐ。差し替え後は必ず `OnMovePerformed`（＋1ターン置換なら `RollMove`）を呼ぶ。スライム催眠は Attack アニメ待ちと Visuals 差し替えをしない（名前のみ）
+- スタン / 睡眠(`AsleepPower`) / 粘液(`Slimed`) / 本能(`Instinct`) / 弱体・脱力・毒・スロー・縮小・アーティファクト 等は本家準拠。睡眠は全敵で PerformMove / PerformIntent をスキップし、差し替え後は必ず `OnMovePerformed` を呼ぶ（睡眠継続中も毎ターン）。起床時に保存した行動予定へ戻すか `RollMove`。Crusher/Rocket は意図ステート書き換えを避け、スタンは本家 StunInternal をスキップ予約に差し替え。スライム催眠は Attack アニメ待ちと Visuals 差し替えをしない（名前のみ）
 - コマンド `Don't Move!`（表記はこの通り）
 
 ## 初期デッキ（確定）
