@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 認知シャッフル催眠 — カウント。トランス3。3色から1枚選び対応パワーを得る。
-/// 対象がトランス中、ターン開始（ドロー前）に同系カードを生成（エセリアル・廃棄・このターン0コスト）。UGで生成3枚。
+/// 対象がトランス中（残り2以上のターン）、ターン開始（ドロー前）に同系カードを生成（エセリアル・廃棄・このターン0コスト）。トランス3なら生成2回。UGで生成3枚。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CognitiveShuffle() : HypnosisCreatorCard(3,

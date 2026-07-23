@@ -12,7 +12,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 認知シャッフル — 対象がトランス中のプレイヤーターン開始時、選んだ形態と同プールのカードを生成する。
-/// 生成は手札ドロー前（<see cref="BeforeHandDraw"/>）。トランス減少後の Late で追跡対象が全員トランス切れなら見た目を戻して自己解除する。
+/// 生成は手札ドロー前（<see cref="BeforeHandDraw"/>）。追跡対象のトランスが2以上のときだけ生成（トランス3なら2回）。
+/// トランス減少後の Late で追跡対象が全員トランス切れなら見た目を戻して自己解除する。
 /// 集団催眠で複数敵へ波及した場合は、いずれかがトランス中なら継続する。
 /// </summary>
 public class CognitiveShufflePower : HypnosisCreatorPower
@@ -51,6 +52,8 @@ public class CognitiveShufflePower : HypnosisCreatorPower
 
         PruneDeadTargets();
         if (_tranceTargets.Count == 0 || !_tranceTargets.Any(TranceCombat.HasTrance)) return;
+        // 残り1のターンは生成しない（減少後に見た目が戻るため、他色カードだけ残るのを防ぐ）
+        if (!_tranceTargets.Any(t => TranceCombat.GetTrance(t) > 1)) return;
 
         await GenerateMatchingCardsAsync(player);
     }
