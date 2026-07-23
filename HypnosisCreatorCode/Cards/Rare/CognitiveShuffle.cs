@@ -15,9 +15,8 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 認知シャッフル催眠 — カウント。トランス3。キャラクターカード3枚から1枚選び対応パワーを得る。
-/// 対象がトランス中、ターン開始に同キャラプールのカードを生成（エセリアル・廃棄・このターン0コスト）。
-/// プレイヤー見た目を一時差し替え。虚無化の強制ターン終了はバイパス。UGで生成3枚。性癖タグなし。
+/// 認知シャッフル催眠 — カウント。トランス3。3色から1枚選び対応パワーを得る。
+/// 対象がトランス中、ターン開始に同系カードを生成（エセリアル・廃棄・このターン0コスト）。UGで生成3枚。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class CognitiveShuffle() : HypnosisCreatorCard(3,

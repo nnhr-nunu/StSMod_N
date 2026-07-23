@@ -118,7 +118,7 @@
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.title": "Slime Hypnosis",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "For [blue]1[/blue] turn, transform the target into a random slime and overwrite their intent to add {Slimed:diff()} [gold]Slimed[/gold]. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.title": "Cognitive Shuffle",
-  "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "Apply {Trance:diff()} [gold]Trance[/gold]. Choose 1 of [blue]3[/blue] character cards and gain that character's [blue]3[/blue]-cost [gold]Power[/gold] effect. At the start of your turn, generate {Cards:diff()} random matching {Cards:plural:card|cards} that cost [blue]0[/blue] this turn. Continues while the target has [gold]Trance[/gold].",
+  "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "Apply [blue]3[/blue] [gold]Trance[/gold].\nChoose 1 of [blue]3[/blue] colors and gain that color's [blue]3[/blue]-cost [gold]Power[/gold] effect. At the start of your turn, generate {Cards:diff()} random matching cards from that color and play them for free. Continues while the target is [gold]Tranced[/gold].",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.selectionScreenPrompt": "Choose a character.",
   "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.title": "Character",
   "HYPNOSISCREATOR-COGNITIVE_CHARACTER_CHOICE.description": "Selection card for Cognitive Shuffle.",
