@@ -10,7 +10,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 /// <summary>
 /// 敵固有心臓の基底。
 /// CSV No.111〜はすべて希少な心臓（右クリック発動・各層1回）。
-/// 使用済みは IsUsedUp。層クリアで再使用可。No.86 で戦闘中／永続再使用。
+/// 使用済みは IsUsedUp。層クリアで再使用可。No.86 で戦闘中再使用／UGは戦闘後も再使用可。
 /// </summary>
 public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 {
@@ -61,33 +61,33 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
 
     public bool WasUsed { get; set; }
 
-    /// <summary>No.86 UG後は戦闘外でも再使用可。</summary>
-    public bool PermanentlyReusable { get; set; }
+    public override bool IsUsedUp => IsRareHeart && WasUsed && !CombatReuseActive;
 
-    public override bool IsUsedUp => IsRareHeart && WasUsed && !PermanentlyReusable && !CombatReuseActive;
-
-    /// <summary>No.86 戦闘中再使用フラグ。</summary>
+    /// <summary>No.86 未UG: この戦闘中だけ再使用可能にする一時フラグ。</summary>
     public bool CombatReuseActive { get; set; }
 
     /// <summary>
     /// No.86 未UG: 使用済み心臓だけ戦闘中再使用可。
-    /// WasUsed は維持し、戦闘終了で <see cref="EndCombatReuse"/> すれば再び使用済みに戻る。
+    /// WasUsed は維持し、戦闘終了で <see cref="EndCombatReuse"/> すれば再び使用済み表示に戻る。
     /// 未使用の心臓は触らない。
     /// </summary>
     public void RefreshForCombat()
     {
         if (!IsRareHeart) return;
-        if (PermanentlyReusable) return;
         if (!WasUsed) return;
         CombatReuseActive = true;
         Flash();
     }
 
-    public void RefreshPermanently()
+    /// <summary>
+    /// No.86 UG: 使用済み心臓の各層1回制限をリセット（WasUsed を落とす）。
+    /// 戦闘終了後も再使用可能なまま。再度使えば MarkUsed で再び使用済みになる。
+    /// </summary>
+    public void RefreshAfterCravingUpgraded()
     {
         if (!IsRareHeart) return;
+        if (!WasUsed) return;
         WasUsed = false;
-        PermanentlyReusable = true;
         CombatReuseActive = false;
         Flash();
     }
@@ -102,7 +102,6 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     public void RefreshForNewAct()
     {
         if (!IsRareHeart) return;
-        if (PermanentlyReusable) return;
 
         WasUsed = false;
         CombatReuseActive = false;
@@ -111,7 +110,6 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
     public void MarkUsed()
     {
         if (!IsRareHeart) return;
-        if (PermanentlyReusable) return;
         WasUsed = true;
         CombatReuseActive = false;
     }

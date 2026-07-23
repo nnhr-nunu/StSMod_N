@@ -23,11 +23,11 @@ public static class HeartInventory
             heart.RefreshForCombat();
     }
 
-    /// <summary>No.86 UG: 希少心臓を永続的に再使用可能にする。</summary>
-    public static void RefreshAllPermanently(Player player)
+    /// <summary>No.86 UG: 使用済み希少心臓の層内1回制限をリセット（戦闘後も維持）。</summary>
+    public static void RefreshAllAfterCravingUpgraded(Player player)
     {
         foreach (var heart in OwnedEnemyHearts(player))
-            heart.RefreshPermanently();
+            heart.RefreshAfterCravingUpgraded();
     }
 
     /// <summary>層クリア後: 希少心臓を当該層で再使用可能にする。</summary>

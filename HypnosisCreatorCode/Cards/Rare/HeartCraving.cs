@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// <summary>
 /// 心臓への渇望 — 使用済みの希少心臓をこの戦闘中だけ再使用可能に。
 /// 未使用の心臓は触らない。戦闘終了後、使った心臓は使用済みに戻る。
-/// UG: 再使用可能フラグが戦闘後も残る。
+/// UG: 使用済み心臓の各層1回制限をリセットし、戦闘終了後も再使用可能なまま。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartCraving() : HypnosisCreatorCard(3,
@@ -19,7 +19,7 @@ public class HeartCraving() : HypnosisCreatorCard(3,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (IsUpgraded)
-            HeartInventory.RefreshAllPermanently(Owner);
+            HeartInventory.RefreshAllAfterCravingUpgraded(Owner);
         else
             HeartInventory.RefreshAllForCombat(Owner);
 
@@ -28,6 +28,6 @@ public class HeartCraving() : HypnosisCreatorCard(3,
 
     protected override void OnUpgrade()
     {
-        // 効果差し替えのみ（コスト据え置き）。CSV: UGで永続再使用。
+        // 効果差し替えのみ（コスト据え置き）。CSV: UGで戦闘後も再使用可。
     }
 }
