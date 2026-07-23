@@ -1,6 +1,7 @@
 using System.Reflection;
 using Godot;
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 
@@ -40,6 +41,7 @@ public static class VisualTuner
             ApplyChroma();
             ApplySelectBackground();
             ApplyCardArt();
+            ApplyRestSite();
         }
         catch (Exception ex)
         {
@@ -159,6 +161,8 @@ public static class VisualTuner
             ApplyCropToItem(item, map);
         }
     }
+
+    public static void ApplyRestSite() => RestSiteSeatTuning.ReapplyAll();
 
     /// <summary>カードライブラリ内のノード追加では全再適用を起こさない（一覧のちらつき／負荷防止）。</summary>
     public static bool IsCardPortraitNode(Node node)

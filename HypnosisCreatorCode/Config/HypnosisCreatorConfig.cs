@@ -2,6 +2,8 @@ using BaseLib.Config;
 using BaseLib.Config.UI;
 using Godot;
 
+using HypnosisCreator.HypnosisCreatorCode.Utils;
+
 namespace HypnosisCreator.HypnosisCreatorCode.Config;
 
 /// <summary>
@@ -12,6 +14,8 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
 {
     private static bool _syncingCardTarget;
     private static string _lastCardTarget = CardCropStore.DefaultKey;
+    private static bool _syncingRestSiteSeat;
+    private static int _lastRestSiteSeat = -1;
 
     public HypnosisCreatorConfig()
     {
@@ -139,21 +143,55 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
         MainFile.Logger.Info("Use _default for all cards without a specific override. Example: cooking_hypnosis");
     }
 
+    // --- 篝火立ち絵（席 0〜3。プレビュー切替でマルチ席の見え方を確認可能） ---
+
+    [ConfigSection("RestSite")]
+    [ConfigSlider(0, 3, 1, Format = "Seat {0:0}")]
+    public static double RestSitePreviewSeat { get; set; } = HypnosisCreatorConfigDefaults.RestSitePreviewSeat;
+
+    /// <summary>1＝休憩所でプレビュー席の配置を表示（ソロでも席1〜3を確認）。</summary>
+    [ConfigSlider(0, 1, 1, Format = "{0:0}")]
+    public static double RestSiteUsePreviewLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteUsePreviewLayout;
+
+    [ConfigSlider(-200, 200, 1, Format = "{0:0}px")]
+    public static double RestSiteOffsetX { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetX;
+
+    [ConfigSlider(-200, 200, 1, Format = "{0:0}px")]
+    public static double RestSiteOffsetY { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetY;
+
+    [ConfigHideInUI]
+    public static string RestSiteSeatOffsetsJson { get; set; } = "{}";
+
+    [ConfigButton("ResetRestSiteDefaults")]
+    public static void OnResetRestSiteDefaults(ModConfig cfg, NConfigOptionRow row)
+    {
+        _ = row;
+        RestSiteSeatStore.ResetAllDefaults();
+        _lastRestSiteSeat = 0;
+        cfg.Changed();
+    }
+
     public static Color GetChromaKeyColor() =>
         new((float)ChromaKeyR, (float)ChromaKeyG, (float)ChromaKeyB, 1f);
 
     private static void OnAnyConfigChanged()
     {
-        if (_syncingCardTarget)
+        if (_syncingCardTarget || _syncingRestSiteSeat)
         {
             VisualTuner.ApplyAll();
             return;
         }
 
+        SyncRestSiteSeatSliders();
+        SyncCardTargetSliders();
+        VisualTuner.ApplyAll();
+    }
+
+    private static void SyncCardTargetSliders()
+    {
         var target = CardCropStore.NormalizeKey(CardTargetId);
         if (target != _lastCardTarget)
         {
-            // 対象カード切替 → 保存済み値をスライダーへ読み込み
             _syncingCardTarget = true;
             try
             {
@@ -168,10 +206,30 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
         }
         else
         {
-            // スライダー変更 → 対象カードへ保存
             CardCropStore.UpsertFromSliders(target);
         }
+    }
 
-        VisualTuner.ApplyAll();
+    private static void SyncRestSiteSeatSliders()
+    {
+        var seat = RestSiteSeatStore.ClampSeat((int)RestSitePreviewSeat);
+        if (seat != _lastRestSiteSeat)
+        {
+            _syncingRestSiteSeat = true;
+            try
+            {
+                _lastRestSiteSeat = seat;
+                RestSitePreviewSeat = seat;
+                RestSiteSeatStore.ApplyToSliders(seat);
+            }
+            finally
+            {
+                _syncingRestSiteSeat = false;
+            }
+        }
+        else
+        {
+            RestSiteSeatStore.UpsertFromSliders(seat);
+        }
     }
 }
