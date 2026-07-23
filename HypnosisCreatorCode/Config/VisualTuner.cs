@@ -130,14 +130,12 @@ public static class VisualTuner
         foreach (var rect in FindSelectBackgrounds())
         {
             found++;
-            RememberAndApplyControlOffsets(rect, ox, oy);
+            ResetControlOffsets(rect);
 
-            EnsureCropMaterial(rect);
-            if (rect.Material is ShaderMaterial mat)
-            {
-                // 位置は Control オフセットで動かす。シェーダーはズーム専用。
-                SetCropParams(mat, Vector2.Zero, zoom);
-            }
+            var mat = EnsureSelectBgCropMaterial(rect);
+            if (mat == null) continue;
+
+            SetCropParams(mat, PxToSelectBgUvOffset(rect, ox, oy), zoom);
         }
 
         if (found == 0)
@@ -214,7 +212,7 @@ public static class VisualTuner
         return false;
     }
 
-    private static void RememberAndApplyControlOffsets(Control control, float ox, float oy)
+    private static void ResetControlOffsets(Control control)
     {
         if (!control.HasMeta(BaseOffsetsMeta))
         {
@@ -223,11 +221,38 @@ public static class VisualTuner
         }
 
         var baseOff = (Vector4)control.GetMeta(BaseOffsetsMeta);
-        // 四辺を逆方向にずらしてサイズを保ったまま平行移動する（左右同加算だと縮小だけになる）
-        control.OffsetLeft = baseOff.X + ox;
-        control.OffsetTop = baseOff.Y + oy;
-        control.OffsetRight = baseOff.Z - ox;
-        control.OffsetBottom = baseOff.W - oy;
+        control.OffsetLeft = baseOff.X;
+        control.OffsetTop = baseOff.Y;
+        control.OffsetRight = baseOff.Z;
+        control.OffsetBottom = baseOff.W;
+    }
+
+    private static Vector2 PxToSelectBgUvOffset(TextureRect rect, float ox, float oy)
+    {
+        var viewSize = rect.GetRect().Size;
+        if (viewSize.X < 1f || viewSize.Y < 1f)
+            viewSize = rect.GetParent<Control>()?.Size ?? new Vector2(1920f, 1080f);
+
+        var tw = rect.Texture?.GetWidth() ?? 1536f;
+        var th = rect.Texture?.GetHeight() ?? 1024f;
+        var coverScale = Mathf.Max(viewSize.X / tw, viewSize.Y / th);
+        // UI「＋＝右／下」→ UV は符号反転（カード絵と同じ）
+        return new Vector2(-ox / (tw * coverScale), -oy / (th * coverScale));
+    }
+
+    private static ShaderMaterial? EnsureSelectBgCropMaterial(TextureRect rect)
+    {
+        _cropShader ??= ResourceLoader.Exists(CropShaderPath)
+            ? ResourceLoader.Load<Shader>(CropShaderPath)
+            : null;
+        if (_cropShader == null) return null;
+
+        if (rect.Material is ShaderMaterial existing && existing.Shader == _cropShader)
+            return existing;
+
+        var mat = new ShaderMaterial { Shader = _cropShader };
+        rect.Material = mat;
+        return mat;
     }
 
     private static void EnsureChromaMaterial(CanvasItem item)
