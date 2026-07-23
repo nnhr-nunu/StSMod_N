@@ -17,7 +17,6 @@ public static class FetishCombat
 {
     public const decimal FetishDoomHpPercent = 0.05M;
     public const int FetishDoomFlat = 5;
-    public const int FetishDoomMinimum = 8;
     public const decimal BogDoomMultiplier = 1.5M;
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
     public const decimal FetishAbyssDoomMultiplier = 1.5M;
@@ -226,7 +225,7 @@ public static class FetishCombat
     public static int CalcFetishDoomAmount(Creature enemy, Creature? applier = null)
     {
         var fromHp = (int)Math.Ceiling(enemy.MaxHp * (double)FetishDoomHpPercent);
-        var baseAmount = Math.Max(FetishDoomMinimum, fromHp + FetishDoomFlat);
+        var baseAmount = fromHp + FetishDoomFlat;
         var amount = Math.Max(1, (int)Math.Floor(baseAmount * (double)FetishHitMultiplier));
         if (OwnerHasFetishAbyss(applier))
             amount = Math.Max(1, (int)Math.Floor(amount * (double)FetishAbyssDoomMultiplier));
