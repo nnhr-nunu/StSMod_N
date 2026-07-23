@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Generate HypnosisCreator power icons from card portraits or custom sources."""
+"""Generate HypnosisCreator power icons from card portraits or custom sources.
+
+Medal framing applies only to card-granted powers (portrait cutouts).
+Non-card art such as bog (ぬ) uses a plain transparent icon.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +14,11 @@ from pathlib import Path
 
 from PIL import Image
 
-from tools_power_icon_style import center_square_crop, make_power_icon
+from tools_power_icon_style import (
+    center_square_crop,
+    make_plain_icon,
+    make_power_icon,
+)
 
 ROOT = Path(__file__).resolve().parent
 PORTRAITS = ROOT / "HypnosisCreator" / "images" / "card_portraits"
@@ -20,9 +28,8 @@ SOURCES = POWERS / "_sources"
 SMALL_SIZE = 64
 BIG_SIZE = 256
 
-# power file stem -> card portrait stem (None = custom source)
-CARD_POWER_MAP: dict[str, str | None] = {
-    "bog_power": None,
+# Card-granted powers only: power stem -> granting card portrait stem
+CARD_DERIVED_POWER_MAP: dict[str, str] = {
     "cult_leader_power": "cult_leader",
     "oshi_activity_power": "proselytize",
     "acceptance_need_power": "acceptance_need",
@@ -61,6 +68,7 @@ CARD_POWER_MAP: dict[str, str | None] = {
     "next_turn_asleep_power": "poor_sleep",
 }
 
+# Never overwritten by this generator (custom art / relic icons / vanilla-style)
 SKIP_POWERS = {
     "power",
     "abnormal_fetish_power",
@@ -123,7 +131,7 @@ def load_bog_nu_content() -> Image.Image:
     return remove_near_black_background(Image.open(NU_PROJECT_SOURCE))
 
 
-def save_pair(stem: str, content: Image.Image) -> None:
+def save_card_derived_pair(stem: str, content: Image.Image) -> None:
     small = make_power_icon(content, SMALL_SIZE)
     big = make_power_icon(content, BIG_SIZE)
     (POWERS / "big").mkdir(parents=True, exist_ok=True)
@@ -131,15 +139,20 @@ def save_pair(stem: str, content: Image.Image) -> None:
     big.save(POWERS / "big" / f"{stem}.png")
 
 
+def save_bog_pair(content: Image.Image) -> None:
+    small = make_plain_icon(content, SMALL_SIZE)
+    big = make_plain_icon(content, BIG_SIZE)
+    (POWERS / "big").mkdir(parents=True, exist_ok=True)
+    small.save(POWERS / "bog_power.png")
+    big.save(POWERS / "big" / "bog_power.png")
+
+
 def should_generate(power_stem: str, *, force: bool) -> bool:
     if power_stem in SKIP_POWERS:
         return False
     if force:
         return True
-    out_small = POWERS / f"{power_stem}.png"
-    if power_stem == "bog_power":
-        return True
-    return is_placeholder(out_small)
+    return is_placeholder(POWERS / f"{power_stem}.png")
 
 
 def main() -> int:
@@ -147,7 +160,12 @@ def main() -> int:
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Regenerate even when a non-placeholder icon already exists.",
+        help="Regenerate card-derived icons even when a non-placeholder file exists.",
+    )
+    parser.add_argument(
+        "--bog-only",
+        action="store_true",
+        help="Regenerate bog (ぬ) plain icon only.",
     )
     args = parser.parse_args()
 
@@ -155,21 +173,23 @@ def main() -> int:
     generated: list[str] = []
     skipped: list[str] = []
 
-    for power_stem, card_stem in CARD_POWER_MAP.items():
+    if args.bog_only:
+        save_bog_pair(load_bog_nu_content())
+        print("generated: 1")
+        print("  + bog_power")
+        return 0
+
+    for power_stem, card_stem in CARD_DERIVED_POWER_MAP.items():
         if not should_generate(power_stem, force=args.force):
             skipped.append(power_stem)
             continue
 
-        if power_stem == "bog_power":
-            content = load_bog_nu_content()
-        else:
-            assert card_stem is not None
-            content = load_card_content(card_stem)
-            if content is None:
-                missing_cards.append(f"{power_stem} <- {card_stem}.png")
-                continue
+        content = load_card_content(card_stem)
+        if content is None:
+            missing_cards.append(f"{power_stem} <- {card_stem}.png")
+            continue
 
-        save_pair(power_stem, content)
+        save_card_derived_pair(power_stem, content)
         generated.append(power_stem)
 
     print("generated:", len(generated))

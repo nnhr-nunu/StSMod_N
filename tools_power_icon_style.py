@@ -76,5 +76,23 @@ def apply_medal_frame(content: Image.Image, size: int) -> Image.Image:
 
 
 def make_power_icon(content: Image.Image, size: int) -> Image.Image:
-    """Public entry: square source art -> medal icon."""
+    """Card portrait cutout -> medal icon."""
     return apply_medal_frame(content, size)
+
+
+def make_plain_icon(content: Image.Image, size: int) -> Image.Image:
+    """Non-card art (e.g. bog ぬ): transparent canvas, no medal frame."""
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    pad = max(2, size // 16)
+    fit = size - pad * 2
+
+    art = content.convert("RGBA")
+    art.thumbnail((fit, fit), Image.Resampling.LANCZOS)
+    rgb = ImageEnhance.Contrast(art.convert("RGB")).enhance(1.05)
+    alpha = art.split()[-1]
+    art = Image.merge("RGBA", (*rgb.split(), alpha))
+
+    ox = (size - art.width) // 2
+    oy = (size - art.height) // 2
+    canvas.alpha_composite(art, (ox, oy))
+    return canvas
