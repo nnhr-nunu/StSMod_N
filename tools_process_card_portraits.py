@@ -58,6 +58,12 @@ SHARED_EXTRA_ENTRIES: dict[int, tuple[str, ...]] = {
     ),
 }
 
+# CSV No → 横方向クロップの優先位置（0=左, 1=右）。顔が片側にある原画向け。
+FOCAL_BIAS_X: dict[int, float] = {
+    75: 0.72,  # 言葉の洪水 — 右側に顔
+}
+
+
 def _sobel_magnitude(gray: np.ndarray) -> np.ndarray:
     gx = np.zeros_like(gray, dtype=np.float32)
     gy = np.zeros_like(gray, dtype=np.float32)
@@ -72,7 +78,7 @@ def _gaussian_blur(gray: np.ndarray, radius: int = 8) -> np.ndarray:
     return np.array(blurred, dtype=np.float32)
 
 
-def _saliency_focal(img_rgb: np.ndarray) -> tuple[float, float]:
+def _saliency_focal(img_rgb: np.ndarray, *, bias_x: float = 0.5) -> tuple[float, float]:
     """Edge + contrast saliency with portrait-friendly top-center bias."""
     h, w = img_rgb.shape[:2]
     gray = np.dot(img_rgb[..., :3], [0.299, 0.587, 0.114]).astype(np.float32)
@@ -82,8 +88,8 @@ def _saliency_focal(img_rgb: np.ndarray) -> tuple[float, float]:
     contrast = np.abs(gray - blur)
 
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    # 上部・中央をやや優遇（立ち絵・バストアップ向け）
-    pos_w = np.exp(-((xx / max(w - 1, 1) - 0.5) ** 2) / (2 * 0.28**2))
+    # 上部・指定横位置をやや優遇（立ち絵・バストアップ向け）
+    pos_w = np.exp(-((xx / max(w - 1, 1) - bias_x) ** 2) / (2 * 0.28**2))
     pos_w *= 0.50 + 0.50 * (1.0 - yy / max(h - 1, 1)) ** 0.85
 
     # 彩度が高い領域（キャラ・表情）を少し加点
@@ -103,10 +109,16 @@ def _saliency_focal(img_rgb: np.ndarray) -> tuple[float, float]:
     return fx / max(w - 1, 1), fy / max(h - 1, 1)
 
 
-def focal_point(img: Image.Image) -> tuple[float, float, str]:
+def focal_point(img: Image.Image, *, csv_no: int | None = None) -> tuple[float, float, str]:
     """Return normalized focal (0-1), (0-1) and method label."""
     rgb = np.array(img)
-    fx, fy = _saliency_focal(rgb)
+    bias_x = FOCAL_BIAS_X.get(csv_no, 0.5) if csv_no is not None else 0.5
+    fx, fy = _saliency_focal(rgb, bias_x=bias_x)
+    if csv_no in FOCAL_BIAS_X:
+        # 片側バイアス指定時は saliency と指定位置をブレンド
+        blend = 0.40
+        fx = fx * (1.0 - blend) + bias_x * blend
+        return fx, fy, f"smart+right"
     return fx, fy, "smart"
 
 
@@ -229,9 +241,10 @@ def process_one(
     entry: str,
     extras: tuple[str, ...] = (),
     dry_run: bool = False,
+    csv_no: int | None = None,
 ) -> str:
     img = open_image(src)
-    fx, fy, method = focal_point(img)
+    fx, fy, method = focal_point(img, csv_no=csv_no)
     cropped = crop_to_aspect(img, fx, fy)
     big = cropped.resize(SIZE_BIG, Image.Resampling.LANCZOS)
     small = cropped.resize(SIZE_SMALL, Image.Resampling.LANCZOS)
@@ -433,7 +446,7 @@ def main() -> int:
             continue
         try:
             extras = SHARED_EXTRA_ENTRIES.get(no, ())
-            method = process_one(path, entry, extras=extras, dry_run=args.dry_run)
+            method = process_one(path, entry, extras=extras, dry_run=args.dry_run, csv_no=no)
             methods[method] = methods.get(method, 0) + 1
             ok += 1
         except Exception as exc:  # noqa: BLE001

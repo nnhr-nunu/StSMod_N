@@ -12,7 +12,6 @@
 29	ちゃんとできるね？	can_do_it.png
 35	指折り数えて	finger_count.png
 36	ふにゃへにゃ	soften.png
-37	寝かしつけ催眠	lullaby_hypnosis.png
 39	腹部への殴打	abdominal_strike.png
 44	意識を飛ばす光	gaze_light.png
 50	練達	mastery.png
