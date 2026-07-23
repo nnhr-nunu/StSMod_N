@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -5,6 +6,8 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -17,6 +20,11 @@ public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    static Autopsy()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -25,6 +33,17 @@ public class Autopsy() : HypnosisCreatorCard(2,
         new ExtraDamageVar(4M),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(HeartCountMultiplier)
     ];
+
+    /// <summary>
+    /// 心臓数はラン進行データ。本家 CalculatedVar.Calculate は戦闘外で倍率を 0 にするため、
+    /// AutopsyPreviewPatch からも呼ぶ。
+    /// </summary>
+    internal decimal ComputeHeartScaledDamage()
+    {
+        if (Owner == null) return DynamicVars.CalculationBase.BaseValue;
+        var hearts = HeartInventory.CountHearts(Owner);
+        return DynamicVars.CalculationBase.BaseValue + DynamicVars.ExtraDamage.BaseValue * hearts;
+    }
 
     protected override bool ShouldGlowWhenConditionMet() =>
         HeartInventory.CountHearts(Owner) > 0;
@@ -50,4 +69,53 @@ public class Autopsy() : HypnosisCreatorCard(2,
 
     private static decimal HeartCountMultiplier(CardModel card, Creature? target) =>
         HeartInventory.CountHearts(card.Owner);
+
+    internal decimal PreviewModifiedDamage(Creature? target, CardPreviewMode previewMode = CardPreviewMode.Normal)
+    {
+        var raw = ComputeHeartScaledDamage();
+        var owner = Owner;
+        if (owner?.Creature == null || CombatState == null) return raw;
+
+        try
+        {
+            return Hook.ModifyDamage(
+                owner.RunState,
+                CombatState,
+                target,
+                owner.Creature,
+                raw,
+                ValueProp.Move,
+                this,
+                cardPlay: null,
+                ModifyDamageHookType.All,
+                previewMode,
+                out _);
+        }
+        catch
+        {
+            return raw;
+        }
+    }
+
+    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Autopsy autopsy) return;
+        if (!CombatPreviewText.IsActive(autopsy)) return;
+
+        var total = autopsy.PreviewModifiedDamage(target ?? autopsy.CurrentTarget);
+        if (total <= autopsy.DynamicVars.CalculationBase.BaseValue) return;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（{FormatDamage(total)}ダメージ）"
+            : $" ({FormatDamage(total)} damage)";
+        CombatPreviewText.AppendSuffix(autopsy, ref description, suffix);
+    }
+
+    private static string FormatDamage(decimal amount)
+    {
+        var culture = LocManager.Instance?.CultureInfo;
+        return amount == decimal.Truncate(amount)
+            ? ((int)amount).ToString(culture)
+            : amount.ToString("0.##", culture);
+    }
 }
