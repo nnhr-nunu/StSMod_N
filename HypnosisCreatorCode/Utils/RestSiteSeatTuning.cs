@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 篝火の席番号・マルチ人数に応じて立ち絵の位置と縮尺を調整する。
-/// Mod設定の席別オフセットは RestSiteSeatStore 経由で上乗せする。
+/// 本家 Character_1〜4（index 0〜3）の実座標に合わせ、焚き火方向を向くよう左右反転する。
 /// </summary>
 public static class RestSiteSeatTuning
 {
@@ -20,18 +20,25 @@ public static class RestSiteSeatTuning
     private static readonly FieldInfo CharacterIndexField =
         AccessTools.Field(typeof(NRestSiteCharacter), "_characterIndex")!;
 
+  /// <summary>
+    /// VisualOffset / RootOffset はコード側の構造調整。細かい位置は RestSiteSeatStore（Mod設定）。
+    /// MirrorForFire: 左側の席は true（素材は左向きのため反転して火を向く）、右側の席は false。
+    /// </summary>
     private readonly record struct SeatProfile(
         Vector2 VisualOffset,
         Vector2 RootOffset,
         float ScaleMul,
-        bool HeadInwardPose);
+        bool MirrorForFire);
 
+    /// <summary>
+    /// index 0=手前左 / 1=手前右端 / 2=奥・左 / 3=奥・右（本家 rest_site_room.tscn）
+    /// </summary>
     private static readonly SeatProfile[] Profiles =
     [
         new(Vector2.Zero, Vector2.Zero, 1f, false),
-        new(new Vector2(-32, 10), new Vector2(-56, 12), 0.94f, true),
-        new(new Vector2(24, 6), new Vector2(20, -22), 0.91f, true),
-        new(new Vector2(-36, 8), new Vector2(-52, -18), 0.91f, true),
+        new(new Vector2(-48, 16), new Vector2(-72, 14), 0.94f, false),
+        new(new Vector2(40, 8), new Vector2(24, -18), 0.91f, true),
+        new(new Vector2(-44, 10), new Vector2(-68, -16), 0.91f, false),
     ];
 
     public static void ReapplyAll()
@@ -75,8 +82,8 @@ public static class RestSiteSeatTuning
         character.Scale = new Vector2(scale, scale);
         character.Position += profile.RootOffset;
 
-        if (useMpLayout && profile.HeadInwardPose)
-            ApplyHeadInwardPose(controlRoot);
+        var mirror = effectiveIndex == 0 ? false : profile.MirrorForFire;
+        ApplyMirror(controlRoot, mirror);
 
         var configOffset = RestSiteSeatStore.Get(effectiveIndex).ToVector2();
         var totalVisualOffset = profile.VisualOffset + configOffset;
@@ -129,10 +136,11 @@ public static class RestSiteSeatTuning
             thoughtRight.Position = (Vector2)character.GetMeta("hc_rest_thought_r_pos");
     }
 
-    private static void ApplyHeadInwardPose(Control controlRoot)
+    /// <summary>本家 FlipX を打ち消し、席ごとの向きを明示する。</summary>
+    private static void ApplyMirror(Control controlRoot, bool mirrored)
     {
         var scale = controlRoot.Scale;
-        controlRoot.Scale = new Vector2(-Mathf.Abs(scale.X), scale.Y);
+        controlRoot.Scale = new Vector2(mirrored ? -Mathf.Abs(scale.X) : Mathf.Abs(scale.X), scale.Y);
     }
 
     private static void ApplyOffset(Node2D? node, Vector2 offset)

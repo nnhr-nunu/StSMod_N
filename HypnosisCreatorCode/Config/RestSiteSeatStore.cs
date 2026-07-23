@@ -23,6 +23,7 @@ public static class RestSiteSeatStore
         0 => new Offset(6, 77),
         1 => new Offset(-38, 172),
         2 => new Offset(-200, 103),
+        3 => new Offset(28, 88),
         _ => new Offset(0, 0)
     };
 
