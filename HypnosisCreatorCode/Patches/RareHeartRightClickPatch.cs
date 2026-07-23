@@ -1,9 +1,6 @@
 using Godot;
 using HarmonyLib;
-using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Relics;
 
@@ -16,8 +13,20 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch]
 public static class RareHeartRightClickPatch
 {
-    private static bool _activating;
+    [HarmonyPatch(typeof(NRelicInventoryHolder), "_GuiInput")]
+    [HarmonyPrefix]
+    public static bool HolderGuiInputPrefix(NRelicInventoryHolder __instance, InputEvent @event)
+    {
+        if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
+            return true;
 
+        if (!HeartRelicActivation.TryBeginFromHolder(__instance)) return true;
+
+        __instance.AcceptEvent();
+        return false;
+    }
+
+    /// <summary>基底クラス経由の入力も拾う（保険）。</summary>
     [HarmonyPatch(typeof(NClickableControl), "_GuiInput")]
     [HarmonyPrefix]
     public static bool GuiInputPrefix(NClickableControl __instance, InputEvent @event)
@@ -26,15 +35,12 @@ public static class RareHeartRightClickPatch
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
             return true;
 
-        if (!TryBeginActivate(holder)) return true;
+        if (!HeartRelicActivation.TryBeginFromHolder(holder)) return true;
 
         holder.AcceptEvent();
         return false;
     }
 
-    /// <summary>
-    /// Godot ブリッジ経由でも右クリックを拾う（_GuiInput をすり抜ける経路の保険）。
-    /// </summary>
     [HarmonyPatch(typeof(NClickableControl), "EmitSignalMousePressed")]
     [HarmonyPrefix]
     public static void MousePressedPrefix(NClickableControl __instance, InputEvent @event)
@@ -42,45 +48,7 @@ public static class RareHeartRightClickPatch
         if (__instance is not NRelicInventoryHolder holder) return;
         if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Right }) return;
 
-        if (TryBeginActivate(holder))
+        if (HeartRelicActivation.TryBeginFromHolder(holder))
             holder.AcceptEvent();
-    }
-
-    private static bool TryBeginActivate(NRelicInventoryHolder holder)
-    {
-        if (_activating) return false;
-
-        var heart = holder.Relic?.Model as EnemyHeartRelic;
-        if (heart == null || !heart.IsRareHeart || heart.IsUsedUp) return false;
-
-        var player = heart.Owner;
-        if (player == null) return false;
-
-        var combat = CombatManager.Instance;
-        if (combat is { IsInProgress: true, PlayerActionsDisabled: true }) return false;
-
-        _activating = true;
-        _ = ActivateThenUnlock(heart, player);
-        return true;
-    }
-
-    private static async Task ActivateThenUnlock(EnemyHeartRelic heart, Player player)
-    {
-        try
-        {
-            // UI起点でも選択待ちに入れるよう Blocking を使う（Throwing だと一部 Cmd で落ちる）
-            var ctx = new BlockingPlayerChoiceContext();
-            await heart.ActivateAsync(ctx, player);
-            // MarkUsed は各 ActivateAsync / Helper が「効果成功時のみ」行う。
-            // 敵不在などで失敗した場合は使用済みにしない。
-        }
-        catch (Exception e)
-        {
-            MainFile.Logger.Warn($"Rare heart activate failed: {heart.Id.Entry}: {e}");
-        }
-        finally
-        {
-            _activating = false;
-        }
     }
 }
