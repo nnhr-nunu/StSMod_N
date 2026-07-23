@@ -24,7 +24,7 @@ public class Spanking() : HypnosisCreatorCard(1,
         new DynamicVar("Replays", 1M)
     ];
 
-    /// <summary>Hook.BeforeCardPlayed から呼ぶ。リプレイ付与は OnPlay より前に確定させる。</summary>
+    /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
     internal void PrepareReplay(Creature? target)
     {
         BaseReplayCount = 0;

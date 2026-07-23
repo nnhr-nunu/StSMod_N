@@ -1,21 +1,23 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
-/// <summary>スパンキング — リプレイ付与を OnPlay より前（BeforeCardPlayed）で確定する。</summary>
-[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCardPlayed))]
+/// <summary>
+/// スパンキング — リプレイ付与は OnPlayWrapper 内の GeneratePlayCount より前に確定させる。
+/// BeforeCardPlayed では遅い（PlayCount は既に確定済み）。
+/// </summary>
+[HarmonyPatch(typeof(CardModel), "GeneratePlayCount")]
 [HarmonyPriority(Priority.First)]
-public static class SpankingReplayBeforePlayPatch
+public static class SpankingReplayGeneratePlayCountPatch
 {
-    public static void Prefix(ICombatState combatState, CardPlay play)
+    public static void Prefix(CardModel __instance, ICombatState combatState, Creature target)
     {
         _ = combatState;
-        if (play.Card is Spanking spanking)
-            spanking.PrepareReplay(play.Target);
+        if (__instance is Spanking spanking)
+            spanking.PrepareReplay(target);
     }
 }
