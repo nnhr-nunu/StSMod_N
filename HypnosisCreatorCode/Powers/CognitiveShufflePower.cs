@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -7,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
@@ -24,6 +26,8 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     /// <summary>生成元となる形態カードのカノニカル。</summary>
     public CardModel? FormCanonical { get; set; }
 
+    private CharacterModel? _pendingDisguiseCharacter;
+
     private readonly List<Creature> _tranceTargets = [];
 
     private CharacterDisguise.State? _disguise;
@@ -39,6 +43,20 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     {
         if (Owner == null) return;
         _disguise = CharacterDisguise.Apply(Owner, character);
+    }
+
+    public void QueueDisguise(CharacterModel character) => _pendingDisguiseCharacter = character;
+
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        if (_pendingDisguiseCharacter == null || Owner == null) return;
+        if (cardPlay.Card is not CognitiveShuffle) return;
+
+        var character = _pendingDisguiseCharacter;
+        _pendingDisguiseCharacter = null;
+        ApplyDisguise(character);
+        await Task.CompletedTask;
     }
 
     public override async Task BeforeHandDraw(

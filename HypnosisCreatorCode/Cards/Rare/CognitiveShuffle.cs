@@ -85,8 +85,6 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         var linked = chosen?.LinkedCharacter
                      ?? CognitiveCharacterFaces.CharacterForFormType(formTypeChosen);
 
-        await ApplyFormPower(choiceContext, formTypeChosen);
-
         var formCanonical = ModelDb.AllCards.First(c => c.GetType() == formTypeChosen);
         var shuffle = await PowerCmd.Apply<CognitiveShufflePower>(
             choiceContext, Owner.Creature, DynamicVars["Cards"].BaseValue, Owner.Creature, this);
@@ -95,8 +93,10 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
             shuffle.FormCanonical = formCanonical;
             shuffle.TrackTranceTarget(play.Target);
             if (linked != null)
-                shuffle.ApplyDisguise(linked);
+                shuffle.QueueDisguise(linked);
         }
+
+        await ApplyFormPower(choiceContext, formTypeChosen);
     }
 
     private async Task ApplyFormPower(PlayerChoiceContext choiceContext, Type formCardType)
@@ -113,9 +113,10 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
                 await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 4M, self, this);
                 break;
             case nameof(VoidForm):
-                // 本家 VoidForm Amount=2
+                // 本家 VoidForm Amount=2。ターン強制終了は非表示の CognitiveVoidBypassPower で抑止。
                 await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 2M, self, this);
-                await PowerCmd.Apply<CognitiveVoidBypassPower>(choiceContext, self, 1M, self, this);
+                await PowerCmd.Apply<CognitiveVoidBypassPower>(
+                    choiceContext, self, 1M, self, this, silent: true);
                 break;
             case nameof(ReaperForm):
                 await PowerCmd.Apply<ReaperFormPower>(choiceContext, self, 1M, self, this);
