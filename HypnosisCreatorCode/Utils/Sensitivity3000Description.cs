@@ -16,6 +16,8 @@ public static class Sensitivity3000Description
     private const string LocTable = "cards";
     private const string RainbowPhraseKey = "HYPNOSISCREATOR-SENSITIVITY3000.rainbowPhrase";
 
+    private const int RainbowPaletteVersion = 2;
+
     private static readonly ConcurrentDictionary<string, string> RainbowCache = new(StringComparer.Ordinal);
 
     public static void Register() =>
@@ -30,7 +32,9 @@ public static class Sensitivity3000Description
         if (string.IsNullOrEmpty(phrase)) return;
         if (!description.Contains(phrase, StringComparison.Ordinal)) return;
 
-        var rainbow = RainbowCache.GetOrAdd(phrase, RainbowText.LetterByLetter);
+        var rainbow = RainbowCache.GetOrAdd(
+            $"{RainbowPaletteVersion}:{phrase}",
+            static key => RainbowText.LetterByLetter(key[(key.IndexOf(':') + 1)..]));
         description = description.Replace(phrase, rainbow, StringComparison.Ordinal);
     }
 
