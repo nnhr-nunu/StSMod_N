@@ -141,8 +141,6 @@ public static class CognitiveShuffleCompletion
                     choiceContext, self, 4M, self, cardSource, silent: true));
                 break;
             case nameof(VoidForm):
-                shufflePower?.RegisterGrantedForm(await PowerCmd.Apply<CognitiveVoidBypassPower>(
-                    choiceContext, self, 1M, self, cardSource, silent: true));
                 shufflePower?.RegisterGrantedForm(await PowerCmd.Apply<VoidFormPower>(
                     choiceContext, self, 2M, self, cardSource, silent: true));
                 break;
