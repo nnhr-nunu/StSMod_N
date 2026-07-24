@@ -44,19 +44,17 @@ public static class CognitiveShuffleCompletion
         return tasks.Count == 0 ? Task.CompletedTask : Task.WhenAll(tasks);
     }
 
-    public static async Task CompleteAfterPlayedAsync(
-        Task? hookTask,
+    /// <summary>AfterCardPlayed の本体完了後に呼ぶ（hook Task は呼び出し元で await 済み）。</summary>
+    public static async Task RunIfPendingAsync(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay)
     {
         var owner = cardPlay.Card.Owner;
         if (owner == null) return;
+        if (!CognitiveShufflePendingStore.HasPending(owner)) return;
 
         try
         {
-            if (hookTask != null)
-                await hookTask;
-
             if (!CognitiveShufflePendingStore.TryTake(owner, out var pending))
                 return;
 
@@ -72,6 +70,16 @@ public static class CognitiveShuffleCompletion
         {
             EndGate(owner);
         }
+    }
+
+    public static async Task CompleteAfterPlayedAsync(
+        Task? hookTask,
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        if (hookTask != null)
+            await hookTask;
+        await RunIfPendingAsync(choiceContext, cardPlay);
     }
 
     private static void EndGate(Player player)
@@ -90,6 +98,8 @@ public static class CognitiveShuffleCompletion
         var self = cardSource.Owner?.Creature;
         if (self == null) return;
 
+        CognitiveShuffleApplyContext.SetIconCharacter(self.Player, pending.Disguise);
+
         var shufflePower = await PowerCmd.Apply<CognitiveShufflePower>(
             choiceContext, self, pending.CardsAmount, self, cardSource, silent: true);
         if (shufflePower != null)
@@ -99,6 +109,7 @@ public static class CognitiveShuffleCompletion
                 shufflePower.SetDisguiseCharacter(pending.Disguise);
             if (pending.TranceTarget != null)
                 shufflePower.TrackTranceTarget(pending.TranceTarget);
+            CognitiveShufflePowerUi.RefreshRowIcon(shufflePower);
         }
 
         await ApplyFormPowerAsync(choiceContext, cardSource, self, pending.FormType, shufflePower);

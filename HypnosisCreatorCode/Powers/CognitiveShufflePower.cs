@@ -50,6 +50,17 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             _grantedForms.Add(power);
     }
 
+    public override Task BeforeApplied(Creature target, decimal amount, Creature applier, CardModel cardSource)
+    {
+        _ = amount;
+        _ = applier;
+        _ = cardSource;
+        var character = CognitiveShuffleApplyContext.TakeIconCharacter(target.Player);
+        if (character != null)
+            SetDisguiseCharacter(character);
+        return base.BeforeApplied(target, amount, applier, cardSource);
+    }
+
     public void TrackTranceTarget(Creature target)
     {
         if (target is not { IsAlive: true, IsEnemy: true }) return;
@@ -88,7 +99,8 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         if (side != CombatSide.Player) return Task.CompletedTask;
         if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
 
-        CheckExpireIfNeeded();
+        // ターン開始はカードプレイ外なので即時 expire 可
+        CheckExpireIfNeeded(immediate: true);
         return Task.CompletedTask;
     }
 
@@ -100,17 +112,24 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         if (combat == null) return;
 
         foreach (var player in combat.Players)
-            player.Creature?.GetPower<CognitiveShufflePower>()?.CheckExpireIfNeeded();
+            player.Creature?.GetPower<CognitiveShufflePower>()?.CheckExpireIfNeeded(immediate: false);
     }
 
-    private void CheckExpireIfNeeded()
+    private void CheckExpireIfNeeded(bool immediate)
     {
         if (_expiring) return;
 
         PruneDeadTargets();
         if (_tranceTargets.Count == 0 || !_tranceTargets.Any(TranceCombat.HasTrance))
-            _ = ExpireAsync();
+        {
+            if (immediate)
+                _ = ExpireAsync();
+            else
+                CognitiveShuffleExpire.Request(this);
+        }
     }
+
+    internal Task ExpireFromSchedulerAsync() => ExpireAsync();
 
     private async Task GenerateMatchingCardsAsync(Player player)
     {

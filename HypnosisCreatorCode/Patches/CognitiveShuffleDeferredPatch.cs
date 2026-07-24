@@ -9,12 +9,11 @@ using MegaCrit.Sts2.Core.Hooks;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 認知シャッフル — カードプレイ演出完了後にパワー付与（OnPlay 内 PowerCmd は宙吊りの原因）。
+/// 認知シャッフル — カードプレイ完了後にパワー付与・期限切れ（OnPlay / 同期フック内 PowerCmd は宙吊りの原因）。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class CognitiveShuffleDeferredPatch
 {
-    /// <summary>他の AfterCardPlayed 処理のあとで付与し、Task を延長して次カードと競合しない。</summary>
     [HarmonyPriority(Priority.Last)]
     public static void Postfix(
         ref Task __result,
@@ -24,10 +23,27 @@ public static class CognitiveShuffleDeferredPatch
     {
         _ = combatState;
         var owner = cardPlay.Card.Owner;
-        if (owner is not Player player || !CognitiveShufflePendingStore.HasPending(player))
+        var hasPending = owner is Player player && CognitiveShufflePendingStore.HasPending(player);
+
+        if (!hasPending && !CognitiveShuffleExpire.HasPending)
             return;
 
         var original = __result;
-        __result = CognitiveShuffleCompletion.CompleteAfterPlayedAsync(original, choiceContext, cardPlay);
+        __result = FinishCardPlayAsync(original, choiceContext, cardPlay, hasPending);
+    }
+
+    private static async Task FinishCardPlayAsync(
+        Task? original,
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay,
+        bool runCompletion)
+    {
+        if (original != null)
+            await original;
+
+        if (runCompletion)
+            await CognitiveShuffleCompletion.RunIfPendingAsync(choiceContext, cardPlay);
+
+        await CognitiveShuffleExpire.RunPendingAsync();
     }
 }
