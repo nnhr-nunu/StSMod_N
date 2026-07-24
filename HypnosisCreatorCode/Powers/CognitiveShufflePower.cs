@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// 認知シャッフル — 対象がトランス中のプレイヤーターン開始時、選んだ形態と同プールのカードを生成する。
 /// 生成は手札ドロー前（<see cref="BeforeHandDraw"/>）。追跡対象のトランスが2以上のときだけ生成（トランス5なら4回）。
-/// トランス減少後の Late で追跡対象が全員トランス切れなら見た目を戻して自己解除する。
+/// 追跡対象のトランスが全て切れた／敵が倒れたら即見た目復帰＋形態パワー解除＋自己解除。
 /// 集団催眠で複数敵へ波及した場合は、いずれかがトランス中なら継続する。
 /// </summary>
 public class CognitiveShufflePower : HypnosisCreatorPower
@@ -26,8 +26,29 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     public CardModel? FormCanonical { get; set; }
 
     private readonly List<Creature> _tranceTargets = [];
+    private readonly List<PowerModel> _grantedForms = [];
 
+    private CharacterModel? _disguiseCharacter;
     private CharacterDisguise.State? _disguise;
+    private bool _expiring;
+
+    public void SetDisguiseCharacter(CharacterModel character) => _disguiseCharacter = character;
+
+    public override string CustomPackedIconPath =>
+        _disguiseCharacter != null
+            ? CognitiveCharacterFaces.CharacterSelectIconPath(_disguiseCharacter)
+            : base.CustomPackedIconPath;
+
+    public override string CustomBigIconPath =>
+        _disguiseCharacter != null
+            ? CognitiveCharacterFaces.CharacterSelectIconPath(_disguiseCharacter)
+            : base.CustomBigIconPath;
+
+    public void RegisterGrantedForm(PowerModel? power)
+    {
+        if (power != null)
+            _grantedForms.Add(power);
+    }
 
     public void TrackTranceTarget(Creature target)
     {
@@ -36,10 +57,10 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             _tranceTargets.Add(target);
     }
 
-    public void ApplyDisguise(CharacterModel character)
+    public void ApplyDisguise()
     {
-        if (Owner == null) return;
-        _disguise = CharacterDisguise.Apply(Owner, character);
+        if (Owner == null || _disguiseCharacter == null) return;
+        _disguise = CharacterDisguise.Apply(Owner, _disguiseCharacter);
     }
 
     public override async Task BeforeHandDraw(
@@ -59,19 +80,36 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         await GenerateMatchingCardsAsync(player);
     }
 
-    public override async Task AfterSideTurnStartLate(
+    public override Task AfterSideTurnStartLate(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        if (side != CombatSide.Player) return;
-        if (Owner == null || !participants.Contains(Owner)) return;
+        if (side != CombatSide.Player) return Task.CompletedTask;
+        if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
+
+        CheckExpireIfNeeded();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>トランス解除・敵死亡時に全プレイヤーの認知シャッフルを確認する。</summary>
+    public static void NotifyTranceTargetChanged(Creature? target)
+    {
+        _ = target;
+        var combat = target?.CombatState;
+        if (combat == null) return;
+
+        foreach (var player in combat.Players)
+            player.Creature?.GetPower<CognitiveShufflePower>()?.CheckExpireIfNeeded();
+    }
+
+    private void CheckExpireIfNeeded()
+    {
+        if (_expiring) return;
 
         PruneDeadTargets();
-
-        // トランス減少後: 追跡対象の誰もトランス中でなければ見た目復帰＋自己解除
         if (_tranceTargets.Count == 0 || !_tranceTargets.Any(TranceCombat.HasTrance))
-            await ExpireAsync();
+            _ = ExpireAsync();
     }
 
     private async Task GenerateMatchingCardsAsync(Player player)
@@ -101,12 +139,13 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         }
     }
 
-    public override Task AfterRemoved(Creature oldOwner)
+    public override async Task AfterRemoved(Creature oldOwner)
     {
         CharacterDisguise.Restore(oldOwner, _disguise);
         _disguise = null;
         _tranceTargets.Clear();
-        return Task.CompletedTask;
+        _grantedForms.Clear();
+        await base.AfterRemoved(oldOwner);
     }
 
     private void PruneDeadTargets() =>
@@ -114,10 +153,28 @@ public class CognitiveShufflePower : HypnosisCreatorPower
 
     private async Task ExpireAsync()
     {
-        if (Owner != null)
+        if (_expiring || Owner == null) return;
+        _expiring = true;
+
+        try
+        {
             CharacterDisguise.Restore(Owner, _disguise);
-        _disguise = null;
-        _tranceTargets.Clear();
-        await PowerCmd.Remove(this);
+            _disguise = null;
+            _tranceTargets.Clear();
+            await RemoveGrantedFormsAsync();
+            await PowerCmd.Remove(this);
+        }
+        finally
+        {
+            _expiring = false;
+        }
+    }
+
+    private async Task RemoveGrantedFormsAsync()
+    {
+        foreach (var power in _grantedForms.ToList())
+            await PowerCmd.Remove(power);
+
+        _grantedForms.Clear();
     }
 }

@@ -20,8 +20,7 @@ public static class CognitiveCharacterFaces
         try
         {
             var source = character.CharacterSelectIcon as Texture2D
-                         ?? GD.Load<Texture2D>(
-                             $"res://images/packed/character_select/char_select_{key.ToLowerInvariant()}.png");
+                         ?? GD.Load<Texture2D>(CharacterSelectIconPath(character));
             if (source == null) return null;
 
             var face = CropFace(source);
@@ -34,6 +33,10 @@ public static class CognitiveCharacterFaces
             return null;
         }
     }
+
+    /// <summary>パワーアイコン用。選んだキャラのセレクト画面アイコン。</summary>
+    public static string CharacterSelectIconPath(CharacterModel character) =>
+        $"res://images/packed/character_select/char_select_{character.Id.Entry.ToLowerInvariant()}.png";
 
     public static CharacterModel? CharacterForFormType(Type formCardType) => formCardType.Name switch
     {

@@ -41,6 +41,9 @@ public static class CognitiveShufflePendingStore
         pending.Active = true;
     }
 
+    public static bool HasPending(Player player) =>
+        Table.TryGetValue(player, out var state) && state.Active;
+
     public static bool TryTake(Player player, out Pending pending)
     {
         pending = null!;
