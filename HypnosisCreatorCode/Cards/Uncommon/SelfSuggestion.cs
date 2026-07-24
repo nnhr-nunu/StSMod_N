@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手（この戦闘のみ）。
-/// 入手時に戦闘開始トリガー相当で即発動。UGで筋力2・スピード2。
+/// 心臓効果は右クリック発動（得た瞬間には発動しない）。UGで筋力2・スピード2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class SelfSuggestion() : HypnosisCreatorCard(1,
@@ -42,10 +42,10 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
         await PowerCmd.Apply<StrengthPower>(choiceContext, self, DynamicVars["StrengthPower"].BaseValue, self, this);
         await PowerCmd.Apply<DexterityPower>(choiceContext, self, DynamicVars["DexterityPower"].BaseValue, self, this);
 
-        await ObtainRandomHearts(choiceContext, DynamicVars["Hearts"].IntValue);
+        await ObtainRandomHearts(DynamicVars["Hearts"].IntValue);
     }
 
-    private async Task ObtainRandomHearts(PlayerChoiceContext choiceContext, int count)
+    private async Task ObtainRandomHearts(int count)
     {
         var ownedTypes = Owner.Relics
             .OfType<EnemyHeartRelic>()
@@ -79,7 +79,7 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
             for (var i = 0; i < count; i++)
             {
                 var obtained = await RelicCmd.Obtain<StolenHeart>(Owner);
-                await MarkTemporaryAndMaybeActivate(choiceContext, Owner, obtained);
+                MarkTemporaryCombatRelic(obtained);
             }
             return;
         }
@@ -100,22 +100,15 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
             else
                 continue;
 
-            await MarkTemporaryAndMaybeActivate(choiceContext, Owner, obtained);
+            MarkTemporaryCombatRelic(obtained);
         }
     }
 
-    /// <summary>
-    /// 戦闘限定＋戦闘開始トリガー相当の即発動。
-    /// （ターン1専用の FireCombatStartTrigger では、プレイ後に発動しないため）
-    /// </summary>
-    private static async Task MarkTemporaryAndMaybeActivate(
-        PlayerChoiceContext choiceContext, Player player, RelicModel? obtained)
+    /// <summary>戦闘終了で失う一時所持。効果はレリック枠の右クリックで発動する。</summary>
+    private static void MarkTemporaryCombatRelic(RelicModel? obtained)
     {
         if (obtained is HypnosisCreatorRelic hc)
             hc.RemoveAtCombatEnd = true;
-
-        if (obtained is EnemyHeartRelic heart && heart.IsRareHeart && !heart.IsUsedUp)
-            await heart.ActivateAsync(choiceContext, player);
     }
 
     private static bool IsRareHeartType(Type heartType)

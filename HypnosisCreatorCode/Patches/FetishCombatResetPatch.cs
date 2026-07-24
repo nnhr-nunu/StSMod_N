@@ -62,11 +62,12 @@ public static class FetishCombatResetPatch
                     $"Proselytize GoldReward +{(int)gold} for {player.Character?.Id.Entry}");
             }
 
-            // No.86 未UG: 戦闘中再使用フラグをクリア（使用済みは WasUsed のまま戻る）
+            // No.86: 戦闘中再使用フラグをクリア（使用済みは WasUsed のまま戻る）
             foreach (var heart in player.Relics.OfType<EnemyHeartRelic>())
                 heart.EndCombatReuse();
 
-            // 自己暗示など「この戦闘中」の一時レリックを除去
+            // 自己暗示など「この戦闘中」の一時レリックを除去。
+            // No.86 で再使用可能にした一時心臓も、RemoveAtCombatEnd なら必ず消す。
             var temps = player.Relics
                 .OfType<HypnosisCreatorRelic>()
                 .Where(r => r.RemoveAtCombatEnd)
