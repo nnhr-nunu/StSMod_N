@@ -28,6 +28,7 @@ public partial class MainFile : Node
         UpgradeDescriptionHooks.Register();
         KeywordLineLayout.Register();
         CognitiveCharacterChoiceText.Register();
+        CombatSuffixDescriptionHooks.Register();
 
         ApplyHarmonyPatches();
     }

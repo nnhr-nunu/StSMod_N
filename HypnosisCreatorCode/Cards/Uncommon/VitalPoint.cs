@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -21,11 +20,6 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static VitalPoint()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamagePreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -38,6 +32,9 @@ public class VitalPoint() : HypnosisCreatorCard(1,
 
     internal static decimal ComputeDamage(CardModel card)
     {
+        if (card.Owner == null)
+            return card.DynamicVars.CalculationBase.BaseValue;
+
         var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
         var gap = PlayerAttackTracker.TurnsSinceLastAttack(card.Owner, turn);
         return card.DynamicVars.CalculationBase.BaseValue
@@ -46,6 +43,8 @@ public class VitalPoint() : HypnosisCreatorCard(1,
 
     private static decimal IdleTurnMultiplier(CardModel card, Creature? _)
     {
+        if (card.Owner == null) return 0M;
+
         var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
         return PlayerAttackTracker.TurnsSinceLastAttack(card.Owner, turn);
     }
@@ -74,7 +73,7 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         DynamicVars["PerTurn"].UpgradeValueBy(5M);
     }
 
-    private static void AppendTotalDamagePreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not VitalPoint vital) return;
 

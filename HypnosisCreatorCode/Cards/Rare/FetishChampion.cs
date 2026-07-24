@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -21,11 +20,6 @@ public class FetishChampion() : HypnosisCreatorCard(3,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
-    static FetishChampion()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendHitPreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
 
@@ -54,7 +48,7 @@ public class FetishChampion() : HypnosisCreatorCard(3,
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
 
-    private static void AppendHitPreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not FetishChampion champion) return;
         if (!CombatPreviewText.IsActive(champion)) return;

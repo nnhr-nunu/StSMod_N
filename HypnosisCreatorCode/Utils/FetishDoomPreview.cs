@@ -18,7 +18,19 @@ public static class FetishDoomPreview
         new(@" \(Apply .* Doom\)\s*$", RegexOptions.Compiled);
 
     public static void Register() =>
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDoomPreview;
+        DescriptionOverrides.CustomizeDescriptionPost += AppendDoomPreviewSafely;
+
+    private static void AppendDoomPreviewSafely(CardModel card, Creature? target, ref string description)
+    {
+        try
+        {
+            AppendDoomPreview(card, target, ref description);
+        }
+        catch (Exception ex)
+        {
+            MainFile.Logger.Warn($"Fetish doom preview failed for {card.Id}: {ex.Message}");
+        }
+    }
 
     private static void AppendDoomPreview(CardModel card, Creature? target, ref string description)
     {

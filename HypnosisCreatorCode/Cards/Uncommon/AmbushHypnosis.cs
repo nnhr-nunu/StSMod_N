@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -20,11 +19,6 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    static AmbushHypnosis()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDrawPreview;
-    }
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Extra", 0M)];
 
@@ -57,9 +51,10 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
 
     protected override void OnUpgrade() => DynamicVars["Extra"].UpgradeValueBy(1M);
 
-    private static void AppendDrawPreview(CardModel card, Creature? _, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? _, ref string description)
     {
         if (card is not AmbushHypnosis ambush) return;
+        if (!CombatPreviewText.IsActive(ambush)) return;
         var n = CalcDraw(ambush);
         if (n <= 0) return;
 

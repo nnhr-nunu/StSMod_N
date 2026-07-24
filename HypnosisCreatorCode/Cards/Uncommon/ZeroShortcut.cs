@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -20,11 +19,6 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    static ZeroShortcut()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalBlockPreview;
-    }
-
     private const int StartBlock = 3;
 
     public override bool GainsBlock => true;
@@ -50,7 +44,7 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
-    private static void AppendTotalBlockPreview(CardModel card, Creature? _, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? _, ref string description)
     {
         if (card is not ZeroShortcut shortcut) return;
 

@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -20,11 +19,6 @@ public class HypnosisIntro() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static HypnosisIntro()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendCurrentDrawPreview;
-    }
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Draw", 2M)];
 
@@ -49,7 +43,7 @@ public class HypnosisIntro() : HypnosisCreatorCard(0,
 
     protected override void OnUpgrade() => DynamicVars["Draw"].UpgradeValueBy(1M);
 
-    private static void AppendCurrentDrawPreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not HypnosisIntro intro) return;
         if (!CombatPreviewText.IsActive(intro)) return;

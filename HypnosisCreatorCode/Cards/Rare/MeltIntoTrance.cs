@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -21,11 +20,6 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
-    static MeltIntoTrance()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamagePreview;
-    }
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
@@ -66,7 +60,7 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
         DynamicVars["PerTrance"].UpgradeValueBy(5M);
     }
 
-    private static void AppendTotalDamagePreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not MeltIntoTrance melt) return;
 

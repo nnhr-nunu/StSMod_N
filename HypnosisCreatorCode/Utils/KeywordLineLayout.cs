@@ -20,7 +20,19 @@ public static class KeywordLineLayout
         RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
     public static void Register() =>
-        DescriptionOverrides.CustomizeDescriptionPost += CollapseConsecutiveKeywordLines;
+        DescriptionOverrides.CustomizeDescriptionPost += CollapseSafely;
+
+    private static void CollapseSafely(CardModel card, Creature? target, ref string description)
+    {
+        try
+        {
+            CollapseConsecutiveKeywordLines(card, target, ref description);
+        }
+        catch (Exception ex)
+        {
+            MainFile.Logger.Warn($"Keyword line layout failed for {card.Id}: {ex.Message}");
+        }
+    }
 
     private static void CollapseConsecutiveKeywordLines(CardModel card, Creature? target, ref string description)
     {

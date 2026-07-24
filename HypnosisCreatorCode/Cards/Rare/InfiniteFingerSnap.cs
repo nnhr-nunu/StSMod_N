@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -22,11 +21,6 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
     TargetType.AllEnemies)
 {
     private const int HitsPerCycle = 5;
-
-    static InfiniteFingerSnap()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamageWhenPlayable;
-    }
 
     protected override bool HasEnergyCostX => true;
 
@@ -53,7 +47,7 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
-    private static void AppendTotalDamageWhenPlayable(
+    internal static void AppendDescriptionSuffix(
         CardModel card, Creature? target, ref string description)
     {
         if (card is not InfiniteFingerSnap snap) return;

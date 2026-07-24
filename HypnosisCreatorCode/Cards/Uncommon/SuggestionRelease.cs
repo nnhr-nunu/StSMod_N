@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
@@ -22,11 +21,6 @@ public class SuggestionRelease() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static SuggestionRelease()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendEffectPreview;
-    }
-
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -65,7 +59,7 @@ public class SuggestionRelease() : HypnosisCreatorCard(0,
 
     protected override void OnUpgrade() { }
 
-    private static void AppendEffectPreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not SuggestionRelease release) return;
         if (!CombatPreviewText.IsActive(release)) return;

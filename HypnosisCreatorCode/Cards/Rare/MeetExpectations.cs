@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -20,11 +19,6 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static MeetExpectations()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendCombatDamageSuffix;
-    }
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
@@ -61,7 +55,7 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
-    private static void AppendCombatDamageSuffix(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not MeetExpectations meet) return;
 

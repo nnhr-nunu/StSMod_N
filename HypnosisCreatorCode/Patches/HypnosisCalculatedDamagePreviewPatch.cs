@@ -26,6 +26,22 @@ public static class HypnosisCalculatedDamagePreviewPatch
     {
         _ = runGlobalHooks;
 
+        try
+        {
+            ApplyPreview(__instance, card, previewMode, target);
+        }
+        catch (Exception ex)
+        {
+            MainFile.Logger.Warn($"Calculated damage preview failed for {card.Id}: {ex.Message}");
+        }
+    }
+
+    private static void ApplyPreview(
+        CalculatedDamageVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target)
+    {
         decimal? raw = card switch
         {
             Autopsy autopsy => autopsy.ComputeHeartScaledDamage(),

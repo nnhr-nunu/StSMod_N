@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -21,11 +20,6 @@ public class Punishment() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
-    static Punishment()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendHitPreview;
-    }
-
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override bool ShouldGlowWhenConditionMet() =>
@@ -57,7 +51,7 @@ public class Punishment() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
 
-    private static void AppendHitPreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not Punishment punishment) return;
         if (!CombatPreviewText.IsActive(punishment)) return;

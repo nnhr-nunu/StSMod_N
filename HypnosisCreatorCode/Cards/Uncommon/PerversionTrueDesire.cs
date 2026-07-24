@@ -1,4 +1,3 @@
-using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -18,10 +17,6 @@ public class PerversionTrueDesire() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    static PerversionTrueDesire()
-    {
-        DescriptionOverrides.CustomizeDescriptionPost += AppendDamagePreview;
-    }
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -62,7 +57,7 @@ public class PerversionTrueDesire() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
-    private static void AppendDamagePreview(CardModel card, Creature? target, ref string description)
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not PerversionTrueDesire desire) return;
 
