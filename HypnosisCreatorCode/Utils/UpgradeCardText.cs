@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
@@ -43,6 +45,44 @@ public static class UpgradeCardText
         var line = Green(plain.TrimEnd());
         if (description.Contains(line, StringComparison.OrdinalIgnoreCase)) return;
         description = description.TrimEnd() + "\n" + line;
+    }
+
+    /// <summary>
+    /// 暗示解除+: エナジー獲得2倍。CustomizeDescriptionPost は energyIcons 展開後のため、
+    /// プレースホルダ文字列ではなく前後の固定文言で差し替える。
+    /// </summary>
+    public static void ApplySuggestionReleaseEnergyUpgrade(CardModel card, ref string description)
+    {
+        if (card is not SuggestionRelease || !card.IsUpgraded) return;
+
+        if (IsJapaneseUi())
+        {
+            const string upgraded = "その数値の[green]2[/green]倍の";
+            if (description.Contains(upgraded, StringComparison.Ordinal)) return;
+            if (description.Contains("その数値に応じて", StringComparison.Ordinal))
+            {
+                description = description.Replace(
+                    "その数値に応じて",
+                    upgraded,
+                    StringComparison.Ordinal);
+            }
+
+            return;
+        }
+
+        if (description.Contains("[green]twice[/green]", StringComparison.OrdinalIgnoreCase)) return;
+
+        var match = Regex.Match(
+            description,
+            @"Gain (.+?) equal to the amount removed and",
+            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (!match.Success) return;
+
+        var replacement =
+            $"Gain [green]twice[/green] as much {match.Groups[1].Value} as the amount removed and";
+        description = description[..match.Index]
+                      + replacement
+                      + description[(match.Index + match.Length)..];
     }
 
     /// <summary>UG時のみ、説明中の文言を置換する（to 側に [green] を含めてよい）。</summary>

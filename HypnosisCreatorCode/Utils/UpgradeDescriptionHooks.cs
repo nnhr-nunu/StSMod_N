@@ -96,11 +96,7 @@ public static class UpgradeDescriptionHooks
             "すでに引き寄せられている場合、ランダムな調教命令を2枚手札に加える。",
             "If already Pulled, add 2 random Training Command cards to your hand.");
 
-        UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is SuggestionRelease,
-            "その数値に応じて{energyPrefix:energyIcons(1)}を獲得し",
-            "その数値の[green]2[/green]倍の{energyPrefix:energyIcons(1)}を獲得し",
-            "Gain {energyPrefix:energyIcons(1)} equal to the amount removed and",
-            "Gain [green]twice[/green] as much {energyPrefix:energyIcons(1)} as the amount removed and");
+        UpgradeCardText.ApplySuggestionReleaseEnergyUpgrade(card, ref description);
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is Catalepsy,
             "相手がトランス時はスローの蓄積量がリセットされない。",
