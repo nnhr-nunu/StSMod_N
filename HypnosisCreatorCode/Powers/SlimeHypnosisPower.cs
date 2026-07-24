@@ -151,7 +151,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
                 cards.Add(combat.CreateCard(ModelDb.Card<Slimed>(), player));
             }
 
-            await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Discard, player);
+            var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Discard, player);
+            await StatusHypnosisConvert.PreviewGeneratedPileAddAsync(results, PileType.Discard);
         }
     }
 
