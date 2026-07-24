@@ -1,8 +1,10 @@
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -52,18 +54,30 @@ public static class HeartRelicPreview
         if (vars.TryGetValue("Damage", out var damageVar) && creature != null)
         {
             var baseDmg = damageVar.BaseValue;
-            var preview = Hook.ModifyDamage(
-                heart.Owner!.RunState,
-                creature.CombatState,
-                target: creature,
-                dealer: creature,
-                damage: baseDmg,
-                props: ValueProp.Move,
-                cardSource: null!,
-                cardPlay: null!,
-                ModifyDamageHookType.All,
-                CardPreviewMode.Normal,
-                out IEnumerable<AbstractModel>? _);
+            var combat = creature.CombatState;
+            var enemy = combat?.HittableEnemies.FirstOrDefault();
+            decimal preview;
+            if (enemy != null && combat != null)
+            {
+                // 敵向けダメージ心臓。target に自分を渡すと霊体など被ダメ修正が誤適用される。
+                preview = Hook.ModifyDamage(
+                    heart.Owner!.RunState,
+                    combat,
+                    target: enemy,
+                    dealer: creature,
+                    damage: baseDmg,
+                    props: ValueProp.Move,
+                    cardSource: null!,
+                    cardPlay: null!,
+                    ModifyDamageHookType.All,
+                    CardPreviewMode.Normal,
+                    out IEnumerable<AbstractModel>? _);
+            }
+            else
+            {
+                preview = baseDmg + creature.GetPowerAmount<StrengthPower>();
+            }
+
             damageVar.EnchantedValue = baseDmg;
             damageVar.PreviewValue = preview;
         }
