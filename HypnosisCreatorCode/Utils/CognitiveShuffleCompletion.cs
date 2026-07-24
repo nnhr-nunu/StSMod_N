@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -17,6 +18,32 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CognitiveShuffleCompletion
 {
+    private sealed class PlayerGate
+    {
+        public TaskCompletionSource? Completion;
+        public Task? InFlight;
+    }
+
+    private static readonly ConditionalWeakTable<Player, PlayerGate> Gates = new();
+
+    /// <summary>OnPlay で選択予約した直後から、付与完了まで次カードを止める。</summary>
+    public static void BeginGate(Player player)
+    {
+        var gate = Gates.GetValue(player, static _ => new PlayerGate());
+        gate.Completion ??= new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    public static Task WaitForGateAsync(Player? player)
+    {
+        if (player == null) return Task.CompletedTask;
+        if (!Gates.TryGetValue(player, out var gate)) return Task.CompletedTask;
+
+        var tasks = new List<Task>(2);
+        if (gate.Completion != null) tasks.Add(gate.Completion.Task);
+        if (gate.InFlight != null) tasks.Add(gate.InFlight);
+        return tasks.Count == 0 ? Task.CompletedTask : Task.WhenAll(tasks);
+    }
+
     /// <summary>AfterCardPlayed の本体完了後に呼ぶ（hook Task は呼び出し元で await 済み）。</summary>
     public static async Task RunIfPendingAsync(
         PlayerChoiceContext choiceContext,
@@ -31,12 +58,26 @@ public static class CognitiveShuffleCompletion
             if (!CognitiveShufflePendingStore.TryTake(owner, out var pending))
                 return;
 
-            await CompleteAsync(choiceContext, cardPlay.Card, pending);
+            var gate = Gates.GetValue(owner, static _ => new PlayerGate());
+            gate.InFlight = CompleteAsync(choiceContext, cardPlay.Card, pending);
+            await gate.InFlight;
         }
         catch (Exception e)
         {
             MainFile.Logger.Warn($"Cognitive shuffle completion failed: {e.Message}");
         }
+        finally
+        {
+            EndGate(owner);
+        }
+    }
+
+    private static void EndGate(Player player)
+    {
+        if (!Gates.TryGetValue(player, out var gate)) return;
+        gate.InFlight = null;
+        gate.Completion?.TrySetResult();
+        gate.Completion = null;
     }
 
     private static async Task CompleteAsync(
