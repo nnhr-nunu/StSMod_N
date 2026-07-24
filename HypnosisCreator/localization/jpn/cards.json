@@ -197,7 +197,7 @@
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.title": "マシュマロ回答",
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "ランダムな呪いカード{Cards:diff()}枚を[gold]手札[/gold]に追加する。相手が攻撃を予定している場合、[gold]ブロック[/gold]{Block:diff()}に上書きし[gold]沼[/gold]{BogPower:diff()}を付与する。",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.title": "性的倒錯の本懐",
-  "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "{CalculatedDamage:diff()}ダメージを与える。自分が失っているHPに等しい。",
+  "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "自分が失っているHPに応じたダメージを与える。",
   "HYPNOSISCREATOR-COLLAR_TRAINING.title": "首輪と調教",
   "HYPNOSISCREATOR-COLLAR_TRAINING.description": "相手を引き寄せる。すでに相手が引き寄せられている場合、[gold]破滅[/gold]{Doom:diff()}を付与してDomSub性癖に目覚めさせる。",
   "HYPNOSISCREATOR-VITAL_POINT.title": "急所の一刺し",

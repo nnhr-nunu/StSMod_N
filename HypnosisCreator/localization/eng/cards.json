@@ -197,7 +197,7 @@
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.title": "Marshmallow Answer",
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "Add {Cards:diff()} random Curse {Cards:plural:card|cards} into your [gold]Hand[/gold]. If an opponent intends to Attack, overwrite that move to gain {Block:diff()} [gold]Block[/gold] and apply {BogPower:diff()} [gold]Bog[/gold].",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.title": "True Desire of Perversion",
-  "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "Deal {CalculatedDamage:diff()} damage, equal to your missing HP.",
+  "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "Deal damage based on HP you have lost.",
   "HYPNOSISCREATOR-COLLAR_TRAINING.title": "Collar and Training",
   "HYPNOSISCREATOR-COLLAR_TRAINING.description": "Pull the target. If they were already Pulled, apply {Doom:diff()} [gold]Doom[/gold] and awaken DomSub.",
   "HYPNOSISCREATOR-VITAL_POINT.title": "Strike at the Vital Point",
