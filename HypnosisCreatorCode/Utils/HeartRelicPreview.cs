@@ -54,30 +54,7 @@ public static class HeartRelicPreview
         if (vars.TryGetValue("Damage", out var damageVar) && creature != null)
         {
             var baseDmg = damageVar.BaseValue;
-            var combat = creature.CombatState;
-            var enemy = combat?.HittableEnemies.FirstOrDefault();
-            decimal preview;
-            if (enemy != null && combat != null)
-            {
-                // 敵向けダメージ心臓。target に自分を渡すと霊体など被ダメ修正が誤適用される。
-                preview = Hook.ModifyDamage(
-                    heart.Owner!.RunState,
-                    combat,
-                    target: enemy,
-                    dealer: creature,
-                    damage: baseDmg,
-                    props: ValueProp.Move,
-                    cardSource: null!,
-                    cardPlay: null!,
-                    ModifyDamageHookType.All,
-                    CardPreviewMode.Normal,
-                    out IEnumerable<AbstractModel>? _);
-            }
-            else
-            {
-                preview = baseDmg + creature.GetPowerAmount<StrengthPower>();
-            }
-
+            var preview = PreviewRandomEnemyDamage(heart, creature, baseDmg);
             damageVar.EnchantedValue = baseDmg;
             damageVar.PreviewValue = preview;
         }
@@ -102,5 +79,41 @@ public static class HeartRelicPreview
                 ? beforeDex
                 : HeartActivationHelpers.BlockAmountWithDexterity(creature, beforeDex);
         }
+    }
+
+    /// <summary>
+    /// ランダム敵ダメージ心臓用。全ヒット可能敵のうち最小ダメージ（弱体差など）を表示する。
+    /// target に自分を渡すと霊体など被ダメ修正が誤適用されるため、必ず敵を target にする。
+    /// </summary>
+    private static decimal PreviewRandomEnemyDamage(EnemyHeartRelic heart, Creature dealer, decimal baseDmg)
+    {
+        var combat = dealer.CombatState;
+        if (combat == null)
+            return baseDmg + dealer.GetPowerAmount<StrengthPower>();
+
+        var enemies = combat.HittableEnemies.ToList();
+        if (enemies.Count == 0)
+            return baseDmg + dealer.GetPowerAmount<StrengthPower>();
+
+        var min = decimal.MaxValue;
+        foreach (var enemy in enemies)
+        {
+            var dmg = Hook.ModifyDamage(
+                heart.Owner!.RunState,
+                combat,
+                target: enemy,
+                dealer: dealer,
+                damage: baseDmg,
+                props: ValueProp.Move,
+                cardSource: null!,
+                cardPlay: null!,
+                ModifyDamageHookType.All,
+                CardPreviewMode.Normal,
+                out _);
+            if (dmg < min)
+                min = dmg;
+        }
+
+        return min;
     }
 }
