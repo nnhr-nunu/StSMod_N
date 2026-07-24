@@ -5,11 +5,11 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
@@ -38,6 +38,14 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         typeof(ReaperForm),
         typeof(EchoForm)
     ];
+
+    /// <summary>キャラ選択後の付与予約（<see cref="Utils.CognitiveShuffleCompletion"/> が消化）。</summary>
+    internal bool HasPendingCompletion { get; set; }
+    internal Type? PendingFormType { get; set; }
+    internal CharacterModel? PendingDisguise { get; set; }
+    internal Creature? PendingTranceTarget { get; set; }
+    internal decimal PendingCardsAmount { get; set; }
+    internal CardModel? PendingFormCanonical { get; set; }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -84,43 +92,12 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
                      ?? CognitiveCharacterFaces.CharacterForFormType(formTypeChosen);
 
         var formCanonical = ModelDb.AllCards.First(c => c.GetType() == formTypeChosen);
-        var shuffle = await PowerCmd.Apply<CognitiveShufflePower>(
-            choiceContext, Owner.Creature, DynamicVars["Cards"].BaseValue, Owner.Creature, this,
-            silent: true);
-        if (shuffle != null)
-        {
-            shuffle.FormCanonical = formCanonical;
-            shuffle.TrackTranceTarget(play.Target);
-            if (linked != null)
-                shuffle.QueueDisguise(linked);
-        }
-
-        await ApplyFormPower(choiceContext, formTypeChosen);
-    }
-
-    private async Task ApplyFormPower(PlayerChoiceContext choiceContext, Type formCardType)
-    {
-        var self = Owner.Creature;
-        switch (formCardType.Name)
-        {
-            case nameof(DemonForm):
-                await PowerCmd.Apply<DemonFormPower>(choiceContext, self, 3M, self, this, silent: true);
-                break;
-            case nameof(SerpentForm):
-                await PowerCmd.Apply<SerpentFormPower>(choiceContext, self, 4M, self, this, silent: true);
-                break;
-            case nameof(VoidForm):
-                await PowerCmd.Apply<CognitiveVoidBypassPower>(
-                    choiceContext, self, 1M, self, this, silent: true);
-                await PowerCmd.Apply<VoidFormPower>(choiceContext, self, 2M, self, this, silent: true);
-                break;
-            case nameof(ReaperForm):
-                await PowerCmd.Apply<ReaperFormPower>(choiceContext, self, 1M, self, this, silent: true);
-                break;
-            case nameof(EchoForm):
-                await PowerCmd.Apply<EchoFormPower>(choiceContext, self, 1M, self, this, silent: true);
-                break;
-        }
+        PendingFormType = formTypeChosen;
+        PendingDisguise = linked;
+        PendingTranceTarget = play.Target;
+        PendingCardsAmount = DynamicVars["Cards"].BaseValue;
+        PendingFormCanonical = formCanonical;
+        HasPendingCompletion = true;
     }
 
     protected override void OnUpgrade() => DynamicVars["Cards"].UpgradeValueBy(1M);
