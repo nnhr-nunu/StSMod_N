@@ -1,6 +1,4 @@
-using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
-using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -18,48 +16,37 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CognitiveShuffleCompletion
 {
-    public static void TrySchedule(PlayerChoiceContext choiceContext, CardPlay play)
+    public static void TrySchedule(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (play.Card is not Cards.Rare.CognitiveShuffle shuffle) return;
-        if (!shuffle.HasPendingCompletion) return;
-        shuffle.HasPendingCompletion = false;
-        _ = CompleteAsync(choiceContext, shuffle);
+        var owner = cardPlay.Card.Owner;
+        if (owner == null) return;
+        if (!CognitiveShufflePendingStore.TryTake(owner, out var pending)) return;
+        _ = CompleteAsync(choiceContext, cardPlay.Card, pending);
     }
 
     private static async Task CompleteAsync(
         PlayerChoiceContext choiceContext,
-        Cards.Rare.CognitiveShuffle shuffle)
+        CardModel cardSource,
+        CognitiveShufflePendingStore.Pending pending)
     {
-        var self = shuffle.Owner?.Creature;
+        var self = cardSource.Owner?.Creature;
         if (self == null) return;
-
-        var formType = shuffle.PendingFormType;
-        var disguise = shuffle.PendingDisguise;
-        var tranceTarget = shuffle.PendingTranceTarget;
-        var cardsAmount = shuffle.PendingCardsAmount;
-        var formCanonical = shuffle.PendingFormCanonical;
-
-        shuffle.PendingFormType = null;
-        shuffle.PendingDisguise = null;
-        shuffle.PendingTranceTarget = null;
-        shuffle.PendingFormCanonical = null;
 
         try
         {
             var shufflePower = await PowerCmd.Apply<CognitiveShufflePower>(
-                choiceContext, self, cardsAmount, self, shuffle, silent: true);
+                choiceContext, self, pending.CardsAmount, self, cardSource, silent: true);
             if (shufflePower != null)
             {
-                shufflePower.FormCanonical = formCanonical;
-                if (tranceTarget != null)
-                    shufflePower.TrackTranceTarget(tranceTarget);
+                shufflePower.FormCanonical = pending.FormCanonical;
+                if (pending.TranceTarget != null)
+                    shufflePower.TrackTranceTarget(pending.TranceTarget);
             }
 
-            if (formType != null)
-                await ApplyFormPowerAsync(choiceContext, shuffle, self, formType);
+            await ApplyFormPowerAsync(choiceContext, cardSource, self, pending.FormType);
 
-            if (disguise != null)
-                shufflePower?.ApplyDisguise(disguise);
+            if (pending.Disguise != null)
+                shufflePower?.ApplyDisguise(pending.Disguise);
         }
         catch (Exception e)
         {

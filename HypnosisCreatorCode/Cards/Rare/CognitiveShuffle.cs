@@ -39,14 +39,6 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         typeof(EchoForm)
     ];
 
-    /// <summary>キャラ選択後の付与予約（<see cref="Utils.CognitiveShuffleCompletion"/> が消化）。</summary>
-    internal bool HasPendingCompletion { get; set; }
-    internal Type? PendingFormType { get; set; }
-    internal CharacterModel? PendingDisguise { get; set; }
-    internal Creature? PendingTranceTarget { get; set; }
-    internal decimal PendingCardsAmount { get; set; }
-    internal CardModel? PendingFormCanonical { get; set; }
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
@@ -92,12 +84,9 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
                      ?? CognitiveCharacterFaces.CharacterForFormType(formTypeChosen);
 
         var formCanonical = ModelDb.AllCards.First(c => c.GetType() == formTypeChosen);
-        PendingFormType = formTypeChosen;
-        PendingDisguise = linked;
-        PendingTranceTarget = play.Target;
-        PendingCardsAmount = DynamicVars["Cards"].BaseValue;
-        PendingFormCanonical = formCanonical;
-        HasPendingCompletion = true;
+        CognitiveShufflePendingStore.Set(
+            Owner, formTypeChosen, linked, play.Target,
+            DynamicVars["Cards"].BaseValue, formCanonical);
     }
 
     protected override void OnUpgrade() => DynamicVars["Cards"].UpgradeValueBy(1M);

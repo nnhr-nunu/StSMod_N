@@ -1,5 +1,6 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
@@ -12,6 +13,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class CognitiveShuffleDeferredPatch
 {
-    public static void Postfix(PlayerChoiceContext choiceContext, CardPlay play) =>
-        CognitiveShuffleCompletion.TrySchedule(choiceContext, play);
+    public static void Postfix(
+        ICombatState combatState,
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        _ = combatState;
+        CognitiveShuffleCompletion.TrySchedule(choiceContext, cardPlay);
+    }
 }
