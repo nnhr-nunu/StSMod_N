@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -19,6 +20,11 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    static MeetExpectations()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += PrependCombatDamage;
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
@@ -54,4 +60,20 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
     }
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+
+    private static void PrependCombatDamage(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not MeetExpectations meet) return;
+        if (!CombatPreviewText.IsActive(meet)) return;
+
+        var raw = ComputeDamage(meet);
+        var previewTarget = target ?? meet.CurrentTarget;
+        var preview = CardDamagePreview.ApplyModifiers(meet, previewTarget, raw, ValueProp.Move);
+        var formatted = CombatPreviewText.FormatPreviewAmount(preview, raw);
+
+        var prefix = UpgradeCardText.IsJapaneseUi()
+            ? $"{formatted}ダメージを与える。"
+            : $"Deal {formatted} damage. ";
+        description = prefix + description;
+    }
 }
