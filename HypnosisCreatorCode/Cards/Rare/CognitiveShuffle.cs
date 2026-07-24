@@ -67,6 +67,7 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         }
 
         CardModel chosenCard;
+        CognitiveShuffleCompletion.BeginGate(Owner);
         try
         {
             chosenCard = await CardSelectCmd.FromChooseACardScreen(
@@ -87,7 +88,6 @@ public class CognitiveShuffle() : HypnosisCreatorCard(3,
         CognitiveShufflePendingStore.Set(
             Owner, formTypeChosen, linked, play.Target,
             DynamicVars["Cards"].BaseValue, formCanonical);
-        CognitiveShuffleCompletion.BeginGate(Owner);
     }
 
     protected override void OnUpgrade() => DynamicVars["Cards"].UpgradeValueBy(1M);

@@ -26,6 +26,16 @@ public static class CognitiveShuffleCompletion
 
     private static readonly ConditionalWeakTable<Player, PlayerGate> Gates = new();
 
+    /// <summary>付与完了待ち中か（次カードのプレイ／クリックを止める）。</summary>
+    public static bool IsGateActive(Player? player)
+    {
+        if (player == null) return false;
+        if (!Gates.TryGetValue(player, out var gate)) return false;
+        if (gate.Completion is { Task.IsCompleted: false }) return true;
+        if (gate.InFlight is { IsCompleted: false }) return true;
+        return false;
+    }
+
     /// <summary>OnPlay で選択予約した直後から、付与完了まで次カードを止める。</summary>
     public static void BeginGate(Player player)
     {
@@ -51,7 +61,13 @@ public static class CognitiveShuffleCompletion
     {
         var owner = cardPlay.Card.Owner;
         if (owner == null) return;
-        if (!CognitiveShufflePendingStore.HasPending(owner)) return;
+
+        var gateWasActive = IsGateActive(owner);
+        if (!CognitiveShufflePendingStore.HasPending(owner))
+        {
+            if (gateWasActive) EndGate(owner);
+            return;
+        }
 
         try
         {
