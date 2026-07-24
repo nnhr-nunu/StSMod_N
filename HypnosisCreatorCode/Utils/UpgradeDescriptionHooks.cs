@@ -26,8 +26,8 @@ public static class UpgradeDescriptionHooks
 
         // 心臓えぐり出し+: リーサル維持＋破滅とどめ（通常戦闘のみ）。ダメージ強化なし。
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is HeartGouge,
-            "さらに、対象の[gold]破滅[/gold]が残りHPの[blue]50%[/blue]以上ならとどめを刺す。とどめは通常戦闘でのみ発生する。",
-            "Additionally, [gold]Execute[/gold] the target if their [gold]Doom[/gold] is at least [blue]50%[/blue] of their remaining HP. Execute only occurs in normal combats.");
+            "さらに、対象の[gold]破滅[/gold]が残りHPの[blue]50%[/blue]以上なら破滅とどめを刺す。破滅とどめは通常戦闘でのみ発生する。",
+            "Additionally, if the target's [gold]Doom[/gold] is at least [blue]50%[/blue] of their remaining HP, apply a [gold]Doom Execute[/gold]. [gold]Doom Execute[/gold] only occurs in normal combats.");
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is PlantParasiteHypnosis,
             "戦闘終了後、追加のレリック報酬を獲得する。",
