@@ -23,6 +23,7 @@
   "HYPNOSISCREATOR-PREFINGER.description": "Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold].\nGain {Energy:energyIcons()}.",
   "HYPNOSISCREATOR-SENSITIVITY3000.title": "Sensitivity x3.000",
   "HYPNOSISCREATOR-SENSITIVITY3000.description": "Apply {Trance:diff()} [gold]Trance[/gold]. Always hits Fetish. This turn, the opponent takes [blue]3.000[/blue]× damage.",
+  "HYPNOSISCREATOR-SENSITIVITY3000.rainbowPhrase": "Always hits Fetish",
   "HYPNOSISCREATOR-BREATH_CONTROL.title": "Breath Control",
   "HYPNOSISCREATOR-BREATH_CONTROL.description": "This turn, whenever you play a card, the target loses [blue]1[/blue] [gold]Strength[/gold]. If their attack value is [blue]0[/blue], [gold]Stun[/gold] them.",
   "HYPNOSISCREATOR-ZERO_OUT.title": "Zero Out",

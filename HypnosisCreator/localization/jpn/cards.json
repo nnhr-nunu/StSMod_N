@@ -23,6 +23,7 @@
   "HYPNOSISCREATOR-PREFINGER.description": "[gold]弱体[/gold]{VulnerablePower:diff()}と[gold]脱力[/gold]{WeakPower:diff()}を付与し、{Energy:energyIcons()}を得る。",
   "HYPNOSISCREATOR-SENSITIVITY3000.title": "感度3000倍",
   "HYPNOSISCREATOR-SENSITIVITY3000.description": "[gold]トランス[/gold]{Trance:diff()}。必ず性癖に刺さる。このターン、相手の受けるダメージを[blue]3.000[/blue]倍にする。",
+  "HYPNOSISCREATOR-SENSITIVITY3000.rainbowPhrase": "必ず性癖に刺さる",
   "HYPNOSISCREATOR-BREATH_CONTROL.title": "呼吸制御",
   "HYPNOSISCREATOR-BREATH_CONTROL.description": "このターン、カードをプレイするたび相手は[gold]筋力[/gold][blue]1[/blue]を失う。相手の攻撃値が[blue]0[/blue]になった時、[gold]スタン[/gold]する。",
   "HYPNOSISCREATOR-ZERO_OUT.title": "ぜーろっ",

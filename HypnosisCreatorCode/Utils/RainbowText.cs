@@ -9,10 +9,6 @@ public static class RainbowText
     private static readonly string[] Colors =
         ["red", "orange", "yellow", "green", "aqua", "blue", "purple", "pink"];
 
-    /// <summary>感度3000倍 —「必ず性癖に刺さる」（句点は無色）。</summary>
-    public static string JapaneseAlwaysHitsFetish { get; } =
-        LetterByLetter("必ず性癖に刺さる");
-
     public static string LetterByLetter(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
