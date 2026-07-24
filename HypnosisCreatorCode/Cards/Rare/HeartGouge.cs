@@ -14,8 +14,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。15ダメージ。廃棄。
-/// 未UG: リーサルで追加レリック報酬。
-/// UG: 対象の破滅が残りHPの50%以上ならとどめ（通常戦闘のみ）＋追加レリック報酬。
+/// リーサルで追加レリック報酬（未UG・UG共通）。
+/// UG追加: ダメージ後も生存かつ破滅が残りHPの50%以上ならとどめ（通常戦闘のみ）＋同報酬。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartGouge() : HypnosisCreatorCard(1,
@@ -40,19 +40,16 @@ public class HeartGouge() : HypnosisCreatorCard(1,
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
-        if (IsUpgraded)
+        if (play.Target is { IsAlive: false })
+        {
+            // リーサル時は報酬画面の追加レリックへ（解剖・心停止＋と同じ）
+            HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
+        }
+        else if (IsUpgraded && CanDoomExecute(play.Target))
         {
             // UG: ダメージ後も生存しており、破滅が残りHPの50%以上ならとどめ（通常戦闘のみ）
-            if (play.Target.IsAlive && CanDoomExecute(play.Target))
-            {
-                HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
-                await CreatureCmd.Kill(play.Target);
-            }
-        }
-        else if (play.Target is { IsAlive: false })
-        {
-            // 未UG: リーサル時は報酬画面の追加レリックへ（解剖・心停止＋と同じ）
             HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
+            await CreatureCmd.Kill(play.Target);
         }
 
         await ResolveFetishOnTarget(choiceContext, play);
