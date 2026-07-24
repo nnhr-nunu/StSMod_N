@@ -4,10 +4,14 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -43,6 +47,12 @@ public static class PullTracker
     public static bool IsPulled(Creature creature) => Field.Get(creature).Pulled;
 
     /// <summary>
+    /// 引き寄せアニメが可能か。背景一体型（カイザークラブ左右爪など）は NCreature だけ動き見た目が残る。
+    /// </summary>
+    public static bool CanPullVisually(Creature creature) =>
+        creature is { IsEnemy: true } && !IntentOverwriteUnsafeMonsters.IsUnsafe(creature);
+
+    /// <summary>
     /// ぬぬ地獄所持時、引き寄せ系カードの対象へ追加ダメージ。
     /// </summary>
     public static async Task TryNunuHellBonusDamageAsync(
@@ -62,9 +72,16 @@ public static class PullTracker
     /// <summary>
     /// プレイヤー側へ寄せる（毎回アニメ。移動量は寄せ回数ごとに半減）。
     /// 戻り値は「今回が初回の引き寄せか」（カード効果分岐用。フラグは初回で立つ）。
+    /// Crusher / Rocket など背景一体型は見た目が動かないため、引き寄せ不可として扱う。
     /// </summary>
     public static async Task<bool> TryPull(Creature creature, Creature? towardPlayer)
     {
+        if (!CanPullVisually(creature))
+        {
+            ShowCannotPullMessage(towardPlayer, creature);
+            return false;
+        }
+
         var state = Field.Get(creature);
         var wasFirst = !state.Pulled;
         state.Pulled = true;
@@ -92,6 +109,9 @@ public static class PullTracker
 
     private static async Task AnimateX(Creature creature, Creature? player, bool towardPlayer, float distance)
     {
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(creature))
+            return;
+
         var room = NCombatRoom.Instance;
         if (room == null) return;
 
@@ -244,6 +264,50 @@ public static class PullTracker
         // 最終手段: 現在位置を中心にした仮の幅
         return new Rect2(node.GlobalPosition.X - 80f, node.GlobalPosition.Y - 80f, 160f, 160f);
     }
+
+    private static void ShowCannotPullMessage(Creature? playerCreature, Creature target)
+    {
+        if (playerCreature is not { IsAlive: true }) return;
+
+        var state = Field.Get(target);
+        if (state.ShowedCannotPullHint) return;
+        state.ShowedCannotPullHint = true;
+
+        try
+        {
+            var text = ResolveCannotPullLine();
+            var bubble = NSpeechBubbleVfx.Create(text, playerCreature, 1.5, VfxColor.White);
+            if (bubble == null) return;
+
+            var container = playerCreature.GetVfxContainer();
+            if (container == null) return;
+            GodotTreeExtensions.AddChildSafely(container, bubble);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Pull blocked speech failed: {e.Message}");
+        }
+    }
+
+    private static string ResolveCannotPullLine()
+    {
+        try
+        {
+            var text = new LocString("characters", "HYPNOSISCREATOR-HYPNOSIS_CREATOR.banter.pullBlocked")
+                .GetFormattedText()?.Trim();
+            if (!string.IsNullOrWhiteSpace(text)
+                && !text.StartsWith("HYPNOSISCREATOR-", StringComparison.Ordinal))
+                return text;
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return UpgradeCardText.IsJapaneseUi()
+            ? "この相手は引っ張れないようだ。"
+            : "This foe doesn't seem like it can be pulled.";
+    }
 }
 
 public sealed class PullState
@@ -253,4 +317,7 @@ public sealed class PullState
 
     public int PullAnimCount { get; set; }
     public int PushAnimCount { get; set; }
+
+    /// <summary>背景一体型など引き寄せ不可の対象へ、戦闘中1回だけ吹き出しを出したか。</summary>
+    public bool ShowedCannotPullHint { get; set; }
 }
