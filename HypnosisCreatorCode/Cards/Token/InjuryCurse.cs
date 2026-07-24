@@ -29,13 +29,12 @@ public class InjuryCurse() : PlayableCurseCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(8M, ValueProp.Unpowered)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await CreatureCmd.Damage(
             choiceContext, play.Target, DynamicVars.Damage.BaseValue,
             ValueProp.Unpowered, Owner.Creature, this, play);
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
 }

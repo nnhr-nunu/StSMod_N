@@ -28,7 +28,7 @@ public class ClumsyCurse() : PlayableCurseCard(0,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<DexterityPower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<DexterityPower>(

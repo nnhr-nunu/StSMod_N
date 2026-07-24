@@ -42,9 +42,8 @@ public class GuiltyCurse() : PlayableCurseCard(0,
         }
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
     public override async Task AfterCombatEnd(CombatRoom _)

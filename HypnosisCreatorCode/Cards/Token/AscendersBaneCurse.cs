@@ -27,7 +27,7 @@ public class AscendersBaneCurse() : PlayableCurseCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CardsVar(1)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }

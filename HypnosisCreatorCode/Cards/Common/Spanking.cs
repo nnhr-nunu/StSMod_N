@@ -27,8 +27,10 @@ public class Spanking() : HypnosisCreatorCard(1,
     /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
     internal void PrepareReplay(Creature? target)
     {
-        BaseReplayCount = 0;
+        // プレビュー等で target=null のとき BaseReplayCount を 0 にしない（本番でリプレイが消えるのを防ぐ）
         if (target is not { IsAlive: true, IsEnemy: true }) return;
+
+        BaseReplayCount = 0;
         if (!ShouldReplayForTarget(target)) return;
         BaseReplayCount = DynamicVars["Replays"].IntValue;
     }

@@ -26,7 +26,7 @@ public class RegretCurse() : PlayableCurseCard(0,
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         // このカード自身は枚数に含めない
@@ -38,7 +38,6 @@ public class RegretCurse() : PlayableCurseCard(0,
                 ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move,
                 Owner.Creature, this, play);
         }
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
 }

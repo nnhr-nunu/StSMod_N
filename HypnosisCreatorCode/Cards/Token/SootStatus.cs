@@ -21,6 +21,6 @@ public class SootStatus() : PlayableStatusCard(0,
     public override string PortraitPath => "soot.png".CardImagePath();
     public override string CustomPortraitPath => "soot.png".BigCardImagePath();
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
+    protected override Task PlayStatusEffect(PlayerChoiceContext choiceContext, CardPlay play) =>
         Task.CompletedTask;
 }

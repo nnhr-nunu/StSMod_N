@@ -24,7 +24,7 @@ public class CurseOfTheBellCurse() : PlayableCurseCard(0,
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust, CardKeyword.Eternal];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
+    protected override Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play) =>
         Task.CompletedTask;
 
 }

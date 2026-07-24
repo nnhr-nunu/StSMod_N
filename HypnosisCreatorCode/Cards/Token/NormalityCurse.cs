@@ -32,12 +32,11 @@ public class NormalityCurse() : PlayableCurseCard(0,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<SlowPower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<SlowPower>(
             choiceContext, play.Target, DynamicVars["SlowPower"].BaseValue, Owner.Creature, this);
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
 }

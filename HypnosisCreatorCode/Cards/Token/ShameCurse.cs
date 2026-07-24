@@ -32,12 +32,11 @@ public class ShameCurse() : PlayableCurseCard(0,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<VulnerablePower>()];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
 }

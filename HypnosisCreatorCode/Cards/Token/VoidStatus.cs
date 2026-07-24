@@ -30,7 +30,7 @@ public class VoidStatus() : PlayableStatusCard(0,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [EnergyHoverTip];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayStatusEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
     }

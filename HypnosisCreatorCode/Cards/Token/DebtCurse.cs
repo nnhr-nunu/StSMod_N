@@ -27,7 +27,7 @@ public class DebtCurse() : PlayableCurseCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new GoldVar(10)];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ProselytizeRewards.AddGold(Owner, DynamicVars.Gold.BaseValue);
         return Task.CompletedTask;

@@ -23,7 +23,7 @@ public class AbnormalBurn() : PlayableStatusCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(2M, ValueProp.Unpowered)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayStatusEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await CreatureCmd.Damage(

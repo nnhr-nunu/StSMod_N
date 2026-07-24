@@ -26,9 +26,8 @@ public class SporeMindCurse() : PlayableCurseCard(0,
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await ResolveFetishOnTarget(choiceContext, play);
     }
 
 }

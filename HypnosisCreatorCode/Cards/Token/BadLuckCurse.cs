@@ -27,7 +27,7 @@ public class BadLuckCurse() : PlayableCurseCard(0,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new HpLossVar(13M)];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         var loss = Math.Max(1, (int)Math.Ceiling(play.Target.MaxHp * 0.13));

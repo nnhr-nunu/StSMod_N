@@ -33,7 +33,7 @@ public class Infect() : PlayableStatusCard(0,
     private bool IsCandidate(CardModel c) =>
         c != this && c.Type == CardType.Attack && c.Enchantment == null;
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayStatusEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         var hand = Owner.PlayerCombatState?.Hand;
         if (hand == null) return;
