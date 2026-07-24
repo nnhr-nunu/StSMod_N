@@ -29,6 +29,7 @@ public partial class MainFile : Node
         KeywordLineLayout.Register();
         CognitiveCharacterChoiceText.Register();
         CombatSuffixDescriptionHooks.Register();
+        Sensitivity3000Description.Register();
 
         ApplyHarmonyPatches();
     }
