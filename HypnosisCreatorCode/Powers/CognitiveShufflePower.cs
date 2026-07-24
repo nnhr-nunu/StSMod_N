@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// 認知シャッフル — 対象がトランス中のプレイヤーターン開始時、選んだ形態と同プールのカードを生成する。
 /// 生成は手札ドロー前（<see cref="BeforeHandDraw"/>）。追跡対象のトランスが2以上のときだけ生成（トランス5なら4回）。
-/// 追跡対象のトランスが全て切れた／敵が倒れたら即見た目復帰＋形態パワー解除＋自己解除。
+/// 追跡対象のトランスが全て切れた／敵が倒れたら見た目復帰＋形態パワー解除＋自己解除。
 /// 集団催眠で複数敵へ波及した場合は、いずれかがトランス中なら継続する。
 /// </summary>
 public class CognitiveShufflePower : HypnosisCreatorPower
@@ -31,6 +31,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     private CharacterModel? _disguiseCharacter;
     private CharacterDisguise.State? _disguise;
     private bool _expiring;
+    private bool _pendingExpire;
 
     public void SetDisguiseCharacter(CharacterModel character) => _disguiseCharacter = character;
 
@@ -91,17 +92,27 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         await GenerateMatchingCardsAsync(player);
     }
 
-    public override Task AfterSideTurnStartLate(
+    public override async Task AfterSideTurnStartLate(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        if (side != CombatSide.Player) return Task.CompletedTask;
-        if (Owner == null || !participants.Contains(Owner)) return Task.CompletedTask;
+        if (side != CombatSide.Player) return;
+        if (Owner == null || !participants.Contains(Owner)) return;
 
-        // ターン開始はカードプレイ外なので即時 expire 可
-        CheckExpireIfNeeded(immediate: true);
-        return Task.CompletedTask;
+        ScheduleExpireIfNeeded();
+        if (_pendingExpire && !_expiring)
+            await ExpireAsync(new ThrowingPlayerChoiceContext());
+    }
+
+    /// <summary>
+    /// カードプレイ完了後に期限切れ（暗示解除の OnPlay 中は PowerCmd 競合するためここで実行）。
+    /// </summary>
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (Owner == null || cardPlay.Card.Owner?.Creature != Owner) return;
+        if (!_pendingExpire || _expiring) return;
+        await ExpireAsync(choiceContext);
     }
 
     /// <summary>トランス解除・敵死亡時に全プレイヤーの認知シャッフルを確認する。</summary>
@@ -112,24 +123,17 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         if (combat == null) return;
 
         foreach (var player in combat.Players)
-            player.Creature?.GetPower<CognitiveShufflePower>()?.CheckExpireIfNeeded(immediate: false);
+            player.Creature?.GetPower<CognitiveShufflePower>()?.ScheduleExpireIfNeeded();
     }
 
-    private void CheckExpireIfNeeded(bool immediate)
+    private void ScheduleExpireIfNeeded()
     {
         if (_expiring) return;
 
         PruneDeadTargets();
         if (_tranceTargets.Count == 0 || !_tranceTargets.Any(TranceCombat.HasTrance))
-        {
-            if (immediate)
-                _ = ExpireAsync();
-            else
-                CognitiveShuffleExpire.Request(this);
-        }
+            _pendingExpire = true;
     }
-
-    internal Task ExpireFromSchedulerAsync() => ExpireAsync();
 
     private async Task GenerateMatchingCardsAsync(Player player)
     {
@@ -170,9 +174,12 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     private void PruneDeadTargets() =>
         _tranceTargets.RemoveAll(t => t is not { IsAlive: true, IsEnemy: true });
 
-    private async Task ExpireAsync()
+    private async Task ExpireAsync(PlayerChoiceContext choiceContext)
     {
-        if (_expiring || Owner == null) return;
+        _ = choiceContext;
+        if (_expiring || Owner == null || !_pendingExpire) return;
+
+        _pendingExpire = false;
         _expiring = true;
 
         try

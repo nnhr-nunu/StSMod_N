@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -24,5 +25,11 @@ public class TrancePower : HypnosisCreatorPower
         if (side == Owner.Side) return;
         if (Amount <= 0) return;
         await PowerCmd.Decrement(this);
+    }
+
+    public override Task AfterRemoved(Creature oldOwner)
+    {
+        CognitiveShufflePower.NotifyTranceTargetChanged(oldOwner);
+        return base.AfterRemoved(oldOwner);
     }
 }
