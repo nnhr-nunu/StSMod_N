@@ -171,6 +171,7 @@ public static class PullTracker
         tween.SetTrans(Tween.TransitionType.Cubic);
         tween.TweenProperty(enemyNode, "global_position:x", targetX, TweenSeconds);
         await TweenHelper.AwaitFinished(tween, room);
+        ForcedSleep.NotifyCreatureMoved(creature);
     }
 
     /// <summary>プレイヤーを通り過ぎないよう、遠ざけ方向の上限も中心間隔で抑える。</summary>

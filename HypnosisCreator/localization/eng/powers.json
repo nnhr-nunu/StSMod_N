@@ -1,4 +1,7 @@
 {
+  "ASLEEP_POWER.description": "Awakens upon losing HP or {Amount:plural:next turn|after [blue]{}[/blue] turns}.",
+  "ASLEEP_POWER.smartDescription": "Awakens upon losing HP or {Amount:plural:next turn|after [blue]{}[/blue] turns}.",
+  "ASLEEP_POWER.title": "Asleep",
   "HYPNOSISCREATOR-TRANCE_POWER.title": "Trance",
   "HYPNOSISCREATOR-TRANCE_POWER.description": "[gold]Count[/gold] cards can be played even if their cost is not 0.",
   "HYPNOSISCREATOR-TRANCE_POWER.smartDescription": "[gold]Count[/gold] cards can be played even if their cost is not 0.",

@@ -71,6 +71,17 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
         EnsureSleepSkipReady();
     }
 
+    /// <summary>引き寄せ等で敵ノードが移動したあと、ZZZ を現在位置へ付け直す。</summary>
+    public void SyncVfxAfterCreatureMoved()
+    {
+        if (Owner?.Monster == null || !Owner.IsAlive) return;
+        if (!Owner.HasPower<AsleepPower>()) return;
+
+        StopOwnedVfx();
+        TryStartVfx();
+        _ = SleepIntentPresentation.TryRefreshAsync(Owner);
+    }
+
     private void BeginSleepPresentation()
     {
         if (Owner?.Monster == null || !Owner.IsAlive) return;
@@ -189,12 +200,13 @@ public class ForcedSleepVisualPower : HypnosisCreatorPower
             var vfx = NSleepingVfx.Create(spawnPos, goingRight);
             if (vfx == null) return;
 
-            var parent = (Node?)marker
-                         ?? Owner.GetVfxContainer()
-                         ?? creatureNode;
+            // 引き寄せは NCreature の global_position を動かす。VfxContainer 直下だと ZZZ が取り残される。
+            var parent = (Node?)marker ?? creatureNode;
             GodotTreeExtensions.AddChildSafely(parent, vfx);
             if (marker != null)
                 vfx.Position = Vector2.Zero;
+            else
+                vfx.GlobalPosition = spawnPos;
 
             _vfx = vfx;
             _ownsVfx = true;

@@ -30,4 +30,10 @@ public static class ForcedSleep
 
         target.GetPower<ForcedSleepVisualPower>()?.RefreshPresentation();
     }
+
+    /// <summary>引き寄せ／押し出し後に睡眠 ZZZ の表示位置を同期する。</summary>
+    public static void NotifyCreatureMoved(Creature creature)
+    {
+        creature.GetPower<ForcedSleepVisualPower>()?.SyncVfxAfterCreatureMoved();
+    }
 }

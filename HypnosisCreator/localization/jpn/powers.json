@@ -1,4 +1,7 @@
 {
+  "ASLEEP_POWER.description": "HPを失うか、[blue]{Amount}[/blue]ターン後に目覚める。",
+  "ASLEEP_POWER.smartDescription": "HPを失うか、[blue]{Amount}[/blue]ターン後に目覚める。",
+  "ASLEEP_POWER.title": "睡眠",
   "HYPNOSISCREATOR-TRANCE_POWER.title": "トランス",
   "HYPNOSISCREATOR-TRANCE_POWER.description": "コストが0でない[gold]カウント[/gold]カードもプレイできる。",
   "HYPNOSISCREATOR-TRANCE_POWER.smartDescription": "コストが0でない[gold]カウント[/gold]カードもプレイできる。",
