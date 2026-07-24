@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -9,17 +10,22 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
-namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
+namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// トランスに溶けゆく — 対象へ付与したトランス合計回数×係数のダメージ。
-/// 合計は {CalculatedDamage:diff()} で枠・説明・緑表示を統一。
+/// 合計は戦闘時のみ説明末尾括弧と CalculatedDamageVar で表示。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MeltIntoTrance() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    static MeltIntoTrance()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamagePreview;
+    }
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CalculationBaseVar(0M),
@@ -58,5 +64,16 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     {
         DynamicVars.ExtraDamage.UpgradeValueBy(5M);
         DynamicVars["PerTrance"].UpgradeValueBy(5M);
+    }
+
+    private static void AppendTotalDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not MeltIntoTrance melt) return;
+
+        var previewTarget = target ?? melt.CurrentTarget;
+        var raw = ComputeDamage(melt, previewTarget);
+        if (raw <= 0) return;
+
+        CombatDamageSuffixPreview.AppendDealDamageSuffix(melt, previewTarget, ref description, raw, ValueProp.Move);
     }
 }

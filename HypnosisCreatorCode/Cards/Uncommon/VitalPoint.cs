@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -20,6 +21,11 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    static VitalPoint()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamagePreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -66,5 +72,15 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     {
         DynamicVars.ExtraDamage.UpgradeValueBy(5M);
         DynamicVars["PerTurn"].UpgradeValueBy(5M);
+    }
+
+    private static void AppendTotalDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not VitalPoint vital) return;
+
+        var raw = ComputeDamage(vital);
+        if (raw <= 0) return;
+
+        CombatDamageSuffixPreview.AppendDealDamageSuffix(vital, target, ref description, raw, ValueProp.Move);
     }
 }

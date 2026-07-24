@@ -22,7 +22,7 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
 {
     static MeetExpectations()
     {
-        DescriptionOverrides.CustomizeDescriptionPost += PrependCombatDamage;
+        DescriptionOverrides.CustomizeDescriptionPost += AppendCombatDamageSuffix;
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -61,19 +61,13 @@ public class MeetExpectations() : HypnosisCreatorCard(1,
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
-    private static void PrependCombatDamage(CardModel card, Creature? target, ref string description)
+    private static void AppendCombatDamageSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not MeetExpectations meet) return;
-        if (!CombatPreviewText.IsActive(meet)) return;
 
         var raw = ComputeDamage(meet);
-        var previewTarget = target ?? meet.CurrentTarget;
-        var preview = CardDamagePreview.ApplyModifiers(meet, previewTarget, raw, ValueProp.Move);
-        var formatted = CombatPreviewText.FormatPreviewAmount(preview, raw);
+        if (raw <= 0) return;
 
-        var prefix = UpgradeCardText.IsJapaneseUi()
-            ? $"{formatted}ダメージを与える。"
-            : $"Deal {formatted} damage. ";
-        description = prefix + description;
+        CombatDamageSuffixPreview.AppendDealDamageSuffix(meet, target, ref description, raw, ValueProp.Move);
     }
 }

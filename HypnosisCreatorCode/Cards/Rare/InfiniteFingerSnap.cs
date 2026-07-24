@@ -63,18 +63,12 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         var hits = HitsPerCycle * x;
         if (hits <= 0) return;
 
-        var previewTarget = target
-            ?? snap.CombatState!.HittableEnemies.FirstOrDefault(e => e.IsAlive && e.IsEnemy);
         var perHitRaw = snap.DynamicVars.Damage.BaseValue;
-        var perHit = CardDamagePreview.ApplyModifiers(snap, previewTarget, perHitRaw, ValueProp.Move);
-        var total = perHit * hits;
+        var perHitPreview = CombatDamageSuffixPreview.ResolveAoEPerHit(snap, perHitRaw, ValueProp.Move);
+        var total = perHitPreview * hits;
+        var baselineTotal = perHitRaw * hits;
         if (total <= 0) return;
 
-        var formatted = CombatPreviewText.FormatPreviewAmount(total, perHitRaw * hits);
-
-        var totalText = UpgradeCardText.IsJapaneseUi()
-            ? $"（合計{formatted}ダメージ）"
-            : $" (Total {formatted} damage)";
-        CombatPreviewText.AppendSuffix(snap, ref description, totalText);
+        CombatDamageSuffixPreview.AppendTotalDamageSuffix(snap, ref description, total, baselineTotal);
     }
 }

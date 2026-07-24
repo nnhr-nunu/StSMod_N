@@ -72,6 +72,20 @@ dotnet publish
 - 性癖パワーの定型: `性癖に刺さる行動を受けた時、[gold]破滅[/gold][blue]{Amount}[/blue]を得る。`（eng: `When receiving an action that hits Fetish, gain [blue]{Amount}[/blue] [gold]Doom[/gold].`）
 - 例（ふにゃへにゃ）: `[gold]トランス[/gold][blue]1[/blue]につき…[blue]20%[/blue]減少` → キーワードは金、固定数値は青で正しい
 - ローカライズ変更後は `dotnet publish`（build だけでは `.pck` に載らない）
+
+### CSV効果説明を正本（意訳禁止）
+
+- カード `効果説明` の正本はユーザー提供 CSV。エージェントが勝手に言い換え・効果追記しない
+- loc 本文は CSV の語順・語彙に合わせる（`[gold]` / `{Damage:diff()}` 等のマークアップのみ許容）
+- 可変括弧 `（Nダメージ）` 等は **loc に書かず**、戦闘時のみ `CombatPreviewText` / `CombatDamageSuffixPreview` で末尾追記
+- パワーのスタック倍率はカード文に書かず、アイコン数字＋`smartDescription` の `{Amount}`
+
+### 戦闘時ダメージ括弧プレビュー
+
+- 末尾括弧の数値は `CardDamagePreview.ApplyModifiers`（実ダメージと同じ Hook）
+- ベースと異なれば `FormatPreviewAmount` で緑表示
+- 全体攻撃の合計は `CombatDamageSuffixPreview.ResolveAoEPerHit`（全員同型デバフ時のみ敵側補正、混在時はベース寄り）
+
 ### UIアイコンの縁（レリック／バフ・デバフ）
 
 - 暗いUI向けアイコンで、外側の明るい縁・ハロー・ステッカー枠は避ける（背景から浮いて見える）

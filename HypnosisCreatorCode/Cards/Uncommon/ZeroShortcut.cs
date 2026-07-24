@@ -1,10 +1,13 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
@@ -17,6 +20,11 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
+    static ZeroShortcut()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalBlockPreview;
+    }
+
     private const int StartBlock = 3;
 
     public override bool GainsBlock => true;
@@ -41,4 +49,12 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     }
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+
+    private static void AppendTotalBlockPreview(CardModel card, Creature? _, ref string description)
+    {
+        if (card is not ZeroShortcut shortcut) return;
+
+        var total = shortcut.DynamicVars.Block.BaseValue;
+        CombatDamageSuffixPreview.AppendBlockGainSuffix(shortcut, ref description, total, total);
+    }
 }

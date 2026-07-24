@@ -1,3 +1,4 @@
+using BaseLib.Patches.Localization;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -13,13 +14,18 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 解剖 — 14＋心臓数×4（UG×7）。リーサルで追加レリック報酬。廃棄なし。
-/// 合計ダメージのプレビューは説明文の {CalculatedDamage:diff()} と枠表示。
+/// 合計ダメージは戦闘時のみ説明末尾括弧で表示。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Autopsy() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
+    static Autopsy()
+    {
+        DescriptionOverrides.CustomizeDescriptionPost += AppendTotalDamagePreview;
+    }
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -63,4 +69,14 @@ public class Autopsy() : HypnosisCreatorCard(2,
 
     private static decimal HeartCountMultiplier(CardModel card, Creature? _) =>
         HeartInventory.CountHearts(card.Owner);
+
+    private static void AppendTotalDamagePreview(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Autopsy autopsy) return;
+
+        var raw = autopsy.ComputeHeartScaledDamage();
+        if (raw <= 0) return;
+
+        CombatDamageSuffixPreview.AppendDealDamageSuffix(autopsy, target, ref description, raw, ValueProp.Move);
+    }
 }
