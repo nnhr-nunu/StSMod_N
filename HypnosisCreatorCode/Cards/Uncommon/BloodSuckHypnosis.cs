@@ -27,13 +27,16 @@ public class BloodSuckHypnosis() : HypnosisCreatorCard(3,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        var attack = await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
-        await CreatureCmd.Heal(Owner.Creature, DynamicVars.Damage.BaseValue);
+        var healAmount = attack.Results.SelectMany(hit => hit).Sum(result => result.UnblockedDamage);
+        if (healAmount > 0)
+            await CreatureCmd.Heal(Owner.Creature, healAmount);
+
         await TranceCombat.ApplyTrance(choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
