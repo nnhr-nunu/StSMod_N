@@ -94,6 +94,9 @@ public abstract class HypnosisCreatorCard(
     /// </summary>
     public override async Task OnEnqueuePlayVfx(Creature? target)
     {
+        if (FingerSnapCardRules.WantsPlayFingerSnap(this))
+            FingerSnapSfx.PlayNormal();
+
         if (Type == CardType.Power && Owner?.Creature != null)
         {
             await CreatureCmd.TriggerAnim(

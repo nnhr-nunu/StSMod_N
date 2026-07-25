@@ -6,10 +6,11 @@
 
 | ファイル名（例） | 用途 |
 |------------------|------|
-| attack.ogg       | 攻撃音 |
-| cast.ogg         | 詠唱音 |
-| death.ogg        | 死亡音 |
-| select.ogg       | キャラ選択音 |
+| FINGER_SNAP.ogg / .mp3 | 指パッチン（攻撃モーション・催眠／指系カード・多段ヒット） |
+| attack.ogg       | 攻撃音（未使用） |
+| cast.ogg         | 詠唱音（未使用） |
+| death.ogg        | 死亡音（未使用） |
+| select.ogg       | キャラ選択音（未使用） |
 
 ## 仕様
 
