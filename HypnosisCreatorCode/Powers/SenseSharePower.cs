@@ -2,13 +2,16 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 感覚共有 — このターン、単体対象のアタックカードを他の敵にも AutoPlay で波及させる。
+/// 感覚共有 — このターン、単体アタックを全体化（UGは次ターン開始まで受けたダメージを敵全体へ伝播）。
 /// </summary>
 public class SenseSharePower : HypnosisCreatorPower
 {
@@ -18,8 +21,25 @@ public class SenseSharePower : HypnosisCreatorPower
     [ThreadStatic]
     private static bool _resolving;
 
+    [ThreadStatic]
+    private static bool _propagating;
+
+    /// <summary>このターン中の単体アタック全体化。ターン終了で無効。</summary>
+    public bool AttackAoEActive { get; private set; }
+
+    /// <summary>UG — 次の自ターン開始まで受けたダメージを敵全体へ伝播。</summary>
+    public bool ReflectDamageActive { get; private set; }
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        AttackAoEActive = true;
+        ReflectDamageActive = cardSource is { IsUpgraded: true };
+        return Task.CompletedTask;
+    }
+
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (!AttackAoEActive) return;
         if (_resolving) return;
         if (Owner == null || CombatState == null) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
@@ -49,6 +69,41 @@ public class SenseSharePower : HypnosisCreatorPower
         }
     }
 
+    public override async Task AfterDamageReceived(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        DamageResult result,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource)
+    {
+        if (!ReflectDamageActive || target != Owner || CombatState == null) return;
+        if (_propagating || result.UnblockedDamage <= 0) return;
+
+        var enemies = CombatState.HittableEnemies.Where(e => e.IsAlive && e.IsEnemy).ToList();
+        if (enemies.Count == 0) return;
+
+        _propagating = true;
+        try
+        {
+            foreach (var enemy in enemies)
+            {
+                await CreatureCmd.Damage(
+                    choiceContext,
+                    enemy,
+                    result.UnblockedDamage,
+                    ValueProp.Unpowered,
+                    Owner,
+                    cardSource,
+                    null);
+            }
+        }
+        finally
+        {
+            _propagating = false;
+        }
+    }
+
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,
@@ -57,6 +112,17 @@ public class SenseSharePower : HypnosisCreatorPower
         if (Owner == null || !Owner.IsAlive) return;
         if (side != CombatSide.Player) return;
         if (!participants.Contains(Owner)) return;
+
+        AttackAoEActive = false;
+        if (!ReflectDamageActive)
+            await PowerCmd.Remove(this);
+    }
+
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (!ReflectDamageActive || Owner == null || player.Creature != Owner) return;
+
+        ReflectDamageActive = false;
         await PowerCmd.Remove(this);
     }
 }

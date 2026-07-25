@@ -9,9 +9,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>感覚共有 — このターン、単体アタックが全体化する。UGで0コスト。</summary>
+/// <summary>
+/// 感覚共有 — 0コスト。このターン単体アタックが全体化。
+/// UG: 次ターン開始まで受けたダメージを敵全体へ同量伝播。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class SenseShare() : HypnosisCreatorCard(1,
+public class SenseShare() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
@@ -20,6 +23,4 @@ public class SenseShare() : HypnosisCreatorCard(1,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
         await PowerCmd.Apply<SenseSharePower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

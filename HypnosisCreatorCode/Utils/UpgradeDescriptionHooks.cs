@@ -110,6 +110,10 @@ public static class UpgradeDescriptionHooks
             "手札のカウントを1つ進める。",
             "Advance Count costs in your hand by 1.");
 
+        UpgradeCardText.AppendGreenLine(card, ref description, c => c is SenseShare,
+            "さらに、自分が受けたダメージを相手全体へ伝播させる。",
+            "Additionally, propagate damage you receive to ALL opponents.");
+
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is Whisper,
             "必ず性癖に刺さる。",
             "This card always hits Fetish.");
