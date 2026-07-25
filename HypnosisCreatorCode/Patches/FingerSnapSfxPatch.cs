@@ -70,7 +70,7 @@ public static class FingerSnapSuppressVanillaHitSfxPatch
     nameof(CreatureCmd.Damage),
     [
         typeof(PlayerChoiceContext),
-        typeof(Creature),
+        typeof(IEnumerable<Creature>),
         typeof(decimal),
         typeof(ValueProp),
         typeof(Creature),
@@ -81,7 +81,34 @@ public static class FingerSnapAttackHitSfxPatch
 {
     public static void Prefix(
         Creature dealer,
-        CardModel? cardSource)
+        CardModel? cardSource) =>
+        FingerSnapAttackHitSfxLogic.TryPlay(dealer, cardSource);
+}
+
+/// <summary>単体ターゲット直呼び用。AttackCommand 本体は IEnumerable 版のみだが保険。</summary>
+[HarmonyPatch(
+    typeof(CreatureCmd),
+    nameof(CreatureCmd.Damage),
+    [
+        typeof(PlayerChoiceContext),
+        typeof(Creature),
+        typeof(decimal),
+        typeof(ValueProp),
+        typeof(Creature),
+        typeof(CardModel),
+        typeof(CardPlay)
+    ])]
+public static class FingerSnapAttackHitSfxSingleTargetPatch
+{
+    public static void Prefix(
+        Creature dealer,
+        CardModel? cardSource) =>
+        FingerSnapAttackHitSfxLogic.TryPlay(dealer, cardSource);
+}
+
+file static class FingerSnapAttackHitSfxLogic
+{
+    public static void TryPlay(Creature dealer, CardModel? cardSource)
     {
         if (cardSource?.Type != CardType.Attack) return;
         if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(dealer.Player)) return;
