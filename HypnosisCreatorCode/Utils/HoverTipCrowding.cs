@@ -34,10 +34,22 @@ public static class HoverTipCrowding
 
     private static int EstimateIfShowingAll(CardModel card)
     {
+        if (KeywordPatchGuard.IsNested)
+            return Threshold;
+
         if (HasInstanceSpecificTips(card))
             return EstimateCore(card, skipOmittableKeywords: false);
 
-        return EstimateCache.GetOrAdd(card.Id.Entry, _ => EstimateCore(card, skipOmittableKeywords: false));
+        var entry = card.Id?.Entry;
+        if (string.IsNullOrEmpty(entry))
+            return EstimateCore(card, skipOmittableKeywords: false);
+
+        if (EstimateCache.TryGetValue(entry, out var cached))
+            return cached;
+
+        var estimate = EstimateCore(card, skipOmittableKeywords: false);
+        EstimateCache.TryAdd(entry, estimate);
+        return estimate;
     }
 
     private static bool HasInstanceSpecificTips(CardModel card) =>
@@ -80,7 +92,9 @@ public static class HoverTipCrowding
 
     private static HashSet<CardKeyword> BuildEffectiveKeywordSet(CardModel card)
     {
-        var set = new HashSet<CardKeyword>(card.Keywords);
+        var set = card.Keywords is null
+            ? new HashSet<CardKeyword>()
+            : new HashSet<CardKeyword>(card.Keywords);
         foreach (var kw in FetishCardText.KeywordsFor(card))
             set.Add(kw);
         foreach (var kw in MechanicKeywordRules.KeywordsFor(card))

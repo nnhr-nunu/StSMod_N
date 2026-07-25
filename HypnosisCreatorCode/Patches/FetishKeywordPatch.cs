@@ -18,18 +18,28 @@ public static class FetishKeywordPatch
         KeywordSources sources,
         ref IReadOnlySet<CardKeyword> __result)
     {
-        var extra = FetishCardText.KeywordsFor(__instance).ToList();
-        if (extra.Count == 0) return;
+        KeywordPatchGuard.Enter();
+        try
+        {
+            var extra = FetishCardText.KeywordsFor(__instance).ToList();
+            if (extra.Count == 0) return;
 
-        if (HoverTipCrowding.ShouldOmitStarterFetishKeywordTips(__instance))
-            extra.RemoveAll(HoverTipCrowding.IsStarterFetishKeyword);
-        if (extra.Count == 0) return;
+            if (HoverTipCrowding.ShouldOmitStarterFetishKeywordTips(__instance))
+                extra.RemoveAll(HoverTipCrowding.IsStarterFetishKeyword);
+            if (extra.Count == 0) return;
 
-        if (extra.All(__result.Contains)) return;
+            if (extra.All(__result.Contains)) return;
 
-        var merged = new HashSet<CardKeyword>(__result);
-        foreach (var kw in extra)
-            merged.Add(kw);
-        __result = merged;
+            var merged = __result is null
+                ? new HashSet<CardKeyword>()
+                : new HashSet<CardKeyword>(__result);
+            foreach (var kw in extra)
+                merged.Add(kw);
+            __result = merged;
+        }
+        finally
+        {
+            KeywordPatchGuard.Leave();
+        }
     }
 }

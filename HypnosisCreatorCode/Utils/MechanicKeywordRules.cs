@@ -28,22 +28,31 @@ public static class MechanicKeywordRules
             yield return HcKeywords.Bog;
     }
 
-    private static MechanicKeywordFlags GetMechanicFlags(CardModel card) =>
-        FlagsCache.GetOrAdd(card.Id.Entry, _ => ComputeMechanicFlags(card));
-
-    private static MechanicKeywordFlags ComputeMechanicFlags(CardModel card)
+    private static MechanicKeywordFlags GetMechanicFlags(CardModel card)
     {
-        var flags = new MechanicKeywordFlags
-        {
-            Trance = HasDynamicVar(card, "Trance"),
-            Doom = HasDynamicVar(card, "Doom"),
-            Bog = HasDynamicVar(card, "Bog")
-        };
+        if (KeywordPatchGuard.IsNested)
+            return ComputeMechanicFlagsVarsOnly(card);
+
+        var entry = card.Id?.Entry;
+        if (string.IsNullOrEmpty(entry))
+            return ComputeMechanicFlagsVarsOnly(card);
+
+        if (FlagsCache.TryGetValue(entry, out var cached))
+            return cached;
+
+        var flags = ComputeMechanicFlags(card, entry);
+        FlagsCache.TryAdd(entry, flags);
+        return flags;
+    }
+
+    private static MechanicKeywordFlags ComputeMechanicFlags(CardModel card, string entry)
+    {
+        var flags = ComputeMechanicFlagsVarsOnly(card);
 
         if (flags.Trance && flags.Doom && flags.Bog)
             return flags;
 
-        var description = GetCardDescriptionText(card.Id.Entry);
+        var description = GetCardDescriptionText(entry);
         if (description is null)
             return flags;
 
@@ -65,21 +74,38 @@ public static class MechanicKeywordRules
         return flags;
     }
 
-    private static bool HasDynamicVar(CardModel card, string name) =>
-        card.DynamicVars.Values.Any(v => v.Name == name);
+    private static MechanicKeywordFlags ComputeMechanicFlagsVarsOnly(CardModel card) =>
+        new()
+        {
+            Trance = HasDynamicVar(card, "Trance"),
+            Doom = HasDynamicVar(card, "Doom"),
+            Bog = HasDynamicVar(card, "Bog")
+        };
 
-    private static string? GetCardDescriptionText(string entryId) =>
-        DescriptionCache.GetOrAdd(entryId, static entry =>
+    private static bool HasDynamicVar(CardModel card, string name) =>
+        card.DynamicVars?.Values.Any(v => v.Name == name) == true;
+
+    private static string? GetCardDescriptionText(string entryId)
+    {
+        if (DescriptionCache.TryGetValue(entryId, out var cached))
+            return cached;
+
+        string? text = null;
+        if (!KeywordPatchGuard.IsNested)
         {
             try
             {
-                return new LocString(CardsLocTable, $"{entry}.description").GetFormattedText();
+                text = new LocString(CardsLocTable, $"{entryId}.description").GetFormattedText();
             }
             catch
             {
-                return null;
+                text = null;
             }
-        });
+        }
+
+        DescriptionCache.TryAdd(entryId, text);
+        return text;
+    }
 
     private struct MechanicKeywordFlags
     {

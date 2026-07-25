@@ -16,16 +16,26 @@ public static class MechanicKeywordPatch
         CardModel __instance,
         ref IReadOnlySet<CardKeyword> __result)
     {
-        if (HoverTipCrowding.IsCrowded(__instance))
-            return;
+        KeywordPatchGuard.Enter();
+        try
+        {
+            if (HoverTipCrowding.IsCrowded(__instance))
+                return;
 
-        var extra = MechanicKeywordRules.KeywordsFor(__instance).ToList();
-        if (extra.Count == 0) return;
-        if (extra.All(__result.Contains)) return;
+            var extra = MechanicKeywordRules.KeywordsFor(__instance).ToList();
+            if (extra.Count == 0) return;
+            if (extra.All(__result.Contains)) return;
 
-        var merged = new HashSet<CardKeyword>(__result);
-        foreach (var kw in extra)
-            merged.Add(kw);
-        __result = merged;
+            var merged = __result is null
+                ? new HashSet<CardKeyword>()
+                : new HashSet<CardKeyword>(__result);
+            foreach (var kw in extra)
+                merged.Add(kw);
+            __result = merged;
+        }
+        finally
+        {
+            KeywordPatchGuard.Leave();
+        }
     }
 }
