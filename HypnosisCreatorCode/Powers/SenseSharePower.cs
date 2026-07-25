@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Combat;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -58,10 +59,7 @@ public class SenseSharePower : HypnosisCreatorPower
         {
             var canonical = cardPlay.Card.CanonicalInstance ?? cardPlay.Card;
             foreach (var enemy in others)
-            {
-                var copy = CombatState.CreateCard(canonical, player);
-                await CardCmd.AutoPlay(choiceContext, copy, enemy);
-            }
+                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, canonical, player, enemy);
         }
         finally
         {

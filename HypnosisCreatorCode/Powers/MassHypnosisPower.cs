@@ -1,5 +1,4 @@
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -57,10 +56,7 @@ public class MassHypnosisPower : HypnosisCreatorPower
         {
             var canonical = cardPlay.Card.CanonicalInstance ?? cardPlay.Card;
             foreach (var enemy in others)
-            {
-                var copy = CombatState.CreateCard(canonical, player);
-                await CardCmd.AutoPlay(choiceContext, copy, enemy);
-            }
+                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, canonical, player, enemy);
         }
         finally
         {
