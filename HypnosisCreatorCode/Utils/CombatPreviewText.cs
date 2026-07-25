@@ -33,13 +33,15 @@ public static class CombatPreviewText
         description = description.TrimEnd() + suffix;
     }
 
+    /// <summary>戦闘プレビュー表示用。Hook 後の小数ダメージを整数に丸める。</summary>
+    public static decimal RoundDisplayAmount(decimal amount) =>
+        decimal.Round(Math.Max(0m, amount), 0, MidpointRounding.AwayFromZero);
+
     /// <summary>ローカライズ済み数値文字列（色タグなし）。</summary>
     public static string FormatAmount(decimal amount)
     {
         var culture = LocManager.Instance?.CultureInfo;
-        return amount == decimal.Truncate(amount)
-            ? ((int)amount).ToString(culture)
-            : amount.ToString("0.##", culture);
+        return ((int)RoundDisplayAmount(amount)).ToString(culture);
     }
 
     /// <summary>戦闘プレビュー用の数値（常に [green]）。</summary>
@@ -47,8 +49,14 @@ public static class CombatPreviewText
         $"[green]{FormatAmount(amount)}[/green]";
 
     /// <summary>プレビュー数値。基準値と異なるときだけ [green]（:diff() と同趣旨）。</summary>
-    public static string FormatPreviewAmount(decimal preview, decimal baseline) =>
-        preview != baseline ? FormatCombatPreviewAmount(preview) : FormatAmount(preview);
+    public static string FormatPreviewAmount(decimal preview, decimal baseline)
+    {
+        var roundedPreview = RoundDisplayAmount(preview);
+        var roundedBaseline = RoundDisplayAmount(baseline);
+        return roundedPreview != roundedBaseline
+            ? FormatCombatPreviewAmount(roundedPreview)
+            : FormatAmount(roundedBaseline);
+    }
 
     public static string FormatPreviewAmount(int preview, int baseline) =>
         FormatPreviewAmount((decimal)preview, (decimal)baseline);

@@ -27,7 +27,7 @@ public static class CardDamagePreview
 
         try
         {
-            return Hook.ModifyDamage(
+            var modified = Hook.ModifyDamage(
                 owner.RunState,
                 combat,
                 target,
@@ -39,6 +39,7 @@ public static class CardDamagePreview
                 ModifyDamageHookType.All,
                 previewMode,
                 out _);
+            return CombatPreviewText.RoundDisplayAmount(modified);
         }
         catch
         {
