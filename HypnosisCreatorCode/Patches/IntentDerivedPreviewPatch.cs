@@ -33,8 +33,8 @@ public static class MirroringDamagePreviewPatch
             return;
         }
 
-        var preview = CardDamagePreview.ApplyModifiers(
-            mirroring, previewTarget, damage, ValueProp.Unpowered, previewMode);
+        var preview = MirroringDamagePreview.Resolve(
+            mirroring, previewTarget, damage, previewMode);
         CardDamagePreview.SetPreviewPair(__instance, damage, preview);
     }
 }

@@ -13,7 +13,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
 /// <summary>
 /// ミラーリング — 相手の攻撃予定と同じ攻撃。廃棄。
-/// 数値は相手と同じ。こちら側の筋力は反映しない。弱体は敵デバフなので有効（CSV備考）。
+/// 数値は相手の攻撃意図と同じ。プレイヤー筋力は非反映（Strength パッチ）。
+/// 敵の弱体は意図値に含まれる。スロウ・脆弱は Move 補正でプレビュー／実効に反映。
 /// 多段は WithHitCount 1回で解決。プレビューは IntentDerivedPreviewPatch。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -23,9 +24,9 @@ public class Mirroring() : HypnosisCreatorCard(1,
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    // Unpowered: プレイヤー筋力を載せない
+    // Move: スロウ・脆弱等は載せる。筋力だけ MirroringStrengthExclusionPatch で除外。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(0M, ValueProp.Unpowered)];
+        [new DamageVar(0M, ValueProp.Move)];
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
@@ -38,8 +39,9 @@ public class Mirroring() : HypnosisCreatorCard(1,
             return;
         if (damage <= 0) return;
 
+        var preview = MirroringDamagePreview.Resolve(mirroring, previewTarget, damage);
         CombatDamageSuffixPreview.AppendCompactDealDamageSuffix(
-            mirroring, previewTarget, ref description, damage, ValueProp.Unpowered);
+            mirroring, ref description, preview, damage);
     }
 
     public static bool HasAttackIntent(Creature target) =>
