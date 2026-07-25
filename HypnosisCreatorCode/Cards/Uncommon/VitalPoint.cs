@@ -35,8 +35,7 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         if (card.Owner == null)
             return card.DynamicVars.CalculationBase.BaseValue;
 
-        var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
-        var gap = PlayerAttackTracker.CompletedNonAttackTurns(card.Owner, turn);
+        var gap = PlayerAttackTracker.CompletedNonAttackTurns(card.Owner);
         return card.DynamicVars.CalculationBase.BaseValue
                + gap * card.DynamicVars.ExtraDamage.BaseValue;
     }
@@ -45,14 +44,12 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     {
         if (card.Owner == null) return 0M;
 
-        var turn = card.Owner.PlayerCombatState?.TurnNumber ?? 0;
-        return PlayerAttackTracker.CompletedNonAttackTurns(card.Owner, turn);
+        return PlayerAttackTracker.CompletedNonAttackTurns(card.Owner);
     }
 
     protected override bool ShouldGlowWhenConditionMet()
     {
-        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        return PlayerAttackTracker.CompletedNonAttackTurns(Owner, turn) > 0;
+        return PlayerAttackTracker.CompletedNonAttackTurns(Owner) > 0;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
