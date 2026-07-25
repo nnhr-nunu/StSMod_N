@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 敵のバフ解除（赤ちゃん催眠・Present! 等）で外してよいかを判定する。
-/// 戦闘開始時から付く敵固有性能のうち、剥がすと撃破／復活フローが壊れるものは除外する。
+/// 戦闘開始時から付く敵固有性能のうち、剥がすと撃破／復活フローが壊れるものは除外する（蟻地獄など）。
 /// </summary>
 public static class BuffStripRules
 {
@@ -37,6 +37,7 @@ public static class BuffStripRules
             or DieForYouPower
             or IllusionPower
             or ReattachPower
+            or SandpitPower
             or SkittishPower
             or SteamEruptionPower
             or SurprisePower;

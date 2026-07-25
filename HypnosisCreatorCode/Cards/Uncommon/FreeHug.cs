@@ -68,7 +68,7 @@ public class FreeHug() : HypnosisCreatorCard(0,
         }
 
         // 初回も2回目以降も寄る（移動量は PullTracker 側で半減）
-        await PullTracker.TryPull(play.Target, Owner.Creature);
+        await PullTracker.TryPull(play.Target, Owner.Creature, choiceContext, this);
 
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);

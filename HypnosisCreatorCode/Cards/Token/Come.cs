@@ -15,7 +15,7 @@ public class Come() : TrainingCommand
     protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        await PullTracker.TryPull(play.Target, Owner.Creature);
+        await PullTracker.TryPull(play.Target, Owner.Creature, choiceContext, this);
         FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
@@ -74,7 +75,11 @@ public static class PullTracker
     /// 戻り値は「今回が初回の引き寄せか」（カード効果分岐用。フラグは初回で立つ）。
     /// Crusher / Rocket など背景一体型は見た目が動かないため、引き寄せ不可として扱う。
     /// </summary>
-    public static async Task<bool> TryPull(Creature creature, Creature? towardPlayer)
+    public static async Task<bool> TryPull(
+        Creature creature,
+        Creature? towardPlayer,
+        PlayerChoiceContext? choiceContext = null,
+        CardModel? cardSource = null)
     {
         if (!CanPullVisually(creature))
         {
@@ -88,7 +93,25 @@ public static class PullTracker
         var distance = NextStepDistance(state.PullAnimCount);
         state.PullAnimCount++;
         await AnimateX(creature, towardPlayer, towardPlayer: true, distance);
+        await TryReduceSandpitOnPull(choiceContext, creature, towardPlayer, cardSource);
         return wasFirst;
+    }
+
+    /// <summary>貪りの獣の蟻地獄 — 引き寄せで相手が近づいたらカウントを1減らす（決死の逃亡の+1と対）。</summary>
+    private static async Task TryReduceSandpitOnPull(
+        PlayerChoiceContext? choiceContext,
+        Creature pulledEnemy,
+        Creature? towardPlayer,
+        CardModel? cardSource)
+    {
+        if (choiceContext == null || towardPlayer is not { IsPlayer: true }) return;
+        if (!pulledEnemy.IsEnemy) return;
+
+        var sandpit = pulledEnemy.Powers.OfType<SandpitPower>()
+            .FirstOrDefault(s => s.Target == towardPlayer);
+        if (sandpit == null || sandpit.Amount <= 0) return;
+
+        await PowerCmd.ModifyAmount(choiceContext, sandpit, -1m, pulledEnemy, cardSource);
     }
 
     /// <summary>対象をプレイヤーから離す（決死の逃亡）。移動量は押し出し回数ごとに半減。引き寄せ済みフラグは変更しない。</summary>
