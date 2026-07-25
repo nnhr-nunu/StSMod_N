@@ -4,12 +4,14 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 完全掌握 — DomSub。コスト1。対象のトランス≥3が必要。
+/// 完全掌握 — DomSub。コスト1。対象のトランス≥2が必要。
 /// このターン攻撃ダメージを自分へ肩代わり。廃棄（UGで消滅）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -17,19 +19,21 @@ public class TotalControl() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    internal const int MinTranceRequired = 2;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.DomSub];
 
-    // トランス≥3 がいないとプレイ不可 → 性癖一致だけでは光らせない
+    // トランス≥2 がいないとプレイ不可 → 性癖一致だけでは光らせない
     protected override bool FetishGlowAllowed => ShouldGlowWhenConditionMet();
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        GlowIfTargetOrAnyEnemy(c => TranceCombat.GetTrance(c) >= 3);
+        GlowIfTargetOrAnyEnemy(c => TranceCombat.GetTrance(c) >= MinTranceRequired);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        if (TranceCombat.GetTrance(play.Target) < 3) return;
+        if (TranceCombat.GetTrance(play.Target) < MinTranceRequired) return;
 
         await PowerCmd.Apply<TotalControlPower>(
             choiceContext, Owner.Creature, 1M, Owner.Creature, this);
@@ -37,4 +41,10 @@ public class TotalControl() : HypnosisCreatorCard(1,
     }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+
+    internal static bool IsValidTranceTarget(Creature target) =>
+        target.IsAlive && TranceCombat.GetTrance(target) >= MinTranceRequired;
+
+    internal static bool CanStartPlay(CardModel card) =>
+        card.CombatState?.HittableEnemies.Any(e => e.IsAlive && e.IsEnemy && IsValidTranceTarget(e)) ?? false;
 }

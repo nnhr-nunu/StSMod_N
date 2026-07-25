@@ -107,7 +107,7 @@
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "ぜんぶ知ってるよ",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "性癖を刺した時の効果が[blue]2[/blue]倍になる。",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "完全掌握",
-  "HYPNOSISCREATOR-TOTAL_CONTROL.description": "[gold]トランス[/gold][blue]3[/blue]以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる。",
+  "HYPNOSISCREATOR-TOTAL_CONTROL.description": "[gold]トランス[/gold][blue]2[/blue]以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる。",
   "HYPNOSISCREATOR-HEART_GOUGE.title": "心臓えぐり出し",
   "HYPNOSISCREATOR-HEART_GOUGE.description": "{Damage:diff()}ダメージを与える。リーサル時、追加のレリック報酬を獲得する。",
   "HYPNOSISCREATOR-BARE_INSTINCT.title": "剥き出しの本能",

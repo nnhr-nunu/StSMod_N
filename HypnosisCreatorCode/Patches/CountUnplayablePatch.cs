@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -24,11 +25,17 @@ public static class CountUnplayablePatch
         ref UnplayableReason reason)
     {
         if (!__result) return;
-        if (!CountRules.HasCountKeyword(__instance)) return;
-        if (CountRules.CanStartPlay(__instance)) return;
 
-        reason |= CustomEnums.HcUnplayableReasons.CountNotZero;
-        __result = false;
+        if (CountRules.HasCountKeyword(__instance))
+        {
+            if (CountRules.CanStartPlay(__instance)) return;
+            reason |= CustomEnums.HcUnplayableReasons.CountNotZero;
+            __result = false;
+            return;
+        }
+
+        if (__instance is TotalControl && !TotalControl.CanStartPlay(__instance))
+            __result = false;
     }
 }
 
@@ -39,9 +46,16 @@ public static class CountUnplayableNoArgPatch
     public static void Postfix(CardModel __instance, ref bool __result)
     {
         if (!__result) return;
-        if (!CountRules.HasCountKeyword(__instance)) return;
-        if (CountRules.CanStartPlay(__instance)) return;
-        __result = false;
+
+        if (CountRules.HasCountKeyword(__instance))
+        {
+            if (!CountRules.CanStartPlay(__instance))
+                __result = false;
+            return;
+        }
+
+        if (__instance is TotalControl && !TotalControl.CanStartPlay(__instance))
+            __result = false;
     }
 }
 
@@ -53,6 +67,12 @@ public static class CountCanPlayTargetingPatch
         if (!__result) return;
 
         if (__instance is Cards.Basic.Mirroring && !Cards.Basic.Mirroring.HasAttackIntent(target))
+        {
+            __result = false;
+            return;
+        }
+
+        if (__instance is TotalControl && !TotalControl.IsValidTranceTarget(target))
         {
             __result = false;
             return;
