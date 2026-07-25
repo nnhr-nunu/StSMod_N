@@ -21,7 +21,7 @@ public static class FetishKeywordPatch
         var extra = FetishCardText.KeywordsFor(__instance).ToList();
         if (extra.Count == 0) return;
 
-        if (HoverTipCrowding.ShouldOmitStarterFetishKeywordTips(__instance, __result))
+        if (HoverTipCrowding.ShouldOmitStarterFetishKeywordTips(__instance))
             extra.RemoveAll(HoverTipCrowding.IsStarterFetishKeyword);
         if (extra.Count == 0) return;
 

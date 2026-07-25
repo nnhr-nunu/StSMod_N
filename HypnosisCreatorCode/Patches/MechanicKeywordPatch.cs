@@ -16,7 +16,7 @@ public static class MechanicKeywordPatch
         CardModel __instance,
         ref IReadOnlySet<CardKeyword> __result)
     {
-        if (HoverTipCrowding.IsCrowded(__instance, __result))
+        if (HoverTipCrowding.IsCrowded(__instance))
             return;
 
         var extra = MechanicKeywordRules.KeywordsFor(__instance).ToList();

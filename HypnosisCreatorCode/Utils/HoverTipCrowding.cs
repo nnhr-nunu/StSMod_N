@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.CustomEnums;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -14,6 +15,8 @@ public static class HoverTipCrowding
     /// <summary>この件数以上（表示予定の合計）なら過多とみなす。</summary>
     public const int Threshold = 5;
 
+    private static readonly ConcurrentDictionary<string, int> EstimateCache = new(StringComparer.Ordinal);
+
     public static bool IsStarterFetishKeyword(CardKeyword keyword) =>
         keyword == HcKeywords.Sm || keyword == HcKeywords.DomSub || keyword == HcKeywords.Abnormal;
 
@@ -23,20 +26,29 @@ public static class HoverTipCrowding
         || keyword == HcKeywords.Doom
         || keyword == HcKeywords.Bog;
 
-    public static bool ShouldOmitStarterFetishKeywordTips(
-        CardModel card,
-        IReadOnlySet<CardKeyword>? keywords = null) =>
-        IsCrowded(card, keywords);
+    public static bool ShouldOmitStarterFetishKeywordTips(CardModel card) =>
+        IsCrowded(card);
 
-    public static bool IsCrowded(CardModel card, IReadOnlySet<CardKeyword>? keywords = null) =>
-        EstimateIfShowingAll(card, keywords) >= Threshold;
+    public static bool IsCrowded(CardModel card) =>
+        EstimateIfShowingAll(card) >= Threshold;
 
-    private static int EstimateIfShowingAll(CardModel card, IReadOnlySet<CardKeyword>? keywords) =>
-        EstimateCore(card, keywords, skipOmittableKeywords: false);
+    private static int EstimateIfShowingAll(CardModel card)
+    {
+        if (HasInstanceSpecificTips(card))
+            return EstimateCore(card, skipOmittableKeywords: false);
+
+        return EstimateCache.GetOrAdd(card.Id.Entry, _ => EstimateCore(card, skipOmittableKeywords: false));
+    }
+
+    private static bool HasInstanceSpecificTips(CardModel card) =>
+        card.Enchantment != null
+        || card.Affliction != null
+        || card.GetEnchantedReplayCount() > 0
+        || card.OrbEvokeType != OrbEvokeType.None
+        || card.GainsBlock;
 
     private static int EstimateCore(
         CardModel card,
-        IReadOnlySet<CardKeyword>? keywords,
         bool skipOmittableKeywords)
     {
         var count = 0;
@@ -54,7 +66,7 @@ public static class HoverTipCrowding
         if (card.GainsBlock)
             count++;
 
-        foreach (var keyword in BuildEffectiveKeywordSet(card, keywords))
+        foreach (var keyword in BuildEffectiveKeywordSet(card))
         {
             if (skipOmittableKeywords && IsOmittableKeywordWhenCrowded(keyword))
                 continue;
@@ -66,11 +78,9 @@ public static class HoverTipCrowding
         return count;
     }
 
-    private static HashSet<CardKeyword> BuildEffectiveKeywordSet(
-        CardModel card,
-        IReadOnlySet<CardKeyword>? keywords)
+    private static HashSet<CardKeyword> BuildEffectiveKeywordSet(CardModel card)
     {
-        var set = new HashSet<CardKeyword>(keywords ?? card.Keywords);
+        var set = new HashSet<CardKeyword>(card.Keywords);
         foreach (var kw in FetishCardText.KeywordsFor(card))
             set.Add(kw);
         foreach (var kw in MechanicKeywordRules.KeywordsFor(card))
