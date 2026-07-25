@@ -52,7 +52,39 @@ public static class CombatDamageSuffixPreview
 
         var previewTarget = target ?? card.CurrentTarget;
         var preview = CardDamagePreview.ApplyModifiers(card, previewTarget, raw, props);
+        if (TryAppendCombinedDamageAndDoomSuffix(card, previewTarget, ref description, preview, raw))
+            return;
+
         AppendDealDamageSuffix(card, ref description, preview, raw);
+    }
+
+    /// <summary>性癖刺さり時はダメージと破滅を1つの括弧にまとめる。</summary>
+    private static bool TryAppendCombinedDamageAndDoomSuffix(
+        CardModel card,
+        Creature? target,
+        ref string description,
+        decimal preview,
+        decimal baseline)
+    {
+        if (target is not { IsAlive: true, IsEnemy: true }) return false;
+
+        var hits = FetishDoomPreview.CountPreviewHits(card, target);
+        if (hits <= 0) return false;
+
+        var perHit = FetishCombat.ScaleDoomByBog(
+            target, FetishCombat.CalcFetishDoomAmount(target, card.Owner?.Creature));
+        var doomTotal = perHit * hits;
+        if (doomTotal <= 0) return false;
+
+        var damageFormatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
+        var doomFormatted = CombatPreviewText.FormatCombatPreviewAmount(doomTotal);
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（{damageFormatted}ダメージを与え、破滅{doomFormatted}を付与する）"
+            : $" ({damageFormatted} damage and Apply {doomFormatted} Doom)";
+
+        description = FetishDoomPreview.StripDoomPreviewSuffix(description).TrimEnd();
+        CombatPreviewText.AppendSuffix(card, ref description, suffix);
+        return true;
     }
 
     public static void AppendDealDamageSuffix(

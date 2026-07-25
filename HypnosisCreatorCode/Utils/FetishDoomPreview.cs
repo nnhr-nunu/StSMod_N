@@ -55,7 +55,7 @@ public static class FetishDoomPreview
         description = StripDoomPreviewSuffix(description).TrimEnd() + suffix;
     }
 
-    private static string StripDoomPreviewSuffix(string description) =>
+    public static string StripDoomPreviewSuffix(string description) =>
         EnglishDoomSuffix.Replace(JapaneseDoomSuffix.Replace(description, string.Empty), string.Empty);
 
     /// <summary>照準対象に対して、実際の刺さりと同じ回数を返す。</summary>

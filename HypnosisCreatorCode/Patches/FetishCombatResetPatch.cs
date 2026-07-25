@@ -36,6 +36,11 @@ public static class FetishCombatResetPatch
         FetishCombat.CultLeaderActive = false;
         FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
+        if (combatState != null)
+        {
+            foreach (var player in combatState.Players)
+                PlayerAttackTracker.Reset(player);
+        }
 
         var original = __result;
         __result = ContinueAfterCombatEnd(original, combatState, room);

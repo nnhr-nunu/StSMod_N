@@ -4,30 +4,50 @@ using MegaCrit.Sts2.Core.Entities.Players;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// プレイヤーが直近どのターンにアタックカードを敵へプレイしたかを記録する。
+/// プレイヤーがどのターンにアタックカードを敵へプレイしたかを記録する。
 /// ラポール・急所の一刺し等、複数カードで共有する。
 /// </summary>
 public static class PlayerAttackTracker
 {
     private static readonly NotNullSpireField<Player, AttackState> Field = new(() => new AttackState());
 
-    public static void RecordAttack(Player player, int turn)
-    {
-        var state = Field.Get(player);
-        if (turn > state.LastAttackTurn) state.LastAttackTurn = turn;
-    }
+    public static void Reset(Player player) => Field.Get(player).Reset();
 
-    public static bool AttackedOnTurn(Player player, int turn) => Field.Get(player).LastAttackTurn == turn;
+    public static void RecordAttack(Player player, int turn) =>
+        Field.Get(player).RecordAttack(turn);
 
-    /// <summary>現在ターンから最後にアタックした差分（未攻撃なら現在ターン数を返す）。</summary>
-    public static int TurnsSinceLastAttack(Player player, int currentTurn)
-    {
-        var last = Field.Get(player).LastAttackTurn;
-        return last < 0 ? currentTurn : Math.Max(0, currentTurn - last);
-    }
+    public static bool AttackedOnTurn(Player player, int turn) =>
+        Field.Get(player).AttackedOnTurn(turn);
+
+    /// <summary>
+    /// 終了済みターンのうち、アタックを1枚もプレイしていないターン数（現在ターンは含めない）。
+    /// 急所の一刺し: 「この戦闘中、アタックをプレイしていないターン1につき」。
+    /// </summary>
+    public static int CompletedNonAttackTurns(Player player, int currentTurn) =>
+        Field.Get(player).CountCompletedNonAttackTurns(currentTurn);
 }
 
 public sealed class AttackState
 {
-    public int LastAttackTurn { get; set; } = -1;
+    private readonly HashSet<int> _turnsWithAttack = new();
+
+    public void Reset() => _turnsWithAttack.Clear();
+
+    public void RecordAttack(int turn) => _turnsWithAttack.Add(turn);
+
+    public bool AttackedOnTurn(int turn) => _turnsWithAttack.Contains(turn);
+
+    public int CountCompletedNonAttackTurns(int currentTurn)
+    {
+        if (currentTurn <= 1) return 0;
+
+        var count = 0;
+        for (var t = 1; t < currentTurn; t++)
+        {
+            if (!_turnsWithAttack.Contains(t))
+                count++;
+        }
+
+        return count;
+    }
 }
