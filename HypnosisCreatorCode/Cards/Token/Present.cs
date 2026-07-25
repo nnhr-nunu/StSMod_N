@@ -1,6 +1,7 @@
 using System.Reflection;
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -17,13 +18,13 @@ public class Present() : TrainingCommand
         .Single(m => m.Name == nameof(PowerCmd.Apply) && m.IsGenericMethodDefinition && m.GetParameters().Length == 5);
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        GlowIfTargetOrAnyEnemy(c => c.Powers.Any(p => p.Type == PowerType.Buff));
+        GlowIfTargetOrAnyEnemy(c => c.Powers.Any(BuffStripRules.CanStripFromEnemy));
 
     protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        var buffs = play.Target.Powers.Where(p => p.Type == PowerType.Buff).ToList();
+        var buffs = play.Target.Powers.Where(BuffStripRules.CanStripFromEnemy).ToList();
         if (buffs.Count == 0) return;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;

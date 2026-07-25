@@ -39,7 +39,7 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        foreach (var power in play.Target.Powers.Where(p => p.Type == PowerType.Buff).ToList())
+        foreach (var power in play.Target.Powers.Where(BuffStripRules.CanStripFromEnemy).ToList())
             await PowerCmd.Remove(power);
 
         await PowerCmd.Apply<ShrinkPower>(
