@@ -9,14 +9,19 @@ using MegaCrit.Sts2.Core.Hooks;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 他色アブノーマルカードは OnPlay 内で刺さり処理しないため、AfterCardPlayed で破滅刺さりを解決する。
-/// 植え付け予約の消費は <see cref="Powers.FetishPlantPendingPower"/> の AfterCardPlayed で行う
-/// （Harmony Postfix から PowerCmd を GetResult すると CustomScaledWait で詰まる）。
+/// 他色アブノーマルカード（ナイフ等）は OnPlay 内で刺さり処理しないため、AfterCardPlayed で破滅刺さりを解決する。
+/// <see cref="CognitiveShuffleDeferredPatch"/> と同様、fire-and-forget ではなく Hook の Task に連鎖する。
+/// 植え付け予約の消費は <see cref="Powers.FetishPlantPendingPower"/> の AfterCardPlayed で行う。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class FetishCardPlayedPatch
 {
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay play)
+    [HarmonyPriority(Priority.First)]
+    public static void Postfix(
+        ref Task __result,
+        ICombatState combatState,
+        PlayerChoiceContext choiceContext,
+        CardPlay play)
     {
         if (!CardFetishLookup.HasAnyFetish(play.Card)) return;
 
@@ -26,15 +31,20 @@ public static class FetishCardPlayedPatch
         var fetishes = CardFetishLookup.GetFetishes(play.Card);
         if (fetishes.Count == 0) return;
 
-        _ = ResolveOtherColorFetishHit(combatState, choiceContext, play, fetishes);
+        var original = __result;
+        __result = ResolveOtherColorFetishHitAsync(original, combatState, choiceContext, play, fetishes);
     }
 
-    private static async Task ResolveOtherColorFetishHit(
+    private static async Task ResolveOtherColorFetishHitAsync(
+        Task? original,
         ICombatState combatState,
         PlayerChoiceContext choiceContext,
         CardPlay play,
         IReadOnlyList<FetishType> fetishes)
     {
+        if (original != null)
+            await original;
+
         var applier = play.Card.Owner?.Creature;
         if (applier == null) return;
 
