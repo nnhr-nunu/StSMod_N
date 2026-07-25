@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -13,4 +14,8 @@ public static class MirroringRules
     /// <summary>実プレイ時の ValueProp。意図値ミラー時は Unpowered（筋力・スロウ等を載せない）。</summary>
     public static ValueProp DamageProps =>
         UseIntentValuesOnly ? ValueProp.Unpowered : ValueProp.Move;
+
+    /// <summary>意図値ミラー時はプレイヤー側の脱力・筋力等を載せない。</summary>
+    public static AttackCommand ApplyDamageProps(AttackCommand cmd) =>
+        UseIntentValuesOnly ? cmd.Unpowered() : cmd;
 }

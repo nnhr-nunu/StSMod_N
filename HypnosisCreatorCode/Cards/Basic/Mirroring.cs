@@ -74,9 +74,10 @@ public class Mirroring() : HypnosisCreatorCard(1,
         DynamicVars.Damage.BaseValue = damage;
         DynamicVars["Repeat"].BaseValue = hits;
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(DynamicVars["Repeat"].IntValue)
-            .FromCard(this, play)
+        await MirroringRules.ApplyDamageProps(
+                DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                    .WithHitCount(DynamicVars["Repeat"].IntValue)
+                    .FromCard(this, play))
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
