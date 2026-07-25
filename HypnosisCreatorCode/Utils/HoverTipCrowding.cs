@@ -11,11 +11,17 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class HoverTipCrowding
 {
-    /// <summary>この件数以上（省略対象を除いた推定）なら過多とみなす。</summary>
+    /// <summary>この件数以上（表示予定の合計）なら過多とみなす。</summary>
     public const int Threshold = 5;
 
     public static bool IsStarterFetishKeyword(CardKeyword keyword) =>
         keyword == HcKeywords.Sm || keyword == HcKeywords.DomSub || keyword == HcKeywords.Abnormal;
+
+    public static bool IsOmittableKeywordWhenCrowded(CardKeyword keyword) =>
+        IsStarterFetishKeyword(keyword)
+        || keyword == HcKeywords.TranceState
+        || keyword == HcKeywords.Doom
+        || keyword == HcKeywords.Bog;
 
     public static bool ShouldOmitStarterFetishKeywordTips(
         CardModel card,
@@ -23,21 +29,19 @@ public static class HoverTipCrowding
         IsCrowded(card, keywords);
 
     public static bool IsCrowded(CardModel card, IReadOnlySet<CardKeyword>? keywords = null) =>
-        Estimate(card, includeStarterFetishKeywords: false, includeMechanicKeywords: false, keywords) >= Threshold;
+        EstimateIfShowingAll(card, keywords) >= Threshold;
 
-    private static int Estimate(
+    private static int EstimateIfShowingAll(CardModel card, IReadOnlySet<CardKeyword>? keywords) =>
+        EstimateCore(card, keywords, skipOmittableKeywords: false);
+
+    private static int EstimateCore(
         CardModel card,
-        bool includeStarterFetishKeywords,
-        bool includeMechanicKeywords,
-        IReadOnlySet<CardKeyword>? keywords)
+        IReadOnlySet<CardKeyword>? keywords,
+        bool skipOmittableKeywords)
     {
         var count = 0;
         if (card is HypnosisCreatorCard hc)
-        {
             count += hc.CountCardHoverTipsForCrowding();
-            if (includeMechanicKeywords)
-                count += MechanicKeywordRules.KeywordsFor(card).Count();
-        }
 
         if (card.Enchantment != null)
             count += card.Enchantment.HoverTips.Count();
@@ -50,9 +54,9 @@ public static class HoverTipCrowding
         if (card.GainsBlock)
             count++;
 
-        foreach (var keyword in keywords ?? card.Keywords)
+        foreach (var keyword in BuildEffectiveKeywordSet(card, keywords))
         {
-            if (!includeStarterFetishKeywords && IsStarterFetishKeyword(keyword))
+            if (skipOmittableKeywords && IsOmittableKeywordWhenCrowded(keyword))
                 continue;
             count++;
             if (keyword == CardKeyword.Ethereal)
@@ -60,5 +64,17 @@ public static class HoverTipCrowding
         }
 
         return count;
+    }
+
+    private static HashSet<CardKeyword> BuildEffectiveKeywordSet(
+        CardModel card,
+        IReadOnlySet<CardKeyword>? keywords)
+    {
+        var set = new HashSet<CardKeyword>(keywords ?? card.Keywords);
+        foreach (var kw in FetishCardText.KeywordsFor(card))
+            set.Add(kw);
+        foreach (var kw in MechanicKeywordRules.KeywordsFor(card))
+            set.Add(kw);
+        return set;
     }
 }
