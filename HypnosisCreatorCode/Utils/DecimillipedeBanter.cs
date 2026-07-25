@@ -9,7 +9,8 @@ using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 万足ムカデ（本家 Reattach）への縮小・引き寄せ時のプレイヤー吹き出し。
+/// 万足ムカデ（本家 Reattach）への引き寄せ時のプレイヤー吹き出し。
+/// 縮小は <c>CanChangeScale=false</c> のため見た目が変わらず、セリフは出さない。
 /// </summary>
 public static class DecimillipedeBanter
 {

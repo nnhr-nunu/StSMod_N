@@ -13,6 +13,9 @@ public static class IntentOverwriteUnsafeMonsters
     private static readonly HashSet<string> UnsafeIds =
         new(StringComparer.OrdinalIgnoreCase) { "CRUSHER", "ROCKET" };
 
+    private static readonly HashSet<string> KaiserClubClawIds =
+        new(StringComparer.OrdinalIgnoreCase) { "CRUSHER", "ROCKET" };
+
     private static readonly ConditionalWeakTable<Creature, SkipState> SkipTable = new();
 
     public static bool IsUnsafe(Creature? creature)
@@ -20,6 +23,14 @@ public static class IntentOverwriteUnsafeMonsters
         if (creature is not { IsEnemy: true }) return false;
         var id = HeartRegistry.GetMonsterId(creature);
         return id != null && UnsafeIds.Contains(id);
+    }
+
+    /// <summary>カイザークラブの左右爪（引き寄せ不可・専用吹き出し用）。</summary>
+    public static bool IsKaiserClubClaw(Creature? creature)
+    {
+        if (creature is not { IsEnemy: true }) return false;
+        var id = HeartRegistry.GetMonsterId(creature);
+        return id != null && KaiserClubClawIds.Contains(id);
     }
 
     /// <summary>次の PerformMove を1回スキップする（本家 Stun の代替）。</summary>

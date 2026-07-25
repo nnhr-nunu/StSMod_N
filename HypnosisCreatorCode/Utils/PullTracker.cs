@@ -345,7 +345,9 @@ public static class PullTracker
 
         try
         {
-            var text = ResolveCannotPullLine();
+            var text = IntentOverwriteUnsafeMonsters.IsKaiserClubClaw(target)
+                ? ResolveKaiserClubCannotPullLine()
+                : ResolveCannotPullLine();
             var bubble = NSpeechBubbleVfx.Create(text, playerCreature, 1.5, VfxColor.White);
             if (bubble == null) return;
 
@@ -357,6 +359,26 @@ public static class PullTracker
         {
             MainFile.Logger.Warn($"Pull blocked speech failed: {e.Message}");
         }
+    }
+
+    private static string ResolveKaiserClubCannotPullLine()
+    {
+        try
+        {
+            var text = new LocString("characters", "HYPNOSISCREATOR-HYPNOSIS_CREATOR.banter.kaiserClubPullBlocked")
+                .GetFormattedText()?.Trim();
+            if (!string.IsNullOrWhiteSpace(text)
+                && !text.StartsWith("HYPNOSISCREATOR-", StringComparison.Ordinal))
+                return text;
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return UpgradeCardText.IsJapaneseUi()
+            ? "大きすぎて引き寄せられない…！"
+            : "It's too big to pull...!";
     }
 
     private static string ResolveCannotPullLine()
