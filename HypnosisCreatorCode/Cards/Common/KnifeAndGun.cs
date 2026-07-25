@@ -1,11 +1,12 @@
 using BaseLib.Utils;
-using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
@@ -32,7 +33,7 @@ public class KnifeAndGun() : HypnosisCreatorCard(1,
 
         if (CombatState != null)
         {
-            var generated = CombatState.CreateCard<Knife>(Owner);
+            var generated = CombatState.CreateCard(ModelDb.Card<Shiv>(), Owner);
             await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
         }
 

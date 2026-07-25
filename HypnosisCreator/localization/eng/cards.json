@@ -215,8 +215,6 @@
   "HYPNOSISCREATOR-FETISH_PARTY.description": "Add {Cards:diff()} random Fetish {Cards:plural:card|cards} into every ally's [gold]Hand[/gold].",
   "HYPNOSISCREATOR-FREE_HUG.title": "Free Hug",
   "HYPNOSISCREATOR-FREE_HUG.description": "Pull the target. If they were already Pulled, apply {Doom:diff()} [gold]Doom[/gold] and {BogPower:diff()} [gold]Bog[/gold], then pass {Cards:diff()} {Cards:plural:card|cards} to a random ally.",
-  "HYPNOSISCREATOR-KNIFE.title": "Knife",
-  "HYPNOSISCREATOR-KNIFE.description": "Deal {Damage:diff()} damage.",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "Slimed",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.description": "Awaken Abnormal. Draw {Cards:diff()} {Cards:plural:card|cards}.",
   "HYPNOSISCREATOR-ABNORMAL_BURN.title": "Burn",

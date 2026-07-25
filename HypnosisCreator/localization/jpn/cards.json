@@ -215,8 +215,6 @@
   "HYPNOSISCREATOR-FETISH_PARTY.description": "味方プレイヤーすべての[gold]手札[/gold]にランダムな性癖カード{Cards:diff()}枚を加える。",
   "HYPNOSISCREATOR-FREE_HUG.title": "フリーハグ<3",
   "HYPNOSISCREATOR-FREE_HUG.description": "相手を引き寄せる。すでに相手が引き寄せられている場合、[gold]破滅[/gold]{Doom:diff()}と[gold]沼[/gold]{BogPower:diff()}を与え、ランダムな味方に{Cards:diff()}枚パスする。",
-  "HYPNOSISCREATOR-KNIFE.title": "ナイフ",
-  "HYPNOSISCREATOR-KNIFE.description": "{Damage:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "粘液",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.description": "アブノーマル性癖に目覚めさせる。カードを{Cards:diff()}枚引く。",
   "HYPNOSISCREATOR-ABNORMAL_BURN.title": "火傷",
