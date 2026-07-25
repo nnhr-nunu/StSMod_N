@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム3つ入手（この戦闘のみ）。
+/// 自己暗示 — 筋力・スピードを得て、未所持かつ戦闘中敵以外の希少な心臓をランダム1つ入手（この戦闘のみ）。
 /// 心臓効果は右クリック発動（得た瞬間には発動しない）。UGで筋力2・スピード2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -27,7 +27,7 @@ public class SelfSuggestion() : HypnosisCreatorCard(1,
     [
         new PowerVar<StrengthPower>(1M),
         new PowerVar<DexterityPower>(1M),
-        new DynamicVar("Hearts", 3M)
+        new DynamicVar("Hearts", 1M)
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>

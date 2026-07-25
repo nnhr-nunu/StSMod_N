@@ -189,7 +189,7 @@
   "HYPNOSISCREATOR-PROSELYTIZE.title": "布教欲求",
   "HYPNOSISCREATOR-PROSELYTIZE.description": "[gold]推し活[/gold]{OshiActivityPower:diff()}と[gold]沼[/gold]{BogPower:diff()}を付与する。戦闘終了時、{Gold:diff()}ゴールドを獲得する。",
   "HYPNOSISCREATOR-SELF_SUGGESTION.title": "自己暗示",
-  "HYPNOSISCREATOR-SELF_SUGGESTION.description": "[gold]筋力[/gold]{StrengthPower:diff()}を得る。[gold]敏捷[/gold]{DexterityPower:diff()}を得る。この戦闘中、ランダムな心臓レリックを[blue]3[/blue]つ獲得する。",
+  "HYPNOSISCREATOR-SELF_SUGGESTION.description": "[gold]筋力[/gold]{StrengthPower:diff()}を得る。[gold]敏捷[/gold]{DexterityPower:diff()}を得る。この戦闘中、ランダムな心臓レリックを[blue]1[/blue]つ獲得する。",
   "HYPNOSISCREATOR-HEART_CRAVING.title": "心臓への渇望",
   "HYPNOSISCREATOR-HEART_CRAVING.description": "使用済みの希少な心臓レリックが、この戦闘中に限り再使用可能状態になる。",
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.title": "もうちょっと我慢しようね",
