@@ -12,9 +12,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
 /// <summary>
-/// ミラーリング — 相手の攻撃予定と同じ攻撃。廃棄。
-/// 数値は相手の攻撃意図をベースに、スロウ・弱体・筋力など攻撃補正を反映。
-/// 敵の弱体は意図値に含まれる。多段は WithHitCount 1回で解決。
+/// ミラーリング — 相手の攻撃予定と同じ攻撃（同じ1ヒット値・同じ連撃数）。廃棄。
+/// 既定は意図表示値をそのまま与え、プレイヤー側の状態異常補正は載せない。
+/// 旧補正付き挙動は <see cref="MirroringDamagePreview.UseIntentValuesOnly"/> で復帰可能。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Mirroring() : HypnosisCreatorCard(1,
@@ -24,7 +24,7 @@ public class Mirroring() : HypnosisCreatorCard(1,
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(0M, ValueProp.Move)];
+        [new DamageVar(0M, MirroringRules.DamageProps)];
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
