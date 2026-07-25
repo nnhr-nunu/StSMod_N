@@ -40,6 +40,7 @@ CARD_DERIVED_POWER_MAP: dict[str, str] = {
     "corrosion_power": "corrosion",
     "word_flood_power": "word_flood",
     "fetish_understanding_power": "fetish_understanding",
+    "know_it_all_power": "know_it_all",
     "mass_hypnosis_power": "mass_hypnosis",
     "status_hypnosis_power": "status_hypnosis",
     "ericksonian_power": "ericksonian",
