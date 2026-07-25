@@ -30,7 +30,9 @@ public static class BuffStripRules
     private static bool IsProtectedInnateEnemyBuff(PowerModel power) =>
         power is AdaptablePower
             or DieForYouPower
+            or IllusionPower
             or ReattachPower
+            or SkittishPower
             or SteamEruptionPower
             or SurprisePower;
 }
