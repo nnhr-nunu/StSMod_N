@@ -21,8 +21,13 @@ public static class FetishCombat
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
     public const decimal FetishAbyssDoomMultiplier = 1.5M;
 
-    /// <summary>ぜんぶ知ってるよ 用。刺さり破滅倍率（既定1）。戦闘終了時にリセットされる。</summary>
-    public static decimal FetishHitMultiplier { get; set; } = 1M;
+    /// <summary>ぜんぶ知ってるよの総倍率（未所持なら1）。パワー Amount＝倍率（2＝2倍）。</summary>
+    public static decimal ResolveFetishHitMultiplier(Creature? applier)
+    {
+        var power = applier?.GetPower<KnowItAllPower>();
+        if (power == null || power.Amount <= 0) return 1M;
+        return power.Amount;
+    }
 
     /// <summary>
     /// 教祖化 用。有効な間、SM・DomSub・アブノーマルの性癖カードは対象の性癖有無に関わらず必ず刺さる
@@ -226,7 +231,7 @@ public static class FetishCombat
     {
         var fromHp = (int)Math.Ceiling(enemy.MaxHp * (double)FetishDoomHpPercent);
         var baseAmount = fromHp + FetishDoomFlat;
-        var amount = Math.Max(1, (int)Math.Floor(baseAmount * (double)FetishHitMultiplier));
+        var amount = Math.Max(1, (int)Math.Floor(baseAmount * (double)ResolveFetishHitMultiplier(applier)));
         if (OwnerHasFetishAbyss(applier))
             amount = Math.Max(1, (int)Math.Floor(amount * (double)FetishAbyssDoomMultiplier));
         return amount;

@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.Runs;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 戦闘終了時: ぜんぶ知ってるよ の刺さり倍率・教祖化の必中フラグを戦闘間で持ち越さないようにリセットする。
+/// 戦闘終了時: 教祖化の必中フラグを戦闘間で持ち越さないようにリセットする。
 /// 布教欲求のゴールドは本家 Royalties と同じく報酬画面の追加 GoldReward として載せる。
 /// 自己暗示などで得た一時レリックもここで除去する。
 /// </summary>
@@ -32,7 +32,6 @@ public static class FetishCombatResetPatch
         CombatRoom room)
     {
         _ = runState;
-        FetishCombat.FetishHitMultiplier = 1M;
         FetishCombat.CultLeaderActive = false;
         FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
