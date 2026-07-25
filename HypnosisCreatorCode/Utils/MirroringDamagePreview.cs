@@ -6,9 +6,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// ミラーリングの実効ダメージプレビュー。敵意図の1ヒット値に対し、
-/// スロウ・脆弱など攻撃補正は <see cref="ValueProp.Move"/> で反映し、
-/// プレイヤー筋力だけ <see cref="Patches.MirroringStrengthExclusionPatch"/> で除外する。
+/// ミラーリングの実効ダメージプレビュー。敵意図の1ヒット値に攻撃補正（筋力・スロウ・弱体等）を載せる。
 /// </summary>
 public static class MirroringDamagePreview
 {
