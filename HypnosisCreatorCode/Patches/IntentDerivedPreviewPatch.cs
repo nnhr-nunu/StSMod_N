@@ -26,16 +26,40 @@ public static class MirroringDamagePreviewPatch
         _ = runGlobalHooks;
         if (card is not Mirroring mirroring) return;
 
-        var previewTarget = target ?? mirroring.CurrentTarget;
-        if (previewTarget == null || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out _))
+        if (!Mirroring.TryGetIntentAttack(mirroring, target, out var perHit, out var hits))
         {
             CardDamagePreview.SetPreviewPair(__instance, 0M, 0M);
             return;
         }
 
-        var preview = MirroringDamagePreview.Resolve(
-            mirroring, previewTarget, damage, previewMode);
-        CardDamagePreview.SetPreviewPair(__instance, damage, preview);
+        CardDamagePreview.SetPreviewPair(__instance, perHit, perHit);
+    }
+}
+
+/// <summary>
+/// ミラーリング — 相手の攻撃意図から連撃数をプレビューに載せる。
+/// </summary>
+[HarmonyPatch(typeof(RepeatVar), "UpdateCardPreview")]
+public static class MirroringRepeatPreviewPatch
+{
+    public static void Postfix(
+        RepeatVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target,
+        bool runGlobalHooks)
+    {
+        _ = previewMode;
+        _ = runGlobalHooks;
+        if (card is not Mirroring mirroring) return;
+
+        if (!Mirroring.TryGetIntentAttack(mirroring, target, out _, out var hits))
+        {
+            CardDamagePreview.SetPreviewPair(__instance, 0M, 0M);
+            return;
+        }
+
+        CardDamagePreview.SetPreviewPair(__instance, hits, hits);
     }
 }
 

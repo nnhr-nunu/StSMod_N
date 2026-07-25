@@ -24,22 +24,38 @@ public class Mirroring() : HypnosisCreatorCard(1,
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(0M, MirroringRules.DamageProps)];
+    [
+        new DamageVar(0M, MirroringRules.DamageProps),
+        new RepeatVar(1)
+    ];
+
+    internal static bool TryGetIntentAttack(
+        Mirroring mirroring,
+        Creature? target,
+        out decimal perHit,
+        out int hits)
+    {
+        perHit = 0;
+        hits = 0;
+
+        var previewTarget = target ?? mirroring.CurrentTarget;
+        if (previewTarget == null || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out hits))
+            return false;
+
+        hits = Math.Max(1, hits);
+        perHit = MirroringDamagePreview.Resolve(mirroring, previewTarget, damage);
+        return perHit > 0;
+    }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
     internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not Mirroring mirroring) return;
+        if (!TryGetIntentAttack(mirroring, target, out var perHit, out var hits)) return;
 
-        var previewTarget = target ?? mirroring.CurrentTarget;
-        if (previewTarget == null || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out _))
-            return;
-        if (damage <= 0) return;
-
-        var preview = MirroringDamagePreview.Resolve(mirroring, previewTarget, damage);
-        CombatDamageSuffixPreview.AppendCompactDealDamageSuffix(
-            mirroring, ref description, preview, damage);
+        CombatDamageSuffixPreview.AppendCompactPerHitDamageSuffix(
+            mirroring, ref description, perHit, hits);
     }
 
     public static bool HasAttackIntent(Creature target) =>
@@ -54,11 +70,12 @@ public class Mirroring() : HypnosisCreatorCard(1,
         if (!EnemyAttackIntents.TryGetPerHit(play.Target, out var damage, out var hits))
             return;
 
+        hits = Math.Max(1, hits);
         DynamicVars.Damage.BaseValue = damage;
-        if (hits <= 0) return;
+        DynamicVars["Repeat"].BaseValue = hits;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(hits)
+            .WithHitCount(DynamicVars["Repeat"].IntValue)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")

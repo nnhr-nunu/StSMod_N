@@ -129,6 +129,27 @@ public static class CombatDamageSuffixPreview
         InsertBeforeExhaustOrAppend(card, ref description, suffix);
     }
 
+    /// <summary>1ヒット値と連撃数（N×M）。補正なしの固定値表示向け。</summary>
+    public static void AppendCompactPerHitDamageSuffix(
+        CardModel card,
+        ref string description,
+        decimal perHit,
+        int hits)
+    {
+        if (!CombatPreviewText.IsActive(card)) return;
+        if (perHit <= 0 || hits <= 0) return;
+
+        var formatted = CombatPreviewText.FormatAmount(perHit);
+        var suffix = hits > 1
+            ? UpgradeCardText.IsJapaneseUi()
+                ? $"（{formatted}×{hits}ダメージ）"
+                : $" ({formatted}×{hits} damage)"
+            : UpgradeCardText.IsJapaneseUi()
+                ? $"（{formatted}ダメージ）"
+                : $" ({formatted} damage)";
+        InsertBeforeExhaustOrAppend(card, ref description, suffix);
+    }
+
     private static void InsertBeforeExhaustOrAppend(CardModel card, ref string description, string suffix)
     {
         if (description.Contains(suffix, StringComparison.Ordinal)) return;
