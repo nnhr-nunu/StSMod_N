@@ -7,7 +7,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 拡大画面などでツールチップが縦に積みすぎるのを抑える。
-/// スターターで学べる性癖3種と、説明文にも出る自動トランスを過多時だけ省略する。
+/// スターターで学べる性癖3種と、説明文のトランス／破滅／沼キーワードを過多時だけ省略する。
 /// </summary>
 public static class HoverTipCrowding
 {
@@ -22,24 +22,21 @@ public static class HoverTipCrowding
         IReadOnlySet<CardKeyword>? keywords = null) =>
         IsCrowded(card, keywords);
 
-    public static bool ShouldOmitAutoTranceHoverTip(CardModel card) =>
-        IsCrowded(card);
-
     public static bool IsCrowded(CardModel card, IReadOnlySet<CardKeyword>? keywords = null) =>
-        Estimate(card, includeStarterFetishKeywords: false, includeAutoTrance: false, keywords) >= Threshold;
+        Estimate(card, includeStarterFetishKeywords: false, includeMechanicKeywords: false, keywords) >= Threshold;
 
     private static int Estimate(
         CardModel card,
         bool includeStarterFetishKeywords,
-        bool includeAutoTrance,
+        bool includeMechanicKeywords,
         IReadOnlySet<CardKeyword>? keywords)
     {
         var count = 0;
         if (card is HypnosisCreatorCard hc)
         {
             count += hc.CountCardHoverTipsForCrowding();
-            if (includeAutoTrance && hc.IncludesAutoTranceHoverTipForCrowding())
-                count++;
+            if (includeMechanicKeywords)
+                count += MechanicKeywordRules.KeywordsFor(card).Count();
         }
 
         if (card.Enchantment != null)

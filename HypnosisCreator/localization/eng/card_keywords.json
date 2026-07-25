@@ -8,5 +8,11 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "Abnormal",
   "HYPNOSISCREATOR-ABNORMAL.description": "When played on an opponent with the Abnormal fetish, apply Doom based on their Max HP.",
   "HYPNOSISCREATOR-TRANCE.title": "Trance Fetish",
-  "HYPNOSISCREATOR-TRANCE.description": "Whenever Trance is applied to an opponent with the Trance fetish, apply Doom (5% of Max HP + 5; ×1.5 if they have Bog)."
+  "HYPNOSISCREATOR-TRANCE.description": "Whenever Trance is applied to an opponent with the Trance fetish, apply Doom (5% of Max HP + 5; ×1.5 if they have Bog).",
+  "HYPNOSISCREATOR-TRANCESTATE.title": "Trance",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "Allows playing [gold]Count[/gold] cards even when their cost is not 0. Decreases by [blue]1[/blue] at the start of your turn.",
+  "HYPNOSISCREATOR-DOOM.title": "Doom",
+  "HYPNOSISCREATOR-DOOM.description": "At the end of the enemy's turn, if Doom equals or exceeds their current HP, they die instantly.",
+  "HYPNOSISCREATOR-BOG.title": "Bog",
+  "HYPNOSISCREATOR-BOG.description": "[gold]Doom[/gold] received is increased by [blue]50%[/blue]. Decreases by [blue]1[/blue] at the end of turn."
 }

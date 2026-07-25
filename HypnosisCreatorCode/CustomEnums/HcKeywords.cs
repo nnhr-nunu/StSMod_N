@@ -21,6 +21,16 @@ public static class HcKeywords
 
     [CustomEnum, KeywordProperties(AutoKeywordPosition.None)]
     public static CardKeyword Trance;
+
+    /// <summary>敵デバフのトランス。説明の [gold]トランス[/gold] とタイトルを一致させる。</summary>
+    [CustomEnum, KeywordProperties(AutoKeywordPosition.None)]
+    public static CardKeyword TranceState;
+
+    [CustomEnum, KeywordProperties(AutoKeywordPosition.None)]
+    public static CardKeyword Doom;
+
+    [CustomEnum, KeywordProperties(AutoKeywordPosition.None)]
+    public static CardKeyword Bog;
 }
 
 public static class HcUnplayableReasons
