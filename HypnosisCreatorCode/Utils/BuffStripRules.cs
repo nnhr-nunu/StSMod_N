@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
@@ -15,6 +16,10 @@ public static class BuffStripRules
     {
         if (power.Type != PowerType.Buff) return false;
         if (power.Owner is not { IsEnemy: true }) return false;
+
+        // 性癖スロット表示用。剥がすと HUD が消えるがスロットデータは残るため再同期が必要になる。
+        if (power is FetishAttributePower)
+            return false;
 
         // 本家フック（幻影蟲 Illusion 等が false）
         if (!Hook.ShouldPowerBeRemovedOnDeath(power))

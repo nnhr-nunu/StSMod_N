@@ -62,6 +62,9 @@ public static class FetishHudBeforeCombatPatch
 {
     public static void Postfix(IRunState runState, ICombatState combatState)
     {
+        foreach (var player in combatState.Players)
+            PlayerAttackTracker.Reset(player);
+
         FetishOwnerLookup.EnsureAllEnemies(combatState);
 
         var owner = FetishOwnerLookup.Find(combatState);
