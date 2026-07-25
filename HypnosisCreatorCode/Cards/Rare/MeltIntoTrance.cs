@@ -63,11 +63,11 @@ public class MeltIntoTrance() : HypnosisCreatorCard(1,
     internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not MeltIntoTrance melt) return;
+        if (!CombatPreviewText.IsActive(melt)) return;
 
         var previewTarget = target ?? melt.CurrentTarget;
         var raw = ComputeDamage(melt, previewTarget);
-        if (raw <= 0) return;
-
-        CombatDamageSuffixPreview.AppendDealDamageSuffix(melt, previewTarget, ref description, raw, ValueProp.Move);
+        var preview = CardDamagePreview.ApplyModifiers(melt, previewTarget, raw, ValueProp.Move);
+        CombatDamageSuffixPreview.AppendDealDamageSuffix(melt, ref description, preview, raw);
     }
 }
