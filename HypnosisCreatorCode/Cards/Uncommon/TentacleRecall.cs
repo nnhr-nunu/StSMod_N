@@ -11,7 +11,9 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>触手の想起 — 締め付け5のみ。次ターン開始時にコピーを手札へ。UGで締め付け7。</summary>
+/// <summary>
+/// 触手の想起 — アブノーマル。締め付け5＋アブノーマル目覚め。次ターン開始時にコピーを手札へ（UGは締め付け9）。
+/// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TentacleRecall() : HypnosisCreatorCard(1,
     CardType.Attack, CardRarity.Common,
@@ -31,12 +33,21 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
 
         await PowerCmd.Apply<ConstrictPower>(
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
+
+        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
         await ResolveFetishOnTarget(choiceContext, play);
 
-        await PowerCmd.Apply<TentacleRecallPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+        // Single 再付与で Schedule 済みの参照が消えないよう、未所持のときだけ Apply する
         var power = Owner.Creature.GetPower<TentacleRecallPower>();
-        if (power != null) power.SourceCard = this;
+        if (power == null)
+        {
+            await PowerCmd.Apply<TentacleRecallPower>(
+                choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+            power = Owner.Creature.GetPower<TentacleRecallPower>();
+        }
+
+        power?.Schedule(this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(2M);
+    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(4M);
 }
