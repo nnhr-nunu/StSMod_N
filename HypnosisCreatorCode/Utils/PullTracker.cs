@@ -109,7 +109,11 @@ public static class PullTracker
 
         var sandpit = pulledEnemy.Powers.OfType<SandpitPower>()
             .FirstOrDefault(s => s.Target == towardPlayer);
-        if (sandpit == null || sandpit.Amount <= 0) return;
+        if (sandpit == null) return;
+
+        ShowPulledSandpitBeastMessage(towardPlayer);
+
+        if (sandpit.Amount <= 0) return;
 
         await PowerCmd.ModifyAmount(choiceContext, sandpit, -1m, pulledEnemy, cardSource);
     }
@@ -287,6 +291,46 @@ public static class PullTracker
 
         // 最終手段: 現在位置を中心にした仮の幅
         return new Rect2(node.GlobalPosition.X - 80f, node.GlobalPosition.Y - 80f, 160f, 160f);
+    }
+
+    private static void ShowPulledSandpitBeastMessage(Creature playerCreature)
+    {
+        if (!playerCreature.IsAlive) return;
+
+        try
+        {
+            var text = ResolvePulledSandpitBeastLine();
+            var bubble = NSpeechBubbleVfx.Create(text, playerCreature, 1.5, VfxColor.White);
+            if (bubble == null) return;
+
+            var container = playerCreature.GetVfxContainer();
+            if (container == null) return;
+            GodotTreeExtensions.AddChildSafely(container, bubble);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Pulled sandpit beast speech failed: {e.Message}");
+        }
+    }
+
+    private static string ResolvePulledSandpitBeastLine()
+    {
+        try
+        {
+            var text = new LocString("characters", "HYPNOSISCREATOR-HYPNOSIS_CREATOR.banter.pulledSandpitBeast")
+                .GetFormattedText()?.Trim();
+            if (!string.IsNullOrWhiteSpace(text)
+                && !text.StartsWith("HYPNOSISCREATOR-", StringComparison.Ordinal))
+                return text;
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return UpgradeCardText.IsJapaneseUi()
+            ? "危険な相手を引き寄せてしまった…！"
+            : "I pulled a dangerous foe toward me...!";
     }
 
     private static void ShowCannotPullMessage(Creature? playerCreature, Creature target)
