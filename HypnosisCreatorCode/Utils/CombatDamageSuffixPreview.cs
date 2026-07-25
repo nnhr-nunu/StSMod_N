@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -9,6 +11,10 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CombatDamageSuffixPreview
 {
+    private static readonly Regex ExhaustKeywordToken = new(
+        @"\[gold\](?:廃棄|Exhaust)\[/gold\][。.]",
+        RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
     public static IReadOnlyList<Creature> GetHittableEnemies(CardModel card) =>
         card.CombatState?.HittableEnemies
             .Where(e => e.IsAlive && e.IsEnemy)
@@ -91,4 +97,58 @@ public static class CombatDamageSuffixPreview
             : $" ({formatted} Block)";
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
     }
+
+    /// <summary>戦闘中のみ（Nダメージ）を付与。廃棄キーワード行の直前に挿入（無ければ末尾）。</summary>
+    public static void AppendCompactDealDamageSuffix(
+        CardModel card,
+        Creature? target,
+        ref string description,
+        decimal raw,
+        ValueProp props)
+    {
+        if (!CombatPreviewText.IsActive(card)) return;
+        if (raw <= 0) return;
+
+        var previewTarget = target ?? card.CurrentTarget;
+        var preview = CardDamagePreview.ApplyModifiers(card, previewTarget, raw, props);
+        AppendCompactDealDamageSuffix(card, ref description, preview, raw);
+    }
+
+    public static void AppendCompactDealDamageSuffix(
+        CardModel card,
+        ref string description,
+        decimal preview,
+        decimal baseline)
+    {
+        if (!CombatPreviewText.IsActive(card)) return;
+
+        var formatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（{formatted}ダメージ）"
+            : $" ({formatted} damage)";
+        InsertBeforeExhaustOrAppend(card, ref description, suffix);
+    }
+
+    private static void InsertBeforeExhaustOrAppend(CardModel card, ref string description, string suffix)
+    {
+        if (description.Contains(suffix, StringComparison.Ordinal)) return;
+
+        if (HasExhaustKeyword(card))
+        {
+            var match = ExhaustKeywordToken.Match(description);
+            if (match.Success)
+            {
+                var insertAt = match.Index;
+                var prefix = insertAt > 0 && description[insertAt - 1] == '\n' ? "" : "\n";
+                description = description.Insert(insertAt, prefix + suffix);
+                return;
+            }
+        }
+
+        CombatPreviewText.AppendSuffix(card, ref description, suffix);
+    }
+
+    private static bool HasExhaustKeyword(CardModel card) =>
+        card.CanonicalKeywords.Contains(CardKeyword.Exhaust)
+        || card.Keywords.Contains(CardKeyword.Exhaust);
 }

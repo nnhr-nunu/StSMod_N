@@ -20,6 +20,8 @@ public class Catalepsy() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Slow", 1M)];
 

@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
@@ -27,6 +28,19 @@ public class Mirroring() : HypnosisCreatorCard(1,
         [new DamageVar(0M, ValueProp.Unpowered)];
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
+    {
+        if (card is not Mirroring mirroring) return;
+
+        var previewTarget = target ?? mirroring.CurrentTarget;
+        if (previewTarget == null || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out _))
+            return;
+        if (damage <= 0) return;
+
+        CombatDamageSuffixPreview.AppendCompactDealDamageSuffix(
+            mirroring, previewTarget, ref description, damage, ValueProp.Unpowered);
+    }
 
     public static bool HasAttackIntent(Creature target) =>
         EnemyAttackIntents.IntendsToAttack(target);

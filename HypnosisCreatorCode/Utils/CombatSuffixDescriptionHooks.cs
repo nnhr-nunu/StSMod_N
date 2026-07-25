@@ -32,6 +32,9 @@ public static class CombatSuffixDescriptionHooks
     {
         switch (card)
         {
+            case Mirroring mirroring:
+                Mirroring.AppendDescriptionSuffix(mirroring, target, ref description);
+                break;
             case MeltIntoTrance melt:
                 MeltIntoTrance.AppendDescriptionSuffix(melt, target, ref description);
                 break;
