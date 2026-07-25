@@ -59,6 +59,10 @@ public static class StatusHypnosisConvert
         };
     }
 
+    /// <summary>状態異常催眠のプレイ可能呪いではなく、本家 <see cref="CardType.Curse"/> のみ。</summary>
+    public static bool IsVanillaCurseCard(CardModel card) =>
+        card.Type == CardType.Curse && card is not PlayableCurseCard;
+
     public static bool OwnerHasStatusHypnosis(Player player) =>
         player.Creature?.GetPower<StatusHypnosisPower>() != null;
 

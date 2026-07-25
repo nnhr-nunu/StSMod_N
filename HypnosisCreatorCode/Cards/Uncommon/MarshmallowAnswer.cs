@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// マシュマロ回答 — ランダムな呪いを手札に加える。攻撃予定の敵がいれば、その行動を
+/// マシュマロ回答 — 本家呪いをランダム1枚手札に（UGは呪いなし）。攻撃予定の敵がいれば
 /// 「ブロック39を得る」に上書きし沼2を付与する（元の行動は消費、次ターンは別行動）。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -31,7 +31,7 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CardsVar(2),
+        new CardsVar(1),
         new DynamicVar("Block", 39M),
         new PowerVar<BogPower>(2M)
     ];
@@ -39,21 +39,26 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BogPower>()];
 
-    private static bool IsCurse(CardModel c) => c.Type == CardType.Curse;
+    private static bool IsVanillaCurse(CardModel c) =>
+        c.Type == CardType.Curse && StatusHypnosisConvert.IsVanillaCurseCard(c);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (CombatState == null) return;
 
-        var pool = ModelDb.AllCards.Where(IsCurse).ToList();
-        if (pool.Count > 0)
+        var curseCount = DynamicVars.Cards.IntValue;
+        if (curseCount > 0)
         {
-            var rng = Owner.RunState.Rng.CombatCardSelection;
-            for (var i = 0; i < DynamicVars.Cards.IntValue; i++)
+            var pool = ModelDb.AllCards.Where(IsVanillaCurse).ToList();
+            if (pool.Count > 0)
             {
-                var canonical = pool[rng.NextInt(pool.Count)];
-                var generated = CombatState.CreateCard(canonical, Owner);
-                await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+                var rng = Owner.RunState.Rng.CombatCardSelection;
+                for (var i = 0; i < curseCount; i++)
+                {
+                    var canonical = pool[rng.NextInt(pool.Count)];
+                    var generated = CombatState.CreateCard(canonical, Owner);
+                    await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+                }
             }
         }
 
