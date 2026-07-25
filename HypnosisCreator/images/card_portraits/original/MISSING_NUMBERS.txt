@@ -1,34 +1,17 @@
-# 原画未配置（CSV + cards.json に存在するが original/ に番号ファイルなし）
+# 原画未配置（本番カード絵が未設定＝card.png 仮画像のまま、またはファイルなし）
 # 更新: python tools_process_card_portraits.py --write-lists
 # 形式: No | 日本語名 | 出力ファイル名
 #
 # No.56-66（Kneel! 等）は No.48 調教コマンドと同一絵のため、別原画は不要
+# beta/ に番号付き原画を置いた場合: python tools_process_card_portraits.py --source beta
 
-1	完全掌握	total_control.png
 8	ASMR催眠	asmr_hypnosis.png
-14	集団催眠	mass_hypnosis.png
-15	前戯	prefinger.png
-17	カタレプシー	catalepsy.png
-29	ちゃんとできるね？	can_do_it.png
-35	指折り数えて	finger_count.png
 36	ふにゃへにゃ	soften.png
-39	腹部への殴打	abdominal_strike.png
-44	意識を飛ばす光	gaze_light.png
 50	練達	mastery.png
-52	トランスに溶けゆく	melt_into_trance.png
-70	ティンシャ	tingsha.png
-71	連続指パッチン	infinite_finger_snap.png
-72	壱佰捌煩悩	hundred_eight.png
 96	鼓動の共有	heartbeat_share.png
 98	フリーハグ<3	free_hug.png
-226	粘液	abnormal_slime.png
-227	火傷	abnormal_burn.png
-228	負傷	abnormal_wound.png
-229	衰微	abnormal_wither.png
 230	すす	soot_status.png
 231	めまい	dazed_status.png
-232	感染	infect.png
-233	虚無	void_status.png
 234	デブリ	debris_status.png
 235	決死の逃亡	frantic_escape_status.png
 236	毒素	toxic_status.png

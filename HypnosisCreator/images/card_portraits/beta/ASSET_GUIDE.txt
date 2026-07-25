@@ -1,10 +1,21 @@
 # カード絵（β版差分・任意）
 
-βアート差し替え用。なくても問題ありません。
+βアート差分用。なくても問題ありません。
 
-## 例
+## 未設定カードの仮置き（番号ファイル）
 
-- cooking_hypnosis.png
+本番未設定の原画を `{CSV番号}.png` 等で置き、次で本番カード絵へ反映:
+
+```powershell
+python tools_process_card_portraits.py --source beta
+```
+
+出力: `../{id}.png`・`../big/{id}.png`・`{id}.png`（BetaPortraitPath 用）
+番号付きソース（1.png 等）は残してよい。`.psd` は変換対象外。
+
+## 命名済み β 差分
+
+- cooking_hypnosis.png … 通常版と同じファイル名
 
 ## 仕様
 

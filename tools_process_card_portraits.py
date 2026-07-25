@@ -26,6 +26,7 @@ from PIL import Image, ImageFilter
 ROOT = Path(__file__).resolve().parent
 PORTRAIT_DIR = ROOT / "HypnosisCreator" / "images" / "card_portraits"
 ORIGINAL_DIR = PORTRAIT_DIR / "original"
+BETA_DIR = PORTRAIT_DIR / "beta"
 BIG_DIR = PORTRAIT_DIR / "big"
 JPN_CARDS = ROOT / "HypnosisCreator" / "localization" / "jpn" / "cards.json"
 
@@ -225,15 +226,28 @@ def crop_to_aspect(img: Image.Image, fx: float, fy: float) -> Image.Image:
     return img.crop((left, top, left + crop_w, top + crop_h))
 
 
-def save_pair(small: Image.Image, big: Image.Image, entry: str, dry_run: bool = False) -> None:
+def save_pair(
+    small: Image.Image,
+    big: Image.Image,
+    entry: str,
+    dry_run: bool = False,
+    *,
+    also_beta_named: bool = False,
+) -> None:
     out_small = PORTRAIT_DIR / f"{entry}.png"
     out_big = BIG_DIR / f"{entry}.png"
+    out_beta = BETA_DIR / f"{entry}.png"
     print(f"    → {entry}.png / big/{entry}.png")
+    if also_beta_named:
+        print(f"    → beta/{entry}.png")
     if dry_run:
         return
     BIG_DIR.mkdir(parents=True, exist_ok=True)
     small.save(out_small, format="PNG", optimize=True)
     big.save(out_big, format="PNG", optimize=True)
+    if also_beta_named:
+        BETA_DIR.mkdir(parents=True, exist_ok=True)
+        small.save(out_beta, format="PNG", optimize=True)
 
 
 def process_one(
@@ -242,6 +256,8 @@ def process_one(
     extras: tuple[str, ...] = (),
     dry_run: bool = False,
     csv_no: int | None = None,
+    *,
+    also_beta_named: bool = False,
 ) -> str:
     img = open_image(src)
     fx, fy, method = focal_point(img, csv_no=csv_no)
@@ -254,11 +270,11 @@ def process_one(
         f"[{method} @ ({fx:.2f},{fy:.2f})]"
     )
     print(f"    small {SIZE_SMALL[0]}x{SIZE_SMALL[1]}  big {SIZE_BIG[0]}x{SIZE_BIG[1]}")
-    save_pair(small, big, entry, dry_run=dry_run)
+    save_pair(small, big, entry, dry_run=dry_run, also_beta_named=also_beta_named)
     for extra in extras:
         if extra == entry:
             continue
-        save_pair(small, big, extra, dry_run=dry_run)
+        save_pair(small, big, extra, dry_run=dry_run, also_beta_named=also_beta_named)
     return method
 
 
@@ -311,20 +327,35 @@ def list_unnumbered_images(original_dir: Path) -> list[Path]:
     )
 
 
+def is_placeholder_portrait(path: Path) -> bool:
+    import hashlib
+
+    placeholder = PORTRAIT_DIR / "card.png"
+    if not path.is_file() or not placeholder.is_file():
+        return not path.is_file()
+    return hashlib.md5(path.read_bytes()).hexdigest() == hashlib.md5(placeholder.read_bytes()).hexdigest()
+
+
+def portrait_is_ready(entry: str) -> bool:
+    path = PORTRAIT_DIR / f"{entry}.png"
+    return path.is_file() and not is_placeholder_portrait(path)
+
+
 def write_tracking_lists(
     original_dir: Path,
     no_to_title: dict[int, str],
     title_to_entry: dict[str, str],
-    numbered: list[tuple[int, Path]],
+    numbered: list[tuple[int, Path]] | None = None,
 ) -> None:
     """Write MISSING_NUMBERS.txt and UNNUMBERED_FILES.txt under original/."""
-    have = {no for no, _ in numbered}
+    _ = numbered  # kept for call-site compatibility
     missing_lines = [
-        "# 原画未配置（CSV + cards.json に存在するが original/ に番号ファイルなし）",
+        "# 原画未配置（本番カード絵が未設定＝card.png 仮画像のまま、またはファイルなし）",
         "# 更新: python tools_process_card_portraits.py --write-lists",
         "# 形式: No | 日本語名 | 出力ファイル名",
         "#",
         "# No.56-66（Kneel! 等）は No.48 調教コマンドと同一絵のため、別原画は不要",
+        "# beta/ に番号付き原画を置いた場合: python tools_process_card_portraits.py --source beta",
         "",
     ]
     shared_targets = set()
@@ -340,21 +371,27 @@ def write_tracking_lists(
         entry = title_to_entry.get(title)
         if entry is None:
             continue
-        if no in have:
+        if portrait_is_ready(entry):
             continue
         if no in shared_targets:
             continue
         missing_lines.append(f"{no}\t{title}\t{entry}.png")
 
     unnumbered = list_unnumbered_images(original_dir)
+    beta_unnumbered = list_unnumbered_images(BETA_DIR) if BETA_DIR.is_dir() else []
     unnum_lines = [
         "# 番号未指定ファイル（{No}.ext 形式ではない画像）",
         "# カード原画としては使われません。番号付きファイル名にリネームしてください。",
         "",
+        "[original/]",
     ]
     if unnumbered:
-        for p in unnumbered:
-            unnum_lines.append(p.name)
+        unnum_lines.extend(p.name for p in unnumbered)
+    else:
+        unnum_lines.append("(なし)")
+    unnum_lines.extend(["", "[beta/]"])
+    if beta_unnumbered:
+        unnum_lines.extend(p.name for p in beta_unnumbered)
     else:
         unnum_lines.append("(なし)")
 
@@ -376,7 +413,13 @@ def main() -> int:
         default=None,
         help="CSV/JSON with No + Japanese card name (default: auto-detect)",
     )
-    parser.add_argument("--original", type=Path, default=ORIGINAL_DIR)
+    parser.add_argument(
+        "--source",
+        choices=("original", "beta"),
+        default="original",
+        help="Numbered source folder: original/ (default) or beta/ staging",
+    )
+    parser.add_argument("--original", type=Path, default=None, help="Override source directory")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--on-duplicate",
@@ -402,33 +445,39 @@ def main() -> int:
         print(f"CSV/JSON not found: {csv_path}", file=sys.stderr)
         return 1
 
-    if not args.original.is_dir():
-        print(f"original dir not found: {args.original}", file=sys.stderr)
+    source_dir = args.original
+    if source_dir is None:
+        source_dir = BETA_DIR if args.source == "beta" else ORIGINAL_DIR
+    also_beta_named = args.source == "beta"
+
+    if not source_dir.is_dir():
+        print(f"Source dir not found: {source_dir}", file=sys.stderr)
         return 1
 
     no_to_title = load_no_to_title(csv_path)
     title_to_entry = load_title_to_entry()
 
     try:
-        items = discover_numbered(args.original, on_duplicate=args.on_duplicate)
+        items = discover_numbered(source_dir, on_duplicate=args.on_duplicate)
     except SystemExit as exc:
         print(str(exc), file=sys.stderr)
         return 1
 
     if args.write_lists:
-        write_tracking_lists(args.original, no_to_title, title_to_entry, items)
+        write_tracking_lists(ORIGINAL_DIR, no_to_title, title_to_entry, items)
         return 0
 
     print(f"Using card list: {csv_path.name}")
+    print(f"Source: {source_dir.relative_to(ROOT)}")
 
     only = {int(x) for x in args.only.split(",") if x.strip().isdigit()} if args.only else None
 
     if not items:
-        print("No numbered images in original/")
-        write_tracking_lists(args.original, no_to_title, title_to_entry, items)
+        print(f"No numbered images in {source_dir.name}/")
+        write_tracking_lists(ORIGINAL_DIR, no_to_title, title_to_entry, items)
         return 0
 
-    write_tracking_lists(args.original, no_to_title, title_to_entry, items)
+    write_tracking_lists(ORIGINAL_DIR, no_to_title, title_to_entry, items)
 
     ok = 0
     errors: list[str] = []
@@ -446,7 +495,14 @@ def main() -> int:
             continue
         try:
             extras = SHARED_EXTRA_ENTRIES.get(no, ())
-            method = process_one(path, entry, extras=extras, dry_run=args.dry_run, csv_no=no)
+            method = process_one(
+                path,
+                entry,
+                extras=extras,
+                dry_run=args.dry_run,
+                csv_no=no,
+                also_beta_named=also_beta_named,
+            )
             methods[method] = methods.get(method, 0) + 1
             ok += 1
         except Exception as exc:  # noqa: BLE001
