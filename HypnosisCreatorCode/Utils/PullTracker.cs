@@ -93,6 +93,8 @@ public static class PullTracker
         var distance = NextStepDistance(state.PullAnimCount);
         state.PullAnimCount++;
         await AnimateX(creature, towardPlayer, towardPlayer: true, distance);
+        if (DecimillipedeBanter.IsDecimillipede(creature))
+            DecimillipedeBanter.TryShowStillMovingBanter(towardPlayer);
         await TryReduceSandpitOnPull(choiceContext, creature, towardPlayer, cardSource);
         return wasFirst;
     }
