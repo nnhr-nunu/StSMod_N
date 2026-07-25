@@ -1,13 +1,19 @@
-using System.Collections;
 using System.Reflection;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// ヒプノクリエイターの攻撃ヒット時に指パッチン SE を鳴らし、vanilla の剣／鈍撃音は抑止する。
+/// 本家は AttackContext.AddHit ではなく Execute 内の CreatureCmd.Damage を連打するため、Damage 側で鳴らす。
 /// </summary>
 [HarmonyPatch(typeof(AttackCommand), nameof(AttackCommand.Execute))]
 public static class FingerSnapSuppressVanillaHitSfxPatch
@@ -18,39 +24,71 @@ public static class FingerSnapSuppressVanillaHitSfxPatch
     private static readonly FieldInfo? TmpHitSfxField =
         AccessTools.Field(typeof(AttackCommand), "<TmpHitSfx>k__BackingField");
 
-    public static void Prefix(AttackCommand __instance)
-    {
-        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(__instance.Attacker?.Player)) return;
-        HitSfxField?.SetValue(__instance, "");
-        TmpHitSfxField?.SetValue(__instance, "");
-    }
-}
-
-[HarmonyPatch(typeof(AttackContext), nameof(AttackContext.AddHit))]
-public static class FingerSnapAttackHitSfxPatch
-{
-    private static readonly FieldInfo? AttackCommandField =
-        AccessTools.Field(typeof(AttackContext), "_attackCommand");
-
     private static readonly FieldInfo? HitCountField =
         AccessTools.Field(typeof(AttackCommand), "_hitCount");
 
-    private static readonly FieldInfo? ResultsField =
-        AccessTools.Field(typeof(AttackCommand), "_results");
-
-    public static void Postfix(AttackContext __instance)
+    public static void Prefix(AttackCommand __instance)
     {
-        if (AttackCommandField?.GetValue(__instance) is not AttackCommand cmd) return;
-        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(cmd.Attacker?.Player)) return;
+        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(__instance.Attacker?.Player)) return;
 
-        var hitCount = HitCountField?.GetValue(cmd) switch
+        HitSfxField?.SetValue(__instance, "");
+        TmpHitSfxField?.SetValue(__instance, "");
+        FingerSnapSfxTracker.BeginAttack(ReadHitCount(__instance));
+    }
+
+    [HarmonyPriority(Priority.Last)]
+    public static void Postfix(AttackCommand __instance, ref Task<AttackCommand> __result)
+    {
+        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(__instance.Attacker?.Player)) return;
+
+        var original = __result;
+        __result = EndAttackAfterAsync(original);
+    }
+
+    private static async Task<AttackCommand> EndAttackAfterAsync(Task<AttackCommand> original)
+    {
+        try
+        {
+            return await original;
+        }
+        finally
+        {
+            FingerSnapSfxTracker.EndAttack();
+        }
+    }
+
+    private static int ReadHitCount(AttackCommand cmd) =>
+        HitCountField?.GetValue(cmd) switch
         {
             int i => i,
             _ => 1
         };
-        var hitIndex = (ResultsField?.GetValue(cmd) as IList)?.Count ?? 1;
-        if (hitIndex <= 0) return;
+}
 
-        FingerSnapSfx.PlayForHit(hitCount, hitIndex);
+[HarmonyPatch(
+    typeof(CreatureCmd),
+    nameof(CreatureCmd.Damage),
+    [
+        typeof(PlayerChoiceContext),
+        typeof(Creature),
+        typeof(decimal),
+        typeof(ValueProp),
+        typeof(Creature),
+        typeof(CardModel),
+        typeof(CardPlay)
+    ])]
+public static class FingerSnapAttackHitSfxPatch
+{
+    public static void Prefix(
+        Creature dealer,
+        CardModel? cardSource)
+    {
+        if (cardSource?.Type != CardType.Attack) return;
+        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(dealer.Player)) return;
+
+        if (FingerSnapSfxTracker.TryAdvance(out var totalHits, out var hitIndex))
+            FingerSnapSfx.PlayForHit(totalHits, hitIndex);
+        else
+            FingerSnapSfx.PlayNormal();
     }
 }
