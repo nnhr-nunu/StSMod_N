@@ -91,6 +91,14 @@ public static class CombatFrameAnimator
 
     public static void TryIdle(NCreature? creature) => TryPlay(creature, "Idle");
 
+    /// <summary>Spine 無しの連番立ち絵で死亡ディゾルブを開始する。</summary>
+    public static bool TryBeginDeathDissolve(NCreature? creature)
+    {
+        var sprite = FindOurSprite(creature);
+        if (sprite == null) return false;
+        return CombatDeathDissolve.TryBegin(sprite);
+    }
+
     /// <summary>多段ヒットなど、攻撃中ずっと指パッチンを回す。</summary>
     public static void BeginAttackLoop(Creature? creature) =>
         BeginAttackLoop(creature?.GetCreatureNode());

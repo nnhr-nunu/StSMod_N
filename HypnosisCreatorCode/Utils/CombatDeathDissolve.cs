@@ -1,5 +1,6 @@
 using Godot;
 using HypnosisCreator.HypnosisCreatorCode;
+using HypnosisCreator.HypnosisCreatorCode.Config;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -9,6 +10,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CombatDeathDissolve
 {
+    private const string ChromaMaterialPath = $"{MainFile.ResPath}/shaders/chroma_key_material.tres";
+
     /// <summary>本家 AnimDie が待つ尺と揃える目安。</summary>
     public const float DurationSeconds = 1.25f;
 
@@ -30,13 +33,28 @@ public static class CombatDeathDissolve
         return Math.Clamp((1f - amount) * DurationSeconds, 0f, DurationSeconds);
     }
 
+    /// <summary>戦闘立ち絵ノードからディゾルブを開始（既に開始済みなら false）。</summary>
+    public static bool TryBegin(AnimatedSprite2D? sprite)
+    {
+        if (sprite == null || !GodotObject.IsInstanceValid(sprite)) return false;
+        if (IsDissolving(sprite)) return true;
+        Begin(sprite);
+        return IsDissolving(sprite);
+    }
+
     public static void Begin(AnimatedSprite2D sprite)
     {
         try
         {
             if (!GodotObject.IsInstanceValid(sprite)) return;
             if (IsDissolving(sprite)) return;
-            if (sprite.Material is not ShaderMaterial sourceMat) return;
+
+            EnsureChromaMaterial(sprite);
+            if (sprite.Material is not ShaderMaterial sourceMat)
+            {
+                MainFile.Logger.Warn("CombatDeathDissolve: ShaderMaterial not found on combat sprite.");
+                return;
+            }
 
             // 共有 chroma_key_material を溶かさないようインスタンス専用にする
             var mat = sourceMat;
@@ -59,7 +77,12 @@ public static class CombatDeathDissolve
             var tween = sprite.CreateTween();
             tween.SetEase(Tween.EaseType.In);
             tween.SetTrans(Tween.TransitionType.Sine);
-            tween.TweenProperty(mat, "shader_parameter/dissolve_amount", 1.0, DurationSeconds);
+            // shader_parameter の TweenProperty は環境によって効かないため TweenMethod を使う
+            tween.TweenMethod(
+                Callable.From<float>(v => mat.SetShaderParameter("dissolve_amount", v)),
+                0f,
+                1f,
+                DurationSeconds);
             sprite.SetMeta(TweenMeta, tween);
         }
         catch (Exception e)
@@ -86,6 +109,18 @@ public static class CombatDeathDissolve
         {
             MainFile.Logger.Warn($"CombatDeathDissolve.Reset failed: {e.Message}");
         }
+    }
+
+    private static void EnsureChromaMaterial(AnimatedSprite2D sprite)
+    {
+        if (sprite.Material is ShaderMaterial existing &&
+            existing.Shader?.ResourcePath?.Contains("chroma_key") == true)
+            return;
+
+        if (!ResourceLoader.Exists(ChromaMaterialPath)) return;
+        var shared = ResourceLoader.Load<ShaderMaterial>(ChromaMaterialPath);
+        if (shared == null) return;
+        sprite.Material = (ShaderMaterial)shared.Duplicate();
     }
 
     private static void KillTween(AnimatedSprite2D sprite)
