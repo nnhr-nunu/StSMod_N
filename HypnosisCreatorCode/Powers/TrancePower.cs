@@ -25,10 +25,13 @@ public class TrancePower : HypnosisCreatorPower
         if (side == Owner.Side) return;
         if (Amount <= 0) return;
         await PowerCmd.Decrement(this);
+        if (!TranceCombat.HasTrance(Owner))
+            CatalepsyPower.NotifyTranceBroken(Owner);
     }
 
     public override Task AfterRemoved(Creature oldOwner)
     {
+        CatalepsyPower.NotifyTranceBroken(oldOwner);
         CognitiveShufflePower.NotifyTranceTargetChanged(oldOwner);
         return base.AfterRemoved(oldOwner);
     }
