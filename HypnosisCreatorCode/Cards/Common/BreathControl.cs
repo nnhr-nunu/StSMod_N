@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>呼吸制御 — SM。このターン、カードプレイごとに対象の筋力−1。攻撃0ならスタン。</summary>
+/// <summary>呼吸制御 — SM。このターン、カードプレイごとに対象の筋力−1（本カードのプレイは除く）。攻撃0ならスタン。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BreathControl() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Uncommon,
