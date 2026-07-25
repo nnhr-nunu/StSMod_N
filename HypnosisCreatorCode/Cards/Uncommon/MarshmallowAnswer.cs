@@ -16,18 +16,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// マシュマロ回答 — 本家呪いをランダム1枚手札に（UGは呪いなし）。攻撃予定の敵がいれば
-/// 「ブロック39を得る」に上書きし沼2を付与する（元の行動は消費、次ターンは別行動）。廃棄。
+/// マシュマロ回答 — 対象の敵に。本家呪いをランダム1枚手札に（UGは呪いなし）。
+/// 対象が攻撃予定なら行動を「ブロック39を得る」に上書きし沼2を付与。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MarshmallowAnswer() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
-    TargetType.Self)
+    TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        GlowIfAnyEnemy(EnemyAttackIntents.IntendsToAttack);
+        GlowIfTargetOrAnyEnemy(EnemyAttackIntents.IntendsToAttack);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -62,13 +62,13 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
             }
         }
 
-        var attacker = CombatState.HittableEnemies.FirstOrDefault(e => e.Monster?.IntendsToAttack == true);
-        if (attacker == null) return;
+        ArgumentNullException.ThrowIfNull(play.Target);
+        if (!EnemyAttackIntents.IntendsToAttack(play.Target)) return;
 
         var block = DynamicVars["Block"].BaseValue;
-        TryOverwriteToDefend(attacker, block);
+        TryOverwriteToDefend(play.Target, block);
         await PowerCmd.Apply<BogPower>(
-            choiceContext, attacker, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
+            choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
     }
 
     private static void TryOverwriteToDefend(Creature enemy, decimal block)
