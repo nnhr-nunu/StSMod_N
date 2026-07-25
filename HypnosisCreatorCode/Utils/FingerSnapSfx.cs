@@ -4,38 +4,38 @@ using HypnosisCreator.HypnosisCreatorCode;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// mod 同梱の <c>audio/FINGER_SNAP</c> を Godot で再生する。
+/// mod 同梱の <c>audio/FINGER_SNAP</c> / <c>FINGER_SNAP_short</c> を Godot で再生する。
 /// FMOD の vanilla ヒット音とは別系統。
 /// </summary>
 public static class FingerSnapSfx
 {
-    private const string BaseName = "FINGER_SNAP";
+    private const string NormalBaseName = "FINGER_SNAP";
+    private const string ShortBaseName = "FINGER_SNAP_short";
     private static readonly string[] Extensions = [".ogg", ".wav", ".mp3"];
-    private static AudioStream? _stream;
-    private static bool _loadFailed;
 
-    public static void PlayNormal() => Play(1f);
+    private static AudioStream? _normalStream;
+    private static AudioStream? _shortStream;
+    private static bool _normalLoadFailed;
+    private static bool _shortLoadFailed;
 
-    /// <summary>多段ヒット用。段数が多いほど再生速度を上げる。</summary>
+    public static void PlayNormal() => Play(EnsureNormalStream(), 1f);
+
+    /// <summary>多段ヒット用。短い版を等速付近で連続再生する。</summary>
     public static void PlayForHit(int totalHits, int hitIndex)
     {
-        var pitch = totalHits switch
+        if (totalHits <= 1)
         {
-            <= 1 => 1f,
-            <= 5 => 1.2f,
-            <= 20 => 1.45f,
-            <= 50 => 1.65f,
-            _ => 1.85f
-        };
+            PlayNormal();
+            return;
+        }
 
-        // 連打感のためヒットごとにわずかにピッチをずらす
-        pitch += Math.Min(hitIndex - 1, 8) * 0.02f;
-        Play(pitch);
+        // 短い版を基本等速。連打感はごくわずかなピッチ差のみ（高音化しすぎない）
+        var pitch = 1f + Math.Min(hitIndex - 1, 6) * 0.01f;
+        Play(EnsureShortStream(), pitch);
     }
 
-    private static void Play(float pitchScale)
+    private static void Play(AudioStream? stream, float pitchScale)
     {
-        var stream = EnsureStream();
         if (stream == null) return;
 
         var tree = Engine.GetMainLoop() as SceneTree;
@@ -45,7 +45,7 @@ public static class FingerSnapSfx
         var player = new AudioStreamPlayer
         {
             Stream = stream,
-            PitchScale = Math.Clamp(pitchScale, 0.5f, 2.5f),
+            PitchScale = Math.Clamp(pitchScale, 0.9f, 1.15f),
             VolumeDb = -2f
         };
 
@@ -58,23 +58,41 @@ public static class FingerSnapSfx
         };
     }
 
-    private static AudioStream? EnsureStream()
+    private static AudioStream? EnsureNormalStream() =>
+        LoadStream(NormalBaseName, ref _normalStream, ref _normalLoadFailed);
+
+    private static AudioStream? EnsureShortStream()
     {
-        if (_stream != null) return _stream;
-        if (_loadFailed) return null;
+        var stream = LoadStream(ShortBaseName, ref _shortStream, ref _shortLoadFailed);
+        if (stream != null) return stream;
+
+        MainFile.Logger.Warn(
+            $"Short finger snap sfx not found under {MainFile.ResPath}/audio/{ShortBaseName}; falling back to normal clip.");
+        return EnsureNormalStream();
+    }
+
+    private static AudioStream? LoadStream(
+        string baseName, ref AudioStream? cache, ref bool loadFailed)
+    {
+        if (cache != null) return cache;
+        if (loadFailed) return null;
 
         foreach (var ext in Extensions)
         {
-            var path = $"{MainFile.ResPath}/audio/{BaseName}{ext}";
+            var path = $"{MainFile.ResPath}/audio/{baseName}{ext}";
             if (!ResourceLoader.Exists(path)) continue;
 
-            _stream = GD.Load<AudioStream>(path);
-            if (_stream != null) return _stream;
+            cache = GD.Load<AudioStream>(path);
+            if (cache != null) return cache;
         }
 
-        _loadFailed = true;
-        MainFile.Logger.Warn(
-            $"Finger snap sfx not found under {MainFile.ResPath}/audio/{BaseName} (ogg/wav/mp3)");
+        loadFailed = true;
+        if (baseName == NormalBaseName)
+        {
+            MainFile.Logger.Warn(
+                $"Finger snap sfx not found under {MainFile.ResPath}/audio/{baseName} (ogg/wav/mp3)");
+        }
+
         return null;
     }
 }
