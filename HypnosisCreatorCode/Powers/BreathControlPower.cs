@@ -11,10 +11,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// このターン、カードがプレイされるたび所有者（敵）の筋力を1失わせる。
-/// 攻撃意図の値が0ならスタン。
+/// 攻撃意図の値が0ならスタン。失った筋力はプレイヤーターン終了時に戻す。
 /// </summary>
 public class BreathControlPower : HypnosisCreatorPower
 {
+    private int _strengthDrained;
+
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
@@ -24,6 +26,7 @@ public class BreathControlPower : HypnosisCreatorPower
 
         await PowerCmd.Apply<StrengthPower>(
             choiceContext, Owner, -1m, Applier ?? Owner, cardPlay.Card);
+        _strengthDrained++;
 
         if (IsAttackValueZero(Owner))
             await CreatureCmd.Stun(Owner);
@@ -34,8 +37,14 @@ public class BreathControlPower : HypnosisCreatorPower
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (Owner == null || !Owner.IsAlive) return;
         if (side != CombatSide.Player) return;
+
+        if (Owner is { IsAlive: true } && _strengthDrained > 0)
+        {
+            await PowerCmd.Apply<StrengthPower>(
+                choiceContext, Owner, _strengthDrained, Applier ?? Owner, null!);
+        }
+
         await PowerCmd.Remove(this);
     }
 
