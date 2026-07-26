@@ -9,7 +9,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
-/// <summary>このターン、所有者への攻撃ダメージを3倍にする（カード名の3000倍はフレーバー）。</summary>
+/// <summary>
+/// このターン、所有者への攻撃ダメージを3倍にする（カード名の3000倍はフレーバー）。
+/// Amount＝残り自分ターン数。重ねがけで+1ターン延長。
+/// </summary>
 public class SensitivityPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Debuff;
@@ -34,8 +37,12 @@ public class SensitivityPower : HypnosisCreatorPower
         IEnumerable<Creature> participants)
     {
         if (Owner == null || !Owner.IsAlive) return;
-        // プレイヤーターン終了で消滅（このターン限定）
         if (side != CombatSide.Player) return;
-        await PowerCmd.Remove(this);
+        if (!participants.Contains(Owner)) return;
+
+        if (Amount <= 1)
+            await PowerCmd.Remove(this);
+        else
+            await PowerCmd.Decrement(this);
     }
 }

@@ -11,9 +11,9 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// このターン、カードがプレイされるたび所有者（敵）の筋力を1失わせる。
+/// このターン、カードがプレイされるたび所有者（敵）の筋力を Amount 失う。
 /// 呼吸制御カード自体のプレイは対象外。攻撃意図の値が0ならスタン。
-/// 筋力低下は敵ターン中も維持し、次のプレイヤーターン開始時に戻す。
+/// 筋力低下は敵ターン中も維持し、次のプレイヤーターン開始時に戻す。重ねがけで Amount+1。
 /// </summary>
 public class BreathControlPower : HypnosisCreatorPower
 {
@@ -30,9 +30,10 @@ public class BreathControlPower : HypnosisCreatorPower
         if (Owner == null || !Owner.IsAlive) return;
         if (cardPlay.Card is BreathControl) return;
 
+        var loss = Math.Max(1, Amount);
         await PowerCmd.Apply<StrengthPower>(
-            choiceContext, Owner, -1m, Applier ?? Owner, cardPlay.Card);
-        _strengthDrained++;
+            choiceContext, Owner, -loss, Applier ?? Owner, cardPlay.Card);
+        _strengthDrained += loss;
 
         if (IsAttackValueZero(Owner))
             await CreatureCmd.Stun(Owner);

@@ -13,6 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 感覚共有 — このターン、単体アタックを全体化（UGは次ターン開始まで受けたダメージを敵全体へ伝播）。
+/// 重ねがけで残り自分ターン+1。
 /// </summary>
 public class SenseSharePower : HypnosisCreatorPower
 {
@@ -25,7 +26,9 @@ public class SenseSharePower : HypnosisCreatorPower
     [ThreadStatic]
     private static bool _propagating;
 
-    /// <summary>このターン中の単体アタック全体化。ターン終了で無効。</summary>
+    private int _remainingPlayerTurns;
+
+    /// <summary>単体アタック全体化が有効な間 true。</summary>
     public bool AttackAoEActive { get; private set; }
 
     /// <summary>UG — 次の自ターン開始まで受けたダメージを敵全体へ伝播。</summary>
@@ -33,8 +36,15 @@ public class SenseSharePower : HypnosisCreatorPower
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        AttackAoEActive = true;
-        ReflectDamageActive = cardSource is { IsUpgraded: true };
+        if (AttackAoEActive)
+            _remainingPlayerTurns = TurnScopedDuration.AddStack(_remainingPlayerTurns);
+        else
+        {
+            AttackAoEActive = true;
+            _remainingPlayerTurns = 1;
+        }
+
+        ReflectDamageActive |= cardSource is { IsUpgraded: true };
         return Task.CompletedTask;
     }
 
@@ -111,8 +121,10 @@ public class SenseSharePower : HypnosisCreatorPower
         if (side != CombatSide.Player) return;
         if (!participants.Contains(Owner)) return;
 
-        AttackAoEActive = false;
-        if (!ReflectDamageActive)
+        if (TurnScopedDuration.Consume(ref _remainingPlayerTurns))
+            AttackAoEActive = false;
+
+        if (!AttackAoEActive && !ReflectDamageActive)
             await PowerCmd.Remove(this);
     }
 
@@ -121,6 +133,7 @@ public class SenseSharePower : HypnosisCreatorPower
         if (!ReflectDamageActive || Owner == null || player.Creature != Owner) return;
 
         ReflectDamageActive = false;
-        await PowerCmd.Remove(this);
+        if (!AttackAoEActive)
+            await PowerCmd.Remove(this);
     }
 }

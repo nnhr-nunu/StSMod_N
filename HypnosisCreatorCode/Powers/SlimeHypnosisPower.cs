@@ -13,7 +13,8 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// スライム催眠 — 1ターンだけ意図を粘液付与へ上書きし、見た目・名前をスライム系からランダム差し替え。
+/// スライム催眠 — 意図を粘液付与へ上書きし、見た目・名前をスライム系からランダム差し替え。
+/// 重ねがけで残り敵ターン+1（次の敵ターンも粘液意図）。
 /// FollowUp と行動復元でステートマシン破壊（進行不能）を防ぐ。
 /// Crusher / Rocket は意図ステートを書き換えず、PerformMove 差し替えで同等効果にする。
 /// </summary>
@@ -38,9 +39,12 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     private bool _restoredMove;
     private bool _replacePerform;
     private bool _delivered;
+    private int _remainingEnemyTurns;
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
+        _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
+
         TryApplyDisguise(applier);
 
         if (Owner == null || CombatState == null)
@@ -174,9 +178,34 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         if (side != CombatSide.Enemy) return;
         if (!participants.Contains(Owner)) return;
 
+        if (!TurnScopedDuration.Consume(ref _remainingEnemyTurns))
+        {
+            PrepareForNextEnemyTurn();
+            return;
+        }
+
         CleanupDisguise();
         TryRestoreSavedMove(Owner);
         await PowerCmd.Remove(this);
+    }
+
+    private void PrepareForNextEnemyTurn()
+    {
+        _delivered = false;
+        _restoredMove = false;
+        _savedMove = null;
+        _replacePerform = false;
+
+        if (Owner == null || CombatState == null) return;
+
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
+        {
+            _replacePerform = true;
+            return;
+        }
+
+        if (!TryOverwriteIntent())
+            _replacePerform = true;
     }
 
     public override Task AfterRemoved(Creature oldOwner)
