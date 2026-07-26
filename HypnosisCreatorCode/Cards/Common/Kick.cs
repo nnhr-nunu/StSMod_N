@@ -27,7 +27,7 @@ public class Kick() : HypnosisCreatorCard(2,
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, play)
             .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: VanillaAttackSfx.HeavyHitFile)
             .Execute(choiceContext);
 
         // 先に既存性癖への刺さりを解決してから目覚めさせる

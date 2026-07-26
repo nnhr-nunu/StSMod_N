@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -24,6 +25,14 @@ public class TimeStopMarkPower : HypnosisCreatorPower
         var dmg = Amount;
         await PowerCmd.Remove(this);
         if (dmg > 0)
+        {
+            if (Applier?.Player != null
+                && FingerSnapCardRules.IsHypnosisCreatorPlayer(Applier.Player))
+            {
+                VanillaAttackSfx.PlayStrike();
+            }
+
             await CreatureCmd.Damage(choiceContext, Owner, dmg, ValueProp.Move, Applier);
+        }
     }
 }

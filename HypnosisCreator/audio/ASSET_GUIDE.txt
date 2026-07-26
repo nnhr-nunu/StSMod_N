@@ -10,7 +10,10 @@
 | FINGER_SNAP_short.ogg / .mp3 | 指パッチン短尺（多段攻撃の連続ヒット用） |
 | tingshaws.ogg / .mp3 | ティンシャ攻撃ヒット音 |
 | Hit-Slap.ogg / .mp3 | はたき攻撃（スパンキング等） |
-| （本家）heavy_attack.mp3 | 重めの鈍撃（腹部への殴打等。コードから直接指定） |
+| （本家）heavy_attack.mp3 | 重めの鈍撃（腹部への殴打・足蹴） |
+| （本家）blunt_attack.mp3 | 通常打撃（時止めストライクの決着時） |
+| （本家）dagger_throw.mp3 | ナイフ系（急所の一刺し・心臓えぐり・解剖） |
+| （本家 FMOD）slithering_strangler_cast | 締め付け（触手の想起） |
 | attack.ogg       | 攻撃音（未使用） |
 | cast.ogg         | 詠唱音（未使用） |
 | death.ogg        | 死亡音（未使用） |

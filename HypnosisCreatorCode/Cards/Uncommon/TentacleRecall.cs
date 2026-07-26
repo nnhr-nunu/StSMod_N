@@ -33,6 +33,7 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
 
         await PowerCmd.Apply<ConstrictPower>(
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
+        VanillaAttackSfx.PlayConstrictCast();
 
         FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
         await ResolveFetishOnTarget(choiceContext, play);
