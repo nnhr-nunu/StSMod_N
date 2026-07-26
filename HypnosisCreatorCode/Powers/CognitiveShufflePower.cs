@@ -157,7 +157,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             var generated = CombatState.CreateCard(canonical, player);
             generated.AddKeyword(CardKeyword.Ethereal);
             generated.AddKeyword(CardKeyword.Exhaust);
-            generated.EnergyCost.SetThisTurn(0);
+            generated.SetToFreeThisTurn();
             await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
         }
     }

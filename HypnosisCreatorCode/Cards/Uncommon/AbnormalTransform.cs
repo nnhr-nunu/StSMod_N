@@ -57,8 +57,8 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
             if (IsUpgraded)
                 CardCmd.Upgrade(generated);
             var result = await CardCmd.Transform(card, generated);
-            // 仕様: このターン、コストなしでプレイできる
-            result?.cardAdded.EnergyCost.SetThisTurn(0);
+            // 仕様: このターン、コストなしでプレイできる（リージェントのスターコストも0）
+            result?.cardAdded.SetToFreeThisTurn();
         }
     }
 
