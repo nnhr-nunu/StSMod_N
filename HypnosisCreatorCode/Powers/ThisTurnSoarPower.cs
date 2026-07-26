@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// このターン限りの飛翔。本家 SoarPower と同じく被攻撃ダメージを50%軽減。
-/// 残り敵ターン数は Apply 時の Amount（心臓は2）。
+/// 基本1敵ターン、重ねがけで残り敵ターン+1。解除は敵ターン終了ごと。
 /// </summary>
 public class ThisTurnSoarPower : HypnosisCreatorPower
 {
@@ -31,8 +31,7 @@ public class ThisTurnSoarPower : HypnosisCreatorPower
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        var turns = Math.Max(1, (int)Amount);
-        _remainingEnemyTurns = Math.Max(_remainingEnemyTurns, turns);
+        _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
         return Task.CompletedTask;
     }
 

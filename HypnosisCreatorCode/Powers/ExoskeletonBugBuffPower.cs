@@ -14,13 +14,11 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 外骨格蟲の心臓 — 本家 <see cref="HardToKillPower"/> と同じ被ダメ／HP喪失の上限（Amount）。
-/// 心臓発動時は残り敵ターン2。解除は敵ターン終了ごとに1消費。
+/// 基本1敵ターン、重ねがけで残り敵ターン+1。解除は敵ターン終了ごと。
 /// </summary>
 public class ExoskeletonBugBuffPower : HypnosisCreatorPower
 {
     private static readonly PowerModel VanillaHardToKill = ModelDb.Power<HardToKillPower>();
-
-    public const int DefaultHeartTurns = 2;
 
     private int _remainingEnemyTurns;
 
@@ -32,10 +30,7 @@ public class ExoskeletonBugBuffPower : HypnosisCreatorPower
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        if (_remainingEnemyTurns <= 0)
-            _remainingEnemyTurns = DefaultHeartTurns;
-        else
-            _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
+        _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
         return Task.CompletedTask;
     }
 
