@@ -13,8 +13,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 植物寄生催眠 — カウント。15ダメージ＋締め付け12（UGで15）＋トランス1。
-/// UG時のみ「心臓寄生催眠」で戦闘終了時に敵固有心臓を入手。
+/// 植物寄生催眠 — カウント。15ダメージ＋締め付け10（UGで15）＋トランス1。
+/// 「心臓寄生催眠」で戦闘終了時に敵固有心臓を入手（キル不要）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
@@ -27,7 +27,7 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(15M, ValueProp.Move),
-        new PowerVar<ConstrictPower>(12M),
+        new PowerVar<ConstrictPower>(10M),
         new DynamicVar("Trance", 1M)
     ];
 
@@ -48,17 +48,13 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
         await PowerCmd.Apply<ConstrictPower>(
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
 
-        // 心臓報酬は UG 時のみ。
-        if (IsUpgraded)
-        {
-            await PowerCmd.Apply<PlantParasiteMarkPower>(
-                choiceContext, play.Target, 1M, Owner.Creature, this);
-        }
+        await PowerCmd.Apply<PlantParasiteMarkPower>(
+            choiceContext, play.Target, 1M, Owner.Creature, this);
 
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(3M);
+    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(5M);
 }
