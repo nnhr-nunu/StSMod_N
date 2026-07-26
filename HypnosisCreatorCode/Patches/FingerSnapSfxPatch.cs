@@ -33,7 +33,11 @@ public static class FingerSnapSuppressVanillaHitSfxPatch
         if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(__instance.Attacker?.Player)) return;
 
         HitSfxField?.SetValue(__instance, "");
-        TmpHitSfxField?.SetValue(__instance, "");
+        if (HcAttackHitSfxRules.UsesVanillaHeavyHit(__instance.ModelSource as CardModel))
+            TmpHitSfxField?.SetValue(__instance, VanillaAttackSfx.HeavyHitFile);
+        else
+            TmpHitSfxField?.SetValue(__instance, "");
+
         FingerSnapSfxTracker.BeginAttack(ReadHitCount(__instance));
     }
 
@@ -119,6 +123,15 @@ file static class FingerSnapAttackHitSfxLogic
             TingshaSfx.Play();
             return;
         }
+
+        if (HcAttackHitSfxRules.UsesSlapHit(cardSource))
+        {
+            SlapSfx.Play();
+            return;
+        }
+
+        if (HcAttackHitSfxRules.UsesVanillaHeavyHit(cardSource))
+            return;
 
         if (FingerSnapSfxTracker.TryAdvance(out var totalHits, out var hitIndex))
             FingerSnapSfx.PlayForHit(totalHits, hitIndex);

@@ -42,7 +42,7 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, play)
             .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: VanillaAttackSfx.HeavyHitFile)
             .Execute(choiceContext);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
