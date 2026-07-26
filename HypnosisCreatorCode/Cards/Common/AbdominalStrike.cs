@@ -25,14 +25,14 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(16M, ValueProp.Move),
-        new PowerVar<WeakPower>(2M),
-        new PowerVar<VulnerablePower>(2M)
+        new PowerVar<VulnerablePower>(2M),
+        new PowerVar<FrailPower>(2M)
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
-        HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<VulnerablePower>(),
+        HoverTipFactory.FromPower<FrailPower>(),
         HoverTipFactory.FromPower<CrueltyPower>()
     ];
 
@@ -44,10 +44,10 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
-        await PowerCmd.Apply<WeakPower>(
-            choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<FrailPower>(
+            choiceContext, play.Target, DynamicVars["FrailPower"].BaseValue, Owner.Creature, this);
         if (IsUpgraded)
             await PowerCmd.Apply<CrueltyPower>(
                 choiceContext, Owner.Creature, CrueltyAmount, Owner.Creature, this);
@@ -56,7 +56,7 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Weak.UpgradeValueBy(1M);
         DynamicVars.Vulnerable.UpgradeValueBy(1M);
+        DynamicVars["FrailPower"].UpgradeValueBy(1M);
     }
 }
