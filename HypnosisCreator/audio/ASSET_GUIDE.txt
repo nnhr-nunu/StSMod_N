@@ -8,6 +8,7 @@
 |------------------|------|
 | FINGER_SNAP.ogg / .mp3 | 指パッチン（単発：攻撃1ヒット・催眠／指系スキル） |
 | FINGER_SNAP_short.ogg / .mp3 | 指パッチン短尺（多段攻撃の連続ヒット用） |
+| tingshaws.ogg / .mp3 | ティンシャ攻撃ヒット音 |
 | attack.ogg       | 攻撃音（未使用） |
 | cast.ogg         | 詠唱音（未使用） |
 | death.ogg        | 死亡音（未使用） |

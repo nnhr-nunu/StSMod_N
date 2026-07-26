@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -112,6 +113,12 @@ file static class FingerSnapAttackHitSfxLogic
     {
         if (cardSource?.Type != CardType.Attack) return;
         if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(dealer.Player)) return;
+
+        if (cardSource is Tingsha)
+        {
+            TingshaSfx.Play();
+            return;
+        }
 
         if (FingerSnapSfxTracker.TryAdvance(out var totalHits, out var hitIndex))
             FingerSnapSfx.PlayForHit(totalHits, hitIndex);
