@@ -20,10 +20,10 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    /// <summary>手札に戻る回数（この回数まではプレイ後に手札へ）。</summary>
+    /// <summary>手札に戻る回数（この回数までプレイ後に手札へ）。</summary>
     private const int HandReturnsPerTurn = 2;
 
-    private readonly PerTurnCounter _plays = new();
+    private PerTurnCounter Plays => TimeStopStrikePlayTracker.Get(this);
 
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
@@ -46,9 +46,6 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
         ArgumentNullException.ThrowIfNull(play.Target);
         if (!TranceCombat.HasTrance(play.Target)) return;
 
-        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        _plays.Increment(turn);
-
         await PowerCmd.Apply<TimeStopMarkPower>(
             choiceContext,
             play.Target,
@@ -60,14 +57,13 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     }
 
     /// <summary>
-    /// このターンのプレイ前カウントが HandReturnsPerTurn 未満なら手札へ戻す。
-    /// （1・2回目→手札、3回目→捨て札。結果として最大3回プレイできる）
-    /// GetResultLocation は OnPlay より前に呼ばれる想定。
+    /// このターンのプレイ回数（1・2回目→手札、3回目→捨て札）をここで加算する。
+    /// OnPlay より先に呼ばれる。OnPlay 内で加算するとエンチャント等で二重実行され1回目から捨て札になる。
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
         var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        if (_plays.Get(turn) < HandReturnsPerTurn)
+        if (Plays.Increment(turn) <= HandReturnsPerTurn)
             return new CardLocation(Owner, PileType.Hand, CardPilePosition.Top);
 
         return base.GetResultLocationForCardPlay();
