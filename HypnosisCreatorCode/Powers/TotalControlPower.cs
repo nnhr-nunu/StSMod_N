@@ -50,7 +50,7 @@ public class TotalControlPower : HypnosisCreatorPower
         IEnumerable<Creature> participants)
     {
         if (Owner == null || !Owner.IsAlive) return;
-        if (side != CombatSide.Player) return;
+        if (side != CombatSide.Enemy) return;
         if (!participants.Contains(Owner)) return;
         await PowerCmd.Remove(this);
     }

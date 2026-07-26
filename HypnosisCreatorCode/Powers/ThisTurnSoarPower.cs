@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// このターン限りの飛翔。本家 SoarPower と同じく被攻撃ダメージを50%軽減し、プレイヤーターン終了で消える。
+/// このターン限りの飛翔。本家 SoarPower と同じく被攻撃ダメージを50%軽減し、敵ターン終了で消える。
 /// </summary>
 public class ThisTurnSoarPower : HypnosisCreatorPower
 {
@@ -44,8 +44,9 @@ public class ThisTurnSoarPower : HypnosisCreatorPower
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (side != CombatSide.Player) return;
+        if (side != CombatSide.Enemy) return;
         if (Owner == null || !Owner.IsAlive) return;
+        if (!participants.Contains(Owner)) return;
         await PowerCmd.Remove(this);
     }
 }
