@@ -73,6 +73,20 @@ dotnet publish
 - 例（ふにゃへにゃ）: `[gold]トランス[/gold][blue]1[/blue]につき…[blue]20%[/blue]減少` → キーワードは金、固定数値は青で正しい
 - ローカライズ変更後は `dotnet publish`（build だけでは `.pck` に載らない）
 
+### デバフ用語（弱体・脆弱・脱力）— StS2 / 本mod 正
+
+本家 jpn `powers.json` のパワー名と一致させる。**StS1 や英語名だけで推測しない**（AI が混同しやすい）。
+
+| 日本語 | 効果 | C# クラス | eng |
+| ------ | ---- | --------- | --- |
+| **弱体** | 受けるダメージが増える | `VulnerablePower` | Vulnerable |
+| **脆弱** | 得られるブロックが減る | `FrailPower` | Frail |
+| **脱力** | 与えるダメージが減る | `WeakPower` | Weak |
+
+- loc は上表の日本語を使う（例: `[gold]弱体[/gold]{VulnerablePower:diff()}`、`[gold]脆弱[/gold]{FrailPower:diff()}`）
+- `PowerVar<FrailPower>` の動的変数名は `FrailPower`（`DynamicVars["FrailPower"]`）。`DynamicVars.Frail` は無い
+- 失敗例: 「弱体＋脆弱」を `WeakPower`＋`VulnerablePower` と実装した（腹部への殴打、2026-07）
+
 ### CSV効果説明を正本（意訳禁止）
 
 - カード `効果説明` の正本はユーザー提供 CSV。エージェントが勝手に言い換え・効果追記しない
