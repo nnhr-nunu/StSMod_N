@@ -143,5 +143,9 @@ public static class UpgradeDescriptionHooks
             "増加し、[green]次のターン開始時にあらゆる場所から手札に加える[/green]。",
             "in your deck by {Increase:diff()}.",
             "in your deck by {Increase:diff()} and [green]put it into your hand from anywhere at the start of your next turn[/green].");
+
+        UpgradeCardText.AppendGreenLine(card, ref description, c => c is AbdominalStrike,
+            "[gold]無慈悲[/gold]を得る。",
+            "Gain [gold]Cruelty[/gold].");
     }
 }

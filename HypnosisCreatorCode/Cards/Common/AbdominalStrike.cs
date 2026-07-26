@@ -11,22 +11,30 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>腹部への殴打 — 16ダメージ＋弱体2。UGで20ダメージ・弱体3。</summary>
+/// <summary>腹部への殴打 — 16ダメージ＋弱体2＋脆弱2。UGで弱体3・脆弱3・無慈悲（本家 Cruelty 同値）。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AbdominalStrike() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
+    /// <summary>本家アイアンクラッド「Cruelty」と同じ付与量。</summary>
+    private const decimal CrueltyAmount = 25M;
+
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(16M, ValueProp.Move),
+        new PowerVar<WeakPower>(2M),
         new PowerVar<VulnerablePower>(2M)
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
-        [HoverTipFactory.FromPower<VulnerablePower>()];
+    [
+        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<VulnerablePower>(),
+        HoverTipFactory.FromPower<CrueltyPower>()
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -36,14 +44,19 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
+        await PowerCmd.Apply<WeakPower>(
+            choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<VulnerablePower>(
-            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
+            choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+        if (IsUpgraded)
+            await PowerCmd.Apply<CrueltyPower>(
+                choiceContext, Owner.Creature, CrueltyAmount, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4M);
-        DynamicVars["VulnerablePower"].UpgradeValueBy(1M);
+        DynamicVars.Weak.UpgradeValueBy(1M);
+        DynamicVars.Vulnerable.UpgradeValueBy(1M);
     }
 }

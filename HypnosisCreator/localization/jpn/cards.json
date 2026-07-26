@@ -77,7 +77,7 @@
   "HYPNOSISCREATOR-CONTINUOUS_TRANCE.title": "連続トランス",
   "HYPNOSISCREATOR-CONTINUOUS_TRANCE.description": "[gold]トランス[/gold]{Trance:diff()}と[gold]沼[/gold]{BogPower:diff()}を付与し、性癖に「[gold]トランス[/gold]」を追加する。",
   "HYPNOSISCREATOR-ABDOMINAL_STRIKE.title": "腹部への殴打",
-  "HYPNOSISCREATOR-ABDOMINAL_STRIKE.description": "{Damage:diff()}ダメージを与える。[gold]弱体[/gold]{VulnerablePower:diff()}を付与する。",
+  "HYPNOSISCREATOR-ABDOMINAL_STRIKE.description": "{Damage:diff()}ダメージを与える。[gold]弱体[/gold]{WeakPower:diff()}と[gold]脆弱[/gold]{VulnerablePower:diff()}を付与する。",
   "HYPNOSISCREATOR-TINGSHA.title": "ティンシャ",
   "HYPNOSISCREATOR-TINGSHA.description": "すべての相手に{Damage:diff()}ダメージを与える。このカードを[gold]手札[/gold]に戻す。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-FINGER_COUNT.title": "指折り数えて",
