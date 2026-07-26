@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 植物寄生催眠 — カウント。15ダメージ＋締め付け10（UGで15）＋トランス1。
-/// 「心臓寄生催眠」で戦闘終了時に敵固有心臓を入手（キル不要）。
+/// 「心臓寄生催眠」で戦闘終了時に敵固有心臓を入手（キル不要）。リーサル時は即追加報酬。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
@@ -38,21 +38,33 @@ public class PlantParasiteHypnosis() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
+        // ダメージで倒れる前に敵 ID を予約（死亡後はマーク付与が失敗するため）。
+        HeartCapture.QueueCapture(Owner, play.Target);
+
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
             .Execute(choiceContext);
 
-        // Counter スタック — 重ねがけで締め付け量が加算される。
-        await PowerCmd.Apply<ConstrictPower>(
-            choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
+        if (play.Target is { IsAlive: false })
+        {
+            // リーサル時は報酬画面へ即載せ（心臓えぐり出し・解剖と同じ）。
+            HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
+        }
+        else
+        {
+            // Counter スタック — 重ねがけで締め付け量が加算される。
+            await PowerCmd.Apply<ConstrictPower>(
+                choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
 
-        await PowerCmd.Apply<PlantParasiteMarkPower>(
-            choiceContext, play.Target, 1M, Owner.Creature, this);
+            await PowerCmd.Apply<PlantParasiteMarkPower>(
+                choiceContext, play.Target, 1M, Owner.Creature, this);
 
-        await TranceCombat.ApplyTrance(
-            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+            await TranceCombat.ApplyTrance(
+                choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+        }
+
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
