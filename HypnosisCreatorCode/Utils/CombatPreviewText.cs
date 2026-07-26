@@ -33,9 +33,9 @@ public static class CombatPreviewText
         description = description.TrimEnd() + suffix;
     }
 
-    /// <summary>戦闘プレビュー表示用。Hook 後の小数ダメージを整数に丸める。</summary>
+    /// <summary>戦闘プレビュー表示用。本家 DynamicVar の PreviewValue 表示と同じく小数は 0 方向へ切り捨て。</summary>
     public static decimal RoundDisplayAmount(decimal amount) =>
-        decimal.Round(Math.Max(0m, amount), 0, MidpointRounding.AwayFromZero);
+        decimal.Truncate(Math.Max(0m, amount));
 
     /// <summary>ローカライズ済み数値文字列（色タグなし）。</summary>
     public static string FormatAmount(decimal amount)
