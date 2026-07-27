@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 受容の需要 — ブロックを超えてHPを失った攻撃ヒットを記録し、次の自ターン開始時に
+/// 受容の需要 — HPを失った回数（攻撃・瀉血・火傷・衰微など）を記録し、次の自ターン開始時に
 /// （回数 × Amount）分のエナジーとドローを得る。
 /// </summary>
 public class AcceptanceNeedPower : HypnosisCreatorPower
@@ -25,7 +25,6 @@ public class AcceptanceNeedPower : HypnosisCreatorPower
         Creature? dealer, CardModel? cardSource)
     {
         if (target != Owner) return Task.CompletedTask;
-        if (!props.IsPoweredAttack()) return Task.CompletedTask;
         if (result.UnblockedDamage <= 0) return Task.CompletedTask;
         _hitsTaken++;
         return Task.CompletedTask;
