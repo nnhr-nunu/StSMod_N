@@ -25,6 +25,9 @@ public static class BuffStripRules
         if (power is AsleepPower)
             return false;
 
+        if (IsProtectedMechanicOrHypnosisBuff(power))
+            return false;
+
         // 本家フック（幻影蟲 Illusion 等が false）
         if (!Hook.ShouldPowerBeRemovedOnDeath(power))
             return false;
@@ -35,6 +38,11 @@ public static class BuffStripRules
 
         return true;
     }
+
+    private static bool IsProtectedMechanicOrHypnosisBuff(PowerModel power) =>
+        power is MinionPower
+            or TotalControlPower
+            or SoftenPower;
 
     private static bool IsProtectedInnateEnemyBuff(PowerModel power) =>
         power is AdaptablePower

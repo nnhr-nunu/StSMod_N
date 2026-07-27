@@ -24,8 +24,7 @@ public class MentalCare() : HypnosisCreatorCard(1,
     public override bool GainsBlock => true;
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        GlowIfTargetOrAnyEnemy(c =>
-            c.Powers.Any(p => p.Type == PowerType.Debuff && p is not DoomPower));
+        GlowIfTargetOrAnyEnemy(c => c.Powers.Any(DebuffStripRules.CanStripFromEnemyForMentalCare));
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -41,7 +40,7 @@ public class MentalCare() : HypnosisCreatorCard(1,
         ArgumentNullException.ThrowIfNull(play.Target);
 
         var debuffs = play.Target.Powers
-            .Where(p => p.Type == PowerType.Debuff && p is not DoomPower)
+            .Where(DebuffStripRules.CanStripFromEnemyForMentalCare)
             .ToList();
         var typeCount = debuffs.Select(p => p.GetType()).Distinct().Count();
 
