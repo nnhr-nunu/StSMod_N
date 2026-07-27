@@ -4,7 +4,9 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
@@ -41,14 +43,17 @@ public class LoveHypnosisPower : HypnosisCreatorPower
 
     public bool IsStealingBuffMove()
     {
-        if (!StealBuff || Owner?.Monster is not { IsPerformingMove: true } monster) return false;
-        return monster.NextMove?.Intents?.OfType<BuffIntent>().Any() == true;
+        if (!StealBuff || Owner?.Monster is not MonsterModel monster) return false;
+        // 実行中は NextMove が次ターン表示に切り替わるため、意図だけ見ると不発になる
+        if (monster.IsPerformingMove) return true;
+        return LoveHypnosisRedirect.HasBuffIntent(Owner);
     }
 
     public bool IsStealingBlockMove()
     {
-        if (!StealBlock || Owner?.Monster is not { IsPerformingMove: true } monster) return false;
-        return monster.NextMove?.Intents?.OfType<DefendIntent>().Any() == true;
+        if (!StealBlock || Owner?.Monster is not MonsterModel monster) return false;
+        if (monster.IsPerformingMove) return true;
+        return LoveHypnosisRedirect.HasDefendIntent(Owner);
     }
 
     public override async Task AfterSideTurnEnd(
