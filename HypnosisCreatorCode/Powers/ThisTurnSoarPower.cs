@@ -32,6 +32,13 @@ public class ThisTurnSoarPower : HypnosisCreatorPower
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
+        SoarFloatVisual.Begin(Owner);
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterRemoved(Creature oldOwner)
+    {
+        SoarFloatVisual.End(oldOwner);
         return Task.CompletedTask;
     }
 
