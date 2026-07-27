@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
@@ -44,17 +45,16 @@ public class TotalControlPower : HypnosisCreatorPower
     {
         if (Owner is not { IsAlive: true }) return Task.CompletedTask;
 
-        var singleTarget = SingleTargetField?.GetValue(command) as Creature;
-        if (singleTarget is not { IsPlayer: true }) return Task.CompletedTask;
+        // 単体敵戦：掌握対象自身の攻撃は TargetSide 経路でも自分へ向ける（脳くちゅ催眠と同型）
+        if (command.Attacker == Owner && AttackWouldHitPlayer(command))
+        {
+            TrySetSingleTarget(command, Owner);
+            return Task.CompletedTask;
+        }
 
-        try
-        {
-            SingleTargetField?.SetValue(command, Owner);
-        }
-        catch
-        {
-            // リダイレクト不能時は ModifyUnblockedDamageTarget 側に委ねる
-        }
+        // _singleTarget が明示されている単体プレイヤー攻撃（他敵の肩代わり）
+        if (GetSingleTarget(command) is { IsPlayer: true })
+            TrySetSingleTarget(command, Owner);
 
         return Task.CompletedTask;
     }
@@ -70,5 +70,38 @@ public class TotalControlPower : HypnosisCreatorPower
         if (!TurnScopedDuration.Consume(ref _remainingEnemyTurns))
             return;
         await PowerCmd.Remove(this);
+    }
+
+    private static Creature? GetSingleTarget(AttackCommand command) =>
+        SingleTargetField?.GetValue(command) as Creature;
+
+    /// <summary>
+    /// 本家 <see cref="AttackCommand.Targeting(Creature)"/> は <c>_singleTarget</c> を立てず
+    /// <c>TargetSide</c> だけ更新するため、<c>IsMultiTargeted</c> 経路も見る。
+    /// </summary>
+    private static bool AttackWouldHitPlayer(AttackCommand command)
+    {
+        var single = GetSingleTarget(command);
+        if (single is { IsPlayer: true }) return true;
+
+        var attacker = command.Attacker;
+        if (attacker == null) return false;
+
+        if (!command.IsMultiTargeted && !command.IsRandomlyTargeted) return false;
+
+        return attacker.CombatState?.GetOpponentsOf(attacker).Any(c => c.IsPlayer) == true;
+    }
+
+    private static void TrySetSingleTarget(AttackCommand command, Creature? target)
+    {
+        if (target == null) return;
+        try
+        {
+            SingleTargetField?.SetValue(command, target);
+        }
+        catch
+        {
+            // リダイレクト不能時は ModifyUnblockedDamageTarget 側に委ねる
+        }
     }
 }
