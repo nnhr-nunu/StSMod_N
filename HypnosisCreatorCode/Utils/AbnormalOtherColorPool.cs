@@ -5,7 +5,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// CSV備考の他色アブノーマル対象カード（他キャラ／無色）。
-/// 該当タイプには常にアブノーマル性癖を付与する。
+/// HC がランにいるときだけアブノーマル性癖を付与する（<see cref="HypnosisCreatorRunRules"/>）。
 /// </summary>
 public static class AbnormalOtherColorPool
 {

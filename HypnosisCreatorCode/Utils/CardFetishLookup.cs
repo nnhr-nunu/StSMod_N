@@ -11,7 +11,8 @@ public static class CardFetishLookup
         if (card is HypnosisCreatorCard hc)
             return hc.CardFetishes;
 
-        if (AbnormalOtherColorPool.Contains(card))
+        if (AbnormalOtherColorPool.Contains(card)
+            && HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
             return [FetishType.Abnormal];
 
         return [];
