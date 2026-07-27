@@ -23,12 +23,13 @@ public static class CardBlockPreview
 
         var combat = card.CombatState ?? owner.Creature.CombatState;
         if (combat == null) return raw;
-        if (raw <= 0) return 0m;
+        if (raw < 0) return 0m;
 
         try
         {
             var modified = Hook.ModifyBlock(
                 combat, owner.Creature, raw, props, card, null, out _);
+            modified = Math.Max(modified, 0m);
             return CombatPreviewText.RoundDisplayAmount(modified);
         }
         catch
