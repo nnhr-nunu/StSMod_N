@@ -21,6 +21,10 @@ public static class BuffStripRules
         if (power is FetishAttributePower)
             return false;
 
+        // 本家睡眠（寝かしつけ催眠・ポリネシアン等）。PowerType は Buff だが解除対象にしない。
+        if (power is AsleepPower)
+            return false;
+
         // 本家フック（幻影蟲 Illusion 等が false）
         if (!Hook.ShouldPowerBeRemovedOnDeath(power))
             return false;
