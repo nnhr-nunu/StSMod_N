@@ -196,7 +196,7 @@
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.description": "催眠系[gold]カウント[/gold]カードを{Cards:diff()}枚選ぶ。そのコストを初期値に戻し、[gold]リプレイ[/gold][blue]1[/blue]を付与する。",
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.selectionScreenPrompt": "リプレイさせるカウントカードを選んでください。",
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.title": "マシュマロ回答",
-  "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "ランダムな呪いカード1枚を[gold]手札[/gold]に追加する。相手が攻撃を予定している場合、[gold]ブロック[/gold]{Block:diff()}に上書きし[gold]沼[/gold]{BogPower:diff()}を付与する。",
+  "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "ランダムな呪いカード{Cards:diff()}枚を[gold]手札[/gold]に追加する。相手が攻撃を予定している場合、[gold]ブロック[/gold]{Block:diff()}に上書きし[gold]沼[/gold]{BogPower:diff()}を付与する。",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.title": "性的倒錯の本懐",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "自分が失っているHPに応じたダメージを与える。",
   "HYPNOSISCREATOR-COLLAR_TRAINING.title": "首輪と調教",

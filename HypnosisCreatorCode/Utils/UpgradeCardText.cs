@@ -99,13 +99,13 @@ public static class UpgradeCardText
 
         if (IsJapaneseUi())
         {
-            if (description.Contains(jpnTo, StringComparison.Ordinal)) return;
+            if (!string.IsNullOrEmpty(jpnTo) && description.Contains(jpnTo, StringComparison.Ordinal)) return;
             if (description.Contains(jpnFrom, StringComparison.Ordinal))
                 description = description.Replace(jpnFrom, jpnTo, StringComparison.Ordinal);
             return;
         }
 
-        if (description.Contains(engTo, StringComparison.OrdinalIgnoreCase)) return;
+        if (!string.IsNullOrEmpty(engTo) && description.Contains(engTo, StringComparison.OrdinalIgnoreCase)) return;
         if (description.Contains(engFrom, StringComparison.OrdinalIgnoreCase))
             description = description.Replace(engFrom, engTo, StringComparison.OrdinalIgnoreCase);
     }
