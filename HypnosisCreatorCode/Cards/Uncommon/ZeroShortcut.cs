@@ -19,7 +19,7 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
     TargetType.Self)
 {
-    private const int StartBlock = 3;
+    internal const int StartBlock = 3;
 
     internal static int BaselineTotalBlock => StartBlock * (StartBlock + 1) / 2;
 
@@ -37,9 +37,12 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
             CountRules.HasCountKeyword(c) && c.EnergyCost.GetWithModifiers(CostModifiers.Local) > 0);
     }
 
-    // 3+2+1+0 = 6。説明の合計ブロックは {Block:diff()} でプレビューする。
+    // Block＝合計6の :diff()。FirstBlock＝初回3の敏捷・エンチャント反映。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(StartBlock * (StartBlock + 1) / 2, ValueProp.Move)];
+    [
+        new DynamicVar("FirstBlock", StartBlock),
+        new BlockVar(BaselineTotalBlock, ValueProp.Move),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

@@ -90,6 +90,30 @@ public static class HarmonyBlockPreviewPatch
 }
 
 /// <summary>
+/// ゼロへの近道 — 初回ブロックの敏捷・エンチャント反映を {FirstBlock:diff()} に載せる。
+/// </summary>
+[HarmonyPatch(typeof(DynamicVar), nameof(DynamicVar.UpdateCardPreview))]
+public static class ZeroShortcutFirstBlockPreviewPatch
+{
+    public static void Postfix(
+        DynamicVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target,
+        bool runGlobalHooks)
+    {
+        _ = target;
+        _ = runGlobalHooks;
+        if (__instance.Name != "FirstBlock") return;
+        if (card is not ZeroShortcut) return;
+
+        var raw = ZeroShortcut.StartBlock;
+        var preview = CardBlockPreview.ApplyModifiers(card, raw, ValueProp.Move, previewMode);
+        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+    }
+}
+
+/// <summary>
 /// ゼロへの近道 — 3→2→1→0 の各 GainBlock に敏捷・エンチャントを反映した合計をプレビューに載せる。
 /// </summary>
 [HarmonyPatch(typeof(BlockVar), "UpdateCardPreview")]

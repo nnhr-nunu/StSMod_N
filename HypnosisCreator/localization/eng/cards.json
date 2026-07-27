@@ -99,7 +99,7 @@
   "HYPNOSISCREATOR-RITUAL_REVEAL.title": "Ritual Reveal",
   "HYPNOSISCREATOR-RITUAL_REVEAL.description": "Add [blue]2[/blue] random Hypnosis [gold]Count[/gold] cards from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold]. [blue]1[/blue] of them prefers a card matching the target's fetish.",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.title": "Zero Shortcut",
-  "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "Gain [blue]3[/blue] [gold]Block[/gold], then reduce by [blue]1[/blue] each time until you gain [blue]0[/blue] [gold]Block[/gold]. Set the cost of Hypnosis [gold]Count[/gold] cards in your [gold]Hand[/gold] to [blue]0[/blue].",
+  "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "Gain {FirstBlock:diff()} [gold]Block[/gold], then reduce by [blue]1[/blue] each time until you gain [blue]0[/blue] [gold]Block[/gold]. Set the cost of Hypnosis [gold]Count[/gold] cards in your [gold]Hand[/gold] to [blue]0[/blue].",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Infinite Finger Snap",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Deal {Damage:diff()} damage to ALL opponents [blue]5[/blue] times. Do this X times.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Fetish Champion",
