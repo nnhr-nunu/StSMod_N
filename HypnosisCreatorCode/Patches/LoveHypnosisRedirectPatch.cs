@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading.Tasks;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
@@ -13,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// 好き好き催眠 — 敵へのバフ付与後にプレイヤーへ移す（Postfix 奪取）。
-/// Prefix で着弾先を差し替えると敵行動中の CustomScaledWait で進行不能になる。
+/// async Task Postfix は本家の await チェーンに載らないため ref Task __result で続行する。
 /// </summary>
 public struct LoveHypnosisStealData
 {
@@ -47,19 +48,32 @@ public static class LoveHypnosisApplyStealPatch
         };
     }
 
-    public static async Task Postfix(
-        Task __result,
+    public static void Postfix(
+        ref Task __result,
         PowerModel power,
         LoveHypnosisStealData __state,
         Creature? applier,
         CardModel? cardSource,
         PlayerChoiceContext choiceContext)
     {
-        await __result;
-        if (!__state.Active || __state.Player == null || __state.Amount <= 0m) return;
+        if (!__state.Active || __state.Player == null) return;
+        var original = __result;
+        __result = ContinueAfterApply(original, power, __state, applier, cardSource, choiceContext);
+    }
+
+    private static async Task ContinueAfterApply(
+        Task original,
+        PowerModel power,
+        LoveHypnosisStealData state,
+        Creature? applier,
+        CardModel? cardSource,
+        PlayerChoiceContext choiceContext)
+    {
+        await original;
+        if (state.Amount <= 0m || state.Player == null) return;
 
         await LoveHypnosisRedirect.TransferBuffToPlayer(
-            choiceContext, power, __state.Amount, __state.Player, applier, cardSource);
+            choiceContext, power, state.Amount, state.Player, applier, cardSource);
     }
 }
 
@@ -79,19 +93,33 @@ public static class LoveHypnosisModifyAmountStealPatch
         };
     }
 
-    public static async Task Postfix(
-        Task<int> __result,
+    public static void Postfix(
+        ref Task<int> __result,
         PowerModel power,
         LoveHypnosisStealData __state,
         Creature? applier,
         CardModel? cardSource,
         PlayerChoiceContext choiceContext)
     {
-        await __result;
-        if (!__state.Active || __state.Player == null || __state.Amount <= 0m) return;
+        if (!__state.Active || __state.Player == null) return;
+        var original = __result;
+        __result = ContinueAfterModifyAmount(original, power, __state, applier, cardSource, choiceContext);
+    }
+
+    private static async Task<int> ContinueAfterModifyAmount(
+        Task<int> original,
+        PowerModel power,
+        LoveHypnosisStealData state,
+        Creature? applier,
+        CardModel? cardSource,
+        PlayerChoiceContext choiceContext)
+    {
+        var result = await original;
+        if (state.Amount <= 0m || state.Player == null) return result;
 
         await LoveHypnosisRedirect.TransferBuffToPlayer(
-            choiceContext, power, __state.Amount, __state.Player, applier, cardSource);
+            choiceContext, power, state.Amount, state.Player, applier, cardSource);
+        return result;
     }
 }
 
