@@ -1,6 +1,8 @@
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -10,15 +12,20 @@ public static class LoveHypnosisRedirect
 {
     public static bool TryRetargetPower(Creature? applier, Creature target, out Creature newTarget)
     {
+        return TryRetargetPower(applier, target, null, out newTarget);
+    }
+
+  public static bool TryRetargetPower(Creature? applier, Creature target, PowerModel? appliedPower, out Creature newTarget)
+    {
         newTarget = target;
         if (applier == null) return false;
         if (target.Side != CombatSide.Enemy) return false;
+        if (appliedPower != null && appliedPower.Type != PowerType.Buff) return false;
 
-        var power = applier.GetPower<LoveHypnosisPower>();
-        if (power is not { StealBuff: true }) return false;
-        if (!power.IsStealingBuffMove()) return false;
+        if (!TryGetActiveLoveHypnosis(applier, out var hypnosis) || !hypnosis.StealBuff)
+            return false;
 
-        var player = power.ResolvePlayerCreature();
+        var player = hypnosis.ResolvePlayerCreature();
         if (player is not { IsAlive: true }) return false;
 
         newTarget = player;
@@ -30,28 +37,24 @@ public static class LoveHypnosisRedirect
         newTarget = creature;
         if (creature.Side != CombatSide.Enemy) return false;
 
-        // GainBlock は applier が無いので、行動中かつ StealBlock の敵を探す
         var combat = creature.CombatState;
         if (combat == null) return false;
 
         foreach (var enemy in combat.HittableEnemies)
         {
-            var power = enemy.GetPower<LoveHypnosisPower>();
-            if (power is not { StealBlock: true }) continue;
-            if (!power.IsStealingBlockMove()) continue;
+            if (!TryGetActiveLoveHypnosis(enemy, out var hypnosis) || !hypnosis.StealBlock)
+                continue;
 
-            var player = power.ResolvePlayerCreature();
+            var player = hypnosis.ResolvePlayerCreature();
             if (player is not { IsAlive: true }) continue;
 
             newTarget = player;
             return true;
         }
 
-        // 自分がブロックを得ようとしていて、自分にパワーがある場合
-        var selfPower = creature.GetPower<LoveHypnosisPower>();
-        if (selfPower is { StealBlock: true } && selfPower.IsStealingBlockMove())
+        if (TryGetActiveLoveHypnosis(creature, out var selfHypnosis) && selfHypnosis.StealBlock)
         {
-            var player = selfPower.ResolvePlayerCreature();
+            var player = selfHypnosis.ResolvePlayerCreature();
             if (player is { IsAlive: true })
             {
                 newTarget = player;
@@ -67,4 +70,10 @@ public static class LoveHypnosisRedirect
 
     public static bool HasDefendIntent(Creature enemy) =>
         enemy.Monster?.NextMove?.Intents?.OfType<DefendIntent>().Any() == true;
+
+    private static bool TryGetActiveLoveHypnosis(Creature applier, out LoveHypnosisPower hypnosis)
+    {
+        hypnosis = applier.GetPower<LoveHypnosisPower>()!;
+        return hypnosis != null;
+    }
 }

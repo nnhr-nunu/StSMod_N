@@ -2,6 +2,7 @@ using BaseLib.Config;
 using Godot;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Config;
+using HypnosisCreator.HypnosisCreatorCode.Patches;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Modding;
 
@@ -60,5 +61,14 @@ public partial class MainFile : Node
         }
 
         Logger.Info($"Harmony patches applied: {ok} classes ok, {fail} failed");
+
+        try
+        {
+            LoveHypnosisRedirectPatcher.Apply(harmony, Logger);
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"LoveHypnosis constructed Apply patches failed: {ex.Message}");
+        }
     }
 }
