@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -68,9 +69,8 @@ public static class LoveHypnosisRedirectPatcher
 
 /// <summary>
 /// 好き好き催眠 — 敵が既に対象バフを持っている場合の増量パッチ。
-/// PowerCmd.Apply&lt;T&gt; は既存パワーがあると ModifyAmount(power, ...) 経路に入り、
-/// Creature target 引数が存在しない（power.Owner が対象）ため、通常の target 差し替えでは奪えない。
-/// カエルの騎士の「女王のために」など、同じバフを行動ローテーションで繰り返す敵で顕在化する。
+/// return false + async __result は戦闘ループを塞ぎ進行不能になるため、
+/// 敵への加算を 0 にしてから非同期でプレイヤーへ付与する。
 /// </summary>
 [HarmonyPatch(typeof(PowerCmd), nameof(PowerCmd.ModifyAmount))]
 public static class LoveHypnosisModifyAmountPatch
@@ -81,24 +81,50 @@ public static class LoveHypnosisModifyAmountPatch
                     && m.GetParameters().Length == 6
                     && m.GetParameters()[1].ParameterType == typeof(Creature));
 
-    public static bool Prefix(
-        PlayerChoiceContext choiceContext, PowerModel power, decimal offset,
-        Creature? applier, CardModel? cardSource, bool silent, ref Task<int> __result)
+    public struct StealData
     {
-        if (!LoveHypnosisRedirect.TryGetStealingBuffOwner(power, out var player)) return true;
-
-        __result = RedirectAsync(choiceContext, power, offset, applier, cardSource, silent, player);
-        return false;
+        public bool Active;
+        public decimal Amount;
+        public Creature? Player;
+        public Type PowerType;
     }
 
-    private static async Task<int> RedirectAsync(
-        PlayerChoiceContext choiceContext, PowerModel power, decimal offset,
-        Creature? applier, CardModel? cardSource, bool silent, Creature player)
+    public static void Prefix(PowerModel power, ref decimal offset, ref StealData __state)
     {
-        var apply = GenericApply.MakeGenericMethod(power.GetType());
-        var task = (Task)apply.Invoke(null, [choiceContext, player, offset, applier, cardSource, silent])!;
+        __state = default;
+        if (offset <= 0m) return;
+        if (!LoveHypnosisRedirect.TryGetStealingBuffOwner(power, out var player)) return;
+
+        __state = new StealData
+        {
+            Active = true,
+            Amount = offset,
+            Player = player,
+            PowerType = power.GetType(),
+        };
+        offset = 0m;
+    }
+
+    public static void Postfix(
+        PlayerChoiceContext choiceContext,
+        Creature? applier,
+        CardModel? cardSource,
+        bool silent,
+        StealData __state)
+    {
+        if (!__state.Active || __state.Player == null || __state.Amount <= 0m) return;
+
+        TaskHelper.RunSafely(ApplyStolenAsync(
+            choiceContext, __state.PowerType, __state.Player, __state.Amount, applier, cardSource, silent));
+    }
+
+    private static async Task ApplyStolenAsync(
+        PlayerChoiceContext choiceContext, Type powerType, Creature player, decimal amount,
+        Creature? applier, CardModel? cardSource, bool silent)
+    {
+        var apply = GenericApply.MakeGenericMethod(powerType);
+        var task = (Task)apply.Invoke(null, [choiceContext, player, amount, applier, cardSource, silent])!;
         await task;
-        return 0;
     }
 }
 
