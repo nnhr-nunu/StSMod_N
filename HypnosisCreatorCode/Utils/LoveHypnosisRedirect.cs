@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -25,6 +26,7 @@ public static class LoveHypnosisRedirect
         if (applier == null) return false;
         if (target.Side != CombatSide.Enemy) return false;
         if (power.Type != PowerType.Buff) return false;
+        if (!BuffStripRules.CanStripFromEnemy(power)) return false;
         if (!TryGetActiveLoveHypnosis(applier, out var hypnosis) || !hypnosis.StealBuff) return false;
 
         var resolved = hypnosis.ResolvePlayerCreature();
@@ -39,6 +41,7 @@ public static class LoveHypnosisRedirect
         player = null!;
         if (offset <= 0m) return false;
         if (power.Type != PowerType.Buff) return false;
+        if (!BuffStripRules.CanStripFromEnemy(power)) return false;
         if (power.Owner is not { Side: CombatSide.Enemy } owner) return false;
         if (!TryGetActiveLoveHypnosis(owner, out var hypnosis) || !hypnosis.StealBuff) return false;
 
@@ -62,6 +65,8 @@ public static class LoveHypnosisRedirect
         CardModel? cardSource)
     {
         if (amount <= 0m) return;
+
+        if (enemyPower is AdaptablePower) return;
 
         var remove = (int)Math.Min(amount, enemyPower.Amount);
         if (remove > 0)

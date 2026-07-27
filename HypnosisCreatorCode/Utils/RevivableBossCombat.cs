@@ -14,12 +14,16 @@ public static class RevivableBossCombat
     /// <summary>
     /// まだ最終形態ではなく、AdaptablePower による復活／形態移行が残っているか。
     /// <see cref="MonsterModel.ShouldDisappearFromDoom"/> が false のときは最終とどめ（実験体は Respawns==0）。
+    /// 生存中の誤付与 AdaptablePower では止めない（死亡後の形態移行待ちのみ）。
     /// </summary>
     public static bool HasPendingRevival(Creature? creature)
     {
         if (creature is not { IsEnemy: true, Monster: { } monster }) return false;
         if (creature.GetPower<AdaptablePower>() is null) return false;
-        return monster.ShouldDisappearFromDoom;
+        if (!monster.ShouldDisappearFromDoom) return false;
+        // 形態移行待ちは破滅等で一度死亡したあと。生存中の誤付与では戦闘終了を止めない。
+        if (creature.IsAlive) return false;
+        return true;
     }
 
     public static bool CombatHasPendingRevival(ICombatState? combatState)
