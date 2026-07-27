@@ -32,7 +32,8 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
     internal void PrepareReplay()
     {
-        BaseReplayCount = Math.Max(0, DynamicVars["Replays"].IntValue);
+        // もうちょっと我慢しようね等の付与リプレイを、未UGの Replays=0 で潰さない
+        BaseReplayCount = Math.Max(BaseReplayCount, DynamicVars["Replays"].IntValue);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -52,5 +53,5 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     }
 
     private void SyncReplayCount() =>
-        BaseReplayCount = Math.Max(0, DynamicVars["Replays"].IntValue);
+        BaseReplayCount = Math.Max(BaseReplayCount, DynamicVars["Replays"].IntValue);
 }

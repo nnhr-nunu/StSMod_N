@@ -30,9 +30,8 @@ public class Spanking() : HypnosisCreatorCard(1,
         // プレビュー等で target=null のとき BaseReplayCount を 0 にしない（本番でリプレイが消えるのを防ぐ）
         if (target is not { IsAlive: true, IsEnemy: true }) return;
 
-        BaseReplayCount = 0;
-        if (!ShouldReplayForTarget(target)) return;
-        BaseReplayCount = DynamicVars["Replays"].IntValue;
+        var fromFetish = ShouldReplayForTarget(target) ? DynamicVars["Replays"].IntValue : 0;
+        BaseReplayCount = Math.Max(BaseReplayCount, fromFetish);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
