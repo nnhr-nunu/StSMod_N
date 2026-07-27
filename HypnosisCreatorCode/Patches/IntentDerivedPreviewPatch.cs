@@ -1,5 +1,6 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -85,5 +86,28 @@ public static class HarmonyBlockPreviewPatch
             ? EnemyAttackIntents.GetTotalDamage(previewTarget)
             : 0;
         CardDamagePreview.SetPreviewPair(__instance, block, block);
+    }
+}
+
+/// <summary>
+/// ゼロへの近道 — 3→2→1→0 の各 GainBlock に敏捷・エンチャントを反映した合計をプレビューに載せる。
+/// </summary>
+[HarmonyPatch(typeof(BlockVar), "UpdateCardPreview")]
+public static class ZeroShortcutBlockPreviewPatch
+{
+    public static void Postfix(
+        BlockVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target,
+        bool runGlobalHooks)
+    {
+        _ = target;
+        _ = runGlobalHooks;
+        if (card is not ZeroShortcut shortcut) return;
+
+        var baseline = ZeroShortcut.BaselineTotalBlock;
+        var preview = ZeroShortcut.ComputePreviewTotalBlock(shortcut, previewMode);
+        CardDamagePreview.SetPreviewPair(__instance, baseline, preview);
     }
 }

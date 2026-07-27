@@ -21,6 +21,13 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
 {
     private const int StartBlock = 3;
 
+    internal static int BaselineTotalBlock => StartBlock * (StartBlock + 1) / 2;
+
+    internal static decimal ComputePreviewTotalBlock(
+        ZeroShortcut card,
+        CardPreviewMode previewMode = CardPreviewMode.Normal) =>
+        CardBlockPreview.SumSequentialGains(card, StartBlock, ValueProp.Move, previewMode);
+
     public override bool GainsBlock => true;
 
     protected override bool ShouldGlowWhenConditionMet()
@@ -48,7 +55,8 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     {
         if (card is not ZeroShortcut shortcut) return;
 
-        var total = shortcut.DynamicVars.Block.BaseValue;
-        CombatDamageSuffixPreview.AppendBlockGainSuffix(shortcut, ref description, total, total);
+        var baseline = BaselineTotalBlock;
+        var total = ComputePreviewTotalBlock(shortcut);
+        CombatDamageSuffixPreview.AppendBlockGainSuffix(shortcut, ref description, total, baseline);
     }
 }
