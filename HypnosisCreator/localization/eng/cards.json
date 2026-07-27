@@ -196,7 +196,7 @@
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.description": "Choose {Cards:diff()} Hypnosis [gold]Count[/gold] {Cards:plural:card|cards}. Reset their cost to base and grant [gold]Replay[/gold] [blue]1[/blue].",
   "HYPNOSISCREATOR-WAIT_A_BIT_MORE.selectionScreenPrompt": "Choose Count cards to Replay.",
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.title": "Marshmallow Answer",
-  "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "Add {Cards:diff()} random Curse {Cards:plural:card|cards} into your [gold]Hand[/gold]. If an opponent intends to Attack, overwrite that move to gain {Block:diff()} [gold]Block[/gold] and apply {BogPower:diff()} [gold]Bog[/gold].",
+  "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "Add [blue]1[/blue] random Curse card into your [gold]Hand[/gold]. If an opponent intends to Attack, overwrite that move to gain {Block:diff()} [gold]Block[/gold] and apply {BogPower:diff()} [gold]Bog[/gold].",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.title": "True Desire of Perversion",
   "HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "Deal damage based on HP you have lost.",
   "HYPNOSISCREATOR-COLLAR_TRAINING.title": "Collar and Training",

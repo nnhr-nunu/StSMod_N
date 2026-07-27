@@ -93,6 +93,12 @@ public static class UpgradeDescriptionHooks
 
         UpgradeCardText.ApplySuggestionReleaseEnergyUpgrade(card, ref description);
 
+        UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is MarshmallowAnswer,
+            "ランダムな呪いカード1枚を[gold]手札[/gold]に追加する。",
+            "",
+            "Add [blue]1[/blue] random Curse card into your [gold]Hand[/gold]. ",
+            "");
+
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is Catalepsy,
             "相手がトランス時はスローの蓄積量がリセットされない。",
             "While Tranced, Slow stacks do not reset.");

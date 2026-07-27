@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// マシュマロ回答 — 対象の敵に。本家呪いをランダム2枚手札に（UGは1枚）。
+/// マシュマロ回答 — 対象の敵に。本家呪いをランダム1枚手札に（UGは呪いなし）。
 /// 対象が攻撃予定なら行動を「ブロック39を得る」に上書きし沼2を付与。廃棄。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -31,7 +31,7 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CardsVar(2),
+        new CardsVar(1),
         new DynamicVar("Block", 39M),
         new PowerVar<BogPower>(2M)
     ];
