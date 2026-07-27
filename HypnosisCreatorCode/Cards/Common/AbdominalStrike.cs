@@ -29,12 +29,16 @@ public class AbdominalStrike() : HypnosisCreatorCard(2,
         new PowerVar<FrailPower>(2M)
     ];
 
-    protected override IEnumerable<IHoverTip> CardHoverTips =>
-    [
-        HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<FrailPower>(),
-        HoverTipFactory.FromPower<CrueltyPower>()
-    ];
+    protected override IEnumerable<IHoverTip> CardHoverTips
+    {
+        get
+        {
+            yield return HoverTipFactory.FromPower<VulnerablePower>();
+            yield return HoverTipFactory.FromPower<FrailPower>();
+            if (IsUpgraded)
+                yield return HoverTipFactory.FromPower<CrueltyPower>();
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
