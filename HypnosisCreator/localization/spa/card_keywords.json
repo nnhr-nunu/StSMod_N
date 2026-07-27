@@ -1,0 +1,18 @@
+{
+  "HYPNOSISCREATOR-COUNT.title": "Cuenta",
+  "HYPNOSISCREATOR-COUNT.description": "Retener. El coste disminuye en 1 al inicio del turno. Se puede jugar cuando el coste es 0.",
+  "HYPNOSISCREATOR-SM.title": "SM",
+  "HYPNOSISCREATOR-SM.description": "Al jugar esta carta sobre un oponente con el fetiche SM, aplica Perdición según su HP máximo.",
+  "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
+  "HYPNOSISCREATOR-DOMSUB.description": "Al jugar esta carta sobre un oponente con el fetiche DomSub, aplica Perdición según su HP máximo.",
+  "HYPNOSISCREATOR-ABNORMAL.title": "Anormal",
+  "HYPNOSISCREATOR-ABNORMAL.description": "Al jugar esta carta sobre un oponente con el fetiche Anormal, aplica Perdición según su HP máximo.",
+  "HYPNOSISCREATOR-TRANCE.title": "Fetiche de Trance",
+  "HYPNOSISCREATOR-TRANCE.description": "Cada vez que se aplique Trance a un oponente con el fetiche Trance, aplica Perdición (5% del HP máximo + 5; ×1.5 si tiene Pantano).",
+  "HYPNOSISCREATOR-TRANCESTATE.title": "Trance",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "Permite jugar cartas de [gold]Cuenta[/gold] aunque su coste no sea 0. Disminuye en [blue]1[/blue] al inicio de tu turno.",
+  "HYPNOSISCREATOR-DOOM.title": "Perdición",
+  "HYPNOSISCREATOR-DOOM.description": "Al final del turno del enemigo, si la Perdición acumulada iguala o supera su HP actual, muere de forma instantánea.",
+  "HYPNOSISCREATOR-BOG.title": "Pantano",
+  "HYPNOSISCREATOR-BOG.description": "La [gold]Perdición[/gold] recibida aumenta un [blue]50%[/blue]. Disminuye en [blue]1[/blue] al final del turno."
+}

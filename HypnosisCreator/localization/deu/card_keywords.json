@@ -1,0 +1,18 @@
+{
+  "HYPNOSISCREATOR-COUNT.title": "Countdown",
+  "HYPNOSISCREATOR-COUNT.description": "Behalten. Die Kosten sinken zu Rundenbeginn um 1. Spielbar, wenn die Kosten 0 betragen.",
+  "HYPNOSISCREATOR-SM.title": "SM",
+  "HYPNOSISCREATOR-SM.description": "Wenn diese Karte gegen einen Gegner mit dem Fetisch SM gespielt wird, füge Verderben basierend auf seiner maximalen Lebensenergie zu.",
+  "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
+  "HYPNOSISCREATOR-DOMSUB.description": "Wenn diese Karte gegen einen Gegner mit dem Fetisch DomSub gespielt wird, füge Verderben basierend auf seiner maximalen Lebensenergie zu.",
+  "HYPNOSISCREATOR-ABNORMAL.title": "Abnorm",
+  "HYPNOSISCREATOR-ABNORMAL.description": "Wenn diese Karte gegen einen Gegner mit dem Fetisch Abnorm gespielt wird, füge Verderben basierend auf seiner maximalen Lebensenergie zu.",
+  "HYPNOSISCREATOR-TRANCE.title": "Trance-Fetisch",
+  "HYPNOSISCREATOR-TRANCE.description": "Immer wenn einem Gegner mit dem Fetisch Trance Trance zugefügt wird, füge Verderben zu (5% der maximalen Lebensenergie + 5; ×1,5 bei vorhandenem Sumpf).",
+  "HYPNOSISCREATOR-TRANCESTATE.title": "Trance",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "Erlaubt das Spielen von [gold]Countdown[/gold]-Karten, auch wenn ihre Kosten nicht 0 sind. Sinkt zu Beginn deines Zuges um [blue]1[/blue].",
+  "HYPNOSISCREATOR-DOOM.title": "Verderben",
+  "HYPNOSISCREATOR-DOOM.description": "Am Ende des Zuges des Gegners: Erreicht oder übersteigt das angesammelte Verderben seine aktuelle Lebensenergie, stirbt er sofort.",
+  "HYPNOSISCREATOR-BOG.title": "Sumpf",
+  "HYPNOSISCREATOR-BOG.description": "Erhaltenes [gold]Verderben[/gold] wird um [blue]50%[/blue] erhöht. Sinkt am Ende des Zuges um [blue]1[/blue]."
+}

@@ -1,0 +1,18 @@
+{
+  "HYPNOSISCREATOR-COUNT.title": "Отсчёт",
+  "HYPNOSISCREATOR-COUNT.description": "Сохранение. Стоимость уменьшается на 1 в начале хода. Можно сыграть, когда стоимость равна 0.",
+  "HYPNOSISCREATOR-SM.title": "SM",
+  "HYPNOSISCREATOR-SM.description": "При использовании этой карты на противнике с фетишем SM наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
+  "HYPNOSISCREATOR-DOMSUB.description": "При использовании этой карты на противнике с фетишем DomSub наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-ABNORMAL.title": "Абнормальность",
+  "HYPNOSISCREATOR-ABNORMAL.description": "При использовании этой карты на противнике с фетишем Абнормальность наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-TRANCE.title": "Фетиш Транса",
+  "HYPNOSISCREATOR-TRANCE.description": "Каждый раз, когда противнику с фетишем Транса накладывается Транс, наложите Гибель (5% от максимального здоровья + 5; ×1,5, если есть Трясина).",
+  "HYPNOSISCREATOR-TRANCESTATE.title": "Транс",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "Позволяет разыгрывать карты [gold]Отсчёта[/gold], даже если их стоимость не равна 0. Уменьшается на [blue]1[/blue] в начале вашего хода.",
+  "HYPNOSISCREATOR-DOOM.title": "Гибель",
+  "HYPNOSISCREATOR-DOOM.description": "В конце хода врага, если накопленная Гибель равна или превышает его текущее здоровье, он мгновенно умирает.",
+  "HYPNOSISCREATOR-BOG.title": "Трясина",
+  "HYPNOSISCREATOR-BOG.description": "Получаемая [gold]Гибель[/gold] увеличивается на [blue]50%[/blue]. Уменьшается на [blue]1[/blue] в конце хода."
+}
