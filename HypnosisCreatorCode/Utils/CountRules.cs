@@ -64,7 +64,7 @@ public static class CountRules
         foreach (var card in hand.Cards.ToList())
         {
             if (!HasCountKeyword(card)) continue;
-            if (card.EnergyCost.GetResolved() <= 0) continue;
+            if (card.EnergyCost.GetWithModifiers(CostModifiers.Local) <= 0) continue;
             // EndOfCombat 相対修正。ターン終了で消えない（AddThisTurn は毎ターン消える）
             card.EnergyCost.AddThisCombat(-steps);
         }
@@ -79,9 +79,10 @@ public static class CountRules
         foreach (var card in hand.Cards.ToList())
         {
             if (!HasCountKeyword(card)) continue;
-            var resolved = card.EnergyCost.GetResolved();
-            if (resolved <= 0) continue;
-            card.EnergyCost.AddThisCombat(-resolved);
+            // 虚無化などグローバル0表示中は GetResolved が0になり得る。ローカルコストで判定する。
+            var localCost = card.EnergyCost.GetWithModifiers(CostModifiers.Local);
+            if (localCost <= 0) continue;
+            card.EnergyCost.AddThisCombat(-localCost);
         }
     }
 

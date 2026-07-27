@@ -34,7 +34,7 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
     {
         var hand = Owner.PlayerCombatState?.Hand;
         return hand != null && hand.Cards.Any(c =>
-            CountRules.HasCountKeyword(c) && c.EnergyCost.GetResolved() > 0);
+            CountRules.HasCountKeyword(c) && c.EnergyCost.GetWithModifiers(CostModifiers.Local) > 0);
     }
 
     // 3+2+1+0 = 6。説明の合計ブロックは {Block:diff()} でプレビューする。
