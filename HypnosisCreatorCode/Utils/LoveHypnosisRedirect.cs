@@ -71,6 +71,24 @@ public static class LoveHypnosisRedirect
     public static bool HasDefendIntent(Creature enemy) =>
         enemy.Monster?.NextMove?.Intents?.OfType<DefendIntent>().Any() == true;
 
+    /// <summary>
+    /// 敵が既に対象パワーを持っている場合の増量（PowerCmd.ModifyAmount 経路）用。
+    /// この経路には Creature target 引数が無く、power.Owner が対象になる。
+    /// </summary>
+    public static bool TryGetStealingBuffOwner(PowerModel power, out Creature player)
+    {
+        player = null!;
+        if (power.Type != PowerType.Buff) return false;
+        if (power.Owner is not { Side: CombatSide.Enemy } owner) return false;
+        if (!TryGetActiveLoveHypnosis(owner, out var hypnosis) || !hypnosis.StealBuff) return false;
+
+        var resolved = hypnosis.ResolvePlayerCreature();
+        if (resolved is not { IsAlive: true }) return false;
+
+        player = resolved;
+        return true;
+    }
+
     private static bool TryGetActiveLoveHypnosis(Creature applier, out LoveHypnosisPower hypnosis)
     {
         hypnosis = applier.GetPower<LoveHypnosisPower>()!;

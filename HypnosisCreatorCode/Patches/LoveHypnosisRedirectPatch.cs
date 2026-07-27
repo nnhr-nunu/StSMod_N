@@ -66,6 +66,42 @@ public static class LoveHypnosisRedirectPatcher
     }
 }
 
+/// <summary>
+/// 好き好き催眠 — 敵が既に対象バフを持っている場合の増量パッチ。
+/// PowerCmd.Apply&lt;T&gt; は既存パワーがあると ModifyAmount(power, ...) 経路に入り、
+/// Creature target 引数が存在しない（power.Owner が対象）ため、通常の target 差し替えでは奪えない。
+/// カエルの騎士の「女王のために」など、同じバフを行動ローテーションで繰り返す敵で顕在化する。
+/// </summary>
+[HarmonyPatch(typeof(PowerCmd), nameof(PowerCmd.ModifyAmount))]
+public static class LoveHypnosisModifyAmountPatch
+{
+    private static readonly MethodInfo GenericApply = typeof(PowerCmd)
+        .GetMethods(BindingFlags.Public | BindingFlags.Static)
+        .First(m => m is { Name: nameof(PowerCmd.Apply), IsGenericMethodDefinition: true }
+                    && m.GetParameters().Length == 6
+                    && m.GetParameters()[1].ParameterType == typeof(Creature));
+
+    public static bool Prefix(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal offset,
+        Creature? applier, CardModel? cardSource, bool silent, ref Task<int> __result)
+    {
+        if (!LoveHypnosisRedirect.TryGetStealingBuffOwner(power, out var player)) return true;
+
+        __result = RedirectAsync(choiceContext, power, offset, applier, cardSource, silent, player);
+        return false;
+    }
+
+    private static async Task<int> RedirectAsync(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal offset,
+        Creature? applier, CardModel? cardSource, bool silent, Creature player)
+    {
+        var apply = GenericApply.MakeGenericMethod(power.GetType());
+        var task = (Task)apply.Invoke(null, [choiceContext, player, offset, applier, cardSource, silent])!;
+        await task;
+        return 0;
+    }
+}
+
 [HarmonyPatch]
 public static class LoveHypnosisPowerApplyModelPatch
 {
