@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 受容の需要 — ブロックを超えてHPを失った攻撃ヒットを記録し、次の自ターン開始時に
-/// （回数 × Amount）ぶんのエナジーとドローを得る。
+/// （回数 × Amount）分のエナジーとドローを得る。
 /// </summary>
 public class AcceptanceNeedPower : HypnosisCreatorPower
 {

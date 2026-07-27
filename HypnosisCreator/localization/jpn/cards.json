@@ -204,7 +204,7 @@
   "HYPNOSISCREATOR-VITAL_POINT.title": "急所の一刺し",
   "HYPNOSISCREATOR-VITAL_POINT.description": "[blue]10[/blue]ダメージを与える。この戦闘中、[gold]アタック[/gold]をプレイしていないターン[blue]1[/blue]につき、追加で{PerTurn:diff()}ダメージ与える。",
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.title": "受容の需要",
-  "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "HPを失った回数ぶん、次のターンにエナジーを得てカードを引く。",
+  "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "HPを失った回数分、次のターンにエナジーを得てカードを引く。",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.title": "期待に応えて",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "手札にある催眠系[gold]カウント[/gold]カードのコスト合計+[blue]1[/blue]の[blue]2[/blue]乗のダメージを与える。該当カードのコストを[blue]1[/blue]下げる。",
   "HYPNOSISCREATOR-ENCORE.title": "アンコール",
