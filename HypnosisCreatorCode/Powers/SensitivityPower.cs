@@ -11,7 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// このターン、所有者への攻撃ダメージを3倍にする（カード名の3000倍はフレーバー）。
-/// Amount＝残り自分ターン数。重ねがけで+1ターン延長。
+/// Amount＝残りプレイヤーターン数。重ねがけで+1ターン延長。
+/// 解除はプレイヤーターン終了時（敵は participants に含まれないため Owner 判定はしない）。
 /// </summary>
 public class SensitivityPower : HypnosisCreatorPower
 {
@@ -38,7 +39,6 @@ public class SensitivityPower : HypnosisCreatorPower
     {
         if (Owner == null || !Owner.IsAlive) return;
         if (side != CombatSide.Player) return;
-        if (!participants.Contains(Owner)) return;
 
         if (Amount <= 1)
             await PowerCmd.Remove(this);
