@@ -12,8 +12,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 完全掌握 — このターン、攻撃ダメージの着弾先を所有者（プレイヤー）へ寄せる。
-/// 重ねがけで残り敵ターン+1。
+/// 完全掌握 — このターン、プレイヤーに向かう攻撃ダメージを所有者（掌握された敵）が肩代わりする。
+/// 締め付けなど非攻撃ダメージ・敵への攻撃は対象外。重ねがけで残り敵ターン+1。
 /// </summary>
 public class TotalControlPower : HypnosisCreatorPower
 {
@@ -34,14 +34,19 @@ public class TotalControlPower : HypnosisCreatorPower
     public override Creature ModifyUnblockedDamageTarget(
         Creature target, decimal amount, ValueProp props, Creature dealer)
     {
-        if (Owner is { IsAlive: true })
-            return Owner;
-        return target;
+        if (Owner is not { IsAlive: true }) return target;
+        if (!props.IsPoweredAttack()) return target;
+        if (target is not { IsPlayer: true }) return target;
+        return Owner;
     }
 
     public override Task BeforeAttack(AttackCommand command)
     {
         if (Owner is not { IsAlive: true }) return Task.CompletedTask;
+
+        var singleTarget = SingleTargetField?.GetValue(command) as Creature;
+        if (singleTarget is not { IsPlayer: true }) return Task.CompletedTask;
+
         try
         {
             SingleTargetField?.SetValue(command, Owner);

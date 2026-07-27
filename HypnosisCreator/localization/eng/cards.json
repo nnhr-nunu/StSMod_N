@@ -107,7 +107,7 @@
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "I Know It All",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "Effects from Fetish hits are doubled.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "Total Control",
-  "HYPNOSISCREATOR-TOTAL_CONTROL.description": "Playable only if the target has at least [blue]2[/blue] [gold]Trance[/gold]. This turn, all attack damage is redirected to you.",
+  "HYPNOSISCREATOR-TOTAL_CONTROL.description": "Playable only if the target has at least [blue]2[/blue] [gold]Trance[/gold]. This turn, that enemy shoulders all attack damage aimed at you.",
   "HYPNOSISCREATOR-HEART_GOUGE.title": "Heart Gouge",
   "HYPNOSISCREATOR-HEART_GOUGE.description": "Deal {Damage:diff()} damage. If Fatal, gain an extra Relic reward.",
   "HYPNOSISCREATOR-BARE_INSTINCT.title": "Bare Instinct",

@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 完全掌握 — DomSub。コスト1。対象のトランス≥2が必要。
-/// このターン攻撃ダメージを自分へ肩代わり。廃棄（UGで消滅）。
+/// このターン、プレイヤーへの攻撃ダメージを対象が肩代わり。廃棄（UGで消滅）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TotalControl() : HypnosisCreatorCard(1,
@@ -36,7 +36,7 @@ public class TotalControl() : HypnosisCreatorCard(1,
         if (TranceCombat.GetTrance(play.Target) < MinTranceRequired) return;
 
         await PowerCmd.Apply<TotalControlPower>(
-            choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+            choiceContext, play.Target, 1M, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
