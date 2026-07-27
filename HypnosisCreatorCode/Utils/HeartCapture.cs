@@ -106,6 +106,13 @@ public static class HeartCapture
         }
 
         var heartType = ResolveHeartTypeOrStolen(monsterIdEntry);
+        if (HeartInventory.OwnsHeartType(player, heartType))
+        {
+            MainFile.Logger.Info(
+                $"Heart capture skipped (player already owns {heartType.Name}) for '{monsterIdEntry}'");
+            return;
+        }
+
         if (AlreadyGrantedHeartTypeThisCombat(player, heartType))
         {
             MainFile.Logger.Info(
@@ -183,6 +190,14 @@ public static class HeartCapture
         {
             MainFile.Logger.Info(
                 $"Heart ObtainNow skipped (minion without mapped heart): '{monsterIdEntry}'");
+            return;
+        }
+
+        var heartType = ResolveHeartTypeOrStolen(monsterIdEntry);
+        if (HeartInventory.OwnsHeartType(player, heartType))
+        {
+            MainFile.Logger.Info(
+                $"Heart ObtainNow skipped (player already owns {heartType.Name}) for '{monsterIdEntry}'");
             return;
         }
 

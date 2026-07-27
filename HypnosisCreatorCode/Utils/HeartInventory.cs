@@ -16,6 +16,10 @@ public static class HeartInventory
     public static IEnumerable<EnemyHeartRelic> OwnedEnemyHearts(Player player) =>
         player.Relics.OfType<EnemyHeartRelic>();
 
+    /// <summary>所持済みの心臓タイプか（同名レリックの再ドロップ抑止）。</summary>
+    public static bool OwnsHeartType(Player player, Type heartType) =>
+        player.Relics.Any(r => r.GetType() == heartType);
+
     /// <summary>No.86: 使用済み希少心臓だけ、この戦闘中再使用可能にする。</summary>
     public static void RefreshAllForCombat(Player player)
     {

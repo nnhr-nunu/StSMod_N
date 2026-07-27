@@ -19,9 +19,8 @@ public class SoulNexusHeart : EnemyHeartRelic
         if (enemy == null) return;
 
         Flash();
-        await CreatureCmd.Damage(
-            choiceContext, enemy, DynamicVars.Damage.BaseValue,
-            ValueProp.Move, player.Creature, null, null);
+        await HeartActivationHelpers.DealHeartAttackDamage(
+            choiceContext, player, enemy, DynamicVars.Damage.BaseValue);
         await PowerCmd.Apply<WeakPower>(choiceContext, enemy, 2, player.Creature, null!);
         await PowerCmd.Apply<FrailPower>(choiceContext, enemy, 2, player.Creature, null!);
         MarkUsed();

@@ -91,12 +91,33 @@ internal static class HeartActivationHelpers
         if (enemy == null) return;
 
         heart.Flash();
+        await DealHeartAttackDamage(ctx, player, enemy, damage, hits);
+        heart.MarkUsed();
+    }
+
+    /// <summary>
+    /// 攻撃系心臓のダメージ。本家活力はカード攻撃のみ対象なので、多段も含め手動で加算・消費する。
+    /// </summary>
+    public static async Task DealHeartAttackDamage(
+        PlayerChoiceContext ctx, Player player, Creature target, decimal damage, int hits = 1)
+    {
+        if (hits <= 0) return;
+
+        var vigor = player.Creature.GetPower<VigorPower>();
+        var vigorBonus = vigor?.Amount ?? 0;
+
         for (var i = 0; i < hits; i++)
         {
+            var hitDamage = damage;
+            if (vigorBonus > 0)
+                hitDamage += vigorBonus;
+
             await CreatureCmd.Damage(
-                ctx, enemy, damage, ValueProp.Move, player.Creature, null, null);
+                ctx, target, hitDamage, ValueProp.Move, player.Creature, null, null);
         }
-        heart.MarkUsed();
+
+        if (vigorBonus > 0 && vigor != null)
+            await PowerCmd.ModifyAmount(ctx, vigor, -vigorBonus, player.Creature, null);
     }
 
     public static async Task ActivateRarePotion<T>(EnemyHeartRelic heart, Player player)
