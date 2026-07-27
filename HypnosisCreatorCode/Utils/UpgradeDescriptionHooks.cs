@@ -1,4 +1,5 @@
 using BaseLib.Patches.Localization;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
@@ -105,6 +106,10 @@ public static class UpgradeDescriptionHooks
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is Stare,
             "手札のカウントを1つ進める。",
             "Advance Count costs in your hand by 1.");
+
+        UpgradeCardText.AppendGreenLine(card, ref description, c => c is FingerSnap,
+            "[gold]手札[/gold]の[gold]カウント[/gold]カードすべてのコストを[blue]1[/blue]下げる。",
+            "Reduce the cost of all [gold]Count[/gold] cards in your [gold]Hand[/gold] by [blue]1[/blue].");
 
         UpgradeCardText.AppendGreenLine(card, ref description, c => c is SenseShare,
             "さらに、自分が受けたダメージを相手全体へ伝播させる。",

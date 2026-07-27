@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
-/// <summary>指パッチン — トランス1＋破滅5。UGで保留。</summary>
+/// <summary>指パッチン — トランス1＋破滅5。UGでトランス+1と手札カウントコスト-1。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FingerSnap() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Basic,
@@ -26,7 +26,9 @@ public class FingerSnap() : HypnosisCreatorCard(0,
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await FetishCombat.ApplyDoom(
             choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
+        if (IsUpgraded)
+            CountRules.AdvanceHandCountCards(Owner);
     }
 
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+    protected override void OnUpgrade() => DynamicVars["Trance"].UpgradeValueBy(1);
 }
