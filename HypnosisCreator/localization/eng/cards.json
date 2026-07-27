@@ -204,7 +204,7 @@
   "HYPNOSISCREATOR-VITAL_POINT.title": "Strike at the Vital Point",
   "HYPNOSISCREATOR-VITAL_POINT.description": "Deal [blue]10[/blue] damage. Plus {PerTurn:diff()} for each turn this combat you have not played an [gold]Attack[/gold].",
   "HYPNOSISCREATOR-ACCEPTANCE_NEED.title": "Need for Acceptance",
-  "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "Gain energy and draw cards next turn equal to the number of times you took damage.",
+  "HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "Gain energy and draw cards next turn equal to the number of times you lost HP.",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.title": "Meeting Expectations",
   "HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "Deal damage equal to the square of (total cost of Hypnosis [gold]Count[/gold] cards in your hand + [blue]1[/blue]), then reduce their cost by [blue]1[/blue].",
   "HYPNOSISCREATOR-ENCORE.title": "Encore",

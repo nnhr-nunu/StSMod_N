@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
-/// <summary>受容の需要 — パワー。受けた攻撃の回数を記録し、次の自ターン開始時にその数だけエナジーとドローを得る。UGでコスト1。</summary>
+/// <summary>受容の需要 — パワー。ブロックを超えてHPを失った回数を記録し、次の自ターン開始時にその数ぶんエナジーとドロー。UGでコスト1。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class AcceptanceNeed() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Uncommon,

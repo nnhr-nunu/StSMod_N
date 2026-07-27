@@ -10,8 +10,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 受容の需要 — 受けた攻撃ヒットを記録し、次の自ターン開始時に
-/// （ヒット数 × Amount）ぶんのエナジーとドローを得る。
+/// 受容の需要 — ブロックを超えてHPを失った攻撃ヒットを記録し、次の自ターン開始時に
+/// （回数 × Amount）ぶんのエナジーとドローを得る。
 /// </summary>
 public class AcceptanceNeedPower : HypnosisCreatorPower
 {
@@ -26,6 +26,7 @@ public class AcceptanceNeedPower : HypnosisCreatorPower
     {
         if (target != Owner) return Task.CompletedTask;
         if (!props.IsPoweredAttack()) return Task.CompletedTask;
+        if (result.UnblockedDamage <= 0) return Task.CompletedTask;
         _hitsTaken++;
         return Task.CompletedTask;
     }
