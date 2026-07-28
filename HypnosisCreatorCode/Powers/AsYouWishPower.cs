@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>
 /// ご主人様の言うとおり — 性癖カードをプレイするたび、積み上げた合算値で自己強化する。
 /// 未UG寄与: Abn 筋力1 / SM 活力2 / DomSub ブロック1。
-/// UG寄与: Abn 筋力1+敏捷1 / SM 活力3 / DomSub ブロック2。
+/// UG寄与: Abn 筋力1+敏捷1 / SM 活力4 / DomSub ブロック2。
 /// </summary>
 public class AsYouWishPower : HypnosisCreatorPower
 {
@@ -31,7 +31,7 @@ public class AsYouWishPower : HypnosisCreatorPower
         {
             StrengthBonus += 1;
             DexterityBonus += 1;
-            VigorBonus += 3;
+            VigorBonus += 4;
             BlockBonus += 2;
         }
         else
