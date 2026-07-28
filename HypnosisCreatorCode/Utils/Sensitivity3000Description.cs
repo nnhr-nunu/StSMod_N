@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using BaseLib.Patches.Localization;
-using HypnosisCreator.HypnosisCreatorCode.Cards.Common;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
