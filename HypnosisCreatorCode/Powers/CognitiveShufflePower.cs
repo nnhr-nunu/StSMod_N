@@ -162,7 +162,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             generated.Add(card);
         }
 
-        await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
+        await CombatCardPilePreview.AddGeneratedCardsSilentAsync(generated, PileType.Hand, player);
     }
 
     public override async Task AfterRemoved(Creature oldOwner)

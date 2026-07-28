@@ -48,8 +48,6 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
         {
             results.Add(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, owner));
         }
-
-        await CombatCardPilePreview.PreviewAddAsync(results, PileType.Hand);
     }
 
     /// <summary>

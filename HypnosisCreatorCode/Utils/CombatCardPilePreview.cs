@@ -55,13 +55,11 @@ public static class CombatCardPilePreview
     {
         if (results.Count == 0) return;
 
+        // 手札は追加後にそのまま見える。PreviewCardPileAdd の大写しオーバーレイは
+        // 教祖化（ターン開始）・認知シャッフル（ドロー前）・スネッコアイ乱数コストと競合し、
+        // 手札着弾直前で固まることがある（好き好き催眠など）。
         if (pile == PileType.Hand)
-        {
-            CardCmd.PreviewCardPileAdd(
-                results, 1.2f, CardPreviewStyle.HorizontalLayout);
-            await Cmd.Wait(0.35f);
             return;
-        }
 
         var style = results.Count <= 5
             ? CardPreviewStyle.HorizontalLayout

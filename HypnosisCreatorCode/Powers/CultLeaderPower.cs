@@ -54,6 +54,6 @@ public class CultLeaderPower : HypnosisCreatorPower
             generated.Add(CombatState.CreateCard(canonical, player));
         }
 
-        await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
+        await CombatCardPilePreview.AddGeneratedCardsSilentAsync(generated, PileType.Hand, player);
     }
 }
