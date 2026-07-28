@@ -52,6 +52,22 @@ public static class LoveHypnosisRedirect
         return true;
     }
 
+    /// <summary>敵から奪ったバフ型をプレイヤーへ付与（Present! 等）。</summary>
+    public static async Task ApplyBuffToPlayer(
+        PlayerChoiceContext choiceContext,
+        Type powerType,
+        decimal amount,
+        Creature player,
+        Creature? applier,
+        CardModel? cardSource)
+    {
+        if (amount <= 0m) return;
+
+        var apply = GenericApply.MakeGenericMethod(powerType);
+        var task = (Task)apply.Invoke(null, [choiceContext, player, amount, applier, cardSource, true])!;
+        await task;
+    }
+
     /// <summary>
     /// 敵への付与が完了したあと、同量を敵から剥がしてプレイヤーへ移す。
     /// Prefix で target を差し替えると敵行動中の CustomScaledWait で進行不能になるため、Postfix 奪取のみ使う。
@@ -72,9 +88,7 @@ public static class LoveHypnosisRedirect
         if (remove > 0)
             await PowerCmd.ModifyAmount(choiceContext, enemyPower, -remove, applier, cardSource, silent: true);
 
-        var apply = GenericApply.MakeGenericMethod(enemyPower.GetType());
-        var task = (Task)apply.Invoke(null, [choiceContext, player, amount, applier, cardSource, true])!;
-        await task;
+        await ApplyBuffToPlayer(choiceContext, enemyPower.GetType(), amount, player, applier, cardSource);
     }
 
     public static bool TryRetargetBlock(Creature creature, out Creature newTarget)

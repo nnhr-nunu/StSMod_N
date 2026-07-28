@@ -13,10 +13,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Present() : TrainingCommand
 {
-    private static readonly MethodInfo GenericApply = typeof(PowerCmd)
-        .GetMethods(BindingFlags.Public | BindingFlags.Static)
-        .Single(m => m.Name == nameof(PowerCmd.Apply) && m.IsGenericMethodDefinition && m.GetParameters().Length == 5);
-
     protected override bool ShouldGlowWhenConditionMet() =>
         GlowIfTargetOrAnyEnemy(c => c.Powers.Any(BuffStripRules.CanStripFromEnemy));
 
@@ -36,9 +32,8 @@ public class Present() : TrainingCommand
 
         try
         {
-            var apply = GenericApply.MakeGenericMethod(powerType);
-            var task = (Task)apply.Invoke(null, [choiceContext, Owner.Creature, amount, Owner.Creature, this])!;
-            await task;
+            await LoveHypnosisRedirect.ApplyBuffToPlayer(
+                choiceContext, powerType, amount, Owner.Creature, Owner.Creature, this);
         }
         catch
         {
