@@ -138,6 +138,12 @@ public static class StatusHypnosisConvert
             cards.Add(card);
         }
 
+        if (pile == PileType.Hand)
+        {
+            await CombatCardPilePreview.AddToHandSkipVisualsAsync(cards, player);
+            return;
+        }
+
         var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player);
         await CombatCardPilePreview.PreviewAddAsync(results, pile);
     }

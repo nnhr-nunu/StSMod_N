@@ -31,6 +31,6 @@ public class Good() : TrainingCommand(TargetType.Self)
         }
 
         foreach (var card in selected)
-            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this);
+            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
     }
 }

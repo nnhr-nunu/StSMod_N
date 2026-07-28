@@ -11,6 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 戦闘中に生成カードを山に加えたあと、本家 <see cref="CardPileCmd.AddToCombatAndPreview{T}"/> 相当のプレビューを出す。
+/// 手札追加は飛来アニメを使わず <see cref="AddToHandSkipVisualsAsync"/> に統一（進行不能防止）。
 /// </summary>
 public static class CombatCardPilePreview
 {
@@ -23,6 +24,9 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
 
+        if (pile == PileType.Hand)
+            return await AddToHandSkipVisualsAsync(cards, player, position: position);
+
         var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
         await PreviewAddAsync(results, pile);
         return results;
@@ -34,6 +38,12 @@ public static class CombatCardPilePreview
         Player player,
         CardPilePosition position = default)
     {
+        if (pile == PileType.Hand)
+        {
+            var results = await AddToHandSkipVisualsAsync([card], player, position: position);
+            return results[0];
+        }
+
         var result = await CardPileCmd.AddGeneratedCardToCombat(card, pile, player, position);
         await PreviewAddAsync([result], pile);
         return result;
@@ -49,14 +59,17 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
 
+        if (pile == PileType.Hand)
+            return await AddToHandSkipVisualsAsync(cards, player, position: position);
+
         return await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
     }
 
     /// <summary>
-    /// 手札へ即時追加（飛来アニメなし）。ターン開始の教祖化など、ドロー直後と競合して固まる場合に使う。
+    /// 手札へ即時追加（飛来アニメなし）。ターン開始の教祖化・認知シャッフルなどで使用。
     /// <paramref name="invokeDrawHooks"/> でスネッコアイ等の <see cref="Hook.AfterCardDrawn"/> を後追いする。
     /// </summary>
-    public static async Task AddToHandSkipVisualsAsync(
+    public static async Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
         IReadOnlyList<CardModel> cards,
         Player player,
         AbstractModel? clonedBy = null,
@@ -64,12 +77,15 @@ public static class CombatCardPilePreview
         PlayerChoiceContext? choiceContext = null,
         bool invokeDrawHooks = false)
     {
-        if (cards.Count == 0) return;
+        if (cards.Count == 0)
+            return Array.Empty<CardPileAddResult>();
 
+        var results = new List<CardPileAddResult>(cards.Count);
         var combat = player.Creature?.CombatState;
         foreach (var card in cards)
         {
-            await CardPileCmd.Add(card, PileType.Hand, position, clonedBy, skipVisuals: true);
+            results.Add(await CardPileCmd.Add(
+                card, PileType.Hand, position, clonedBy, skipVisuals: true));
 
             if (combat == null) continue;
 
@@ -78,6 +94,8 @@ public static class CombatCardPilePreview
             if (invokeDrawHooks && choiceContext != null)
                 await Hook.AfterCardDrawn(combat, choiceContext, card, fromHandDraw: false);
         }
+
+        return results;
     }
 
     public static async Task PreviewAddAsync(
@@ -86,9 +104,7 @@ public static class CombatCardPilePreview
     {
         if (results.Count == 0) return;
 
-        // 手札は追加後にそのまま見える。PreviewCardPileAdd の大写しオーバーレイは
-        // 教祖化（ターン開始）・認知シャッフル（ドロー前）・スネッコアイ乱数コストと競合し、
-        // 手札着弾直前で固まることがある（好き好き催眠など）。
+        // 手札は追加後にそのまま見える。山札・捨て札のみプレビュー。
         if (pile == PileType.Hand)
             return;
 

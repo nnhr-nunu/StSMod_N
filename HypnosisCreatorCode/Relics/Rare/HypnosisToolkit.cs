@@ -37,7 +37,7 @@ public class HypnosisToolkit : HypnosisCreatorRelic
         if (picks.Count == 0) return;
 
         Flash();
-        await CardPileCmd.Add(picks, PileType.Hand, CardPilePosition.Top, this);
+        await CardPileCmd.Add(picks, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
     }
 
     private static List<CardModel> PickRandom(List<CardModel> pool, int count, Player owner)

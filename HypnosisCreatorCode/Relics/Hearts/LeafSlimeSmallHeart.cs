@@ -22,7 +22,7 @@ public class LeafSlimeSmallHeart : EnemyHeartRelic
         var slime = ModelDb.Card<Slimed>().ToMutable();
         slime.Owner = player;
         slime.EnergyCost.SetThisCombat(0);
-        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, this);
+        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, this, skipVisuals: true);
         MarkUsed();
     }
 }

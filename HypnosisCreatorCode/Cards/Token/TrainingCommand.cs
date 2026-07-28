@@ -42,12 +42,9 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
     /// <summary>生成カードを手札へ。PreferLeftWhenGenerated をバッチ内左寄せしてから追加する。</summary>
     public static async Task AddGeneratedToHandOrderedAsync(IEnumerable<CardModel> cards, Player owner)
     {
-        var results = new List<CardPileAddResult>();
-        foreach (var card in cards.OrderByDescending(c =>
-                     c is TrainingCommand { PreferLeftWhenGenerated: true }))
-        {
-            results.Add(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, owner));
-        }
+        var ordered = cards.OrderByDescending(c =>
+            c is TrainingCommand { PreferLeftWhenGenerated: true }).ToList();
+        await CombatCardPilePreview.AddToHandSkipVisualsAsync(ordered, owner);
     }
 
     /// <summary>

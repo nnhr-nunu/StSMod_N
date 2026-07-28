@@ -57,7 +57,7 @@ public class RitualReveal() : HypnosisCreatorCard(1,
         }
 
         foreach (var card in selected)
-            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this);
+            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
     }
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);

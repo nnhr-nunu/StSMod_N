@@ -61,7 +61,7 @@ internal static class HeartActivationHelpers
         var slime = ModelDb.Card<Slimed>().ToMutable();
         slime.Owner = player;
         slime.EnergyCost.SetThisCombat(0);
-        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, heart);
+        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, heart, skipVisuals: true);
         heart.MarkUsed();
     }
 
