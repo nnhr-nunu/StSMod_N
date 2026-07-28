@@ -1,3 +1,4 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -66,8 +67,8 @@ public static class CombatCardPilePreview
     }
 
     /// <summary>
-    /// 手札へ即時追加（飛来アニメなし）。<see cref="ICombatState.CreateCard"/> 由来は
-    /// <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> と同じ履歴登録を行う。
+    /// 手札へ即時追加（飛来アニメなし）。本家 <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> と同じ
+    /// 履歴登録・フック順序で、<see cref="CardPileCmd.Add"/> だけ <c>skipVisuals: true</c> にする。
     /// <paramref name="invokeDrawHooks"/> でスネッコアイ等の <see cref="Hook.AfterCardDrawn"/> を後追いする。
     /// </summary>
     public static async Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
@@ -81,18 +82,28 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
 
+        if (!CombatManager.Instance.IsInProgress)
+            return Array.Empty<CardPileAddResult>();
+
+        if (cards.Any(c => c.Pile != null))
+            throw new InvalidOperationException(
+                "Generated cards must not already be in a pile before hand add.");
+
         var combat = player.Creature?.CombatState;
         if (combat == null)
             return Array.Empty<CardPileAddResult>();
 
-        foreach (var card in cards)
-            CombatManager.Instance.History.CardGenerated(combat, card, player);
-
-        var results = await CardPileCmd.Add(
-            cards, PileType.Hand, position, clonedBy, skipVisuals: true);
+        var handPile = PileType.Hand.GetPile(player);
+        var results = new List<CardPileAddResult>(cards.Count);
 
         foreach (var card in cards)
         {
+            CombatManager.Instance.History.CardGenerated(combat, card, player);
+
+            var result = await CardPileCmd.Add(
+                card, handPile, position, clonedBy, skipVisuals: true);
+            results.Add(result);
+
             await Hook.AfterCardGeneratedForCombat(combat, card, player);
 
             if (invokeDrawHooks && choiceContext != null)
