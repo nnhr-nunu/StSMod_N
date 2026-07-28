@@ -21,8 +21,8 @@ public class CorrosionPower : HypnosisCreatorPower
     public bool PreferMatchingFetish { get; set; }
 
     private static bool IsCountCandidate(CardModel c) =>
-        c is HypnosisCreatorCard { Rarity: not CardRarity.Token } hc &&
-        hc.Keywords.Contains(HypnosisCreatorCode.CustomEnums.HcKeywords.Count) &&
+        c is HypnosisCreatorCard { Rarity: not CardRarity.Token } &&
+        CountRules.HasCountKeyword(c) &&
         c is not TrainingCommand;
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
