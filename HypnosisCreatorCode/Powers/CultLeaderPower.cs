@@ -47,11 +47,13 @@ public class CultLeaderPower : HypnosisCreatorPower
         if (pool.Count == 0) return;
 
         var rng = player.RunState.Rng.CombatCardSelection;
+        var generated = new List<CardModel>(count);
         for (var i = 0; i < count; i++)
         {
             var canonical = pool[rng.NextInt(pool.Count)];
-            var generated = CombatState.CreateCard(canonical, player);
-            await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
+            generated.Add(CombatState.CreateCard(canonical, player));
         }
+
+        await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
     }
 }

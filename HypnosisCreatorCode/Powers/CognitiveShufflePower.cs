@@ -151,15 +151,18 @@ public class CognitiveShufflePower : HypnosisCreatorPower
 
         var rng = player.RunState.Rng.CombatCardSelection;
         var count = Math.Max(1, Amount);
+        var generated = new List<CardModel>(count);
         for (var i = 0; i < count; i++)
         {
             var canonical = candidates[rng.NextInt(candidates.Count)];
-            var generated = CombatState.CreateCard(canonical, player);
-            generated.AddKeyword(CardKeyword.Ethereal);
-            generated.AddKeyword(CardKeyword.Exhaust);
-            generated.SetToFreeThisTurn();
-            await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
+            var card = CombatState.CreateCard(canonical, player);
+            card.AddKeyword(CardKeyword.Ethereal);
+            card.AddKeyword(CardKeyword.Exhaust);
+            card.SetToFreeThisTurn();
+            generated.Add(card);
         }
+
+        await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
     }
 
     public override async Task AfterRemoved(Creature oldOwner)

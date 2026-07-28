@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -37,12 +38,14 @@ public class FetishParty() : HypnosisCreatorCard(1,
         foreach (var player in CombatState.Players)
         {
             var rng = player.RunState.Rng.CombatCardSelection;
+            var generated = new List<CardModel>(DynamicVars.Cards.IntValue);
             for (var i = 0; i < DynamicVars.Cards.IntValue; i++)
             {
                 var canonical = pool[rng.NextInt(pool.Count)];
-                var generated = CombatState.CreateCard(canonical, player);
-                await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
+                generated.Add(CombatState.CreateCard(canonical, player));
             }
+
+            await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
         }
     }
 

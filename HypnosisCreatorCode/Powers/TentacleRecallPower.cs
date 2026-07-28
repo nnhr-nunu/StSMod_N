@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -46,8 +47,7 @@ public class TentacleRecallPower : HypnosisCreatorPower
 
         _deliverNextTurn = false;
         var copy = _source.CreateClone();
-        var result = await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, player);
-        CardCmd.PreviewCardPileAdd(result);
+        await CombatCardPilePreview.AddGeneratedCardAsync(copy, PileType.Hand, player);
         await PowerCmd.Remove(this);
     }
 }

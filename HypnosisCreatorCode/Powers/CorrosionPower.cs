@@ -57,6 +57,6 @@ public class CorrosionPower : HypnosisCreatorPower
         }
 
         var generated = CombatState!.CreateCard(canonical, player);
-        await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, player);
+        await CombatCardPilePreview.AddGeneratedCardAsync(generated, PileType.Hand, player);
     }
 }

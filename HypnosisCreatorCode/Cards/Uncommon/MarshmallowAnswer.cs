@@ -53,12 +53,14 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
             if (pool.Count > 0)
             {
                 var rng = Owner.RunState.Rng.CombatCardSelection;
+                var generated = new List<CardModel>(curseCount);
                 for (var i = 0; i < curseCount; i++)
                 {
                     var canonical = pool[rng.NextInt(pool.Count)];
-                    var generated = CombatState.CreateCard(canonical, Owner);
-                    await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+                    generated.Add(CombatState.CreateCard(canonical, Owner));
                 }
+
+                await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, Owner);
             }
         }
 

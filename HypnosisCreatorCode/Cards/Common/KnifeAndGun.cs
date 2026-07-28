@@ -34,7 +34,7 @@ public class KnifeAndGun() : HypnosisCreatorCard(1,
         if (CombatState != null)
         {
             var generated = CombatState.CreateCard(ModelDb.Card<Shiv>(), Owner);
-            await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, Owner);
+            await CombatCardPilePreview.AddGeneratedCardAsync(generated, PileType.Hand, Owner);
         }
 
         FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);

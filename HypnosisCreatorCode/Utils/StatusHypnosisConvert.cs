@@ -139,29 +139,15 @@ public static class StatusHypnosisConvert
         }
 
         var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player);
-        await PreviewGeneratedPileAddAsync(results, pile);
+        await CombatCardPilePreview.PreviewAddAsync(results, pile);
     }
 
     /// <summary>
     /// 生成カードの山札追加後、本家 <see cref="CardPileCmd.AddToCombatAndPreview{T}"/> 同様のプレビューを出す。
     /// 捨て札など画面外の山へ入れるとき、無反応に見えないようにする。
     /// </summary>
-    public static async Task PreviewGeneratedPileAddAsync(
+    public static Task PreviewGeneratedPileAddAsync(
         IReadOnlyList<CardPileAddResult> results,
-        PileType pile)
-    {
-        if (results.Count == 0) return;
-
-        if (pile == PileType.Hand)
-        {
-            await Cmd.Wait(0.1f);
-            return;
-        }
-
-        var style = results.Count <= 5
-            ? CardPreviewStyle.HorizontalLayout
-            : CardPreviewStyle.MessyLayout;
-        CardCmd.PreviewCardPileAdd(results, 1.2f, style);
-        await Cmd.Wait(1f);
-    }
+        PileType pile) =>
+        CombatCardPilePreview.PreviewAddAsync(results, pile);
 }
