@@ -21,8 +21,8 @@ public static class BuffStripRules
         if (power is FetishAttributePower)
             return false;
 
-        // 本家睡眠（寝かしつけ催眠・ポリネシアン等）。PowerType は Buff だが解除対象にしない。
-        if (power is AsleepPower)
+        // 本家睡眠（寝かしつけ・ポリネシアン等）と眠れるビートルのまどろみ。PowerType は Buff だが解除対象にしない。
+        if (power is AsleepPower or SlumberPower)
             return false;
 
         if (IsProtectedMechanicOrHypnosisBuff(power))
