@@ -1,6 +1,9 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
@@ -36,7 +39,7 @@ public static class CombatCardPilePreview
         return result;
     }
 
-  /// <summary>追加のみ。プレビューは <see cref="PendingDrawPileCardPreview"/> 等で後追いする。</summary>
+    /// <summary>追加のみ。プレビューは <see cref="PendingDrawPileCardPreview"/> 等で後追いする。</summary>
     public static async Task<IReadOnlyList<CardPileAddResult>> AddGeneratedCardsSilentAsync(
         IReadOnlyList<CardModel> cards,
         PileType pile,
@@ -47,6 +50,34 @@ public static class CombatCardPilePreview
             return Array.Empty<CardPileAddResult>();
 
         return await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
+    }
+
+    /// <summary>
+    /// 手札へ即時追加（飛来アニメなし）。ターン開始の教祖化など、ドロー直後と競合して固まる場合に使う。
+    /// <paramref name="invokeDrawHooks"/> でスネッコアイ等の <see cref="Hook.AfterCardDrawn"/> を後追いする。
+    /// </summary>
+    public static async Task AddToHandSkipVisualsAsync(
+        IReadOnlyList<CardModel> cards,
+        Player player,
+        AbstractModel? clonedBy = null,
+        CardPilePosition position = default,
+        PlayerChoiceContext? choiceContext = null,
+        bool invokeDrawHooks = false)
+    {
+        if (cards.Count == 0) return;
+
+        var combat = player.Creature?.CombatState;
+        foreach (var card in cards)
+        {
+            await CardPileCmd.Add(card, PileType.Hand, position, clonedBy, skipVisuals: true);
+
+            if (combat == null) continue;
+
+            await Hook.AfterCardGeneratedForCombat(combat, card, player);
+
+            if (invokeDrawHooks && choiceContext != null)
+                await Hook.AfterCardDrawn(combat, choiceContext, card, fromHandDraw: false);
+        }
     }
 
     public static async Task PreviewAddAsync(

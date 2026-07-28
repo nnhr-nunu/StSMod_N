@@ -80,8 +80,6 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         PlayerChoiceContext choiceContext,
         ICombatState combatState)
     {
-        _ = choiceContext;
-        _ = combatState;
         if (Owner == null || player.Creature != Owner) return;
 
         PruneDeadTargets();
@@ -89,7 +87,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         // 残り1のターンは生成しない（減少後に見た目が戻るため、他色カードだけ残るのを防ぐ）
         if (!_tranceTargets.Any(t => TranceCombat.GetTrance(t) > 1)) return;
 
-        await GenerateMatchingCardsAsync(player);
+        await GenerateMatchingCardsAsync(player, choiceContext);
     }
 
     public override async Task AfterSideTurnStartLate(
@@ -135,7 +133,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             _pendingExpire = true;
     }
 
-    private async Task GenerateMatchingCardsAsync(Player player)
+    private async Task GenerateMatchingCardsAsync(Player player, PlayerChoiceContext choiceContext)
     {
         if (FormCanonical?.Pool == null || CombatState == null) return;
 
@@ -162,7 +160,8 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             generated.Add(card);
         }
 
-        await CombatCardPilePreview.AddGeneratedCardsSilentAsync(generated, PileType.Hand, player);
+        await CombatCardPilePreview.AddToHandSkipVisualsAsync(
+            generated, player, this, choiceContext: choiceContext, invokeDrawHooks: true);
     }
 
     public override async Task AfterRemoved(Creature oldOwner)

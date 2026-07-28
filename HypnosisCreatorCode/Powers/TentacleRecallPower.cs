@@ -47,7 +47,8 @@ public class TentacleRecallPower : HypnosisCreatorPower
 
         _deliverNextTurn = false;
         var copy = _source.CreateClone();
-        await CombatCardPilePreview.AddGeneratedCardAsync(copy, PileType.Hand, player);
+        await CombatCardPilePreview.AddToHandSkipVisualsAsync(
+            [copy], player, this, choiceContext: choiceContext, invokeDrawHooks: true);
         await PowerCmd.Remove(this);
     }
 }
