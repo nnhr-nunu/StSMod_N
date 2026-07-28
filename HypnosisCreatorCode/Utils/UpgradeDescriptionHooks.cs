@@ -132,10 +132,10 @@ public static class UpgradeDescriptionHooks
             "[green]At the start of your turn, advance [gold]Count[/gold] in your [gold]Hand[/gold] once more.[/green]");
 
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AsYouWish,
-            "アブノーマル：[gold]筋力[/gold][blue]1[/blue]（強化時はさらに[gold]敏捷[/gold][blue]1[/blue]）。SM：[gold]活力[/gold][blue]2[/blue]。DomSub：[blue]1[/blue][gold]ブロック[/gold]。",
+            "アブノーマル：[gold]筋力[/gold][blue]1[/blue]。SM：[gold]活力[/gold][blue]2[/blue]。DomSub：[blue]1[/blue][gold]ブロック[/gold]。",
             "アブノーマル：[gold]筋力[/gold][blue]1[/blue]と[green][gold]敏捷[/gold][blue]1[/blue][/green]。SM：[gold]活力[/gold][green][blue]3[/blue][/green]。DomSub：[green][blue]2[/blue][/green][gold]ブロック[/gold]。",
-            "Abnormal grants [blue]1[/blue] [gold]Strength[/gold] (and [blue]1[/blue] [gold]Dexterity[/gold] if upgraded), SM grants [gold]Vigor[/gold], DomSub grants [gold]Block[/gold].",
-            "Abnormal grants [blue]1[/blue] [gold]Strength[/gold] and [green][blue]1[/blue] [gold]Dexterity[/gold][/green], SM grants [green][blue]3[/blue][/green] [gold]Vigor[/gold], DomSub grants [green][blue]2[/blue][/green] [gold]Block[/gold].");
+            "Abnormal: [blue]1[/blue] [gold]Strength[/gold]. SM: [gold]Vigor[/gold] [blue]2[/blue]. DomSub: [blue]1[/blue] [gold]Block[/gold].",
+            "Abnormal: [blue]1[/blue] [gold]Strength[/gold] and [green][blue]1[/blue] [gold]Dexterity[/gold][/green]. SM: [green][blue]3[/blue][/green] [gold]Vigor[/gold]. DomSub: [green][blue]2[/blue][/green] [gold]Block[/gold].");
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is AmbushHypnosis,
             "相手の数だけカードを引く",
             "相手の数[green]+1[/green]枚カードを引く",

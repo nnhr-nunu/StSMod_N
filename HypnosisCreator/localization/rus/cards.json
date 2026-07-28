@@ -183,7 +183,7 @@
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Снятие внушения",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Наносит 0 урона. Снимает [gold]Транс[/gold] с противника. Получите {energyPrefix:energyIcons(1)} и возьмите столько же карт, сколько было снято уровней.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "Как пожелаете, хозяин",
-  "HYPNOSISCREATOR-AS_YOU_WISH.description": "Каждый раз, когда вы разыгрываете карту фетиша, получаете соответствующий эффект. Отклонение: [gold]Сила[/gold] [blue]1[/blue] (при улучшении дополнительно [gold]Ловкость[/gold] [blue]1[/blue]). SM: [gold]Живучесть[/gold] [blue]2[/blue]. DomSub: [blue]1[/blue] [gold]Блок[/gold].",
+  "HYPNOSISCREATOR-AS_YOU_WISH.description": "Каждый раз, когда вы разыгрываете карту фетиша, получаете соответствующий эффект. Отклонение: [gold]Сила[/gold] [blue]1[/blue]. SM: [gold]Живучесть[/gold] [blue]2[/blue]. DomSub: [blue]1[/blue] [gold]Блок[/gold].",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.title": "Понимание извращений",
   "HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "Каждый раз, когда вы разыгрываете карту фетиша, получаете {Block:diff()} [gold]Блока[/gold].",
   "HYPNOSISCREATOR-PROSELYTIZE.title": "Жажда обращения",
