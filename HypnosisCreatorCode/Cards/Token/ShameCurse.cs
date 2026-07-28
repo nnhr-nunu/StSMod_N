@@ -37,6 +37,7 @@ public class ShameCurse() : PlayableCurseCard(0,
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
+        FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
     }
 
 }

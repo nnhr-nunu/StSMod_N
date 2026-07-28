@@ -1,6 +1,7 @@
 using System.Linq;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -141,12 +142,30 @@ public static class StatusHypnosisConvert
 
         if (pile == PileType.Hand)
         {
-            await CombatCardPilePreview.AddToHandSkipVisualsAsync(cards, player);
+            await AddGeneratedToHandAsync(cards, player);
             return;
         }
 
         var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player);
         await CombatCardPilePreview.PreviewAddAsync(results, pile);
+    }
+
+    /// <summary>
+    /// 手札への生成カード追加。プレイ中は遅延キュー、それ以外は1枚ずつ追加（複数枚バッチは飛来演出が止まる）。
+    /// </summary>
+    public static async Task AddGeneratedToHandAsync(IReadOnlyList<CardModel> cards, Player player)
+    {
+        if (cards.Count == 0) return;
+
+        if (CombatManager.Instance.IsExecutingCardOrPotionEffect(player))
+        {
+            await CombatCardPilePreview.AddToHandDuringCardPlayAsync(cards, player);
+            return;
+        }
+
+        foreach (var card in cards)
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
+        await Cmd.Wait(0.1f);
     }
 
     /// <summary>
