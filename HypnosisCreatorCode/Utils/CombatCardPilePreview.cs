@@ -42,6 +42,12 @@ public static class CombatCardPilePreview
         Player player,
         CardPilePosition position = default)
     {
+        if (pile == PileType.Hand && CombatManager.Instance.IsExecutingCardOrPotionEffect(player))
+        {
+            await AddToHandDuringCardPlayAsync([card], player);
+            return new CardPileAddResult { success = true, cardAdded = card };
+        }
+
         var result = await CardPileCmd.AddGeneratedCardToCombat(card, pile, player, position);
         if (pile != PileType.Hand)
             await PreviewAddAsync([result], pile);
