@@ -66,7 +66,8 @@ public static class CombatCardPilePreview
     }
 
     /// <summary>
-    /// 手札へ即時追加（飛来アニメなし）。ターン開始の教祖化・認知シャッフルなどで使用。
+    /// 手札へ即時追加（飛来アニメなし）。<see cref="ICombatState.CreateCard"/> 由来は
+    /// <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> と同じ履歴登録を行う。
     /// <paramref name="invokeDrawHooks"/> でスネッコアイ等の <see cref="Hook.AfterCardDrawn"/> を後追いする。
     /// </summary>
     public static async Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
@@ -80,15 +81,18 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
 
-        var results = new List<CardPileAddResult>(cards.Count);
         var combat = player.Creature?.CombatState;
+        if (combat == null)
+            return Array.Empty<CardPileAddResult>();
+
+        foreach (var card in cards)
+            CombatManager.Instance.History.CardGenerated(combat, card, player);
+
+        var results = await CardPileCmd.Add(
+            cards, PileType.Hand, position, clonedBy, skipVisuals: true);
+
         foreach (var card in cards)
         {
-            results.Add(await CardPileCmd.Add(
-                card, PileType.Hand, position, clonedBy, skipVisuals: true));
-
-            if (combat == null) continue;
-
             await Hook.AfterCardGeneratedForCombat(combat, card, player);
 
             if (invokeDrawHooks && choiceContext != null)

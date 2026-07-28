@@ -161,7 +161,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         }
 
         await CombatCardPilePreview.AddToHandSkipVisualsAsync(
-            generated, player, this, choiceContext: choiceContext, invokeDrawHooks: true);
+            generated, player, choiceContext: choiceContext, invokeDrawHooks: true);
     }
 
     public override async Task AfterRemoved(Creature oldOwner)
