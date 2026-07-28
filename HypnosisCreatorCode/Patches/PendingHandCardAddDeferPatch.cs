@@ -11,7 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// カードプレイ中の手札追加を <see cref="PendingHandCardAdd"/> へ一括委譲する。
-/// 個別カードで経路を揃え忘れても、飛来アニメ競合による固まりを防ぐ。
+/// 本家のスキルポーション等も <see cref="CardPileCmd.AddGeneratedCardToCombat"/> を使うため、
+/// フラッシュは <see cref="CardModel.OnPlayWrapper"/> と <see cref="PotionModel.OnUseWrapper"/> 両方の終了後が必要。
 /// </summary>
 [HarmonyPatch(typeof(CardPileCmd), nameof(CardPileCmd.AddGeneratedCardsToCombat))]
 public static class PendingHandCardAddGeneratedDeferPatch

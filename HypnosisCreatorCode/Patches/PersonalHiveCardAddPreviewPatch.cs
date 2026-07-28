@@ -85,19 +85,28 @@ public static class CardPileAddPreviewFlushPatch
 }
 
 /// <summary>
-/// 手札遅延追加は廃棄演出完了後（OnPlayWrapper 全体の終了後）にフラッシュする。
-/// AfterCardPlayed 時点では IsExecutingCardOrPotionEffect がまだ true で二重遅延／未追加になる。
+/// 手札遅延追加は効果ラッパー完了後にフラッシュする。
+/// カード: OnPlayWrapper 終了後（廃棄演出後）。
+/// ポーション: OnUseWrapper 終了後（スキルポーション等の本家手札追加を含む）。
 /// </summary>
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.OnPlayWrapper))]
 public static class PendingHandCardAddOnPlayWrapperFlushPatch
 {
-    public static void Postfix(ref Task __result)
-    {
-        var original = __result;
-        __result = ContinueAsync(original);
-    }
+    public static void Postfix(ref Task __result) =>
+        __result = PendingHandCardAddFlush.AfterAsync(__result);
+}
 
-    private static async Task ContinueAsync(Task original)
+[HarmonyPatch(typeof(PotionModel), nameof(PotionModel.OnUseWrapper))]
+public static class PendingHandCardAddOnPotionUseWrapperFlushPatch
+{
+    public static void Postfix(ref Task __result) =>
+        __result = PendingHandCardAddFlush.AfterAsync(__result);
+}
+
+/// <summary>カード／ポーション効果ラッパー終了後の手札遅延フラッシュ。</summary>
+internal static class PendingHandCardAddFlush
+{
+    public static async Task AfterAsync(Task original)
     {
         await original;
         await PendingHandCardAdd.FlushIfAnyAsync();
