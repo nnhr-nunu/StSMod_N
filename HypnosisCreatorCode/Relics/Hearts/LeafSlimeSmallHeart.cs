@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -23,6 +24,7 @@ public class LeafSlimeSmallHeart : EnemyHeartRelic
         slime.Owner = player;
         slime.EnergyCost.SetThisCombat(0);
         await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, this, skipVisuals: true);
+        CombatCardPilePreview.RegisterHandVisuals(slime, player);
         MarkUsed();
     }
 }

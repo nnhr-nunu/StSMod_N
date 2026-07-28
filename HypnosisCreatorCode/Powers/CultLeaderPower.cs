@@ -22,8 +22,8 @@ public class CultLeaderPower : HypnosisCreatorPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     private static bool IsCountCandidate(CardModel c) =>
-        c is HypnosisCreatorCard { Rarity: not CardRarity.Token } hc &&
-        hc.Keywords.Contains(HypnosisCreatorCode.CustomEnums.HcKeywords.Count) &&
+        c is HypnosisCreatorCard { Rarity: not CardRarity.Token } &&
+        CountRules.HasCountKeyword(c) &&
         c is not TrainingCommand;
 
     public override Task AfterApplied(Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? cardSource)

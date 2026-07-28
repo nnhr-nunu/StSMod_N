@@ -1,12 +1,17 @@
 using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.UI;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -68,8 +73,8 @@ public static class CombatCardPilePreview
 
     /// <summary>
     /// 手札へ即時追加（飛来アニメなし）。本家 <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> と同じ
-    /// 履歴登録・フック順序で、<see cref="CardPileCmd.Add"/> だけ <c>skipVisuals: true</c> にする。
-    /// <paramref name="invokeDrawHooks"/> でスネッコアイ等の <see cref="Hook.AfterCardDrawn"/> を後追いする。
+    /// 履歴登録・フック順序。<c>skipVisuals</c> では本家がカードノードを作らないため、
+    /// <see cref="RegisterHandVisuals"/> で手札UIへ登録する。
     /// </summary>
     public static async Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
         IReadOnlyList<CardModel> cards,
@@ -104,6 +109,9 @@ public static class CombatCardPilePreview
                 card, handPile, position, clonedBy, skipVisuals: true);
             results.Add(result);
 
+            if (result.success)
+                RegisterHandVisuals(card, player);
+
             await Hook.AfterCardGeneratedForCombat(combat, card, player);
 
             if (invokeDrawHooks && choiceContext != null)
@@ -111,6 +119,35 @@ public static class CombatCardPilePreview
         }
 
         return results;
+    }
+
+    /// <summary>
+    /// <see cref="CardPileCmd.Add"/> の <c>skipVisuals: true</c> 後に手札表示を復元する。
+    /// 山データだけ更新されノードが無いと、手札に見えない。
+    /// </summary>
+    public static void RegisterHandVisuals(CardModel card, Player player)
+    {
+        if (card.Pile?.Type != PileType.Hand) return;
+
+        var room = NCombatRoom.Instance;
+        var ui = room?.Ui;
+        if (ui == null) return;
+
+        var isLocal = LocalContext.IsMe(player);
+        var nCard = NCard.Create(card, ModelVisibility.Visible);
+        ui.AddChildSafely(nCard);
+        nCard.UpdateVisuals(PileType.Hand, CardPreviewMode.Normal);
+
+        if (!isLocal)
+        {
+            var creatureNode = room!.GetCreatureNode(player.Creature);
+            if (creatureNode?.IntentContainer != null)
+                nCard.Position = creatureNode.IntentContainer.GlobalPosition;
+        }
+        else
+            nCard.Position = PileType.Hand.GetTargetPosition(nCard);
+
+        ui.Hand?.Add(nCard);
     }
 
     public static async Task PreviewAddAsync(
