@@ -1,23 +1,14 @@
-using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.Entities.UI;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 戦闘中に生成カードを山に加えたあと、本家 <see cref="CardPileCmd.AddToCombatAndPreview{T}"/> 相当のプレビューを出す。
-/// 手札追加は飛来アニメを使わず <see cref="AddToHandSkipVisualsAsync"/> に統一（進行不能防止）。
+/// 手札は本家 <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> をそのまま使う（プレビュー・skipVisuals なし）。
 /// </summary>
 public static class CombatCardPilePreview
 {
@@ -30,11 +21,9 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
 
-        if (pile == PileType.Hand)
-            return await AddToHandSkipVisualsAsync(cards, player, position: position);
-
         var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
-        await PreviewAddAsync(results, pile);
+        if (pile != PileType.Hand)
+            await PreviewAddAsync(results, pile);
         return results;
     }
 
@@ -44,111 +33,34 @@ public static class CombatCardPilePreview
         Player player,
         CardPilePosition position = default)
     {
-        if (pile == PileType.Hand)
-        {
-            var results = await AddToHandSkipVisualsAsync([card], player, position: position);
-            return results[0];
-        }
-
         var result = await CardPileCmd.AddGeneratedCardToCombat(card, pile, player, position);
-        await PreviewAddAsync([result], pile);
+        if (pile != PileType.Hand)
+            await PreviewAddAsync([result], pile);
         return result;
     }
 
     /// <summary>追加のみ。プレビューは <see cref="PendingDrawPileCardPreview"/> 等で後追いする。</summary>
-    public static async Task<IReadOnlyList<CardPileAddResult>> AddGeneratedCardsSilentAsync(
+    public static Task<IReadOnlyList<CardPileAddResult>> AddGeneratedCardsSilentAsync(
         IReadOnlyList<CardModel> cards,
         PileType pile,
         Player player,
         CardPilePosition position = default)
     {
         if (cards.Count == 0)
-            return Array.Empty<CardPileAddResult>();
+            return Task.FromResult<IReadOnlyList<CardPileAddResult>>(Array.Empty<CardPileAddResult>());
 
-        if (pile == PileType.Hand)
-            return await AddToHandSkipVisualsAsync(cards, player, position: position);
-
-        return await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
+        return CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
     }
 
     /// <summary>
-    /// 手札へ即時追加（飛来アニメなし）。本家 <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> と同じ
-    /// 履歴登録・フック順序。<c>skipVisuals</c> では本家がカードノードを作らないため、
-    /// <see cref="RegisterHandVisuals"/> で手札UIへ登録する。
+    /// 手札へ生成カードを追加。27db557 以前と同じ本家経路。
+    /// skipVisuals や手動ノード生成は使わない（手札UI不整合・フリーズの原因）。
     /// </summary>
-    public static async Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
+    public static Task<IReadOnlyList<CardPileAddResult>> AddToHandSkipVisualsAsync(
         IReadOnlyList<CardModel> cards,
         Player player,
-        AbstractModel? clonedBy = null,
-        CardPilePosition position = default,
-        PlayerChoiceContext? choiceContext = null,
-        bool invokeDrawHooks = false)
-    {
-        if (cards.Count == 0)
-            return Array.Empty<CardPileAddResult>();
-
-        if (!CombatManager.Instance.IsInProgress)
-            return Array.Empty<CardPileAddResult>();
-
-        if (cards.Any(c => c.Pile != null))
-            throw new InvalidOperationException(
-                "Generated cards must not already be in a pile before hand add.");
-
-        var combat = player.Creature?.CombatState;
-        if (combat == null)
-            return Array.Empty<CardPileAddResult>();
-
-        var handPile = PileType.Hand.GetPile(player);
-        var results = new List<CardPileAddResult>(cards.Count);
-
-        foreach (var card in cards)
-        {
-            CombatManager.Instance.History.CardGenerated(combat, card, player);
-
-            var result = await CardPileCmd.Add(
-                card, handPile, position, clonedBy, skipVisuals: true);
-            results.Add(result);
-
-            if (result.success)
-                RegisterHandVisuals(card, player);
-
-            await Hook.AfterCardGeneratedForCombat(combat, card, player);
-
-            if (invokeDrawHooks && choiceContext != null)
-                await Hook.AfterCardDrawn(combat, choiceContext, card, fromHandDraw: false);
-        }
-
-        return results;
-    }
-
-    /// <summary>
-    /// <see cref="CardPileCmd.Add"/> の <c>skipVisuals: true</c> 後に手札表示を復元する。
-    /// 山データだけ更新されノードが無いと、手札に見えない。
-    /// </summary>
-    public static void RegisterHandVisuals(CardModel card, Player player)
-    {
-        if (card.Pile?.Type != PileType.Hand) return;
-
-        var room = NCombatRoom.Instance;
-        var ui = room?.Ui;
-        if (ui == null) return;
-
-        var isLocal = LocalContext.IsMe(player);
-        var nCard = NCard.Create(card, ModelVisibility.Visible);
-        ui.AddChildSafely(nCard);
-        nCard.UpdateVisuals(PileType.Hand, CardPreviewMode.Normal);
-
-        if (!isLocal)
-        {
-            var creatureNode = room!.GetCreatureNode(player.Creature);
-            if (creatureNode?.IntentContainer != null)
-                nCard.Position = creatureNode.IntentContainer.GlobalPosition;
-        }
-        else
-            nCard.Position = PileType.Hand.GetTargetPosition(nCard);
-
-        ui.Hand?.Add(nCard);
-    }
+        CardPilePosition position = default) =>
+        AddGeneratedCardsSilentAsync(cards, PileType.Hand, player, position);
 
     public static async Task PreviewAddAsync(
         IReadOnlyList<CardPileAddResult> results,
@@ -156,7 +68,6 @@ public static class CombatCardPilePreview
     {
         if (results.Count == 0) return;
 
-        // 手札は追加後にそのまま見える。山札・捨て札のみプレビュー。
         if (pile == PileType.Hand)
             return;
 
@@ -170,7 +81,6 @@ public static class CombatCardPilePreview
 
 /// <summary>
 /// 攻撃ヒット中に山札へ入るカード（エントマンサーのめまい等）を、カードプレイ完了後にまとめてプレビューする。
-/// 多段攻撃中は本家プレビューが埋もれやすいため遅延表示する。
 /// </summary>
 public static class PendingDrawPileCardPreview
 {

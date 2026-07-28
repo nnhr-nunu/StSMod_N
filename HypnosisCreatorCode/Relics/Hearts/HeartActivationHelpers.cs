@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Potions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using HypnosisCreator.HypnosisCreatorCode.Utils;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
@@ -59,11 +58,13 @@ internal static class HeartActivationHelpers
         EnemyHeartRelic heart, PlayerChoiceContext ctx, Player player)
     {
         heart.Flash();
-        var slime = ModelDb.Card<Slimed>().ToMutable();
-        slime.Owner = player;
+        var combat = player.Creature?.CombatState;
+        if (combat == null) return;
+
+        var slime = combat.CreateCard(ModelDb.Card<Slimed>(), player);
         slime.EnergyCost.SetThisCombat(0);
-        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, heart, skipVisuals: true);
-        CombatCardPilePreview.RegisterHandVisuals(slime, player);
+        await CardPileCmd.AddGeneratedCardToCombat(
+            slime, PileType.Hand, player, CardPilePosition.Bottom);
         heart.MarkUsed();
     }
 

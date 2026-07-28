@@ -1,4 +1,3 @@
-using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -19,12 +18,14 @@ public class LeafSlimeSmallHeart : EnemyHeartRelic
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player)
     {
+        var combat = player.Creature?.CombatState;
+        if (combat == null) return;
+
         Flash();
-        var slime = ModelDb.Card<Slimed>().ToMutable();
-        slime.Owner = player;
+        var slime = combat.CreateCard(ModelDb.Card<Slimed>(), player);
         slime.EnergyCost.SetThisCombat(0);
-        await CardPileCmd.Add(slime, PileType.Hand, CardPilePosition.Bottom, this, skipVisuals: true);
-        CombatCardPilePreview.RegisterHandVisuals(slime, player);
+        await CardPileCmd.AddGeneratedCardToCombat(
+            slime, PileType.Hand, player, CardPilePosition.Bottom);
         MarkUsed();
     }
 }
