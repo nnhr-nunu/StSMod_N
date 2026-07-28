@@ -12,6 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// 戦闘中に生成カードを山に加えたあと、本家 <see cref="CardPileCmd.AddToCombatAndPreview{T}"/> 相当のプレビューを出す。
 /// ターン開始の手札追加は <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> を即時実行。
 /// カードプレイ中の手札追加は <see cref="PendingHandCardAdd"/> でプレイ完了後に実行する。
+/// 直接 <see cref="CardPileCmd"/> を呼ぶ経路も <see cref="Patches.PendingHandCardAddGeneratedDeferPatch"/> が同条件で遅延する。
 /// </summary>
 public static class CombatCardPilePreview
 {
