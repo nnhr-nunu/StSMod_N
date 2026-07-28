@@ -44,7 +44,7 @@ public abstract class TrainingCommand(TargetType target = TargetType.AnyEnemy, C
     {
         var ordered = cards.OrderByDescending(c =>
             c is TrainingCommand { PreferLeftWhenGenerated: true }).ToList();
-        await CombatCardPilePreview.AddToHandSkipVisualsAsync(ordered, owner);
+        await CombatCardPilePreview.AddToHandDuringCardPlayAsync(ordered, owner);
     }
 
     /// <summary>

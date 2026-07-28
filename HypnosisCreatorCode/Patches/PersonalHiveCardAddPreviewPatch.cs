@@ -66,27 +66,31 @@ public static class PersonalHiveCardAddPreviewPatch
     }
 }
 
-/// <summary>攻撃カードの処理完了後、遅延キューに溜まった山札追加プレビューを表示する。</summary>
+/// <summary>攻撃カード完了後に山札プレビュー、全カードプレイ完了後に遅延手札追加を処理する。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
-public static class DrawPileCardAddPreviewFlushPatch
+public static class CardPileAddPreviewFlushPatch
 {
     public static void Postfix(ref Task __result, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Type != CardType.Attack) return;
-
         var original = __result;
-        __result = ContinueAsync(original);
+        __result = ContinueAsync(original, cardPlay);
     }
 
-    private static async Task ContinueAsync(Task original)
+    private static async Task ContinueAsync(Task original, CardPlay cardPlay)
     {
         await original;
-        await PendingDrawPileCardPreview.FlushIfAnyAsync();
+        if (cardPlay.Card.Type == CardType.Attack)
+            await PendingDrawPileCardPreview.FlushIfAnyAsync();
+        await PendingHandCardAdd.FlushIfAnyAsync();
     }
 }
 
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
 public static class DrawPileCardAddPreviewTurnStartPatch
 {
-    public static void Postfix() => PendingDrawPileCardPreview.Clear();
+    public static void Postfix()
+    {
+        PendingDrawPileCardPreview.Clear();
+        PendingHandCardAdd.Clear();
+    }
 }

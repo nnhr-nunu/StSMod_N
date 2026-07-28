@@ -1,5 +1,6 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Character;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -30,7 +31,6 @@ public class Good() : TrainingCommand(TargetType.Self)
             selected = [exhaust.Cards[rng.NextInt(exhaust.Cards.Count)]];
         }
 
-        foreach (var card in selected)
-            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
+        PendingHandCardAdd.EnqueueExisting(selected, Owner, this, CardPilePosition.Top);
     }
 }
