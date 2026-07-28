@@ -11,7 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// 戦闘中に生成カードを山に加えたあと、本家 <see cref="CardPileCmd.AddToCombatAndPreview{T}"/> 相当のプレビューを出す。
 /// ターン開始の手札追加は <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> を即時実行。
-/// カードプレイ中の手札追加は <see cref="PendingHandCardAdd"/> でプレイ完了後に実行する。
+    /// カードプレイ中の手札追加は <see cref="PendingHandCardAdd"/> でキューし、
+    /// <see cref="CardModel.OnPlayWrapper"/> 完了後（廃棄演出後）にフラッシュする。
 /// 直接 <see cref="CardPileCmd"/> を呼ぶ経路も <see cref="Patches.PendingHandCardAddGeneratedDeferPatch"/> が同条件で遅延する。
 /// </summary>
 public static class CombatCardPilePreview
@@ -186,19 +187,37 @@ public static class PendingHandCardAdd
     {
         if (GeneratedQueue.Count == 0 && ExistingQueue.Count == 0) return;
 
+        var involvedPlayers = GeneratedQueue.Select(b => b.Player)
+            .Concat(ExistingQueue.Select(m => m.Player))
+            .Distinct()
+            .ToList();
+        if (involvedPlayers.Any(p => CombatManager.Instance.IsExecutingCardOrPotionEffect(p)))
+            return;
+
         var generated = GeneratedQueue.ToList();
         var existing = ExistingQueue.ToList();
         GeneratedQueue.Clear();
         ExistingQueue.Clear();
 
-        foreach (var move in existing)
-            await CardPileCmd.Add(
-                move.Card, PileType.Hand, move.Position, move.Source, skipVisuals: false);
+        IsFlushing = true;
+        try
+        {
+            foreach (var move in existing)
+                await CardPileCmd.Add(
+                    move.Card, PileType.Hand, move.Position, move.Source, skipVisuals: false);
 
-        foreach (var batch in generated)
-            await CardPileCmd.AddGeneratedCardsToCombat(
-                batch.Cards, PileType.Hand, batch.Player);
+            foreach (var batch in generated)
+                await CardPileCmd.AddGeneratedCardsToCombat(
+                    batch.Cards, PileType.Hand, batch.Player);
+        }
+        finally
+        {
+            IsFlushing = false;
+        }
     }
+
+    /// <summary>遅延キューの実フラッシュ中。Harmony 遅延パッチの二重適用を防ぐ。</summary>
+    internal static bool IsFlushing { get; private set; }
 
     public static void Clear()
     {

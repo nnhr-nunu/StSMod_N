@@ -66,7 +66,7 @@ public static class PersonalHiveCardAddPreviewPatch
     }
 }
 
-/// <summary>攻撃カード完了後に山札プレビュー、全カードプレイ完了後に遅延手札追加を処理する。</summary>
+/// <summary>攻撃カード完了後に山札プレビューを処理する。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class CardPileAddPreviewFlushPatch
 {
@@ -81,6 +81,25 @@ public static class CardPileAddPreviewFlushPatch
         await original;
         if (cardPlay.Card.Type == CardType.Attack)
             await PendingDrawPileCardPreview.FlushIfAnyAsync();
+    }
+}
+
+/// <summary>
+/// 手札遅延追加は廃棄演出完了後（OnPlayWrapper 全体の終了後）にフラッシュする。
+/// AfterCardPlayed 時点では IsExecutingCardOrPotionEffect がまだ true で二重遅延／未追加になる。
+/// </summary>
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.OnPlayWrapper))]
+public static class PendingHandCardAddOnPlayWrapperFlushPatch
+{
+    public static void Postfix(ref Task __result)
+    {
+        var original = __result;
+        __result = ContinueAsync(original);
+    }
+
+    private static async Task ContinueAsync(Task original)
+    {
+        await original;
         await PendingHandCardAdd.FlushIfAnyAsync();
     }
 }
