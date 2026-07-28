@@ -1,3 +1,4 @@
+using System.Linq;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Token;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
@@ -156,4 +157,29 @@ public static class StatusHypnosisConvert
         IReadOnlyList<CardPileAddResult> results,
         PileType pile) =>
         CombatCardPilePreview.PreviewAddAsync(results, pile);
+}
+
+/// <summary>
+/// 生成直後の Transform は本家の捨て札追加演出・プレビューを壊すため、演出後にまとめて変換する。
+/// </summary>
+public static class PendingStatusHypnosisConvert
+{
+    private static readonly List<(CardModel Card, Player Player)> Queue = [];
+
+    public static void Enqueue(CardModel card, Player player)
+    {
+        if (Queue.Any(e => e.Card == card)) return;
+        Queue.Add((card, player));
+    }
+
+    public static async Task FlushIfAnyAsync()
+    {
+        if (Queue.Count == 0) return;
+        var batch = Queue.ToList();
+        Queue.Clear();
+        foreach (var (card, player) in batch)
+            await StatusHypnosisConvert.TryConvertAsync(card, player);
+    }
+
+    public static void Clear() => Queue.Clear();
 }

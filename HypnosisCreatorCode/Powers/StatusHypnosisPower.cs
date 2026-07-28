@@ -23,24 +23,28 @@ public class StatusHypnosisPower : HypnosisCreatorPower
         await StatusHypnosisConvert.ConvertAllCombatStatuses(player);
     }
 
-    public override async Task AfterCardChangedPiles(
+    public override Task AfterCardChangedPiles(
         CardModel card, PileType oldPileType, AbstractModel? source)
     {
         var player = Owner?.Player;
-        if (player == null || card.Owner != player) return;
-        await StatusHypnosisConvert.TryConvertAsync(card, player);
+        if (player == null || card.Owner != player) return Task.CompletedTask;
+        PendingStatusHypnosisConvert.Enqueue(card, player);
+        return Task.CompletedTask;
     }
 
-    public override async Task AfterCardEnteredCombat(CardModel card)
+    public override Task AfterCardEnteredCombat(CardModel card)
     {
         var player = Owner?.Player;
-        if (player == null || card.Owner != player) return;
-        await StatusHypnosisConvert.TryConvertAsync(card, player);
+        if (player == null || card.Owner != player) return Task.CompletedTask;
+        PendingStatusHypnosisConvert.Enqueue(card, player);
+        return Task.CompletedTask;
     }
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, MegaCrit.Sts2.Core.Entities.Players.Player? player)
+    public override Task AfterCardGeneratedForCombat(
+        CardModel card, MegaCrit.Sts2.Core.Entities.Players.Player? player)
     {
-        if (player == null || Owner?.Player != player) return;
-        await StatusHypnosisConvert.TryConvertAsync(card, player);
+        if (player == null || Owner?.Player != player) return Task.CompletedTask;
+        PendingStatusHypnosisConvert.Enqueue(card, player);
+        return Task.CompletedTask;
     }
 }

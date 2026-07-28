@@ -107,6 +107,7 @@ public static class CombatCardPilePreview
             : CardPreviewStyle.MessyLayout;
         CardCmd.PreviewCardPileAdd(results, 1.2f, style);
         await Cmd.Wait(1f);
+        await PendingStatusHypnosisConvert.FlushIfAnyAsync();
     }
 }
 

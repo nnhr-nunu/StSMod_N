@@ -110,15 +110,25 @@ internal static class PendingHandCardAddFlush
     {
         await original;
         await PendingHandCardAdd.FlushIfAnyAsync();
+        await PendingStatusHypnosisConvert.FlushIfAnyAsync();
     }
 }
 
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
 public static class DrawPileCardAddPreviewTurnStartPatch
 {
-    public static void Postfix()
+    public static void Postfix(ref Task __result)
     {
+        var original = __result;
+        __result = ContinueAsync(original);
+    }
+
+    private static async Task ContinueAsync(Task original)
+    {
+        await original;
+        await PendingStatusHypnosisConvert.FlushIfAnyAsync();
         PendingDrawPileCardPreview.Clear();
         PendingHandCardAdd.Clear();
+        PendingStatusHypnosisConvert.Clear();
     }
 }
