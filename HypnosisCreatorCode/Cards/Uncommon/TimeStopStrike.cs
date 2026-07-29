@@ -58,7 +58,8 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
 
     /// <summary>
     /// このターンのプレイ回数（1・2回目→手札、3回目→捨て札）を判定する。
-    /// GetResultLocationForCardPlay はプレビュー等で複数回呼ばれるため、ここでは加算しない。
+    /// 加算は <see cref="Patches.TimeStopStrikePlayCountPatch"/>（BeforeCardPlayed）で1回だけ。
+    /// 本家は GetResultLocation を OnPlay より先に呼ぶため、ここでは Get()+1 で見る。
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
@@ -69,7 +70,7 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
         return base.GetResultLocationForCardPlay();
     }
 
-    /// <summary>プレイ確定後に1回だけカウントする（GetResultLocation の複数呼び出し対策）。</summary>
+    /// <summary>BeforeCardPlayed で1回だけカウントする（GetResultLocation の複数呼び出し対策）。</summary>
     internal void RecordPlayThisTurn()
     {
         var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
