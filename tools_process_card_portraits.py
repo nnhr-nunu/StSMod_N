@@ -5,8 +5,8 @@ Workflow:
   1. Place source art as `{CSV番号}.jpg|.png|.webp` under original/
   2. Run: python tools_process_card_portraits.py
   3. Outputs:
-       card_portraits/{id}.png       (250x190)
-       card_portraits/big/{id}.png   (1000x760)
+       card_portraits/{id}.png       (250x190 — 通常 / 250x349 — 古代)
+       card_portraits/big/{id}.png   (1000x760 — 通常 / 1000x1390 — 古代)
 
 CSV番号 → 日本語名 → localization/jpn/cards.json の title → ファイル名(snake)
 
@@ -35,6 +35,15 @@ ASPECT_W, ASPECT_H = 25, 19
 ASPECT = ASPECT_W / ASPECT_H
 SIZE_SMALL = (250, 190)
 SIZE_BIG = (1000, 760)
+
+# Ancient（NCard._ancientPortrait）— 通常カードより縦長。300×422 カード枠に合わせる。
+ANCIENT_ASPECT_W, ANCIENT_ASPECT_H = 41, 57
+ANCIENT_ASPECT = ANCIENT_ASPECT_W / ANCIENT_ASPECT_H
+ANCIENT_SIZE_SMALL = (250, round(250 * ANCIENT_ASPECT_H / ANCIENT_ASPECT_W))
+ANCIENT_SIZE_BIG = (1000, round(1000 * ANCIENT_ASPECT_H / ANCIENT_ASPECT_W))
+
+# CSV No → 古代カード（{No}_2.png を優先して原画を選ぶ）
+ANCIENT_NOS: frozenset[int] = frozenset({107, 108})
 
 # 顔・主題をカード枠内のこの位置付近へ（上寄りが見栄えしやすい）
 FOCAL_TARGET_X = 0.50
@@ -66,6 +75,7 @@ FOCAL_BIAS_X: dict[int, float] = {
 
 # CSV に名称未記載だが loc 登録済みのカード（No → entry）
 MANUAL_NO_TO_ENTRY: dict[int, str] = {
+    107: "agape",
     108: "detox",
 }
 
@@ -208,19 +218,19 @@ def open_image(path: Path) -> Image.Image:
     return img.convert("RGB")
 
 
-def crop_to_aspect(img: Image.Image, fx: float, fy: float) -> Image.Image:
+def crop_to_aspect(img: Image.Image, fx: float, fy: float, aspect: float = ASPECT) -> Image.Image:
     w, h = img.size
     current = w / h
 
-    if abs(current - ASPECT) < 1e-6:
+    if abs(current - aspect) < 1e-6:
         return img
 
-    if current > ASPECT:
-        crop_w = int(round(h * ASPECT))
+    if current > aspect:
+        crop_w = int(round(h * aspect))
         crop_h = h
     else:
         crop_w = w
-        crop_h = int(round(w / ASPECT))
+        crop_h = int(round(w / aspect))
 
     # 焦点を FOCAL_TARGET 付近へ
     left = int(round(fx * w - FOCAL_TARGET_X * crop_w))
@@ -229,6 +239,20 @@ def crop_to_aspect(img: Image.Image, fx: float, fy: float) -> Image.Image:
     left = max(0, min(left, w - crop_w))
     top = max(0, min(top, h - crop_h))
     return img.crop((left, top, left + crop_w, top + crop_h))
+
+
+def resolve_numbered_source(no: int, source_dir: Path) -> Path | None:
+    """番号原画を解決。古代カードは {No}_2.* を優先。"""
+    candidates: list[Path] = []
+    if no in ANCIENT_NOS:
+        for ext in IMAGE_EXTS:
+            candidates.append(source_dir / f"{no}_2{ext}")
+    for ext in IMAGE_EXTS:
+        candidates.append(source_dir / f"{no}{ext}")
+    for path in candidates:
+        if path.is_file():
+            return path
+    return None
 
 
 def save_pair(
@@ -266,15 +290,20 @@ def process_one(
 ) -> str:
     img = open_image(src)
     fx, fy, method = focal_point(img, csv_no=csv_no)
-    cropped = crop_to_aspect(img, fx, fy)
-    big = cropped.resize(SIZE_BIG, Image.Resampling.LANCZOS)
-    small = cropped.resize(SIZE_SMALL, Image.Resampling.LANCZOS)
+    is_ancient = csv_no in ANCIENT_NOS
+    aspect = ANCIENT_ASPECT if is_ancient else ASPECT
+    size_small = ANCIENT_SIZE_SMALL if is_ancient else SIZE_SMALL
+    size_big = ANCIENT_SIZE_BIG if is_ancient else SIZE_BIG
+    cropped = crop_to_aspect(img, fx, fy, aspect=aspect)
+    big = cropped.resize(size_big, Image.Resampling.LANCZOS)
+    small = cropped.resize(size_small, Image.Resampling.LANCZOS)
 
+    label = "ancient" if is_ancient else "standard"
     print(
         f"  {src.name} ({img.size[0]}x{img.size[1]}) → {entry}.png "
-        f"[{method} @ ({fx:.2f},{fy:.2f})]"
+        f"[{label} {method} @ ({fx:.2f},{fy:.2f})]"
     )
-    print(f"    small {SIZE_SMALL[0]}x{SIZE_SMALL[1]}  big {SIZE_BIG[0]}x{SIZE_BIG[1]}")
+    print(f"    small {size_small[0]}x{size_small[1]}  big {size_big[0]}x{size_big[1]}")
     save_pair(small, big, entry, dry_run=dry_run, also_beta_named=also_beta_named)
     for extra in extras:
         if extra == entry:
@@ -467,6 +496,17 @@ def main() -> int:
     except SystemExit as exc:
         print(str(exc), file=sys.stderr)
         return 1
+
+    # 古代カード: {No}_2 原画優先・MANUAL 番号のみも処理対象に含める
+    by_no: dict[int, Path] = dict(items)
+    for no in ANCIENT_NOS | MANUAL_NO_TO_ENTRY.keys():
+        resolved = resolve_numbered_source(no, source_dir)
+        if resolved is None:
+            continue
+        if no in by_no and by_no[no] != resolved:
+            print(f"  No.{no}: source → {resolved.name} (was {by_no[no].name})")
+        by_no[no] = resolved
+    items = sorted(by_no.items(), key=lambda x: x[0])
 
     if args.write_lists:
         write_tracking_lists(ORIGINAL_DIR, no_to_title, title_to_entry, items)

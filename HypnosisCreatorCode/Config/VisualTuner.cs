@@ -97,7 +97,7 @@ public static class VisualTuner
     private static void ApplyAncientPortraitSettings(TextureRect portrait)
     {
         ClearCropMaterial(portrait);
-        portrait.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+        portrait.StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered;
     }
 
     private static bool IsAncientPortraitNode(CanvasItem item)

@@ -26,8 +26,8 @@ public class Agape() : HypnosisCreatorCard(1,
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    public override string PortraitPath => "harmony.png".CardImagePath();
-    public override string CustomPortraitPath => "harmony.png".BigCardImagePath();
+    public override string PortraitPath => "agape.png".CardImagePath();
+    public override string CustomPortraitPath => "agape.png".BigCardImagePath();
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(0M, ValueProp.Unpowered)];
