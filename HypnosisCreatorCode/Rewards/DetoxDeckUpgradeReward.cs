@@ -3,7 +3,10 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rewards;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Rewards;
@@ -16,13 +19,16 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
 {
     private const string LocTable = "gameplay_ui";
     private const string LocKey = "HYPNOSISCREATOR-DETOX_UPGRADE_REWARD";
-    private const string RewardIconPath = "ui/rest_site/option_SMITH.png";
+    /// <summary>休憩所鍛冶と同じアイコン（<c>option_smith</c> は小文字）。</summary>
+    private const string RewardIconPath = "ui/rest_site/option_smith.png";
 
     protected override RewardType RewardType => RewardType.SpecialCard;
 
     public override int RewardsSetIndex => 7;
 
     protected override string IconPath => RewardIcon;
+
+    public IEnumerable<string> AssetPaths => [RewardIcon, ..NCardSmithVfx.AssetPaths];
 
     public override LocString Description => new(LocTable, LocKey);
 
@@ -46,9 +52,23 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
         if (!selected.Any())
             return false;
 
-        foreach (var card in selected)
-            CardCmd.Upgrade(card, CardPreviewStyle.HorizontalLayout);
+        var upgraded = selected.ToArray();
+        foreach (var card in upgraded)
+            CardCmd.Upgrade(card, CardPreviewStyle.None);
 
+        await PlaySmithUpgradePresentation(upgraded);
         return true;
+    }
+
+    /// <summary>休憩所鍛冶と同じ <see cref="NCardSmithVfx"/>（かんかん SE 付き）。</summary>
+    private static async Task PlaySmithUpgradePresentation(IEnumerable<CardModel> cards)
+    {
+        var container = NRun.Instance?.GlobalUi?.CardPreviewContainer;
+        if (container == null)
+            return;
+
+        var vfx = NCardSmithVfx.Create(cards, playSfx: true);
+        GodotTreeExtensions.AddChildSafely(container, vfx);
+        await Cmd.CustomScaledWait(1f, 2f);
     }
 }
