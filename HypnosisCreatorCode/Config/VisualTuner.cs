@@ -61,7 +61,7 @@ public static class VisualTuner
 
             var map = CardCropStore.LoadAll();
             ApplyPortraitField(card, NCardPortraitField, map);
-            ApplyPortraitField(card, NCardAncientPortraitField, map);
+            ApplyAncientPortraitField(card);
         }
         catch (Exception ex)
         {
@@ -81,6 +81,40 @@ public static class VisualTuner
             return;
 
         ApplyCropToItem(portrait, map);
+    }
+
+    /// <summary>
+    /// 古代枠は通常カードと縦横比が異なるため、25:19 クロップを当てず比率維持表示にする。
+    /// </summary>
+    private static void ApplyAncientPortraitField(NCard card)
+    {
+        if (NCardAncientPortraitField?.GetValue(card) is not TextureRect portrait)
+            return;
+
+        ApplyAncientPortraitSettings(portrait);
+    }
+
+    private static void ApplyAncientPortraitSettings(TextureRect portrait)
+    {
+        ClearCropMaterial(portrait);
+        portrait.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+    }
+
+    private static bool IsAncientPortraitNode(CanvasItem item)
+    {
+        if (item is not TextureRect rect)
+            return false;
+
+        for (var node = rect as Node; node != null; node = node.GetParent())
+        {
+            if (node is not NCard ncard)
+                continue;
+
+            return NCardAncientPortraitField?.GetValue(ncard) is TextureRect ancient
+                   && ReferenceEquals(ancient, rect);
+        }
+
+        return false;
     }
 
     public static void ApplyChroma()
@@ -173,6 +207,12 @@ public static class VisualTuner
 
     private static void ApplyCropToItem(CanvasItem item, Dictionary<string, CardCropStore.Crop> map)
     {
+        if (item is TextureRect portrait && IsAncientPortraitNode(portrait))
+        {
+            ApplyAncientPortraitSettings(portrait);
+            return;
+        }
+
         var path = GetTexturePath(item);
         if (!path.Contains(CardPortraitPathHint, StringComparison.OrdinalIgnoreCase))
         {

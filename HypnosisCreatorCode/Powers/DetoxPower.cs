@@ -1,8 +1,7 @@
 using HypnosisCreator.HypnosisCreatorCode.Extensions;
-using MegaCrit.Sts2.Core.CardSelection;
+using HypnosisCreator.HypnosisCreatorCode.Rewards;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Rooms;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
@@ -21,27 +20,10 @@ public class DetoxPower : HypnosisCreatorPower
 
     public override async Task AfterCombatEnd(CombatRoom room)
     {
-        _ = room;
         var player = Owner?.Player;
         if (player == null) return;
 
-        try
-        {
-            var selected = await CardSelectCmd.FromDeckForUpgrade(
-                player,
-                new CardSelectorPrefs(
-                    CardSelectorPrefs.UpgradeSelectionPrompt,
-                    minCount: 0,
-                    maxCount: 1));
-
-            foreach (var card in selected)
-                CardCmd.Upgrade(card, CardPreviewStyle.None);
-        }
-        catch
-        {
-            // 対象なし／キャンセル
-        }
-
+        room.AddExtraReward(player, new DetoxDeckUpgradeReward(player));
         await PowerCmd.Remove(this);
     }
 }
