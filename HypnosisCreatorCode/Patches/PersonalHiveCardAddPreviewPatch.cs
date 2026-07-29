@@ -79,6 +79,7 @@ public static class CardPileAddPreviewFlushPatch
     private static async Task ContinueAsync(Task original, CardPlay cardPlay)
     {
         await original;
+        await OtherColorFetishResolver.TryResolveAfterCardPlayedAsync(cardPlay);
         if (cardPlay.Card.Type == CardType.Attack)
             await PendingDrawPileCardPreview.FlushIfAnyAsync();
     }
