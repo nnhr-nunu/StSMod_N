@@ -25,14 +25,14 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<ShrinkPower>(2M),
-        new PowerVar<WeakPower>(2M),
+        new PowerVar<VulnerablePower>(2M),
         new DynamicVar("Trance", 1M)
     ];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
     [
         HoverTipFactory.FromPower<ShrinkPower>(),
-        HoverTipFactory.FromPower<WeakPower>()
+        HoverTipFactory.FromPower<VulnerablePower>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -47,8 +47,8 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
 
         await PowerCmd.Apply<ShrinkPower>(
             choiceContext, play.Target, DynamicVars["ShrinkPower"].BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<WeakPower>(
-            choiceContext, play.Target, DynamicVars["WeakPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
@@ -57,6 +57,6 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
     protected override void OnUpgrade()
     {
         DynamicVars["ShrinkPower"].UpgradeValueBy(2M);
-        DynamicVars["WeakPower"].UpgradeValueBy(2M);
+        DynamicVars["VulnerablePower"].UpgradeValueBy(2M);
     }
 }

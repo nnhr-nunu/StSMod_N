@@ -177,7 +177,7 @@
   "HYPNOSISCREATOR-FUDO_MYOO.title": "不动明王",
   "HYPNOSISCREATOR-FUDO_MYOO.description": "解除自身所有削弱，并获得[gold]人工制品[/gold]{ArtifactPower:diff()}。每当对手向自身施加削弱，就对其造成{FudoMyooPower:diff()}伤害。",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "婴儿催眠",
-  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "解除对象所有增益，并赋予[gold]缩小[/gold]{ShrinkPower:diff()}和[gold]弱体[/gold]{WeakPower:diff()}。[gold]恍惚[/gold]{Trance:diff()}。",
+  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "解除对象所有增益，并赋予[gold]缩小[/gold]{ShrinkPower:diff()}和[gold]弱体[/gold]{VulnerablePower:diff()}。[gold]恍惚[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "话语的洪流",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "使用催眠系[gold]计数[/gold]卡时，抽{Draw:diff()}张卡牌。",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "解除暗示",

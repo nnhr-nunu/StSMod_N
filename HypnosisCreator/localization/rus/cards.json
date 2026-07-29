@@ -177,7 +177,7 @@
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Фудо Мёо",
   "HYPNOSISCREATOR-FUDO_MYOO.description": "Снимите с себя все дебаффы и получите [gold]Артефакт[/gold] {ArtifactPower:diff()}. Каждый раз, когда противник накладывает на вас дебафф, нанесите ему {FudoMyooPower:diff()} урона.",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Гипноз младенца",
-  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Снимите со цели все положительные эффекты и наложите [gold]Уменьшение[/gold] {ShrinkPower:diff()} и [gold]Бессилие[/gold] {WeakPower:diff()}. [gold]Транс[/gold] {Trance:diff()}.",
+  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Снимите со цели все положительные эффекты и наложите [gold]Уменьшение[/gold] {ShrinkPower:diff()} и [gold]Уязвимость[/gold] {VulnerablePower:diff()}. [gold]Транс[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Поток слов",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "Когда вы разыгрываете гипнотическую карту [gold]Счётчика[/gold], возьмите {Draw:diff()} карт(ы).",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Снятие внушения",

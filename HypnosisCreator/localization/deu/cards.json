@@ -177,7 +177,7 @@
   "HYPNOSISCREATOR-FUDO_MYOO.title": "Fudo Myoo",
   "HYPNOSISCREATOR-FUDO_MYOO.description": "Entferne alle deine Schwächungen und erhalte [gold]Artefakt[/gold] {ArtifactPower:diff()}. Immer wenn der Gegner dir eine Schwächung zufügt, verursache {FudoMyooPower:diff()} Schaden bei ihm.",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Baby-Hypnose",
-  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Entferne alle positiven Effekte des Ziels und verursache [gold]Schrumpfen[/gold] {ShrinkPower:diff()} und [gold]Schwäche[/gold] {WeakPower:diff()}. [gold]Trance[/gold] {Trance:diff()}.",
+  "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Entferne alle positiven Effekte des Ziels und verursache [gold]Schrumpfen[/gold] {ShrinkPower:diff()} und [gold]Verwundbar[/gold] {VulnerablePower:diff()}. [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Wortflut",
   "HYPNOSISCREATOR-WORD_FLOOD.description": "Wenn du eine Hypnose-[gold]Countdown[/gold]-Karte spielst, ziehe {Draw:diff()} Karte(n).",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Suggestionsauflösung",
