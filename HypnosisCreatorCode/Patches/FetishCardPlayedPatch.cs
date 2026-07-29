@@ -23,10 +23,18 @@ public static class FetishCardPlayedPatch
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        if (!CardFetishLookup.HasAnyFetish(play.Card)) return;
-
         // HCカードは各 OnPlay で刺さり済み
         if (play.Card is HypnosisCreatorCard) return;
+
+        var inPool = AbnormalOtherColorPool.Contains(play.Card);
+        var active = HypnosisCreatorRunRules.IsHypnosisCreatorActive(play.Card);
+        if (inPool)
+        {
+            MainFile.Logger.Info(
+                $"FetishCardPlayedPatch: {play.Card.GetType().Name} inPool={inPool} active={active} owner={play.Card.Owner?.Character?.Id.Entry}");
+        }
+
+        if (!CardFetishLookup.HasAnyFetish(play.Card)) return;
 
         var fetishes = CardFetishLookup.GetFetishes(play.Card);
         if (fetishes.Count == 0) return;
