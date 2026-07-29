@@ -18,6 +18,10 @@ public static class HypnosisCreatorRunRules
     /// </summary>
     public static bool IsHypnosisCreatorActive(CardModel? card = null)
     {
+        // イベントホバー等の正規テンプレは Owner 参照で CanonicalModelException になる。
+        if (card is { IsCanonical: true })
+            return false;
+
         // 戦闘中の生成カード（ナイフ等）は Owner が最も信頼できる。RunState.Players だけだと取りこぼす。
         if (card?.Owner != null && IsHypnosisCreator(card.Owner))
             return true;

@@ -12,6 +12,9 @@ public static class CardFetishLookup
 {
     public static IReadOnlyList<FetishType> GetFetishes(CardModel card)
     {
+        if (card.IsCanonical)
+            return [];
+
         if (card is HypnosisCreatorCard hc)
             return hc.CardFetishes;
 

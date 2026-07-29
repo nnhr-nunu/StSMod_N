@@ -30,7 +30,7 @@ public static class MechanicKeywordRules
 
     private static MechanicKeywordFlags GetMechanicFlags(CardModel card)
     {
-        if (KeywordPatchGuard.IsNested)
+        if (KeywordPatchGuard.IsNested || card.IsCanonical)
             return ComputeMechanicFlagsVarsOnly(card);
 
         var entry = card.Id?.Entry;
@@ -52,7 +52,7 @@ public static class MechanicKeywordRules
         if (flags.Trance && flags.Doom && flags.Bog)
             return flags;
 
-        var description = GetCardDescriptionText(entry);
+        var description = GetCardDescriptionText(card, entry);
         if (description is null)
             return flags;
 
@@ -85,7 +85,7 @@ public static class MechanicKeywordRules
     private static bool HasDynamicVar(CardModel card, string name) =>
         card.DynamicVars?.Values.Any(v => v.Name == name) == true;
 
-    private static string? GetCardDescriptionText(string entryId)
+    private static string? GetCardDescriptionText(CardModel card, string entryId)
     {
         if (DescriptionCache.TryGetValue(entryId, out var cached))
             return cached;
@@ -95,10 +95,13 @@ public static class MechanicKeywordRules
         {
             try
             {
-                text = new LocString(CardsLocTable, $"{entryId}.description").GetFormattedText();
+                var loc = new LocString(CardsLocTable, $"{entryId}.description");
+                card.DynamicVars.AddTo(loc);
+                text = loc.GetFormattedText();
             }
-            catch
+            catch (Exception ex)
             {
+                MainFile.Logger.Warn($"Mechanic keyword description lookup failed for {entryId}: {ex.Message}");
                 text = null;
             }
         }

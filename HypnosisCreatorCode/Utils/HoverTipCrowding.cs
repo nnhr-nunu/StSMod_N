@@ -95,10 +95,16 @@ public static class HoverTipCrowding
         var set = card.Keywords is null
             ? new HashSet<CardKeyword>()
             : new HashSet<CardKeyword>(card.Keywords);
-        foreach (var kw in FetishCardText.KeywordsFor(card))
-            set.Add(kw);
-        foreach (var kw in MechanicKeywordRules.KeywordsFor(card))
-            set.Add(kw);
+
+        // 正規テンプレ（虫殺しイベントのホバー等）では mod キーワードを足さない。
+        if (!card.IsCanonical)
+        {
+            foreach (var kw in FetishCardText.KeywordsFor(card))
+                set.Add(kw);
+            foreach (var kw in MechanicKeywordRules.KeywordsFor(card))
+                set.Add(kw);
+        }
+
         return set;
     }
 }
