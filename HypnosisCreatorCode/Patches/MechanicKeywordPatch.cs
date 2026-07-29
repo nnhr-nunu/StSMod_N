@@ -19,6 +19,8 @@ public static class MechanicKeywordPatch
         KeywordPatchGuard.Enter();
         try
         {
+            if (CardLibraryUiGuard.IsActive) return;
+
             if (HoverTipCrowding.IsCrowded(__instance))
                 return;
 

@@ -77,6 +77,8 @@ public static class FetishCardText
 
     private static void PrependFetishLine(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
+
         var prefix = FormatPrefix(card);
         if (prefix == null) return;
         if (description.StartsWith(prefix, StringComparison.Ordinal)) return;

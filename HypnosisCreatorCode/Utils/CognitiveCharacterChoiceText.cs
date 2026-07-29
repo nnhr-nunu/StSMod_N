@@ -17,6 +17,7 @@ public static class CognitiveCharacterChoiceText
     private static void Apply(CardModel card, Creature? target, ref string description)
     {
         _ = target;
+        if (CardLibraryUiGuard.IsActive) return;
         if (card is not CognitiveCharacterChoice choice) return;
 
         var text = DescribeForm(choice.FormCardType);

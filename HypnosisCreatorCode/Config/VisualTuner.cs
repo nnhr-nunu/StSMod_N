@@ -3,7 +3,6 @@ using Godot;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Nodes.Cards;
-using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Config;
 
@@ -57,12 +56,8 @@ public static class VisualTuner
     {
         try
         {
-            if (IsUnderCardLibrary(card))
-            {
-                ClearPortraitField(card, NCardPortraitField);
-                ClearPortraitField(card, NCardAncientPortraitField);
+            if (CardLibraryUiGuard.IsUnderCardLibrary(card))
                 return;
-            }
 
             var map = CardCropStore.LoadAll();
             ApplyPortraitField(card, NCardPortraitField, map);
@@ -152,7 +147,7 @@ public static class VisualTuner
 
         foreach (var item in FindCanvasItemsWithCardPortrait())
         {
-            if (IsUnderCardLibrary(item))
+            if (CardLibraryUiGuard.IsUnderCardLibrary(item))
             {
                 ClearCropMaterial(item);
                 continue;
@@ -207,16 +202,8 @@ public static class VisualTuner
         }
     }
 
-    private static bool IsUnderCardLibrary(Node node)
-    {
-        for (var p = node; p != null; p = p.GetParent())
-        {
-            if (p is NCardLibrary or NCardLibraryGrid)
-                return true;
-        }
-
-        return false;
-    }
+    private static bool IsUnderCardLibrary(Node node) =>
+        CardLibraryUiGuard.IsUnderCardLibrary(node);
 
     private static void ResetControlOffsets(Control control)
     {

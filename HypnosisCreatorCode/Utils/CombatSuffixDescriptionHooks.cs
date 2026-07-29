@@ -18,6 +18,8 @@ public static class CombatSuffixDescriptionHooks
 
     private static void ApplySafely(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
+
         try
         {
             Apply(card, target, ref description);

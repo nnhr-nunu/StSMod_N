@@ -1,5 +1,6 @@
 using Godot;
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
@@ -35,6 +36,9 @@ internal static class UnplayableCostSlashVisual
 
     internal static void Apply(NCard card, System.Reflection.FieldInfo? field)
     {
+        if (CardLibraryUiGuard.IsUnderCardLibrary(card))
+            return;
+
         if (field?.GetValue(card) is not TextureRect icon)
             return;
 

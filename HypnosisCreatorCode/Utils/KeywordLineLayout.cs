@@ -24,6 +24,8 @@ public static class KeywordLineLayout
 
     private static void CollapseSafely(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
+
         try
         {
             CollapseConsecutiveKeywordLines(card, target, ref description);

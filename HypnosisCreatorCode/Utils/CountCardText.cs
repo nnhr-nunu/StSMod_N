@@ -32,6 +32,7 @@ public static class CountCardText
 
     private static void StripRedundantRetainText(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
         if (!CountRules.HasCountKeyword(card)) return;
 
         // CardKeyword.Retain は beforeDescription へ [gold]保留[/gold]。 を自動挿入する。
@@ -41,6 +42,7 @@ public static class CountCardText
 
     private static void StripRedundantPlainExhaust(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
         if (!card.CanonicalKeywords.Contains(CardKeyword.Exhaust)
             && !card.Keywords.Contains(CardKeyword.Exhaust))
             return;

@@ -10,7 +10,7 @@ public static class AbnormalOtherColorGlowPatch
 {
     public static void Postfix(CardModel __instance, ref bool __result)
     {
-        if (__result) return;
+        if (__result || CardLibraryUiGuard.IsActive) return;
         if (!HypnosisCreatorRunRules.IsHypnosisCreatorActive(__instance)) return;
         if (!AbnormalOtherColorPool.Contains(__instance)) return;
         __result = FetishGlow.ShouldGlow(__instance);

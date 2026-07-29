@@ -28,6 +28,8 @@ public static class HypnosisCalculatedDamagePreviewPatch
 
         try
         {
+            if (CardLibraryUiGuard.IsActive) return;
+
             ApplyPreview(__instance, card, previewMode, target);
         }
         catch (Exception ex)

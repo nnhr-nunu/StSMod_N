@@ -18,6 +18,8 @@ public static class UpgradeDescriptionHooks
 
     private static void Apply(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
+
         // --- 既存（心停止・足蹴など） ---
         UpgradeCardText.ReplaceWhenUpgraded(card, ref description, c => c is CardiacArrestHypnosis,
             "相手の心臓が止まる。",

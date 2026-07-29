@@ -26,6 +26,7 @@ public static class Sensitivity3000Description
     private static void Apply(CardModel card, Creature? target, ref string description)
     {
         _ = target;
+        if (CardLibraryUiGuard.IsActive) return;
         if (card is not Sensitivity3000) return;
 
         var phrase = ResolveRainbowPhrase();

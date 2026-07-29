@@ -22,6 +22,8 @@ public static class FetishDoomPreview
 
     private static void AppendDoomPreviewSafely(CardModel card, Creature? target, ref string description)
     {
+        if (CardLibraryUiGuard.IsActive) return;
+
         try
         {
             AppendDoomPreview(card, target, ref description);

@@ -21,6 +21,8 @@ public static class FetishKeywordPatch
         KeywordPatchGuard.Enter();
         try
         {
+            if (CardLibraryUiGuard.IsActive) return;
+
             var extra = FetishCardText.KeywordsFor(__instance).ToList();
             if (extra.Count == 0) return;
 
