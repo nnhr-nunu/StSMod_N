@@ -10,6 +10,6 @@ public class BowlBugSilkHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "BOWLBUG_SILK";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyPower<VulnerablePower>(
+        await HeartActivationHelpers.ActivateRareRandomEnemyPower<FrailPower>(
             this, choiceContext, player, 1);
 }

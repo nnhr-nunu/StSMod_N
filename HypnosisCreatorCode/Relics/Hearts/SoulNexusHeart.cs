@@ -21,8 +21,8 @@ public class SoulNexusHeart : EnemyHeartRelic
         Flash();
         await HeartActivationHelpers.DealHeartAttackDamage(
             choiceContext, player, enemy, DynamicVars.Damage.BaseValue);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, 2, player.Creature, null!);
         await PowerCmd.Apply<WeakPower>(choiceContext, enemy, 2, player.Creature, null!);
-        await PowerCmd.Apply<FrailPower>(choiceContext, enemy, 2, player.Creature, null!);
         MarkUsed();
     }
 }

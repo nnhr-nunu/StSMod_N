@@ -10,6 +10,6 @@ public class TrackerRaiderHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "TRACKER_RUBY_RAIDER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyPower<VulnerablePower>(
+        await HeartActivationHelpers.ActivateRareRandomEnemyPower<FrailPower>(
             this, choiceContext, player, 2);
 }

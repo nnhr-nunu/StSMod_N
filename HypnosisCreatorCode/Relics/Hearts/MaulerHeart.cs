@@ -10,5 +10,5 @@ public class MaulerHeart : EnemyHeartRelic
     public override string MonsterIdEntry => "MAWLER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareRandomEnemyPower<WeakPower>(this, choiceContext, player, 2);
+        await HeartActivationHelpers.ActivateRareRandomEnemyPower<VulnerablePower>(this, choiceContext, player, 2);
 }
