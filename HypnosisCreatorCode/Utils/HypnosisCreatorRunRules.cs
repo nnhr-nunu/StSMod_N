@@ -18,11 +18,15 @@ public static class HypnosisCreatorRunRules
     /// </summary>
     public static bool IsHypnosisCreatorActive(CardModel? card = null)
     {
-        if (card?.Owner?.RunState is { } ownerRun)
-            return HasHypnosisCreator(ownerRun);
+        // 戦闘中の生成カード（ナイフ等）は Owner が最も信頼できる。RunState.Players だけだと取りこぼす。
+        if (card?.Owner != null && IsHypnosisCreator(card.Owner))
+            return true;
 
-        if (card?.CombatState is { } combat)
-            return combat.Players.Any(IsHypnosisCreator);
+        if (card?.Owner?.RunState is { } ownerRun && HasHypnosisCreator(ownerRun))
+            return true;
+
+        if (card?.CombatState is { } combat && combat.Players.Any(IsHypnosisCreator))
+            return true;
 
         return false;
     }

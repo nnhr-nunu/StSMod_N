@@ -42,10 +42,18 @@ internal static class CardLibraryPresentation
         var captured = grid;
         Callable.From(() =>
         {
-            if (GodotObject.IsInstanceValid(captured))
+            if (!GodotObject.IsInstanceValid(captured)) return;
+
+            CardLibraryGridBuildScope.Enter();
+            try
             {
                 EnsureTrackedVisible(captured);
+                // 遅延実行は構築中のみ。スクロール後の正規枠を誤って隠さない。
                 HideOrphans(captured);
+            }
+            finally
+            {
+                CardLibraryGridBuildScope.Exit();
             }
         }).CallDeferred();
     }
@@ -81,6 +89,7 @@ internal static class CardLibraryPresentation
 
     private static void HideOrphans(NCardGrid grid)
     {
+        if (!CardLibraryGridBuildScope.Active) return;
         if (ScrollContainerField?.GetValue(grid) is not Control scroll) return;
 
         var tracked = CollectTracked(grid);
@@ -91,10 +100,18 @@ internal static class CardLibraryPresentation
             if (child is not NGridCardHolder holder) continue;
             if (tracked.Contains(holder)) continue;
             if (!GodotObject.IsInstanceValid(holder)) continue;
+            // スクロール一覧の正規枠は触らない。プール返却漏れの左上浮きだけ潰す。
+            if (!IsStrayPoolLeak(holder)) continue;
 
             holder.Visible = false;
             holder.MouseFilter = Control.MouseFilterEnum.Ignore;
         }
+    }
+
+    private static bool IsStrayPoolLeak(NGridCardHolder holder)
+    {
+        var pos = holder.GlobalPosition;
+        return pos.X < 8f && pos.Y < 8f;
     }
 }
 

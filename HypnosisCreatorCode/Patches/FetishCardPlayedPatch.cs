@@ -48,7 +48,7 @@ public static class FetishCardPlayedPatch
         var applier = play.Card.Owner?.Creature;
         if (applier == null) return;
 
-        var target = CardFetishLookup.ResolveFetishPlayTarget(play);
+        var target = CardFetishLookup.ResolveFetishPlayTarget(play, combatState);
         if (target != null)
         {
             await FetishCombat.TryFetishHit(
