@@ -1,23 +1,20 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 時止めストライクのターン内プレイ回数。
-/// GetResultLocationForCardPlay は OnPlay より先・複数回呼ばれるため加算は BeforeCardPlayed で1回だけ行う。
+/// 時止めストライクのプレイ回数フラグを OnPlayWrapper 終了時に戻す。
+/// 加算は <see cref="TimeStopStrike.GetResultLocationForCardPlay"/>（OnPlayWrapper 内・BeforeCardPlayed より先）で行う。
 /// </summary>
-[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCardPlayed))]
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.OnPlayWrapper))]
 public static class TimeStopStrikePlayCountPatch
 {
-    public static void Prefix(ICombatState combatState, CardPlay play)
+    public static void Postfix(CardModel __instance)
     {
-        _ = combatState;
-        var card = play.Card.CanonicalInstance ?? play.Card;
-        if (card is TimeStopStrike strike)
-            strike.RecordPlayThisTurn();
+        if (__instance is TimeStopStrike strike)
+            strike.FinishPlayWrapper();
     }
 }

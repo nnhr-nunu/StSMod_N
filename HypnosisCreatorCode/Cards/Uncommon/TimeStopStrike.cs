@@ -23,7 +23,12 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     /// <summary>手札に戻る回数（この回数までプレイ後に手札へ）。</summary>
     private const int HandReturnsPerTurn = 2;
 
-    private PerTurnCounter Plays => TimeStopStrikePlayTracker.Get(this);
+    /// <summary>同一カード実体のターン内プレイ回数（手札戻しで実体が維持される）。</summary>
+    private int _playsThisTurn;
+    private int _playsTrackedTurn = -1;
+
+    /// <summary>OnPlayWrapper 1回あたり GetResultLocation の複数呼び出しで二重加算しない。</summary>
+    private bool _countedThisPlayWrapper;
 
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
@@ -57,24 +62,44 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     }
 
     /// <summary>
-    /// このターンのプレイ回数（1・2回目→手札、3回目→捨て札）を判定する。
-    /// 加算は <see cref="Patches.TimeStopStrikePlayCountPatch"/>（BeforeCardPlayed）で1回だけ。
-    /// 本家は GetResultLocation を OnPlay より先に呼ぶため、ここでは Get()+1 で見る。
+    /// 本家 OnPlayWrapper は本メソッドを BeforeCardPlayed より先に複数回呼ぶ。
+    /// 1プレイ1回だけ加算し、加算後の回数で行き先を決める。
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
+        if (!_countedThisPlayWrapper)
+        {
+            RecordPlayThisTurn();
+            _countedThisPlayWrapper = true;
+        }
+
         var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        if (Plays.Get(turn) + 1 <= HandReturnsPerTurn)
+        if (GetPlaysThisTurn(turn) <= HandReturnsPerTurn)
             return new CardLocation(Owner, PileType.Hand, CardPilePosition.Top);
 
         return base.GetResultLocationForCardPlay();
     }
 
-    /// <summary>BeforeCardPlayed で1回だけカウントする（GetResultLocation の複数呼び出し対策）。</summary>
-    internal void RecordPlayThisTurn()
+    /// <summary>OnPlayWrapper 終了後にフラグを戻す。</summary>
+    internal void FinishPlayWrapper() => _countedThisPlayWrapper = false;
+
+    private void RecordPlayThisTurn()
     {
-        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        Plays.Increment(turn);
+        var turn = Owner?.PlayerCombatState?.TurnNumber ?? 0;
+        if (_playsTrackedTurn != turn)
+        {
+            _playsTrackedTurn = turn;
+            _playsThisTurn = 0;
+        }
+
+        _playsThisTurn++;
+    }
+
+    private int GetPlaysThisTurn(int turn)
+    {
+        if (_playsTrackedTurn != turn)
+            return 0;
+        return _playsThisTurn;
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2M);
