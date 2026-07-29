@@ -89,7 +89,7 @@ public static class FetishDoomPreview
         }
 
         if (types.Count == 0) return 0;
-        return IsSingleHit(card) ? 1 : types.Count;
+        return 1;
     }
 
     /// <summary>
@@ -102,16 +102,4 @@ public static class FetishDoomPreview
         return FetishCombat.HasFetish(target, FetishType.Trance) ? 1 : 0;
     }
 
-    private static bool IsSingleHit(CardModel card)
-    {
-        if (card is Cards.HypnosisCreatorCard hc)
-        {
-            if (hc.FetishHitPerTypeOverride == true) return false;
-            if (hc.FetishHitPerTypeOverride == false) return true;
-            if (hc.AlwaysHitsFetish) return true;
-            return hc.CardFetishes.Count <= 1;
-        }
-
-        return true;
-    }
 }

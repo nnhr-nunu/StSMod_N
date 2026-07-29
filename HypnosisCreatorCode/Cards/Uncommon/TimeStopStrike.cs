@@ -57,16 +57,23 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     }
 
     /// <summary>
-    /// このターンのプレイ回数（1・2回目→手札、3回目→捨て札）をここで加算する。
-    /// OnPlay より先に呼ばれる。OnPlay 内で加算するとエンチャント等で二重実行され1回目から捨て札になる。
+    /// このターンのプレイ回数（1・2回目→手札、3回目→捨て札）を判定する。
+    /// GetResultLocationForCardPlay はプレビュー等で複数回呼ばれるため、ここでは加算しない。
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
         var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
-        if (Plays.Increment(turn) <= HandReturnsPerTurn)
+        if (Plays.Get(turn) + 1 <= HandReturnsPerTurn)
             return new CardLocation(Owner, PileType.Hand, CardPilePosition.Top);
 
         return base.GetResultLocationForCardPlay();
+    }
+
+    /// <summary>プレイ確定後に1回だけカウントする（GetResultLocation の複数呼び出し対策）。</summary>
+    internal void RecordPlayThisTurn()
+    {
+        var turn = Owner.PlayerCombatState?.TurnNumber ?? 0;
+        Plays.Increment(turn);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2M);

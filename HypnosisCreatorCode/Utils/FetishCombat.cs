@@ -319,8 +319,7 @@ public static class FetishCombat
     }
 
     /// <summary>
-    /// カードタグによる刺さり。singleHit=true なら一致があっても破滅は1回（感度3000倍）。
-    /// false なら種類ごと（足蹴・壱佰など）。
+    /// カードタグによる刺さり。1プレイあたり破滅は1回（複数タグ・必中でも重ねない）。
     /// 同一プレイで目覚めた性癖は必中でも除外（目覚めと同時刺さり禁止）。
     /// </summary>
     public static async Task<int> TryFetishHit(
@@ -329,8 +328,7 @@ public static class FetishCombat
         Creature applier,
         CardModel card,
         IReadOnlyList<FetishType> cardFetishes,
-        bool alwaysHit,
-        bool singleHit = false)
+        bool alwaysHit)
     {
         if (cardFetishes.Count == 0 && !alwaysHit) return 0;
         if (!target.IsEnemy) return 0;
@@ -359,27 +357,9 @@ public static class FetishCombat
 
         if (types.Count == 0) return 0;
 
-        if (singleHit)
-        {
-            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, card);
-            FetishHitFloat.Show(target);
-            await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
-            return 1;
-        }
-
-        var count = 0;
-        foreach (var _ in types)
-        {
-            await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, card);
-            count++;
-        }
-
-        if (count > 0)
-        {
-            FetishHitFloat.Show(target);
-            await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
-        }
-
-        return count;
+        await ApplyDoom(choiceContext, target, CalcFetishDoomAmount(target, applier), applier, card);
+        FetishHitFloat.Show(target);
+        await EricksonianPower.TryAdvanceHandCountOnFetishHit(choiceContext, target, applier);
+        return 1;
     }
 }

@@ -43,9 +43,6 @@ public abstract class HypnosisCreatorCard(
 
     internal int CountCardHoverTipsForCrowding() => CardHoverTips.Count();
 
-    /// <summary>複数タグを種類ごとに刺す。未指定時はタグ2種以上なら自動で個別。</summary>
-    public virtual bool? FetishHitPerTypeOverride => null;
-
     /// <summary>
     /// 黄色ハイライト: 性癖が刺さる／条件達成（トランスあり・引き寄せ済み等）のとき。
     /// </summary>
@@ -108,33 +105,22 @@ public abstract class HypnosisCreatorCard(
         await base.OnEnqueuePlayVfx(target);
     }
 
-    protected bool ShouldSingleFetishHit()
-    {
-        if (FetishHitPerTypeOverride == true) return false;
-        if (FetishHitPerTypeOverride == false) return true;
-        if (AlwaysHitsFetish) return true; // 感度3000倍: 必ず1回
-        return CardFetishes.Count <= 1;
-    }
-
     protected async Task<int> ResolveFetishOnTarget(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (play.Target == null) return 0;
         if (CardFetishes.Count == 0 && !AlwaysHitsFetish) return 0;
         return await FetishCombat.TryFetishHit(
-            choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish,
-            singleHit: ShouldSingleFetishHit());
+            choiceContext, play.Target, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
     }
 
     protected async Task ResolveFetishOnAllEnemies(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (CombatState == null) return;
         if (CardFetishes.Count == 0 && !AlwaysHitsFetish) return;
-        var single = ShouldSingleFetishHit();
         foreach (var enemy in CombatState.HittableEnemies.ToList())
         {
             await FetishCombat.TryFetishHit(
-                choiceContext, enemy, Owner.Creature, this, CardFetishes, AlwaysHitsFetish,
-                singleHit: single);
+                choiceContext, enemy, Owner.Creature, this, CardFetishes, AlwaysHitsFetish);
         }
     }
 }

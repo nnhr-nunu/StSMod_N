@@ -26,7 +26,6 @@ public class HundredEight() : HypnosisCreatorCard(1,
         [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal, FetishType.Trance];
 
     public override bool AlwaysHitsFetish => true;
-    public override bool? FetishHitPerTypeOverride => true;
 
     /// <summary>必中タグで常時光らないよう、コスト3到達（108連撃）のときだけ黄ハイライト。</summary>
     protected override bool ShouldGlowGoldInternal =>

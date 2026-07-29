@@ -23,8 +23,6 @@ public class FetishChampion() : HypnosisCreatorCard(3,
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
 
-    public override bool? FetishHitPerTypeOverride => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(20M, ValueProp.Move)];
 

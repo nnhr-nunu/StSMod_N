@@ -52,7 +52,7 @@ public static class FetishCardPlayedPatch
         {
             await FetishCombat.TryFetishHit(
                 choiceContext, play.Target, applier, play.Card, fetishes,
-                alwaysHit: false, singleHit: true);
+                alwaysHit: false);
             return;
         }
 
@@ -64,7 +64,7 @@ public static class FetishCardPlayedPatch
             if (!enemy.IsAlive || !enemy.IsEnemy) continue;
             await FetishCombat.TryFetishHit(
                 choiceContext, enemy, applier, play.Card, fetishes,
-                alwaysHit: false, singleHit: true);
+                alwaysHit: false);
         }
     }
 }

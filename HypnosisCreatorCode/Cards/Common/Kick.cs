@@ -16,7 +16,6 @@ public class Kick() : HypnosisCreatorCard(2,
     TargetType.AnyEnemy)
 {
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm, FetishType.DomSub];
-    public override bool? FetishHitPerTypeOverride => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(10M, ValueProp.Move)];
