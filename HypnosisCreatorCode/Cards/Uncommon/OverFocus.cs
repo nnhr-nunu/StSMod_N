@@ -19,7 +19,7 @@ public class OverFocus() : HypnosisCreatorCard(2,
         var hand = Owner.PlayerCombatState?.Hand;
         if (hand == null) return;
 
-        var skillCount = hand.Cards.Count(c => c.Type == CardType.Skill);
+        var skillCount = hand.Cards.Count(c => c.Type == CardType.Skill && c != this);
         if (skillCount > 0)
             await PlayerCmd.GainEnergy(skillCount, Owner);
     }
