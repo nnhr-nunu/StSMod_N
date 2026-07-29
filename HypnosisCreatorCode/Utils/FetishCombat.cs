@@ -321,7 +321,7 @@ public static class FetishCombat
     /// <summary>
     /// カードタグによる刺さり。singleHit=true なら一致があっても破滅は1回（感度3000倍）。
     /// false なら種類ごと（足蹴・壱佰など）。
-    /// 同一プレイで目覚めた性癖は除外（必中・教祖化は従来どおり）。
+    /// 同一プレイで目覚めた性癖は必中でも除外（目覚めと同時刺さり禁止）。
     /// </summary>
     public static async Task<int> TryFetishHit(
         PlayerChoiceContext choiceContext,
@@ -338,17 +338,19 @@ public static class FetishCombat
         List<FetishType> types;
         if (alwaysHit)
         {
-            types = cardFetishes.Count > 0
-                ? cardFetishes.Distinct().ToList()
-                : [FetishType.Abnormal];
+            types = (cardFetishes.Count > 0
+                ? cardFetishes.Distinct()
+                : [FetishType.Abnormal])
+                .Where(f => !WasAwakenedThisPlay(target, f))
+                .ToList();
         }
         else
         {
             types = cardFetishes
                 .Where(f =>
                 {
-                    if (CultLeaderActive && f != FetishType.Trance) return true;
                     if (WasAwakenedThisPlay(target, f)) return false;
+                    if (CultLeaderActive && f != FetishType.Trance) return true;
                     return HasFetish(target, f);
                 })
                 .Distinct()

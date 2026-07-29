@@ -84,28 +84,13 @@ public class Whisper() : HypnosisCreatorCard(0,
                 .ToList();
         }
 
-        var awakened = new List<FetishType>();
         foreach (var card in selected)
         {
             foreach (var fetish in CardFetishLookup.GetFetishes(card))
-            {
                 FetishCombat.Awaken(play.Target, fetish, Owner);
-                awakened.Add(fetish);
-            }
         }
 
-        // UG: 選んだカードの性癖タグで必ず刺さる（感度3000倍と同様に1プレイ1回）
-        if (IsUpgraded && awakened.Count > 0)
-        {
-            await FetishCombat.TryFetishHit(
-                choiceContext,
-                play.Target,
-                Owner.Creature,
-                this,
-                awakened.Distinct().ToList(),
-                alwaysHit: true,
-                singleHit: true);
-        }
+        // UG「必ず性癖に刺さる」はカード属性（Glow／プレビュー）。目覚め直後の同プレイ刺さりはしない。
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1M);

@@ -35,8 +35,8 @@ public class TentacleRecall() : HypnosisCreatorCard(1,
             choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this);
         VanillaAttackSfx.PlayConstrictCast();
 
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
         await ResolveFetishOnTarget(choiceContext, play);
+        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
 
         // Single 再付与で Schedule 済みの参照が消えないよう、未所持のときだけ Apply する
         var power = Owner.Creature.GetPower<TentacleRecallPower>();

@@ -39,10 +39,13 @@ public class HundredEight() : HypnosisCreatorCard(1,
     {
         if (CombatState == null) return;
 
+        var resolvedCost = EnergyCost.GetResolved();
+
+        // 既存性癖へ刺さり → 目覚め（同プレイで目覚めた性癖は刺さらない）
+        await ResolveFetishOnAllEnemies(choiceContext, play);
         foreach (var enemy in CombatState.HittableEnemies.ToList())
             FetishCombat.AwakenAll(enemy, Owner);
 
-        var resolvedCost = EnergyCost.GetResolved();
         if (resolvedCost >= FinalCostThreshold)
         {
             // 1ダメージ×108回を全敵へ。攻撃中は指パッチンをループ
@@ -65,8 +68,6 @@ public class HundredEight() : HypnosisCreatorCard(1,
                 CombatFrameAnimator.EndAttackLoop(Owner.Creature);
             }
         }
-
-        await ResolveFetishOnAllEnemies(choiceContext, play);
 
         if (resolvedCost < FinalCostThreshold)
             EnergyCost.AddThisCombat(1);
