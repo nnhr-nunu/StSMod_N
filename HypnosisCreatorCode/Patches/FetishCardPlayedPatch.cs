@@ -48,10 +48,11 @@ public static class FetishCardPlayedPatch
         var applier = play.Card.Owner?.Creature;
         if (applier == null) return;
 
-        if (play.Target is { IsEnemy: true, IsAlive: true })
+        var target = CardFetishLookup.ResolveFetishPlayTarget(play);
+        if (target != null)
         {
             await FetishCombat.TryFetishHit(
-                choiceContext, play.Target, applier, play.Card, fetishes,
+                choiceContext, target, applier, play.Card, fetishes,
                 alwaysHit: false);
             return;
         }

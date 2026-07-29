@@ -1,4 +1,7 @@
 using HypnosisCreator.HypnosisCreatorCode.Cards;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -34,5 +37,18 @@ public static class CardFetishLookup
         }
 
         return false;
+    }
+
+    /// <summary>AfterCardPlayed 等で刺さり対象を解決する（AnyEnemy は CurrentTarget も見る）。</summary>
+    public static Creature? ResolveFetishPlayTarget(CardPlay play)
+    {
+        if (play.Target is { IsEnemy: true, IsAlive: true })
+            return play.Target;
+
+        if (play.Card.TargetType == TargetType.AnyEnemy
+            && play.Card.CurrentTarget is { IsEnemy: true, IsAlive: true })
+            return play.Card.CurrentTarget;
+
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 
@@ -41,8 +42,18 @@ public static class AbnormalOtherColorPool
         typeof(Shiv),           // ナイフ
     ];
 
-    public static bool Contains(CardModel card) =>
-        Types.Contains(card.GetType());
+    private static readonly Lazy<HashSet<string>> IdEntries = new(() =>
+        new HashSet<string>(
+            Types.Select(t => ModelDb.AllCards.First(c => c.GetType() == t).Id.Entry),
+            StringComparer.OrdinalIgnoreCase));
+
+    public static bool Contains(CardModel card)
+    {
+        var c = card.CanonicalInstance ?? card;
+        if (Types.Any(t => t.IsInstanceOfType(c))) return true;
+        if (c.Tags.Contains(CardTag.Shiv)) return true;
+        return IdEntries.Value.Contains(c.Id.Entry);
+    }
 
     public static bool Contains(Type type) => Types.Contains(type);
 
