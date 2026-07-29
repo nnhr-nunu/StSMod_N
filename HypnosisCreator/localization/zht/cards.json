@@ -279,5 +279,9 @@
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.title": "菌絲的污染",
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.description": "使其覺醒異常性癖。",
   "HYPNOSISCREATOR-ENTHRALLED_CURSE.title": "沉醉",
-  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "必定刺中性癖。"
+  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "必定刺中性癖。",
+  "HYPNOSISCREATOR-DETOX.title": "Detox",
+  "HYPNOSISCREATOR-DETOX.description": "At the end of combat, you may [gold]Upgrade[/gold] [blue]1[/blue] card in your deck.",
+  "HYPNOSISCREATOR-AGAPE.title": "Agape",
+  "HYPNOSISCREATOR-AGAPE.description": "Gain [gold]Block[/gold] equal to the opponent's attack value. For the next [blue]2[/blue] turns, gain that much [gold]Block[/gold] at the start of each turn."
 }

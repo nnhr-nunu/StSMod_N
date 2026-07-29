@@ -279,5 +279,9 @@
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.title": "菌糸の汚染",
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.description": "アブノーマル性癖に目覚めさせる。",
   "HYPNOSISCREATOR-ENTHRALLED_CURSE.title": "心酔",
-  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "必ず性癖に刺さる。"
+  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "必ず性癖に刺さる。",
+  "HYPNOSISCREATOR-DETOX.title": "デトックス",
+  "HYPNOSISCREATOR-DETOX.description": "戦闘終了時、デッキからカードを[blue]1[/blue]枚アップグレードしてもよい。",
+  "HYPNOSISCREATOR-AGAPE.title": "Agape",
+  "HYPNOSISCREATOR-AGAPE.description": "相手の攻撃値に等しい[gold]ブロック[/gold]を得る。次の[blue]2[/blue]ターンの間、ターン開始時、同値の[gold]ブロック[/gold]を得る。"
 }

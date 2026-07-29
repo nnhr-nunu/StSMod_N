@@ -279,5 +279,9 @@
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.title": "균사의 오염",
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.description": "어브노멀 페티시를 각성시킨다.",
   "HYPNOSISCREATOR-ENTHRALLED_CURSE.title": "심취",
-  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "반드시 페티시에 적중한다."
+  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "반드시 페티시에 적중한다.",
+  "HYPNOSISCREATOR-DETOX.title": "Detox",
+  "HYPNOSISCREATOR-DETOX.description": "At the end of combat, you may [gold]Upgrade[/gold] [blue]1[/blue] card in your deck.",
+  "HYPNOSISCREATOR-AGAPE.title": "Agape",
+  "HYPNOSISCREATOR-AGAPE.description": "Gain [gold]Block[/gold] equal to the opponent's attack value. For the next [blue]2[/blue] turns, gain that much [gold]Block[/gold] at the start of each turn."
 }

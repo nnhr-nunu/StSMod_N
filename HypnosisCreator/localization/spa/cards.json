@@ -279,5 +279,9 @@
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.title": "Contaminación de esporas de la mente",
   "HYPNOSISCREATOR-SPORE_MIND_CURSE.description": "Despierta el fetiche Anormal.",
   "HYPNOSISCREATOR-ENTHRALLED_CURSE.title": "Cautivado",
-  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "Acierta el fetiche garantizadamente."
+  "HYPNOSISCREATOR-ENTHRALLED_CURSE.description": "Acierta el fetiche garantizadamente.",
+  "HYPNOSISCREATOR-DETOX.title": "Detox",
+  "HYPNOSISCREATOR-DETOX.description": "At the end of combat, you may [gold]Upgrade[/gold] [blue]1[/blue] card in your deck.",
+  "HYPNOSISCREATOR-AGAPE.title": "Agape",
+  "HYPNOSISCREATOR-AGAPE.description": "Gain [gold]Block[/gold] equal to the opponent's attack value. For the next [blue]2[/blue] turns, gain that much [gold]Block[/gold] at the start of each turn."
 }

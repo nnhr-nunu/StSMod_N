@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Ancient;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -79,9 +80,9 @@ public static class HarmonyBlockPreviewPatch
     {
         _ = previewMode;
         _ = runGlobalHooks;
-        if (card is not HarmonyCard harmony) return;
+        if (card is not (HarmonyCard or Agape)) return;
 
-        var previewTarget = target ?? harmony.CurrentTarget;
+        var previewTarget = target ?? card.CurrentTarget;
         var block = previewTarget != null
             ? EnemyAttackIntents.GetTotalDamage(previewTarget)
             : 0;
