@@ -37,7 +37,9 @@ public class HypnosisToolkit : HypnosisCreatorRelic
         if (picks.Count == 0) return;
 
         Flash();
-        await CardPileCmd.Add(picks, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
+        // 開幕手札ドロー前なので演出ありで問題ない。skipVisuals だと山札→手札の移動が
+        // 非表示のまま残り、開幕ドロー後もカウントカードだけ見えなくなる。
+        await CardPileCmd.Add(picks, PileType.Hand, CardPilePosition.Top, this, skipVisuals: false);
     }
 
     private static List<CardModel> PickRandom(List<CardModel> pool, int count, Player owner)

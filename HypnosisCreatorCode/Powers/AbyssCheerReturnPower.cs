@@ -38,7 +38,8 @@ public class AbyssCheerReturnPower : HypnosisCreatorPower
         if (toHand.Count > 0)
         {
             Flash();
-            await CardPileCmd.Add(toHand, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
+            // 手札ドロー後の追加。skipVisuals だと手札に入ったが表示されない。
+            await CardPileCmd.Add(toHand, PileType.Hand, CardPilePosition.Top, this, skipVisuals: false);
         }
 
         await PowerCmd.Remove(this);
