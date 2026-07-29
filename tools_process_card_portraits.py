@@ -64,6 +64,11 @@ FOCAL_BIAS_X: dict[int, float] = {
     75: 0.72,  # 言葉の洪水 — 右側に顔
 }
 
+# CSV に名称未記載だが loc 登録済みのカード（No → entry）
+MANUAL_NO_TO_ENTRY: dict[int, str] = {
+    108: "detox",
+}
+
 
 def _sobel_magnitude(gray: np.ndarray) -> np.ndarray:
     gx = np.zeros_like(gray, dtype=np.float32)
@@ -486,10 +491,12 @@ def main() -> int:
         if only is not None and no not in only:
             continue
         title = no_to_title.get(no)
-        if not title:
+        entry = MANUAL_NO_TO_ENTRY.get(no)
+        if entry is None and not title:
             errors.append(f"No.{no}: CSVに名称なし ({path.name})")
             continue
-        entry = title_to_entry.get(title)
+        if entry is None:
+            entry = title_to_entry.get(title)
         if not entry:
             errors.append(f"No.{no}「{title}」: cards.json に title 一致なし")
             continue
