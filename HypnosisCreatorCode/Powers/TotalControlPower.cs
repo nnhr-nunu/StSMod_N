@@ -33,7 +33,7 @@ public class TotalControlPower : HypnosisCreatorPower
     }
 
     public override Creature ModifyUnblockedDamageTarget(
-        Creature target, decimal amount, ValueProp props, Creature dealer)
+        Creature target, decimal amount, ValueProp props, Creature? dealer)
     {
         if (Owner is not { IsAlive: true }) return target;
         if (!props.IsPoweredAttack()) return target;

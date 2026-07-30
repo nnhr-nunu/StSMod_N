@@ -28,8 +28,5 @@ public class EnthralledCurse() : PlayableCurseCard(0,
 
     public override bool AlwaysHitsFetish => true;
 
-    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
-    {
-    }
-
+    protected override Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play) => Task.CompletedTask;
 }

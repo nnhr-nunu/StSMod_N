@@ -39,18 +39,20 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
+        if (Owner?.Creature == null) return;
+        var self = Owner.Creature;
+
         foreach (var power in play.Target.Powers.Where(BuffStripRules.CanStripFromEnemy).ToList())
             await PowerCmd.Remove(power);
 
-        if (Owner != null)
-            FetishCombat.SyncFetishPowers(play.Target, Owner);
+        FetishCombat.SyncFetishPowers(play.Target, Owner);
 
         await PowerCmd.Apply<ShrinkPower>(
-            choiceContext, play.Target, DynamicVars["ShrinkPower"].BaseValue, Owner.Creature, this);
+            choiceContext, play.Target, DynamicVars["ShrinkPower"].BaseValue, self, this);
         await PowerCmd.Apply<VulnerablePower>(
-            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
+            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, self, this);
         await TranceCombat.ApplyTrance(
-            choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+            choiceContext, play.Target, DynamicVars["Trance"].IntValue, self, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 

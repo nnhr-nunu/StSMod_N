@@ -25,7 +25,7 @@ public class StolenHeart : HypnosisCreatorRelic
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player != Owner) return;
-        if (Owner.PlayerCombatState.TurnNumber > 1) return;
+        if (player.PlayerCombatState == null || player.PlayerCombatState.TurnNumber > 1) return;
         var stacks = Owner.Relics.Count(r => r is StolenHeart);
         if (stacks <= 0) return;
         Flash();

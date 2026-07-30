@@ -32,7 +32,7 @@ public class TimeStopMarkPower : HypnosisCreatorPower
                 VanillaAttackSfx.PlayStrike();
             }
 
-            await CreatureCmd.Damage(choiceContext, Owner, dmg, ValueProp.Move, Applier);
+            await CreatureCmd.Damage(choiceContext, Owner, dmg, ValueProp.Move, Applier ?? Owner);
         }
     }
 }

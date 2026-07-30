@@ -42,9 +42,7 @@ public class GuiltyCurse() : PlayableCurseCard(0,
         }
     }
 
-    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
-    {
-    }
+    protected override Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play) => Task.CompletedTask;
 
     public override async Task AfterCombatEnd(CombatRoom _)
     {

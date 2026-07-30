@@ -51,7 +51,7 @@ public class CognitiveShufflePower : HypnosisCreatorPower
             _grantedForms.Add(power);
     }
 
-    public override Task BeforeApplied(Creature target, decimal amount, Creature applier, CardModel cardSource)
+    public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
     {
         _ = amount;
         _ = applier;
