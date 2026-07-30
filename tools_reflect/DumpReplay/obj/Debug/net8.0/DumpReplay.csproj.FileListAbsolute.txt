@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\bin\Debug\net8.0\DumpReplay.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\bin\Debug\net8.0\DumpReplay.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\bin\Debug\net8.0\DumpReplay.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\bin\Debug\net8.0\DumpReplay.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\bin\Debug\net8.0\DumpReplay.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\refint\DumpReplay.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\DumpReplay.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpReplay\obj\Debug\net8.0\ref\DumpReplay.dll

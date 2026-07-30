@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "ocXA2chHn/k=",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DecompileStartTurn\\DecompileStartTurn.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget\\icsharpcode.decompiler\\8.2.0.7535\\icsharpcode.decompiler.8.2.0.7535.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget\\system.reflection.metadata\\6.0.0\\system.reflection.metadata.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

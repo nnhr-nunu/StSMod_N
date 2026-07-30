@@ -165,7 +165,7 @@
   "HYPNOSISCREATOR-CORROSION.title": "침식",
   "HYPNOSISCREATOR-CORROSION.description": "[gold]공격[/gold] 카드를 사용할 때마다, 무작위 최면계 [gold]카운트[/gold] 카드 [blue]1[/blue]장을 [gold]손[/gold]에 추가한다.",
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "촉수의 회상",
-  "HYPNOSISCREATOR-TENTACLE_RECALL.description": "[gold]속박[/gold]{ConstrictPower:diff()}을 부여한다. 다음 턴, 이 카드의 복사본을 [gold]손[/gold]에 추가한다.",
+  "HYPNOSISCREATOR-TENTACLE_RECALL.description": "[gold]속박[/gold]{ConstrictPower:diff()}을 부여하고 어블노멀을 각성시킨다. 다음 턴, 이 카드의 복사본을 [gold]손[/gold]에 추가한다.",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "무한 강화의 실",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "대상은 체력{LoseHp:diff()}을 잃는다. [gold]트랜스[/gold]{Trance:diff()}. 이 카드는 몇 번이든 강화할 수 있다.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "조교 명령",

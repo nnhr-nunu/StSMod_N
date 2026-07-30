@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\bin\Debug\net9.0\dump_baselib_config.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\bin\Debug\net9.0\dump_baselib_config.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\bin\Debug\net9.0\dump_baselib_config.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\bin\Debug\net9.0\dump_baselib_config.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\bin\Debug\net9.0\dump_baselib_config.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\refint\dump_baselib_config.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\dump_baselib_config.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\dump_baselib_config\obj\Debug\net9.0\ref\dump_baselib_config.dll

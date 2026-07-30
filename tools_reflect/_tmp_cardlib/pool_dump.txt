@@ -1,0 +1,260 @@
+
+==== MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions ====
+
+-- AddChildSafely --
+  IL_0000: ldarg.1
+  IL_0001: brtrue.s IL_0004
+  IL_0003: ret
+  IL_0004: call System.Boolean MegaCrit.Sts2.Core.Nodes.NGame::IsMainThread()
+  IL_0009: brfalse.s IL_0026
+  IL_000b: ldarg.0
+  IL_000c: callvirt System.Boolean Godot.Node::IsNodeReady()
+  IL_0011: brtrue.s IL_001b
+  IL_0013: ldarg.0
+  IL_0014: callvirt System.Boolean Godot.Node::IsInsideTree()
+  IL_0019: brtrue.s IL_0026
+  IL_001b: ldarg.0
+  IL_001c: ldarg.1
+  IL_001d: ldc.i4.0
+  IL_001e: ldc.i4.0
+  IL_001f: conv.i8
+  IL_0020: callvirt System.Void Godot.Node::AddChild(Godot.Node,System.Boolean,Godot.Node/InternalMode)
+  IL_0025: ret
+  IL_0026: ldarg.0
+  IL_0027: ldsfld Godot.StringName Godot.Node/MethodName::AddChild
+  IL_002c: ldc.i4.1
+  IL_002d: newarr Godot.Variant
+  IL_0032: dup
+  IL_0033: ldc.i4.0
+  IL_0034: ldarg.1
+  IL_0035: call Godot.Variant Godot.Variant::op_Implicit(Godot.GodotObject)
+  IL_003a: stelem.any Godot.Variant
+  IL_003f: callvirt Godot.Variant Godot.GodotObject::CallDeferred(Godot.StringName,Godot.Variant[])
+  IL_0044: pop
+  IL_0045: ret
+
+-- QueueFreeSafely --
+  IL_0000: newobj System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions/<>c__DisplayClass5_0::.ctor()
+  IL_0005: stloc.0
+  IL_0006: ldarg.0
+  IL_0007: call System.Boolean Godot.GodotObject::IsInstanceValid(Godot.GodotObject)
+  IL_000c: brtrue.s IL_000f
+  IL_000e: ret
+  IL_000f: ldloc.0
+  IL_0010: ldarg.0
+  IL_0011: isinst MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable
+  IL_0016: stfld MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions/<>c__DisplayClass5_0::poolable
+  IL_001b: ldloc.0
+  IL_001c: ldfld MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions/<>c__DisplayClass5_0::poolable
+  IL_0021: brfalse.s IL_0054
+  IL_0023: ldarg.0
+  IL_0024: callvirt Godot.Node Godot.Node::GetParent()
+  IL_0029: dup
+  IL_002a: brtrue.s IL_002f
+  IL_002c: pop
+  IL_002d: br.s IL_0035
+  IL_002f: ldarg.0
+  IL_0030: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::RemoveChildSafely(Godot.Node,Godot.Node)
+  IL_0035: ldloc.0
+  IL_0036: ldftn System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions/<>c__DisplayClass5_0::<QueueFreeSafely>b__0()
+  IL_003c: newobj System.Void System.Action::.ctor(System.Object,System.IntPtr)
+  IL_0041: call Godot.Callable Godot.Callable::From(System.Action)
+  IL_0046: stloc.1
+  IL_0047: ldloca.s V_1
+  IL_0049: call !!0[] System.Array::Empty<Godot.Variant>()
+  IL_004e: call System.Void Godot.Callable::CallDeferred(Godot.Variant[])
+  IL_0053: ret
+  IL_0054: ldarg.0
+  IL_0055: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::QueueFreeSafelyNoPool(Godot.Node)
+  IL_005a: ret
+
+-- QueueFreeSafelyNoPool --
+  IL_0000: call System.Boolean MegaCrit.Sts2.Core.Nodes.NGame::IsMainThread()
+  IL_0005: brfalse.s IL_000e
+  IL_0007: ldarg.0
+  IL_0008: callvirt System.Void Godot.Node::QueueFree()
+  IL_000d: ret
+  IL_000e: ldarg.0
+  IL_000f: ldsfld Godot.StringName Godot.Node/MethodName::QueueFree
+  IL_0014: call !!0[] System.Array::Empty<Godot.Variant>()
+  IL_0019: callvirt Godot.Variant Godot.GodotObject::CallDeferred(Godot.StringName,Godot.Variant[])
+  IL_001e: pop
+  IL_001f: ret
+
+==== MegaCrit.Sts2.Core.Nodes.Pooling.NodePool ====
+
+-- Get --
+  IL_0000: ldsfld System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::_pools
+  IL_0005: ldarg.0
+  IL_0006: ldloca.s V_0
+  IL_0008: callvirt System.Boolean System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool>::TryGetValue(!0,!1&)
+  IL_000d: brtrue.s IL_0046
+  IL_000f: ldloca.s V_1
+  IL_0011: ldc.i4.s 54
+  IL_0013: ldc.i4.1
+  IL_0014: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+  IL_0019: ldloca.s V_1
+  IL_001b: ldstr "Tried to get pool for type "
+  IL_0020: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0025: ldloca.s V_1
+  IL_0027: ldarg.0
+  IL_0028: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_002d: ldloca.s V_1
+  IL_002f: ldstr " before it was initialized!"
+  IL_0034: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0039: ldloca.s V_1
+  IL_003b: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+  IL_0040: newobj System.Void System.InvalidOperationException::.ctor(System.String)
+  IL_0045: throw
+  IL_0046: ldloc.0
+  IL_0047: callvirt MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Nodes.Pooling.INodePool::Get()
+  IL_004c: ret
+
+-- Get --
+  IL_0000: ldtoken T
+  IL_0005: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+  IL_000a: call MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Get(System.Type)
+  IL_000f: unbox.any T
+  IL_0014: ret
+NodePool.Init
+NodePool.Get
+NodePool.Free
+NodePool.Get
+NodePool.Free
+NodePool..ctor
+NodePool..cctor
+
+==== MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder ====
+
+-- Create --
+  IL_0000: call System.Boolean MegaCrit.Sts2.Core.TestSupport.TestMode::get_IsOn()
+  IL_0005: brfalse.s IL_0009
+  IL_0007: ldnull
+  IL_0008: ret
+  IL_0009: call T MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Get<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>()
+  IL_000e: stloc.0
+  IL_000f: ldloc.0
+  IL_0010: ldarg.0
+  IL_0011: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::SetCard(MegaCrit.Sts2.Core.Nodes.Cards.NCard)
+  IL_0016: ldloc.0
+  IL_0017: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateCardModel()
+  IL_001c: ldloc.0
+  IL_001d: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateName()
+  IL_0022: ldloc.0
+  IL_0023: ldloc.0
+  IL_0024: callvirt Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_SmallScale()
+  IL_0029: callvirt System.Void Godot.Control::set_Scale(Godot.Vector2)
+  IL_002e: ldloc.0
+  IL_002f: ret
+
+-- OnCardReassigned --
+  IL_0000: ldarg.0
+  IL_0001: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateCardModel()
+  IL_0006: ldarg.0
+  IL_0007: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateName()
+  IL_000c: ret
+
+-- _ExitTree --
+  IL_0000: ldarg.0
+  IL_0001: ldarg.0
+  IL_0002: call MegaCrit.Sts2.Core.Nodes.Cards.NCard MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardNode()
+  IL_0007: call System.Boolean Godot.Node::IsAncestorOf(Godot.Node)
+  IL_000c: brfalse.s IL_001f
+  IL_000e: ldarg.0
+  IL_000f: call MegaCrit.Sts2.Core.Nodes.Cards.NCard MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardNode()
+  IL_0014: dup
+  IL_0015: brtrue.s IL_001a
+  IL_0017: pop
+  IL_0018: br.s IL_001f
+  IL_001a: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::QueueFreeSafely(Godot.Node)
+  IL_001f: ldarg.0
+  IL_0020: ldnull
+  IL_0021: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::set_CardNode(MegaCrit.Sts2.Core.Nodes.Cards.NCard)
+  IL_0026: ret
+
+==== MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary ====
+
+-- OnSubmenuClosed --
+  IL_0000: ldarg.0
+  IL_0001: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_grid
+  IL_0006: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::ClearGrid()
+  IL_000b: ret
+
+-- DisplayCardsAfterShortDelay --
+  IL_0000: ldloca.s V_0
+  IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+  IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58::<>t__builder
+  IL_000c: ldloca.s V_0
+  IL_000e: ldarg.0
+  IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58::<>4__this
+  IL_0014: ldloca.s V_0
+  IL_0016: ldc.i4.m1
+  IL_0017: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58::<>1__state
+  IL_001c: ldloca.s V_0
+  IL_001e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58::<>t__builder
+  IL_0023: ldloca.s V_0
+  IL_0025: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58>(!!0&)
+  IL_002a: ldloca.s V_0
+  IL_002c: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCardsAfterShortDelay>d__58::<>t__builder
+  IL_0031: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+  IL_0036: ret
+
+-- DisplayCards --
+  IL_0000: ldloca.s V_0
+  IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+  IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  IL_000c: ldloca.s V_0
+  IL_000e: ldarg.0
+  IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>4__this
+  IL_0014: ldloca.s V_0
+  IL_0016: ldc.i4.m1
+  IL_0017: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>1__state
+  IL_001c: ldloca.s V_0
+  IL_001e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  IL_0023: ldloca.s V_0
+  IL_0025: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59>(!!0&)
+  IL_002a: ldloca.s V_0
+  IL_002c: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  IL_0031: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+  IL_0036: ret
+
+-- ShowCardDetail --
+  IL_0000: call MegaCrit.Sts2.Core.Saves.SaveManager MegaCrit.Sts2.Core.Saves.SaveManager::get_Instance()
+  IL_0005: callvirt MegaCrit.Sts2.Core.Saves.ProgressState MegaCrit.Sts2.Core.Saves.SaveManager::get_Progress()
+  IL_000a: callvirt System.Collections.Generic.IReadOnlySet`1<MegaCrit.Sts2.Core.Models.ModelId> MegaCrit.Sts2.Core.Saves.ProgressState::get_DiscoveredCards()
+  IL_000f: ldarg.1
+  IL_0010: callvirt MegaCrit.Sts2.Core.Models.CardModel MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardModel()
+  IL_0015: callvirt MegaCrit.Sts2.Core.Models.ModelId MegaCrit.Sts2.Core.Models.AbstractModel::get_Id()
+  IL_001a: callvirt System.Boolean System.Collections.Generic.IReadOnlySet`1<MegaCrit.Sts2.Core.Models.ModelId>::Contains(!0)
+  IL_001f: brtrue.s IL_0022
+  IL_0021: ret
+  IL_0022: ldarg.0
+  IL_0023: ldarg.1
+  IL_0024: stfld Godot.Control MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_lastHoveredControl
+  IL_0029: ldarg.0
+  IL_002a: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_grid
+  IL_002f: callvirt System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::get_VisibleCards()
+  IL_0034: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__70_0
+  IL_0039: dup
+  IL_003a: brtrue.s IL_0053
+  IL_003c: pop
+  IL_003d: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  IL_0042: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<ShowCardDetail>b__70_0(MegaCrit.Sts2.Core.Models.CardModel)
+  IL_0048: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  IL_004d: dup
+  IL_004e: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__70_0
+  IL_0053: call System.Collections.Generic.IEnumerable`1<!!0> System.Linq.Enumerable::Where<MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>,System.Func`2<!!0,System.Boolean>)
+  IL_0058: call System.Collections.Generic.List`1<!!0> System.Linq.Enumerable::ToList<MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>)
+  IL_005d: stloc.0
+  IL_005e: call MegaCrit.Sts2.Core.Nodes.NGame MegaCrit.Sts2.Core.Nodes.NGame::get_Instance()
+  IL_0063: callvirt MegaCrit.Sts2.Core.Nodes.Screens.NInspectCardScreen MegaCrit.Sts2.Core.Nodes.NGame::GetInspectCardScreen()
+  IL_0068: ldloc.0
+  IL_0069: ldloc.0
+  IL_006a: ldarg.1
+  IL_006b: callvirt MegaCrit.Sts2.Core.Models.CardModel MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardModel()
+  IL_0070: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::IndexOf(!0)
+  IL_0075: ldarg.0
+  IL_0076: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NLibraryStatTickbox MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_viewUpgrades
+  IL_007b: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.CommonUi.NTickbox::get_IsTicked()
+  IL_0080: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Screens.NInspectCardScreen::Open(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>,System.Int32,System.Boolean)
+  IL_0085: ret

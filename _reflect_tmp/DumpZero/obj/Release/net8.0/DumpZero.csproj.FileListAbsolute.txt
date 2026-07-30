@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\bin\Release\net8.0\DumpZero.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\bin\Release\net8.0\DumpZero.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\bin\Release\net8.0\DumpZero.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\bin\Release\net8.0\DumpZero.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\bin\Release\net8.0\DumpZero.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\refint\DumpZero.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\DumpZero.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpZero\obj\Release\net8.0\ref\DumpZero.dll

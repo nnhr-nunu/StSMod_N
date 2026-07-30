@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\bin\Release\net9.0\DumpStrength.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\bin\Release\net9.0\DumpStrength.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\bin\Release\net9.0\DumpStrength.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\bin\Release\net9.0\DumpStrength.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\bin\Release\net9.0\DumpStrength.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\refint\DumpStrength.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\DumpStrength.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrength\obj\Release\net9.0\ref\DumpStrength.dll

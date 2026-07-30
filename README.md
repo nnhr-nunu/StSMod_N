@@ -43,3 +43,14 @@ dotnet publish        # 画像・ローカライズ・シーン込み（.pck 生
 - `card-asset-template.md` … **カード名・効果・サムネの受け渡し用テンプレート**
 
 詳細: [ModTemplate-StS2 Wiki](https://github.com/Alchyr/ModTemplate-StS2/wiki)
+
+
+
+1. 公開の流れ（全体像）
+ソース修正 → dotnet publish → 動作確認 → 配布用3ファイルを用意 → Steam Workshop 投稿
+
+Workshop / ZIP とも、プレイヤーに渡すのは この3つ です。
+HypnosisCreator.dll
+HypnosisCreator.pck
+HypnosisCreator.json
+

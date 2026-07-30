@@ -1,0 +1,16 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\bin\Release\net9.0\DumpHover.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\bin\Release\net9.0\DumpHover.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\bin\Release\net9.0\DumpHover.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\bin\Release\net9.0\DumpHover.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\bin\Release\net9.0\DumpHover.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.csproj.AssemblyReference.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\refint\DumpHover.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\DumpHover.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpHover\obj\Release\net9.0\ref\DumpHover.dll

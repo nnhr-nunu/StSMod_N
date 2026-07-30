@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\bin\Release\net9.0\ProbeDesc.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\bin\Release\net9.0\ProbeDesc.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\bin\Release\net9.0\ProbeDesc.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\bin\Release\net9.0\ProbeDesc.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\bin\Release\net9.0\ProbeDesc.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\refint\ProbeDesc.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ProbeDesc.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_desc\obj\Release\net9.0\ref\ProbeDesc.dll

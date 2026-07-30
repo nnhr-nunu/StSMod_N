@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\bin\Release\net9.0\DumpBaseLib.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\bin\Release\net9.0\DumpBaseLib.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\bin\Release\net9.0\DumpBaseLib.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\bin\Release\net9.0\DumpBaseLib.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\bin\Release\net9.0\DumpBaseLib.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\refint\DumpBaseLib.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\DumpBaseLib.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpBaseLib\obj\Release\net9.0\ref\DumpBaseLib.dll

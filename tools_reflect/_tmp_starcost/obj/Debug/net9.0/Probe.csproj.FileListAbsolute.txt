@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\bin\Debug\net9.0\Probe.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\bin\Debug\net9.0\Probe.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\bin\Debug\net9.0\Probe.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\bin\Debug\net9.0\Probe.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\bin\Debug\net9.0\Probe.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\refint\Probe.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\Probe.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_starcost\obj\Debug\net9.0\ref\Probe.dll

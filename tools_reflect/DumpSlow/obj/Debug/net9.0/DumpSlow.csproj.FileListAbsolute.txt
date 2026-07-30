@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\bin\Debug\net9.0\DumpSlow.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\bin\Debug\net9.0\DumpSlow.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\bin\Debug\net9.0\DumpSlow.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\bin\Debug\net9.0\DumpSlow.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\bin\Debug\net9.0\DumpSlow.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\refint\DumpSlow.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\DumpSlow.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpSlow\obj\Debug\net9.0\ref\DumpSlow.dll

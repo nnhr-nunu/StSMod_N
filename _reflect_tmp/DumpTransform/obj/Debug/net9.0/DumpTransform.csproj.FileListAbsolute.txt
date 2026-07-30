@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\bin\Debug\net9.0\DumpTransform.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\bin\Debug\net9.0\DumpTransform.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\bin\Debug\net9.0\DumpTransform.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\bin\Debug\net9.0\DumpTransform.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\bin\Debug\net9.0\DumpTransform.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\refint\DumpTransform.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\DumpTransform.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpTransform\obj\Debug\net9.0\ref\DumpTransform.dll

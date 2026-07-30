@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\bin\Release\net9.0\DumpCalcVar.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\bin\Release\net9.0\DumpCalcVar.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\bin\Release\net9.0\DumpCalcVar.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\bin\Release\net9.0\DumpCalcVar.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\bin\Release\net9.0\DumpCalcVar.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\refint\DumpCalcVar.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\DumpCalcVar.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpCalcVar\obj\Release\net9.0\ref\DumpCalcVar.dll

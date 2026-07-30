@@ -1,0 +1,734 @@
+
+======== MegaCrit.Sts2.Core.Commands.CreatureCmd ========
+static Task`1 Add(ICombatState combatState, String slotName)
+static Task`1 Add(MonsterModel monster, ICombatState combatState, CombatSide side, String slotName)
+static Task Add(Creature creature)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, DamageVar damageVar, CardModel cardSource, CardPlay cardPlay)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, Decimal amount, ValueProp props, CardModel cardSource, CardPlay cardPlay)
+static Task`1 Damage(PlayerChoiceContext choiceContext, IEnumerable`1 targets, DamageVar damageVar, Creature dealer)
+static Task`1 Damage(PlayerChoiceContext choiceContext, IEnumerable`1 targets, Decimal amount, ValueProp props, Creature dealer)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, DamageVar damageVar, Creature dealer)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, Decimal amount, ValueProp props, Creature dealer)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, DamageVar damageVar, Creature dealer, CardModel cardSource, CardPlay cardPlay)
+static Task`1 Damage(PlayerChoiceContext choiceContext, Creature target, Decimal amount, ValueProp props, Creature dealer, CardModel cardSource, CardPlay cardPlay)
+static Task`1 Damage(PlayerChoiceContext choiceContext, IEnumerable`1 targets, DamageVar damageVar, Creature dealer, CardModel cardSource, CardPlay cardPlay)
+static Task`1 Damage(PlayerChoiceContext choiceContext, IEnumerable`1 targets, Decimal amount, ValueProp props, Creature dealer, CardModel cardSource, CardPlay cardPlay)
+static Task Escape(Creature creature, Boolean removeCreatureNode)
+static Task`1 GainBlock(Creature creature, BlockVar blockVar, CardPlay cardPlay, Boolean fast)
+static Task`1 GainBlock(Creature creature, Decimal amount, ValueProp props, CardPlay cardPlay, Boolean fast)
+static Task GainMaxHp(Creature creature, Decimal amount)
+static Task Heal(Creature creature, Decimal amount, Boolean playAnim)
+static Task Kill(Creature creature, Boolean force)
+static Task Kill(IReadOnlyCollection`1 creatures, Boolean force)
+static Task KillWithoutCheckingWinCondition(Creature creature, Boolean force, Int32 recursion)
+static Task LoseBlock(PlayerChoiceContext choiceContext, Creature target, Decimal amount, Creature remover)
+static Task LoseMaxHp(PlayerChoiceContext choiceContext, Creature creature, Decimal amount, Boolean isFromCard)
+static Task SetCurrentHp(Creature creature, Decimal amount)
+static Task SetMaxAndCurrentHp(Creature creature, Decimal amount)
+static Task`1 SetMaxHp(Creature creature, Decimal amount)
+static Task Stun(Creature creature, String nextMoveId)
+static Task Stun(Creature creature, Func`2 stunMove, String nextMoveId)
+static Task TriggerAnim(Creature creature, String triggerName, Single waitTime)
+
+======== MISSING MonsterCmd ========
+
+======== MISSING CombatCmd ========
+
+======== MegaCrit.Sts2.Core.Entities.Creatures.Creature ========
+Void add_BlockChanged(Action`2 value)
+Void add_CurrentHpChanged(Action`2 value)
+Void add_Died(Action`1 value)
+Void add_MaxHpChanged(Action`2 value)
+Void add_PowerApplied(Action`1 value)
+Void add_PowerDecreased(Action`2 value)
+Void add_PowerIncreased(Action`3 value)
+Void add_PowerRemoved(Action`1 value)
+Void add_Revived(Action`1 value)
+Task AfterAddedToRoom()
+Task AfterTurnStart(CombatSide side)
+Void ApplyPowerInternal(PowerModel power)
+Void BeforeTurnStart(CombatSide side)
+Task ClearBlock()
+NCreatureVisuals CreateVisuals()
+Decimal DamageBlockInternal(Decimal amount, ValueProp props)
+Void GainBlockInternal(Decimal amount)
+Int32 get_Block()
+Boolean get_CanReceivePowers()
+Nullable`1 get_CombatId()
+ICombatState get_CombatState()
+Int32 get_CurrentHp()
+IEnumerable`1 get_HoverTips()
+HpDisplay get_HpDisplay()
+Boolean get_IsAlive()
+Boolean get_IsDead()
+Boolean get_IsEnemy()
+Boolean get_IsHittable()
+Boolean get_IsMonster()
+Boolean get_IsPet()
+Boolean get_IsPlayer()
+Boolean get_IsPrimaryEnemy()
+Boolean get_IsSecondaryEnemy()
+Boolean get_IsStunned()
+String get_LogName()
+Int32 get_MaxHp()
+ModelId get_ModelId()
+MonsterModel get_Monster()
+Nullable`1 get_MonsterMaxHpBeforeModification()
+String get_Name()
+Player get_PetOwner()
+IReadOnlyList`1 get_Pets()
+Player get_Player()
+IReadOnlyList`1 get_Powers()
+CombatSide get_Side()
+String get_SlotName()
+Control GetBackVfxContainer()
+NCreature GetCreatureNode()
+Double GetHpPercentRemaining()
+T GetPower()
+PowerModel GetPower(ModelId id)
+Int32 GetPowerAmount()
+PowerModel GetPowerById(ModelId id)
+IEnumerable`1 GetPowerInstances()
+IEnumerable`1 GetPowerInstances(ModelId id)
+Control GetVfxContainer()
+Boolean HasPower()
+Boolean HasPower(ModelId id)
+Void HealInternal(Decimal amount)
+Void InvokeDiedEvent()
+Void InvokePowerModified(PowerModel power, Int32 change, Boolean silent)
+Void LoseBlockInternal(Decimal amount)
+DamageResult LoseHpInternal(Decimal amount, ValueProp props)
+Void OnSideSwitch()
+Void PrepareForNextTurn(IEnumerable`1 targets, Boolean rollNewMove)
+Void remove_BlockChanged(Action`2 value)
+Void remove_CurrentHpChanged(Action`2 value)
+Void remove_Died(Action`1 value)
+Void remove_MaxHpChanged(Action`2 value)
+Void remove_PowerApplied(Action`1 value)
+Void remove_PowerDecreased(Action`2 value)
+Void remove_PowerIncreased(Action`3 value)
+Void remove_PowerRemoved(Action`1 value)
+Void remove_Revived(Action`1 value)
+IEnumerable`1 RemoveAllPowersAfterDeath()
+IEnumerable`1 RemoveAllPowersInternalExcept(IEnumerable`1 except)
+Void RemovePowerInternal(PowerModel power)
+Void Reset()
+static Decimal ScaleHpForMultiplayer(Decimal hp, EncounterModel encounter, Int32 playerCount, Int32 actIndex)
+Void ScaleMonsterHpForMultiplayer(EncounterModel encounter, Int32 playerCount, Int32 actIndex)
+Void set_Block(Int32 value)
+Void set_CombatId(Nullable`1 value)
+Void set_CombatState(ICombatState value)
+Void set_CurrentHp(Int32 value)
+Void set_HpDisplay(HpDisplay value)
+Void set_MaxHp(Int32 value)
+Void set_MonsterMaxHpBeforeModification(Nullable`1 value)
+Void set_PetOwner(Player value)
+Void set_SlotName(String value)
+Void SetCurrentHpInternal(Decimal amount)
+Void SetMaxHpInternal(Decimal amount)
+Void SetNodeVisible(Boolean visible)
+Void SetUniqueMonsterHpValue(IReadOnlyList`1 creaturesOnSide, Rng rng)
+Void StunInternal(Func`2 stunMove, String nextMoveId)
+Task TakeTurn()
+String ToString()
+PROP Int32 Block
+PROP Boolean CanReceivePowers
+PROP Nullable`1 CombatId
+PROP ICombatState CombatState
+PROP Int32 CurrentHp
+PROP IEnumerable`1 HoverTips
+PROP HpDisplay HpDisplay
+PROP Boolean IsAlive
+PROP Boolean IsDead
+PROP Boolean IsEnemy
+PROP Boolean IsHittable
+PROP Boolean IsMonster
+PROP Boolean IsPet
+PROP Boolean IsPlayer
+PROP Boolean IsPrimaryEnemy
+PROP Boolean IsSecondaryEnemy
+PROP Boolean IsStunned
+PROP String LogName
+PROP Int32 MaxHp
+PROP ModelId ModelId
+PROP MonsterModel Monster
+PROP Nullable`1 MonsterMaxHpBeforeModification
+PROP String Name
+PROP Player PetOwner
+PROP IReadOnlyList`1 Pets
+PROP Player Player
+PROP IReadOnlyList`1 Powers
+PROP CombatSide Side
+PROP String SlotName
+
+======== MegaCrit.Sts2.Core.Combat.CombatState ========
+Int32 <SortEnemiesBySlotName>b__70_0(Creature a, Creature b)
+Void add_CreaturesChanged(Action`1 value)
+Void AddCard(CardModel card, Player owner)
+Void AddCard(CardModel card)
+Void AddCreature(Creature creature)
+Void AddPlayer(Player player)
+Void AttachCreature(Creature creature)
+CardModel CloneCard(CardModel mutableCard)
+Boolean Contains(AbstractModel model)
+Boolean ContainsCard(CardModel card)
+Boolean ContainsCreature(Creature creature)
+Boolean ContainsMonster()
+T CreateCard(Player owner)
+CardModel CreateCard(CardModel canonicalCard, Player owner)
+Creature CreateCreature(MonsterModel monster, CombatSide side, String slot)
+Void CreatureEscaped(Creature creature)
+IReadOnlyList`1 get_Allies()
+IReadOnlyList`1 get_BadgeModels()
+IReadOnlyList`1 get_Creatures()
+IReadOnlyList`1 get_CreaturesOnCurrentSide()
+CombatSide get_CurrentSide()
+EncounterModel get_Encounter()
+IReadOnlyList`1 get_Enemies()
+IReadOnlyList`1 get_EscapedCreatures()
+IReadOnlyList`1 get_HittableEnemies()
+IReadOnlyList`1 get_Modifiers()
+MultiplayerScalingModel get_MultiplayerScalingModel()
+IReadOnlyList`1 get_PlayerCreatures()
+IReadOnlyList`1 get_Players()
+Int32 get_RoundNumber()
+IRunState get_RunState()
+Creature GetCreature(Nullable`1 combatId)
+Task`1 GetCreatureAsync(Nullable`1 combatId, Double timeoutSec)
+IReadOnlyList`1 GetCreaturesOnSide(CombatSide side)
+IReadOnlyList`1 GetOpponentsOf(Creature creature)
+Player GetPlayer(UInt64 playerId)
+IReadOnlyList`1 GetTeammatesOf(Creature creature)
+static Task GodotTimerTask(Double timeSec)
+Boolean IsLiveCombat()
+IEnumerable`1 IterateHookListeners()
+Void remove_CreaturesChanged(Action`1 value)
+Void RemoveCard(CardModel card)
+Void RemoveCreature(Creature creature, Boolean unattach)
+Void set_CurrentSide(CombatSide value)
+Void set_Encounter(EncounterModel value)
+Void set_MultiplayerScalingModel(MultiplayerScalingModel value)
+Void set_RoundNumber(Int32 value)
+Void SetEnemyIndex(Creature creature, Int32 index)
+Void SortEnemiesBySlotName()
+PROP IReadOnlyList`1 Allies
+PROP IReadOnlyList`1 BadgeModels
+PROP IReadOnlyList`1 Creatures
+PROP IReadOnlyList`1 CreaturesOnCurrentSide
+PROP CombatSide CurrentSide
+PROP EncounterModel Encounter
+PROP IReadOnlyList`1 Enemies
+PROP IReadOnlyList`1 EscapedCreatures
+PROP IReadOnlyList`1 HittableEnemies
+PROP IReadOnlyList`1 Modifiers
+PROP MultiplayerScalingModel MultiplayerScalingModel
+PROP IReadOnlyList`1 PlayerCreatures
+PROP IReadOnlyList`1 Players
+PROP Int32 RoundNumber
+PROP IRunState RunState
+
+======== MegaCrit.Sts2.Core.Combat.CombatManager ========
+Void add_AboutToSwitchToEnemyTurn(Action`1 value)
+Void add_CombatBegan(Action`1 value)
+Void add_CombatEnded(Action`1 value)
+Void add_CombatSetUp(Action`1 value)
+Void add_CombatWon(Action`1 value)
+Void add_CreaturesChanged(Action`1 value)
+Void add_PlayerActionsDisabledChanged(Action`1 value)
+Void add_PlayerEndedTurn(Action`2 value)
+Void add_PlayerUnendedTurn(Action`1 value)
+Void add_TurnEnded(Action`1 value)
+Void add_TurnStarted(Action`1 value)
+Void AddCreature(Creature creature)
+Task AfterAllPlayersReadyToBeginEnemyTurn(Func`1 actionDuringEnemyTurn)
+Task AfterAllPlayersReadyToEndTurn(CombatState scheduledCombat, Int32 scheduledTurnNumber, Player scheduledPlayer, Func`1 actionDuringEnemyTurn)
+Void AfterCombatRoomLoaded()
+Task AfterCreatureAdded(Creature creature)
+Boolean AllPlayersReadyToEndTurn()
+Void BeginCardOrPotionEffect(Player player)
+Task CheckForEmptyHand(PlayerChoiceContext choiceContext, Player player)
+Task`1 CheckWinCondition()
+Void DebugClearForcedTopCardOnNextShuffle()
+Void DebugForceTopCardOnNextShuffle(CardModel card)
+CombatState DebugOnlyGetState()
+Task DoTurnEnd(Player player, PlayerChoiceContext choiceContext)
+Task EndCardOrPotionEffect(Player player)
+Task EndCombatInternal()
+Task EndEnemyTurn(Nullable`1 combatCt)
+Task EndEnemyTurnInternal()
+Task EndPlayerTurnPhaseOneInternal()
+Task EndPlayerTurnPhaseTwoInternal(Nullable`1 combatCt)
+Task ExecuteEnemyTurn(Func`1 actionDuringEnemyTurn)
+Task FlushPlayerHand(Player player, HookPlayerChoiceContext playerChoiceContext)
+CancellationToken get_CombatCt()
+CardModel get_DebugForcedTopCardOnNextShuffle()
+Boolean get_EndingPlayerTurnPhaseOne()
+Boolean get_EndingPlayerTurnPhaseTwo()
+CombatHistory get_History()
+static CombatManager get_Instance()
+Boolean get_IsAboutToLose()
+Boolean get_IsEnding()
+Boolean get_IsEnemyTurnStarted()
+Boolean get_IsInProgress()
+Boolean get_IsOverOrEnding()
+Boolean get_IsPaused()
+Boolean get_IsStarting()
+Boolean get_PlayerActionsDisabled()
+IReadOnlyList`1 get_PlayersTakingExtraTurn()
+CombatStateTracker get_StateTracker()
+Task HandlePlayerDeath(Player player)
+Boolean IsExecutingCardOrPotionEffect(Player player)
+Boolean IsPartOfPlayerTurn(Player player)
+Boolean IsPlayerReadyToEndTurn(Player player)
+Void LoseCombat()
+Void OnEndedTurnLocally()
+Void Pause()
+Void ProcessPendingLoss()
+Void ReleaseDeferredEndTurnTransitionIfNeeded()
+Void remove_AboutToSwitchToEnemyTurn(Action`1 value)
+Void remove_CombatBegan(Action`1 value)
+Void remove_CombatEnded(Action`1 value)
+Void remove_CombatSetUp(Action`1 value)
+Void remove_CombatWon(Action`1 value)
+Void remove_CreaturesChanged(Action`1 value)
+Void remove_PlayerActionsDisabledChanged(Action`1 value)
+Void remove_PlayerEndedTurn(Action`2 value)
+Void remove_PlayerUnendedTurn(Action`1 value)
+Void remove_TurnEnded(Action`1 value)
+Void remove_TurnStarted(Action`1 value)
+Void RemoveCreature(Creature creature)
+Task RemoveDeadPlayerCardsFromCombat(Player player)
+Void Reset(Boolean graceful)
+Task RunAutoPrePlayPhase(HookPlayerChoiceContext playerChoiceContext, Task setupPlayerTurnTask, Player player)
+Void set_DebugForcedTopCardOnNextShuffle(CardModel value)
+Void set_EndingPlayerTurnPhaseOne(Boolean value)
+Void set_EndingPlayerTurnPhaseTwo(Boolean value)
+Void set_IsEnemyTurnStarted(Boolean value)
+Void set_IsInProgress(Boolean value)
+Void set_IsPaused(Boolean value)
+Void set_IsStarting(Boolean value)
+Void set_PlayerActionsDisabled(Boolean value)
+Void SetPhaseForAllPlayers(PlayerTurnPhase phase)
+Void SetReadyToBeginEnemyTurn(Player player, Func`1 actionDuringEnemyTurn)
+Void SetReadyToEndTurn(Player player, Boolean canBackOut, Func`1 actionDuringEnemyTurn)
+Void SetUpCombat(CombatState state)
+Task SetupPlayerTurn(Player player, HookPlayerChoiceContext playerChoiceContext)
+Task StartCombatInternal()
+Task StartTurn(Func`1 actionDuringEnemyTurn)
+Task SwitchFromPlayerToEnemySide(Func`1 actionDuringEnemyTurn)
+Void SwitchSides()
+Void UndoReadyToEndTurn(Player player)
+Void Unpause()
+Task WaitForActionThenEndTurn(GameAction action, CombatState scheduledCombat, Int32 scheduledTurnNumber, Player scheduledPlayer, Func`1 actionDuringEnemyTurn)
+Task WaitForUnpause()
+Task WaitUntilQueueIsEmptyOrWaitingOnNonPlayerDrivenAction()
+PROP CancellationToken CombatCt
+PROP CardModel DebugForcedTopCardOnNextShuffle
+PROP Boolean EndingPlayerTurnPhaseOne
+PROP Boolean EndingPlayerTurnPhaseTwo
+PROP CombatHistory History
+PROP CombatManager Instance
+PROP Boolean IsAboutToLose
+PROP Boolean IsEnding
+PROP Boolean IsEnemyTurnStarted
+PROP Boolean IsInProgress
+PROP Boolean IsOverOrEnding
+PROP Boolean IsPaused
+PROP Boolean IsStarting
+PROP Boolean PlayerActionsDisabled
+PROP IReadOnlyList`1 PlayersTakingExtraTurn
+PROP CombatStateTracker StateTracker
+
+======== MegaCrit.Sts2.Core.Combat.CombatSide ========
+
+======== MegaCrit.Sts2.Core.Models.Powers.MinionPower ========
+Boolean get_OwnerIsSecondaryEnemy()
+Boolean get_ShouldPlayVfx()
+PowerStackType get_StackType()
+PowerType get_Type()
+Boolean ShouldOwnerDeathTriggerFatal()
+Boolean ShouldPowerBeRemovedAfterOwnerDeath()
+PROP Boolean OwnerIsSecondaryEnemy
+PROP Boolean ShouldPlayVfx
+PROP PowerStackType StackType
+PROP PowerType Type
+
+======== MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV1 ========
+Task AfterAddedToRoom()
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Void SetupSkins(MegaSprite spine, MegaSkeleton skeleton)
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+
+======== MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV2 ========
+Task AfterAddedToRoom()
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Void SetupSkins(MegaSprite spine, MegaSkeleton skeleton)
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+
+======== MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV3 ========
+Task AfterAddedToRoom()
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Void SetupSkins(MegaSprite spine, MegaSkeleton skeleton)
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+
+======== MegaCrit.Sts2.Core.Models.Monsters.Fabricator ========
+Boolean <GenerateMoveStateMachine>b__17_2()
+Boolean <GenerateMoveStateMachine>b__17_3()
+Boolean <SpawnBot>b__25_0(MonsterModel m)
+Task DisintegrateMove(IReadOnlyList`1 targets)
+Task FabricateMove(IReadOnlyList`1 targets)
+Task FabricatingStrikeMove(IReadOnlyList`1 targets)
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Boolean get_CanFabricate()
+Int32 get_DisintegrateDamage()
+Int32 get_FabricatingStrikeDamage()
+String get_HurtSfx()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Boolean get_ShouldFadeAfterDeath()
+Boolean ShouldShowMoveInBestiary(String moveStateId)
+Task SpawnAggroBot()
+Task SpawnBot(IEnumerable`1 options)
+Task SpawnDefensiveBot()
+PROP Boolean CanFabricate
+PROP Int32 DisintegrateDamage
+PROP Int32 FabricatingStrikeDamage
+PROP String HurtSfx
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP Boolean ShouldFadeAfterDeath
+
+======== MegaCrit.Sts2.Core.Models.Monsters.Zapbot ========
+Task <>n__0()
+Task AfterAddedToRoom()
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+DamageSfxType get_TakeDamageSfxType()
+Int32 get_ZapDamage()
+Task ZapMove(IReadOnlyList`1 targets)
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP DamageSfxType TakeDamageSfxType
+PROP Int32 ZapDamage
+
+======== MegaCrit.Sts2.Core.Models.Monsters.PunchConstruct ========
+Task <>n__0()
+Task AfterAddedToRoom()
+Task FastPunchMove(IReadOnlyList`1 targets)
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_FastPunchDamage()
+Int32 get_FastPunchRepeat()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Int32 get_StartingHpReduction()
+Boolean get_StartsWithFastPunch()
+Int32 get_StrongPunchDamage()
+DamageSfxType get_TakeDamageSfxType()
+Task ReadyMove(IReadOnlyList`1 targets)
+Void set_StartingHpReduction(Int32 value)
+Void set_StartsWithFastPunch(Boolean value)
+Task StrongPunchMove(IReadOnlyList`1 targets)
+PROP Int32 FastPunchDamage
+PROP Int32 FastPunchRepeat
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP Int32 StartingHpReduction
+PROP Boolean StartsWithFastPunch
+PROP Int32 StrongPunchDamage
+PROP DamageSfxType TakeDamageSfxType
+
+======== MegaCrit.Sts2.Core.Models.Monsters.Mocks.MockAttackAndSummonMinionMonster ========
+Task AttackAndSummonMinionMove(IReadOnlyList`1 targets)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Boolean get_IsMock()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+String get_VisualsPath()
+PROP Boolean IsMock
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP String VisualsPath
+
+======== MegaCrit.Sts2.Core.Models.Monsters.PhrogParasite ========
+Task <>n__0()
+Task AfterAddedToRoom()
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_LashDamage()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+DamageSfxType get_TakeDamageSfxType()
+Task InfectMove(IReadOnlyList`1 targets)
+Task LashMove(IReadOnlyList`1 targets)
+PROP Int32 LashDamage
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP DamageSfxType TakeDamageSfxType
+
+======== MegaCrit.Sts2.Core.Models.Monsters.Ovicopter ========
+Task <>n__0()
+Boolean <GenerateMoveStateMachine>b__25_0()
+Boolean <GenerateMoveStateMachine>b__25_1()
+Boolean <LayEggsMove>b__26_0(String s)
+Task AfterAddedToRoom()
+Void BeforeRemovedFromRoom()
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+String get_AttackSfx()
+Boolean get_CanLay()
+String get_DeathSfx()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Int32 get_NutritionalPasteStrengthAmount()
+Int32 get_SmashDamage()
+DamageSfxType get_TakeDamageSfxType()
+Int32 get_TenderizerDamage()
+Task LayEggsMove(IReadOnlyList`1 targets)
+Task NutritionalPasteMove(IReadOnlyList`1 targets)
+Boolean ShouldShowMoveInBestiary(String moveStateId)
+Task SmashMove(IReadOnlyList`1 targets)
+Task TenderizerMove(IReadOnlyList`1 targets)
+PROP String AttackSfx
+PROP Boolean CanLay
+PROP String DeathSfx
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP Int32 NutritionalPasteStrengthAmount
+PROP Int32 SmashDamage
+PROP DamageSfxType TakeDamageSfxType
+PROP Int32 TenderizerDamage
+
+======== MegaCrit.Sts2.Core.Models.Monsters.Osty ========
+static Boolean CheckMissingWithAnim(Player owner)
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+String get_DeathSfx()
+Boolean get_HasDeathSfx()
+Boolean get_IsHealthBarVisible()
+Int32 get_MaxInitialHp()
+static Vector2 get_MaxOffset()
+Int32 get_MinInitialHp()
+static Vector2 get_MinOffset()
+static Vector2 get_ScaleRange()
+PROP String DeathSfx
+PROP Boolean HasDeathSfx
+PROP Boolean IsHealthBarVisible
+PROP Int32 MaxInitialHp
+PROP Vector2 MaxOffset
+PROP Int32 MinInitialHp
+PROP Vector2 MinOffset
+PROP Vector2 ScaleRange
+
+======== MegaCrit.Sts2.Core.Models.Monsters.KinFollower ========
+Task <>n__0()
+Task AfterAddedToRoom()
+Task BoomerangMove(IReadOnlyList`1 targets)
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+IEnumerable`1 get_AssetPaths()
+Int32 get_BoomerangDamage()
+Int32 get_DanceStrength()
+String get_DeathSfx()
+String get_HurtSfx()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Int32 get_QuickSlashDamage()
+Boolean get_StartsWithDance()
+DamageSfxType get_TakeDamageSfxType()
+Task PowerDanceMove(IReadOnlyList`1 targets)
+Task QuickSlashMove(IReadOnlyList`1 targets)
+Void set_StartsWithDance(Boolean value)
+Void SetupSkins(MegaSprite spine, MegaSkeleton skeleton)
+PROP IEnumerable`1 AssetPaths
+PROP Int32 BoomerangDamage
+PROP Int32 DanceStrength
+PROP String DeathSfx
+PROP String HurtSfx
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP Int32 QuickSlashDamage
+PROP Boolean StartsWithDance
+PROP DamageSfxType TakeDamageSfxType
+
+======== MegaCrit.Sts2.Core.Models.Monsters.TorchHeadAmalgam ========
+Task <>n__0()
+Task AfterAddedToRoom()
+CreatureAnimator GenerateAnimator(MegaSprite controller)
+MonsterMoveStateMachine GenerateMoveStateMachine()
+Int32 get_MaxInitialHp()
+Int32 get_MinInitialHp()
+Int32 get_SoulBeamDamage()
+Int32 get_StrongTackleDamage()
+Int32 get_TackleDamage()
+DamageSfxType get_TakeDamageSfxType()
+Int32 get_WeakTackleDamage()
+Void OnDieToDoom()
+Task SoulBeamMove(IReadOnlyList`1 targets)
+Task StrongTackleMove(IReadOnlyList`1 targets)
+Task TackleMove(IReadOnlyList`1 targets)
+Task WeakTackleMove(IReadOnlyList`1 targets)
+PROP Int32 MaxInitialHp
+PROP Int32 MinInitialHp
+PROP Int32 SoulBeamDamage
+PROP Int32 StrongTackleDamage
+PROP Int32 TackleDamage
+PROP DamageSfxType TakeDamageSfxType
+PROP Int32 WeakTackleDamage
+
+======== TYPES matching spawn/ally/minion/summon/friend ========
+MegaCrit.Sts2.Core.Combat.History.Entries.SummonedEntry
+MegaCrit.Sts2.Core.Commands.CardCmd
+MegaCrit.Sts2.Core.Commands.CardPileCmd
+MegaCrit.Sts2.Core.Commands.CardSelectCmd
+MegaCrit.Sts2.Core.Commands.Cmd
+MegaCrit.Sts2.Core.Commands.CreatureCmd
+MegaCrit.Sts2.Core.Commands.DamageCmd
+MegaCrit.Sts2.Core.Commands.ForgeCmd
+MegaCrit.Sts2.Core.Commands.MapCmd
+MegaCrit.Sts2.Core.Commands.OrbCmd
+MegaCrit.Sts2.Core.Commands.OstyCmd
+MegaCrit.Sts2.Core.Commands.OstyCmd+<Summon>d__0
+MegaCrit.Sts2.Core.Commands.PlayerCmd
+MegaCrit.Sts2.Core.Commands.PlayerCmd+<AddPet>d__14`1
+MegaCrit.Sts2.Core.Commands.PlayerCmd+<AddPet>d__15
+MegaCrit.Sts2.Core.Commands.PotionCmd
+MegaCrit.Sts2.Core.Commands.PowerCmd
+MegaCrit.Sts2.Core.Commands.RelicCmd
+MegaCrit.Sts2.Core.Commands.RelicSelectCmd
+MegaCrit.Sts2.Core.Commands.RewardsCmd
+MegaCrit.Sts2.Core.Commands.SfxCmd
+MegaCrit.Sts2.Core.Commands.TalkCmd
+MegaCrit.Sts2.Core.Commands.ThinkCmd
+MegaCrit.Sts2.Core.Commands.VfxCmd
+MegaCrit.Sts2.Core.Debug.NCombatVfxSpawner
+MegaCrit.Sts2.Core.Debug.NCombatVfxSpawner+<SpawningVfx>d__23
+MegaCrit.Sts2.Core.Debug.NDebugVfxSpawner
+MegaCrit.Sts2.Core.Debug.NTrailTest+<DelaySpawn>d__1
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.AbstractConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.AbstractConsoleCmdSubtypes
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.AchievementConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.ActConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.AfflictConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.AncientConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.ApplyPowerConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.ArtConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.BestiaryConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.BlockConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.CardConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.CloudConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.DamageConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.DieConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.DrawConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.DumpConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.EnchantConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.EnergyConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.EventConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.FightConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.GetLogsConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.GodModeConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.GoldConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.HealConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.InstantConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.KillConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.LeaderboardConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.LogConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.MultiplayerConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.OpenConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.PotionConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.RelicConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.RemoveCardConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.RoomConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.SentryConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.StarsConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.TrailerConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.TravelConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.UnlockConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.UpgradeCardConsoleCmd
+MegaCrit.Sts2.Core.DevConsole.ConsoleCommands.WinConsoleCmd
+MegaCrit.Sts2.Core.Entities.Creatures.SummonResult
+MegaCrit.Sts2.Core.Helpers.Really
+MegaCrit.Sts2.Core.Hooks.Hook+<AfterSummon>d__78
+MegaCrit.Sts2.Core.Localization.DynamicVars.SummonVar
+MegaCrit.Sts2.Core.Models.Cards.Friendship
+MegaCrit.Sts2.Core.Models.Cards.MinionDiveBomb
+MegaCrit.Sts2.Core.Models.Cards.MinionSacrifice
+MegaCrit.Sts2.Core.Models.Cards.MinionStrike
+MegaCrit.Sts2.Core.Models.Cards.Rally
+MegaCrit.Sts2.Core.Models.Cards.SummonForth
+MegaCrit.Sts2.Core.Models.Enchantments.RoyallyApproved
+MegaCrit.Sts2.Core.Models.Encounters.Mocks.MockAttackAndSummonEncounter
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV1
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV2
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV3
+MegaCrit.Sts2.Core.Models.Monsters.Fabricator+<SpawnAggroBot>d__24
+MegaCrit.Sts2.Core.Models.Monsters.Fabricator+<SpawnBot>d__25
+MegaCrit.Sts2.Core.Models.Monsters.Fabricator+<SpawnDefensiveBot>d__23
+MegaCrit.Sts2.Core.Models.Monsters.FatGremlin+<SpawnedMove>d__16
+MegaCrit.Sts2.Core.Models.Monsters.Mocks.MockAttackAndSummonMinionMonster
+MegaCrit.Sts2.Core.Models.Monsters.Mocks.MockAttackAndSummonMinionMonster+<AttackAndSummonMinionMove>d__9
+MegaCrit.Sts2.Core.Models.Monsters.Queen+<PuppetStringsMove>d__41
+MegaCrit.Sts2.Core.Models.Monsters.SneakyGremlin+<SpawnedMove>d__18
+MegaCrit.Sts2.Core.Models.Monsters.TestSubject+<RespawnMove>d__74
+MegaCrit.Sts2.Core.Models.Powers.FriendshipPower
+MegaCrit.Sts2.Core.Models.Powers.MinionPower
+MegaCrit.Sts2.Core.Models.Powers.SummonNextTurnPower
+MegaCrit.Sts2.Core.Models.Relics.BoundPhylactery+<SummonPet>d__10
+MegaCrit.Sts2.Core.Models.Relics.Byrdpip+<SummonPet>d__18
+MegaCrit.Sts2.Core.Models.Relics.PaelsLegion+<SummonPet>d__38
+MegaCrit.Sts2.Core.Models.Relics.PetrifiedToad
+MegaCrit.Sts2.Core.Models.Relics.VitruvianMinion
+MegaCrit.Sts2.Core.MonsterMoves.Intents.SummonIntent
+MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom+PlayerAndPets
+MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox
+MegaCrit.Sts2.Core.Nodes.Screens.DailyRun.NDailyRunLeaderboard+<QueryFriendScores>d__36
+MegaCrit.Sts2.Core.Nodes.Screens.MainMenu.NJoinFriendButton
+MegaCrit.Sts2.Core.Nodes.Screens.MainMenu.NJoinFriendRefreshButton
+MegaCrit.Sts2.Core.Nodes.Screens.MainMenu.NJoinFriendScreen
+MegaCrit.Sts2.Core.Nodes.Screens.MainMenu.NJoinFriendScreen+<ShowFriends>d__21
+MegaCrit.Sts2.Core.Nodes.Screens.MainMenu.NJoinFriendScreenButtonLayout
+MegaCrit.Sts2.Core.Nodes.Screens.Timeline.NEpochSlot+<SpawnSlot>d__50
+MegaCrit.Sts2.Core.Nodes.Screens.Timeline.NEraColumn+<SpawnNameAndYear>d__21
+MegaCrit.Sts2.Core.Nodes.Screens.Timeline.NEraColumn+<SpawnSlots>d__20
+MegaCrit.Sts2.Core.Nodes.Screens.Timeline.NTimelineScreen+<SpawnEraLabel>d__61
+MegaCrit.Sts2.Core.Nodes.Screens.Timeline.NTimelineScreen+<SpawnFirstTimeTimeline>d__37
+MegaCrit.Sts2.Core.Nodes.Vfx.NMinionDiveBombVfx
+MegaCrit.Sts2.Core.Nodes.Vfx.NVfxSpawner
+NPlasmaOrbVfx+<SpawnProjectile>d__4
+
+======== Monster methods containing Spawn/Summon/Add ========
+MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.AddCreature(Creature creature) -> Void
+MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.CreateAllyNodes() -> Void
+MegaCrit.Sts2.Core.Models.AbstractModel.AfterSummon(PlayerChoiceContext choiceContext, Player summoner, Decimal amount) -> Task
+MegaCrit.Sts2.Core.Models.AbstractModel.ModifySummonAmount(Player summoner, Decimal amount, AbstractModel source) -> Decimal
+MegaCrit.Sts2.Core.Models.MonsterModel.get_SpawnedThisTurn() -> Boolean
+MegaCrit.Sts2.Core.Models.MonsterModel.set_SpawnedThisTurn(Boolean value) -> Void
+MegaCrit.Sts2.Core.Combat.CombatState.AddCreature(Creature creature) -> Void
+MegaCrit.Sts2.Core.Combat.CombatState.CreateCreature(MonsterModel monster, CombatSide side, String slot) -> Creature
+
+======== Types with Zap/Machine/Fabricator ========
+MegaCrit.Sts2.Core.Models.Badges.MysteryMachine : Badge
+MegaCrit.Sts2.Core.Models.Cards.MachineLearning : CardModel
+MegaCrit.Sts2.Core.Models.Cards.Zap : CardModel
+MegaCrit.Sts2.Core.Models.Encounters.FabricatorNormal : EncounterModel
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV1 : MonsterModel
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV2 : MonsterModel
+MegaCrit.Sts2.Core.Models.Monsters.BattleFriendV3 : MonsterModel
+MegaCrit.Sts2.Core.Models.Monsters.Fabricator : MonsterModel
+MegaCrit.Sts2.Core.Models.Monsters.Zapbot : MonsterModel
+MegaCrit.Sts2.Core.Models.Monsters.Zapbot+<ZapMove>d__10 : ValueType
+MegaCrit.Sts2.Core.Models.Powers.MachineLearningPower : PowerModel
+MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine.MonsterMoveStateMachine : Object

@@ -1,0 +1,120 @@
+======================================================================
+AFTERIMAGE_POWER
+  ENG title: Afterimage
+  JPN title: 残像
+  ENG description: Whenever you play a card, gain [blue]1[/blue] [gold]Block[/gold].
+  JPN description: カードをプレイするたび、[blue]1[/blue][gold]ブロック[/gold]を得る。
+  ENG smartDescription: Whenever you play a card, gain [blue]{Amount}[/blue] [gold]Block[/gold].
+  JPN smartDescription: カードをプレイするたび、[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。
+======================================================================
+REGEN_POWER
+  ENG title: Regen
+  JPN title: 再生
+  ENG description: [gold]Regen[/gold] heals HP at the end of your turn. Each turn, [gold]Regen[/gold] is reduced by [blue]1[/blue].
+  JPN description: ターン終了時、[gold]再生[/gold]によりHPを回復する。毎ターン、[gold]再生[/gold]は[blue]1[/blue]減少する。
+  ENG smartDescription: At the end of your turn, heal [blue]{Amount}[/blue] HP, then reduce [gold]Regen[/gold] by [blue]1[/blue].
+  JPN smartDescription: ターン終了時、HPを[blue]{Amount}[/blue]回復し、[gold]再生[/gold]が[blue]1[/blue]減少する。
+======================================================================
+NOXIOUS_FUMES_POWER
+  ENG title: Noxious Fumes
+  JPN title: 有毒ガス
+  ENG description: At the start of your turn, apply [blue]2[/blue] [gold]Poison[/gold] to ALL enemies.
+  JPN description: ターン開始時、すべての敵に[gold]毒[/gold][blue]2[/blue]を付与する。
+  ENG smartDescription: At the start of your turn, apply [blue]{Amount}[/blue] [gold]Poison[/gold] to ALL enemies.
+  JPN smartDescription: ターン開始時、すべての敵に[gold]毒[/gold][blue]{Amount}[/blue]を付与する。
+======================================================================
+INFINITE_BLADES_POWER
+  ENG title: Infinite Blades
+  JPN title: 無限の刃
+  ENG description: At the start of your turn, add a [gold]Shiv[/gold] into your [gold]Hand[/gold].
+  JPN description: ターン開始時、[gold]ナイフ[/gold]を1枚[gold]手札[/gold]に加える。
+  ENG smartDescription: At the start of your turn, add {Amount:plural:a [gold]Shiv[/gold]|[blue]{}[/blue] [gold]Shivs[/gold]} into your [gold]Hand[/gold].
+  JPN smartDescription: ターン開始時、[gold]ナイフ[/gold]を[blue]{Amount}[/blue]枚[gold]手札[/gold]に加える。
+======================================================================
+TOOLS_OF_THE_TRADE_POWER
+  ENG title: Tools of the Trade
+  JPN title: 商売道具
+  ENG description: At the start of your turn, draw [blue]1[/blue] card and discard [blue]1[/blue] card.
+  JPN description: ターン開始時、カードを[blue]1[/blue]枚引き、カードを[blue]1[/blue]枚捨てる。
+  ENG smartDescription: At the start of your turn, draw [blue]{Amount}[/blue] {Amount:plural:card|cards} and discard [blue]{Amount}[/blue] {Amount:plural:card|cards}.
+  JPN smartDescription: ターン開始時、カードを[blue]{Amount}[/blue]枚引き、カードを[blue]{Amount}[/blue]枚捨てる。
+======================================================================
+DARK_EMBRACE_POWER
+  ENG title: Dark Embrace
+  JPN title: 闇の抱擁
+  ENG description: Whenever a card is [gold]Exhausted[/gold], draw [blue]1[/blue] card.
+  JPN description: カードが[gold]廃棄[/gold]されるたび、カードを[blue]1[/blue]枚引く。
+  ENG smartDescription: Whenever a card is [gold]Exhausted[/gold], draw [blue]{Amount}[/blue] {Amount:plural:card|cards}.
+  JPN smartDescription: カードが[gold]廃棄[/gold]されるたび、カードを[blue]{Amount}[/blue]枚引く。
+======================================================================
+RUPTURE_POWER
+  ENG title: Rupture
+  JPN title: 血の沸騰
+  ENG description: Whenever you lose HP on your turn, gain [blue]1[/blue] [gold]Strength[/gold].
+  JPN description: このターン、HPを失うたび、[gold]筋力[/gold][blue]1[/blue]を得る。
+  ENG smartDescription: Whenever you lose HP on your turn, gain [blue]{Amount}[/blue] [gold]Strength[/gold].
+  JPN smartDescription: このターン、HPを失うたび、[gold]筋力[/gold][blue]{Amount}[/blue]を得る。
+======================================================================
+A_THOUSAND_CUTS_POWER
+  ENG title: A Thousand Cuts
+  JPN title: サウザンドカット
+  ENG description: Whenever you play a card, deal [blue]1[/blue] damage to ALL enemies.
+  JPN description: カードをプレイするたび、すべての敵に[blue]1[/blue]ダメージを与える。
+  ENG smartDescription: Whenever you play a card, deal [blue]{Amount}[/blue] damage to ALL enemies.
+  JPN smartDescription: カードをプレイするたび、すべての敵に[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+PANACHE_POWER
+  ENG title: Panache
+  JPN title: 威風堂々
+  ENG description: If you play [blue]5[/blue] cards this turn, deal damage to ALL enemies.
+  JPN description: このターン、カードを[blue]5[/blue]枚プレイした場合、すべての敵にダメージを与える。
+  ENG smartDescription: If you play [blue]{CardsLeft}[/blue] more {CardsLeft:plural:card|cards} this turn, deal [blue]{Amount}[/blue] damage to ALL enemies.
+  JPN smartDescription: このターン、あと[blue]{CardsLeft}[/blue]枚プレイした場合、すべての敵に[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+JUGGERNAUT_POWER
+  ENG title: Juggernaut
+  JPN title: ジャガーノート
+  ENG description: Whenever you gain [gold]Block[/gold], deal [blue]6[/blue] damage to a random enemy.
+  JPN description: [gold]ブロック[/gold]を得るたび、ランダムな敵に[blue]6[/blue]ダメージを与える。
+  ENG smartDescription: Whenever you gain [gold]Block[/gold], deal [blue]{Amount}[/blue] damage to a random enemy.
+  JPN smartDescription: [gold]ブロック[/gold]を得るたび、ランダムな敵に[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+CORRUPTION_POWER
+  ENG title: Corruption
+  JPN title: 堕落
+  ENG description: Skills cost [blue]0[/blue].
+Whenever you play a Skill, [gold]Exhaust[/gold] it.
+  JPN description: スキルのコストは[blue]0[/blue]。
+スキルをプレイするたび、それを[gold]廃棄[/gold]する。
+  ENG smartDescription: MISSING
+  JPN smartDescription: MISSING
+======================================================================
+WELL_LAID_PLANS_POWER
+  ENG title: Well-Laid Plans
+  JPN title: 用意周到
+  ENG description: At the end of your turn, you no longer discard your [gold]Hand[/gold].
+  JPN description: ターン終了時、[gold]手札[/gold]を捨てなくなる。
+  ENG smartDescription: At the end of your turn, you no longer discard your [gold]Hand[/gold].
+  JPN smartDescription: ターン終了時、[gold]手札[/gold]を捨てなくなる。
+======================================================================
+ENRAGE_POWER
+  ENG title: Enrage
+  JPN title: 激怒
+  ENG description: Whenever you play a Skill, gains [blue]2[/blue] [gold]Strength[/gold].
+  JPN description: スキルをプレイするたび、[gold]筋力[/gold][blue]2[/blue]を得る。
+  ENG smartDescription: Whenever you play a Skill, gains [blue]{Amount}[/blue] [gold]Strength[/gold].
+  JPN smartDescription: スキルをプレイするたび、[gold]筋力[/gold][blue]{Amount}[/blue]を得る。
+======================================================================
+CURL_UP_POWER
+  ENG title: Curl Up
+  JPN title: まるくなる
+  ENG description: When damaged, rolls up and gains block. (Once per combat)
+  JPN description: ダメージを受けた時、丸まってブロックを得る。（各戦闘1回のみ）
+  ENG smartDescription: Gains [blue]{Amount}[/blue] [gold]Block[/gold] upon first being hit.
+  JPN smartDescription: 初めて攻撃を受けた時、[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。
+MISSING SHARP_HIDE_POWER cands=[]
+MISSING MODE_SHIFT_POWER cands=[]
+MISSING ANGRY_POWER cands=[]
+MISSING SPORE_CLOUD_POWER cands=[]
+MISSING EXPLOSIVE_POWER cands=[]
+MISSING SPLIT_POWER cands=[]

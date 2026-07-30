@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\bin\Release\net8.0\DumpAnimTriggers.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\bin\Release\net8.0\DumpAnimTriggers.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\bin\Release\net8.0\DumpAnimTriggers.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\bin\Release\net8.0\DumpAnimTriggers.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\bin\Release\net8.0\DumpAnimTriggers.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\refint\DumpAnimTriggers.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\DumpAnimTriggers.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAnimTriggers\obj\Release\net8.0\ref\DumpAnimTriggers.dll

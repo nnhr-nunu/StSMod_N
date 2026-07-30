@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\bin\Release\net9.0\DumpTurnOrder.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\bin\Release\net9.0\DumpTurnOrder.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\bin\Release\net9.0\DumpTurnOrder.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\bin\Release\net9.0\DumpTurnOrder.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\bin\Release\net9.0\DumpTurnOrder.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\refint\DumpTurnOrder.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\DumpTurnOrder.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpTurnOrder\obj\Release\net9.0\ref\DumpTurnOrder.dll

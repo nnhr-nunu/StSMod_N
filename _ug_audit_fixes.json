@@ -1,0 +1,592 @@
+[
+  {
+    "no": 5,
+    "class": "CardiacArrestHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/CardiacArrestHypnosis.cs",
+        "what": "UG relic timing",
+        "from": "RelicCmd.Obtain on play when upgraded",
+        "to": "Grant bonus relic in CardiacArrestPower when heart stops (upgraded only)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 7,
+    "class": "Sensitivity3000",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Powers/SensitivityPower.cs",
+        "what": "Damage multiplier BASE",
+        "from": "3m (×3)",
+        "to": "3000m (×3000) per CSV",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Sensitivity3000.cs",
+        "what": "UG cost",
+        "from": "cost 2",
+        "to": "EnergyCost.UpgradeBy(-1) → cost 1 (already OK if present)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 15,
+    "class": "Prefinger",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Prefinger.cs",
+        "what": "BASE debuffs",
+        "from": "FrailPower(1)+WeakPower(1)",
+        "to": "VulnerablePower(1)+WeakPower(1)",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Prefinger.cs",
+        "what": "UG debuffs",
+        "from": "Frail2+Weak2",
+        "to": "Vulnerable2+Weak2 (UpgradeValueBy +1 each)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 16,
+    "class": "Rapport",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/Rapport.cs",
+        "what": "BASE on-play count advance",
+        "from": "Power apply only",
+        "to": "Advance hand count by 1 on play",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Powers/RapportPower.cs",
+        "what": "UG turn-start rule",
+        "from": "Stacks=2 unconditional -2",
+        "to": "Turn start always +1 count advance (remove no-attack condition)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 20,
+    "class": "LoveHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/LoveHypnosis.cs",
+        "what": "BASE intent redirect",
+        "from": "ConfusedPower(2) stub",
+        "to": "Redirect buff intent target to player; Trance 1",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/LoveHypnosis.cs",
+        "what": "UG condition",
+        "from": "Confused3+Weak1",
+        "to": "Also redirect block intents (no Confused/Weak)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 29,
+    "class": "CanDoIt",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/CanDoIt.cs",
+        "what": "Replace entire effect",
+        "from": "Trance2+Block5; UG Trance3",
+        "to": "FrailPower(1)+BogPower(1); UG Frail+1",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 33,
+    "class": "PlantParasiteHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/PlantParasiteHypnosis.cs",
+        "what": "BASE upfront damage",
+        "from": "No DamageVar",
+        "to": "DamageVar(15) + Attack on play",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/PlantParasiteHypnosis.cs",
+        "what": "UG per-turn HP loss",
+        "from": "Constrict 10→15",
+        "to": "Constrict +5 → 15 (likely OK if Constrict=HP loss)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 35,
+    "class": "FingerCount",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/FingerCount.cs",
+        "what": "Replace entire effect",
+        "from": "Draw 2; UG Draw 3",
+        "to": "Reduce all hand Count card costs by 1; UG EnergyCost→0",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 37,
+    "class": "LullabyHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/LullabyHypnosis.cs",
+        "what": "Heal target",
+        "from": "Heal(Owner.Creature) 20/30",
+        "to": "Heal(play.Target) 20/30",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 39,
+    "class": "AbdominalStrike",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/AbdominalStrike.cs",
+        "what": "BASE damage",
+        "from": "DamageVar(8M)",
+        "to": "DamageVar(16M)",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/AbdominalStrike.cs",
+        "what": "BASE vulnerable",
+        "from": "none",
+        "to": "VulnerablePower(2) on play",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/AbdominalStrike.cs",
+        "what": "UG damage",
+        "from": "UpgradeValueBy(3M) → 11",
+        "to": "UpgradeValueBy(4M) → 20",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 40,
+    "class": "SenseShare",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/SenseShare.cs",
+        "what": "Replace effect",
+        "from": "Frail1+Block4",
+        "to": "This turn: single-target attacks hit all enemies (Power/patch)",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/SenseShare.cs",
+        "what": "UG cost",
+        "from": "Block.UpgradeValueBy(3)",
+        "to": "EnergyCost.UpgradeBy(-1) → cost 0",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 42,
+    "class": "Kick",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Kick.cs",
+        "what": "UG card destination",
+        "from": "Add new Kick copy to draw pile",
+        "to": "Played card goes to draw pile after play",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 44,
+    "class": "GazeLight",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/GazeLight.cs",
+        "what": "Debuff type",
+        "from": "WeakPower (弱体)",
+        "to": "FrailPower (脱力) 1→2 on UG",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 45,
+    "class": "Stare",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Stare.cs",
+        "what": "UG behavior",
+        "from": "Damage.UpgradeValueBy(3M)",
+        "to": "Advance hand count by 1 (CountRules pattern)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 47,
+    "class": "Punishment",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/Punishment.cs",
+        "what": "Replace scaling damage",
+        "from": "Flat DamageVar(9)+Doom5; UG 13",
+        "to": "8×attacks-on-player (13 if UG); remove flat doom unless CSV intended",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 50,
+    "class": "Mastery",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Powers/MasteryPower.cs",
+        "what": "Record all count plays",
+        "from": "Skip if cardPlay.Card.IsUpgraded",
+        "to": "Record every count card played",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 54,
+    "class": "TentacleRecall",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/TentacleRecall.cs",
+        "what": "Remove extra damage",
+        "from": "DamageVar(9M)+Constrict5",
+        "to": "ConstrictPower(5) only; UG Constrict+2→7",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 55,
+    "class": "InfiniteUpgradeString",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/InfiniteUpgradeString.cs",
+        "what": "HP loss target",
+        "from": "Owner loses HP",
+        "to": "play.Target loses HP (15 base, +7 per upgrade)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 59,
+    "class": "Relax",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Token/Relax.cs",
+        "what": "Debuff type",
+        "from": "WeakPower(1M)",
+        "to": "FrailPower(1M)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 77,
+    "class": "AsYouWish",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Powers/AsYouWishPower.cs",
+        "what": "UG per-fetish bonuses",
+        "from": "Uniform Stacks+1 → Str+2/Vigor+4/no Dex",
+        "to": "Abn: Str1+Dex1; SM: Vigor3; DomSub: Block2",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 79,
+    "class": "MentalCare",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/MentalCare.cs",
+        "what": "Replace effect",
+        "from": "Remove Vuln/Weak only; Block4; no Bog",
+        "to": "Remove all debuffs except Doom; 8 Block per type; Bog1; UG 10+ Bog2",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 81,
+    "class": "FetishChampion",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/FetishChampion.cs",
+        "what": "Replace effect",
+        "from": "Awaken all fetishes + Doom8",
+        "to": "Deal 20×fetish-count damage (25 if UG)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 82,
+    "class": "KnowItAll",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/KnowItAll.cs",
+        "what": "BASE multiplier",
+        "from": "Multiplier 1.5 (base 1 + 0.5)",
+        "to": "Multiplier 2.0 (double on hit)",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/KnowItAll.cs",
+        "what": "UG innate",
+        "from": "Multiplier.UpgradeValueBy(0.5)",
+        "to": "AddKeyword(Innate) per CSV 天賦",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 84,
+    "class": "Ericksonian",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/Ericksonian.cs",
+        "what": "Replace effect",
+        "from": "Apply Weak1+Vulnerable1; UG +1 each",
+        "to": "Power: on fetish hit advance hand count; UG EnergyCost→0",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 87,
+    "class": "ZeroShortcut",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/ZeroShortcut.cs",
+        "what": "BASE block loop",
+        "from": "No block gain",
+        "to": "Repeat 3→2→1→0 block + zero hand count costs",
+        "ug_infer": false
+      },
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/ZeroShortcut.cs",
+        "what": "UG cost",
+        "from": "No OnUpgrade",
+        "to": "EnergyCost.UpgradeBy(-1) → cost 2",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 92,
+    "class": "HypnosisIntro",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Basic/HypnosisIntro.cs",
+        "what": "Replace effect",
+        "from": "Trance1+Doom4; UG Doom+4",
+        "to": "Draw 2 (decreases on same-target same-name); UG Draw 3",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 93,
+    "class": "OverFocus",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/OverFocus.cs",
+        "what": "Replace effect",
+        "from": "EnemyFetishSlots +1; UG +1 slot",
+        "to": "Gain 1 Energy per skill in hand; Exhaust; UG Remove Exhaust",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 94,
+    "class": "BottomlessBog",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/BottomlessBog.cs",
+        "what": "Replace effect",
+        "from": "Apply BogPower(3); UG Bog5",
+        "to": "Power: EOT apply Doom 10×(Trance+Bog); UG Doom 15",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 95,
+    "class": "RitualReveal",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/RitualReveal.cs",
+        "what": "Replace effect",
+        "from": "Random fetish + Doom5; UG Doom+5",
+        "to": "Innate; search deck for 2 count cards (fetish-priority); Exhaust; UG cost 0",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 96,
+    "class": "HeartbeatShare",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/HeartbeatShare.cs",
+        "what": "Share heart effects",
+        "from": "Grant StolenHeart relic to ally/allies",
+        "to": "Share owned heart relic passive effects (1 ally / all if UG)",
+        "ug_infer": false
+      }
+    ]
+  },
+  {
+    "no": 4,
+    "class": "SlimeHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/SlimeHypnosis.cs",
+        "what": "UG slime count ambiguity",
+        "from": "Slimed 5→8 (+3)",
+        "to": "Confirm CSV '3' = absolute 3 or +3; adjust Slimed UG target",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 17,
+    "class": "Catalepsy",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Common/Catalepsy.cs",
+        "what": "UG slow amount vs persist-only",
+        "from": "Slow+1 AND PersistIfTranced",
+        "to": "Confirm if UG should only add persist-without-reset",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 18,
+    "class": "StatusHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/StatusHypnosis.cs",
+        "what": "BASE mechanics unimplemented",
+        "from": "Marker power only",
+        "to": "Allow status/curse cards on tranced enemies",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 28,
+    "class": "BrainSlimeHypnosis",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/BrainSlimeHypnosis.cs",
+        "what": "Extra ConfusedPower",
+        "from": "Redirect + Confused1",
+        "to": "Confirm if Confused is intentional beyond CSV",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 52,
+    "class": "MeltIntoTrance",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Utils/TranceFallTracker.cs",
+        "what": "Trance fall count semantics",
+        "from": "Total trance stacks applied",
+        "to": "Confirm: discrete fall events vs cumulative stacks for ×15/×20 dmg",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 72,
+    "class": "HundredEight",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Rare/HundredEight.cs",
+        "what": "UG shuffle into deck",
+        "from": "No OnUpgrade",
+        "to": "Override play destination to draw pile when upgraded",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 80,
+    "class": "Proselytize",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Powers/OshiActivityPower.cs",
+        "what": "Extra EOT doom/bog copy",
+        "from": "Turn end copy debuffs",
+        "to": "Confirm if 推し活 includes this beyond CSV prose",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 89,
+    "class": "MarshmallowAnswer",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/MarshmallowAnswer.cs",
+        "what": "Block overwrite vs curse add",
+        "from": "Curse then block39+bog2",
+        "to": "Confirm if attack intent replaces curse addition",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 91,
+    "class": "CollarTraining",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/CollarTraining.cs",
+        "what": "Damage when not pulled",
+        "from": "9dmg if not already pulled",
+        "to": "Confirm if default attack dmg when pull fails is intended",
+        "ug_infer": true
+      }
+    ]
+  },
+  {
+    "no": 98,
+    "class": "FreeHug",
+    "fixes": [
+      {
+        "file": "HypnosisCreatorCode/Cards/Uncommon/FreeHug.cs",
+        "what": "Damage when not pulled",
+        "from": "6dmg if not already pulled",
+        "to": "Confirm if default attack dmg when pull fails is intended",
+        "ug_infer": true
+      }
+    ]
+  }
+]

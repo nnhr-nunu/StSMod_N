@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\bin\Release\net8.0\DumpGold.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\bin\Release\net8.0\DumpGold.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\bin\Release\net8.0\DumpGold.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\bin\Release\net8.0\DumpGold.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\bin\Release\net8.0\DumpGold.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\refint\DumpGold.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\DumpGold.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpGold\obj\Release\net8.0\ref\DumpGold.dll

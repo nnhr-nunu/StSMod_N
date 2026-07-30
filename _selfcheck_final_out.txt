@@ -1,0 +1,21 @@
+Fetish mismatches: 12
+Traceback (most recent call last):
+  No.  2 呼吸制御 (BreathControl): csv=['Sm'] code=[] build='性癖：SM'
+  No.  6 時止めストライク (TimeStopStrike): csv=['Sm'] code=['Sm', 'Trance'] build='トランス, 性癖：SM'
+  No. 11 アブノーマル (AbnormalTransform): csv=['Abnormal'] code=[] build='性癖：アブノーマル'
+  No. 57 Look! (Look): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 59 Relax! (Relax): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 60 Present! (Present): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 61 Trance! (Trance): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 63 Don't Move! (DontMove): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 64 Roll! (Roll): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 65 Cum! (Cum): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 66 Good! (Good): csv=['DomSub'] code=[] build='性癖：DomSub'
+  No. 72 壱佰捌煩悩 (HundredEight): csv=['Abnormal', 'DomSub', 'Sm'] code=['Abnormal', 'DomSub', 'Sm', 'Trance'] build='性癖：アブノーマル, 性癖：SM, 性癖：DomSub, 心臓'
+
+JP desc drift (exact): 0
+
+=== SPOT CHECKS ===
+  File "D:\Dev\antigravity\StSMod_N\_selfcheck_final.py", line 124, in <module>
+    print(f"\nNo.{no} {CSV[no]['name']} \u2014 {note}")
+UnicodeEncodeError: 'cp932' codec can't encode character '\u2014' in position 12: illegal multibyte sequence

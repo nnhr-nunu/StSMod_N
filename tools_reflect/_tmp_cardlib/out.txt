@@ -1,0 +1,1525 @@
+
+================ MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid ================
+
+######## NCardGrid.SetCards(IReadOnlyList`1 cardsToDisplay, PileType pileType, List`1 sortingPriority, Task taskToWaitOn) ret=Void ########
+  0000: IL_0000: newobj System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::.ctor()
+  0005: IL_0005: stloc.0
+  0006: IL_0006: ldloc.0
+  0007: IL_0007: ldarg.3
+  0008: IL_0008: stfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::sortingPriority
+  000D: IL_000d: ldloc.0
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::<>4__this
+  0014: IL_0014: ldarg.0
+  0015: IL_0015: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  001A: IL_001a: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  001F: IL_001f: ldarg.0
+  0020: IL_0020: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  0025: IL_0025: ldarg.1
+  0026: IL_0026: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::AddRange(System.Collections.Generic.IEnumerable`1<!0>)
+  002B: IL_002b: ldloc.0
+  002C: IL_002c: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::sortingPriority
+  0031: IL_0031: ldc.i4.0
+  0032: IL_0032: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>::get_Item(System.Int32)
+  0037: IL_0037: ldc.i4.s 9
+  0039: IL_0039: bne.un.s IL_0048
+  003B: IL_003b: ldarg.0
+  003C: IL_003c: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  0041: IL_0041: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Reverse()
+  0046: IL_0046: br.s IL_006e
+  0048: IL_0048: ldloc.0
+  0049: IL_0049: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::sortingPriority
+  004E: IL_004e: ldc.i4.0
+  004F: IL_004f: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>::get_Item(System.Int32)
+  0054: IL_0054: ldc.i4.8
+  0055: IL_0055: beq.s IL_006e
+  0057: IL_0057: ldarg.0
+  0058: IL_0058: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  005D: IL_005d: ldloc.0
+  005E: IL_005e: ldftn System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c__DisplayClass78_0::<SetCards>b__0(MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel)
+  0064: IL_0064: newobj System.Void System.Comparison`1<MegaCrit.Sts2.Core.Models.CardModel>::.ctor(System.Object,System.IntPtr)
+  0069: IL_0069: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Sort(System.Comparison`1<!0>)
+  006E: IL_006e: ldarg.0
+  006F: IL_006f: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_IsCardLibrary()
+  0074: IL_0074: brfalse.s IL_00e3
+  0076: IL_0076: ldarg.0
+  0077: IL_0077: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_sortedCardsCache
+  007C: IL_007c: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  0081: IL_0081: ldarg.0
+  0082: IL_0082: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_sortedCardsCache
+  0087: IL_0087: ldarg.0
+  0088: IL_0088: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  008D: IL_008d: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c::<>9__78_1
+  0092: IL_0092: dup
+  0093: IL_0093: brtrue.s IL_00ac
+  0095: IL_0095: pop
+  0096: IL_0096: ldsfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c::<>9
+  009B: IL_009b: ldftn MegaCrit.Sts2.Core.Models.CardModel MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c::<SetCards>b__78_1(MegaCrit.Sts2.Core.Models.CardModel)
+  00A1: IL_00a1: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel>::.ctor(System.Object,System.IntPtr)
+  00A6: IL_00a6: dup
+  00A7: IL_00a7: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<>c::<>9__78_1
+  00AC: IL_00ac: ldarg.0
+  00AD: IL_00ad: ldftn System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::CompareCardVisibility(MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel)
+  00B3: IL_00b3: newobj System.Void System.Comparison`1<MegaCrit.Sts2.Core.Models.CardModel>::.ctor(System.Object,System.IntPtr)
+  00B8: IL_00b8: call System.Collections.Generic.Comparer`1<!0> System.Collections.Generic.Comparer`1<MegaCrit.Sts2.Core.Models.CardModel>::Create(System.Comparison`1<!0>)
+  00BD: IL_00bd: call System.Linq.IOrderedEnumerable`1<!!0> System.Linq.Enumerable::OrderBy<MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>,System.Func`2<!!0,!!1>,System.Collections.Generic.IComparer`1<!!1>)
+  00C2: IL_00c2: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::AddRange(System.Collections.Generic.IEnumerable`1<!0>)
+  00C7: IL_00c7: ldarg.0
+  00C8: IL_00c8: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  00CD: IL_00cd: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  00D2: IL_00d2: ldarg.0
+  00D3: IL_00d3: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  00D8: IL_00d8: ldarg.0
+  00D9: IL_00d9: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_sortedCardsCache
+  00DE: IL_00de: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::AddRange(System.Collections.Generic.IEnumerable`1<!0>)
+  00E3: IL_00e3: ldarg.0
+  00E4: IL_00e4: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  00E9: IL_00e9: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  00EE: IL_00ee: ldarg.0
+  00EF: IL_00ef: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  00F4: IL_00f4: ldarg.0
+  00F5: IL_00f5: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  00FA: IL_00fa: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::AddRange(System.Collections.Generic.IEnumerable`1<!0>)
+  00FF: IL_00ff: ldarg.0
+  0100: IL_0100: ldarg.2
+  0101: IL_0101: stfld MegaCrit.Sts2.Core.Entities.Cards.PileType MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_pileType
+  0106: IL_0106: ldarg.0
+  0107: IL_0107: ldfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsAnimatingOutForSetCards
+  010C: IL_010c: brfalse.s IL_010f
+  010E: IL_010e: ret
+  010F: IL_010f: ldarg.0
+  0110: IL_0110: ldarg.s taskToWaitOn
+  0112: IL_0112: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::InitGrid(System.Threading.Tasks.Task)
+  0117: IL_0117: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Helpers.TaskHelper::RunSafely(System.Threading.Tasks.Task)
+  011C: IL_011c: pop
+  011D: IL_011d: ret
+
+######## NCardGrid.AllocateCardHolders() ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0006: IL_0006: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  000B: IL_000b: brtrue.s IL_000e
+  000D: IL_000d: ret
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: call Godot.Rect2 Godot.CanvasItem::GetViewportRect()
+  0014: IL_0014: stloc.0
+  0015: IL_0015: ldloca.s V_0
+  0017: IL_0017: call Godot.Vector2 Godot.Rect2::get_Size()
+  001C: IL_001c: ldfld System.Single Godot.Vector2::Y
+  0021: IL_0021: stloc.1
+  0022: IL_0022: ldloc.1
+  0023: IL_0023: stloc.2
+  0024: IL_0024: ldarg.0
+  0025: IL_0025: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  002A: IL_002a: ldc.i4.0
+  002B: IL_002b: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0030: IL_0030: stloc.3
+  0031: IL_0031: ldloc.3
+  0032: IL_0032: ldc.i4.0
+  0033: IL_0033: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0038: IL_0038: callvirt Godot.Vector2 Godot.Control::get_GlobalPosition()
+  003D: IL_003d: ldfld System.Single Godot.Vector2::Y
+  0042: IL_0042: stloc.s V_4
+  0044: IL_0044: ldarg.0
+  0045: IL_0045: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  004A: IL_004a: dup
+  004B: IL_004b: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  0050: IL_0050: ldc.i4.1
+  0051: IL_0051: sub
+  0052: IL_0052: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0057: IL_0057: stloc.s V_5
+  0059: IL_0059: ldloc.s V_5
+  005B: IL_005b: ldc.i4.0
+  005C: IL_005c: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0061: IL_0061: callvirt Godot.Vector2 Godot.Control::get_GlobalPosition()
+  0066: IL_0066: ldfld System.Single Godot.Vector2::Y
+  006B: IL_006b: stloc.s V_6
+  006D: IL_006d: ldloc.s V_4
+  006F: IL_006f: ldc.r4 0
+  0074: IL_0074: sub
+  0075: IL_0075: call System.Single Godot.Mathf::Abs(System.Single)
+  007A: IL_007a: ldarg.0
+  007B: IL_007b: call Godot.Vector2 Godot.Control::get_Size()
+  0080: IL_0080: ldfld System.Single Godot.Vector2::Y
+  0085: IL_0085: ldc.r4 2
+  008A: IL_008a: mul
+  008B: IL_008b: ble.un.s IL_0094
+  008D: IL_008d: ldarg.0
+  008E: IL_008e: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::ReallocateAll()
+  0093: IL_0093: ret
+  0094: IL_0094: ldloc.s V_4
+  0096: IL_0096: ldc.r4 0
+  009B: IL_009b: ble.un.s IL_00b7
+  009D: IL_009d: ldarg.0
+  009E: IL_009e: ldarg.0
+  009F: IL_009f: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00A4: IL_00a4: dup
+  00A5: IL_00a5: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  00AA: IL_00aa: ldc.i4.1
+  00AB: IL_00ab: sub
+  00AC: IL_00ac: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  00B1: IL_00b1: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::ReallocateAbove(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>)
+  00B6: IL_00b6: ret
+  00B7: IL_00b7: ldloc.s V_6
+  00B9: IL_00b9: ldloc.2
+  00BA: IL_00ba: bge.un.s IL_00ce
+  00BC: IL_00bc: ldarg.0
+  00BD: IL_00bd: ldarg.0
+  00BE: IL_00be: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00C3: IL_00c3: ldc.i4.0
+  00C4: IL_00c4: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  00C9: IL_00c9: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::ReallocateBelow(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>)
+  00CE: IL_00ce: ret
+
+######## NCardGrid.AssignCardsToRow(List`1 row, Int32 startIndex) ret=Void ########
+  0000: IL_0000: ldc.i4.0
+  0001: IL_0001: stloc.0
+  0002: IL_0002: br IL_0099
+  0007: IL_0007: ldarg.1
+  0008: IL_0008: ldloc.0
+  0009: IL_0009: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  000E: IL_000e: stloc.1
+  000F: IL_000f: ldarg.2
+  0010: IL_0010: ldloc.0
+  0011: IL_0011: add
+  0012: IL_0012: ldarg.0
+  0013: IL_0013: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  0018: IL_0018: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Count()
+  001D: IL_001d: blt.s IL_0028
+  001F: IL_001f: ldloc.1
+  0020: IL_0020: ldc.i4.0
+  0021: IL_0021: callvirt System.Void Godot.CanvasItem::set_Visible(System.Boolean)
+  0026: IL_0026: br.s IL_0095
+  0028: IL_0028: ldarg.0
+  0029: IL_0029: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  002E: IL_002e: ldarg.2
+  002F: IL_002f: ldloc.0
+  0030: IL_0030: add
+  0031: IL_0031: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Item(System.Int32)
+  0036: IL_0036: stloc.2
+  0037: IL_0037: ldloc.1
+  0038: IL_0038: ldloc.2
+  0039: IL_0039: ldc.i4.0
+  003A: IL_003a: ldnull
+  003B: IL_003b: ldarg.0
+  003C: IL_003c: ldloc.2
+  003D: IL_003d: callvirt MegaCrit.Sts2.Core.Entities.UI.ModelVisibility MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::GetCardVisibility(MegaCrit.Sts2.Core.Models.CardModel)
+  0042: IL_0042: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::ReassignToCard(MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Entities.Cards.PileType,MegaCrit.Sts2.Core.Entities.Creatures.Creature,MegaCrit.Sts2.Core.Entities.UI.ModelVisibility)
+  0047: IL_0047: ldloc.1
+  0048: IL_0048: ldc.i4.1
+  0049: IL_0049: callvirt System.Void Godot.CanvasItem::set_Visible(System.Boolean)
+  004E: IL_004e: ldarg.0
+  004F: IL_004f: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_highlightedCards
+  0054: IL_0054: ldloc.2
+  0055: IL_0055: callvirt System.Boolean System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Contains(!0)
+  005A: IL_005a: brfalse.s IL_006e
+  005C: IL_005c: ldloc.1
+  005D: IL_005d: callvirt MegaCrit.Sts2.Core.Nodes.Cards.NCard MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardNode()
+  0062: IL_0062: callvirt MegaCrit.Sts2.Core.Nodes.Cards.NCardHighlight MegaCrit.Sts2.Core.Nodes.Cards.NCard::get_CardHighlight()
+  0067: IL_0067: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardHighlight::AnimShow()
+  006C: IL_006c: br.s IL_007e
+  006E: IL_006e: ldloc.1
+  006F: IL_006f: callvirt MegaCrit.Sts2.Core.Nodes.Cards.NCard MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardNode()
+  0074: IL_0074: callvirt MegaCrit.Sts2.Core.Nodes.Cards.NCardHighlight MegaCrit.Sts2.Core.Nodes.Cards.NCard::get_CardHighlight()
+  0079: IL_0079: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardHighlight::AnimHide()
+  007E: IL_007e: ldarg.0
+  007F: IL_007f: ldfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_isShowingUpgrades
+  0084: IL_0084: brfalse.s IL_0095
+  0086: IL_0086: ldloc.2
+  0087: IL_0087: callvirt System.Boolean MegaCrit.Sts2.Core.Models.CardModel::get_IsUpgradable()
+  008C: IL_008c: brfalse.s IL_0095
+  008E: IL_008e: ldloc.1
+  008F: IL_008f: ldc.i4.1
+  0090: IL_0090: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::SetIsPreviewingUpgrade(System.Boolean)
+  0095: IL_0095: ldloc.0
+  0096: IL_0096: ldc.i4.1
+  0097: IL_0097: add
+  0098: IL_0098: stloc.0
+  0099: IL_0099: ldloc.0
+  009A: IL_009a: ldarg.1
+  009B: IL_009b: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Count()
+  00A0: IL_00a0: blt IL_0007
+  00A5: IL_00a5: ret
+
+######## NCardGrid.UpdateGridPositions(Int32 index) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0006: IL_0006: callvirt Godot.Vector2 Godot.Control::get_Size()
+  000B: IL_000b: ldfld System.Single Godot.Vector2::X
+  0010: IL_0010: ldarg.0
+  0011: IL_0011: call Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::GetContainedCardsSize()
+  0016: IL_0016: ldfld System.Single Godot.Vector2::X
+  001B: IL_001b: sub
+  001C: IL_001c: ldc.r4 0.5
+  0021: IL_0021: mul
+  0022: IL_0022: ldarg.0
+  0023: IL_0023: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_YOffset()
+  0028: IL_0028: conv.r4
+  0029: IL_0029: ldc.r4 80
+  002E: IL_002e: add
+  002F: IL_002f: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  0034: IL_0034: ldarg.0
+  0035: IL_0035: ldfld Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  003A: IL_003a: ldc.r4 0.5
+  003F: IL_003f: call Godot.Vector2 Godot.Vector2::op_Multiply(Godot.Vector2,System.Single)
+  0044: IL_0044: call Godot.Vector2 Godot.Vector2::op_Addition(Godot.Vector2,Godot.Vector2)
+  0049: IL_0049: stloc.0
+  004A: IL_004a: ldarg.0
+  004B: IL_004b: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0050: IL_0050: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::GetEnumerator()
+  0055: IL_0055: stloc.1
+  0056: IL_0056: br IL_00e5
+  005B: IL_005b: ldloca.s V_1
+  005D: IL_005d: call !0 System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Current()
+  0062: IL_0062: stloc.2
+  0063: IL_0063: ldloc.2
+  0064: IL_0064: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::GetEnumerator()
+  0069: IL_0069: stloc.3
+  006A: IL_006a: br.s IL_00cc
+  006C: IL_006c: ldloca.s V_3
+  006E: IL_006e: call !0 System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Current()
+  0073: IL_0073: stloc.s V_4
+  0075: IL_0075: ldarg.1
+  0076: IL_0076: ldarg.0
+  0077: IL_0077: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  007C: IL_007c: div
+  007D: IL_007d: stloc.s V_5
+  007F: IL_007f: ldarg.1
+  0080: IL_0080: ldarg.0
+  0081: IL_0081: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  0086: IL_0086: rem
+  0087: IL_0087: stloc.s V_6
+  0089: IL_0089: ldloc.s V_4
+  008B: IL_008b: ldloc.0
+  008C: IL_008c: ldloc.s V_6
+  008E: IL_008e: conv.r4
+  008F: IL_008f: ldarg.0
+  0090: IL_0090: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  0095: IL_0095: ldfld System.Single Godot.Vector2::X
+  009A: IL_009a: ldarg.0
+  009B: IL_009b: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  00A0: IL_00a0: add
+  00A1: IL_00a1: mul
+  00A2: IL_00a2: ldloc.s V_5
+  00A4: IL_00a4: conv.r4
+  00A5: IL_00a5: ldarg.0
+  00A6: IL_00a6: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  00AB: IL_00ab: ldfld System.Single Godot.Vector2::Y
+  00B0: IL_00b0: ldarg.0
+  00B1: IL_00b1: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  00B6: IL_00b6: add
+  00B7: IL_00b7: mul
+  00B8: IL_00b8: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  00BD: IL_00bd: call Godot.Vector2 Godot.Vector2::op_Addition(Godot.Vector2,Godot.Vector2)
+  00C2: IL_00c2: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  00C7: IL_00c7: ldarg.1
+  00C8: IL_00c8: ldc.i4.1
+  00C9: IL_00c9: add
+  00CA: IL_00ca: starg.s index
+  00CC: IL_00cc: ldloca.s V_3
+  00CE: IL_00ce: call System.Boolean System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::MoveNext()
+  00D3: IL_00d3: brtrue.s IL_006c
+  00D5: IL_00d5: leave.s IL_00e5
+  00D7: IL_00d7: ldloca.s V_3
+  00D9: IL_00d9: constrained. System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>
+  00DF: IL_00df: callvirt System.Void System.IDisposable::Dispose()
+  00E4: IL_00e4: endfinally
+  00E5: IL_00e5: ldloca.s V_1
+  00E7: IL_00e7: call System.Boolean System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::MoveNext()
+  00EC: IL_00ec: brtrue IL_005b
+  00F1: IL_00f1: leave.s IL_0101
+  00F3: IL_00f3: ldloca.s V_1
+  00F5: IL_00f5: constrained. System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>
+  00FB: IL_00fb: callvirt System.Void System.IDisposable::Dispose()
+  0100: IL_0100: endfinally
+  0101: IL_0101: ret
+
+######## NCardGrid.ReallocateAbove(List`1 row) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0006: IL_0006: ldarg.0
+  0007: IL_0007: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  000C: IL_000c: sub
+  000D: IL_000d: stloc.0
+  000E: IL_000e: ldloc.0
+  000F: IL_000f: ldc.i4.0
+  0010: IL_0010: bge.s IL_0013
+  0012: IL_0012: ret
+  0013: IL_0013: ldarg.0
+  0014: IL_0014: ldloc.0
+  0015: IL_0015: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  001A: IL_001a: ldarg.0
+  001B: IL_001b: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0020: IL_0020: ldarg.0
+  0021: IL_0021: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0026: IL_0026: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  002B: IL_002b: ldc.i4.1
+  002C: IL_002c: sub
+  002D: IL_002d: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::RemoveAt(System.Int32)
+  0032: IL_0032: ldarg.0
+  0033: IL_0033: ldarg.1
+  0034: IL_0034: ldarg.0
+  0035: IL_0035: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  003A: IL_003a: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AssignCardsToRow(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>,System.Int32)
+  003F: IL_003f: ldarg.0
+  0040: IL_0040: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0045: IL_0045: ldc.i4.0
+  0046: IL_0046: ldarg.1
+  0047: IL_0047: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::Insert(System.Int32,!0)
+  004C: IL_004c: ldarg.0
+  004D: IL_004d: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0052: IL_0052: ldc.i4.1
+  0053: IL_0053: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0058: IL_0058: stloc.1
+  0059: IL_0059: ldloc.1
+  005A: IL_005a: ldc.i4.0
+  005B: IL_005b: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0060: IL_0060: callvirt Godot.Vector2 Godot.Control::get_Position()
+  0065: IL_0065: ldfld System.Single Godot.Vector2::Y
+  006A: IL_006a: stloc.2
+  006B: IL_006b: ldarg.1
+  006C: IL_006c: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::GetEnumerator()
+  0071: IL_0071: stloc.3
+  0072: IL_0072: br.s IL_00aa
+  0074: IL_0074: ldloca.s V_3
+  0076: IL_0076: call !0 System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Current()
+  007B: IL_007b: stloc.s V_4
+  007D: IL_007d: ldloc.s V_4
+  007F: IL_007f: ldloc.s V_4
+  0081: IL_0081: callvirt Godot.Vector2 Godot.Control::get_Position()
+  0086: IL_0086: stloc.s V_5
+  0088: IL_0088: ldloca.s V_5
+  008A: IL_008a: ldloc.2
+  008B: IL_008b: ldarg.0
+  008C: IL_008c: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  0091: IL_0091: ldfld System.Single Godot.Vector2::Y
+  0096: IL_0096: sub
+  0097: IL_0097: ldarg.0
+  0098: IL_0098: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  009D: IL_009d: sub
+  009E: IL_009e: stfld System.Single Godot.Vector2::Y
+  00A3: IL_00a3: ldloc.s V_5
+  00A5: IL_00a5: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  00AA: IL_00aa: ldloca.s V_3
+  00AC: IL_00ac: call System.Boolean System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::MoveNext()
+  00B1: IL_00b1: brtrue.s IL_0074
+  00B3: IL_00b3: leave.s IL_00c3
+  00B5: IL_00b5: ldloca.s V_3
+  00B7: IL_00b7: constrained. System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>
+  00BD: IL_00bd: callvirt System.Void System.IDisposable::Dispose()
+  00C2: IL_00c2: endfinally
+  00C3: IL_00c3: ldarg.0
+  00C4: IL_00c4: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridNavigation()
+  00C9: IL_00c9: ret
+
+######## NCardGrid.ReallocateBelow(List`1 row) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  0006: IL_0006: ldarg.0
+  0007: IL_0007: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_DisplayedRows()
+  000C: IL_000c: mul
+  000D: IL_000d: stloc.0
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0014: IL_0014: ldloc.0
+  0015: IL_0015: add
+  0016: IL_0016: stloc.1
+  0017: IL_0017: ldloc.1
+  0018: IL_0018: ldarg.0
+  0019: IL_0019: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  001E: IL_001e: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Count()
+  0023: IL_0023: blt.s IL_0026
+  0025: IL_0025: ret
+  0026: IL_0026: ldarg.0
+  0027: IL_0027: ldarg.0
+  0028: IL_0028: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  002D: IL_002d: ldarg.0
+  002E: IL_002e: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  0033: IL_0033: add
+  0034: IL_0034: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0039: IL_0039: ldarg.0
+  003A: IL_003a: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  003F: IL_003f: ldc.i4.0
+  0040: IL_0040: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::RemoveAt(System.Int32)
+  0045: IL_0045: ldarg.0
+  0046: IL_0046: ldarg.1
+  0047: IL_0047: ldloc.1
+  0048: IL_0048: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AssignCardsToRow(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>,System.Int32)
+  004D: IL_004d: ldarg.0
+  004E: IL_004e: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0053: IL_0053: ldarg.1
+  0054: IL_0054: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::Add(!0)
+  0059: IL_0059: ldarg.0
+  005A: IL_005a: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  005F: IL_005f: dup
+  0060: IL_0060: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  0065: IL_0065: ldc.i4.2
+  0066: IL_0066: sub
+  0067: IL_0067: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  006C: IL_006c: stloc.2
+  006D: IL_006d: ldloc.2
+  006E: IL_006e: ldc.i4.0
+  006F: IL_006f: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0074: IL_0074: callvirt Godot.Vector2 Godot.Control::get_Position()
+  0079: IL_0079: ldfld System.Single Godot.Vector2::Y
+  007E: IL_007e: stloc.3
+  007F: IL_007f: ldarg.1
+  0080: IL_0080: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::GetEnumerator()
+  0085: IL_0085: stloc.s V_4
+  0087: IL_0087: br.s IL_00bf
+  0089: IL_0089: ldloca.s V_4
+  008B: IL_008b: call !0 System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Current()
+  0090: IL_0090: stloc.s V_5
+  0092: IL_0092: ldloc.s V_5
+  0094: IL_0094: ldloc.s V_5
+  0096: IL_0096: callvirt Godot.Vector2 Godot.Control::get_Position()
+  009B: IL_009b: stloc.s V_6
+  009D: IL_009d: ldloca.s V_6
+  009F: IL_009f: ldloc.3
+  00A0: IL_00a0: ldarg.0
+  00A1: IL_00a1: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  00A6: IL_00a6: ldfld System.Single Godot.Vector2::Y
+  00AB: IL_00ab: add
+  00AC: IL_00ac: ldarg.0
+  00AD: IL_00ad: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  00B2: IL_00b2: add
+  00B3: IL_00b3: stfld System.Single Godot.Vector2::Y
+  00B8: IL_00b8: ldloc.s V_6
+  00BA: IL_00ba: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  00BF: IL_00bf: ldloca.s V_4
+  00C1: IL_00c1: call System.Boolean System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::MoveNext()
+  00C6: IL_00c6: brtrue.s IL_0089
+  00C8: IL_00c8: leave.s IL_00d8
+  00CA: IL_00ca: ldloca.s V_4
+  00CC: IL_00cc: constrained. System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>
+  00D2: IL_00d2: callvirt System.Void System.IDisposable::Dispose()
+  00D7: IL_00d7: endfinally
+  00D8: IL_00d8: ldarg.0
+  00D9: IL_00d9: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridNavigation()
+  00DE: IL_00de: ret
+
+######## NCardGrid.ReallocateAll() ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0006: IL_0006: ldc.i4.0
+  0007: IL_0007: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  000C: IL_000c: stloc.0
+  000D: IL_000d: ldloc.0
+  000E: IL_000e: ldc.i4.0
+  000F: IL_000f: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0014: IL_0014: callvirt Godot.Vector2 Godot.Control::get_GlobalPosition()
+  0019: IL_0019: ldfld System.Single Godot.Vector2::Y
+  001E: IL_001e: stloc.1
+  001F: IL_001f: ldloc.1
+  0020: IL_0020: ldc.r4 0
+  0025: IL_0025: sub
+  0026: IL_0026: stloc.2
+  0027: IL_0027: ldloc.2
+  0028: IL_0028: ldarg.0
+  0029: IL_0029: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  002E: IL_002e: ldfld System.Single Godot.Vector2::Y
+  0033: IL_0033: ldarg.0
+  0034: IL_0034: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  0039: IL_0039: add
+  003A: IL_003a: div
+  003B: IL_003b: call System.Int32 Godot.Mathf::RoundToInt(System.Single)
+  0040: IL_0040: stloc.3
+  0041: IL_0041: ldc.i4.0
+  0042: IL_0042: ldarg.0
+  0043: IL_0043: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0048: IL_0048: ldarg.0
+  0049: IL_0049: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  004E: IL_004e: ldloc.3
+  004F: IL_004f: mul
+  0050: IL_0050: sub
+  0051: IL_0051: call System.Int32 Godot.Mathf::Max(System.Int32,System.Int32)
+  0056: IL_0056: stloc.s V_4
+  0058: IL_0058: ldarg.0
+  0059: IL_0059: ldloc.s V_4
+  005B: IL_005b: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0060: IL_0060: ldarg.0
+  0061: IL_0061: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0066: IL_0066: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  006B: IL_006b: stloc.s V_5
+  006D: IL_006d: ldc.i4.0
+  006E: IL_006e: stloc.s V_6
+  0070: IL_0070: br.s IL_009b
+  0072: IL_0072: ldarg.0
+  0073: IL_0073: ldarg.0
+  0074: IL_0074: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0079: IL_0079: ldloc.s V_6
+  007B: IL_007b: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0080: IL_0080: ldarg.0
+  0081: IL_0081: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  0086: IL_0086: ldloc.s V_6
+  0088: IL_0088: ldarg.0
+  0089: IL_0089: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  008E: IL_008e: mul
+  008F: IL_008f: add
+  0090: IL_0090: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AssignCardsToRow(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>,System.Int32)
+  0095: IL_0095: ldloc.s V_6
+  0097: IL_0097: ldc.i4.1
+  0098: IL_0098: add
+  0099: IL_0099: stloc.s V_6
+  009B: IL_009b: ldloc.s V_6
+  009D: IL_009d: ldloc.s V_5
+  009F: IL_009f: blt.s IL_0072
+  00A1: IL_00a1: ldarg.0
+  00A2: IL_00a2: ldarg.0
+  00A3: IL_00a3: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  00A8: IL_00a8: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridPositions(System.Int32)
+  00AD: IL_00ad: ldarg.0
+  00AE: IL_00ae: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridNavigation()
+  00B3: IL_00b3: ret
+
+######## NCardGrid.ClearGrid() ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardsCache
+  0006: IL_0006: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  000B: IL_000b: ldarg.0
+  000C: IL_000c: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  0011: IL_0011: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::Clear()
+  0016: IL_0016: ldarg.0
+  0017: IL_0017: ldnull
+  0018: IL_0018: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::InitGrid(System.Threading.Tasks.Task)
+  001D: IL_001d: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Helpers.TaskHelper::RunSafely(System.Threading.Tasks.Task)
+  0022: IL_0022: pop
+  0023: IL_0023: ret
+
+######## NCardGrid.InitGrid(Task taskToWaitOn) ret=Task ########
+  0000: IL_0000: ldloca.s V_0
+  0002: IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+  0007: IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+  000C: IL_000c: ldloca.s V_0
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>4__this
+  0014: IL_0014: ldloca.s V_0
+  0016: IL_0016: ldarg.1
+  0017: IL_0017: stfld System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::taskToWaitOn
+  001C: IL_001c: ldloca.s V_0
+  001E: IL_001e: ldc.i4.m1
+  001F: IL_001f: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+  0024: IL_0024: ldloca.s V_0
+  0026: IL_0026: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+  002B: IL_002b: ldloca.s V_0
+  002D: IL_002d: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&)
+  0032: IL_0032: ldloca.s V_0
+  0034: IL_0034: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+  0039: IL_0039: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+  003E: IL_003e: ret
+
+######## NCardGrid.InitGrid() ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0006: IL_0006: ldarg.0
+  0007: IL_0007: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  000C: IL_000c: callvirt Godot.Vector2 Godot.Control::get_Position()
+  0011: IL_0011: ldfld System.Single Godot.Vector2::X
+  0016: IL_0016: ldarg.0
+  0017: IL_0017: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitTop()
+  001C: IL_001c: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  0021: IL_0021: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  0026: IL_0026: ldarg.0
+  0027: IL_0027: ldc.i4.0
+  0028: IL_0028: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_slidingWindowCardIndex
+  002D: IL_002d: ldarg.0
+  002E: IL_002e: ldfld MegaCrit.Sts2.Core.Nodes.GodotExtensions.NScrollbar MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollbar
+  0033: IL_0033: ldc.r8 0
+  003C: IL_003c: callvirt System.Void Godot.Range::set_Value(System.Double)
+  0041: IL_0041: ldarg.0
+  0042: IL_0042: ldarg.0
+  0043: IL_0043: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::CalculateRowsNeeded()
+  0048: IL_0048: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::set_DisplayedRows(System.Int32)
+  004D: IL_004d: ldarg.0
+  004E: IL_004e: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0053: IL_0053: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::GetEnumerator()
+  0058: IL_0058: stloc.0
+  0059: IL_0059: br.s IL_00b3
+  005B: IL_005b: ldloca.s V_0
+  005D: IL_005d: call !0 System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Current()
+  0062: IL_0062: stloc.1
+  0063: IL_0063: ldloc.1
+  0064: IL_0064: callvirt System.Collections.Generic.List`1/Enumerator<!0> System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::GetEnumerator()
+  0069: IL_0069: stloc.2
+  006A: IL_006a: br.s IL_009a
+  006C: IL_006c: ldloca.s V_2
+  006E: IL_006e: call !0 System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Current()
+  0073: IL_0073: stloc.3
+  0074: IL_0074: ldloc.3
+  0075: IL_0075: dup
+  0076: IL_0076: callvirt Godot.StringName Godot.Node::get_Name()
+  007B: IL_007b: call System.String Godot.StringName::op_Implicit(Godot.StringName)
+  0080: IL_0080: ldstr "-OLD"
+  0085: IL_0085: call System.String System.String::Concat(System.String,System.String)
+  008A: IL_008a: call Godot.StringName Godot.StringName::op_Implicit(System.String)
+  008F: IL_008f: callvirt System.Void Godot.Node::set_Name(Godot.StringName)
+  0094: IL_0094: ldloc.3
+  0095: IL_0095: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::QueueFreeSafely(Godot.Node)
+  009A: IL_009a: ldloca.s V_2
+  009C: IL_009c: call System.Boolean System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::MoveNext()
+  00A1: IL_00a1: brtrue.s IL_006c
+  00A3: IL_00a3: leave.s IL_00b3
+  00A5: IL_00a5: ldloca.s V_2
+  00A7: IL_00a7: constrained. System.Collections.Generic.List`1/Enumerator<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>
+  00AD: IL_00ad: callvirt System.Void System.IDisposable::Dispose()
+  00B2: IL_00b2: endfinally
+  00B3: IL_00b3: ldloca.s V_0
+  00B5: IL_00b5: call System.Boolean System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::MoveNext()
+  00BA: IL_00ba: brtrue.s IL_005b
+  00BC: IL_00bc: leave.s IL_00cc
+  00BE: IL_00be: ldloca.s V_0
+  00C0: IL_00c0: constrained. System.Collections.Generic.List`1/Enumerator<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>
+  00C6: IL_00c6: callvirt System.Void System.IDisposable::Dispose()
+  00CB: IL_00cb: endfinally
+  00CC: IL_00cc: ldarg.0
+  00CD: IL_00cd: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00D2: IL_00d2: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::Clear()
+  00D7: IL_00d7: ldarg.0
+  00D8: IL_00d8: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  00DD: IL_00dd: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Count()
+  00E2: IL_00e2: brfalse IL_0211
+  00E7: IL_00e7: ldc.i4.0
+  00E8: IL_00e8: stloc.s V_4
+  00EA: IL_00ea: ldc.i4.0
+  00EB: IL_00eb: stloc.s V_5
+  00ED: IL_00ed: br IL_0204
+  00F2: IL_00f2: newobj System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::.ctor()
+  00F7: IL_00f7: stloc.s V_6
+  00F9: IL_00f9: ldc.i4.0
+  00FA: IL_00fa: stloc.s V_7
+  00FC: IL_00fc: br IL_01e4
+  0101: IL_0101: ldloc.s V_4
+  0103: IL_0103: ldarg.0
+  0104: IL_0104: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  0109: IL_0109: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Count()
+  010E: IL_010e: bge IL_01f1
+  0113: IL_0113: ldarg.0
+  0114: IL_0114: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  0119: IL_0119: ldloc.s V_4
+  011B: IL_011b: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Item(System.Int32)
+  0120: IL_0120: stloc.s V_8
+  0122: IL_0122: ldloc.s V_8
+  0124: IL_0124: ldarg.0
+  0125: IL_0125: ldloc.s V_8
+  0127: IL_0127: callvirt MegaCrit.Sts2.Core.Entities.UI.ModelVisibility MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::GetCardVisibility(MegaCrit.Sts2.Core.Models.CardModel)
+  012C: IL_012c: call MegaCrit.Sts2.Core.Nodes.Cards.NCard MegaCrit.Sts2.Core.Nodes.Cards.NCard::Create(MegaCrit.Sts2.Core.Models.CardModel,MegaCrit.Sts2.Core.Entities.UI.ModelVisibility)
+  0131: IL_0131: stloc.s V_9
+  0133: IL_0133: ldloc.s V_9
+  0135: IL_0135: call MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::Create(MegaCrit.Sts2.Core.Nodes.Cards.NCard)
+  013A: IL_013a: stloc.s V_10
+  013C: IL_013c: ldloc.s V_6
+  013E: IL_013e: ldloc.s V_10
+  0140: IL_0140: callvirt System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::Add(!0)
+  0145: IL_0145: ldloc.s V_10
+  0147: IL_0147: ldsfld Godot.StringName MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder/SignalName::Pressed
+  014C: IL_014c: ldarg.0
+  014D: IL_014d: ldftn System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::OnHolderPressed(MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder)
+  0153: IL_0153: newobj System.Void System.Action`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder>::.ctor(System.Object,System.IntPtr)
+  0158: IL_0158: call Godot.Callable Godot.Callable::From<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder>(System.Action`1<!!0>)
+  015D: IL_015d: ldc.i4.0
+  015E: IL_015e: callvirt Godot.Error Godot.GodotObject::Connect(Godot.StringName,Godot.Callable,System.UInt32)
+  0163: IL_0163: pop
+  0164: IL_0164: ldloc.s V_10
+  0166: IL_0166: ldsfld Godot.StringName MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder/SignalName::AltPressed
+  016B: IL_016b: ldarg.0
+  016C: IL_016c: ldftn System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::OnHolderAltPressed(MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder)
+  0172: IL_0172: newobj System.Void System.Action`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder>::.ctor(System.Object,System.IntPtr)
+  0177: IL_0177: call Godot.Callable Godot.Callable::From<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder>(System.Action`1<!!0>)
+  017C: IL_017c: ldc.i4.0
+  017D: IL_017d: callvirt Godot.Error Godot.GodotObject::Connect(Godot.StringName,Godot.Callable,System.UInt32)
+  0182: IL_0182: pop
+  0183: IL_0183: ldloc.s V_10
+  0185: IL_0185: ldc.i4.1
+  0186: IL_0186: callvirt System.Void Godot.CanvasItem::set_Visible(System.Boolean)
+  018B: IL_018b: ldloc.s V_10
+  018D: IL_018d: ldc.i4.1
+  018E: IL_018e: conv.i8
+  018F: IL_018f: callvirt System.Void Godot.Control::set_MouseFilter(Godot.Control/MouseFilterEnum)
+  0194: IL_0194: ldloc.s V_10
+  0196: IL_0196: ldloc.s V_10
+  0198: IL_0198: callvirt Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_SmallScale()
+  019D: IL_019d: callvirt System.Void Godot.Control::set_Scale(Godot.Vector2)
+  01A2: IL_01a2: ldarg.0
+  01A3: IL_01a3: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  01A8: IL_01a8: ldloc.s V_10
+  01AA: IL_01aa: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::AddChildSafely(Godot.Node,Godot.Node)
+  01AF: IL_01af: ldloc.s V_9
+  01B1: IL_01b1: ldarg.0
+  01B2: IL_01b2: ldfld MegaCrit.Sts2.Core.Entities.Cards.PileType MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_pileType
+  01B7: IL_01b7: ldc.i4.1
+  01B8: IL_01b8: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCard::UpdateVisuals(MegaCrit.Sts2.Core.Entities.Cards.PileType,MegaCrit.Sts2.Core.Entities.Cards.CardPreviewMode)
+  01BD: IL_01bd: ldloc.s V_10
+  01BF: IL_01bf: callvirt MegaCrit.Sts2.Core.Models.CardModel MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_CardModel()
+  01C4: IL_01c4: callvirt System.Boolean MegaCrit.Sts2.Core.Models.CardModel::get_IsUpgradable()
+  01C9: IL_01c9: brfalse.s IL_01d8
+  01CB: IL_01cb: ldloc.s V_10
+  01CD: IL_01cd: ldarg.0
+  01CE: IL_01ce: call System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_IsShowingUpgrades()
+  01D3: IL_01d3: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::SetIsPreviewingUpgrade(System.Boolean)
+  01D8: IL_01d8: ldloc.s V_4
+  01DA: IL_01da: ldc.i4.1
+  01DB: IL_01db: add
+  01DC: IL_01dc: stloc.s V_4
+  01DE: IL_01de: ldloc.s V_7
+  01E0: IL_01e0: ldc.i4.1
+  01E1: IL_01e1: add
+  01E2: IL_01e2: stloc.s V_7
+  01E4: IL_01e4: ldloc.s V_7
+  01E6: IL_01e6: ldarg.0
+  01E7: IL_01e7: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_Columns()
+  01EC: IL_01ec: blt IL_0101
+  01F1: IL_01f1: ldarg.0
+  01F2: IL_01f2: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  01F7: IL_01f7: ldloc.s V_6
+  01F9: IL_01f9: callvirt System.Void System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::Add(!0)
+  01FE: IL_01fe: ldloc.s V_5
+  0200: IL_0200: ldc.i4.1
+  0201: IL_0201: add
+  0202: IL_0202: stloc.s V_5
+  0204: IL_0204: ldloc.s V_5
+  0206: IL_0206: ldarg.0
+  0207: IL_0207: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_DisplayedRows()
+  020C: IL_020c: blt IL_00f2
+  0211: IL_0211: ldarg.0
+  0212: IL_0212: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0217: IL_0217: ldsfld Godot.StringName Godot.Control/PropertyName::Size
+  021C: IL_021c: ldarg.0
+  021D: IL_021d: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0222: IL_0222: callvirt Godot.Vector2 Godot.Control::get_Size()
+  0227: IL_0227: ldfld System.Single Godot.Vector2::X
+  022C: IL_022c: ldarg.0
+  022D: IL_022d: call Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::GetContainedCardsSize()
+  0232: IL_0232: ldfld System.Single Godot.Vector2::Y
+  0237: IL_0237: ldc.r4 80
+  023C: IL_023c: add
+  023D: IL_023d: ldc.r4 320
+  0242: IL_0242: add
+  0243: IL_0243: ldarg.0
+  0244: IL_0244: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_YOffset()
+  0249: IL_0249: conv.r4
+  024A: IL_024a: add
+  024B: IL_024b: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  0250: IL_0250: call Godot.Variant Godot.Variant::op_Implicit(Godot.Vector2)
+  0255: IL_0255: callvirt System.Void Godot.GodotObject::SetDeferred(Godot.StringName,Godot.Variant)
+  025A: IL_025a: ldarg.0
+  025B: IL_025b: ldc.i4.0
+  025C: IL_025c: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridPositions(System.Int32)
+  0261: IL_0261: ldarg.0
+  0262: IL_0262: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::UpdateGridNavigation()
+  0267: IL_0267: ldarg.0
+  0268: IL_0268: ldc.i4.0
+  0269: IL_0269: stfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_needsReinit
+  026E: IL_026e: ret
+
+######## NCardGrid.UpdateScrollPosition(Double delta) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0006: IL_0006: callvirt Godot.Vector2 Godot.Control::get_Position()
+  000B: IL_000b: ldfld System.Single Godot.Vector2::Y
+  0010: IL_0010: stloc.0
+  0011: IL_0011: ldloc.0
+  0012: IL_0012: ldarg.0
+  0013: IL_0013: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0018: IL_0018: sub
+  0019: IL_0019: call System.Single System.Math::Abs(System.Single)
+  001E: IL_001e: ldc.r4 0.1
+  0023: IL_0023: ble.un IL_00dc
+  0028: IL_0028: ldloc.0
+  0029: IL_0029: ldarg.0
+  002A: IL_002a: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  002F: IL_002f: sub
+  0030: IL_0030: call System.Int32 Godot.Mathf::Sign(System.Single)
+  0035: IL_0035: conv.r4
+  0036: IL_0036: stloc.1
+  0037: IL_0037: ldloc.0
+  0038: IL_0038: ldarg.0
+  0039: IL_0039: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  003E: IL_003e: ldarg.1
+  003F: IL_003f: conv.r4
+  0040: IL_0040: ldc.r4 15
+  0045: IL_0045: mul
+  0046: IL_0046: ldc.r4 0
+  004B: IL_004b: ldc.r4 1
+  0050: IL_0050: call System.Single Godot.Mathf::Clamp(System.Single,System.Single,System.Single)
+  0055: IL_0055: call System.Single Godot.Mathf::Lerp(System.Single,System.Single,System.Single)
+  005A: IL_005a: stloc.0
+  005B: IL_005b: ldloc.0
+  005C: IL_005c: ldarg.0
+  005D: IL_005d: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0062: IL_0062: sub
+  0063: IL_0063: call System.Int32 Godot.Mathf::Sign(System.Single)
+  0068: IL_0068: conv.r4
+  0069: IL_0069: stloc.2
+  006A: IL_006a: ldloc.0
+  006B: IL_006b: ldarg.0
+  006C: IL_006c: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0071: IL_0071: sub
+  0072: IL_0072: call System.Single System.Math::Abs(System.Single)
+  0077: IL_0077: ldc.r4 0.5
+  007C: IL_007c: blt.s IL_0087
+  007E: IL_007e: ldloc.1
+  007F: IL_007f: ldloc.2
+  0080: IL_0080: call System.Boolean Godot.Mathf::IsEqualApprox(System.Single,System.Single)
+  0085: IL_0085: brtrue.s IL_008e
+  0087: IL_0087: ldarg.0
+  0088: IL_0088: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  008D: IL_008d: stloc.0
+  008E: IL_008e: ldarg.0
+  008F: IL_008f: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AllocateCardHolders()
+  0094: IL_0094: ldarg.0
+  0095: IL_0095: ldfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollbarPressed
+  009A: IL_009a: brtrue.s IL_00dc
+  009C: IL_009c: ldarg.0
+  009D: IL_009d: call System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CanScroll()
+  00A2: IL_00a2: brfalse.s IL_00dc
+  00A4: IL_00a4: ldarg.0
+  00A5: IL_00a5: ldfld MegaCrit.Sts2.Core.Nodes.GodotExtensions.NScrollbar MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollbar
+  00AA: IL_00aa: ldarg.0
+  00AB: IL_00ab: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  00B0: IL_00b0: callvirt Godot.Vector2 Godot.Control::get_Position()
+  00B5: IL_00b5: ldfld System.Single Godot.Vector2::Y
+  00BA: IL_00ba: ldarg.0
+  00BB: IL_00bb: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  00C0: IL_00c0: div
+  00C1: IL_00c1: ldc.r4 0
+  00C6: IL_00c6: ldc.r4 1
+  00CB: IL_00cb: call System.Single Godot.Mathf::Clamp(System.Single,System.Single,System.Single)
+  00D0: IL_00d0: ldc.r4 100
+  00D5: IL_00d5: mul
+  00D6: IL_00d6: conv.r8
+  00D7: IL_00d7: callvirt System.Void MegaCrit.Sts2.Core.Nodes.GodotExtensions.NScrollbar::SetValueWithoutAnimation(System.Double)
+  00DC: IL_00dc: ldarg.0
+  00DD: IL_00dd: ldfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollbarPressed
+  00E2: IL_00e2: brfalse.s IL_0112
+  00E4: IL_00e4: ldarg.0
+  00E5: IL_00e5: ldc.r4 0
+  00EA: IL_00ea: ldarg.0
+  00EB: IL_00eb: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  00F0: IL_00f0: ldarg.0
+  00F1: IL_00f1: ldfld MegaCrit.Sts2.Core.Nodes.GodotExtensions.NScrollbar MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollbar
+  00F6: IL_00f6: callvirt System.Double Godot.Range::get_Value()
+  00FB: IL_00fb: conv.r4
+  00FC: IL_00fc: ldc.r4 100
+  0101: IL_0101: div
+  0102: IL_0102: call System.Single Godot.Mathf::Lerp(System.Single,System.Single,System.Single)
+  0107: IL_0107: stfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  010C: IL_010c: ldarg.0
+  010D: IL_010d: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AllocateCardHolders()
+  0112: IL_0112: ldarg.0
+  0113: IL_0113: ldfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_isDragging
+  0118: IL_0118: brtrue IL_01a5
+  011D: IL_011d: ldarg.0
+  011E: IL_011e: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0123: IL_0123: ldarg.0
+  0124: IL_0124: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  0129: IL_0129: ldarg.0
+  012A: IL_012a: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitTop()
+  012F: IL_012f: call System.Single Godot.Mathf::Min(System.Single,System.Single)
+  0134: IL_0134: bge.un.s IL_0162
+  0136: IL_0136: ldarg.0
+  0137: IL_0137: ldarg.0
+  0138: IL_0138: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  013D: IL_013d: ldarg.0
+  013E: IL_013e: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  0143: IL_0143: ldarg.0
+  0144: IL_0144: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitTop()
+  0149: IL_0149: call System.Single Godot.Mathf::Min(System.Single,System.Single)
+  014E: IL_014e: ldarg.1
+  014F: IL_014f: conv.r4
+  0150: IL_0150: ldc.r4 12
+  0155: IL_0155: mul
+  0156: IL_0156: call System.Single Godot.Mathf::Lerp(System.Single,System.Single,System.Single)
+  015B: IL_015b: stfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0160: IL_0160: br.s IL_01a5
+  0162: IL_0162: ldarg.0
+  0163: IL_0163: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0168: IL_0168: ldarg.0
+  0169: IL_0169: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitTop()
+  016E: IL_016e: ldarg.0
+  016F: IL_016f: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  0174: IL_0174: call System.Single Godot.Mathf::Max(System.Single,System.Single)
+  0179: IL_0179: ble.un.s IL_01a5
+  017B: IL_017b: ldarg.0
+  017C: IL_017c: ldarg.0
+  017D: IL_017d: ldfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0182: IL_0182: ldarg.0
+  0183: IL_0183: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitTop()
+  0188: IL_0188: ldarg.0
+  0189: IL_0189: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_ScrollLimitBottom()
+  018E: IL_018e: call System.Single Godot.Mathf::Max(System.Single,System.Single)
+  0193: IL_0193: ldarg.1
+  0194: IL_0194: conv.r4
+  0195: IL_0195: ldc.r4 12
+  019A: IL_019a: mul
+  019B: IL_019b: call System.Single Godot.Mathf::Lerp(System.Single,System.Single,System.Single)
+  01A0: IL_01a0: stfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  01A5: IL_01a5: ldarg.0
+  01A6: IL_01a6: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  01AB: IL_01ab: ldarg.0
+  01AC: IL_01ac: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  01B1: IL_01b1: callvirt Godot.Vector2 Godot.Control::get_Position()
+  01B6: IL_01b6: ldfld System.Single Godot.Vector2::X
+  01BB: IL_01bb: ldloc.0
+  01BC: IL_01bc: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  01C1: IL_01c1: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  01C6: IL_01c6: ret
+
+######## NCardGrid.SetScrollPosition(Single scrollY) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldarg.1
+  0002: IL_0002: stfld System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_targetDrag
+  0007: IL_0007: ldarg.0
+  0008: IL_0008: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  000D: IL_000d: ldarg.0
+  000E: IL_000e: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0013: IL_0013: callvirt Godot.Vector2 Godot.Control::get_Position()
+  0018: IL_0018: ldfld System.Single Godot.Vector2::X
+  001D: IL_001d: ldarg.1
+  001E: IL_001e: newobj System.Void Godot.Vector2::.ctor(System.Single,System.Single)
+  0023: IL_0023: callvirt System.Void Godot.Control::set_Position(Godot.Vector2)
+  0028: IL_0028: ret
+
+######## NCardGrid.ReflowColumns() ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cards
+  0006: IL_0006: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>::get_Count()
+  000B: IL_000b: brtrue.s IL_000e
+  000D: IL_000d: ret
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::InitGrid()
+  0014: IL_0014: ret
+
+######## NCardGrid.CalculateRowsNeeded() ret=Int32 ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: call Godot.Vector2 Godot.Control::get_Size()
+  0006: IL_0006: ldfld System.Single Godot.Vector2::Y
+  000B: IL_000b: ldarg.0
+  000C: IL_000c: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  0011: IL_0011: add
+  0012: IL_0012: ldarg.0
+  0013: IL_0013: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  0018: IL_0018: ldfld System.Single Godot.Vector2::Y
+  001D: IL_001d: ldarg.0
+  001E: IL_001e: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  0023: IL_0023: add
+  0024: IL_0024: div
+  0025: IL_0025: call System.Int32 Godot.Mathf::CeilToInt(System.Single)
+  002A: IL_002a: ldc.i4.2
+  002B: IL_002b: add
+  002C: IL_002c: stloc.0
+  002D: IL_002d: ldloc.0
+  002E: IL_002e: ldarg.0
+  002F: IL_002f: call System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::GetTotalRowCount()
+  0034: IL_0034: call System.Int32 Godot.Mathf::Min(System.Int32,System.Int32)
+  0039: IL_0039: ret
+
+######## NCardGrid.get_Columns() ret=Int32 ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld Godot.Control MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_scrollContainer
+  0006: IL_0006: callvirt Godot.Vector2 Godot.Control::get_Size()
+  000B: IL_000b: ldfld System.Single Godot.Vector2::X
+  0010: IL_0010: ldarg.0
+  0011: IL_0011: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  0016: IL_0016: add
+  0017: IL_0017: ldarg.0
+  0018: IL_0018: ldflda Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+  001D: IL_001d: ldfld System.Single Godot.Vector2::X
+  0022: IL_0022: ldarg.0
+  0023: IL_0023: call System.Single MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::get_CardPadding()
+  0028: IL_0028: add
+  0029: IL_0029: div
+  002A: IL_002a: conv.i4
+  002B: IL_002b: ret
+
+######## NCardGrid.get_CardPadding() ret=Single ########
+  0000: IL_0000: ldc.r4 40
+  0005: IL_0005: ret
+
+######## NCardGrid.get_IsCardLibrary() ret=Boolean ########
+  0000: IL_0000: ldc.i4.0
+  0001: IL_0001: ret
+
+================ MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid ================
+
+######## NCardLibraryGrid.FilterCards(Func`2 filter) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldarg.1
+  0002: IL_0002: ldc.i4.1
+  0003: IL_0003: stloc.0
+  0004: IL_0004: ldloc.0
+  0005: IL_0005: newobj System.Void System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>::.ctor(System.Int32)
+  000A: IL_000a: dup
+  000B: IL_000b: ldloc.0
+  000C: IL_000c: call System.Void System.Runtime.InteropServices.CollectionsMarshal::SetCount<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>(System.Collections.Generic.List`1<!!0>,System.Int32)
+  0011: IL_0011: dup
+  0012: IL_0012: call System.Span`1<!!0> System.Runtime.InteropServices.CollectionsMarshal::AsSpan<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>(System.Collections.Generic.List`1<!!0>)
+  0017: IL_0017: stloc.1
+  0018: IL_0018: ldc.i4.0
+  0019: IL_0019: stloc.2
+  001A: IL_001a: ldloca.s V_1
+  001C: IL_001c: ldloc.2
+  001D: IL_001d: call !0& System.Span`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>::get_Item(System.Int32)
+  0022: IL_0022: ldc.i4.3
+  0023: IL_0023: stind.i4
+  0024: IL_0024: call System.Void MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::FilterCards(System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>,System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>)
+  0029: IL_0029: ret
+
+######## NCardLibraryGrid.FilterCards(Func`2 filter, List`1 sortingPriority) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldfld System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::_allCards
+  0006: IL_0006: ldarg.1
+  0007: IL_0007: call System.Collections.Generic.IEnumerable`1<!!0> System.Linq.Enumerable::Where<MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>,System.Func`2<!!0,System.Boolean>)
+  000C: IL_000c: call System.Collections.Generic.List`1<!!0> System.Linq.Enumerable::ToList<MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>)
+  0011: IL_0011: stloc.0
+  0012: IL_0012: ldarg.0
+  0013: IL_0013: ldloc.0
+  0014: IL_0014: ldarg.2
+  0015: IL_0015: call System.Void MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::DisplayCards(System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Models.CardModel>,System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.SortingOrders>)
+  001A: IL_001a: ret
+
+######## NCardLibraryGrid.RefreshVisibility() ret=Void ########
+  0000: IL_0000: newobj System.Void MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c__DisplayClass12_0::.ctor()
+  0005: IL_0005: stloc.0
+  0006: IL_0006: ldarg.0
+  0007: IL_0007: call MegaCrit.Sts2.Core.Saves.SaveManager MegaCrit.Sts2.Core.Saves.SaveManager::get_Instance()
+  000C: IL_000c: callvirt MegaCrit.Sts2.Core.Saves.ProgressState MegaCrit.Sts2.Core.Saves.SaveManager::get_Progress()
+  0011: IL_0011: callvirt System.Collections.Generic.IReadOnlySet`1<MegaCrit.Sts2.Core.Models.ModelId> MegaCrit.Sts2.Core.Saves.ProgressState::get_DiscoveredCards()
+  0016: IL_0016: call System.Collections.Generic.HashSet`1<!!0> System.Linq.Enumerable::ToHashSet<MegaCrit.Sts2.Core.Models.ModelId>(System.Collections.Generic.IEnumerable`1<!!0>)
+  001B: IL_001b: stfld System.Collections.Generic.HashSet`1<MegaCrit.Sts2.Core.Models.ModelId> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::_seenCards
+  0020: IL_0020: ldloc.0
+  0021: IL_0021: call MegaCrit.Sts2.Core.Saves.SaveManager MegaCrit.Sts2.Core.Saves.SaveManager::get_Instance()
+  0026: IL_0026: callvirt MegaCrit.Sts2.Core.Unlocks.UnlockState MegaCrit.Sts2.Core.Saves.SaveManager::GenerateUnlockStateFromProgress()
+  002B: IL_002b: stfld MegaCrit.Sts2.Core.Unlocks.UnlockState MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c__DisplayClass12_0::unlockState
+  0030: IL_0030: ldarg.0
+  0031: IL_0031: call System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardPoolModel> MegaCrit.Sts2.Core.Models.ModelDb::get_AllCardPools()
+  0036: IL_0036: ldloc.0
+  0037: IL_0037: ldftn System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c__DisplayClass12_0::<RefreshVisibility>b__0(MegaCrit.Sts2.Core.Models.CardPoolModel)
+  003D: IL_003d: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardPoolModel,System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>>::.ctor(System.Object,System.IntPtr)
+  0042: IL_0042: call System.Collections.Generic.IEnumerable`1<!!1> System.Linq.Enumerable::Select<MegaCrit.Sts2.Core.Models.CardPoolModel,System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>>(System.Collections.Generic.IEnumerable`1<!!0>,System.Func`2<!!0,!!1>)
+  0047: IL_0047: ldsfld System.Func`2<System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>,System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c::<>9__12_1
+  004C: IL_004c: dup
+  004D: IL_004d: brtrue.s IL_0066
+  004F: IL_004f: pop
+  0050: IL_0050: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c::<>9
+  0055: IL_0055: ldftn System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c::<RefreshVisibility>b__12_1(System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>)
+  005B: IL_005b: newobj System.Void System.Func`2<System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>,System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>>::.ctor(System.Object,System.IntPtr)
+  0060: IL_0060: dup
+  0061: IL_0061: stsfld System.Func`2<System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>,System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid/<>c::<>9__12_1
+  0066: IL_0066: call System.Collections.Generic.IEnumerable`1<!!1> System.Linq.Enumerable::SelectMany<System.Collections.Generic.IEnumerable`1<MegaCrit.Sts2.Core.Models.CardModel>,MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>,System.Func`2<!!0,System.Collections.Generic.IEnumerable`1<!!1>>)
+  006B: IL_006b: call System.Collections.Generic.HashSet`1<!!0> System.Linq.Enumerable::ToHashSet<MegaCrit.Sts2.Core.Models.CardModel>(System.Collections.Generic.IEnumerable`1<!!0>)
+  0070: IL_0070: stfld System.Collections.Generic.HashSet`1<MegaCrit.Sts2.Core.Models.CardModel> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryGrid::_unlockedCards
+  0075: IL_0075: ret
+
+######## NCardLibraryGrid.UpdateGridNavigation() ret=Void ########
+  0000: IL_0000: ldc.i4.0
+  0001: IL_0001: stloc.0
+  0002: IL_0002: br IL_010c
+  0007: IL_0007: ldc.i4.0
+  0008: IL_0008: stloc.1
+  0009: IL_0009: br IL_00f1
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0014: IL_0014: ldloc.0
+  0015: IL_0015: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  001A: IL_001a: ldloc.1
+  001B: IL_001b: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0020: IL_0020: stloc.2
+  0021: IL_0021: ldloc.2
+  0022: IL_0022: ldloc.1
+  0023: IL_0023: ldc.i4.0
+  0024: IL_0024: bgt.s IL_0029
+  0026: IL_0026: ldnull
+  0027: IL_0027: br.s IL_0042
+  0029: IL_0029: ldarg.0
+  002A: IL_002a: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  002F: IL_002f: ldloc.0
+  0030: IL_0030: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0035: IL_0035: ldloc.1
+  0036: IL_0036: ldc.i4.1
+  0037: IL_0037: sub
+  0038: IL_0038: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  003D: IL_003d: callvirt Godot.NodePath Godot.Node::GetPath()
+  0042: IL_0042: callvirt System.Void Godot.Control::set_FocusNeighborLeft(Godot.NodePath)
+  0047: IL_0047: ldloc.2
+  0048: IL_0048: ldloc.1
+  0049: IL_0049: ldarg.0
+  004A: IL_004a: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  004F: IL_004f: ldloc.0
+  0050: IL_0050: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0055: IL_0055: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Count()
+  005A: IL_005a: ldc.i4.1
+  005B: IL_005b: sub
+  005C: IL_005c: blt.s IL_0061
+  005E: IL_005e: ldnull
+  005F: IL_005f: br.s IL_007a
+  0061: IL_0061: ldarg.0
+  0062: IL_0062: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0067: IL_0067: ldloc.0
+  0068: IL_0068: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  006D: IL_006d: ldloc.1
+  006E: IL_006e: ldc.i4.1
+  006F: IL_006f: add
+  0070: IL_0070: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  0075: IL_0075: callvirt Godot.NodePath Godot.Node::GetPath()
+  007A: IL_007a: callvirt System.Void Godot.Control::set_FocusNeighborRight(Godot.NodePath)
+  007F: IL_007f: ldloc.2
+  0080: IL_0080: ldloc.0
+  0081: IL_0081: ldc.i4.0
+  0082: IL_0082: bgt.s IL_0087
+  0084: IL_0084: ldnull
+  0085: IL_0085: br.s IL_00a0
+  0087: IL_0087: ldarg.0
+  0088: IL_0088: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  008D: IL_008d: ldloc.0
+  008E: IL_008e: ldc.i4.1
+  008F: IL_008f: sub
+  0090: IL_0090: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  0095: IL_0095: ldloc.1
+  0096: IL_0096: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  009B: IL_009b: callvirt Godot.NodePath Godot.Node::GetPath()
+  00A0: IL_00a0: callvirt System.Void Godot.Control::set_FocusNeighborTop(Godot.NodePath)
+  00A5: IL_00a5: ldloc.2
+  00A6: IL_00a6: ldloc.0
+  00A7: IL_00a7: ldarg.0
+  00A8: IL_00a8: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00AD: IL_00ad: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  00B2: IL_00b2: ldc.i4.1
+  00B3: IL_00b3: sub
+  00B4: IL_00b4: bge.s IL_00cc
+  00B6: IL_00b6: ldloc.1
+  00B7: IL_00b7: ldarg.0
+  00B8: IL_00b8: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00BD: IL_00bd: ldloc.0
+  00BE: IL_00be: ldc.i4.1
+  00BF: IL_00bf: add
+  00C0: IL_00c0: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  00C5: IL_00c5: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Count()
+  00CA: IL_00ca: blt.s IL_00cf
+  00CC: IL_00cc: ldnull
+  00CD: IL_00cd: br.s IL_00e8
+  00CF: IL_00cf: ldarg.0
+  00D0: IL_00d0: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00D5: IL_00d5: ldloc.0
+  00D6: IL_00d6: ldc.i4.1
+  00D7: IL_00d7: add
+  00D8: IL_00d8: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  00DD: IL_00dd: ldloc.1
+  00DE: IL_00de: callvirt !0 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Item(System.Int32)
+  00E3: IL_00e3: callvirt Godot.NodePath Godot.Node::GetPath()
+  00E8: IL_00e8: callvirt System.Void Godot.Control::set_FocusNeighborBottom(Godot.NodePath)
+  00ED: IL_00ed: ldloc.1
+  00EE: IL_00ee: ldc.i4.1
+  00EF: IL_00ef: add
+  00F0: IL_00f0: stloc.1
+  00F1: IL_00f1: ldloc.1
+  00F2: IL_00f2: ldarg.0
+  00F3: IL_00f3: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  00F8: IL_00f8: ldloc.0
+  00F9: IL_00f9: callvirt !0 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Item(System.Int32)
+  00FE: IL_00fe: callvirt System.Int32 System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>::get_Count()
+  0103: IL_0103: blt IL_000e
+  0108: IL_0108: ldloc.0
+  0109: IL_0109: ldc.i4.1
+  010A: IL_010a: add
+  010B: IL_010b: stloc.0
+  010C: IL_010c: ldloc.0
+  010D: IL_010d: ldarg.0
+  010E: IL_010e: ldfld System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>> MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardRows
+  0113: IL_0113: callvirt System.Int32 System.Collections.Generic.List`1<System.Collections.Generic.List`1<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>>::get_Count()
+  0118: IL_0118: blt IL_0007
+  011D: IL_011d: ret
+MISSING NCardLibraryGrid.SetCards
+
+================ MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary ================
+
+######## NCardLibrary.DisplayCards() ret=Task ########
+  0000: IL_0000: ldloca.s V_0
+  0002: IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+  0007: IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  000C: IL_000c: ldloca.s V_0
+  000E: IL_000e: ldarg.0
+  000F: IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>4__this
+  0014: IL_0014: ldloca.s V_0
+  0016: IL_0016: ldc.i4.m1
+  0017: IL_0017: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>1__state
+  001C: IL_001c: ldloca.s V_0
+  001E: IL_001e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  0023: IL_0023: ldloca.s V_0
+  0025: IL_0025: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59>(!!0&)
+  002A: IL_002a: ldloca.s V_0
+  002C: IL_002c: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<DisplayCards>d__59::<>t__builder
+  0031: IL_0031: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+  0036: IL_0036: ret
+
+######## NCardLibrary.UpdateFilter(Boolean isTextInput) ret=Void ########
+  0000: IL_0000: newobj System.Void MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::.ctor()
+  0005: IL_0005: stloc.0
+  0006: IL_0006: ldloc.0
+  0007: IL_0007: ldarg.0
+  0008: IL_0008: stfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::<>4__this
+  000D: IL_000d: ldloc.0
+  000E: IL_000e: newobj System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::.ctor()
+  0013: IL_0013: stfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeRarityFilters
+  0018: IL_0018: ldc.i4.1
+  0019: IL_0019: stloc.1
+  001A: IL_001a: ldarg.0
+  001B: IL_001b: ldfld System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_poolFilters
+  0020: IL_0020: callvirt System.Collections.Generic.Dictionary`2/Enumerator<!0,!1> System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::GetEnumerator()
+  0025: IL_0025: stloc.3
+  0026: IL_0026: br.s IL_0061
+  0028: IL_0028: ldloca.s V_3
+  002A: IL_002a: call System.Collections.Generic.KeyValuePair`2<!0,!1> System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Current()
+  002F: IL_002f: stloc.s V_4
+  0031: IL_0031: ldloca.s V_4
+  0033: IL_0033: call !0 System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Key()
+  0038: IL_0038: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter::get_IsSelected()
+  003D: IL_003d: brfalse.s IL_0061
+  003F: IL_003f: ldloca.s V_4
+  0041: IL_0041: call !0 System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Key()
+  0046: IL_0046: ldarg.0
+  0047: IL_0047: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_miscPoolFilter
+  004C: IL_004c: beq.s IL_0061
+  004E: IL_004e: ldloca.s V_4
+  0050: IL_0050: call !0 System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Key()
+  0055: IL_0055: ldarg.0
+  0056: IL_0056: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_ancientsFilter
+  005B: IL_005b: beq.s IL_0061
+  005D: IL_005d: ldc.i4.0
+  005E: IL_005e: stloc.1
+  005F: IL_005f: leave.s IL_007a
+  0061: IL_0061: ldloca.s V_3
+  0063: IL_0063: call System.Boolean System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::MoveNext()
+  0068: IL_0068: brtrue.s IL_0028
+  006A: IL_006a: leave.s IL_007a
+  006C: IL_006c: ldloca.s V_3
+  006E: IL_006e: constrained. System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>
+  0074: IL_0074: callvirt System.Void System.IDisposable::Dispose()
+  0079: IL_0079: endfinally
+  007A: IL_007a: ldloc.1
+  007B: IL_007b: brtrue.s IL_00d7
+  007D: IL_007d: ldarg.0
+  007E: IL_007e: ldfld System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_rarityFilters
+  0083: IL_0083: callvirt System.Collections.Generic.Dictionary`2/Enumerator<!0,!1> System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::GetEnumerator()
+  0088: IL_0088: stloc.s V_5
+  008A: IL_008a: br.s IL_00be
+  008C: IL_008c: ldloca.s V_5
+  008E: IL_008e: call System.Collections.Generic.KeyValuePair`2<!0,!1> System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Current()
+  0093: IL_0093: stloc.s V_8
+  0095: IL_0095: ldloca.s V_8
+  0097: IL_0097: ldloca.s V_9
+  0099: IL_0099: ldloca.s V_10
+  009B: IL_009b: call System.Void System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Deconstruct(!0&,!1&)
+  00A0: IL_00a0: ldloc.s V_9
+  00A2: IL_00a2: stloc.s V_6
+  00A4: IL_00a4: ldloc.s V_10
+  00A6: IL_00a6: stloc.s V_7
+  00A8: IL_00a8: ldloc.s V_6
+  00AA: IL_00aa: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.CommonUi.NTickbox::get_IsTicked()
+  00AF: IL_00af: brfalse.s IL_00be
+  00B1: IL_00b1: ldloc.0
+  00B2: IL_00b2: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeRarityFilters
+  00B7: IL_00b7: ldloc.s V_7
+  00B9: IL_00b9: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  00BE: IL_00be: ldloca.s V_5
+  00C0: IL_00c0: call System.Boolean System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::MoveNext()
+  00C5: IL_00c5: brtrue.s IL_008c
+  00C7: IL_00c7: leave.s IL_00d7
+  00C9: IL_00c9: ldloca.s V_5
+  00CB: IL_00cb: constrained. System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardRarityTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>
+  00D1: IL_00d1: callvirt System.Void System.IDisposable::Dispose()
+  00D6: IL_00d6: endfinally
+  00D7: IL_00d7: ldloc.0
+  00D8: IL_00d8: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeRarityFilters
+  00DD: IL_00dd: callvirt System.Int32 System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Count()
+  00E2: IL_00e2: brtrue.s IL_010e
+  00E4: IL_00e4: ldloc.0
+  00E5: IL_00e5: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeRarityFilters
+  00EA: IL_00ea: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_0
+  00EF: IL_00ef: dup
+  00F0: IL_00f0: brtrue.s IL_0109
+  00F2: IL_00f2: pop
+  00F3: IL_00f3: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  00F8: IL_00f8: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<UpdateFilter>b__69_0(MegaCrit.Sts2.Core.Models.CardModel)
+  00FE: IL_00fe: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  0103: IL_0103: dup
+  0104: IL_0104: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_0
+  0109: IL_0109: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  010E: IL_010e: ldloc.0
+  010F: IL_010f: newobj System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::.ctor()
+  0114: IL_0114: stfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCardTypeFilter
+  0119: IL_0119: ldarg.0
+  011A: IL_011a: ldfld System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_cardTypeFilters
+  011F: IL_011f: callvirt System.Collections.Generic.Dictionary`2/Enumerator<!0,!1> System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::GetEnumerator()
+  0124: IL_0124: stloc.s V_11
+  0126: IL_0126: br.s IL_015a
+  0128: IL_0128: ldloca.s V_11
+  012A: IL_012a: call System.Collections.Generic.KeyValuePair`2<!0,!1> System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Current()
+  012F: IL_012f: stloc.s V_14
+  0131: IL_0131: ldloca.s V_14
+  0133: IL_0133: ldloca.s V_15
+  0135: IL_0135: ldloca.s V_10
+  0137: IL_0137: call System.Void System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Deconstruct(!0&,!1&)
+  013C: IL_013c: ldloc.s V_15
+  013E: IL_013e: stloc.s V_12
+  0140: IL_0140: ldloc.s V_10
+  0142: IL_0142: stloc.s V_13
+  0144: IL_0144: ldloc.s V_12
+  0146: IL_0146: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox::get_IsTicked()
+  014B: IL_014b: brfalse.s IL_015a
+  014D: IL_014d: ldloc.0
+  014E: IL_014e: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCardTypeFilter
+  0153: IL_0153: ldloc.s V_13
+  0155: IL_0155: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  015A: IL_015a: ldloca.s V_11
+  015C: IL_015c: call System.Boolean System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::MoveNext()
+  0161: IL_0161: brtrue.s IL_0128
+  0163: IL_0163: leave.s IL_0173
+  0165: IL_0165: ldloca.s V_11
+  0167: IL_0167: constrained. System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardTypeTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>
+  016D: IL_016d: callvirt System.Void System.IDisposable::Dispose()
+  0172: IL_0172: endfinally
+  0173: IL_0173: ldloc.0
+  0174: IL_0174: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCardTypeFilter
+  0179: IL_0179: callvirt System.Int32 System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Count()
+  017E: IL_017e: brtrue.s IL_01aa
+  0180: IL_0180: ldloc.0
+  0181: IL_0181: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCardTypeFilter
+  0186: IL_0186: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_1
+  018B: IL_018b: dup
+  018C: IL_018c: brtrue.s IL_01a5
+  018E: IL_018e: pop
+  018F: IL_018f: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  0194: IL_0194: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<UpdateFilter>b__69_1(MegaCrit.Sts2.Core.Models.CardModel)
+  019A: IL_019a: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  019F: IL_019f: dup
+  01A0: IL_01a0: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_1
+  01A5: IL_01a5: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  01AA: IL_01aa: ldloc.0
+  01AB: IL_01ab: newobj System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::.ctor()
+  01B0: IL_01b0: stfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::poolFilter
+  01B5: IL_01b5: ldarg.0
+  01B6: IL_01b6: ldfld System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_poolFilters
+  01BB: IL_01bb: callvirt System.Collections.Generic.Dictionary`2/Enumerator<!0,!1> System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::GetEnumerator()
+  01C0: IL_01c0: stloc.s V_16
+  01C2: IL_01c2: br.s IL_01ed
+  01C4: IL_01c4: ldloca.s V_16
+  01C6: IL_01c6: call System.Collections.Generic.KeyValuePair`2<!0,!1> System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Current()
+  01CB: IL_01cb: stloc.s V_17
+  01CD: IL_01cd: ldloca.s V_17
+  01CF: IL_01cf: call !0 System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Key()
+  01D4: IL_01d4: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter::get_IsSelected()
+  01D9: IL_01d9: brfalse.s IL_01ed
+  01DB: IL_01db: ldloc.0
+  01DC: IL_01dc: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::poolFilter
+  01E1: IL_01e1: ldloca.s V_17
+  01E3: IL_01e3: call !1 System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Value()
+  01E8: IL_01e8: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  01ED: IL_01ed: ldloca.s V_16
+  01EF: IL_01ef: call System.Boolean System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::MoveNext()
+  01F4: IL_01f4: brtrue.s IL_01c4
+  01F6: IL_01f6: leave.s IL_0206
+  01F8: IL_01f8: ldloca.s V_16
+  01FA: IL_01fa: constrained. System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardPoolFilter,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>
+  0200: IL_0200: callvirt System.Void System.IDisposable::Dispose()
+  0205: IL_0205: endfinally
+  0206: IL_0206: ldloc.0
+  0207: IL_0207: newobj System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::.ctor()
+  020C: IL_020c: stfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCostFilter
+  0211: IL_0211: ldarg.0
+  0212: IL_0212: ldfld System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_costFilters
+  0217: IL_0217: callvirt System.Collections.Generic.Dictionary`2/Enumerator<!0,!1> System.Collections.Generic.Dictionary`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::GetEnumerator()
+  021C: IL_021c: stloc.s V_18
+  021E: IL_021e: br.s IL_0252
+  0220: IL_0220: ldloca.s V_18
+  0222: IL_0222: call System.Collections.Generic.KeyValuePair`2<!0,!1> System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Current()
+  0227: IL_0227: stloc.s V_21
+  0229: IL_0229: ldloca.s V_21
+  022B: IL_022b: ldloca.s V_22
+  022D: IL_022d: ldloca.s V_10
+  022F: IL_022f: call System.Void System.Collections.Generic.KeyValuePair`2<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Deconstruct(!0&,!1&)
+  0234: IL_0234: ldloc.s V_22
+  0236: IL_0236: stloc.s V_19
+  0238: IL_0238: ldloc.s V_10
+  023A: IL_023a: stloc.s V_20
+  023C: IL_023c: ldloc.s V_19
+  023E: IL_023e: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox::get_IsTicked()
+  0243: IL_0243: brfalse.s IL_0252
+  0245: IL_0245: ldloc.0
+  0246: IL_0246: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCostFilter
+  024B: IL_024b: ldloc.s V_20
+  024D: IL_024d: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  0252: IL_0252: ldloca.s V_18
+  0254: IL_0254: call System.Boolean System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::MoveNext()
+  0259: IL_0259: brtrue.s IL_0220
+  025B: IL_025b: leave.s IL_026b
+  025D: IL_025d: ldloca.s V_18
+  025F: IL_025f: constrained. System.Collections.Generic.Dictionary`2/Enumerator<MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardCostTickbox,System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>
+  0265: IL_0265: callvirt System.Void System.IDisposable::Dispose()
+  026A: IL_026a: endfinally
+  026B: IL_026b: ldloc.0
+  026C: IL_026c: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCostFilter
+  0271: IL_0271: callvirt System.Int32 System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::get_Count()
+  0276: IL_0276: brtrue.s IL_02a2
+  0278: IL_0278: ldloc.0
+  0279: IL_0279: ldfld System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::activeCostFilter
+  027E: IL_027e: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_2
+  0283: IL_0283: dup
+  0284: IL_0284: brtrue.s IL_029d
+  0286: IL_0286: pop
+  0287: IL_0287: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  028C: IL_028c: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<UpdateFilter>b__69_2(MegaCrit.Sts2.Core.Models.CardModel)
+  0292: IL_0292: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  0297: IL_0297: dup
+  0298: IL_0298: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_2
+  029D: IL_029d: callvirt System.Void System.Collections.Generic.List`1<System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>>::Add(!0)
+  02A2: IL_02a2: ldloc.0
+  02A3: IL_02a3: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_3
+  02A8: IL_02a8: dup
+  02A9: IL_02a9: brtrue.s IL_02c2
+  02AB: IL_02ab: pop
+  02AC: IL_02ac: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  02B1: IL_02b1: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<UpdateFilter>b__69_3(MegaCrit.Sts2.Core.Models.CardModel)
+  02B7: IL_02b7: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  02BC: IL_02bc: dup
+  02BD: IL_02bd: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_3
+  02C2: IL_02c2: stfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::multiplayerCardFilter
+  02C7: IL_02c7: ldarg.0
+  02C8: IL_02c8: ldfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NLibraryStatTickbox MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_viewMultiplayerCards
+  02CD: IL_02cd: callvirt System.Boolean MegaCrit.Sts2.Core.Nodes.CommonUi.NTickbox::get_IsTicked()
+  02D2: IL_02d2: brtrue.s IL_02f9
+  02D4: IL_02d4: ldloc.0
+  02D5: IL_02d5: ldsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_4
+  02DA: IL_02da: dup
+  02DB: IL_02db: brtrue.s IL_02f4
+  02DD: IL_02dd: pop
+  02DE: IL_02de: ldsfld MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9
+  02E3: IL_02e3: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<UpdateFilter>b__69_4(MegaCrit.Sts2.Core.Models.CardModel)
+  02E9: IL_02e9: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  02EE: IL_02ee: dup
+  02EF: IL_02ef: stsfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c::<>9__69_4
+  02F4: IL_02f4: stfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::multiplayerCardFilter
+  02F9: IL_02f9: ldarg.0
+  02FA: IL_02fa: ldloc.0
+  02FB: IL_02fb: ldftn System.Boolean MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary/<>c__DisplayClass69_0::<UpdateFilter>b__5(MegaCrit.Sts2.Core.Models.CardModel)
+  0301: IL_0301: newobj System.Void System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean>::.ctor(System.Object,System.IntPtr)
+  0306: IL_0306: stfld System.Func`2<MegaCrit.Sts2.Core.Models.CardModel,System.Boolean> MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::_filter
+  030B: IL_030b: ldarg.1
+  030C: IL_030c: brfalse.s IL_0317
+  030E: IL_030e: ldarg.0
+  030F: IL_030f: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::DisplayCardsAfterShortDelay()
+  0314: IL_0314: stloc.2
+  0315: IL_0315: br.s IL_031e
+  0317: IL_0317: ldarg.0
+  0318: IL_0318: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::DisplayCards()
+  031D: IL_031d: stloc.2
+  031E: IL_031e: ldloc.2
+  031F: IL_031f: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Helpers.TaskHelper::RunSafely(System.Threading.Tasks.Task)
+  0324: IL_0324: pop
+  0325: IL_0325: ret
+
+######## NCardLibrary.UpdateRarityFilter(NTickbox tickbox) ret=Void ########
+  0000: IL_0000: ldarg.0
+  0001: IL_0001: ldc.i4.0
+  0002: IL_0002: call System.Void MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary::UpdateFilter(System.Boolean)
+  0007: IL_0007: ret
+MISSING NCardLibrary.ToggleFilter

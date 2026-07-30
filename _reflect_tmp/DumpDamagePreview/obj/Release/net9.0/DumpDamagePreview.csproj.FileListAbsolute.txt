@@ -1,0 +1,5 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview\obj\Release\net9.0\DumpDamagePreview.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview\obj\Release\net9.0\DumpDamagePreview.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview\obj\Release\net9.0\DumpDamagePreview.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview\obj\Release\net9.0\DumpDamagePreview.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview\obj\Release\net9.0\DumpDamagePreview.sourcelink.json

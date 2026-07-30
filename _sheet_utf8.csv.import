@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://d0w1rvpuc1ikr"
+
+[deps]
+
+files=["res://_sheet_utf8.カード名称（日本語）.translation", "res://_sheet_utf8.種別.translation", "res://_sheet_utf8.ビルド.translation", "res://_sheet_utf8.コスト.translation", "res://_sheet_utf8.効果説明.translation", "res://_sheet_utf8.UG時効果（変更点のみ記載）.translation", "res://_sheet_utf8.レア度.translation", "res://_sheet_utf8.タグ.translation", "res://_sheet_utf8.id.translation", "res://_sheet_utf8.備考.translation"]
+
+source_file="res://_sheet_utf8.csv"
+dest_files=["res://_sheet_utf8.カード名称（日本語）.translation", "res://_sheet_utf8.種別.translation", "res://_sheet_utf8.ビルド.translation", "res://_sheet_utf8.コスト.translation", "res://_sheet_utf8.効果説明.translation", "res://_sheet_utf8.UG時効果（変更点のみ記載）.translation", "res://_sheet_utf8.レア度.translation", "res://_sheet_utf8.タグ.translation", "res://_sheet_utf8.id.translation", "res://_sheet_utf8.備考.translation"]
+
+[params]
+
+compress=true
+delimiter=0

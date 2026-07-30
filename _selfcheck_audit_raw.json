@@ -1,0 +1,483 @@
+{
+  "ok_count": 69,
+  "ok_cards": [
+    1,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    22,
+    23,
+    24,
+    25,
+    26,
+    29,
+    30,
+    31,
+    32,
+    35,
+    36,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    53,
+    54,
+    67,
+    68,
+    69,
+    70,
+    73,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    84,
+    85,
+    86,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "confirmed": [
+    {
+      "no": 2,
+      "name": "呼吸制御",
+      "cls": "BreathControl",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "Sm",
+      "impl": "(なし)"
+    },
+    {
+      "no": 6,
+      "name": "時止めストライク",
+      "cls": "TimeStopStrike",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "Sm",
+      "impl": "Sm,Trance"
+    },
+    {
+      "no": 11,
+      "name": "アブノーマル",
+      "cls": "AbnormalTransform",
+      "cat": "A-cost",
+      "problem": "コスト不一致",
+      "csv": "X",
+      "impl": "-1"
+    },
+    {
+      "no": 11,
+      "name": "アブノーマル",
+      "cls": "AbnormalTransform",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "Abnormal",
+      "impl": "(なし)"
+    },
+    {
+      "no": 52,
+      "name": "トランスに溶けゆく",
+      "cls": "MeltIntoTrance",
+      "cat": "D-damage",
+      "problem": "数値不一致(damage)",
+      "csv": "15.0",
+      "impl": "0.0 (CanonicalVars)"
+    },
+    {
+      "no": 56,
+      "name": "Kneel!",
+      "cls": "Kneel",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 57,
+      "name": "Look!",
+      "cls": "Look",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 57,
+      "name": "Look!",
+      "cls": "Look",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 58,
+      "name": "Come!",
+      "cls": "Come",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 59,
+      "name": "Relax!",
+      "cls": "Relax",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 59,
+      "name": "Relax!",
+      "cls": "Relax",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 60,
+      "name": "Present!",
+      "cls": "Present",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 60,
+      "name": "Present!",
+      "cls": "Present",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 61,
+      "name": "Trance!",
+      "cls": "Trance",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 61,
+      "name": "Trance!",
+      "cls": "Trance",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 62,
+      "name": "Crawl!",
+      "cls": "Crawl",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 63,
+      "name": "Don't Move!",
+      "cls": "DontMove",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 63,
+      "name": "Don't Move!",
+      "cls": "DontMove",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 64,
+      "name": "Roll!",
+      "cls": "Roll",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 64,
+      "name": "Roll!",
+      "cls": "Roll",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 65,
+      "name": "Cum!",
+      "cls": "Cum",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 65,
+      "name": "Cum!",
+      "cls": "Cum",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 66,
+      "name": "Good!",
+      "cls": "Good",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "DomSub",
+      "impl": "(なし)"
+    },
+    {
+      "no": 66,
+      "name": "Good!",
+      "cls": "Good",
+      "cat": "F-exhaust",
+      "problem": "CSVは廃棄付きだがコードにExhaustなし",
+      "csv": "廃棄",
+      "impl": "set()"
+    },
+    {
+      "no": 71,
+      "name": "連続指パッチン",
+      "cls": "InfiniteFingerSnap",
+      "cat": "A-cost",
+      "problem": "コスト不一致",
+      "csv": "X",
+      "impl": "-1"
+    },
+    {
+      "no": 72,
+      "name": "壱佰捌煩悩",
+      "cls": "HundredEight",
+      "cat": "E-fetish",
+      "problem": "性癖タグ不一致",
+      "csv": "Abnormal,DomSub,Sm",
+      "impl": "Abnormal,DomSub,Sm,Trance"
+    },
+    {
+      "no": 87,
+      "name": "ゼロへの近道",
+      "cls": "ZeroShortcut",
+      "cat": "D-block",
+      "problem": "数値不一致(block)",
+      "csv": "3.0",
+      "impl": "6.0 (CanonicalVars)"
+    }
+  ],
+  "approx": [
+    {
+      "no": 18,
+      "name": "状態異常催眠",
+      "cls": "StatusHypnosis",
+      "problem": "task.md 記載の意図的近似",
+      "csv": "トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。",
+      "impl": "mentions={'Confused': False, 'StolenHeart': False, 'StatusHypnosis': True, 'TODO': True, 'Count': False, 'Retain': False, 'Exhaust': False, 'Innate': True}; path=HypnosisCreatorCode/Cards/Rare/StatusHypnosis.cs"
+    },
+    {
+      "no": 20,
+      "name": "好き好き催眠",
+      "cls": "LoveHypnosis",
+      "problem": "task.md 記載の意図的近似",
+      "csv": "カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。",
+      "impl": "mentions={'Confused': True, 'StolenHeart': False, 'StatusHypnosis': False, 'TODO': True, 'Count': True, 'Retain': False, 'Exhaust': False, 'Innate': False}; path=HypnosisCreatorCode/Cards/Uncommon/LoveHypnosis.cs"
+    },
+    {
+      "no": 96,
+      "name": "鼓動の共有",
+      "cls": "HeartbeatShare",
+      "problem": "task.md 記載の意図的近似",
+      "csv": "保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。",
+      "impl": "mentions={'Confused': False, 'StolenHeart': True, 'StatusHypnosis': False, 'TODO': True, 'Count': False, 'Retain': False, 'Exhaust': False, 'Innate': False}; path=HypnosisCreatorCode/Cards/Rare/HeartbeatShare.cs"
+    }
+  ],
+  "needs": [
+    {
+      "no": 3,
+      "name": "ぜーろっ",
+      "cls": "ZeroOut",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 4,
+      "name": "スライム催眠",
+      "cls": "SlimeHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 5,
+      "name": "心停止催眠",
+      "cls": "CardiacArrestHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 10,
+      "name": "薬物催眠",
+      "cls": "DrugHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 20,
+      "name": "好き好き催眠",
+      "cls": "LoveHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 21,
+      "name": "認知シャッフル催眠",
+      "cls": "CognitiveShuffle",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 27,
+      "name": "初心者向け催眠",
+      "cls": "BeginnerHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 28,
+      "name": "脳くちゅ催眠",
+      "cls": "BrainSlimeHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 33,
+      "name": "植物寄生催眠",
+      "cls": "PlantParasiteHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 34,
+      "name": "吸血催眠",
+      "cls": "BloodSuckHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 37,
+      "name": "寝かしつけ催眠",
+      "cls": "LullabyHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 51,
+      "name": "ポリネシアン催眠",
+      "cls": "PolynesianHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 55,
+      "name": "糸色 丁頁 イ崔 目民",
+      "cls": "InfiniteUpgradeString",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 74,
+      "name": "赤ちゃん催眠",
+      "cls": "BabyHypnosis",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    },
+    {
+      "no": 83,
+      "name": "オールインワン催眠",
+      "cls": "AllInOne",
+      "cat": "F-count",
+      "problem": "CSVはカウントだがコードにCountキーワードが見当たらない",
+      "csv": "カウント",
+      "impl": "set()"
+    }
+  ],
+  "mapping_count": 104
+}

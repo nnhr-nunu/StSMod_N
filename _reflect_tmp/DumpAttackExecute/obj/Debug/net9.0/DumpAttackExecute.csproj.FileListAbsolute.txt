@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\bin\Debug\net9.0\DumpAttackExecute.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\bin\Debug\net9.0\DumpAttackExecute.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\bin\Debug\net9.0\DumpAttackExecute.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\bin\Debug\net9.0\DumpAttackExecute.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\bin\Debug\net9.0\DumpAttackExecute.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\refint\DumpAttackExecute.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\DumpAttackExecute.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackExecute\obj\Debug\net9.0\ref\DumpAttackExecute.dll

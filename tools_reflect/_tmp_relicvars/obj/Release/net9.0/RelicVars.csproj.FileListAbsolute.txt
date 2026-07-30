@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\bin\Release\net9.0\RelicVars.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\bin\Release\net9.0\RelicVars.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\bin\Release\net9.0\RelicVars.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\bin\Release\net9.0\RelicVars.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\bin\Release\net9.0\RelicVars.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\refint\RelicVars.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\RelicVars.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_relicvars\obj\Release\net9.0\ref\RelicVars.dll

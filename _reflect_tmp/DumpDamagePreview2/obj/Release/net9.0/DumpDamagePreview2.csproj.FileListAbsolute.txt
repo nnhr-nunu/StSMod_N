@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\bin\Release\net9.0\DumpDamagePreview2.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\bin\Release\net9.0\DumpDamagePreview2.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\bin\Release\net9.0\DumpDamagePreview2.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\bin\Release\net9.0\DumpDamagePreview2.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\bin\Release\net9.0\DumpDamagePreview2.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\refint\DumpDamagePreview2.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\DumpDamagePreview2.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDamagePreview2\obj\Release\net9.0\ref\DumpDamagePreview2.dll

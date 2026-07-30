@@ -1,0 +1,6 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.csproj.AssemblyReference.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_sandpit\obj\Release\net9.0\DumpSandpit.sourcelink.json

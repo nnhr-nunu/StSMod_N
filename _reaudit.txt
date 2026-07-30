@@ -1,0 +1,13 @@
+OK=94
+ISSUES=10
+
+ 56 Kneel: RARITY code=None csv=Token
+ 57 Look: RARITY code=None csv=Token
+ 58 Come: RARITY code=None csv=Token
+ 59 Relax: RARITY code=None csv=Token
+ 60 Present: RARITY code=None csv=Token
+ 61 Trance: RARITY code=None csv=Token
+ 62 Crawl: RARITY code=None csv=Token
+ 63 DontMove: RARITY code=None csv=Token
+ 64 Roll: RARITY code=None csv=Token
+ 65 Cum: RARITY code=None csv=Token

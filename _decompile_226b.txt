@@ -1,0 +1,536 @@
+======== MegaCrit.Sts2.Core.Models.Cards.AscendersBane
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public class AscendersBane : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override bool CanBeGeneratedInCombat => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[3]
+	{
+		CardKeyword.Eternal,
+		CardKeyword.Unplayable,
+		CardKeyword.Ethereal
+	});
+
+	public AscendersBane()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Injury
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Injury : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	public Injury()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Greed
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public class Greed : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Eternal,
+		CardKeyword.Unplayable
+	});
+
+	public Greed()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Doubt
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Doubt : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => new global::<>z__ReadOnlySingleElementList<IHoverTip>(HoverTipFactory.FromPower<WeakPower>());
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new PowerVar<WeakPower>(1m));
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Doubt()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		bool alreadyHasWeak = base.Owner.Creature.HasPower<WeakPower>();
+		PowerModel powerModel = await PowerCmd.Apply<WeakPower>(choiceContext, base.Owner.Creature, base.DynamicVars.Weak.BaseValue, null, this);
+		if (powerModel != null && !alreadyHasWeak)
+		{
+			powerModel.SkipNextDurationTick = true;
+		}
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Writhe
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Writhe : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Innate,
+		CardKeyword.Unplayable
+	});
+
+	public Writhe()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Folly
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Folly : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[4]
+	{
+		CardKeyword.Unplayable,
+		CardKeyword.Eternal,
+		CardKeyword.Innate,
+		CardKeyword.Ethereal
+	});
+
+	public Folly()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.CurseOfTheBell
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class CurseOfTheBell : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Eternal,
+		CardKeyword.Unplayable
+	});
+
+	public CurseOfTheBell()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Decay
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Decay : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new DamageVar(2m, ValueProp.Unpowered | ValueProp.Move));
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Decay()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, base.DynamicVars.Damage, this, null);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Shame
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Shame : CardModel
+{
+	private const string _frailKey = "Frail";
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => new global::<>z__ReadOnlySingleElementList<IHoverTip>(HoverTipFactory.FromPower<FrailPower>());
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new DynamicVar("Frail", 1m));
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Shame()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		bool alreadyHasFrail = base.Owner.Creature.HasPower<FrailPower>();
+		PowerModel powerModel = await PowerCmd.Apply<FrailPower>(choiceContext, base.Owner.Creature, base.DynamicVars["Frail"].BaseValue, null, this);
+		if (powerModel != null && !alreadyHasFrail)
+		{
+			powerModel.SkipNextDurationTick = true;
+		}
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.SporeMind
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class SporeMind : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Exhaust);
+
+	public SporeMind()
+		: base(1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Debris
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Debris : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Exhaust);
+
+	public Debris()
+		: base(1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+
+	protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	{
+		return Task.CompletedTask;
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Toxic
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Toxic : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Exhaust);
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new DamageVar(5m, ValueProp.Unpowered | ValueProp.Move));
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Toxic()
+		: base(1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, base.DynamicVars.Damage, this, null);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Powers.SandpitPower
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Godot;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models.Monsters;
+using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.TestSupport;
+
+namespace MegaCrit.Sts2.Core.Models.Powers;
+
+public sealed class SandpitPower : PowerModel
+{
+	private const float _paddingDistanceFromMonster = 450f;
+
+	private const float _paddingDistanceFromOriginal = 50f;
+
+	private const float _tweenTime = 0.25f;
+
+	private int _initialAmount;
+
+	private float _initialTargetPosition;
+
+	public override PowerType Type => PowerType.Buff;
+
+	public override PowerStackType StackType => PowerStackType.Counter;
+
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
+	private IReadOnlyList<Creature> AllAffectedCreatures
+	{
+		get
+		{
+			Creature creature = base.Target.Player.Creature;
+			IReadOnlyList<Creature> pets = base.Target.Pets;
+			int num = 0;
+			Creature[] array = new Creature[1 + pets.Count];
+			array[num] = creature;
+			num++;
+			foreach (Creature item in pets)
+			{
+				array[num] = item;
+				num++;
+			}
+			return new global::<>z__ReadOnlyArray<Creature>(array);
+		}
+	}
+
+	public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+	{
+		if (TestMode.IsOn)
+		{
+			return Task.CompletedTask;
+		}
+		NCreature creatureNode = NCombatRoom.Instance.GetCreatureNode(base.Target);
+		_initialAmount = base.Amount;
+		_initialTargetPosition = creatureNode.GlobalPosition.X;
+		return Task.CompletedTask;
+	}
+
+	public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+	{
+		if (side == CombatSide.Enemy)
+		{
+			await PowerCmd.Decrement(this);
+		}
+	}
+
+	public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal _, Creature? __, CardModel? cardSource)
+	{
+		if (!TestMode.IsOn && power == this)
+		{
+			await UpdateCreaturePositions();
+			if (LocalContext.IsMe(base.Target))
+			{
+				int num = Mathf.Clamp(6 - base.Amount, 0, 5);
+				NRunMusicController.Instance?.UpdateMusicParameter(TheInsatiable.TheInsatiableTrackName, num);
+			}
+		}
+	}
+
+	public override async Task AfterRemoved(Creature oldOwner)
+	{
+		if (oldOwner.IsDead || base.Target.IsDead)
+		{
+			return;
+		}
+		if (TestMode.IsOff)
+		{
+			NCreature creatureNode = NCombatRoom.Instance.GetCreatureNode(base.Owner);
+			Tween tween = NCombatRoom.Instance.CreateTween();
+			float num = creatureNode.GlobalPosition.X - 450f;
+			foreach (Creature allAffectedCreature in AllAffectedCreatures)
+			{
+				NCreature creatureNode2 = NCombatRoom.Instance.GetCreatureNode(allAffectedCreature);
+				tween.Parallel().TweenProperty(creatureNode2, "global_position:x", num, 0.699999988079071).SetEase(Tween.EaseType.InOut)
+					.SetTrans(Tween.TransitionType.Sine);
+			}
+		}
+		SfxCmd.Play("event:/sfx/enemy/enemy_attacks/the_insatiable/the_insatiable_finisher");
+		await CreatureCmd.TriggerAnim(base.Owner, "EatPlayerTrigger", 0f);
+		await Cmd.Wait(0.5f);
+		foreach (Creature allAffectedCreature2 in AllAffectedCreatures)
+		{
+			if (TestMode.IsOff)
+			{
+				NCreature creatureNode3 = NCombatRoom.Instance.GetCreatureNode(allAffectedCreature2);
+				creatureNode3.Visuals.Visible = false;
+			}
+			if (allAffectedCreature2.IsPlayer || allAffectedCreature2.Monster is Osty)
+			{
+				await CreatureCmd.Kill(allAffectedCreature2, force: true);
+			}
+		}
+	}
+
+	public override async Task AfterCreatureAddedToCombat(Creature creature)
+	{
+		if (creature.Side != base.Owner.Side)
+		{
+			await UpdateCreaturePositions();
+		}
+	}
+
+	public override async Task AfterOstyRevived(Creature osty)
+	{
+		await UpdateCreaturePositions();
+	}
+
+	public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+	{
+		if (side == CombatSide.Enemy)
+		{
+			await UpdateCreaturePositions();
+		}
+	}
+
+	private async Task UpdateCreaturePositions()
+	{
+		if (TestMode.IsOn)
+		{
+			return;
+		}
+		NCreature creatureNode = NCombatRoom.Instance.GetCreatureNode(base.Owner);
+		NCreature creatureNode2 = NCombatRoom.Instance.GetCreatureNode(base.Target);
+		float num = creatureNode.GlobalPosition.X - 450f;
+		float num2 = _initialTargetPosition + 50f;
+		float num3 = (num2 - num) / (float)_initialAmount;
+		int num4 = Mathf.Min(base.Amount, _initialAmount);
+		int num5 = Mathf.Max(base.Amount - _initialAmount, 0);
+		NCreature nCreature = creatureNode2;
+		float num6 = 0f;
+		Player player = base.Target?.Player;
+		if (player != null && player.IsOstyAlive && LocalContext.IsMe(base.Target))
+		{
+			NCreature creatureNode3 = NCombatRoom.Instance.GetCreatureNode(base.Target.Player.Osty);
+			nCreature = creatureNode3;
+			float x = NCreature.GetOstyOffsetFromPlayer(creatureNode3.Entity).X;
+			num2 += x;
+			num3 = (num2 - num) / (float)_initialAmount;
+			float num7 = 100f * (1f - (float)num4 / (float)_initialAmount);
+			num6 = x - num7;
+		}
+		float num8 = creatureNode.GlobalPosition.X - 400f + num3 * (float)num4 + num3 * ((float)num5 / ((float)num5 + 2f));
+		Tween tween = null;
+		foreach (Creature allAffectedCreature in AllAffectedCreatures)
+		{
+			float num9 = num8 - nCreature.GlobalPosition.X;
+			if (allAffectedCreature != nCreature.Entity)
+			{
+				num9 = num8 - num6 - creatureNode2.GlobalPosition.X;
+			}
+			if (Math.Abs(num9) <= 5f || allAffectedCreature.IsDead)
+			{
+				continue;
+			}
+			NCreature creatureNode4 = NCombatRoom.Instance.GetCreatureNode(allAffectedCreature);
+			if (creatureNode4 != null)
+			{
+				if (tween == null)
+				{
+					tween = NCombatRoom.Instance.CreateTween().SetParallel().SetEase(Tween.EaseType.Out)
+						.SetTrans(Tween.TransitionType.Cubic);
+				}
+				tween.TweenProperty(creatureNode4, "global_position:x", creatureNode4.GlobalPosition.X + num9, 0.25);
+			}
+		}
+		if (tween != null)
+		{
+			await tween.AwaitFinished(NCombatRoom.Instance);
+		}
+	}
+}
+

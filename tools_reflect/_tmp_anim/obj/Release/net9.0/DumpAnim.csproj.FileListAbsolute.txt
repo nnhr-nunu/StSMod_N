@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\bin\Release\net9.0\DumpAnim.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\bin\Release\net9.0\DumpAnim.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\bin\Release\net9.0\DumpAnim.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\bin\Release\net9.0\DumpAnim.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\bin\Release\net9.0\DumpAnim.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\refint\DumpAnim.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\DumpAnim.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_anim\obj\Release\net9.0\ref\DumpAnim.dll

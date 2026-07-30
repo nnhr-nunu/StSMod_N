@@ -1,0 +1,5 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\ProbeTurnOrder\obj\Debug\net9.0\ProbeTurnOrder.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\ProbeTurnOrder\obj\Debug\net9.0\ProbeTurnOrder.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\ProbeTurnOrder\obj\Debug\net9.0\ProbeTurnOrder.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\ProbeTurnOrder\obj\Debug\net9.0\ProbeTurnOrder.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\ProbeTurnOrder\obj\Debug\net9.0\ProbeTurnOrder.sourcelink.json

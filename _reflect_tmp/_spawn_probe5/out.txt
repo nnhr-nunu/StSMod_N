@@ -1,0 +1,439 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe5\Program.cs(52,39): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe5\SpawnProbe5.csproj]
+
+===== Fabricator.cctor =====
+CALL HashSet`1..ctor
+CALL ModelDb.Monster<MegaCrit.Sts2.Core.Models.Monsters.Zapbot>
+CALL HashSet`1.Add
+CALL ModelDb.Monster<MegaCrit.Sts2.Core.Models.Monsters.Stabbot>
+CALL HashSet`1.Add
+CALL HashSet`1..ctor
+CALL ModelDb.Monster<MegaCrit.Sts2.Core.Models.Monsters.Guardbot>
+CALL HashSet`1.Add
+CALL ModelDb.Monster<MegaCrit.Sts2.Core.Models.Monsters.Noisebot>
+CALL HashSet`1.Add
+
+===== CreatureCmd.Add[T] MoveNext =====
+CALL MonsterModel.ToMutable
+CALL ICombatState.CreateCreature
+CALL CreatureCmd.Add
+CALL Task.GetAwaiter
+CALL TaskAwaiter.get_IsCompleted
+CALL TaskAwaiter.GetResult
+CALL AsyncTaskMethodBuilder`1.SetException
+CALL AsyncTaskMethodBuilder`1.SetResult
+
+===== CreatureCmd.Add[T] wrapper =====
+CALL AsyncTaskMethodBuilder`1.Create
+CALL AsyncTaskMethodBuilder`1.get_Task
+
+===== PlayerCmd.AddPet[T] =====
+CALL Player.get_Creature
+CALL Creature.get_CombatState
+CALL MonsterModel.ToMutable
+CALL Player.get_Creature
+CALL Creature.get_Side
+CALL ICombatState.CreateCreature
+CALL PlayerCmd.AddPet
+CALL Task.GetAwaiter
+CALL TaskAwaiter.get_IsCompleted
+CALL TaskAwaiter.GetResult
+CALL AsyncTaskMethodBuilder`1.SetException
+CALL AsyncTaskMethodBuilder`1.SetResult
+
+===== CombatManager methods involving TakeTurn =====
+add_AboutToSwitchToEnemyTurn -> Void
+add_PlayerEndedTurn -> Void
+add_PlayerUnendedTurn -> Void
+add_TurnEnded -> Void
+add_TurnStarted -> Void
+AfterAllPlayersReadyToBeginEnemyTurn -> Task
+AfterAllPlayersReadyToEndTurn -> Task
+AllPlayersReadyToEndTurn -> Boolean
+DoTurnEnd -> Task
+EndEnemyTurn -> Task
+EndEnemyTurnInternal -> Task
+EndPlayerTurnPhaseOneInternal -> Task
+EndPlayerTurnPhaseTwoInternal -> Task
+ExecuteEnemyTurn -> Task
+get_EndingPlayerTurnPhaseOne -> Boolean
+get_EndingPlayerTurnPhaseTwo -> Boolean
+get_IsEnemyTurnStarted -> Boolean
+get_PlayersTakingExtraTurn -> IReadOnlyList`1
+IsPartOfPlayerTurn -> Boolean
+IsPlayerReadyToEndTurn -> Boolean
+OnEndedTurnLocally -> Void
+ReleaseDeferredEndTurnTransitionIfNeeded -> Void
+remove_AboutToSwitchToEnemyTurn -> Void
+remove_PlayerEndedTurn -> Void
+remove_PlayerUnendedTurn -> Void
+remove_TurnEnded -> Void
+remove_TurnStarted -> Void
+set_EndingPlayerTurnPhaseOne -> Void
+set_EndingPlayerTurnPhaseTwo -> Void
+set_IsEnemyTurnStarted -> Void
+SetReadyToBeginEnemyTurn -> Void
+SetReadyToEndTurn -> Void
+SetupPlayerTurn -> Task
+StartTurn -> Task
+SwitchFromPlayerToEnemySide -> Task
+UndoReadyToEndTurn -> Void
+WaitForActionThenEndTurn -> Task
+
+##### StartTurn #####
+  CombatManager.get_IsInProgress
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatManager.SetPhaseForAllPlayers
+  Lock.EnterScope
+  List`1.get_Count
+  CombatState.get_CurrentSide
+  Func`2..ctor
+  Enumerable.Select
+  Enumerable.ToList
+  Enumerable.ToList
+  CombatState.get_CreaturesOnCurrentSide
+  Enumerable.ToList
+  List`1..ctor
+  CombatState.get_CurrentSide
+  List`1..ctor
+  CombatState.get_Players
+  Enumerable.ToList
+  List`1..ctor
+  Scope.Dispose
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  CombatState.get_CurrentSide
+  Creature.BeforeTurnStart
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  CombatState.get_CurrentSide
+  Hook.BeforeSideTurnStart
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatState.get_CurrentSide
+  CombatManager.SetPhaseForAllPlayers
+  CombatManager.set_PlayerActionsDisabled
+  Lock.EnterScope
+  HashSet`1.Clear
+  HashSet`1.Clear
+  Scope.Dispose
+  LocalContext.GetMe
+  Player.get_PlayerCombatState
+  PlayerCombatState.get_TurnNumber
+  Nullable`1..ctor
+  Nullable`1.GetValueOrDefault
+  NCombatRoom.get_Instance
+  NPlayerTurnBanner.Create
+  GodotTreeExtensions.AddChildSafely
+  CombatState.get_Enemies
+  IEnumerable`1.GetEnumerator
+  IEnumerator`1.get_Current
+  CombatState.get_PlayerCreatures
+  Creature.PrepareForNextTurn
+  IEnumerator.MoveNext
+  IDisposable.Dispose
+  NCombatRoom.get_Instance
+  NEnemyTurnBanner.Create
+  GodotTreeExtensions.AddChildSafely
+  Cmd.CustomScaledWait
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  CombatState.get_CurrentSide
+  Creature.AfterTurnStart
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  Hook.AfterBlockCleared
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  List`1..ctor
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  LocalContext.get_NetId
+  Nullable`1.get_HasValue
+  LocalContext.get_NetId
+  Nullable`1.get_Value
+  HookPlayerChoiceContext..ctor
+  CombatManager.SetupPlayerTurn
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  ValueTuple`2..ctor
+  List`1.Add
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  CombatState.get_CurrentSide
+  Hook.AfterSideTurnStart
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatState.get_CurrentSide
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  Player.get_PlayerCombatState
+  LocalContext.get_NetId
+  Nullable`1.get_HasValue
+  LocalContext.get_NetId
+  Nullable`1.get_Value
+  HookPlayerChoiceContext..ctor
+  Player.get_PlayerCombatState
+  PlayerCombatState.get_OrbQueue
+  OrbQueue.AfterTurnStart
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  RunManager.get_Instance
+  RunManager.get_ChecksumTracker
+  ldstr "After player turn start"
+  ChecksumTracker.GenerateChecksum
+  CombatState.get_Players
+  IEnumerable`1.GetEnumerator
+  IEnumerator`1.get_Current
+  Player.get_Creature
+  Creature.get_IsDead
+  List`1.Contains
+  DefaultInterpolatedStringHandler..ctor
+  ldstr "Setting player "
+  DefaultInterpolatedStringHandler.AppendLiteral
+  Player.get_NetId
+  DefaultInterpolatedStringHandler.AppendFormatted
+  ldstr " to ready at start of turn. IsDead: "
+  DefaultInterpolatedStringHandler.AppendLiteral
+  Player.get_Creature
+  Creature.get_IsDead
+  DefaultInterpolatedStringHandler.AppendFormatted
+  ldstr ". "
+  DefaultInterpolatedStringHandler.AppendLiteral
+  ldstr "IsStartingTurn: "
+  DefaultInterpolatedStringHandler.AppendLiteral
+  List`1.Contains
+  DefaultInterpolatedStringHandler.AppendFormatted
+  DefaultInterpolatedStringHandler.ToStringAndClear
+  Log.Info
+  CombatManager.SetReadyToEndTurn
+  CombatManager.AllPlayersReadyToEndTurn
+  CombatManager.ReleaseDeferredEndTurnTransitionIfNeeded
+  IEnumerator.MoveNext
+  IDisposable.Dispose
+  Enumerable.Zip
+  IEnumerable`1.GetEnumerator
+  IEnumerator`1.get_Current
+  CombatManager.ReleaseDeferredEndTurnTransitionIfNeeded
+  Player.get_Creature
+  Creature.get_IsDead
+  CombatManager.RunAutoPrePlayPhase
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  IEnumerator.MoveNext
+  IDisposable.Dispose
+  CombatManager.CheckWinCondition
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatManager.get_IsInProgress
+  RunManager.get_Instance
+  RunManager.get_ActionExecutor
+  ActionExecutor.Unpause
+  RunManager.get_Instance
+  RunManager.get_ActionQueueSynchronizer
+  ActionQueueSynchronizer.SetCombatState
+  CombatManager.set_IsEnemyTurnStarted
+  Lock.EnterScope
+  Scope.Dispose
+  Action`1.Invoke
+  CombatManager.ReleaseDeferredEndTurnTransitionIfNeeded
+  CombatManager.set_IsEnemyTurnStarted
+  Action`1.Invoke
+  RunManager.get_Instance
+  RunManager.get_ChecksumTracker
+  ldstr "After enemy turn start"
+  ChecksumTracker.GenerateChecksum
+  CombatManager.WaitForUnpause
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatManager.CheckWinCondition
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  CombatManager.get_IsInProgress
+  CombatManager.ExecuteEnemyTurn
+
+##### ExecuteEnemyTurn #####
+  CombatManager.get_IsInProgress
+  CombatManager.get_CombatCt
+  CancellationToken.ThrowIfCancellationRequested
+  Func`1.Invoke
+  CancellationToken.ThrowIfCancellationRequested
+  CombatState.get_Enemies
+  Enumerable.ToList
+  List`1.GetEnumerator
+  Enumerator.get_Current
+  CombatState.ContainsCreature
+  NCombatRoom.get_Instance
+  NCombatRoom.GetCreatureNode
+  NCreature.PerformIntent
+  Creature.TakeTurn
+  CancellationToken.ThrowIfCancellationRequested
+  CombatManager.WaitForUnpause
+  CombatManager.CheckWinCondition
+  CombatManager.get_IsInProgress
+  Enumerator.MoveNext
+  IDisposable.Dispose
+  RunManager.get_Instance
+  RunManager.get_ChecksumTracker
+  ldstr "After enemy turn end"
+  ChecksumTracker.GenerateChecksum
+  Nullable`1..ctor
+  CombatManager.EndEnemyTurn
+
+===== Creature.TakeTurn =====
+CALL Creature.get_IsMonster
+CALL Creature.get_Side
+ldstr "Only enemy monsters can take automated turns."
+CALL InvalidOperationException..ctor
+CALL Creature.get_Monster
+CALL MonsterModel.get_SpawnedThisTurn
+CALL Creature.get_Monster
+CALL MonsterModel.PerformMove
+CALL Task.GetAwaiter
+CALL TaskAwaiter.get_IsCompleted
+CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Entities.Creatures.Creature+<TakeTurn>d__140>
+CALL TaskAwaiter.GetResult
+CALL AsyncTaskMethodBuilder.SetException
+CALL AsyncTaskMethodBuilder.SetResult
+
+===== AttackCommand methods =====
+Boolean <Execute>b__90_3(Creature)
+Void AddResultsInternal(IEnumerable`1)
+AttackCommand AfterAttackerAnim(Func`1)
+AttackCommand BeforeDamage(Func`1)
+Task`1 CreateContextAsync(ICombatState,PlayerChoiceContext,CardPlay)
+Task`1 Execute(PlayerChoiceContext)
+AttackCommand FromCard(CardModel,CardPlay)
+AttackCommand FromMonster(MonsterModel)
+AttackCommand FromOsty(Creature,CardModel,CardPlay)
+Creature get_Attacker()
+CardPlay get_CardPlay()
+ValueProp get_DamageProps()
+String get_HitSfx()
+String get_HitVfx()
+Boolean get_IsMultiTargeted()
+Boolean get_IsRandomlyTargeted()
+Boolean get_IsSingleTargeted()
+AbstractModel get_ModelSource()
+IEnumerable`1 get_Results()
+CombatSide get_TargetSide()
+String get_TmpHitSfx()
+IReadOnlyList`1 GetPossibleTargets()
+Void IncrementHitsInternal()
+AttackCommand OnlyPlayAnimOnce()
+Void set_Attacker(Creature)
+Void set_CardPlay(CardPlay)
+Void set_DamageProps(ValueProp)
+Void set_HitSfx(String)
+Void set_HitVfx(String)
+Void set_IsRandomlyTargeted(Boolean)
+Void set_ModelSource(AbstractModel)
+Void set_TargetSide(CombatSide)
+Void set_TmpHitSfx(String)
+AttackCommand SpawningHitVfxOnEachCreature()
+AttackCommand Targeting(Creature)
+AttackCommand TargetingAllOpponents(ICombatState)
+AttackCommand TargetingRandomOpponents(ICombatState,Boolean)
+AttackCommand Unpowered()
+AttackCommand WithAttackerAnim(String,Single,Creature)
+AttackCommand WithAttackerFx(String,String,String)
+AttackCommand WithAttackerFx(Func`1)
+AttackCommand WithHitCount(Int32)
+AttackCommand WithHitFx(String,String,String)
+AttackCommand WithHitVfxNode(Func`2)
+AttackCommand WithHitVfxSpawnedAtBase()
+AttackCommand WithNoAttackerAnim()
+AttackCommand WithWaitBeforeHit(Single,Single)
+
+===== MonsterModel PerformMove / GetTargets =====
+Boolean get_IsPerformingMove()
+Void set_IsPerformingMove(Boolean)
+Void RollMove(IEnumerable`1)
+Task PerformMove()
+
+===== HighVoltagePower =====
+PROP PowerType Type
+PROP PowerStackType StackType
+PowerType get_Type
+PowerStackType get_StackType
+Task AfterSideTurnEnd
+
+===== NCombatRoom.AddCreature =====
+
+===== NCombatRoom.AddCreature =====
+CALL NCreature.Create
+CALL List`1.Add
+CALL Creature.get_IsPlayer
+CALL Creature.get_PetOwner
+CALL GodotTreeExtensions.AddChildSafely
+CALL GodotTreeExtensions.AddChildSafely
+CALL Creature.get_SlotName
+CALL NCombatRoom.get_EncounterSlots
+CALL DefaultInterpolatedStringHandler..ctor
+ldstr "Creature "
+CALL DefaultInterpolatedStringHandler.AppendLiteral
+CALL DefaultInterpolatedStringHandler.AppendFormatted<MegaCrit.Sts2.Core.Entities.Creatures.Creature>
+ldstr " has slot name '"
+CALL DefaultInterpolatedStringHandler.AppendLiteral
+CALL Creature.get_SlotName
+CALL DefaultInterpolatedStringHandler.AppendFormatted
+ldstr "' but NCombatRoom.EncounterSlots is null."
+CALL DefaultInterpolatedStringHandler.AppendLiteral
+CALL DefaultInterpolatedStringHandler.ToStringAndClear
+CALL InvalidOperationException..ctor
+CALL NCombatRoom.get_EncounterSlots
+CALL Creature.get_SlotName
+CALL NodePath.op_Implicit
+CALL Node.GetNode<Godot.Marker2D>
+CALL Node2D.get_GlobalPosition
+CALL Control.set_GlobalPosition
+CALL NCombatRoom.UpdateCreatureNavigation
+CALL Creature.get_PetOwner
+CALL <>c__DisplayClass90_0..ctor
+CALL Creature.get_PetOwner
+CALL Player.get_Creature
+CALL NCombatRoom.GetCreatureNode
+CALL NCreature.get_Entity
+CALL Creature.get_Player
+CALL Func`2..ctor
+CALL Enumerable.Where<MegaCrit.Sts2.Core.Nodes.Combat.NCreature>
+CALL Enumerable.ToList<MegaCrit.Sts2.Core.Nodes.Combat.NCreature>
+CALL Node.GetParent
+CALL Node.GetIndex
+CALL GodotTreeExtensions.MoveChildSafely
+CALL Creature.get_Monster
+CALL LocalContext.IsMe
+CALL Creature.get_MaxHp
+CALL NCreature.OstyScaleToSize
+CALL Node.GetParent
+CALL Node.GetIndex
+CALL GodotTreeExtensions.MoveChildSafely
+CALL List`1.get_Count
+CALL NCreature.get_Visuals
+CALL NCreatureVisuals.get_Bounds
+CALL Control.get_Size
+CALL List`1.get_Count
+CALL List`1.get_Item
+CALL Control.get_Position
+CALL NCreature.get_Visuals
+CALL NCreatureVisuals.get_Bounds
+CALL Control.get_Size
+CALL Control.get_Position
+CALL Vector2..ctor
+CALL Control.set_Position
+CALL NCreature.ToggleIsInteractable
+CALL List`1.get_Count
+CALL Control.get_Position
+CALL NCreature.get_Visuals
+CALL Color..ctor
+CALL CanvasItem.set_Modulate

@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\bin\Debug\net9.0\ShrinkCheck.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\bin\Debug\net9.0\ShrinkCheck.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\bin\Debug\net9.0\ShrinkCheck.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\bin\Debug\net9.0\ShrinkCheck.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\bin\Debug\net9.0\ShrinkCheck.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\refint\ShrinkCheck.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ShrinkCheck.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_shrink_check\obj\Debug\net9.0\ref\ShrinkCheck.dll

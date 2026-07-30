@@ -1,0 +1,582 @@
+================================================================================
+A/B: cost/type/rarity/title for ALL 1-104
+================================================================================
+ATR issues: 0
+
+================================================================================
+CANDIDATE DEEP DUMP
+================================================================================
+
+### No.2 呼吸制御 / BreathControl
+CSV: type=スキル cost=0 rarity=アンコモン build=性癖：SM
+EFF: このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。
+UG:  保留がつく
+LOC title='呼吸制御'
+LOC desc='このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。'
+CTOR: HypnosisCreatorCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+UGCODE: protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<BreathControlPower>( choiceContext, play.Target, 1M, Owner.Creature, this); }
+
+### No.5 心停止催眠 / CardiacArrestHypnosis
+CSV: type=スキル cost=3 rarity=アンコモン build=カウント, 心臓, 性癖：アブノーマル
+EFF: カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。
+UG:  相手の心臓が止まり追加のレリック報酬を獲得する。
+LOC title='心停止催眠'
+LOC desc='カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。'
+CTOR: HypnosisCreatorCard(3, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Abnormal];
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [new DynamicVar("Turns", 3M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var isBoss = play.Target.MaxHp >= BossMaxHpThreshold; var turns = DynamicVars["Turns"].IntValue * (isBoss ? 2 : 1); await PowerCmd.Apply<CardiacArrestPower>(choiceContext, play.Target, turns, Owner.Creature, this); var power = play.Target.GetPower<CardiacArrestPo
+
+### No.7 感度3000倍 / Sensitivity3000
+CSV: type=スキル cost=2 rarity=コモン build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub
+EFF: トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。
+UG:  コストが1に
+LOC title='感度3000倍'
+LOC desc='トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。'
+CTOR: HypnosisCreatorCard(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal];
+VARS: CanonicalVars => [new DynamicVar("Trance", 3M)]
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await TranceCombat.ApplyTrance( choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this); await PowerCmd.Apply<SensitivityPower>( choiceContext, play.Target, 1M, Owner.Creature, this); await ResolveFetishOnTarget(choiceContext, play); }
+
+### No.11 アブノーマル / AbnormalTransform
+CSV: type=スキル cost=X rarity=アンコモン build=性癖：アブノーマル
+EFF: X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。
+UG:  ランダムなアップグレード済みの他色アブノーマルカードに
+LOC title='アブノーマル'
+LOC desc='X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。'
+CTOR: HypnosisCreatorCard(-1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+UGCODE: protected override void OnUpgrade() { } }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { var hand = Owner.PlayerCombatState?.Hand; if (hand == null || CombatState == null) return; var pool = ModelDb.AllCards.Where(IsAbnormalPoolCard).ToList(); if (pool.Count == 0) return; var x = ResolveEnergyXValue(); var count = Math.Min(x, hand.Cards.Count(c => c != this)); if (count <= 0) return; IReadOnlyList
+
+### No.15 前戯 / Prefinger
+CSV: type=スキル cost=0 rarity=コモン build=
+EFF: 弱体1と脱力1を付与し1エナジーを得る。廃棄。
+UG:  弱体2と脱力2
+LOC title='前戯'
+LOC desc='弱体1と脱力1を付与し1エナジーを得る。廃棄。'
+CTOR: HypnosisCreatorCard(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+KW: CanonicalKeywords => [CardKeyword.Exhaust];
+VARS: CanonicalVars => [ new PowerVar<VulnerablePower>(1M), new PowerVar<WeakPower>(1M), new EnergyVar(1) ]
+UGCODE: protected override void OnUpgrade() { DynamicVars["VulnerablePower"].UpgradeValueBy(1M); DynamicVars.Weak.UpgradeValueBy(1M); }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<VulnerablePower>( choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this); await PowerCmd.Apply<WeakPower>( choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this); await PlayerCmd.Gai
+
+### No.16 ラポール / Rapport
+CSV: type=パワー cost=0 rarity=アンコモン build=
+EFF: 手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。
+UG:  ターン開始時、手札のカウントがひとつ追加で進む。
+LOC title='ラポール'
+LOC desc='手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。'
+CTOR: HypnosisCreatorCard(0, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+VARS: CanonicalVars => [new DynamicVar("Stacks", 1M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["Stacks"].UpgradeValueBy(1M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { CountRules.AdvanceHandCountCards(Owner); await PowerCmd.Apply<RapportPower>( choiceContext, Owner.Creature, DynamicVars["Stacks"].BaseValue, Owner.Creature, this); }
+
+### No.17 カタレプシー / Catalepsy
+CSV: type=スキル cost=1 rarity=アンコモン build=
+EFF: 相手にスローを付与する。
+UG:  相手がトランス時はスローの蓄積量がリセットされない。
+LOC title='カタレプシー'
+LOC desc='相手にスローを付与する。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+VARS: CanonicalVars => [new DynamicVar("Slow", 3M)]
+UGCODE: protected override void OnUpgrade() { } }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<CatalepsyPower>( choiceContext, play.Target, DynamicVars["Slow"].BaseValue, Owner.Creature, this); if (IsUpgraded) { var power = play.Target.GetPower<CatalepsyPower>(); if (power != null) power.PersistIfTranced = true; } }
+
+### No.18 状態異常催眠 / StatusHypnosis
+CSV: type=パワー cost=1 rarity=レア build=性癖：アブノーマル
+EFF: トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。
+UG:  天賦。
+LOC title='状態異常催眠'
+LOC desc='トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+FET: CardFetishes => [FetishType.Abnormal];
+UGCODE: protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
+
+### No.20 好き好き催眠 / LoveHypnosis
+CSV: type=スキル cost=3 rarity=レア build=カウント, 性癖：DomSub
+EFF: カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。
+UG:  相手がバフ行動またはブロックを予定している場合
+LOC title='好き好き催眠'
+LOC desc='カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。'
+CTOR: HypnosisCreatorCard(3, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.DomSub];
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [ new PowerVar<ConfusedPower>(2M), new DynamicVar("Trance", 1M) ]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<ConfusedPower>( choiceContext, play.Target, DynamicVars["ConfusedPower"].BaseValue, Owner.Creature, this); await TranceCombat.ApplyTrance( choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this); await ResolveFetishO
+
+### No.28 脳くちゅ催眠 / BrainSlimeHypnosis
+CSV: type=スキル cost=3 rarity=アンコモン build=カウント, 性癖：アブノーマル
+EFF: カウント。攻撃対象を、対象を含むランダムな相手に移し替える。トランス1。
+UG:  攻撃対象を、対象を含む相手全員に移し替える。
+LOC title='脳くちゅ催眠'
+LOC desc='カウント。攻撃対象を、対象を含むランダムな相手に移し替える。トランス1。'
+CTOR: HypnosisCreatorCard(3, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Abnormal];
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [new DynamicVar("Trance", 1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); if (IsUpgraded && CombatState != null) { foreach (var enemy in CombatState.HittableEnemies.ToList()) { await PowerCmd.Apply<BrainSlimeRedirectPower>( choiceContext, enemy, 1M, Owner.Creature, this); } } else { await PowerCmd.Apply<BrainSlimeRedirectPower>( choice
+
+### No.29 ちゃんとできるね？ / CanDoIt
+CSV: type=スキル cost=1 rarity=コモン build=性癖：DomSub
+EFF: 脱力1を付与する。沼1を付与する。
+UG:  脱力2を付与する。沼1を付与する。
+LOC title='ちゃんとできるね？'
+LOC desc='脱力1を付与する。沼1を付与する。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.DomSub];
+VARS: CanonicalVars => [ new PowerVar<WeakPower>(1M), new PowerVar<BogPower>(1M) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars.Weak.UpgradeValueBy(1M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<WeakPower>( choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this); await PowerCmd.Apply<BogPower>( choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this); await ResolveFetishOnTarget(choic
+
+### No.33 植物寄生催眠 / PlantParasiteHypnosis
+CSV: type=アタック cost=3 rarity=アンコモン build=カウント, 心臓, 性癖：アブノーマル
+EFF: カウント。15ダメージを与える。対象は毎ターンHPを10失う。戦闘終了後、追加のレリック報酬を獲得する。トランス1。
+UG:  対象は毎ターンHPを15失う。
+LOC title='植物寄生催眠'
+LOC desc='カウント。15ダメージを与える。対象は毎ターンHPを10失う。戦闘終了後、追加のレリック報酬を獲得する。トランス1。'
+CTOR: HypnosisCreatorCard(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Abnormal];
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [ new DamageVar(15M, ValueProp.Move), new PowerVar<ConstrictPower>(10M), new DynamicVar("Trance", 1M) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(5M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3") .Execute(choiceContext); await PowerCmd.Apply<ConstrictPower>( choiceContext, play.Target, DynamicVar
+
+### No.35 指折り数えて / FingerCount
+CSV: type=スキル cost=1 rarity=コモン build=
+EFF: 手札のカウントカードすべてのコストを1下げる。
+UG:  コスト0
+LOC title='指折り数えて'
+LOC desc='手札のカウントカードすべてのコストを1下げる。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { CountRules.AdvanceHandCountCards(Owner); await Task.CompletedTask; }
+
+### No.37 寝かしつけ催眠 / LullabyHypnosis
+CSV: type=スキル cost=3 rarity=アンコモン build=カウント
+EFF: カウント。睡眠1を与える。対象のHPを20回復する。トランス1。
+UG:  睡眠2を与える。対象のHPを30回復する。
+LOC title='寝かしつけ催眠'
+LOC desc='カウント。睡眠1を与える。対象のHPを20回復する。トランス1。'
+CTOR: HypnosisCreatorCard(3, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [ new PowerVar<AsleepPower>(1M), new DynamicVar("Heal", 20M), new DynamicVar("Trance", 1M) ]
+UGCODE: protected override void OnUpgrade() { DynamicVars["AsleepPower"].UpgradeValueBy(1M); DynamicVars["Heal"].UpgradeValueBy(10M); }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<AsleepPower>( choiceContext, play.Target, DynamicVars["AsleepPower"].BaseValue, Owner.Creature, this); await CreatureCmd.Heal(play.Target, DynamicVars["Heal"].BaseValue); await TranceCombat.ApplyTrance(choiceContext, play.Target, DynamicVars[
+
+### No.39 腹部への殴打 / AbdominalStrike
+CSV: type=アタック cost=2 rarity=コモン build=性癖：SM
+EFF: 16ダメージを与える。弱体2を付与する。
+UG:  20ダメージを与える。弱体2を付与する。
+LOC title='腹部への殴打'
+LOC desc='16ダメージを与える。弱体2を付与する。'
+CTOR: HypnosisCreatorCard(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Sm];
+VARS: CanonicalVars => [ new DamageVar(16M, ValueProp.Move), new PowerVar<VulnerablePower>(2M) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3") .Execute(choiceContext); await PowerCmd.Apply<VulnerablePower>( choiceContext, play.Target, DynamicVa
+
+### No.40 感覚共有 / SenseShare
+CSV: type=スキル cost=1 rarity=コモン build=
+EFF: このターン中、単体へのアタックカードは全体が対象になる。
+UG:  0コスト
+LOC title='感覚共有'
+LOC desc='このターン中、単体へのアタックカードは全体が対象になる。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+
+### No.42 足蹴 / Kick
+CSV: type=アタック cost=2 rarity=コモン build=性癖：DomSub, 性癖：SM
+EFF: 10ダメージを与える。SMとDomSubの性癖に目覚めさせる。
+UG:  プレイ後は山札に入る。
+LOC title='足蹴'
+LOC desc='10ダメージを与える。SMとDomSubの性癖に目覚めさせる。'
+CTOR: HypnosisCreatorCard(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Sm, FetishType.DomSub];
+VARS: CanonicalVars => [new DamageVar(10M, ValueProp.Move)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3") .Execute(choiceContext); FetishCombat.Awaken(play.Target, FetishType.Sm, Owner); FetishCombat.Awaken(
+
+### No.44 意識を飛ばす光 / GazeLight
+CSV: type=スキル cost=1 rarity=コモン build=
+EFF: 8ブロックを得る。脱力1を付与する。
+UG:  9ブロックを得る。脱力2を付与する。
+LOC title='意識を飛ばす光'
+LOC desc='8ブロックを得る。脱力1を付与する。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+VARS: CanonicalVars => [ new BlockVar(8M, ValueProp.Move), new PowerVar<WeakPower>(1M) ]
+UGCODE: protected override void OnUpgrade() { DynamicVars.Block.UpgradeValueBy(1M); DynamicVars.Weak.UpgradeValueBy(1M); }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, play); await PowerCmd.Apply<WeakPower>( choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this); }
+
+### No.45 凝視 / Stare
+CSV: type=アタック cost=1 rarity=コモン build=性癖：DomSub
+EFF: 9ダメージを与える。トランス1。
+UG:  手札のカウントを1つ進める。
+LOC title='凝視'
+LOC desc='9ダメージを与える。トランス1。'
+CTOR: HypnosisCreatorCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.DomSub];
+VARS: CanonicalVars => [ new DamageVar(9M, ValueProp.Move), new DynamicVar("Trance", 1M) ]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3") .Execute(choiceContext); await TranceCombat.ApplyTrance( choiceContext, play.Target, DynamicVars["Tra
+
+### No.47 お仕置き / Punishment
+CSV: type=アタック cost=2 rarity=アンコモン build=性癖：SM
+EFF: この戦闘中、対象がプレイヤーを攻撃した回数1につき8ダメージを与える。（現在の攻撃回数：N回）
+UG:  13ダメージ
+LOC title='お仕置き'
+LOC desc='この戦闘中、対象がプレイヤーを攻撃した回数1につき8ダメージを与える。（現在の攻撃回数：N回）'
+CTOR: HypnosisCreatorCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Sm];
+VARS: CanonicalVars => [new DamageVar(8M, ValueProp.Move)]
+UGCODE: protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var hits = EnemyPlayerAttackTracker.GetCount(play.Target); var perHit = DynamicVars.Damage.BaseValue; var total = perHit * hits; if (total > 0) { await DamageCmd.Attack(total) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_blunt", tmpSfx
+
+### No.50 練達 / Mastery
+CSV: type=パワー cost=2 rarity=レア build=
+EFF: プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。
+UG:  1コストになる
+LOC title='練達'
+LOC desc='プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。'
+CTOR: HypnosisCreatorCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+
+### No.52 トランスに溶けゆく / MeltIntoTrance
+CSV: type=アタック cost=1 rarity=レア build=
+EFF: 対象がトランスに落ちた回数分、15ダメージを与える。
+UG:  20ダメージ
+LOC title='トランスに溶けゆく'
+LOC desc='対象がトランスに落ちた回数分、15ダメージを与える。'
+CTOR: HypnosisCreatorCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+VARS: CanonicalVars => [ new DynamicVar("PerTrance", 15M), new DamageVar(0M, ValueProp.Move) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars["PerTrance"].UpgradeValueBy(5M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var fallen = TranceFallTracker.Get(play.Target); DynamicVars.Damage.BaseValue = fallen * DynamicVars["PerTrance"].BaseValue; await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_slash", tmpS
+
+### No.54 触手の想起 / TentacleRecall
+CSV: type=アタック cost=1 rarity=コモン build=性癖：アブノーマル
+EFF: 締め付け5を付与する。次のターン、このカードのコピーを手札に加える。
+UG:  締め付け7
+LOC title='触手の想起'
+LOC desc='締め付け5を付与する。次のターン、このカードのコピーを手札に加える。'
+CTOR: HypnosisCreatorCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Abnormal];
+VARS: CanonicalVars => [new PowerVar<ConstrictPower>(5M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(2M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<ConstrictPower>( choiceContext, play.Target, DynamicVars["ConstrictPower"].BaseValue, Owner.Creature, this); await ResolveFetishOnTarget(choiceContext, play); await PowerCmd.Apply<TentacleRecallPower>(choiceContext, Owner.Creature, 1M, Owner.
+
+### No.55 糸色 丁頁 イ崔 目民 / InfiniteUpgradeString
+CSV: type=アタック cost=3 rarity=アンコモン build=カウント, 性癖：SM
+EFF: カウント。対象はHP15を失う。トランス1。このカードは何度でもアップグレードできる。
+UG:  HPを失う量が7ずつ増えていく。
+LOC title='糸色 丁頁 イ崔 目民'
+LOC desc='カウント。対象はHP15を失う。トランス1。このカードは何度でもアップグレードできる。'
+CTOR: HypnosisCreatorCard(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Sm];
+KW: CanonicalKeywords => CountKeywords;
+VARS: CanonicalVars => [new DynamicVar("LoseHp", 15M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["LoseHp"].UpgradeValueBy(7M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await CreatureCmd.Damage( choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, Owner.Creature, this, play); await TranceCombat.ApplyTrance(choiceContext, play.Target, 1, Owner.Creature, this); await ResolveFetishOnTarget(choiceContext, pla
+
+### No.56 Kneel! / Kneel
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 跪け。沼1を付与する。廃棄。
+UG:  UGなし
+LOC title='Kneel!'
+LOC desc='跪け。沼1を付与する。廃棄。'
+FET: CardFetishes => [FetishType.DomSub];
+VARS: CanonicalVars => [new DynamicVar("Bog", 1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<BogPower>( choiceContext, play.Target, DynamicVars["Bog"].BaseValue, Owner.Creature, this); FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner); }
+
+### No.57 Look! / Look
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 眼を見ろ。破滅5を付与する。廃棄。
+UG:  UGなし
+LOC title='Look!'
+LOC desc='眼を見ろ。破滅5を付与する。廃棄。'
+VARS: CanonicalVars => [new DynamicVar("Doom", 5M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await FetishCombat.ApplyDoom( choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this); }
+
+### No.58 Come! / Come
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: おいで。対象を引き寄せ、DomSub性癖に目覚めさせる。廃棄。
+UG:  UGなし
+LOC title='Come!'
+LOC desc='おいで。対象を引き寄せ、DomSub性癖に目覚めさせる。廃棄。'
+FET: CardFetishes => [FetishType.DomSub];
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); PullTracker.TryPull(play.Target); FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner); await Task.CompletedTask; }
+
+### No.59 Relax! / Relax
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: リラックス。脱力1を付与する。廃棄。
+UG:  UGなし
+LOC title='Relax!'
+LOC desc='リラックス。脱力1を付与する。廃棄。'
+VARS: CanonicalVars => [new PowerVar<WeakPower>(1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<WeakPower>( choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this); }
+
+### No.60 Present! / Present
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 見せろ。ランダムなバフを1つ奪う。廃棄。
+UG:  UGなし
+LOC title='Present!'
+LOC desc='見せろ。ランダムなバフを1つ奪う。廃棄。'
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var buffs = play.Target.Powers.Where(p => p.Type == PowerType.Buff).ToList(); if (buffs.Count == 0) return; var rng = Owner.RunState.Rng.CombatCardSelection; var stolen = buffs[rng.NextInt(buffs.Count)]; var amount = stolen.Amount; var powerType = stolen.GetType(
+
+### No.61 Trance! / Trance
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 落ちろ。トランス1。廃棄。
+UG:  UGなし
+LOC title='Trance!'
+LOC desc='落ちろ。トランス1。廃棄。'
+VARS: CanonicalVars => [new DynamicVar("Trance", 1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await TranceCombat.ApplyTrance( choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this); }
+
+### No.62 Crawl! / Crawl
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 四つん這いになれ。沼1を付与する。廃棄。
+UG:  UGなし
+LOC title='Crawl!'
+LOC desc='四つん這いになれ。沼1を付与する。廃棄。'
+FET: CardFetishes => [FetishType.DomSub];
+VARS: CanonicalVars => [new DynamicVar("Bog", 1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<BogPower>( choiceContext, play.Target, DynamicVars["Bog"].BaseValue, Owner.Creature, this); }
+
+### No.63 Don't Move! / DontMove
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: 動くな。対象は筋力2を失う。廃棄。
+UG:  UGなし
+LOC title="Don't Move!"
+LOC desc='動くな。対象は筋力2を失う。廃棄。'
+VARS: CanonicalVars => [new PowerVar<StrengthPower>("StrengthLoss", 2M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<StrengthPower>( choiceContext, play.Target, -DynamicVars["StrengthLoss"].BaseValue, Owner.Creature, this); }
+
+### No.64 Roll! / Roll
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: ごろん。弱体1を付与する。廃棄。
+UG:  UGなし
+LOC title='Roll!'
+LOC desc='ごろん。弱体1を付与する。廃棄。'
+VARS: CanonicalVars => [new PowerVar<VulnerablePower>(1M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<VulnerablePower>( choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this); }
+
+### No.65 Cum! / Cum
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: いけ。対象は体力19を失う。廃棄。
+UG:  UGなし
+LOC title='Cum!'
+LOC desc='いけ。対象は体力19を失う。廃棄。'
+VARS: CanonicalVars => [new DynamicVar("LoseHp", 19M)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await CreatureCmd.Damage( choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Unpowered, Owner.Creature, this, play); }
+
+### No.66 Good! / Good
+CSV: type=スキル cost=0 rarity=コモン build=性癖：DomSub
+EFF: いい子だ。廃棄されたカード1枚を選び、手札に加える。廃棄。
+UG:  UGなし
+LOC title='Good!'
+LOC desc='いい子だ。廃棄されたカード1枚を選び、手札に加える。廃棄。'
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { var exhaust = Owner.PlayerCombatState?.ExhaustPile; if (exhaust == null || exhaust.Cards.Count == 0) return; IReadOnlyList<CardModel> selected; try { selected = (await CardSelectCmd.FromCombatPile( choiceContext, exhaust, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1))).ToList(); } catch { var rng = Ow
+
+### No.71 連続指パッチン / InfiniteFingerSnap
+CSV: type=アタック cost=X rarity=アンコモン build=
+EFF: すべての敵に1ダメージを5回与える。リプレイX。廃棄。
+UG:  保留がつく
+LOC title='連続指パッチン'
+LOC desc='すべての敵に1ダメージを5回与える。リプレイX。廃棄。'
+CTOR: HypnosisCreatorCard(-1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
+KW: CanonicalKeywords => [CardKeyword.Exhaust];
+VARS: CanonicalVars => [new DamageVar(1M, ValueProp.Move)]
+UGCODE: protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { BaseReplayCount = ResolveEnergyXValue(); if (CombatState == null) return; // 全敵×5ヒットのあいだ指パッチンを途切れさせない CombatFrameAnimator.BeginAttackLoop(Owner.Creature); try { foreach (var enemy in CombatState.HittableEnemies.ToList()) { await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .WithHitCount(5) .FromCard(this, pl
+
+### No.72 壱佰捌煩悩 / HundredEight
+CSV: type=アタック cost=1 rarity=レア build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub, 心臓
+EFF: すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。
+UG:  プレイ後は山札に入る。
+LOC title='壱佰捌煩悩'
+LOC desc='すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。'
+CTOR: HypnosisCreatorCard(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
+FET: CardFetishes => [FetishType.Sm, FetishType.DomSub, FetishType.Abnormal, FetishType.Trance];
+VARS: CanonicalVars => [new DamageVar(1M, ValueProp.Move)]
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { if (CombatState == null) return; foreach (var enemy in CombatState.HittableEnemies.ToList()) FetishCombat.AwakenAll(enemy, Owner); var resolvedCost = EnergyCost.GetResolved(); if (resolvedCost >= FinalCostThreshold) { // 1ダメージ×108回を全敵へ。攻撃中は指パッチンをループ CombatFrameAnimator.BeginAttackLoop(Owner.Creature); try { fo
+
+### No.77 ご主人様の言うとおり / AsYouWish
+CSV: type=パワー cost=1 rarity=レア build=
+EFF: 性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。
+UG:  アブノーマル：筋力1と敏捷1を得る。SM：活力3を得る。DomSub：ブロック2
+LOC title='ご主人様の言うとおり'
+LOC desc='性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+VARS: CanonicalVars => [new DynamicVar("Stacks", 1M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["Stacks"].UpgradeValueBy(1M);
+
+### No.79 メンタルケア / MentalCare
+CSV: type=スキル cost=1 rarity=アンコモン build=
+EFF: 破滅を除く対象のデバフをすべて解除する。解除したデバフ1種類につき、8ブロックを得る。沼1を付与する。
+UG:  10ブロックを得る。沼2
+LOC title='メンタルケア'
+LOC desc='破滅を除く対象のデバフをすべて解除する。解除したデバフ1種類につき、8ブロックを得る。沼1を付与する。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+VARS: CanonicalVars => [ new DynamicVar("BlockPerType", 8M), new PowerVar<BogPower>(1M) ]
+UGCODE: protected override void OnUpgrade() { DynamicVars["BlockPerType"].UpgradeValueBy(2M); DynamicVars["BogPower"].UpgradeValueBy(1M); }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var debuffs = play.Target.Powers .Where(p => p.Type == PowerType.Debuff && p is not DoomPower) .ToList(); var typeCount = debuffs.Select(p => p.GetType()).Distinct().Count(); foreach (var power in debuffs) await PowerCmd.Remove(power); if (typeCount > 0) { var bl
+
+### No.80 布教欲求 / Proselytize
+CSV: type=スキル cost=1 rarity=アンコモン build=
+EFF: 推し活と沼2を付与する。戦闘終了時、15ゴールドを獲得する。廃棄。
+UG:  戦闘終了時、25ゴールドを獲得する。
+LOC title='布教欲求'
+LOC desc='推し活と沼2を付与する。戦闘終了時、15ゴールドを獲得する。廃棄。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+KW: CanonicalKeywords => [CardKeyword.Exhaust];
+VARS: CanonicalVars => [ new PowerVar<BogPower>(2M), new DynamicVar("Gold", 15M) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars["Gold"].UpgradeValueBy(10M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<OshiActivityPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this); var oshi = Owner.Creature.GetPower<OshiActivityPower>(); if (oshi != null) { oshi.SourceEnemy = play.Target; oshi.GoldToGain += DynamicVars["Gold"].BaseValue; } awai
+
+### No.81 性癖の覇者 / FetishChampion
+CSV: type=アタック cost=3 rarity=レア build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub
+EFF: 対象の性癖の数だけ20ダメージを与える。（攻撃回数：N回）
+UG:  25ダメージ
+LOC title='性癖の覇者'
+LOC desc='対象の性癖の数だけ20ダメージを与える。（攻撃回数：N回）'
+CTOR: HypnosisCreatorCard(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
+VARS: CanonicalVars => [new DamageVar(20M, ValueProp.Move)]
+UGCODE: protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var hits = FetishCombat.GetFetishes(play.Target).Count; if (hits <= 0) return; var total = DynamicVars.Damage.BaseValue * hits; await DamageCmd.Attack(total) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp
+
+### No.82 ぜんぶ知ってるよ / KnowItAll
+CSV: type=パワー cost=1 rarity=レア build=
+EFF: 性癖を刺した時の効果が2倍になる。
+UG:  天賦。
+LOC title='ぜんぶ知ってるよ'
+LOC desc='性癖を刺した時の効果が2倍になる。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+VARS: CanonicalVars => [new DynamicVar("Multiplier", 1M)]
+UGCODE: protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { FetishCombat.FetishHitMultiplier += DynamicVars["Multiplier"].BaseValue; await Task.CompletedTask; }
+
+### No.84 エリクソン的誘導 / Ericksonian
+CSV: type=パワー cost=1 rarity=アンコモン build=
+EFF: 相手の性癖を刺した時、手札のカードのカウントがひとつ進む。
+UG:  0コスト
+LOC title='エリクソン的誘導'
+LOC desc='相手の性癖を刺した時、手札のカードのカウントがひとつ進む。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Uncommon, TargetType.AnyEnemy)
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); await PowerCmd.Apply<EricksonianPower>(choiceContext, play.Target, 1M, Owner.Creature, this); }
+
+### No.87 ゼロへの近道 / ZeroShortcut
+CSV: type=スキル cost=3 rarity=コモン build=
+EFF: 3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）
+UG:  2コストになる。
+LOC title='ゼロへの近道'
+LOC desc='3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）'
+CTOR: HypnosisCreatorCard(3, CardType.Skill, CardRarity.Common, TargetType.Self)
+VARS: CanonicalVars => [new BlockVar(6M, ValueProp.Move)]
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { for (var block = 3; block >= 0; block--) await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, play); CountRules.ZeroHandCountCosts(Owner); }
+
+### No.89 マシュマロ回答 / MarshmallowAnswer
+CSV: type=スキル cost=1 rarity=アンコモン build=
+EFF: ランダムな呪いカード2枚を手札に追加する。相手が攻撃を予定している場合、ブロック39に上書きし沼2を付与する。廃棄。
+UG:  呪いカード1枚を手札に追加する。
+LOC title='マシュマロ回答'
+LOC desc='ランダムな呪いカード2枚を手札に追加する。相手が攻撃を予定している場合、ブロック39に上書きし沼2を付与する。廃棄。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+KW: CanonicalKeywords => [CardKeyword.Exhaust];
+VARS: CanonicalVars => [ new CardsVar(2), new DynamicVar("Block", 39M), new PowerVar<BogPower>(2M) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(-1M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { if (CombatState == null) return; var pool = ModelDb.AllCards.Where(IsCurse).ToList(); if (pool.Count > 0) { var rng = Owner.RunState.Rng.CombatCardSelection; for (var i = 0; i < DynamicVars.Cards.IntValue; i++) { var canonical = pool[rng.NextInt(pool.Count)]; var generated = CombatState.CreateCard(canonical, O
+
+### No.91 首輪と調教 / CollarTraining
+CSV: type=アタック cost=1 rarity=コモン build=性癖：DomSub
+EFF: 相手を引き寄せる。すでに相手が引き寄せられている場合、破滅15を付与してDomSub性癖に目覚めさせる。
+UG:  すでに相手が引き寄せられている場合、ランダムな2枚のDomSubコマンドカードを手札に加える。さらに破滅15を付与して
+LOC title='首輪と調教'
+LOC desc='相手を引き寄せる。すでに相手が引き寄せられている場合、破滅15を付与してDomSub性癖に目覚めさせる。'
+CTOR: HypnosisCreatorCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+FET: CardFetishes => [FetishType.DomSub];
+VARS: CanonicalVars => [ new DamageVar(9M, ValueProp.Move), new DynamicVar("Doom", 15M) ]
+UGCODE: protected override void OnUpgrade() { } }
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var alreadyPulled = PullTracker.IsPulled(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3") .Execute(choiceContext); if (alreadyPulled) { 
+
+### No.92 催眠導入 / HypnosisIntro
+CSV: type=スキル cost=0 rarity=アンコモン build=
+EFF: 2枚カードを引く。同名のカードを同じ相手にプレイするたび、引く枚数が1少なくなる。（現在N枚引く）
+UG:  3枚カードを引く
+LOC title='催眠導入'
+LOC desc='2枚カードを引く。同名のカードを同じ相手にプレイするたび、引く枚数が1少なくなる。（現在N枚引く）'
+CTOR: HypnosisCreatorCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+VARS: CanonicalVars => [new DynamicVar("Draw", 2M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["Draw"].UpgradeValueBy(1M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var cardKey = Id.Entry; var prior = HypnosisIntroDrawTracker.GetPriorPlayCount(Owner, play.Target, cardKey); var draw = Math.Max(0, DynamicVars["Draw"].IntValue - prior); if (draw > 0) await CardPileCmd.Draw(choiceContext, draw, Owner); HypnosisIntroDrawTracker.R
+
+### No.93 過集中 / OverFocus
+CSV: type=スキル cost=2 rarity=アンコモン build=
+EFF: 手札にあるスキルカード1枚につき、エナジー1を得る。廃棄。
+UG:  廃棄が消える
+LOC title='過集中'
+LOC desc='手札にあるスキルカード1枚につき、エナジー1を得る。廃棄。'
+CTOR: HypnosisCreatorCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+KW: CanonicalKeywords => [CardKeyword.Exhaust];
+UGCODE: protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { var hand = Owner.PlayerCombatState?.Hand; if (hand == null) return; var skillCount = hand.Cards.Count(c => c.Type == CardType.Skill); if (skillCount > 0) await PlayerCmd.GainEnergy(skillCount, Owner); }
+
+### No.94 底なしの沼 / BottomlessBog
+CSV: type=パワー cost=1 rarity=レア build=
+EFF: ターン終了時、トランスと沼の数値1につき、破滅を10付与する。
+UG:  破滅を15付与する。
+LOC title='底なしの沼'
+LOC desc='ターン終了時、トランスと沼の数値1につき、破滅を10付与する。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+VARS: CanonicalVars => [new DynamicVar("DoomPerStack", 10M)]
+UGCODE: protected override void OnUpgrade() => DynamicVars["DoomPerStack"].UpgradeValueBy(5M);
+
+### No.95 術式の開示 / RitualReveal
+CSV: type=スキル cost=1 rarity=アンコモン build=
+EFF: 天賦。催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。廃棄。
+UG:  0コストになる
+LOC title='術式の開示'
+LOC desc='天賦。催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。廃棄。'
+CTOR: HypnosisCreatorCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+KW: CanonicalKeywords => [CardKeyword.Innate, CardKeyword.Exhaust];
+UGCODE: protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var combat = Owner.PlayerCombatState; var draw = combat?.DrawPile; if (draw == null) return; var candidates = draw.Cards.Where(CountRules.HasCountKeyword).ToList(); if (candidates.Count == 0) return; var rng = Owner.RunState.Rng.CombatCardSelection; var targetFet
+
+### No.96 鼓動の共有 / HeartbeatShare
+CSV: type=パワー cost=1 rarity=レア build=心臓
+EFF: 保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。
+UG:  すべてに共有する。
+LOC title='鼓動の共有'
+LOC desc='保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。'
+CTOR: HypnosisCreatorCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+UGCODE: (none)
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { if (CombatState == null) return; var hearts = Owner.Relics.Count(r => r is StolenHeart); if (hearts <= 0) return; var allies = CombatState.Allies.Where(a => a != Owner.Creature && a.IsAlive).ToList(); var targets = IsUpgraded ? allies : allies.Take(1).ToList(); foreach (var ally in targets) { var allyPlayer = 
+
+### No.98 フリーハグ<3 / FreeHug
+CSV: type=アタック cost=0 rarity=アンコモン build=
+EFF: 相手を引き寄せる。すでに相手が引き寄せられている場合、破滅10と沼1を与え、ランダムな味方に2枚パスする。
+UG:  破滅15になる。
+LOC title='フリーハグ<3'
+LOC desc='相手を引き寄せる。すでに相手が引き寄せられている場合、破滅10と沼1を与え、ランダムな味方に2枚パスする。'
+CTOR: HypnosisCreatorCard(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+VARS: CanonicalVars => [ new DamageVar(6M, ValueProp.Move), new DynamicVar("Doom", 10M), new PowerVar<BogPower>(1M), new CardsVar(2) ]
+UGCODE: protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
+ONPLAY: protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) { ArgumentNullException.ThrowIfNull(play.Target); var alreadyPulled = PullTracker.IsPulled(play.Target); await DamageCmd.Attack(DynamicVars.Damage.BaseValue) .FromCard(this, play) .Targeting(play.Target) .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3") .Execute(choiceContext); if (alreadyPulled) { 

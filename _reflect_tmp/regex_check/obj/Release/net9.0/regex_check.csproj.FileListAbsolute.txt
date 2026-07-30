@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\bin\Release\net9.0\regex_check.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\bin\Release\net9.0\regex_check.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\bin\Release\net9.0\regex_check.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\bin\Release\net9.0\regex_check.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\bin\Release\net9.0\regex_check.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\refint\regex_check.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\regex_check.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\regex_check\obj\Release\net9.0\ref\regex_check.dll

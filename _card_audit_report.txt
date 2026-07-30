@@ -1,0 +1,1626 @@
+================================================================================
+HYPNO CREATOR — CARD DISCREPANCY REPORT (CSV Nos 1–104 vs Code + jpn loc)
+================================================================================
+CSV: c:\Users\homut\Downloads\ヒプノクリエイター.csv
+Encoding: UTF-8 with BOM
+CSV columns: ['No', 'カード名称（日本語）', '種別', 'ビルド', 'コスト', '効果説明', 'UG時効果（変更点のみ記載）', 'レア度', 'タグ', 'id', '備考']
+CSV card rows (No.1–104): 104
+Code card classes: 105 (excl. HypnosisCreatorCard.cs)
+Loc .title entries: 105
+
+COUNTS
+  fully OK (no issues):      1
+  rarity mismatches:         39
+  name mismatches:           21
+  cost mismatches:           19
+  type mismatches:           12
+  description mismatches:    103
+  missing in code:           0
+  extra in code (unmatched): 1
+
+NOTE: Description comparison is EXACT string match.
+Loc typically uses StS markup ({Damage:diff()}, [gold]...[/gold]) while CSV is design prose;
+most DESC_MISMATCH are expected format differences unless texts are meant to be identical.
+
+--------------------------------------------------------------------------------
+MAPPING TABLE (CSV No → Class → issues)
+--------------------------------------------------------------------------------
+No.  1 | CSV:完全掌握 | Class:TotalControl (Rare) | locTitle:完全掌握 | CardRarity.Rare cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=性癖：DomSub
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.  2 | CSV:呼吸制御 | Class:BreathControl (Common) | locTitle:呼吸制御 | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=アンコモン cost=0 type=スキル build=性癖：SM
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Common folder=Common; DESC_MISMATCH
+No.  3 | CSV:ぜーろっ | Class:ZeroOut (Common) | locTitle:ぜーろっ | CardRarity.Rare cost=3 CardType.Skill
+       CSV rarity=レア cost=3 type=スキル build=カウント
+       ISSUES: DESC_MISMATCH
+No.  4 | CSV:スライム催眠 | Class:SlimeHypnosis (Rare) | locTitle:スライム催眠 | CardRarity.Rare cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=スキル build=カウント, 性癖：アブノーマル
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; COST: csv=3 code=2; DESC_MISMATCH
+No.  5 | CSV:心停止催眠 | Class:CardiacArrestHypnosis (Rare) | locTitle:心停止催眠 | CardRarity.Rare cost=3 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=スキル build=カウント, 心臓, 性癖：アブノーマル
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.  6 | CSV:時止めストライク | Class:TimeStopStrike (Uncommon) | locTitle:時止めストライク | CardRarity.Uncommon cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=アタック build=トランス, 性癖：SM
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No.  7 | CSV:感度3000倍 | Class:Sensitivity3000 (Common) | locTitle:感度3000倍 | CardRarity.Common cost=2 CardType.Skill
+       CSV rarity=コモン cost=2 type=スキル build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub
+       ISSUES: DESC_MISMATCH
+No.  8 | CSV:ASMR催眠 | Class:AsmrHypnosis (Rare) | locTitle:ASMR催眠 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=アンコモン cost=2 type=パワー build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.  9 | CSV:連続トランス | Class:ContinuousTrance (Common) | locTitle:連続トランス | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=レア cost=0 type=スキル build=トランス
+       ISSUES: RARITY: csv=レア→Rare code=CardRarity.Common folder=Common; COST: csv=0 code=1; DESC_MISMATCH
+No. 10 | CSV:薬物催眠 | Class:DrugHypnosis (Common) | locTitle:薬物催眠 | CardRarity.Common cost=3 CardType.Skill
+       CSV rarity=コモン cost=3 type=スキル build=カウント, 性癖：アブノーマル
+       ISSUES: DESC_MISMATCH
+No. 11 | CSV:アブノーマル | Class:AbnormalTransform (Uncommon) | locTitle:アブノーマル | CardRarity.Uncommon cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=X type=スキル build=性癖：アブノーマル
+       ISSUES: COST: csv=X code=2; DESC_MISMATCH
+No. 12 | CSV:調和 | Class:Harmony (Basic) | locTitle:調和 | CardRarity.Basic cost=2 CardType.Skill
+       CSV rarity=スターター cost=2 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 13 | CSV:不意打ち催眠 | Class:AmbushHypnosis (Uncommon) | locTitle:不意打ち催眠 | CardRarity.Uncommon cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=2 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 14 | CSV:集団催眠 | Class:MassHypnosis (Rare) | locTitle:集団催眠 | CardRarity.Rare cost=1 CardType.Power
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No. 15 | CSV:前戯 | Class:Prefinger (Common) | locTitle:前戯 | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 16 | CSV:ラポール | Class:Rapport (Uncommon) | locTitle:ラポール | CardRarity.Uncommon cost=0 CardType.Power
+       CSV rarity=アンコモン cost=0 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 17 | CSV:カタレプシー | Class:Catalepsy (Common) | locTitle:カタレプシー | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Common folder=Common; DESC_MISMATCH
+No. 18 | CSV:状態異常催眠 | Class:StatusHypnosis (Rare) | locTitle:状態異常催眠 | CardRarity.Rare cost=1 CardType.Power
+       CSV rarity=レア cost=1 type=パワー build=性癖：アブノーマル
+       ISSUES: DESC_MISMATCH
+No. 19 | CSV:指パッチン | Class:FingerSnap (Basic) | locTitle:指パッチン | CardRarity.Basic cost=0 CardType.Skill
+       CSV rarity=スターター cost=0 type=スキル build=トランス
+       ISSUES: DESC_MISMATCH
+No. 20 | CSV:好き好き催眠 | Class:LoveHypnosis (Uncommon) | locTitle:好き好き催眠 | CardRarity.Uncommon cost=3 CardType.Skill
+       CSV rarity=レア cost=3 type=スキル build=カウント, 性癖：DomSub
+       ISSUES: RARITY: csv=レア→Rare code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 21 | CSV:認知シャッフル催眠 | Class:CognitiveShuffle (Rare) | locTitle:認知シャッフル | CardRarity.Rare cost=3 CardType.Skill
+       CSV rarity=レア cost=3 type=スキル build=カウント
+       ISSUES: NAME: loc='認知シャッフル' csv='認知シャッフル催眠'; DESC_MISMATCH
+No. 22 | CSV:ミラーリング | Class:Mirroring (Basic) | locTitle:ミラーリング | CardRarity.Basic cost=1 CardType.Attack
+       CSV rarity=スターター cost=1 type=アタック build=
+       ISSUES: DESC_MISMATCH (CSV has extras beyond loc)
+No. 23 | CSV:教祖化 | Class:CultLeader (Rare) | locTitle:教祖化 | CardRarity.Rare cost=3 CardType.Power
+       CSV rarity=レア cost=3 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 24 | CSV:軟酥の法 | Class:SoftTechnique (Common) | locTitle:軟酥の法 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 25 | CSV:ナイフと拳銃 | Class:KnifeAndGun (Common) | locTitle:ナイフと拳銃 | CardRarity.Common cost=1 CardType.Attack
+       CSV rarity=コモン cost=1 type=アタック build=性癖：アブノーマル
+       ISSUES: DESC_MISMATCH
+No. 26 | CSV:スタンガン | Class:StunGun (Basic) | locTitle:スタンガン | CardRarity.Basic cost=1 CardType.Attack
+       CSV rarity=スターター cost=1 type=アタック build=性癖：SM
+       ISSUES: DESC_MISMATCH
+No. 27 | CSV:初心者向け催眠 | Class:BeginnerHypnosis (Basic) | locTitle:初心者向け催眠 | CardRarity.Basic cost=3 CardType.Skill
+       CSV rarity=スターター cost=3 type=スキル build=カウント
+       ISSUES: DESC_MISMATCH
+No. 28 | CSV:脳くちゅ催眠 | Class:BrainSlimeHypnosis (Uncommon) | locTitle:脳くちゅ催眠 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=スキル build=カウント, 性癖：アブノーマル
+       ISSUES: COST: csv=3 code=1; DESC_MISMATCH
+No. 29 | CSV:ちゃんとできるね？ | Class:CanDoIt (Uncommon) | locTitle:ちゃんとできるね？ | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=コモン cost=1 type=スキル build=性癖：DomSub
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 30 | CSV:ごめんなさいは？ | Class:SayYoureSorry (Basic) | locTitle:ごめんなさいは？ | CardRarity.Basic cost=1 CardType.Attack
+       CSV rarity=スターター cost=1 type=アタック build=性癖：DomSub
+       ISSUES: DESC_MISMATCH
+No. 31 | CSV:リストカット | Class:WristCut (Basic) | locTitle:リストカット | CardRarity.Basic cost=1 CardType.Attack
+       CSV rarity=スターター cost=1 type=アタック build=性癖：アブノーマル
+       ISSUES: DESC_MISMATCH
+No. 32 | CSV:心臓えぐり出し | Class:HeartGouge (Rare) | locTitle:心臓えぐり出し | CardRarity.Rare cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=1 type=アタック build=性癖：アブノーマル, 心臓
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No. 33 | CSV:植物寄生催眠 | Class:PlantParasiteHypnosis (Rare) | locTitle:植物寄生催眠 | CardRarity.Rare cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=アタック build=カウント, 心臓, 性癖：アブノーマル
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; COST: csv=3 code=2; DESC_MISMATCH; TYPE: csv=アタック→Attack code=CardType.Skill
+No. 34 | CSV:吸血催眠 | Class:BloodSuckHypnosis (Uncommon) | locTitle:吸血催眠 | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=3 type=アタック build=カウント, 性癖：SM, 性癖：アブノーマル
+       ISSUES: COST: csv=3 code=1; DESC_MISMATCH
+No. 35 | CSV:指折り数えて | Class:FingerCount (Common) | locTitle:指折り数えて | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=コモン cost=1 type=スキル build=
+       ISSUES: COST: csv=1 code=0; DESC_MISMATCH
+No. 36 | CSV:ふにゃへにゃ | Class:Soften (Rare) | locTitle:ふにゃへにゃ | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=アンコモン cost=2 type=パワー build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No. 37 | CSV:寝かしつけ催眠 | Class:LullabyHypnosis (Uncommon) | locTitle:寝かしつけ催眠 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=スキル build=カウント
+       ISSUES: COST: csv=3 code=1; DESC_MISMATCH
+No. 38 | CSV:深呼吸 | Class:DeepBreath (Common) | locTitle:深呼吸 | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 39 | CSV:腹部への殴打 | Class:AbdominalStrike (Common) | locTitle:腹部への殴打 | CardRarity.Common cost=1 CardType.Attack
+       CSV rarity=コモン cost=2 type=アタック build=性癖：SM
+       ISSUES: COST: csv=2 code=1; DESC_MISMATCH
+No. 40 | CSV:感覚共有 | Class:SenseShare (Common) | locTitle:感覚共有 | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=コモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 41 | CSV:快の循環 | Class:PleasureCycle (Basic) | locTitle:快の循環 | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=コモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 42 | CSV:足蹴 | Class:Kick (Common) | locTitle:足蹴 | CardRarity.Common cost=2 CardType.Attack
+       CSV rarity=コモン cost=2 type=アタック build=性癖：DomSub, 性癖：SM
+       ISSUES: DESC_MISMATCH
+No. 43 | CSV:メトロノーム | Class:MetronomeCard (Common) | locTitle:メトロノーム | CardRarity.Common cost=2 CardType.Skill
+       CSV rarity=コモン cost=2 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 44 | CSV:意識を飛ばす光 | Class:GazeLight (Common) | locTitle:意識を飛ばす光 | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=コモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 45 | CSV:凝視 | Class:Stare (Common) | locTitle:凝視 | CardRarity.Common cost=1 CardType.Attack
+       CSV rarity=コモン cost=1 type=アタック build=性癖：DomSub
+       ISSUES: DESC_MISMATCH
+No. 46 | CSV:躾 | Class:Discipline (Common) | locTitle:躾 | CardRarity.Common cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=アタック build=性癖：DomSub
+       ISSUES: DESC_MISMATCH
+No. 47 | CSV:お仕置き | Class:Punishment (Uncommon) | locTitle:お仕置き | CardRarity.Uncommon cost=2 CardType.Attack
+       CSV rarity=アンコモン cost=2 type=アタック build=性癖：SM
+       ISSUES: DESC_MISMATCH
+No. 48 | CSV:調教コマンド | Class:TrainingCommandCard (Uncommon) | locTitle:調教コマンド | CardRarity.Uncommon cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=2 type=スキル build=性癖：DomSub
+       ISSUES: DESC_MISMATCH
+No. 49 | CSV:スパンキング | Class:Spanking (Common) | locTitle:スパンキング | CardRarity.Common cost=1 CardType.Attack
+       CSV rarity=コモン cost=1 type=アタック build=性癖：SM
+       ISSUES: DESC_MISMATCH
+No. 50 | CSV:練達 | Class:Mastery (Rare) | locTitle:練達 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=レア cost=2 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 51 | CSV:ポリネシアン催眠 | Class:PolynesianHypnosis (Rare) | locTitle:ポリネシア式催眠 | CardRarity.Rare cost=6 CardType.Skill
+       CSV rarity=アンコモン cost=6 type=パワー build=カウント
+       ISSUES: NAME: loc='ポリネシア式催眠' csv='ポリネシアン催眠'; RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH; TYPE: csv=パワー→Power code=CardType.Skill
+No. 52 | CSV:トランスに溶けゆく | Class:MeltIntoTrance (Uncommon) | locTitle:トランスに溶けゆく | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=レア cost=1 type=アタック build=
+       ISSUES: RARITY: csv=レア→Rare code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 53 | CSV:侵食 | Class:Corrosion (Rare) | locTitle:侵食 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=レア cost=2 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 54 | CSV:触手の想起 | Class:TentacleRecall (Uncommon) | locTitle:触手の想起 | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=コモン cost=1 type=アタック build=性癖：アブノーマル
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 55 | CSV:糸色 丁頁 イ崔 目民 | Class:InfiniteUpgradeString (Rare) | locTitle:糸色丁頁 | CardRarity.Rare cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=3 type=アタック build=カウント, 性癖：SM
+       ISSUES: NAME: loc='糸色丁頁' csv='糸色 丁頁 イ崔 目民'; RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; COST: csv=3 code=1; DESC_MISMATCH
+No. 56 | CSV:Kneel! | Class:Kneel (Token) | locTitle:跪いて | CardRarity.Token cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='跪いて' csv='Kneel!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH; TYPE: csv=スキル→Skill code=CardType.Attack
+No. 57 | CSV:Look! | Class:Look (Token) | locTitle:見て | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='見て' csv='Look!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 58 | CSV:Come! | Class:Come (Token) | locTitle:来て | CardRarity.Token cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='来て' csv='Come!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH; TYPE: csv=スキル→Skill code=CardType.Attack
+No. 59 | CSV:Relax! | Class:Relax (Token) | locTitle:リラックスして | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='リラックスして' csv='Relax!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 60 | CSV:Present! | Class:Present (Token) | locTitle:見せて | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='見せて' csv='Present!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 61 | CSV:Trance! | Class:Trance (Token) | locTitle:トランスして | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='トランスして' csv='Trance!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 62 | CSV:Crawl! | Class:Crawl (Token) | locTitle:這って | CardRarity.Token cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='這って' csv='Crawl!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH; TYPE: csv=スキル→Skill code=CardType.Attack
+No. 63 | CSV:Don't Move! | Class:DontMove (Token) | locTitle:Don't Move! | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 64 | CSV:Roll! | Class:Roll (Token) | locTitle:転がって | CardRarity.Token cost=0 CardType.Attack
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='転がって' csv='Roll!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH; TYPE: csv=スキル→Skill code=CardType.Attack
+No. 65 | CSV:Cum! | Class:Cum (Token) | locTitle:イって | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: NAME: loc='イって' csv='Cum!'; RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 66 | CSV:Good! | Class:Good (Token) | locTitle:Good! | CardRarity.Token cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=性癖：DomSub
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Token folder=Token; DESC_MISMATCH
+No. 67 | CSV:囁き | Class:Whisper (Common) | locTitle:囁き | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 68 | CSV:解剖 | Class:Autopsy (Rare) | locTitle:解剖 | CardRarity.Rare cost=2 CardType.Attack
+       CSV rarity=レア cost=2 type=アタック build=性癖：アブノーマル, 心臓
+       ISSUES: DESC_MISMATCH
+No. 69 | CSV:なでなで | Class:Petting (Common) | locTitle:なでなで | CardRarity.Common cost=0 CardType.Skill
+       CSV rarity=コモン cost=0 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 70 | CSV:ティンシャ | Class:Tingsha (Common) | locTitle:チンシャ | CardRarity.Common cost=1 CardType.Skill
+       CSV rarity=コモン cost=1 type=アタック build=トランス
+       ISSUES: NAME: loc='チンシャ' csv='ティンシャ'; DESC_MISMATCH; TYPE: csv=アタック→Attack code=CardType.Skill
+No. 71 | CSV:連続指パッチン | Class:InfiniteFingerSnap (Rare) | locTitle:連続指パッチン | CardRarity.Rare cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=X type=アタック build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; COST: csv=X code=2; DESC_MISMATCH; TYPE: csv=アタック→Attack code=CardType.Skill
+No. 72 | CSV:壱佰捌煩悩 | Class:HundredEight (Rare) | locTitle:壱佰捌煩悩 | CardRarity.Rare cost=1 CardType.Attack
+       CSV rarity=レア cost=1 type=アタック build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub, 心臓
+       ISSUES: DESC_MISMATCH
+No. 73 | CSV:不動明王 | Class:FudoMyoo (Rare) | locTitle:不動明王 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=レア cost=2 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 74 | CSV:赤ちゃん催眠 | Class:BabyHypnosis (Uncommon) | locTitle:赤ちゃん催眠 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=3 type=スキル build=カウント
+       ISSUES: COST: csv=3 code=1; DESC_MISMATCH
+No. 75 | CSV:言葉の洪水 | Class:WordFlood (Uncommon) | locTitle:言葉の洪水 | CardRarity.Uncommon cost=1 CardType.Power
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 76 | CSV:暗示解除 | Class:SuggestionRelease (Uncommon) | locTitle:暗示解除 | CardRarity.Uncommon cost=0 CardType.Attack
+       CSV rarity=アンコモン cost=0 type=アタック build=
+       ISSUES: DESC_MISMATCH
+No. 77 | CSV:ご主人様の言うとおり | Class:AsYouWish (Rare) | locTitle:ご主人様の言うとおり | CardRarity.Rare cost=1 CardType.Power
+       CSV rarity=レア cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 78 | CSV:性倒錯への理解 | Class:FetishUnderstanding (Uncommon) | locTitle:性倒錯への理解 | CardRarity.Uncommon cost=1 CardType.Power
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 79 | CSV:メンタルケア | Class:MentalCare (Uncommon) | locTitle:メンタルケア | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 80 | CSV:布教欲求 | Class:Proselytize (Uncommon) | locTitle:布教欲求 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 81 | CSV:性癖の覇者 | Class:FetishChampion (Rare) | locTitle:性癖チャンピオン | CardRarity.Rare cost=2 CardType.Skill
+       CSV rarity=レア cost=3 type=アタック build=性癖：アブノーマル, 性癖：SM, 性癖：DomSub
+       ISSUES: NAME: loc='性癖チャンピオン' csv='性癖の覇者'; COST: csv=3 code=2; DESC_MISMATCH; TYPE: csv=アタック→Attack code=CardType.Skill
+No. 82 | CSV:ぜんぶ知ってるよ | Class:KnowItAll (Rare) | locTitle:ぜんぶ知ってるよ | CardRarity.Rare cost=1 CardType.Skill
+       CSV rarity=レア cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH; TYPE: csv=パワー→Power code=CardType.Skill
+No. 83 | CSV:オールインワン催眠 | Class:AllInOne (Rare) | locTitle:オールインワン | CardRarity.Rare cost=5 CardType.Skill
+       CSV rarity=レア cost=5 type=スキル build=カウント
+       ISSUES: NAME: loc='オールインワン' csv='オールインワン催眠'; DESC_MISMATCH
+No. 84 | CSV:エリクソン的誘導 | Class:Ericksonian (Uncommon) | locTitle:エリクソン的暗示 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: NAME: loc='エリクソン的暗示' csv='エリクソン的誘導'; DESC_MISMATCH; TYPE: csv=パワー→Power code=CardType.Skill
+No. 85 | CSV:自己暗示 | Class:SelfSuggestion (Uncommon) | locTitle:自己暗示 | CardRarity.Uncommon cost=1 CardType.Power
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH
+No. 86 | CSV:心臓への渇望 | Class:HeartCraving (Rare) | locTitle:心臓への渇望 | CardRarity.Rare cost=3 CardType.Power
+       CSV rarity=レア cost=3 type=パワー build=
+       ISSUES: OK
+No. 87 | CSV:ゼロへの近道 | Class:ZeroShortcut (Uncommon) | locTitle:ゼロショートカット | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=コモン cost=3 type=スキル build=
+       ISSUES: NAME: loc='ゼロショートカット' csv='ゼロへの近道'; RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; COST: csv=3 code=1; DESC_MISMATCH
+No. 88 | CSV:もうちょっと我慢しようね | Class:WaitABitMore (Uncommon) | locTitle:もうちょっと我慢しようね | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 89 | CSV:マシュマロ回答 | Class:MarshmallowAnswer (Uncommon) | locTitle:マシュマロ回答 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No. 90 | CSV:性的倒錯の本懐 | Class:PerversionTrueDesire (Uncommon) | locTitle:性的倒錯の本懐 | CardRarity.Uncommon cost=2 CardType.Attack
+       CSV rarity=コモン cost=2 type=アタック build=性癖：アブノーマル
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 91 | CSV:首輪と調教 | Class:CollarTraining (Uncommon) | locTitle:首輪と調教 | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=コモン cost=1 type=アタック build=性癖：DomSub
+       ISSUES: RARITY: csv=コモン→Common code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH
+No. 92 | CSV:催眠導入 | Class:HypnosisIntro (Basic) | locTitle:催眠導入 | CardRarity.Basic cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=0 type=スキル build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Basic folder=Basic; COST: csv=0 code=1; DESC_MISMATCH
+No. 93 | CSV:過集中 | Class:OverFocus (Uncommon) | locTitle:オーバーフォーカス | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=2 type=スキル build=
+       ISSUES: NAME: loc='オーバーフォーカス' csv='過集中'; COST: csv=2 code=1; DESC_MISMATCH
+No. 94 | CSV:底なしの沼 | Class:BottomlessBog (Uncommon) | locTitle:底無し沼 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=レア cost=1 type=パワー build=
+       ISSUES: NAME: loc='底無し沼' csv='底なしの沼'; RARITY: csv=レア→Rare code=CardRarity.Uncommon folder=Uncommon; DESC_MISMATCH; TYPE: csv=パワー→Power code=CardType.Skill
+No. 95 | CSV:術式の開示 | Class:RitualReveal (Uncommon) | locTitle:儀式の開示 | CardRarity.Uncommon cost=1 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: NAME: loc='儀式の開示' csv='術式の開示'; DESC_MISMATCH
+No. 96 | CSV:鼓動の共有 | Class:HeartbeatShare (Rare) | locTitle:鼓動の共有 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=レア cost=1 type=パワー build=心臓
+       ISSUES: COST: csv=1 code=2; DESC_MISMATCH
+No. 97 | CSV:性癖パーリナイ | Class:FetishParty (Rare) | locTitle:性癖パーリナイ | CardRarity.Rare cost=2 CardType.Skill
+       CSV rarity=アンコモン cost=1 type=スキル build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; COST: csv=1 code=2; DESC_MISMATCH
+No. 98 | CSV:フリーハグ<3 | Class:FreeHug (Uncommon) | locTitle:フリーハグ | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=0 type=アタック build=
+       ISSUES: NAME: loc='フリーハグ' csv='フリーハグ<3'; COST: csv=0 code=1; DESC_MISMATCH
+No. 99 | CSV:急所の一刺し | Class:VitalPoint (Uncommon) | locTitle:急所の一刺し | CardRarity.Uncommon cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=1 type=アタック build=性癖：アブノーマル
+       ISSUES: DESC_MISMATCH
+No.100 | CSV:受容の需要 | Class:AcceptanceNeed (Rare) | locTitle:受容の需要 | CardRarity.Rare cost=2 CardType.Power
+       CSV rarity=アンコモン cost=2 type=パワー build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.101 | CSV:期待に応えて | Class:MeetExpectations (Rare) | locTitle:期待に応えて | CardRarity.Rare cost=1 CardType.Attack
+       CSV rarity=アンコモン cost=1 type=アタック build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.102 | CSV:アンコール | Class:Encore (Rare) | locTitle:アンコール | CardRarity.Rare cost=1 CardType.Power
+       CSV rarity=アンコモン cost=1 type=パワー build=
+       ISSUES: RARITY: csv=アンコモン→Uncommon code=CardRarity.Rare folder=Rare; DESC_MISMATCH
+No.103 | CSV:防御 | Class:HcDefend (Basic) | locTitle:防御 | CardRarity.Basic cost=1 CardType.Skill
+       CSV rarity=スターター cost=1 type=スキル build=
+       ISSUES: DESC_MISMATCH
+No.104 | CSV:剥き出しの本能 | Class:BareInstinct (Rare) | locTitle:剥き出しの本能 | CardRarity.Rare cost=1 CardType.Power
+       CSV rarity=レア cost=1 type=パワー build=
+       ISSUES: DESC_MISMATCH
+
+--------------------------------------------------------------------------------
+MISSING IN CODE (CSV rows with no matching class)
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+EXTRA CODE CARDS (not matched to CSV 1–104)
+--------------------------------------------------------------------------------
+  Knife | HypnosisCreatorCode/Cards/Token/Knife.cs | CardRarity.Token cost=0 CardType.Attack | locTitle='ナイフ'
+
+--------------------------------------------------------------------------------
+RARITY MISMATCHES — recommended CardRarity
+--------------------------------------------------------------------------------
+  No.  1 TotalControl: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.  2 BreathControl: CardRarity.Common → CardRarity.Uncommon  (CSV アンコモン; folder=Common)
+  No.  4 SlimeHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.  5 CardiacArrestHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.  6 TimeStopStrike: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No.  8 AsmrHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.  9 ContinuousTrance: CardRarity.Common → CardRarity.Rare  (CSV レア; folder=Common)
+  No. 14 MassHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 17 Catalepsy: CardRarity.Common → CardRarity.Uncommon  (CSV アンコモン; folder=Common)
+  No. 20 LoveHypnosis: CardRarity.Uncommon → CardRarity.Rare  (CSV レア; folder=Uncommon)
+  No. 29 CanDoIt: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No. 32 HeartGouge: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 33 PlantParasiteHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 36 Soften: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 51 PolynesianHypnosis: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 52 MeltIntoTrance: CardRarity.Uncommon → CardRarity.Rare  (CSV レア; folder=Uncommon)
+  No. 54 TentacleRecall: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No. 55 InfiniteUpgradeString: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 56 Kneel: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 57 Look: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 58 Come: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 59 Relax: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 60 Present: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 61 Trance: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 62 Crawl: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 63 DontMove: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 64 Roll: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 65 Cum: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 66 Good: CardRarity.Token → CardRarity.Common  (CSV コモン; folder=Token)
+  No. 71 InfiniteFingerSnap: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No. 87 ZeroShortcut: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No. 90 PerversionTrueDesire: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No. 91 CollarTraining: CardRarity.Uncommon → CardRarity.Common  (CSV コモン; folder=Uncommon)
+  No. 92 HypnosisIntro: CardRarity.Basic → CardRarity.Uncommon  (CSV アンコモン; folder=Basic)
+  No. 94 BottomlessBog: CardRarity.Uncommon → CardRarity.Rare  (CSV レア; folder=Uncommon)
+  No. 97 FetishParty: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.100 AcceptanceNeed: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.101 MeetExpectations: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+  No.102 Encore: CardRarity.Rare → CardRarity.Uncommon  (CSV アンコモン; folder=Rare)
+
+--------------------------------------------------------------------------------
+COST MISMATCHES — recommended constructor cost
+--------------------------------------------------------------------------------
+  No.  4 SlimeHypnosis: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(3, ...)
+  No.  9 ContinuousTrance: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(0, ...)
+  No. 11 AbnormalTransform: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(X, ...)
+  No. 28 BrainSlimeHypnosis: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 33 PlantParasiteHypnosis: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(3, ...)
+  No. 34 BloodSuckHypnosis: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 35 FingerCount: HypnosisCreatorCard(0, ...) → HypnosisCreatorCard(1, ...)
+  No. 37 LullabyHypnosis: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 39 AbdominalStrike: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(2, ...)
+  No. 55 InfiniteUpgradeString: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 71 InfiniteFingerSnap: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(X, ...)
+  No. 74 BabyHypnosis: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 81 FetishChampion: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(3, ...)
+  No. 87 ZeroShortcut: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(3, ...)
+  No. 92 HypnosisIntro: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(0, ...)
+  No. 93 OverFocus: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(2, ...)
+  No. 96 HeartbeatShare: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(1, ...)
+  No. 97 FetishParty: HypnosisCreatorCard(2, ...) → HypnosisCreatorCard(1, ...)
+  No. 98 FreeHug: HypnosisCreatorCard(1, ...) → HypnosisCreatorCard(0, ...)
+
+--------------------------------------------------------------------------------
+NAME MISMATCHES
+--------------------------------------------------------------------------------
+  No. 21 CognitiveShuffle: NAME: loc='認知シャッフル' csv='認知シャッフル催眠'
+  No. 51 PolynesianHypnosis: NAME: loc='ポリネシア式催眠' csv='ポリネシアン催眠'
+  No. 55 InfiniteUpgradeString: NAME: loc='糸色丁頁' csv='糸色 丁頁 イ崔 目民'
+  No. 56 Kneel: NAME: loc='跪いて' csv='Kneel!'
+  No. 57 Look: NAME: loc='見て' csv='Look!'
+  No. 58 Come: NAME: loc='来て' csv='Come!'
+  No. 59 Relax: NAME: loc='リラックスして' csv='Relax!'
+  No. 60 Present: NAME: loc='見せて' csv='Present!'
+  No. 61 Trance: NAME: loc='トランスして' csv='Trance!'
+  No. 62 Crawl: NAME: loc='這って' csv='Crawl!'
+  No. 64 Roll: NAME: loc='転がって' csv='Roll!'
+  No. 65 Cum: NAME: loc='イって' csv='Cum!'
+  No. 70 Tingsha: NAME: loc='チンシャ' csv='ティンシャ'
+  No. 81 FetishChampion: NAME: loc='性癖チャンピオン' csv='性癖の覇者'
+  No. 83 AllInOne: NAME: loc='オールインワン' csv='オールインワン催眠'
+  No. 84 Ericksonian: NAME: loc='エリクソン的暗示' csv='エリクソン的誘導'
+  No. 87 ZeroShortcut: NAME: loc='ゼロショートカット' csv='ゼロへの近道'
+  No. 93 OverFocus: NAME: loc='オーバーフォーカス' csv='過集中'
+  No. 94 BottomlessBog: NAME: loc='底無し沼' csv='底なしの沼'
+  No. 95 RitualReveal: NAME: loc='儀式の開示' csv='術式の開示'
+  No. 98 FreeHug: NAME: loc='フリーハグ' csv='フリーハグ<3'
+
+--------------------------------------------------------------------------------
+TYPE MISMATCHES
+--------------------------------------------------------------------------------
+  No. 33 PlantParasiteHypnosis: TYPE: csv=アタック→Attack code=CardType.Skill
+  No. 51 PolynesianHypnosis: TYPE: csv=パワー→Power code=CardType.Skill
+  No. 56 Kneel: TYPE: csv=スキル→Skill code=CardType.Attack
+  No. 58 Come: TYPE: csv=スキル→Skill code=CardType.Attack
+  No. 62 Crawl: TYPE: csv=スキル→Skill code=CardType.Attack
+  No. 64 Roll: TYPE: csv=スキル→Skill code=CardType.Attack
+  No. 70 Tingsha: TYPE: csv=アタック→Attack code=CardType.Skill
+  No. 71 InfiniteFingerSnap: TYPE: csv=アタック→Attack code=CardType.Skill
+  No. 81 FetishChampion: TYPE: csv=アタック→Attack code=CardType.Skill
+  No. 82 KnowItAll: TYPE: csv=パワー→Power code=CardType.Skill
+  No. 84 Ericksonian: TYPE: csv=パワー→Power code=CardType.Skill
+  No. 94 BottomlessBog: TYPE: csv=パワー→Power code=CardType.Skill
+
+--------------------------------------------------------------------------------
+DESCRIPTION MISMATCHES — FULL CSV 効果説明 + recommended loc string
+--------------------------------------------------------------------------------
+
+### No.1 完全掌握 → TotalControl  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TOTAL_CONTROL.description
+--- CSV 効果説明 (exact) ---
+トランス3以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる。廃棄。
+--- CURRENT LOC description ---
+対象のトランスが3以上のときのみ。このターン、攻撃ダメージをすべて自分へ肩代わりする。
+[gold]廃棄[/gold]。
+[gold]性癖：DomSub[/gold]
+[gold]アップグレード後：廃棄が消える。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TOTAL_CONTROL.description": "トランス3以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる。廃棄。"}
+--- END ---
+
+### No.2 呼吸制御 → BreathControl  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BREATH_CONTROL.description
+--- CSV 効果説明 (exact) ---
+このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。
+--- CURRENT LOC description ---
+このターン、カードをプレイするたび対象の筋力を1失わせる。
+攻撃の値が0なら[gold]スタン[/gold]。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BREATH_CONTROL.description": "このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。"}
+--- END ---
+
+### No.3 ぜーろっ → ZeroOut  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ZERO_OUT.description
+--- CSV 効果説明 (exact) ---
+カウント。相手の攻撃値を0にする。トランス1。
+--- CURRENT LOC description ---
+対象のブロックをすべて失わせ、このターン筋力を0にする。トランス{Trance:diff()}を付与する。
+[gold]カウント[/gold]。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ZERO_OUT.description": "カウント。相手の攻撃値を0にする。トランス1。"}
+--- END ---
+
+### No.4 スライム催眠 → SlimeHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SLIME_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。1ターンの間、相手の名前を「スライム」に、行動を「粘液付与5枚」に上書きする。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。1ターンの間、対象の意図を粘液{Slimed:diff()}枚付与へ上書きし、見た目と名前をランダムなスライムに差し替える。トランス{Trance:diff()}を付与する。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "カウント。1ターンの間、相手の名前を「スライム」に、行動を「粘液付与5枚」に上書きする。トランス1。"}
+--- END ---
+
+### No.5 心停止催眠 → CardiacArrestHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。対象のターンが{Turns:diff()}回巡ると即死させる（ボスは2倍のターン数）。
+[gold]性癖：アブノーマル[/gold]
+[gold]アップグレード後：さらにスチール・ハートを1つ入手する。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description": "カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。"}
+--- END ---
+
+### No.6 時止めストライク → TimeStopStrike  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TIME_STOP_STRIKE.description
+--- CSV 効果説明 (exact) ---
+相手がトランス時にのみプレイできる。ターン終了時に6ダメージを与える。このカードは1ターンに3回までプレイできる。
+--- CURRENT LOC description ---
+対象がトランス状態のときのみプレイできる。
+自ターン終了時に{Damage:diff()}ダメージを与える（1ターンに最大3回まで）。
+[gold]性癖：SM・トランス[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TIME_STOP_STRIKE.description": "相手がトランス時にのみプレイできる。ターン終了時に6ダメージを与える。このカードは1ターンに3回までプレイできる。"}
+--- END ---
+
+### No.7 感度3000倍 → Sensitivity3000  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SENSITIVITY3000.description
+--- CSV 効果説明 (exact) ---
+トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。
+--- CURRENT LOC description ---
+トランス{Trance:diff()}を付与する。
+このターン、対象が受けるダメージが3倍になる。
+[gold]性癖必ず刺さる[/gold]（SM・DomSub・アブノーマル）。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SENSITIVITY3000.description": "トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。"}
+--- END ---
+
+### No.8 ASMR催眠 → AsmrHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ASMR_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+プレイヤーは「左」「右」に割り振られる。左右交互にプレイするたび、対象に破滅5を付与する。
+--- CURRENT LOC description ---
+プレイヤーをLeft/Rightに割り当て、左右が切り替わるたびランダムな敵に破滅{Doom:diff()}を付与する。
+ソロでも自己交互で動作する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "プレイヤーは「左」「右」に割り振られる。左右交互にプレイするたび、対象に破滅5を付与する。"}
+--- END ---
+
+### No.9 連続トランス → ContinuousTrance  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CONTINUOUS_TRANCE.description
+--- CSV 効果説明 (exact) ---
+トランス1を3回付与し、性癖に「トランス」を追加する。
+--- CURRENT LOC description ---
+トランス1を{Times:diff()}回付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CONTINUOUS_TRANCE.description": "トランス1を3回付与し、性癖に「トランス」を追加する。"}
+--- END ---
+
+### No.10 薬物催眠 → DrugHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-DRUG_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。毒7、破滅7、筋力低下2、弱体2、脱力2、沼2を付与する。
+--- CURRENT LOC description ---
+毒{PoisonPower:diff()}、破滅{Doom:diff()}、筋力{StrengthLoss:diff()}減少、弱体{WeakPower:diff()}、脆弱{FrailPower:diff()}、沼{Bog:diff()}を付与する。
+[gold]カウント[/gold]。[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "カウント。毒7、破滅7、筋力低下2、弱体2、脱力2、沼2を付与する。"}
+--- END ---
+
+### No.11 アブノーマル → AbnormalTransform  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description
+--- CSV 効果説明 (exact) ---
+X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。
+--- CURRENT LOC description ---
+手札のカードを最大{Cards:diff()}枚選び、この戦闘中だけコスト0のランダムなアブノーマル性癖カードへ変換する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description": "X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。"}
+--- END ---
+
+### No.12 調和 → Harmony  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HARMONY.description
+--- CSV 効果説明 (exact) ---
+相手の攻撃と同値のブロックを得る。廃棄。
+--- CURRENT LOC description ---
+相手の攻撃と同値の[gold]ブロック[/gold]を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HARMONY.description": "相手の攻撃と同値のブロックを得る。廃棄。"}
+--- END ---
+
+### No.13 不意打ち催眠 → AmbushHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+敵の数だけドローする。引いたカードをランダムな相手にプレイする。
+--- CURRENT LOC description ---
+敵の数だけカードを引き、それぞれをコストを無視してランダムな敵へ自動でプレイする。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "敵の数だけドローする。引いたカードをランダムな相手にプレイする。"}
+--- END ---
+
+### No.14 集団催眠 → MassHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MASS_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+催眠系カウントカードの対象が相手すべてになる。
+--- CURRENT LOC description ---
+単体対象の[gold]カウント[/gold]カードをプレイすると、その効果を他の敵全員にも適用する。
+[gold]アップグレード後：インネイト。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MASS_HYPNOSIS.description": "催眠系カウントカードの対象が相手すべてになる。"}
+--- END ---
+
+### No.15 前戯 → Prefinger  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PREFINGER.description
+--- CSV 効果説明 (exact) ---
+弱体1と脱力1を付与し1エナジーを得る。廃棄。
+--- CURRENT LOC description ---
+弱体{VulnerablePower:diff()}と脆弱{FrailPower:diff()}を与える。
+[gold]エナジー[/gold]を{Energy:diff()}得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PREFINGER.description": "弱体1と脱力1を付与し1エナジーを得る。廃棄。"}
+--- END ---
+
+### No.16 ラポール → Rapport  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-RAPPORT.description
+--- CSV 効果説明 (exact) ---
+手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。
+--- CURRENT LOC description ---
+自ターン開始時、手札の[gold]カウント[/gold]カードのコストを追加で1下げる。前ターンに敵を攻撃していなければさらに1下げる。
+[gold]アップグレード後：常に追加分を下げる。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-RAPPORT.description": "手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。"}
+--- END ---
+
+### No.17 カタレプシー → Catalepsy  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CATALEPSY.description
+--- CSV 効果説明 (exact) ---
+相手にスローを付与する。
+--- CURRENT LOC description ---
+スロウ{Slow:diff()}を付与する。
+[gold]アップグレード後：対象がトランス中はスロウがリセットされない。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CATALEPSY.description": "相手にスローを付与する。"}
+--- END ---
+
+### No.18 状態異常催眠 → StatusHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-STATUS_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。
+--- CURRENT LOC description ---
+トランス中の敵へ状態異常・呪いを付与しやすくする。
+[gold]性癖：アブノーマル[/gold]
+[gold]アップグレード後：インネイト。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-STATUS_HYPNOSIS.description": "トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。"}
+--- END ---
+
+### No.19 指パッチン → FingerSnap  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FINGER_SNAP.description
+--- CSV 効果説明 (exact) ---
+トランス1。破滅5を付与する。
+--- CURRENT LOC description ---
+トランス{Trance:diff()}。破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FINGER_SNAP.description": "トランス1。破滅5を付与する。"}
+--- END ---
+
+### No.20 好き好き催眠 → LoveHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-LOVE_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。対象を混乱させる（バフ意図のリダイレクトAPIが無いための近似）。トランス{Trance:diff()}を付与する。
+[gold]性癖：DomSub[/gold]
+[gold]アップグレード後：さらに弱体も与える。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-LOVE_HYPNOSIS.description": "カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。"}
+--- END ---
+
+### No.21 認知シャッフル催眠 → CognitiveShuffle  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description
+--- CSV 効果説明 (exact) ---
+カウント。トランス2。キャラクターカード3枚からひとつ選び、対応するパワー効果を得る。ターン開始時に対応するカードをランダムに2枚生成し、そのターンコストを支払わずにプレイできる。相手がトランス状態中継続する。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。トランス{Trance:diff()}を付与する。形態カード3枚から1枚選び、その形態を得る。
+対象がトランス中、自ターン開始時にそのキャラのカードを{Cards:diff()}枚加える（エセリアル・廃棄・このターン0コスト）。
+虚無化でもターンは強制終了しない。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-COGNITIVE_SHUFFLE.description": "カウント。トランス2。キャラクターカード3枚からひとつ選び、対応するパワー効果を得る。ターン開始時に対応するカードをランダムに2枚生成し、そのターンコストを支払わずにプレイできる。相手がトランス状態中継続する。"}
+--- END ---
+
+### No.22 ミラーリング → Mirroring  [DESC_MISMATCH (CSV has extras beyond loc)]
+loc_key: HYPNOSISCREATOR-MIRRORING.description
+--- CSV 効果説明 (exact) ---
+相手の攻撃予定と同じ攻撃を行う。 廃棄。
+--- CURRENT LOC description ---
+相手の攻撃予定と同じ攻撃を行う。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MIRRORING.description": "相手の攻撃予定と同じ攻撃を行う。 廃棄。"}
+--- END ---
+
+### No.23 教祖化 → CultLeader  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CULT_LEADER.description
+--- CSV 効果説明 (exact) ---
+すべての性癖カードが相手の性癖に刺さるようになる。トランスを付与するたび、次のターンに1エナジーを得てカードを1枚引く。
+--- CURRENT LOC description ---
+SM・DomSub・アブノーマルの性癖カードは、対象の性癖有無に関わらず必ず刺さる（トランスは対象外）。トランスを付与するたび、次のターンのエナジー+1・ドロー+{Draw:diff()}を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CULT_LEADER.description": "すべての性癖カードが相手の性癖に刺さるようになる。トランスを付与するたび、次のターンに1エナジーを得てカードを1枚引く。"}
+--- END ---
+
+### No.24 軟酥の法 → SoftTechnique  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SOFT_TECHNIQUE.description
+--- CSV 効果説明 (exact) ---
+デバフを1種類解除する。
+--- CURRENT LOC description ---
+自身のデバフを1つ（ランダム）除去する。
+[gold]アップグレード後：すべて除去。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SOFT_TECHNIQUE.description": "デバフを1種類解除する。"}
+--- END ---
+
+### No.25 ナイフと拳銃 → KnifeAndGun  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-KNIFE_AND_GUN.description
+--- CSV 効果説明 (exact) ---
+ナイフを1枚手札に加える。11ダメージを与える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。ナイフを1枚手札に加える。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-KNIFE_AND_GUN.description": "ナイフを1枚手札に加える。11ダメージを与える。"}
+--- END ---
+
+### No.26 スタンガン → StunGun  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-STUN_GUN.description
+--- CSV 効果説明 (exact) ---
+5ダメージを与える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：SM[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-STUN_GUN.description": "5ダメージを与える。"}
+--- END ---
+
+### No.27 初心者向け催眠 → BeginnerHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BEGINNER_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+破滅12を付与する。対象にプレイする次の性癖カードの性癖を相手に植え付ける。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。破滅{Doom:diff()}を付与する。対象にプレイする次の性癖カード{PlantCards:diff()}枚の性癖を植え付ける。トランス{Trance:diff()}。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BEGINNER_HYPNOSIS.description": "破滅12を付与する。対象にプレイする次の性癖カードの性癖を相手に植え付ける。トランス1。"}
+--- END ---
+
+### No.28 脳くちゅ催眠 → BrainSlimeHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。攻撃対象を、対象を含むランダムな相手に移し替える。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。対象の攻撃を他の敵へリダイレクトする（味方除く）。混乱も付与。トランス{Trance:diff()}を付与する。
+[gold]性癖：アブノーマル[/gold]
+[gold]アップグレード後：敵全体に適用。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description": "カウント。攻撃対象を、対象を含むランダムな相手に移し替える。トランス1。"}
+--- END ---
+
+### No.29 ちゃんとできるね？ → CanDoIt  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CAN_DO_IT.description
+--- CSV 効果説明 (exact) ---
+脱力1を付与する。沼1を付与する。
+--- CURRENT LOC description ---
+対象を励ましトランス{Trance:diff()}を付与する。{Block:diff()} [gold]ブロック[/gold]を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CAN_DO_IT.description": "脱力1を付与する。沼1を付与する。"}
+--- END ---
+
+### No.30 ごめんなさいは？ → SayYoureSorry  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SAY_YOURE_SORRY.description
+--- CSV 効果説明 (exact) ---
+5ダメージを与える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SAY_YOURE_SORRY.description": "5ダメージを与える。"}
+--- END ---
+
+### No.31 リストカット → WristCut  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-WRIST_CUT.description
+--- CSV 効果説明 (exact) ---
+5ダメージを与える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-WRIST_CUT.description": "5ダメージを与える。"}
+--- END ---
+
+### No.32 心臓えぐり出し → HeartGouge  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HEART_GOUGE.description
+--- CSV 効果説明 (exact) ---
+10ダメージを与える。リーサル時、追加のレリック報酬を獲得する。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。リーサルなら心臓レリックを入手。
+[gold]廃棄[/gold]。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HEART_GOUGE.description": "10ダメージを与える。リーサル時、追加のレリック報酬を獲得する。廃棄。"}
+--- END ---
+
+### No.33 植物寄生催眠 → PlantParasiteHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。15ダメージを与える。対象は毎ターンHPを10失う。戦闘終了後、追加のレリック報酬を獲得する。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。収縮{ConstrictPower:diff()}を付与する。トランス{Trance:diff()}を付与する。戦闘終了時、付与していれば心臓レリックを入手する。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PLANT_PARASITE_HYPNOSIS.description": "カウント。15ダメージを与える。対象は毎ターンHPを10失う。戦闘終了後、追加のレリック報酬を獲得する。トランス1。"}
+--- END ---
+
+### No.34 吸血催眠 → BloodSuckHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。8ダメージを与える。与えたダメージに等しいHPを回復する。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。{Damage:diff()} ダメージを与え、同量回復する。トランス{Trance:diff()}を付与する。
+[gold]性癖：SM・アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BLOOD_SUCK_HYPNOSIS.description": "カウント。8ダメージを与える。与えたダメージに等しいHPを回復する。トランス1。"}
+--- END ---
+
+### No.35 指折り数えて → FingerCount  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FINGER_COUNT.description
+--- CSV 効果説明 (exact) ---
+手札のカウントカードすべてのコストを1下げる。
+--- CURRENT LOC description ---
+カードを{Cards:diff()}枚引く。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FINGER_COUNT.description": "手札のカウントカードすべてのコストを1下げる。"}
+--- END ---
+
+### No.36 ふにゃへにゃ → Soften  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SOFTEN.description
+--- CSV 効果説明 (exact) ---
+トランス状態の相手が与えるダメージが、スタック数1につき20%低下する。
+--- CURRENT LOC description ---
+トランス中の敵は、トランスのスタック1につき与えるダメージが20%減少する。
+[gold]アップグレード後：コスト1。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SOFTEN.description": "トランス状態の相手が与えるダメージが、スタック数1につき20%低下する。"}
+--- END ---
+
+### No.37 寝かしつけ催眠 → LullabyHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-LULLABY_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。睡眠1を与える。対象のHPを20回復する。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。睡眠{AsleepPower:diff()}を付与する。HPを{Heal:diff()}回復する。トランス{Trance:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-LULLABY_HYPNOSIS.description": "カウント。睡眠1を与える。対象のHPを20回復する。トランス1。"}
+--- END ---
+
+### No.38 深呼吸 → DeepBreath  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-DEEP_BREATH.description
+--- CSV 効果説明 (exact) ---
+カードを1枚引く。次のターンエナジー1を得る。廃棄。
+--- CURRENT LOC description ---
+カードを{Cards:diff()}枚引く。
+次のターン、[gold]エナジー[/gold]を{Energy:diff()}得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-DEEP_BREATH.description": "カードを1枚引く。次のターンエナジー1を得る。廃棄。"}
+--- END ---
+
+### No.39 腹部への殴打 → AbdominalStrike  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ABDOMINAL_STRIKE.description
+--- CSV 効果説明 (exact) ---
+16ダメージを与える。弱体2を付与する。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：SM[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ABDOMINAL_STRIKE.description": "16ダメージを与える。弱体2を付与する。"}
+--- END ---
+
+### No.40 感覚共有 → SenseShare  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SENSE_SHARE.description
+--- CSV 効果説明 (exact) ---
+このターン中、単体へのアタックカードは全体が対象になる。
+--- CURRENT LOC description ---
+脆弱{FrailPower:diff()}を与える。{Block:diff()} [gold]ブロック[/gold]を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SENSE_SHARE.description": "このターン中、単体へのアタックカードは全体が対象になる。"}
+--- END ---
+
+### No.41 快の循環 → PleasureCycle  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PLEASURE_CYCLE.description
+--- CSV 効果説明 (exact) ---
+破滅10を付与する。対象がトランス状態なら、さらに破滅10を付与する。このカードを手札に戻す。
+--- CURRENT LOC description ---
+破滅{Doom:diff()}を付与する。対象がトランス状態なら、さらに破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PLEASURE_CYCLE.description": "破滅10を付与する。対象がトランス状態なら、さらに破滅10を付与する。このカードを手札に戻す。"}
+--- END ---
+
+### No.42 足蹴 → Kick  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-KICK.description
+--- CSV 効果説明 (exact) ---
+10ダメージを与える。SMとDomSubの性癖に目覚めさせる。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+SMとDomSubを目覚めさせる。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-KICK.description": "10ダメージを与える。SMとDomSubの性癖に目覚めさせる。"}
+--- END ---
+
+### No.43 メトロノーム → MetronomeCard  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-METRONOME_CARD.description
+--- CSV 効果説明 (exact) ---
+13ブロックを得る。次のターン、2枚追加で引く。
+--- CURRENT LOC description ---
+{Block:diff()} [gold]ブロック[/gold]を得る。
+次のターン、カードを{Cards:diff()}枚引く。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-METRONOME_CARD.description": "13ブロックを得る。次のターン、2枚追加で引く。"}
+--- END ---
+
+### No.44 意識を飛ばす光 → GazeLight  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-GAZE_LIGHT.description
+--- CSV 効果説明 (exact) ---
+8ブロックを得る。脱力1を付与する。
+--- CURRENT LOC description ---
+{Block:diff()} [gold]ブロック[/gold]を得る。
+脆弱{FrailPower:diff()}を与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-GAZE_LIGHT.description": "8ブロックを得る。脱力1を付与する。"}
+--- END ---
+
+### No.45 凝視 → Stare  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-STARE.description
+--- CSV 効果説明 (exact) ---
+9ダメージを与える。トランス1。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+トランス{Trance:diff()}を付与する。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-STARE.description": "9ダメージを与える。トランス1。"}
+--- END ---
+
+### No.46 躾 → Discipline  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-DISCIPLINE.description
+--- CSV 効果説明 (exact) ---
+5ダメージを与える。沼1を付与する。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+沼{Bog:diff()}を付与する。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-DISCIPLINE.description": "5ダメージを与える。沼1を付与する。"}
+--- END ---
+
+### No.47 お仕置き → Punishment  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PUNISHMENT.description
+--- CSV 効果説明 (exact) ---
+この戦闘中、対象がプレイヤーを攻撃した回数1につき8ダメージを与える。（現在の攻撃回数：N回）
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。破滅{Doom:diff()}を付与する。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PUNISHMENT.description": "この戦闘中、対象がプレイヤーを攻撃した回数1につき8ダメージを与える。（現在の攻撃回数：N回）"}
+--- END ---
+
+### No.48 調教コマンド → TrainingCommandCard  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description
+--- CSV 効果説明 (exact) ---
+ランダムな3枚のDomSubコマンドカードを手札に加える。廃棄。
+--- CURRENT LOC description ---
+ランダムな調教命令カードを{Cards:diff()}枚手札に加える。
+[gold]廃棄。[/gold] [gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "ランダムな3枚のDomSubコマンドカードを手札に加える。廃棄。"}
+--- END ---
+
+### No.49 スパンキング → Spanking  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SPANKING.description
+--- CSV 効果説明 (exact) ---
+5ダメージを2回与える。性癖に刺さった時、リプレイ1。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージを2回。
+性癖が刺さったら[gold]リプレイ[/gold]。
+[gold]性癖：SM[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SPANKING.description": "5ダメージを2回与える。性癖に刺さった時、リプレイ1。"}
+--- END ---
+
+### No.50 練達 → Mastery  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MASTERY.description
+--- CSV 効果説明 (exact) ---
+プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。
+--- CURRENT LOC description ---
+有効な間にプレイした[gold]カウント[/gold]カードを、戦闘終了時に永続アップグレードする。
+[gold]アップグレード後：コスト1。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MASTERY.description": "プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。"}
+--- END ---
+
+### No.51 ポリネシアン催眠 → PolynesianHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。相手すべてに睡眠2、沼2、トランス1を付与。
+--- CURRENT LOC description ---
+敵全体にトランス{Trance:diff()}を付与する。破滅{Doom:diff()}を付与する。
+[gold]カウント[/gold]。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.description": "カウント。相手すべてに睡眠2、沼2、トランス1を付与。"}
+--- END ---
+
+### No.52 トランスに溶けゆく → MeltIntoTrance  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MELT_INTO_TRANCE.description
+--- CSV 効果説明 (exact) ---
+対象がトランスに落ちた回数分、15ダメージを与える。
+--- CURRENT LOC description ---
+対象がこれまでに失ったトランスの合計量×{PerTrance:diff()}のダメージを与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MELT_INTO_TRANCE.description": "対象がトランスに落ちた回数分、15ダメージを与える。"}
+--- END ---
+
+### No.53 侵食 → Corrosion  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CORROSION.description
+--- CSV 効果説明 (exact) ---
+アタックをプレイするたび、ランダムな催眠系カウントカードを手札に1枚加える。
+--- CURRENT LOC description ---
+アタックカードをプレイするたび、ランダムな催眠[gold]カウント[/gold]カードを手札に加える。
+[gold]アップグレード後：プレイしたアタックと性癖が一致するカードを優先する。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CORROSION.description": "アタックをプレイするたび、ランダムな催眠系カウントカードを手札に1枚加える。"}
+--- END ---
+
+### No.54 触手の想起 → TentacleRecall  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TENTACLE_RECALL.description
+--- CSV 効果説明 (exact) ---
+締め付け5を付与する。次のターン、このカードのコピーを手札に加える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。収縮{ConstrictPower:diff()}を付与する。次の自ターン開始時、このカードのコピーを手札に加える。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TENTACLE_RECALL.description": "締め付け5を付与する。次のターン、このカードのコピーを手札に加える。"}
+--- END ---
+
+### No.55 糸色 丁頁 イ崔 目民 → InfiniteUpgradeString  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description
+--- CSV 効果説明 (exact) ---
+カウント。対象はHP15を失う。トランス1。このカードは何度でもアップグレードできる。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。HPを{LoseHp:diff()}失う。トランス1を付与する。
+[gold]性癖：SM[/gold]
+[gold]無限にアップグレード可能。アップグレードごとに失うHPが7増える。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "カウント。対象はHP15を失う。トランス1。このカードは何度でもアップグレードできる。"}
+--- END ---
+
+### No.56 Kneel! → Kneel  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-KNEEL.description
+--- CSV 効果説明 (exact) ---
+跪け。沼1を付与する。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-KNEEL.description": "跪け。沼1を付与する。廃棄。"}
+--- END ---
+
+### No.57 Look! → Look  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-LOOK.description
+--- CSV 効果説明 (exact) ---
+眼を見ろ。破滅5を付与する。廃棄。
+--- CURRENT LOC description ---
+弱体{WeakPower:diff()}を与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-LOOK.description": "眼を見ろ。破滅5を付与する。廃棄。"}
+--- END ---
+
+### No.58 Come! → Come  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-COME.description
+--- CSV 効果説明 (exact) ---
+おいで。対象を引き寄せ、DomSub性癖に目覚めさせる。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-COME.description": "おいで。対象を引き寄せ、DomSub性癖に目覚めさせる。廃棄。"}
+--- END ---
+
+### No.59 Relax! → Relax  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-RELAX.description
+--- CSV 効果説明 (exact) ---
+リラックス。脱力1を付与する。廃棄。
+--- CURRENT LOC description ---
+脆弱{FrailPower:diff()}を与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-RELAX.description": "リラックス。脱力1を付与する。廃棄。"}
+--- END ---
+
+### No.60 Present! → Present  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PRESENT.description
+--- CSV 効果説明 (exact) ---
+見せろ。ランダムなバフを1つ奪う。廃棄。
+--- CURRENT LOC description ---
+脆弱{VulnerablePower:diff()}を与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PRESENT.description": "見せろ。ランダムなバフを1つ奪う。廃棄。"}
+--- END ---
+
+### No.61 Trance! → Trance  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TRANCE.description
+--- CSV 効果説明 (exact) ---
+落ちろ。トランス1。廃棄。
+--- CURRENT LOC description ---
+トランス{Trance:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TRANCE.description": "落ちろ。トランス1。廃棄。"}
+--- END ---
+
+### No.62 Crawl! → Crawl  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CRAWL.description
+--- CSV 効果説明 (exact) ---
+四つん這いになれ。沼1を付与する。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。弱体{WeakPower:diff()}を与える。
+[gold]性癖：DomSub[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CRAWL.description": "四つん這いになれ。沼1を付与する。廃棄。"}
+--- END ---
+
+### No.63 Don't Move! → DontMove  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-DONT_MOVE.description
+--- CSV 効果説明 (exact) ---
+動くな。対象は筋力2を失う。廃棄。
+--- CURRENT LOC description ---
+[gold]スタン[/gold]。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-DONT_MOVE.description": "動くな。対象は筋力2を失う。廃棄。"}
+--- END ---
+
+### No.64 Roll! → Roll  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ROLL.description
+--- CSV 効果説明 (exact) ---
+ごろん。弱体1を付与する。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。
+[gold]性癖：SM[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ROLL.description": "ごろん。弱体1を付与する。廃棄。"}
+--- END ---
+
+### No.65 Cum! → Cum  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-CUM.description
+--- CSV 効果説明 (exact) ---
+いけ。対象は体力19を失う。廃棄。
+--- CURRENT LOC description ---
+破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-CUM.description": "いけ。対象は体力19を失う。廃棄。"}
+--- END ---
+
+### No.66 Good! → Good  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-GOOD.description
+--- CSV 効果説明 (exact) ---
+いい子だ。廃棄されたカード1枚を選び、手札に加える。廃棄。
+--- CURRENT LOC description ---
+従順への褒賞。トランス{Trance:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-GOOD.description": "いい子だ。廃棄されたカード1枚を選び、手札に加える。廃棄。"}
+--- END ---
+
+### No.67 囁き → Whisper  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-WHISPER.description
+--- CSV 効果説明 (exact) ---
+山札のカードを1枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。
+--- CURRENT LOC description ---
+手札の性癖カードを{Cards:diff()}枚選ぶ。その性癖を対象に目覚めさせる。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-WHISPER.description": "山札のカードを1枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。"}
+--- END ---
+
+### No.68 解剖 → Autopsy  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-AUTOPSY.description
+--- CSV 効果説明 (exact) ---
+14ダメージを与える。保有している心臓レリックの数だけ、追加で4ダメージを与える。リーサル時、追加のレリック報酬を得る。廃棄。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。保有している心臓レリックの数だけ、追加で{PerHeart:diff()}ダメージを与える。リーサル時、追加のレリック報酬を得る。廃棄。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-AUTOPSY.description": "14ダメージを与える。保有している心臓レリックの数だけ、追加で4ダメージを与える。リーサル時、追加のレリック報酬を得る。廃棄。"}
+--- END ---
+
+### No.69 なでなで → Petting  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PETTING.description
+--- CSV 効果説明 (exact) ---
+脱力1を付与する。カードを1枚引く。
+--- CURRENT LOC description ---
+脆弱{FrailPower:diff()}を与える。
+カードを{Cards:diff()}枚引く。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PETTING.description": "脱力1を付与する。カードを1枚引く。"}
+--- END ---
+
+### No.70 ティンシャ → Tingsha  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-TINGSHA.description
+--- CSV 効果説明 (exact) ---
+すべての相手に6ダメージを与える。このカードを手札に戻す。トランス1。
+--- CURRENT LOC description ---
+鈴の音でトランス{Trance:diff()}を付与する。破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-TINGSHA.description": "すべての相手に6ダメージを与える。このカードを手札に戻す。トランス1。"}
+--- END ---
+
+### No.71 連続指パッチン → InfiniteFingerSnap  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description
+--- CSV 効果説明 (exact) ---
+すべての敵に1ダメージを5回与える。リプレイX。廃棄。
+--- CURRENT LOC description ---
+トランス1を{Times:diff()}回付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "すべての敵に1ダメージを5回与える。リプレイX。廃棄。"}
+--- END ---
+
+### No.72 壱佰捌煩悩 → HundredEight  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HUNDRED_EIGHT.description
+--- CSV 効果説明 (exact) ---
+すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。
+--- CURRENT LOC description ---
+敵全体の全性癖を目覚めさせる。{Damage:diff()} ダメージを与え、その後このカードのコストが1増える。
+コストが3に達すると代わりに108ダメージを与えて[gold]廃棄[/gold]する。
+[gold]性癖必ず刺さる[/gold]（種類ごとに個別で刺さる）。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HUNDRED_EIGHT.description": "すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。"}
+--- END ---
+
+### No.73 不動明王 → FudoMyoo  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FUDO_MYOO.description
+--- CSV 効果説明 (exact) ---
+デバフをすべて解除し、アーティファクト1を得る。デバフを付与してきた相手に5ダメージを与える。
+--- CURRENT LOC description ---
+自身のデバフをすべて解除する。アーティファクト{ArtifactPower:diff()}を得る。敵全体に{Damage:diff()}ダメージを与える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FUDO_MYOO.description": "デバフをすべて解除し、アーティファクト1を得る。デバフを付与してきた相手に5ダメージを与える。"}
+--- END ---
+
+### No.74 赤ちゃん催眠 → BabyHypnosis  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BABY_HYPNOSIS.description
+--- CSV 効果説明 (exact) ---
+カウント。対象のバフをすべて解除し、縮小2を付与する。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。対象のバフをすべて解除する。萎縮{ShrinkPower:diff()}を付与する。トランス{Trance:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BABY_HYPNOSIS.description": "カウント。対象のバフをすべて解除し、縮小2を付与する。トランス1。"}
+--- END ---
+
+### No.75 言葉の洪水 → WordFlood  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-WORD_FLOOD.description
+--- CSV 効果説明 (exact) ---
+催眠系カウントカードをプレイした時、カードを1枚引く。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]カードをプレイするたび、カードを{Draw:diff()}枚引く。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-WORD_FLOOD.description": "催眠系カウントカードをプレイした時、カードを1枚引く。"}
+--- END ---
+
+### No.76 暗示解除 → SuggestionRelease  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SUGGESTION_RELEASE.description
+--- CSV 効果説明 (exact) ---
+0ダメージを与える。相手のトランス状態を解除し、その数値に応じたエナジーを獲得する。廃棄。
+--- CURRENT LOC description ---
+対象のトランスをすべて解除し、解除した分だけ[gold]エナジー[/gold]を得る。
+[gold]廃棄。[/gold]
+[gold]アップグレード後：その分だけカードも引く。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "0ダメージを与える。相手のトランス状態を解除し、その数値に応じたエナジーを獲得する。廃棄。"}
+--- END ---
+
+### No.77 ご主人様の言うとおり → AsYouWish  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-AS_YOU_WISH.description
+--- CSV 効果説明 (exact) ---
+性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。
+--- CURRENT LOC description ---
+性癖カードをプレイするたび、その性癖に応じて自己強化する：アブノーマル→筋力、SM→活力、DomSub→ブロック。
+[gold]アップグレード後：効果量が増加する。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-AS_YOU_WISH.description": "性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。"}
+--- END ---
+
+### No.78 性倒錯への理解 → FetishUnderstanding  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FETISH_UNDERSTANDING.description
+--- CSV 効果説明 (exact) ---
+性癖カードをプレイするたび、2ブロックを得る。
+--- CURRENT LOC description ---
+性癖カードをプレイするたび、ブロック{Block:diff()}を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FETISH_UNDERSTANDING.description": "性癖カードをプレイするたび、2ブロックを得る。"}
+--- END ---
+
+### No.79 メンタルケア → MentalCare  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MENTAL_CARE.description
+--- CSV 効果説明 (exact) ---
+破滅を除く対象のデバフをすべて解除する。解除したデバフ1種類につき、8ブロックを得る。沼1を付与する。
+--- CURRENT LOC description ---
+自身の弱体・脆弱を取り除く。{Block:diff()} [gold]ブロック[/gold]を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MENTAL_CARE.description": "破滅を除く対象のデバフをすべて解除する。解除したデバフ1種類につき、8ブロックを得る。沼1を付与する。"}
+--- END ---
+
+### No.80 布教欲求 → Proselytize  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PROSELYTIZE.description
+--- CSV 効果説明 (exact) ---
+推し活と沼2を付与する。戦闘終了時、15ゴールドを獲得する。廃棄。
+--- CURRENT LOC description ---
+対象に沼{BogPower:diff()}を付与する。自ターン終了時、対象の破滅・沼を他の敵全員へコピーする。
+戦闘終了時にゴールド{Gold:diff()}を得る。
+[gold]廃棄。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PROSELYTIZE.description": "推し活と沼2を付与する。戦闘終了時、15ゴールドを獲得する。廃棄。"}
+--- END ---
+
+### No.81 性癖の覇者 → FetishChampion  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FETISH_CHAMPION.description
+--- CSV 効果説明 (exact) ---
+対象の性癖の数だけ20ダメージを与える。（攻撃回数：N回）
+--- CURRENT LOC description ---
+対象の性癖を全種目覚めさせる。破滅{Doom:diff()}を付与する。
+[gold]アップグレード後：さらにブロック6を得る。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FETISH_CHAMPION.description": "対象の性癖の数だけ20ダメージを与える。（攻撃回数：N回）"}
+--- END ---
+
+### No.82 ぜんぶ知ってるよ → KnowItAll  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-KNOW_IT_ALL.description
+--- CSV 効果説明 (exact) ---
+性癖を刺した時の効果が2倍になる。
+--- CURRENT LOC description ---
+この戦闘中、性癖の刺さりで得る破滅を{Multiplier:diff()}増加させる（乗算）。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-KNOW_IT_ALL.description": "性癖を刺した時の効果が2倍になる。"}
+--- END ---
+
+### No.83 オールインワン催眠 → AllInOne  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ALL_IN_ONE.description
+--- CSV 効果説明 (exact) ---
+カウント。すべての催眠系カウントカードを対象にプレイする。トランス1。
+--- CURRENT LOC description ---
+[gold]カウント[/gold]。山札・手札・捨札にある他の[gold]カウント[/gold]カードをすべて対象へプレイする。トランス{Trance:diff()}を付与する。
+[gold]アップグレード後：廃棄山も含む。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ALL_IN_ONE.description": "カウント。すべての催眠系カウントカードを対象にプレイする。トランス1。"}
+--- END ---
+
+### No.84 エリクソン的誘導 → Ericksonian  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ERICKSONIAN.description
+--- CSV 効果説明 (exact) ---
+相手の性癖を刺した時、手札のカードのカウントがひとつ進む。
+--- CURRENT LOC description ---
+弱体{WeakPower:diff()}と脆弱{FrailPower:diff()}を与える。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ERICKSONIAN.description": "相手の性癖を刺した時、手札のカードのカウントがひとつ進む。"}
+--- END ---
+
+### No.85 自己暗示 → SelfSuggestion  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-SELF_SUGGESTION.description
+--- CSV 効果説明 (exact) ---
+筋力1を得る。敏捷1を得る。この戦闘中、ランダムな心臓レリックを3つ獲得する。
+--- CURRENT LOC description ---
+筋力{StrengthPower:diff()}とスピード{DexterityPower:diff()}を得る。未所持かつ戦闘中敵以外の心臓レリックをランダムに{Hearts:diff()}個入手し、戦闘開始トリガーを満たす。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-SELF_SUGGESTION.description": "筋力1を得る。敏捷1を得る。この戦闘中、ランダムな心臓レリックを3つ獲得する。"}
+--- END ---
+
+### No.87 ゼロへの近道 → ZeroShortcut  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ZERO_SHORTCUT.description
+--- CSV 効果説明 (exact) ---
+3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）
+--- CURRENT LOC description ---
+手札の[gold]カウント[/gold]カード1枚のコストをこの戦闘中0にする。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ZERO_SHORTCUT.description": "3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）"}
+--- END ---
+
+### No.88 もうちょっと我慢しようね → WaitABitMore  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-WAIT_A_BIT_MORE.description
+--- CSV 効果説明 (exact) ---
+催眠系カウントカードを1枚選ぶ。そのコストを初期値に戻し、リプレイ1を付与する。廃棄。
+--- CURRENT LOC description ---
+手札の[gold]カウント[/gold]カードを{Cards:diff()}枚選び、コストを基本値に戻して[gold]リプレイ[/gold]1を付与する。
+[gold]廃棄。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-WAIT_A_BIT_MORE.description": "催眠系カウントカードを1枚選ぶ。そのコストを初期値に戻し、リプレイ1を付与する。廃棄。"}
+--- END ---
+
+### No.89 マシュマロ回答 → MarshmallowAnswer  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description
+--- CSV 効果説明 (exact) ---
+ランダムな呪いカード2枚を手札に追加する。相手が攻撃を予定している場合、ブロック39に上書きし沼2を付与する。廃棄。
+--- CURRENT LOC description ---
+ランダムな呪いカードを{Cards:diff()}枚手札に加える。敵が攻撃の意図を示していれば、代わりにブロック{Block:diff()}を得て沼{BogPower:diff()}を付与する。
+[gold]廃棄。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MARSHMALLOW_ANSWER.description": "ランダムな呪いカード2枚を手札に追加する。相手が攻撃を予定している場合、ブロック39に上書きし沼2を付与する。廃棄。"}
+--- END ---
+
+### No.90 性的倒錯の本懐 → PerversionTrueDesire  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description
+--- CSV 効果説明 (exact) ---
+自分が失っているHPに応じたダメージを与える。（Nダメージ）。廃棄。
+--- CURRENT LOC description ---
+自身の欠損HP分のダメージを与える。
+[gold]廃棄。[/gold]
+[gold]性癖：アブノーマル[/gold]
+[gold]アップグレード後：廃棄しなくなる。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description": "自分が失っているHPに応じたダメージを与える。（Nダメージ）。廃棄。"}
+--- END ---
+
+### No.91 首輪と調教 → CollarTraining  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-COLLAR_TRAINING.description
+--- CSV 効果説明 (exact) ---
+相手を引き寄せる。すでに相手が引き寄せられている場合、破滅15を付与してDomSub性癖に目覚めさせる。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージを与え、対象を「引き寄せ」る。既に引き寄せ済みなら代わりに破滅{Doom:diff()}を与え、DomSubを目覚めさせる。
+[gold]性癖：DomSub[/gold]
+[gold]アップグレード後：破滅発生時に調教命令カードを2枚加える。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-COLLAR_TRAINING.description": "相手を引き寄せる。すでに相手が引き寄せられている場合、破滅15を付与してDomSub性癖に目覚めさせる。"}
+--- END ---
+
+### No.92 催眠導入 → HypnosisIntro  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HYPNOSIS_INTRO.description
+--- CSV 効果説明 (exact) ---
+2枚カードを引く。同名のカードを同じ相手にプレイするたび、引く枚数が1少なくなる。（現在N枚引く）
+--- CURRENT LOC description ---
+トランス{Trance:diff()}を付与する。破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HYPNOSIS_INTRO.description": "2枚カードを引く。同名のカードを同じ相手にプレイするたび、引く枚数が1少なくなる。（現在N枚引く）"}
+--- END ---
+
+### No.93 過集中 → OverFocus  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-OVER_FOCUS.description
+--- CSV 効果説明 (exact) ---
+手札にあるスキルカード1枚につき、エナジー1を得る。廃棄。
+--- CURRENT LOC description ---
+対象の性癖スロットを{Slots:diff()}増やし、ランダムな性癖を1つ目覚めさせる。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-OVER_FOCUS.description": "手札にあるスキルカード1枚につき、エナジー1を得る。廃棄。"}
+--- END ---
+
+### No.94 底なしの沼 → BottomlessBog  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BOTTOMLESS_BOG.description
+--- CSV 効果説明 (exact) ---
+ターン終了時、トランスと沼の数値1につき、破滅を10付与する。
+--- CURRENT LOC description ---
+沼{Bog:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BOTTOMLESS_BOG.description": "ターン終了時、トランスと沼の数値1につき、破滅を10付与する。"}
+--- END ---
+
+### No.95 術式の開示 → RitualReveal  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-RITUAL_REVEAL.description
+--- CSV 効果説明 (exact) ---
+天賦。催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。廃棄。
+--- CURRENT LOC description ---
+対象のランダムな性癖を1つ目覚めさせる。破滅{Doom:diff()}を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-RITUAL_REVEAL.description": "天賦。催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。廃棄。"}
+--- END ---
+
+### No.96 鼓動の共有 → HeartbeatShare  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HEARTBEAT_SHARE.description
+--- CSV 効果説明 (exact) ---
+保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。
+--- CURRENT LOC description ---
+[gold]マルチプレイ用。[/gold] 所持するスチール・ハートを味方1人と共有する。
+[gold]アップグレード後：味方全員と共有する。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HEARTBEAT_SHARE.description": "保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。"}
+--- END ---
+
+### No.97 性癖パーリナイ → FetishParty  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FETISH_PARTY.description
+--- CSV 効果説明 (exact) ---
+味方プレイヤーすべての手札にランダムな性癖カード2枚を加える。
+--- CURRENT LOC description ---
+[gold]マルチプレイ用。[/gold] 味方全員の手札にランダムな性癖カードを{Cards:diff()}枚加える。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FETISH_PARTY.description": "味方プレイヤーすべての手札にランダムな性癖カード2枚を加える。"}
+--- END ---
+
+### No.98 フリーハグ<3 → FreeHug  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-FREE_HUG.description
+--- CSV 効果説明 (exact) ---
+相手を引き寄せる。すでに相手が引き寄せられている場合、破滅10と沼1を与え、ランダムな味方に2枚パスする。
+--- CURRENT LOC description ---
+[gold]マルチプレイ用。[/gold] {Damage:diff()} ダメージを与え、対象を「引き寄せ」る。既に引き寄せ済みなら代わりに破滅{Doom:diff()}と沼{BogPower:diff()}を与え、カードを{Cards:diff()}枚ランダムな味方に渡す。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-FREE_HUG.description": "相手を引き寄せる。すでに相手が引き寄せられている場合、破滅10と沼1を与え、ランダムな味方に2枚パスする。"}
+--- END ---
+
+### No.99 急所の一刺し → VitalPoint  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-VITAL_POINT.description
+--- CSV 効果説明 (exact) ---
+10ダメージを与える。この戦闘中、アタックをプレイしていないターン1につき、追加で10ダメージ与える。
+--- CURRENT LOC description ---
+{Damage:diff()} ダメージ。さらに、敵を最後に攻撃してから経過したターン数1につき{PerTurn:diff()}増加する。
+[gold]性癖：アブノーマル[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-VITAL_POINT.description": "10ダメージを与える。この戦闘中、アタックをプレイしていないターン1につき、追加で10ダメージ与える。"}
+--- END ---
+
+### No.100 受容の需要 → AcceptanceNeed  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ACCEPTANCE_NEED.description
+--- CSV 効果説明 (exact) ---
+ダメージを受けた回数分、次のターンにエナジーを得てカードを引く。
+--- CURRENT LOC description ---
+受けた攻撃を記録する。次の自ターン開始時、その回数分の[gold]エナジー[/gold]を得てカードを引く。
+[gold]アップグレード後：コスト1。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ACCEPTANCE_NEED.description": "ダメージを受けた回数分、次のターンにエナジーを得てカードを引く。"}
+--- END ---
+
+### No.101 期待に応えて → MeetExpectations  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-MEET_EXPECTATIONS.description
+--- CSV 効果説明 (exact) ---
+手札にある催眠系カウントカードのコスト合計の2乗のダメージを与え、該当カードのコストを1下げる。（Nダメージ）
+--- CURRENT LOC description ---
+手札の[gold]カウント[/gold]カードの解決後コスト合計の2乗のダメージを与え、それらのコストを1下げる。
+[gold]アップグレード後：リテイン。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-MEET_EXPECTATIONS.description": "手札にある催眠系カウントカードのコスト合計の2乗のダメージを与え、該当カードのコストを1下げる。（Nダメージ）"}
+--- END ---
+
+### No.102 アンコール → Encore  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-ENCORE.description
+--- CSV 効果説明 (exact) ---
+プレイした催眠系カウントカードは、コストが初期値にリセットされて手札に戻る。
+--- CURRENT LOC description ---
+プレイした[gold]カウント[/gold]カードが廃棄される代わりに手札へ戻る。
+[gold]アップグレード後：コスト0。[/gold]
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-ENCORE.description": "プレイした催眠系カウントカードは、コストが初期値にリセットされて手札に戻る。"}
+--- END ---
+
+### No.103 防御 → HcDefend  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-HC_DEFEND.description
+--- CSV 効果説明 (exact) ---
+5ブロックを得る。
+--- CURRENT LOC description ---
+{Block:diff()} [gold]ブロック[/gold]を得る。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-HC_DEFEND.description": "5ブロックを得る。"}
+--- END ---
+
+### No.104 剥き出しの本能 → BareInstinct  [DESC_MISMATCH]
+loc_key: HYPNOSISCREATOR-BARE_INSTINCT.description
+--- CSV 効果説明 (exact) ---
+ターン開始時、手札のランダムなアタック1枚に「本能」をエンチャントする。
+--- CURRENT LOC description ---
+自ターン開始時、手札のランダムな攻撃カード{Enchant:diff()}枚に「本能」を付与する。
+--- RECOMMENDED (exact from CSV) ---
+{"HYPNOSISCREATOR-BARE_INSTINCT.description": "ターン開始時、手札のランダムなアタック1枚に「本能」をエンチャントする。"}
+--- END ---
+
+--------------------------------------------------------------------------------
+COMBINED CONSTRUCTOR FIX LIST (rarity+cost only)
+--------------------------------------------------------------------------------
+  No.  1 TotalControl: CardRarity.Uncommon, cost=1(keep)
+  No.  2 BreathControl: CardRarity.Uncommon, cost=0(keep)
+  No.  4 SlimeHypnosis: CardRarity.Uncommon, cost=3
+  No.  5 CardiacArrestHypnosis: CardRarity.Uncommon, cost=3(keep)
+  No.  6 TimeStopStrike: CardRarity.Common, cost=0(keep)
+  No.  8 AsmrHypnosis: CardRarity.Uncommon, cost=2(keep)
+  No.  9 ContinuousTrance: CardRarity.Rare, cost=0
+  No. 11 AbnormalTransform: CardRarity.Uncommon(keep), cost=X
+  No. 14 MassHypnosis: CardRarity.Uncommon, cost=1(keep)
+  No. 17 Catalepsy: CardRarity.Uncommon, cost=1(keep)
+  No. 20 LoveHypnosis: CardRarity.Rare, cost=3(keep)
+  No. 28 BrainSlimeHypnosis: CardRarity.Uncommon(keep), cost=3
+  No. 29 CanDoIt: CardRarity.Common, cost=1(keep)
+  No. 32 HeartGouge: CardRarity.Uncommon, cost=1(keep)
+  No. 33 PlantParasiteHypnosis: CardRarity.Uncommon, cost=3
+  No. 34 BloodSuckHypnosis: CardRarity.Uncommon(keep), cost=3
+  No. 35 FingerCount: CardRarity.Common(keep), cost=1
+  No. 36 Soften: CardRarity.Uncommon, cost=2(keep)
+  No. 37 LullabyHypnosis: CardRarity.Uncommon(keep), cost=3
+  No. 39 AbdominalStrike: CardRarity.Common(keep), cost=2
+  No. 51 PolynesianHypnosis: CardRarity.Uncommon, cost=6(keep)
+  No. 52 MeltIntoTrance: CardRarity.Rare, cost=1(keep)
+  No. 54 TentacleRecall: CardRarity.Common, cost=1(keep)
+  No. 55 InfiniteUpgradeString: CardRarity.Uncommon, cost=3
+  No. 56 Kneel: CardRarity.Common, cost=0(keep)
+  No. 57 Look: CardRarity.Common, cost=0(keep)
+  No. 58 Come: CardRarity.Common, cost=0(keep)
+  No. 59 Relax: CardRarity.Common, cost=0(keep)
+  No. 60 Present: CardRarity.Common, cost=0(keep)
+  No. 61 Trance: CardRarity.Common, cost=0(keep)
+  No. 62 Crawl: CardRarity.Common, cost=0(keep)
+  No. 63 DontMove: CardRarity.Common, cost=0(keep)
+  No. 64 Roll: CardRarity.Common, cost=0(keep)
+  No. 65 Cum: CardRarity.Common, cost=0(keep)
+  No. 66 Good: CardRarity.Common, cost=0(keep)
+  No. 71 InfiniteFingerSnap: CardRarity.Uncommon, cost=X
+  No. 74 BabyHypnosis: CardRarity.Uncommon(keep), cost=3
+  No. 81 FetishChampion: CardRarity.Rare(keep), cost=3
+  No. 87 ZeroShortcut: CardRarity.Common, cost=3
+  No. 90 PerversionTrueDesire: CardRarity.Common, cost=2(keep)
+  No. 91 CollarTraining: CardRarity.Common, cost=1(keep)
+  No. 92 HypnosisIntro: CardRarity.Uncommon, cost=0
+  No. 93 OverFocus: CardRarity.Uncommon(keep), cost=2
+  No. 94 BottomlessBog: CardRarity.Rare, cost=1(keep)
+  No. 96 HeartbeatShare: CardRarity.Rare(keep), cost=1
+  No. 97 FetishParty: CardRarity.Uncommon, cost=1
+  No. 98 FreeHug: CardRarity.Uncommon(keep), cost=0
+  No.100 AcceptanceNeed: CardRarity.Uncommon, cost=2(keep)
+  No.101 MeetExpectations: CardRarity.Uncommon, cost=1(keep)
+  No.102 Encore: CardRarity.Uncommon, cost=1(keep)

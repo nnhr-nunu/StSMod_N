@@ -1,0 +1,184 @@
+======================================================================
+STRENGTH_POWER
+  ENG title: Strength
+  JPN title: 筋力
+  ENG description: Strength adds additional damage to Attacks.
+  JPN description: 筋力はアタックのダメージを追加する。
+  ENG smartDescription: {Amount:cond:<0?Decreases|Increases} attack damage by [blue]{Amount:abs()}[/blue].
+  JPN smartDescription: アタックのダメージが[blue]{Amount:abs()}[/blue]{Amount:cond:<0?減少|増加}する。
+======================================================================
+DEXTERITY_POWER
+  ENG title: Dexterity
+  JPN title: 敏捷
+  ENG description: Dexterity improves [gold]Block[/gold] gained from cards.
+  JPN description: 敏捷はカードから得る[gold]ブロック[/gold]を増加させる。
+  ENG smartDescription: {Amount:cond:<0?Decreases|Increases} [gold]Block[/gold] gained from cards by [blue]{Amount:abs()}[/blue].
+  JPN smartDescription: カードから得る[gold]ブロック[/gold]が[blue]{Amount:abs()}[/blue]{Amount:cond:<0?減少|増加}する。
+======================================================================
+VULNERABLE_POWER
+  ENG title: Vulnerable
+  JPN title: 弱体
+  ENG description: Vulnerable creatures take [blue]50%[/blue] more damage from Attacks.
+  JPN description: 脆弱状態のモンスターはアタックから受けるダメージが[blue]50%[/blue]増加する。
+  ENG smartDescription: Receive [blue]{DamageIncrease:percentMore()}%[/blue] more damage from Attacks for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.
+  JPN smartDescription: [blue]{Amount}[/blue]ターンの間、アタックから受けるダメージが[blue]{DamageIncrease:percentMore()}%[/blue]増加する。
+======================================================================
+WEAK_POWER
+  ENG title: Weak
+  JPN title: 脱力
+  ENG description: Weakened creatures deal [blue]25%[/blue] less damage with Attacks.
+  JPN description: 脱力状態のモンスターはアタックで与えるダメージが[blue]25%[/blue]減少する。
+  ENG smartDescription: Attacks deal [blue]25%[/blue] less damage for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.
+  JPN smartDescription: [blue]{Amount}[/blue]ターンの間、アタックで与えるダメージが[blue]25%[/blue]減少する。
+======================================================================
+FRAIL_POWER
+  ENG title: Frail
+  JPN title: 脆弱
+  ENG description: While Frail, gain [blue]25%[/blue] less [gold]Block[/gold] from cards.
+  JPN description: 脆弱状態の間、カードから得る[gold]ブロック[/gold]が[blue]25%[/blue]減少する。
+  ENG smartDescription: Gain [blue]25%[/blue] less [gold]Block[/gold] from cards for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.
+  JPN smartDescription: [blue]{Amount}[/blue]ターンの間、カードから得る[gold]ブロック[/gold]が[blue]25%[/blue]減少する。
+======================================================================
+POISON_POWER
+  ENG title: Poison
+  JPN title: 毒
+  ENG description: Poisoned creatures lose HP at the start of their turn. Each turn, Poison is reduced by [blue]1[/blue].
+  JPN description: [gold]毒[/gold]に侵されたモンスターはターン開始時にHPを失う。毎ターン、[gold]毒[/gold]は[blue]1[/blue]減少する。
+  ENG smartDescription: At the start of {OnPlayer:your turn, lose|its turn, loses} [blue]{Amount}[/blue] HP, then reduce [gold]Poison[/gold] by [blue]1[/blue].
+  JPN smartDescription: {OnPlayer:自身の|敵の}ターン開始時、HPを[blue]{Amount}[/blue]失い、[gold]毒[/gold]が[blue]1[/blue]減少する。
+======================================================================
+THORNS_POWER
+  ENG title: Thorns
+  JPN title: トゲ
+  ENG description: When hit by an attack, deal damage back.
+  JPN description: アタックで攻撃された時、ダメージを跳ね返す。
+  ENG smartDescription: When hit by an attack, deal [blue]{Amount}[/blue] damage back.
+  JPN smartDescription: アタックで攻撃された時、[blue]{Amount}[/blue]ダメージを跳ね返す。
+======================================================================
+BUFFER_POWER
+  ENG title: Buffer
+  JPN title: バッファー
+  ENG description: Prevent the next time you would lose HP.
+  JPN description: 次にHPを失う時、それを無効化する。
+  ENG smartDescription: Prevent the next {Amount:plural:time|[blue]{}[/blue] times} you would lose HP.
+  JPN smartDescription: 次にHPを失う時、それを[blue]{Amount}[/blue]回無効化する。
+======================================================================
+INTANGIBLE_POWER
+  ENG title: Intangible
+  JPN title: 霊体
+  ENG description: Reduce all damage taken and HP loss to [blue]1[/blue] this turn.
+  JPN description: このターン、受けるすべてのダメージとHP喪失が[blue]1[/blue]になる。
+  ENG smartDescription: Reduce all damage taken and HP loss to [blue]1[/blue]. Lasts for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.
+  JPN smartDescription: [blue]{Amount}[/blue]ターンの間、受けるすべてのダメージとHP喪失が[blue]1[/blue]になる。
+======================================================================
+DEMON_FORM_POWER
+  ENG title: Demon Form
+  JPN title: 悪魔化
+  ENG description: At the start of your turn, gain [blue]3[/blue] [gold]Strength[/gold].
+  JPN description: ターン開始時、[gold]筋力[/gold][blue]3[/blue]を得る。
+  ENG smartDescription: At the start of your turn, gain [blue]{Amount}[/blue] [gold]Strength[/gold].
+  JPN smartDescription: ターン開始時、[gold]筋力[/gold][blue]{Amount}[/blue]を得る。
+======================================================================
+ACCURACY_POWER
+  ENG title: Accuracy
+  JPN title: 精度上昇
+  ENG description: [gold]Shivs[/gold] deal additional damage.
+  JPN description: [gold]ナイフ[/gold]が追加ダメージを与える。
+  ENG smartDescription: [gold]Shivs[/gold] deal [blue]{Amount}[/blue] additional damage.
+  JPN smartDescription: [gold]ナイフ[/gold]が追加で[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+BARRICADE_POWER
+  ENG title: Barricade
+  JPN title: バリケード
+  ENG description: [gold]Block[/gold] is not removed at the start of this creature's turn.
+  JPN description: このモンスターはターン開始時に[gold]ブロック[/gold]を失わない。
+  ENG smartDescription: [gold]Block[/gold] is not removed at the start of {ApplierName.StringValue:cond:[gold]{OwnerName}'s[/gold]|your} turn.
+  JPN smartDescription: {ApplierName.StringValue:cond:[gold]{OwnerName}[/gold]の|自身の}ターン開始時に[gold]ブロック[/gold]を失わない。
+======================================================================
+BLUR_POWER
+  ENG title: Blur
+  JPN title: ブラー
+  ENG description: [gold]Block[/gold] is not removed at the start of your next turn.
+  JPN description: 次のターン開始時に[gold]ブロック[/gold]を失わない。
+  ENG smartDescription: [gold]Block[/gold] is not removed at the start of your next {Amount:plural:turn|{} turns}.
+  JPN smartDescription: 次のターン開始時に[gold]ブロック[/gold]を失わない。（{Amount}ターン持続）
+======================================================================
+RAGE_POWER
+  ENG title: Rage
+  JPN title: 激怒
+  ENG description: Whenever you play an Attack this turn, gain [blue]3[/blue] [gold]Block[/gold].
+  JPN description: このターン、アタックをプレイするたび、[blue]3[/blue][gold]ブロック[/gold]を得る。
+  ENG smartDescription: Whenever you play an Attack this turn, gain [blue]{Amount}[/blue] [gold]Block[/gold].
+  JPN smartDescription: このターン、アタックをプレイするたび、[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。
+======================================================================
+FOCUS_POWER
+  ENG title: Focus
+  JPN title: 集中力
+  ENG description: Increases the effectiveness of Orbs.
+  JPN description: オーブの効果を増幅させる。
+  ENG smartDescription: {Amount:cond:<0?Decreases|Increases} the effectiveness of Orbs by [blue]{Amount:abs()}[/blue].
+  JPN smartDescription: オーブの効果が[blue]{Amount:abs()}[/blue]{Amount:cond:<0?減少|増加}する。
+======================================================================
+ARTIFACT_POWER
+  ENG title: Artifact
+  JPN title: アーティファクト
+  ENG description: [gold]Negates[/gold] debuffs.
+  JPN description: デバフを[gold]無効化[/gold]する。
+  ENG smartDescription: [gold]Negates[/gold] [blue]{Amount}[/blue] {Amount:plural:debuff|debuffs}.
+  JPN smartDescription: デバフを[blue]{Amount}[/blue]回[gold]無効化[/gold]する。
+======================================================================
+VIGOR_POWER
+  ENG title: Vigor
+  JPN title: 活力
+  ENG description: Your next Attack deals additional damage.
+  JPN description: 次にプレイするアタックは追加ダメージを与える。
+  ENG smartDescription: {OnPlayer:Your|[gold]{OwnerName}'s[/gold]} next Attack deals [blue]{Amount}[/blue] additional damage.
+  JPN smartDescription: {OnPlayer:自身が|[gold]{OwnerName}[/gold]が}次にプレイするアタックは追加で[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+FLAME_BARRIER_POWER
+  ENG title: Flame Barrier
+  JPN title: 炎の障壁
+  ENG description: Whenever you are attacked this turn, deal [blue]4[/blue] damage back.
+  JPN description: このターン、攻撃を受けるたび、攻撃した敵に[blue]4[/blue]ダメージを与える。
+  ENG smartDescription: Whenever you are attacked this turn, deal [blue]{Amount}[/blue] damage back.
+  JPN smartDescription: このターン、攻撃を受けるたび、攻撃した敵に[blue]{Amount}[/blue]ダメージを与える。
+======================================================================
+RITUAL_POWER
+  ENG title: Ritual
+  JPN title: 儀式
+  ENG description: Gain [gold]Strength[/gold] at the end of your turn.
+  JPN description: ターン終了時、[gold]筋力[/gold]を得る。
+  ENG smartDescription: At the end of {OnPlayer:your|its} turn, {OnPlayer:gain|gains} [blue]{Amount}[/blue] [gold]Strength[/gold].
+  JPN smartDescription: {OnPlayer:自身の|敵の}ターン終了時、[gold]筋力[/gold][blue]{Amount}[/blue]を得る。
+======================================================================
+FEEL_NO_PAIN_POWER
+  ENG title: Feel No Pain
+  JPN title: 無痛
+  ENG description: Whenever a card is Exhausted, gain [blue]3[/blue] [gold]Block[/gold].
+  JPN description: カードが廃棄されるたび、[blue]3[/blue][gold]ブロック[/gold]を得る。
+  ENG smartDescription: Whenever a card is [gold]Exhausted[/gold], gain [blue]{Amount}[/blue] [gold]Block[/gold].
+  JPN smartDescription: カードが[gold]廃棄[/gold]されるたび、[blue]{Amount}[/blue][gold]ブロック[/gold]を得る。
+======================================================================
+NO_DRAW_POWER
+  ENG title: No Draw
+  JPN title: ノードロー
+  ENG description: You may not draw any more cards this turn.
+  JPN description: このターン、これ以上カードを引くことができない。
+  ENG smartDescription: You may not draw any more cards this turn.
+  JPN smartDescription: このターン、これ以上カードを引くことができない。
+======================================================================
+DOUBLE_DAMAGE_POWER
+  ENG title: Double Damage
+  JPN title: ダメージ2倍
+  ENG description: This turn, Attacks deal double damage.
+  JPN description: このターン、アタックは2倍のダメージを与える。
+  ENG smartDescription: {Amount:plural:This turn|For the next [blue]{}[/blue] turns}, Attacks deal double damage.
+  JPN smartDescription: {Amount:choose(1):このターン|[blue]{Amount}[/blue]ターンの間}、アタックは2倍のダメージを与える。
+======================================================================
+SURROUNDED_POWER
+  ENG title: Surrounded
+  JPN title: 包囲
+  ENG description: Receive [blue]50%[/blue] more damage if attacked from behind. Use targeting cards or potions to change your orientation.
+  JPN description: 背後から攻撃されると受けるダメージが[blue]50%[/blue]増加する。ターゲット指定のカードやポーションを使って向きを変えよう。
+  ENG smartDescription: MISSING
+  JPN smartDescription: MISSING

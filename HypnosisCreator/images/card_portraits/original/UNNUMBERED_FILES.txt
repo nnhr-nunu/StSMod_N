@@ -1,4 +1,20 @@
 # 番号未指定ファイル（{No}.ext 形式ではない画像）
 # カード原画としては使われません。番号付きファイル名にリネームしてください。
 
-(なし)
+[original/]
+107_2.png
+108_2.png
+
+[beta/]
+abdominal_strike.png
+can_do_it.png
+catalepsy.png
+finger_count.png
+gaze_light.png
+hundred_eight.png
+infinite_finger_snap.png
+mass_hypnosis.png
+melt_into_trance.png
+prefinger.png
+tingsha.png
+total_control.png

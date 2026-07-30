@@ -1,0 +1,66 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\Program.cs(46,40): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\SpawnProbe6.csproj]
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\Program.cs(53,103): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\SpawnProbe6.csproj]
+
+===== CreatureCmd.Add[T] =====
+23: ldc.i4.8
+26: ldc.i4.5
+27: call MonsterModel.ToMutable
+32: ldc.i4.2
+39: call ICombatState.CreateCreature
+55: call CreatureCmd.Add
+60: call Task.GetAwaiter
+68: call TaskAwaiter.get_IsCompleted
+76: ldc.i4.0
+121: ldc.i4.m1
+127: ldc.i4.m1
+137: call TaskAwaiter.GetResult
+150: ldc.i4.8
+153: ldc.i4.s -2
+161: ldnull
+174: call AsyncTaskMethodBuilder`1.SetException
+180: ldc.i4.5
+182: ldc.i4.s -2
+190: ldnull
+203: call AsyncTaskMethodBuilder`1.SetResult
+
+===== CreatureCmd.Add(side) =====
+1: ldfld <Add>d__1.<>1__state
+11: ldfld <Add>d__1.monster
+16: call AbstractModel.AssertMutable
+23: ldfld <Add>d__1.combatState
+29: ldfld <Add>d__1.monster
+35: ldfld <Add>d__1.side
+41: ldfld <Add>d__1.slotName
+46: call ICombatState.CreateCreature
+51: stfld <Add>d__1.<creature>5__2
+57: ldfld <Add>d__1.<creature>5__2
+62: call CreatureCmd.Add
+67: call Task.GetAwaiter
+75: call TaskAwaiter.get_IsCompleted
+83: ldc.i4.0
+86: stfld <Add>d__1.<>1__state
+93: stfld <Add>d__1.<>u__1
+107: call AsyncTaskMethodBuilder`1.AwaitUnsafeOnCompleted<TaskAwaiter,<Add>d__1>
+115: ldfld <Add>d__1.<>u__1
+128: ldc.i4.m1
+134: ldc.i4.m1
+137: stfld <Add>d__1.<>1__state
+144: call TaskAwaiter.GetResult
+150: ldfld <Add>d__1.<creature>5__2
+157: ldc.i4.8
+160: ldc.i4.s -2
+162: stfld <Add>d__1.<>1__state
+168: ldnull
+169: stfld <Add>d__1.<creature>5__2
+181: call AsyncTaskMethodBuilder`1.SetException
+187: ldc.i4.5
+189: ldc.i4.s -2
+191: stfld <Add>d__1.<>1__state
+197: ldnull
+198: stfld <Add>d__1.<creature>5__2
+210: call AsyncTaskMethodBuilder`1.SetResult
+
+===== FromMonster =====
+Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<<Main>$>g__Dump|0_3(MethodBase move, String label) in D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\Program.cs:line 28
+   at Program.<Main>$(String[] args) in D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe6\Program.cs:line 65

@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\bin\Release\net9.0\DumpDeath.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\bin\Release\net9.0\DumpDeath.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\bin\Release\net9.0\DumpDeath.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\bin\Release\net9.0\DumpDeath.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\bin\Release\net9.0\DumpDeath.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\refint\DumpDeath.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\DumpDeath.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpDeath\obj\Release\net9.0\ref\DumpDeath.dll

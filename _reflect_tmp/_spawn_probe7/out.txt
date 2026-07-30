@@ -1,0 +1,190 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe7\Program.cs(41,35): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe7\SpawnProbe7.csproj]
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe7\Program.cs(48,98): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe7\SpawnProbe7.csproj]
+
+===== FromMonster =====
+NULL
+
+===== TargetingAllOpponents =====
+ldfld AttackCommand._singleTarget
+ldstr "Targets already set."
+call InvalidOperationException..ctor
+ldfld AttackCommand._combatState
+ldstr "Already set to target opponents of attacker"
+call InvalidOperationException..ctor
+call AttackCommand.get_Attacker
+ldstr "We require an attacker to be able to grab its opponents"
+call InvalidOperationException..ctor
+stfld AttackCommand._combatState
+call AttackCommand.get_Attacker
+call Creature.get_Side
+ldc.i4.2
+ldc.i4.2
+ldc.i4.1
+call AttackCommand.set_TargetSide
+
+===== GetPossibleTargets =====
+call AttackCommand.get_IsSingleTargeted
+ldfld AttackCommand._singleTarget
+call <>z__ReadOnlySingleElementList`1..ctor
+call AttackCommand.get_IsMultiTargeted
+ldfld AttackCommand._sourceType
+ldc.i4.2
+ldfld AttackCommand._combatState
+call ICombatState.get_PlayerCreatures
+call AttackCommand.get_Attacker
+ldstr "We require an attacker to be able to grab its opponents"
+call InvalidOperationException..ctor
+ldfld AttackCommand._combatState
+call AttackCommand.get_Attacker
+call ICombatState.GetOpponentsOf
+ldstr "No targets set, a Targeting method must be called before Execute"
+call InvalidOperationException..ctor
+
+Allies exists=True len=7
+
+===== get_Allies =====
+ldfld CombatState._allies
+
+Enemies exists=True len=7
+
+===== get_Enemies =====
+ldfld CombatState._enemies
+
+===== Friendship.OnPlay =====
+ldfld <OnPlay>d__5.<>1__state
+ldfld <OnPlay>d__5.<>4__this
+call CardModel.get_Owner
+call Player.get_Creature
+ldstr "PowerUp"
+call CardModel.get_Owner
+call Player.get_Character
+call CharacterModel.get_PowerUpAnimDelay
+call CreatureCmd.TriggerAnim
+call Task.GetAwaiter
+call TaskAwaiter.get_IsCompleted
+ldc.i4.0
+stfld <OnPlay>d__5.<>1__state
+stfld <OnPlay>d__5.<>u__1
+call AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter,<OnPlay>d__5>
+ldfld <OnPlay>d__5.<>u__1
+ldc.i4.m1
+ldc.i4.m1
+stfld <OnPlay>d__5.<>1__state
+call TaskAwaiter.GetResult
+ldfld <OnPlay>d__5.choiceContext
+call CardModel.get_Owner
+call Player.get_Creature
+call CardModel.get_DynamicVars
+ldstr "StrengthPower"
+call DynamicVarSet.get_Item
+call DynamicVar.get_BaseValue
+call Decimal.op_UnaryNegation
+call CardModel.get_Owner
+call Player.get_Creature
+ldc.i4.0
+call PowerCmd.Apply<StrengthPower>
+call Task`1.GetAwaiter
+call TaskAwaiter`1.get_IsCompleted
+ldc.i4.1
+stfld <OnPlay>d__5.<>1__state
+stfld <OnPlay>d__5.<>u__2
+call AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<OnPlay>d__5>
+ldfld <OnPlay>d__5.<>u__2
+ldc.i4.m1
+ldc.i4.5
+ldc.i4.m1
+stfld <OnPlay>d__5.<>1__state
+call TaskAwaiter`1.GetResult
+ldfld <OnPlay>d__5.choiceContext
+call CardModel.get_Owner
+call Player.get_Creature
+call CardModel.get_DynamicVars
+call DynamicVarSet.get_Energy
+call DynamicVar.get_BaseValue
+call CardModel.get_Owner
+call Player.get_Creature
+ldc.i4.0
+call PowerCmd.Apply<FriendshipPower>
+call Task`1.GetAwaiter
+call TaskAwaiter`1.get_IsCompleted
+ldc.i4.2
+stfld <OnPlay>d__5.<>1__state
+stfld <OnPlay>d__5.<>u__3
+call AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<OnPlay>d__5>
+ldfld <OnPlay>d__5.<>u__3
+ldc.i4.m1
+ldc.i4.5
+ldc.i4.m1
+stfld <OnPlay>d__5.<>1__state
+call TaskAwaiter`1.GetResult
+ldc.i4.3
+ldc.i4.s -2
+stfld <OnPlay>d__5.<>1__state
+call AsyncTaskMethodBuilder.SetException
+ldc.i4.s -2
+stfld <OnPlay>d__5.<>1__state
+call AsyncTaskMethodBuilder.SetResult
+
+===== MinionStrike.OnPlay =====
+ldfld <OnPlay>d__7.<>1__state
+ldfld <OnPlay>d__7.<>4__this
+ldc.i4.1
+ldfld <OnPlay>d__7.cardPlay
+call CardPlay.get_Target
+ldstr "cardPlay.Target"
+call ArgumentNullException.ThrowIfNull
+call CardModel.get_DynamicVars
+call DynamicVarSet.get_Damage
+call DynamicVar.get_BaseValue
+call DamageCmd.Attack
+ldfld <OnPlay>d__7.cardPlay
+call AttackCommand.FromCard
+ldfld <OnPlay>d__7.cardPlay
+call CardPlay.get_Target
+call AttackCommand.Targeting
+ldstr "vfx/vfx_attack_slash"
+ldnull
+ldnull
+call AttackCommand.WithHitFx
+ldfld <OnPlay>d__7.choiceContext
+call AttackCommand.Execute
+call Task`1.GetAwaiter
+call TaskAwaiter`1.get_IsCompleted
+ldc.i4.0
+stfld <OnPlay>d__7.<>1__state
+stfld <OnPlay>d__7.<>u__1
+call AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<OnPlay>d__7>
+ldfld <OnPlay>d__7.<>u__1
+ldc.i4.m1
+ldc.i4.5
+ldc.i4.m1
+stfld <OnPlay>d__7.<>1__state
+call TaskAwaiter`1.GetResult
+ldfld <OnPlay>d__7.choiceContext
+call CardModel.get_DynamicVars
+call DynamicVarSet.get_Cards
+call DynamicVar.get_BaseValue
+call CardModel.get_Owner
+ldc.i4.0
+call CardPileCmd.Draw
+call Task`1.GetAwaiter
+call TaskAwaiter`1.get_IsCompleted
+ldc.i4.1
+stfld <OnPlay>d__7.<>1__state
+stfld <OnPlay>d__7.<>u__2
+call AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<OnPlay>d__7>
+ldfld <OnPlay>d__7.<>u__2
+ldc.i4.m1
+ldc.i4.5
+ldc.i4.m1
+stfld <OnPlay>d__7.<>1__state
+call TaskAwaiter`1.GetResult
+ldc.i4.3
+ldc.i4.s -2
+stfld <OnPlay>d__7.<>1__state
+call AsyncTaskMethodBuilder.SetException
+ldc.i4.s -2
+stfld <OnPlay>d__7.<>1__state
+call AsyncTaskMethodBuilder.SetResult
+Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.
+   at Program.<Main>$(String[] args) in D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe7\Program.cs:line 75

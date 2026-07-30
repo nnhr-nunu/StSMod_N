@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\bin\Debug\net9.0\DumpDoom.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\bin\Debug\net9.0\DumpDoom.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\bin\Debug\net9.0\DumpDoom.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\bin\Debug\net9.0\DumpDoom.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\bin\Debug\net9.0\DumpDoom.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\refint\DumpDoom.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\DumpDoom.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpDoom\obj\Debug\net9.0\ref\DumpDoom.dll

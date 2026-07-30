@@ -1,0 +1,544 @@
+======== MegaCrit.Sts2.Core.Models.Cards.FranticEscape
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Powers;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class FranticEscape : CardModel
+{
+	protected override IEnumerable<IHoverTip> ExtraHoverTips
+	{
+		get
+		{
+			SandpitPower sandpitPower = GetSandpitEnemy()?.GetPower<SandpitPower>();
+			if (sandpitPower == null)
+			{
+				return new global::<>z__ReadOnlySingleElementList<IHoverTip>(HoverTipFactory.FromPower<SandpitPower>());
+			}
+			return sandpitPower.HoverTips;
+		}
+	}
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override bool CanBeGeneratedInCombat => false;
+
+	public FranticEscape()
+		: base(1, CardType.Status, CardRarity.Status, TargetType.Self)
+	{
+	}
+
+	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	{
+		Creature sandpitEnemy = GetSandpitEnemy();
+		SandpitPower sandpitPower = sandpitEnemy?.Powers.OfType<SandpitPower>().FirstOrDefault((SandpitPower s) => s.Target == base.Owner.Creature);
+		if (sandpitPower != null)
+		{
+			await PowerCmd.ModifyAmount(choiceContext, sandpitPower, 1m, sandpitEnemy, this);
+		}
+		base.EnergyCost.AddThisCombat(1);
+	}
+
+	private Creature? GetSandpitEnemy()
+	{
+		return base.CombatState?.Enemies.FirstOrDefault((Creature c) => c.HasPower<SandpitPower>());
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Dazed
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Dazed : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Ethereal,
+		CardKeyword.Unplayable
+	});
+
+	public Dazed()
+		: base(-1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Beckon
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Beckon : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new HpLossVar(6m));
+
+	public Beckon()
+		: base(1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, base.DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this, null);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Guilty
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Saves.Runs;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Guilty : CardModel
+{
+	public const int maxCombats = 5;
+
+	private const string _combatsKey = "Combats";
+
+	private int _combatsSeen;
+
+	public override int MaxUpgradeLevel => 0;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new DynamicVar("Combats", 5m));
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	[SavedProperty]
+	public int CombatsSeen
+	{
+		get
+		{
+			return _combatsSeen;
+		}
+		set
+		{
+			AssertMutable();
+			_combatsSeen = value;
+			base.DynamicVars["Combats"].BaseValue = 5 - CombatsSeen;
+		}
+	}
+
+	public Guilty()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	public override async Task AfterCombatEnd(CombatRoom _)
+	{
+		CardPile? pile = base.Pile;
+		if (pile != null && pile.Type == PileType.Deck)
+		{
+			CombatsSeen++;
+			if (CombatsSeen >= 5 && base.Pile.Type == PileType.Deck)
+			{
+				await CardPileCmd.RemoveFromDeck(this);
+			}
+		}
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Debt
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Godot;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Debt : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new GoldVar(10));
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Debt()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		int num = Mathf.Min(base.DynamicVars.Gold.IntValue, base.Owner.Gold);
+		await PlayerCmd.LoseGold(num, base.Owner);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.PoorSleep
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class PoorSleep : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Unplayable,
+		CardKeyword.Retain
+	});
+
+	public PoorSleep()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.BadLuck
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class BadLuck : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Eternal,
+		CardKeyword.Unplayable
+	});
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new HpLossVar(13m));
+
+	public BadLuck()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		await Cmd.Wait(0.25f);
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, base.DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this, null);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Regret
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Regret : CardModel
+{
+	private int _cardsInHand;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	private int CardsInHand
+	{
+		get
+		{
+			return _cardsInHand;
+		}
+		set
+		{
+			AssertMutable();
+			_cardsInHand = value;
+		}
+	}
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Regret()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	public override Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+	{
+		if (!participants.Contains(base.Owner.Creature))
+		{
+			return Task.CompletedTask;
+		}
+		if (base.Pile.Type != PileType.Hand)
+		{
+			return Task.CompletedTask;
+		}
+		CardsInHand = base.Pile.Cards.Count;
+		return Task.CompletedTask;
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, CardsInHand, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this, null);
+		CardsInHand = 0;
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Enthralled
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Enthralled : CardModel
+{
+	public override bool CanBeGeneratedByModifiers => false;
+
+	protected override bool ShouldGlowRedInternal => true;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Eternal);
+
+	public Enthralled()
+		: base(2, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	public override bool ShouldPlay(CardModel card, AutoPlayType autoPlayType)
+	{
+		if (card.Owner != base.Owner)
+		{
+			return true;
+		}
+		CardPile? pile = base.Pile;
+		if (pile == null || pile.Type != PileType.Hand)
+		{
+			return true;
+		}
+		if (card is Enthralled)
+		{
+			return true;
+		}
+		if (autoPlayType != 0)
+		{
+			return true;
+		}
+		return false;
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Void
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Void : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new EnergyVar(1));
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Unplayable,
+		CardKeyword.Ethereal
+	});
+
+	public Void()
+		: base(-1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+
+	public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
+	{
+		if (card == this)
+		{
+			await Cmd.Wait(0.25f);
+			await PlayerCmd.LoseEnergy(base.DynamicVars.Energy.IntValue, base.Owner);
+		}
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Soot
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Soot : CardModel
+{
+	public override bool CanBeGeneratedInCombat => false;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	public Soot()
+		: base(-1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Clumsy
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Clumsy : CardModel
+{
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlyArray<CardKeyword>(new CardKeyword[2]
+	{
+		CardKeyword.Unplayable,
+		CardKeyword.Ethereal
+	});
+
+	public override int MaxUpgradeLevel => 0;
+
+	public Clumsy()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Infection
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Infection : CardModel
+{
+	public override int MaxUpgradeLevel => 0;
+
+	public override bool HasBuiltInOverlay => true;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlySingleElementList<DynamicVar>(new DamageVar(3m, ValueProp.Unpowered | ValueProp.Move));
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	public override bool HasTurnEndInHandEffect => true;
+
+	public Infection()
+		: base(-1, CardType.Status, CardRarity.Status, TargetType.None)
+	{
+	}
+
+	protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+	{
+		VfxCmd.PlayOnCreatureCenter(base.Owner.Creature, "vfx/vfx_bloody_impact");
+		NWormyImpactVfx nWormyImpactVfx = NWormyImpactVfx.Create(base.Owner.Creature);
+		if (nWormyImpactVfx != null)
+		{
+			NCombatRoom.Instance.CombatVfxContainer.AddChildSafely(nWormyImpactVfx);
+		}
+		await CreatureCmd.Damage(choiceContext, base.Owner.Creature, base.DynamicVars.Damage, this, null);
+	}
+}
+
+======== MegaCrit.Sts2.Core.Models.Cards.Normality
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
+namespace MegaCrit.Sts2.Core.Models.Cards;
+
+public sealed class Normality : CardModel
+{
+	private const int _numOfCardsPerTurn = 3;
+
+	private const string _calculatedCardsKey = "CalculatedCards";
+
+	protected override bool ShouldGlowRedInternal => ShouldPreventCardPlay;
+
+	private bool ShouldPreventCardPlay => CardsPlayedThisTurn >= 3;
+
+	public override int MaxUpgradeLevel => 0;
+
+	public override IEnumerable<CardKeyword> CanonicalKeywords => new global::<>z__ReadOnlySingleElementList<CardKeyword>(CardKeyword.Unplayable);
+
+	protected override IEnumerable<DynamicVar> CanonicalVars => new global::<>z__ReadOnlyArray<DynamicVar>(new DynamicVar[3]
+	{
+		new CalculationBaseVar(3m),
+		new CalculationExtraVar(-1m),
+		new CalculatedVar("CalculatedCards").WithMultiplier((CardModel card, Creature? _) => Math.Min(3, ((Normality)card).CardsPlayedThisTurn))
+	});
+
+	private int CardsPlayedThisTurn => CombatManager.Instance.History.CardPlaysStarted.Count((CardPlayStartedEntry e) => e.HappenedThisTurn(base.CombatState) && e.CardPlay.Player == base.Owner);
+
+	public Normality()
+		: base(-1, CardType.Curse, CardRarity.Curse, TargetType.None)
+	{
+	}
+
+	public override bool ShouldPlay(CardModel card, AutoPlayType _)
+	{
+		if (card.Owner != base.Owner)
+		{
+			return true;
+		}
+		CardPile? pile = base.Pile;
+		if (pile == null || pile.Type != PileType.Hand)
+		{
+			return true;
+		}
+		return !ShouldPreventCardPlay;
+	}
+}
+

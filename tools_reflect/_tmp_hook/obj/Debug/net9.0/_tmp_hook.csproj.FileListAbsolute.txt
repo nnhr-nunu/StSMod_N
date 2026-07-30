@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\bin\Debug\net9.0\_tmp_hook.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\bin\Debug\net9.0\_tmp_hook.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\bin\Debug\net9.0\_tmp_hook.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\bin\Debug\net9.0\_tmp_hook.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\bin\Debug\net9.0\_tmp_hook.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\refint\_tmp_hook.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\_tmp_hook.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_hook\obj\Debug\net9.0\ref\_tmp_hook.dll

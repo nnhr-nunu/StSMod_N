@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\bin\Release\net9.0\ProbeSpeech.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\bin\Release\net9.0\ProbeSpeech.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\bin\Release\net9.0\ProbeSpeech.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\bin\Release\net9.0\ProbeSpeech.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\bin\Release\net9.0\ProbeSpeech.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\refint\ProbeSpeech.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ProbeSpeech.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_probe_speech\obj\Release\net9.0\ref\ProbeSpeech.dll

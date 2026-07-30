@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\bin\Release\net9.0\P.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\bin\Release\net9.0\P.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\bin\Release\net9.0\P.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\bin\Release\net9.0\P.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\bin\Release\net9.0\P.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\refint\P.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\P.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe8\obj\Release\net9.0\ref\P.dll

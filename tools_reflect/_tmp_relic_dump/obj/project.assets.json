@@ -1,0 +1,140 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Mono.Cecil/0.11.6": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Mono.Cecil.Mdb.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.Pdb.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.Rocks.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.dll": {
+            "related": ".Mdb.pdb;.pdb;.Pdb.pdb;.Rocks.pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Mono.Cecil.Mdb.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.Pdb.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.Rocks.dll": {
+            "related": ".pdb"
+          },
+          "lib/netstandard2.0/Mono.Cecil.dll": {
+            "related": ".Mdb.pdb;.pdb;.Pdb.pdb;.Rocks.pdb"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Mono.Cecil/0.11.6": {
+      "sha512": "f33RkDtZO8VlGXCtmQIviOtxgnUdym9xx/b1p9h91CRGOsJFxCFOFK1FDbVt1OCf1aWwYejUFa2MOQyFWTFjbA==",
+      "type": "package",
+      "path": "mono.cecil/0.11.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Mono.Cecil.Mdb.dll",
+        "lib/net40/Mono.Cecil.Mdb.pdb",
+        "lib/net40/Mono.Cecil.Pdb.dll",
+        "lib/net40/Mono.Cecil.Pdb.pdb",
+        "lib/net40/Mono.Cecil.Rocks.dll",
+        "lib/net40/Mono.Cecil.Rocks.pdb",
+        "lib/net40/Mono.Cecil.dll",
+        "lib/net40/Mono.Cecil.pdb",
+        "lib/netstandard2.0/Mono.Cecil.Mdb.dll",
+        "lib/netstandard2.0/Mono.Cecil.Mdb.pdb",
+        "lib/netstandard2.0/Mono.Cecil.Pdb.dll",
+        "lib/netstandard2.0/Mono.Cecil.Pdb.pdb",
+        "lib/netstandard2.0/Mono.Cecil.Rocks.dll",
+        "lib/netstandard2.0/Mono.Cecil.Rocks.pdb",
+        "lib/netstandard2.0/Mono.Cecil.dll",
+        "lib/netstandard2.0/Mono.Cecil.pdb",
+        "mono.cecil.0.11.6.nupkg.sha512",
+        "mono.cecil.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "Mono.Cecil >= 0.11.6"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Dev\\antigravity\\StSMod_N\\tools_reflect\\_tmp_relic_dump\\Dump.csproj",
+      "projectName": "Dump",
+      "projectPath": "D:\\Dev\\antigravity\\StSMod_N\\tools_reflect\\_tmp_relic_dump\\Dump.csproj",
+      "packagesPath": "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\3c315f1fdd703dc92171d1cdcd1991fb\\nuget",
+      "outputPath": "D:\\Dev\\antigravity\\StSMod_N\\tools_reflect\\_tmp_relic_dump\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\homut\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "dependencies": {
+          "Mono.Cecil": {
+            "target": "Package",
+            "version": "[0.11.6, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

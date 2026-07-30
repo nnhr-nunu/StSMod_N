@@ -1,0 +1,96 @@
+=== BaseLib type names with Library/Grid/CardPool/Filter ===
+BaseLib.Abstracts.CustomCardPoolMarkAsSeenPatch
+BaseLib.Abstracts.CustomCardPoolMaterialPatch
+BaseLib.Abstracts.CustomCardPoolModel
+BaseLib.Patches.Content.ModelDbSharedCardPoolsPatch
+BaseLib.Patches.UI.CustomPoolFilters
+
+=== IL refs to CardLibrary / NCardGrid ===
+CustomPoolFilters.AddFilters type MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary
+CustomPoolFilters.AddFilters type MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary
+CustomPoolFilters.AddFilters type MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary
+CustomPoolFilters.GenerateCustomFilters type MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary
+CustomPoolFilters.GenerateCustomFilters type MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibrary
+
+=== Does InitGrid store _targetDrag? ===
+InitGrid(Task): targetDrag refs=0
+InitGrid(): targetDrag refs=0
+
+=== Async InitGrid MoveNext targetDrag / SetScroll / InitGrid() ===
+IL_0001: ldfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0008: ldfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>4__this
+IL_004e: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0055: stfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_005b: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_0063: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&,!!1&)
+IL_006e: ldfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0075: ldflda System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0084: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_00c3: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_00cb: stfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_00d1: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_00d9: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&,!!1&)
+IL_00e4: ldfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_00ec: ldflda System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_00fb: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0123: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_012b: stfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0131: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_0139: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&,!!1&)
+IL_0144: ldfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_014c: ldflda System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_015b: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0168: ldfld System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::taskToWaitOn
+IL_0170: ldfld System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::taskToWaitOn
+IL_0189: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0191: stfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0197: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_019f: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&,!!1&)
+IL_01aa: ldfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_01b2: ldflda System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_01c1: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_01d5: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::InitGrid()
+IL_01e1: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::SetScrollPosition(System.Single)
+IL_0200: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0208: stfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_020e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_0216: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82>(!!0&,!!1&)
+IL_021e: ldfld System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0226: ldflda System.Runtime.CompilerServices.TaskAwaiter MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>u__1
+IL_0235: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0248: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_024e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_025f: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>1__state
+IL_0265: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+IL_0001: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<InitGrid>d__82::<>t__builder
+
+=== NGridCardHolder.Create / SmallScale / Size ===
+-- Create --
+  IL_0000: call System.Boolean MegaCrit.Sts2.Core.TestSupport.TestMode::get_IsOn()
+  IL_0005: brfalse.s IL_0009
+  IL_0007: ldnull
+  IL_0008: ret
+  IL_0009: call T MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Get<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>()
+  IL_000e: stloc.0
+  IL_000f: ldloc.0
+  IL_0010: ldarg.0
+  IL_0011: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::SetCard(MegaCrit.Sts2.Core.Nodes.Cards.NCard)
+  IL_0016: ldloc.0
+  IL_0017: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateCardModel()
+  IL_001c: ldloc.0
+  IL_001d: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::UpdateName()
+  IL_0022: ldloc.0
+  IL_0023: ldloc.0
+  IL_0024: callvirt Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_SmallScale()
+  IL_0029: callvirt System.Void Godot.Control::set_Scale(Godot.Vector2)
+  IL_002e: ldloc.0
+  IL_002f: ret
+-- .ctor --
+  IL_0000: ldarg.0
+  IL_0001: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::.ctor()
+  IL_0006: ret
+
+=== _cardSize assignment sites ===
+ConnectSignals: IL_003c: stfld Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+SetGodotClassPropertyValue: IL_0158: stfld Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize
+RestoreGodotObjectData: IL_016e: stfld Godot.Vector2 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_cardSize

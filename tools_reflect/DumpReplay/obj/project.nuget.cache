@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "Y0eBQxtR3ko=",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\antigravity\\StSMod_N\\tools_reflect\\DumpReplay\\DumpReplay.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\b5d7db21d8c15c49de8ac4043010ec6b\\nuget\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\b5d7db21d8c15c49de8ac4043010ec6b\\nuget\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\b5d7db21d8c15c49de8ac4043010ec6b\\nuget\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\b5d7db21d8c15c49de8ac4043010ec6b\\nuget\\microsoft.netcore.app.host.win-x64\\8.0.29\\microsoft.netcore.app.host.win-x64.8.0.29.nupkg.sha512"
+  ],
+  "logs": []
+}

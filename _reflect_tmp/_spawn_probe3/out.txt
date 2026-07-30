@@ -1,0 +1,334 @@
+
+### CreatureCmd.Add :: System.Threading.Tasks.Task`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature] Add[T](MegaCrit.Sts2.Core.Combat.ICombatState, System.String)
+
+----- CreatureCmd.Add -----
+  MonsterModel.ToMutable()
+  ICombatState.CreateCreature(MonsterModel,CombatSide,String)
+  CreatureCmd.Add(Creature)
+  Task.GetAwaiter()
+
+### CreatureCmd.Add :: System.Threading.Tasks.Task`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature] Add(MegaCrit.Sts2.Core.Models.MonsterModel, MegaCrit.Sts2.Core.Combat.ICombatState, MegaCrit.Sts2.Core.Combat.CombatSide, System.String)
+
+----- CreatureCmd.Add -----
+  ICombatState.CreateCreature(MonsterModel,CombatSide,String)
+  CreatureCmd.Add(Creature)
+  Task.GetAwaiter()
+
+### CreatureCmd.Add :: System.Threading.Tasks.Task Add(MegaCrit.Sts2.Core.Entities.Creatures.Creature)
+
+----- CreatureCmd.Add -----
+  CombatManager.get_Instance()
+  CombatManager.get_IsInProgress()
+  ldstr "Attempted to add a creature outside of combat."
+  new InvalidOperationException..ctor(String)
+  Creature.get_CombatState()
+  ldstr "Attempted to add a creature with no combat state."
+  new InvalidOperationException..ctor(String)
+  ICombatState.IsLiveCombat()
+  ICombatState.AddCreature(Creature)
+  CombatManager.get_Instance()
+  CombatManager.AddCreature(Creature)
+  NCombatRoom.get_Instance()
+  NCombatRoom.AddCreature(Creature)
+  CombatManager.get_Instance()
+  CombatManager.AfterCreatureAdded(Creature)
+  Task.GetAwaiter()
+  ICombatState.get_CurrentSide()
+  Creature.get_IsMonster()
+  ICombatState.get_Players()
+  new Func`2..ctor(Object,IntPtr)
+  Enumerable.Select(IEnumerable`1,Func`2)
+  Creature.PrepareForNextTurn(IEnumerable`1,Boolean)
+  ICombatState.get_RunState()
+  IRunState.get_CurrentMapPointHistoryEntry()
+  MapPointHistoryEntry.get_Rooms()
+  Enumerable.Last(IEnumerable`1)
+  Creature.get_Monster()
+  Creature.get_Side()
+  MapPointRoomHistoryEntry.get_MonsterIds()
+  Creature.get_Monster()
+  AbstractModel.get_Id()
+  List`1.Contains(ModelId)
+  MapPointRoomHistoryEntry.get_MonsterIds()
+  Creature.get_Monster()
+  AbstractModel.get_Id()
+  List`1.Add(ModelId)
+  Creature.get_CombatState()
+  Hook.AfterCreatureAddedToCombat(ICombatState,Creature)
+  Task.GetAwaiter()
+
+### Fabricator.SpawnBot :: System.Threading.Tasks.Task SpawnBot(System.Collections.Generic.IEnumerable`1[MegaCrit.Sts2.Core.Models.MonsterModel])
+
+----- Fabricator.SpawnBot -----
+  MonsterModel.get_CombatState()
+  ICombatState.IsLiveCombat()
+  new Func`2..ctor(Object,IntPtr)
+  Enumerable.Where(IEnumerable`1,Func`2)
+  Enumerable.ToList(IEnumerable`1)
+  MonsterModel.get_RunRng()
+  RunRngSet.get_MonsterAi()
+  Rng.NextItem(IEnumerable`1)
+  MonsterModel.ToMutable()
+  MonsterModel.get_CombatState()
+  MonsterModel.get_CombatState()
+  ICombatState.get_Encounter()
+  MonsterModel.get_CombatState()
+  EncounterModel.GetNextSlot(ICombatState)
+  CreatureCmd.Add(MonsterModel,ICombatState,CombatSide,String)
+  Task`1.GetAwaiter()
+  new ThrowingPlayerChoiceContext..ctor()
+  MonsterModel.get_Creature()
+  PowerCmd.Apply(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  Task`1.GetAwaiter()
+
+### Fabricator.SpawnAggroBot :: System.Threading.Tasks.Task SpawnAggroBot()
+
+----- Fabricator.SpawnAggroBot -----
+  Fabricator.SpawnBot(IEnumerable`1)
+  Task.GetAwaiter()
+
+### Fabricator.SpawnDefensiveBot :: System.Threading.Tasks.Task SpawnDefensiveBot()
+
+----- Fabricator.SpawnDefensiveBot -----
+  Fabricator.SpawnBot(IEnumerable`1)
+  Task.GetAwaiter()
+
+### Fabricator.FabricateMove :: System.Threading.Tasks.Task FabricateMove(System.Collections.Generic.IReadOnlyList`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature])
+
+----- Fabricator.FabricateMove -----
+  MonsterModel.get_Creature()
+  ldstr "fabricate"
+  CreatureCmd.TriggerAnim(Creature,String,Single)
+  Task.GetAwaiter()
+  Fabricator.SpawnDefensiveBot()
+  Task.GetAwaiter()
+  Fabricator.SpawnAggroBot()
+  Task.GetAwaiter()
+
+----- Fabricator.get_CanFabricate -----
+  MonsterModel.get_CombatState()
+  MonsterModel.get_Creature()
+  ICombatState.GetTeammatesOf(Creature)
+  new Func`2..ctor(Object,IntPtr)
+  Enumerable.Count(IEnumerable`1,Func`2)
+
+----- Creature.get_IsPet -----
+  Creature.get_PetOwner()
+
+----- Creature.get_IsEnemy -----
+  Creature.get_Side()
+
+----- Creature.get_IsPrimaryEnemy -----
+  Creature.get_Side()
+  Creature.get_IsSecondaryEnemy()
+
+----- Creature.get_IsSecondaryEnemy -----
+  Creature.get_Side()
+  Creature.get_Powers()
+  new Func`2..ctor(Object,IntPtr)
+  Enumerable.Any(IEnumerable`1,Func`2)
+
+----- Creature.get_IsPlayer -----
+  Creature.get_Player()
+
+----- Creature.get_IsMonster -----
+  Creature.get_Monster()
+
+----- Creature.get_IsHittable -----
+  Creature.get_IsDead()
+  Creature.get_CombatState()
+  Hook.ShouldAllowHitting(ICombatState,Creature)
+
+----- CombatState.get_Allies -----
+
+----- CombatState.get_Enemies -----
+
+### BoundPhylactery.SummonPet :: System.Threading.Tasks.Task SummonPet()
+
+----- BoundPhylactery.SummonPet -----
+  new ThrowingPlayerChoiceContext..ctor()
+  RelicModel.get_Owner()
+  RelicModel.get_DynamicVars()
+  DynamicVarSet.get_Summon()
+  DynamicVar.get_BaseValue()
+  OstyCmd.Summon(PlayerChoiceContext,Player,Decimal,AbstractModel)
+  Task`1.GetAwaiter()
+
+### BoundPhylactery.BeforeCombatStart :: System.Threading.Tasks.Task BeforeCombatStart()
+
+----- BoundPhylactery.BeforeCombatStart -----
+  BoundPhylactery.SummonPet()
+  Task.GetAwaiter()
+
+### Byrdpip.SummonPet :: System.Threading.Tasks.Task SummonPet()
+
+----- Byrdpip.SummonPet -----
+  RelicModel.get_Owner()
+  PlayerCmd.AddPet(Player)
+  Task`1.GetAwaiter()
+
+### MockAttackAndSummonMinionMonster.AttackAndSummonMinionMove :: System.Threading.Tasks.Task AttackAndSummonMinionMove(System.Collections.Generic.IReadOnlyList`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature])
+
+----- MockAttackAndSummonMinionMonster.AttackAndSummonMinionMove -----
+  DamageCmd.Attack(Decimal)
+  AttackCommand.FromMonster(MonsterModel)
+  AttackCommand.Execute(PlayerChoiceContext)
+  Task`1.GetAwaiter()
+  MonsterModel.get_CombatState()
+  CreatureCmd.Add(ICombatState,String)
+  Task`1.GetAwaiter()
+  new ThrowingPlayerChoiceContext..ctor()
+  MonsterModel.get_Creature()
+  PowerCmd.Apply(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  Task`1.GetAwaiter()
+
+### Zapbot.ZapMove :: System.Threading.Tasks.Task ZapMove(System.Collections.Generic.IReadOnlyList`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature])
+
+----- Zapbot.ZapMove -----
+  Zapbot.get_ZapDamage()
+  Decimal.op_Implicit(Int32)
+  DamageCmd.Attack(Decimal)
+  AttackCommand.FromMonster(MonsterModel)
+  ldstr "Attack"
+  AttackCommand.WithAttackerAnim(String,Single,Creature)
+  ldstr "vfx/vfx_attack_slash"
+  AttackCommand.WithHitFx(String,String,String)
+  AttackCommand.Execute(PlayerChoiceContext)
+  Task`1.GetAwaiter()
+
+### Zapbot.AfterAddedToRoom :: System.Threading.Tasks.Task AfterAddedToRoom()
+
+----- Zapbot.AfterAddedToRoom -----
+  Zapbot.<>n__0()
+  Task.GetAwaiter()
+  TestMode.get_IsOff()
+  NCombatRoom.get_Instance()
+  MonsterModel.get_Creature()
+  NCombatRoom.GetCreatureNode(Creature)
+  FabricatorNormal.SetBotFallPosition(NCreature)
+  new ThrowingPlayerChoiceContext..ctor()
+  MonsterModel.get_Creature()
+  new Decimal..ctor(Int32)
+  MonsterModel.get_Creature()
+  PowerCmd.Apply(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  Task`1.GetAwaiter()
+
+----- Zapbot.get_ZapDamage -----
+  AscensionHelper.GetValueIfAscension(AscensionLevel,Int32,Int32)
+
+----- Zapbot.get_MinInitialHp -----
+  AscensionHelper.GetValueIfAscension(AscensionLevel,Int32,Int32)
+
+----- Zapbot.get_MaxInitialHp -----
+  AscensionHelper.GetValueIfAscension(AscensionLevel,Int32,Int32)
+
+### BattleFriendV1.AfterAddedToRoom :: System.Threading.Tasks.Task AfterAddedToRoom()
+
+----- BattleFriendV1.AfterAddedToRoom -----
+  new ThrowingPlayerChoiceContext..ctor()
+  MonsterModel.get_Creature()
+  new Decimal..ctor(Int32)
+  PowerCmd.Apply(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  Task`1.GetAwaiter()
+
+### BattleFriendV1.GenerateMoveStateMachine :: MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine.MonsterMoveStateMachine GenerateMoveStateMachine()
+
+----- BattleFriendV1.GenerateMoveStateMachine -----
+  ldstr "NOTHING_MOVE"
+  new Func`2..ctor(Object,IntPtr)
+  Array.Empty()
+  new MoveState..ctor(String,Func`2,AbstractIntent[])
+  MoveState.set_FollowUpState(MonsterState)
+  new <>z__ReadOnlySingleElementList`1..ctor(MonsterState)
+  new MonsterMoveStateMachine..ctor(IEnumerable`1,MonsterState)
+
+======== Cards that summon ========
+MegaCrit.Sts2.Core.Models.Cards.Friendship
+MegaCrit.Sts2.Core.Models.Cards.MinionDiveBomb
+MegaCrit.Sts2.Core.Models.Cards.MinionSacrifice
+MegaCrit.Sts2.Core.Models.Cards.MinionStrike
+MegaCrit.Sts2.Core.Models.Cards.SummonForth
+
+==== CARD MinionStrike methods ====
+HashSet`1 get_CanonicalTags()
+IEnumerable`1 get_CanonicalKeywords()
+IEnumerable`1 get_CanonicalVars()
+Task OnPlay(PlayerChoiceContext,CardPlay)
+Void OnUpgrade()
+
+==== CARD MinionDiveBomb methods ====
+HashSet`1 get_CanonicalTags()
+IEnumerable`1 get_CanonicalVars()
+IEnumerable`1 get_CanonicalKeywords()
+Task OnPlay(PlayerChoiceContext,CardPlay)
+Void OnUpgrade()
+
+==== CARD MinionSacrifice methods ====
+Boolean get_GainsBlock()
+HashSet`1 get_CanonicalTags()
+IEnumerable`1 get_CanonicalKeywords()
+IEnumerable`1 get_CanonicalVars()
+Task OnPlay(PlayerChoiceContext,CardPlay)
+Void OnUpgrade()
+
+==== CARD Friendship methods ====
+IEnumerable`1 get_CanonicalVars()
+IEnumerable`1 get_ExtraHoverTips()
+Task OnPlay(PlayerChoiceContext,CardPlay)
+Void OnUpgrade()
+
+==== CARD Rally methods ====
+CardMultiplayerConstraint get_MultiplayerConstraint()
+Boolean get_GainsBlock()
+IEnumerable`1 get_CanonicalVars()
+Task OnPlay(PlayerChoiceContext,CardPlay)
+Void OnUpgrade()
+
+======== PlayerCombatState pet APIs ========
+IReadOnlyList`1 get_Pets()
+Void AddPetInternal(Creature)
+Creature GetPet()
+Void OnPetDied(Creature)
+PROP IReadOnlyList`1 Pets
+
+### PlayerCombatState.AddPetInternal :: Void AddPetInternal(MegaCrit.Sts2.Core.Entities.Creatures.Creature)
+
+----- PlayerCombatState.AddPetInternal -----
+  Creature.get_Monster()
+  AbstractModel.AssertMutable()
+  List`1.Contains(Creature)
+  Creature.get_PetOwner()
+  Creature.set_PetOwner(Player)
+  new Action`1..ctor(Object,IntPtr)
+  Creature.add_Died(Action`1)
+  List`1.Add(Creature)
+
+======== Encounter FabricatorNormal slots ========
+RoomType get_RoomType()
+Boolean get_HasScene()
+IReadOnlyList`1 get_Slots()
+IEnumerable`1 get_AllPossibleMonsters()
+IReadOnlyList`1 GenerateMonsters()
+Single GetCameraScaling()
+Vector2 GetCameraOffset()
+PROP RoomType RoomType
+PROP Boolean HasScene
+PROP IReadOnlyList`1 Slots
+PROP IEnumerable`1 AllPossibleMonsters
+
+----- FabricatorNormal.get_Slots -----
+  ldstr "bot1"
+  ldstr "bot2"
+  ldstr "fabricator"
+  ldstr "bot3"
+  ldstr "bot4"
+  new <>z__ReadOnlyArray`1..ctor(String[])
+
+### FabricatorNormal.GenerateMonsters :: System.Collections.Generic.IReadOnlyList`1[System.ValueTuple`2[MegaCrit.Sts2.Core.Models.MonsterModel,System.String]] GenerateMonsters()
+
+----- FabricatorNormal.GenerateMonsters -----
+  ModelDb.Monster()
+  MonsterModel.ToMutable()
+  ldstr "fabricator"
+  new ValueTuple`2..ctor(MonsterModel,String)
+  new <>z__ReadOnlySingleElementList`1..ctor(ValueTuple`2)

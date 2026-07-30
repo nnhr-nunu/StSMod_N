@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\bin\Release\net9.0\DumpLaga.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\bin\Release\net9.0\DumpLaga.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\bin\Release\net9.0\DumpLaga.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\bin\Release\net9.0\DumpLaga.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\bin\Release\net9.0\DumpLaga.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\refint\DumpLaga.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\DumpLaga.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_laga\obj\Release\net9.0\ref\DumpLaga.dll

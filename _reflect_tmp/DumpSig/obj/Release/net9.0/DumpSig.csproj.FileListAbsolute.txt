@@ -1,0 +1,16 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\bin\Release\net9.0\DumpSig.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\bin\Release\net9.0\DumpSig.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\bin\Release\net9.0\DumpSig.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\bin\Release\net9.0\DumpSig.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\bin\Release\net9.0\DumpSig.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.csproj.AssemblyReference.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\refint\DumpSig.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\DumpSig.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpSig\obj\Release\net9.0\ref\DumpSig.dll

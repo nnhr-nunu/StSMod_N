@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "Lhsneg8FIcg=",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\antigravity\\StSMod_N\\tools_reflect\\_tmp_sandpit\\DumpSandpit.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\f6159907877b1f524d3b2aeb05748b78\\nuget\\icsharpcode.decompiler\\8.2.0.7535\\icsharpcode.decompiler.8.2.0.7535.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\f6159907877b1f524d3b2aeb05748b78\\nuget\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\f6159907877b1f524d3b2aeb05748b78\\nuget\\system.reflection.metadata\\6.0.0\\system.reflection.metadata.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\f6159907877b1f524d3b2aeb05748b78\\nuget\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

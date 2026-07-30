@@ -1,0 +1,158 @@
+parsed 104 mappings
+OK: [{'no': 86, 'csv': '蠢・∮縺ｸ縺ｮ貂・悍', 'cls': 'HeartCraving', 'folder': 'Rare', 'loc': '蠢・∮縺ｸ縺ｮ貂・悍', 'code_r': 'Rare', 'code_c': '3', 'code_t': 'Power', 'csv_r': '繝ｬ繧｢', 'csv_c': '3', 'csv_t': '繝代Ρ繝ｼ', 'issues': 'OK'}]
+only DESC (rarity/cost/name/type OK): 47
+  No.  3 ZeroOut                      縺懊・繧阪▲
+  No.  7 Sensitivity3000              諢溷ｺｦ3000蛟・
+  No. 10 DrugHypnosis                 阮ｬ迚ｩ蛯ｬ逵
+  No. 12 Harmony                      隱ｿ蜥・
+  No. 13 AmbushHypnosis               荳肴э謇薙■蛯ｬ逵
+  No. 15 Prefinger                    蜑肴葦
+  No. 16 Rapport                      繝ｩ繝昴・繝ｫ
+  No. 18 StatusHypnosis               迥ｶ諷狗焚蟶ｸ蛯ｬ逵
+  No. 19 FingerSnap                   謖・ヱ繝・メ繝ｳ
+  No. 22 Mirroring                    繝溘Λ繝ｼ繝ｪ繝ｳ繧ｰ
+  No. 23 CultLeader                   謨咏･門喧
+  No. 24 SoftTechnique                霆滄・縺ｮ豕・
+  No. 25 KnifeAndGun                  繝翫う繝輔→諡ｳ驫・
+  No. 26 StunGun                      繧ｹ繧ｿ繝ｳ繧ｬ繝ｳ
+  No. 27 BeginnerHypnosis             蛻晏ｿ・・髄縺大ぎ逵
+  No. 30 SayYoureSorry                縺斐ａ繧薙↑縺輔＞縺ｯ・・
+  No. 31 WristCut                     繝ｪ繧ｹ繝医き繝・ヨ
+  No. 38 DeepBreath                   豺ｱ蜻ｼ蜷ｸ
+  No. 40 SenseShare                   諢溯ｦ壼・譛・
+  No. 41 PleasureCycle                蠢ｫ縺ｮ蠕ｪ迺ｰ
+  No. 42 Kick                         雜ｳ雹ｴ
+  No. 43 MetronomeCard                繝｡繝医Ο繝弱・繝
+  No. 44 GazeLight                    諢剰ｭ倥ｒ鬟帙・縺吝・
+  No. 45 Stare                        蜃晁ｦ・
+  No. 46 Discipline                   霄ｾ
+  No. 47 Punishment                   縺贋ｻ慕ｽｮ縺・
+  No. 48 TrainingCommandCard          隱ｿ謨吶さ繝槭Φ繝・
+  No. 49 Spanking                     繧ｹ繝代Φ繧ｭ繝ｳ繧ｰ
+  No. 50 Mastery                      邱ｴ驕・
+  No. 53 Corrosion                    萓ｵ鬟・
+  No. 67 Whisper                      蝗√″
+  No. 68 Autopsy                      隗｣蜑・
+  No. 69 Petting                      縺ｪ縺ｧ縺ｪ縺ｧ
+  No. 72 HundredEight                 螢ｱ菴ｰ謐檎・謔ｩ
+  No. 73 FudoMyoo                     荳榊虚譏守視
+  No. 75 WordFlood                    險闡峨・豢ｪ豌ｴ
+  No. 76 SuggestionRelease            證礼､ｺ隗｣髯､
+  No. 77 AsYouWish                    縺比ｸｻ莠ｺ讒倥・險縺・→縺翫ｊ
+  No. 78 FetishUnderstanding          諤ｧ蛟帝険縺ｸ縺ｮ逅・ｧ｣
+  No. 79 MentalCare                   繝｡繝ｳ繧ｿ繝ｫ繧ｱ繧｢
+  No. 80 Proselytize                  蟶・蕗谺ｲ豎・
+  No. 85 SelfSuggestion               閾ｪ蟾ｱ證礼､ｺ
+  No. 88 WaitABitMore                 繧ゅ≧縺｡繧・▲縺ｨ謌第・縺励ｈ縺・・
+  No. 89 MarshmallowAnswer            繝槭す繝･繝槭Ο蝗樒ｭ・
+  No. 99 VitalPoint                   諤･謇縺ｮ荳蛻ｺ縺・
+  No.103 HcDefend                     髦ｲ蠕｡
+  No.104 BareInstinct                 蜑･縺榊・縺励・譛ｬ閭ｽ
+rarity mismatches non-token: 28
+rarity mismatches token(CSV繧ｳ繝｢繝ｳ vs Token): 11
+
+COMPACT FLAGS (R=rarity C=cost N=name T=type D=desc)
+No.  1 R---D TotalControl                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Rare/1/Skill] loc='螳悟・謗梧升'
+No.  2 R---D BreathControl                csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='蜻ｼ蜷ｸ蛻ｶ蠕｡'
+No.  3 ----D ZeroOut                      csv[繝ｬ繧｢/3/繧ｹ繧ｭ繝ｫ] code[Rare/3/Skill] loc='縺懊・繧阪▲'
+No.  4 RC--D SlimeHypnosis                csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Rare/2/Skill] loc='繧ｹ繝ｩ繧､繝蛯ｬ逵'
+No.  5 R---D CardiacArrestHypnosis        csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Rare/3/Skill] loc='蠢・●豁｢蛯ｬ逵'
+No.  6 R---D TimeStopStrike               csv[繧ｳ繝｢繝ｳ/0/繧｢繧ｿ繝・け] code[Uncommon/0/Attack] loc='譎よｭ｢繧√せ繝医Λ繧､繧ｯ'
+No.  7 ----D Sensitivity3000              csv[繧ｳ繝｢繝ｳ/2/繧ｹ繧ｭ繝ｫ] code[Common/2/Skill] loc='諢溷ｺｦ3000蛟・
+No.  8 R---D AsmrHypnosis                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='ASMR蛯ｬ逵'
+No.  9 RC--D ContinuousTrance             csv[繝ｬ繧｢/0/繧ｹ繧ｭ繝ｫ] code[Common/1/Skill] loc='騾｣邯壹ヨ繝ｩ繝ｳ繧ｹ'
+No. 10 ----D DrugHypnosis                 csv[繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Common/3/Skill] loc='阮ｬ迚ｩ蛯ｬ逵'
+No. 11 -C--D AbnormalTransform            csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/X/繧ｹ繧ｭ繝ｫ] code[Uncommon/2/Skill] loc='繧｢繝悶ヮ繝ｼ繝槭Ν'
+No. 12 ----D Harmony                      csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/2/繧ｹ繧ｭ繝ｫ] code[Basic/2/Skill] loc='隱ｿ蜥・
+No. 13 ----D AmbushHypnosis               csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繧ｹ繧ｭ繝ｫ] code[Uncommon/2/Skill] loc='荳肴э謇薙■蛯ｬ逵'
+No. 14 R---D MassHypnosis                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Rare/1/Power] loc='髮・屮蛯ｬ逵'
+No. 15 ----D Prefinger                    csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='蜑肴葦'
+No. 16 ----D Rapport                      csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/0/繝代Ρ繝ｼ] code[Uncommon/0/Power] loc='繝ｩ繝昴・繝ｫ'
+No. 17 R---D Catalepsy                    csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Common/1/Skill] loc='繧ｫ繧ｿ繝ｬ繝励す繝ｼ'
+No. 18 ----D StatusHypnosis               csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Rare/1/Power] loc='迥ｶ諷狗焚蟶ｸ蛯ｬ逵'
+No. 19 ----D FingerSnap                   csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/0/繧ｹ繧ｭ繝ｫ] code[Basic/0/Skill] loc='謖・ヱ繝・メ繝ｳ'
+No. 20 R---D LoveHypnosis                 csv[繝ｬ繧｢/3/繧ｹ繧ｭ繝ｫ] code[Uncommon/3/Skill] loc='螂ｽ縺榊･ｽ縺榊ぎ逵'
+No. 21 --N-D CognitiveShuffle             csv[繝ｬ繧｢/3/繧ｹ繧ｭ繝ｫ] code[Rare/3/Skill] loc='隱咲衍繧ｷ繝｣繝・ヵ繝ｫ'
+No. 22 ----D Mirroring                    csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/1/繧｢繧ｿ繝・け] code[Basic/1/Attack] loc='繝溘Λ繝ｼ繝ｪ繝ｳ繧ｰ'
+No. 23 ----D CultLeader                   csv[繝ｬ繧｢/3/繝代Ρ繝ｼ] code[Rare/3/Power] loc='謨咏･門喧'
+No. 24 ----D SoftTechnique                csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='霆滄・縺ｮ豕・
+No. 25 ----D KnifeAndGun                  csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Common/1/Attack] loc='繝翫う繝輔→諡ｳ驫・
+No. 26 ----D StunGun                      csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/1/繧｢繧ｿ繝・け] code[Basic/1/Attack] loc='繧ｹ繧ｿ繝ｳ繧ｬ繝ｳ'
+No. 27 ----D BeginnerHypnosis             csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/3/繧ｹ繧ｭ繝ｫ] code[Basic/3/Skill] loc='蛻晏ｿ・・髄縺大ぎ逵'
+No. 28 -C--D BrainSlimeHypnosis           csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='閼ｳ縺上■繧・ぎ逵'
+No. 29 R---D CanDoIt                      csv[繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='縺｡繧・ｓ縺ｨ縺ｧ縺阪ｋ縺ｭ・・
+No. 30 ----D SayYoureSorry                csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/1/繧｢繧ｿ繝・け] code[Basic/1/Attack] loc='縺斐ａ繧薙↑縺輔＞縺ｯ・・
+No. 31 ----D WristCut                     csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/1/繧｢繧ｿ繝・け] code[Basic/1/Attack] loc='繝ｪ繧ｹ繝医き繝・ヨ'
+No. 32 R---D HeartGouge                   csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Rare/1/Attack] loc='蠢・∮縺医＄繧雁・縺・
+No. 33 RC-TD PlantParasiteHypnosis        csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧｢繧ｿ繝・け] code[Rare/2/Skill] loc='讀咲黄蟇・函蛯ｬ逵'
+No. 34 -C--D BloodSuckHypnosis            csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='蜷ｸ陦蛯ｬ逵'
+No. 35 -C--D FingerCount                  csv[繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='謖・釜繧頑焚縺医※'
+No. 36 R---D Soften                       csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='縺ｵ縺ｫ繧・∈縺ｫ繧・
+No. 37 -C--D LullabyHypnosis              csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='蟇昴°縺励▽縺大ぎ逵'
+No. 38 ----D DeepBreath                   csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='豺ｱ蜻ｼ蜷ｸ'
+No. 39 -C--D AbdominalStrike              csv[繧ｳ繝｢繝ｳ/2/繧｢繧ｿ繝・け] code[Common/1/Attack] loc='閻ｹ驛ｨ縺ｸ縺ｮ谿ｴ謇・
+No. 40 ----D SenseShare                   csv[繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Common/1/Skill] loc='諢溯ｦ壼・譛・
+No. 41 ----D PleasureCycle                csv[繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Common/1/Skill] loc='蠢ｫ縺ｮ蠕ｪ迺ｰ'
+No. 42 ----D Kick                         csv[繧ｳ繝｢繝ｳ/2/繧｢繧ｿ繝・け] code[Common/2/Attack] loc='雜ｳ雹ｴ'
+No. 43 ----D MetronomeCard                csv[繧ｳ繝｢繝ｳ/2/繧ｹ繧ｭ繝ｫ] code[Common/2/Skill] loc='繝｡繝医Ο繝弱・繝'
+No. 44 ----D GazeLight                    csv[繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Common/1/Skill] loc='諢剰ｭ倥ｒ鬟帙・縺吝・'
+No. 45 ----D Stare                        csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Common/1/Attack] loc='蜃晁ｦ・
+No. 46 ----D Discipline                   csv[繧ｳ繝｢繝ｳ/0/繧｢繧ｿ繝・け] code[Common/0/Attack] loc='霄ｾ'
+No. 47 ----D Punishment                   csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繧｢繧ｿ繝・け] code[Uncommon/2/Attack] loc='縺贋ｻ慕ｽｮ縺・
+No. 48 ----D TrainingCommandCard          csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繧ｹ繧ｭ繝ｫ] code[Uncommon/2/Skill] loc='隱ｿ謨吶さ繝槭Φ繝・
+No. 49 ----D Spanking                     csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Common/1/Attack] loc='繧ｹ繝代Φ繧ｭ繝ｳ繧ｰ'
+No. 50 ----D Mastery                      csv[繝ｬ繧｢/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='邱ｴ驕・
+No. 51 R-NTD PolynesianHypnosis           csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/6/繝代Ρ繝ｼ] code[Rare/6/Skill] loc='繝昴Μ繝阪す繧｢蠑丞ぎ逵'
+No. 52 R---D MeltIntoTrance               csv[繝ｬ繧｢/1/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='繝医Λ繝ｳ繧ｹ縺ｫ貅ｶ縺代ｆ縺・
+No. 53 ----D Corrosion                    csv[繝ｬ繧｢/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='萓ｵ鬟・
+No. 54 R---D TentacleRecall               csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='隗ｦ謇九・諠ｳ襍ｷ'
+No. 55 RCN-D InfiniteUpgradeString        csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧｢繧ｿ繝・け] code[Rare/1/Attack] loc='邉ｸ濶ｲ荳・・
+No. 56 R-NTD Kneel                        csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Attack] loc='霍ｪ縺・※'
+No. 57 R-N-D Look                         csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='隕九※'
+No. 58 R-NTD Come                         csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Attack] loc='譚･縺ｦ'
+No. 59 R-N-D Relax                        csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='繝ｪ繝ｩ繝・け繧ｹ縺励※'
+No. 60 R-N-D Present                      csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='隕九○縺ｦ'
+No. 61 R-N-D Trance                       csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='繝医Λ繝ｳ繧ｹ縺励※'
+No. 62 R-NTD Crawl                        csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Attack] loc='騾吶▲縺ｦ'
+No. 63 R---D DontMove                     csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc="Don't Move!"
+No. 64 R-NTD Roll                         csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Attack] loc='霆｢縺後▲縺ｦ'
+No. 65 R-N-D Cum                          csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='繧､縺｣縺ｦ'
+No. 66 R---D Good                         csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Token/0/Skill] loc='Good!'
+No. 67 ----D Whisper                      csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='蝗√″'
+No. 68 ----D Autopsy                      csv[繝ｬ繧｢/2/繧｢繧ｿ繝・け] code[Rare/2/Attack] loc='隗｣蜑・
+No. 69 ----D Petting                      csv[繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Common/0/Skill] loc='縺ｪ縺ｧ縺ｪ縺ｧ'
+No. 70 --NTD Tingsha                      csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Common/1/Skill] loc='繝√Φ繧ｷ繝｣'
+No. 71 RC-TD InfiniteFingerSnap           csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/X/繧｢繧ｿ繝・け] code[Rare/2/Skill] loc='騾｣邯壽欠繝代ャ繝√Φ'
+No. 72 ----D HundredEight                 csv[繝ｬ繧｢/1/繧｢繧ｿ繝・け] code[Rare/1/Attack] loc='螢ｱ菴ｰ謐檎・謔ｩ'
+No. 73 ----D FudoMyoo                     csv[繝ｬ繧｢/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='荳榊虚譏守視'
+No. 74 -C--D BabyHypnosis                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='襍､縺｡繧・ｓ蛯ｬ逵'
+No. 75 ----D WordFlood                    csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Uncommon/1/Power] loc='險闡峨・豢ｪ豌ｴ'
+No. 76 ----D SuggestionRelease            csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/0/繧｢繧ｿ繝・け] code[Uncommon/0/Attack] loc='證礼､ｺ隗｣髯､'
+No. 77 ----D AsYouWish                    csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Rare/1/Power] loc='縺比ｸｻ莠ｺ讒倥・險縺・→縺翫ｊ'
+No. 78 ----D FetishUnderstanding          csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Uncommon/1/Power] loc='諤ｧ蛟帝険縺ｸ縺ｮ逅・ｧ｣'
+No. 79 ----D MentalCare                   csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='繝｡繝ｳ繧ｿ繝ｫ繧ｱ繧｢'
+No. 80 ----D Proselytize                  csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='蟶・蕗谺ｲ豎・
+No. 81 -CNTD FetishChampion               csv[繝ｬ繧｢/3/繧｢繧ｿ繝・け] code[Rare/2/Skill] loc='諤ｧ逋悶メ繝｣繝ｳ繝斐が繝ｳ'
+No. 82 ---TD KnowItAll                    csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Rare/1/Skill] loc='縺懊ｓ縺ｶ遏･縺｣縺ｦ繧九ｈ'
+No. 83 --N-D AllInOne                     csv[繝ｬ繧｢/5/繧ｹ繧ｭ繝ｫ] code[Rare/5/Skill] loc='繧ｪ繝ｼ繝ｫ繧､繝ｳ繝ｯ繝ｳ'
+No. 84 --NTD Ericksonian                  csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Uncommon/1/Skill] loc='繧ｨ繝ｪ繧ｯ繧ｽ繝ｳ逧・囓遉ｺ'
+No. 85 ----D SelfSuggestion               csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Uncommon/1/Power] loc='閾ｪ蟾ｱ證礼､ｺ'
+No. 86 OK    HeartCraving                 csv[繝ｬ繧｢/3/繝代Ρ繝ｼ] code[Rare/3/Power] loc='蠢・∮縺ｸ縺ｮ貂・悍'
+No. 87 RCN-D ZeroShortcut                 csv[繧ｳ繝｢繝ｳ/3/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='繧ｼ繝ｭ繧ｷ繝ｧ繝ｼ繝医き繝・ヨ'
+No. 88 ----D WaitABitMore                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='繧ゅ≧縺｡繧・▲縺ｨ謌第・縺励ｈ縺・・'
+No. 89 ----D MarshmallowAnswer            csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='繝槭す繝･繝槭Ο蝗樒ｭ・
+No. 90 R---D PerversionTrueDesire         csv[繧ｳ繝｢繝ｳ/2/繧｢繧ｿ繝・け] code[Uncommon/2/Attack] loc='諤ｧ逧・帝険縺ｮ譛ｬ諛・
+No. 91 R---D CollarTraining               csv[繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='鬥冶ｼｪ縺ｨ隱ｿ謨・
+No. 92 RC--D HypnosisIntro                csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/0/繧ｹ繧ｭ繝ｫ] code[Basic/1/Skill] loc='蛯ｬ逵蟆主・'
+No. 93 -CN-D OverFocus                    csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='繧ｪ繝ｼ繝舌・繝輔か繝ｼ繧ｫ繧ｹ'
+No. 94 R-NTD BottomlessBog                csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Uncommon/1/Skill] loc='蠎慕┌縺玲ｲｼ'
+No. 95 --N-D RitualReveal                 csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Uncommon/1/Skill] loc='蜆蠑上・髢狗､ｺ'
+No. 96 -C--D HeartbeatShare               csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Rare/2/Power] loc='鮠灘虚縺ｮ蜈ｱ譛・
+No. 97 RC--D FetishParty                  csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧ｹ繧ｭ繝ｫ] code[Rare/2/Skill] loc='諤ｧ逋悶ヱ繝ｼ繝ｪ繝翫う'
+No. 98 -CN-D FreeHug                      csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/0/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='繝輔Μ繝ｼ繝上げ'
+No. 99 ----D VitalPoint                   csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Uncommon/1/Attack] loc='諤･謇縺ｮ荳蛻ｺ縺・
+No.100 R---D AcceptanceNeed               csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/2/繝代Ρ繝ｼ] code[Rare/2/Power] loc='蜿怜ｮｹ縺ｮ髴隕・
+No.101 R---D MeetExpectations             csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繧｢繧ｿ繝・け] code[Rare/1/Attack] loc='譛溷ｾ・↓蠢懊∴縺ｦ'
+No.102 R---D Encore                       csv[繧｢繝ｳ繧ｳ繝｢繝ｳ/1/繝代Ρ繝ｼ] code[Rare/1/Power] loc='繧｢繝ｳ繧ｳ繝ｼ繝ｫ'
+No.103 ----D HcDefend                     csv[繧ｹ繧ｿ繝ｼ繧ｿ繝ｼ/1/繧ｹ繧ｭ繝ｫ] code[Basic/1/Skill] loc='髦ｲ蠕｡'
+No.104 ----D BareInstinct                 csv[繝ｬ繧｢/1/繝代Ρ繝ｼ] code[Rare/1/Power] loc='蜑･縺榊・縺励・譛ｬ閭ｽ'

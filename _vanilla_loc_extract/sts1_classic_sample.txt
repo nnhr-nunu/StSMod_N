@@ -1,0 +1,98 @@
+=== STS1 Strength / Strength ===
+ENG NAME: Strength
+ENG DESCRIPTIONS: ["Increases attack damage by #b", "Decreases attack damage by #b", "."]
+JPN NAME: 筋力
+JPN DESCRIPTIONS: ["アタックダメージ #b+", "アタックダメージ #b-", " 。"]
+=== STS1 Dexterity / Dexterity ===
+ENG NAME: Dexterity
+ENG DESCRIPTIONS: ["Increases #yBlock gained from cards by #b", "Decreases #yBlock gained from cards by #b", "."]
+JPN NAME: 敏捷性
+JPN DESCRIPTIONS: ["カードから得られる #yブロック #b+", "カードから得られる #yブロック #b-", " 。"]
+=== STS1 Vulnerable / Vulnerable ===
+ENG NAME: Vulnerable
+ENG DESCRIPTIONS: ["Receive #b", "% more damage from #yAttacks for #b", " turn.", " turns."]
+JPN NAME: 弱体化
+JPN DESCRIPTIONS: ["#yアタック で受けるダメージが #b", "% 増加。 #b", " ターン有効。", " ターン有効。"]
+MISSING Weak
+=== STS1 Frail / Frail ===
+ENG NAME: Frail
+ENG DESCRIPTIONS: ["Gain #b25% less #yBlock from cards for #b", " turn.", " turns."]
+JPN NAME: 脆弱化
+JPN DESCRIPTIONS: ["カードから得られる #yブロック が #b25% 減少。 #b", " ターン有効。", " ターン有効。"]
+=== STS1 Poison / Poison ===
+ENG NAME: Poison
+ENG DESCRIPTIONS: ["At the start of your turn, lose #b", " HP, then reduce #yPoison by #b1.", "At the start of its turn, loses #b"]
+JPN NAME: 毒
+JPN DESCRIPTIONS: ["ターン開始時、HPを #b", " 失い、 #y毒 を #b1 減らす。", "ターン開始時、HPを #b"]
+=== STS1 Thorns / Thorns ===
+ENG NAME: Thorns
+ENG DESCRIPTIONS: ["When attacked, deals #b", " damage back."]
+JPN NAME: トゲ
+JPN DESCRIPTIONS: ["アタック を受けた時、 #b", " ダメージ反撃する。"]
+=== STS1 Buffer / Buffer ===
+ENG NAME: Buffer
+ENG DESCRIPTIONS: ["Prevent the next time you would lose HP.", "Prevent the next #b", " times you would lose HP."]
+JPN NAME: バッファー
+JPN DESCRIPTIONS: ["次のHPの喪失を防ぐ。", "次のHPの喪失を #b", " 回防ぐ。"]
+=== STS1 Intangible / Intangible ===
+ENG NAME: Intangible
+ENG DESCRIPTIONS: ["Reduce ALL damage taken and HP loss to #b1 this turn. #yIntangible is reapplied every other turn."]
+JPN NAME: 無形
+JPN DESCRIPTIONS: ["このターン、すべての被ダメージとHPを失う効果を #b1 に軽減。 無形 は2ターンに1回有効になる。"]
+=== STS1 Metallicize / Metallicize ===
+ENG NAME: Metallicize
+ENG DESCRIPTIONS: ["At the end of your turn, gain #b", " #yBlock.", "At the end of its turn, gains #b", " #yBlock."]
+JPN NAME: 金属化
+JPN DESCRIPTIONS: ["ターン終了時、 #b", " #yブロック を得る。", "ターン終了時、 #b", " #yブロック を得る。"]
+=== STS1 Combust / Combust ===
+ENG NAME: Combust
+ENG DESCRIPTIONS: ["At the end of your turn, lose #b", " HP and deal #b", " damage to ALL enemies."]
+JPN NAME: 燃焼
+JPN DESCRIPTIONS: ["ターン終了時、HPを #b", " 失い、敵全体に #b", " ダメージを与える。"]
+=== STS1 Brutality / Brutality ===
+ENG NAME: Brutality
+ENG DESCRIPTIONS: ["At the start of your turn, lose #b", " HP and draw #b", " card.", "At the start of your turn, lose #b", " HP and draw #b", " cards."]
+JPN NAME: 残虐
+JPN DESCRIPTIONS: ["ターン開始時、HPを #b", " 失い、カードを #b", " 枚引く。", "ターン開始時、HPを #b", " 失い、カードを #b", " 枚引く。"]
+=== STS1 Demon Form / Demon Form ===
+ENG NAME: Demon Form
+ENG DESCRIPTIONS: ["At the start of your turn, gain #b", " #yStrength."]
+JPN NAME: 悪魔化
+JPN DESCRIPTIONS: ["ターン開始時、 #y筋力 #b", " を得る。"]
+=== STS1 Accuracy / Accuracy ===
+ENG NAME: Accuracy
+ENG DESCRIPTIONS: ["#yShivs deal #b", " additional damage."]
+JPN NAME: 精度上昇
+JPN DESCRIPTIONS: ["#yナイフ のダメージが #b", " 増加する。"]
+=== STS1 After Image / After Image ===
+ENG NAME: After Image
+ENG DESCRIPTIONS: ["Whenever you play a card, gain #b", " #yBlock."]
+JPN NAME: 残像
+JPN DESCRIPTIONS: ["カードを使用するたび、 #b", " #yブロック を得る。"]
+=== STS1 Barricade / Barricade ===
+ENG NAME: Barricade
+ENG DESCRIPTIONS: ["#yBlock is not removed at the start of your turn.", "#yBlock is not removed at the start of its turn."]
+JPN NAME: バリケード
+JPN DESCRIPTIONS: ["ターン開始時に #yブロック を失わない。", "ターン開始時に #yブロック を失わない。"]
+=== STS1 Blur / Blur ===
+ENG NAME: Blur
+ENG DESCRIPTIONS: ["#yBlock is not removed at the start of your next turn.", "#yBlock is not removed at the start of your next #b", " turns."]
+JPN NAME: かすみ
+JPN DESCRIPTIONS: ["次のターン開始時に #yブロック を失わない。", "ターン開始時に #yブロック を失わない。 #b", " ターン有効。"]
+=== STS1 Rage / Rage ===
+ENG NAME: Rage
+ENG DESCRIPTIONS: ["Whenever you play an #yAttack this turn, gain #b", " #yBlock."]
+JPN NAME: 憤怒
+JPN DESCRIPTIONS: ["このターンで #yアタック を使用するたび、 #b", " #yブロック を得る。"]
+MISSING Footwork
+MISSING Inflame
+=== STS1 Plated Armor / Plated Armor ===
+ENG NAME: Plated Armor
+ENG DESCRIPTIONS: ["At the end of your turn, gain #b", " #yBlock. Receiving unblocked attack damage reduces #yPlated #yArmor by #b1.", "At the end of its turn, gains #b", " #yBlock. Receiving unblocked attack damage reduces #yPlated #yArmor by #b1."]
+JPN NAME: プレートアーマー
+JPN DESCRIPTIONS: ["ターン終了時、 #b", " #yブロック を得る。アタックダメージを受けるたび、 #yプレートアーマー は #b1 減少。", "ターン終了時、 #b", " #yブロック を得る。アタックダメージを受けるたび、 #yプレートアーマー は #b1 減少。"]
+=== STS1 Fire Breathing / Fire Breathing ===
+ENG NAME: Fire Breathing
+ENG DESCRIPTIONS: ["Whenever you draw a #yStatus or #yCurse card, deal #b", " damage to ALL enemies."]
+JPN NAME: 炎の息
+JPN DESCRIPTIONS: ["#y状態異常 か #y呪い カードを引くたび、敵全体に #b", " ダメージを与える。"]

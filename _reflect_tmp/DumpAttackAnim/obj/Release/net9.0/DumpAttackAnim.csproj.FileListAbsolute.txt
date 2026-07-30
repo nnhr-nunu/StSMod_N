@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\bin\Release\net9.0\DumpAttackAnim.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\bin\Release\net9.0\DumpAttackAnim.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\bin\Release\net9.0\DumpAttackAnim.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\bin\Release\net9.0\DumpAttackAnim.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\bin\Release\net9.0\DumpAttackAnim.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\refint\DumpAttackAnim.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\DumpAttackAnim.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpAttackAnim\obj\Release\net9.0\ref\DumpAttackAnim.dll

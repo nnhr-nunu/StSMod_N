@@ -31,7 +31,7 @@ public static class PersonalHiveCardAddPreviewPatch
         _ = choiceContext;
         _ = result;
         _ = cardSource;
-        __result = ApplyAsync(__instance, target, props, dealer);
+        __result = ApplyAsync(__instance, target, props, dealer, cardSource);
         return false;
     }
 
@@ -39,10 +39,11 @@ public static class PersonalHiveCardAddPreviewPatch
         PersonalHivePower power,
         Creature target,
         ValueProp props,
-        Creature? dealer)
+        Creature? dealer,
+        CardModel? cardSource)
     {
         if (power.Owner == null) return;
-        if (!props.IsPoweredAttack()) return;
+        if (!props.IsPoweredAttack() && (cardSource?.Type != CardType.Attack)) return;
 
         if (target.Monster == null && target.PetOwner?.Creature != null)
             dealer = target.PetOwner.Creature;

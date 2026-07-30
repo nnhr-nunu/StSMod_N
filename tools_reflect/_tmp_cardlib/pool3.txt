@@ -1,0 +1,196 @@
+
+==== GodotTreeExtensions.RemoveChildSafely ====
+IL_0000: ldarg.1
+IL_0001: brtrue.s IL_0004
+IL_0003: ret
+IL_0004: call System.Boolean MegaCrit.Sts2.Core.Nodes.NGame::IsMainThread()
+IL_0009: brfalse.s IL_0023
+IL_000b: ldarg.0
+IL_000c: callvirt System.Boolean Godot.Node::IsNodeReady()
+IL_0011: brtrue.s IL_001b
+IL_0013: ldarg.0
+IL_0014: callvirt System.Boolean Godot.Node::IsInsideTree()
+IL_0019: brtrue.s IL_0023
+IL_001b: ldarg.0
+IL_001c: ldarg.1
+IL_001d: callvirt System.Void Godot.Node::RemoveChild(Godot.Node)
+IL_0022: ret
+IL_0023: ldarg.0
+IL_0024: ldsfld Godot.StringName Godot.Node/MethodName::RemoveChild
+IL_0029: ldc.i4.1
+IL_002a: newarr Godot.Variant
+IL_002f: dup
+IL_0030: ldc.i4.0
+IL_0031: ldarg.1
+IL_0032: call Godot.Variant Godot.Variant::op_Implicit(Godot.GodotObject)
+IL_0037: stelem.any Godot.Variant
+IL_003c: callvirt Godot.Variant Godot.GodotObject::CallDeferred(Godot.StringName,Godot.Variant[])
+IL_0041: pop
+IL_0042: ret
+
+==== NodePool`1.Free ====
+IL_0001: ldfld System.Collections.Generic.HashSet`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_usedObjects
+IL_0007: callvirt System.Boolean System.Collections.Generic.HashSet`1<T>::Contains(!0)
+IL_0012: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+IL_0018: callvirt System.Boolean System.Collections.Generic.List`1<T>::Contains(!0)
+IL_0024: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+IL_002b: ldstr "Tried to free object "
+IL_0030: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_0038: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<T>(!!0)
+IL_003f: ldstr " ("
+IL_0044: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_0051: callvirt System.Type System.Object::GetType()
+IL_0056: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+IL_005d: ldstr ") back to pool "
+IL_0062: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_006e: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+IL_0073: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+IL_007a: ldstr " but it's already been freed!"
+IL_007f: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_0086: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+IL_008c: call System.Void MegaCrit.Sts2.Core.Logging.Log::Error(System.String,System.Int32)
+IL_0097: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+IL_009e: ldstr "Tried to free object "
+IL_00a3: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_00ab: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<T>(!!0)
+IL_00b2: ldstr " ("
+IL_00b7: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_00c4: callvirt System.Type System.Object::GetType()
+IL_00c9: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+IL_00d0: ldstr ") back to pool "
+IL_00d5: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_00e1: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+IL_00e6: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+IL_00ed: ldstr " but it's not part of the pool!"
+IL_00f2: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_00f9: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+IL_00ff: call System.Void MegaCrit.Sts2.Core.Logging.Log::Error(System.String,System.Int32)
+IL_010a: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::QueueFreeSafelyNoPool(Godot.Node)
+IL_0117: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::DisconnectIncomingAndOutgoingSignals(Godot.Node)
+IL_011d: ldfld System.Collections.Generic.HashSet`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_usedObjects
+IL_0123: callvirt System.Boolean System.Collections.Generic.HashSet`1<T>::Remove(!0)
+IL_012a: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+IL_0130: callvirt System.Void System.Collections.Generic.List`1<T>::Add(!0)
+IL_013b: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable::OnFreedToPool()
+
+==== NodePool`1.Instantiate ====
+IL_0000: call MegaCrit.Sts2.Core.Assets.AssetCache MegaCrit.Sts2.Core.Assets.PreloadManager::get_Cache()
+IL_0006: ldfld System.String MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_scenePath
+IL_000b: callvirt Godot.PackedScene MegaCrit.Sts2.Core.Assets.AssetCache::GetScene(System.String)
+IL_0012: callvirt !!0 Godot.PackedScene::Instantiate<T>(Godot.PackedScene/GenEditState)
+IL_001e: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable::OnInstantiated()
+
+==== NodePool`1.DisconnectIncomingAndOutgoingSignals ====
+IL_0001: callvirt Godot.Collections.Array`1<Godot.Collections.Dictionary> Godot.GodotObject::GetSignalList()
+IL_0006: callvirt System.Collections.Generic.IEnumerator`1<!0> Godot.Collections.Array`1<Godot.Collections.Dictionary>::GetEnumerator()
+IL_0012: callvirt !0 System.Collections.Generic.IEnumerator`1<Godot.Collections.Dictionary>::get_Current()
+IL_0019: ldsfld Godot.Variant MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_nameStr
+IL_001e: callvirt Godot.Variant Godot.Collections.Dictionary::get_Item(Godot.Variant)
+IL_0026: call Godot.StringName Godot.Variant::AsStringName()
+IL_002e: callvirt Godot.Collections.Array`1<Godot.Collections.Dictionary> Godot.GodotObject::GetSignalConnectionList(Godot.StringName)
+IL_0033: callvirt System.Collections.Generic.IEnumerator`1<!0> Godot.Collections.Array`1<Godot.Collections.Dictionary>::GetEnumerator()
+IL_003e: callvirt !0 System.Collections.Generic.IEnumerator`1<Godot.Collections.Dictionary>::get_Current()
+IL_0047: ldsfld Godot.Variant MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_callableStr
+IL_004c: callvirt Godot.Variant Godot.Collections.Dictionary::get_Item(Godot.Variant)
+IL_0054: call Godot.Callable Godot.Variant::AsCallable()
+IL_005d: ldsfld Godot.Variant MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_signalStr
+IL_0062: callvirt Godot.Variant Godot.Collections.Dictionary::get_Item(Godot.Variant)
+IL_006a: call Godot.Signal Godot.Variant::AsSignal()
+IL_0076: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::DisconnectSignal(Godot.Callable,Godot.Signal)
+IL_007d: callvirt System.Boolean System.Collections.IEnumerator::MoveNext()
+IL_008c: callvirt System.Void System.IDisposable::Dispose()
+IL_0093: callvirt System.Boolean System.Collections.IEnumerator::MoveNext()
+IL_00a3: callvirt System.Void System.IDisposable::Dispose()
+IL_00aa: callvirt Godot.Collections.Array`1<Godot.Collections.Dictionary> Godot.GodotObject::GetIncomingConnections()
+IL_00af: callvirt System.Collections.Generic.IEnumerator`1<!0> Godot.Collections.Array`1<Godot.Collections.Dictionary>::GetEnumerator()
+IL_00ba: callvirt !0 System.Collections.Generic.IEnumerator`1<Godot.Collections.Dictionary>::get_Current()
+IL_00c3: ldsfld Godot.Variant MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_callableStr
+IL_00c8: callvirt Godot.Variant Godot.Collections.Dictionary::get_Item(Godot.Variant)
+IL_00d0: call Godot.Callable Godot.Variant::AsCallable()
+IL_00d9: ldsfld Godot.Variant MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_signalStr
+IL_00de: callvirt Godot.Variant Godot.Collections.Dictionary::get_Item(Godot.Variant)
+IL_00e6: call Godot.Signal Godot.Variant::AsSignal()
+IL_00f2: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::DisconnectSignal(Godot.Callable,Godot.Signal)
+IL_00f9: callvirt System.Boolean System.Collections.IEnumerator::MoveNext()
+IL_0108: callvirt System.Void System.IDisposable::Dispose()
+IL_0118: callvirt Godot.Node Godot.Node::GetChild(System.Int32,System.Boolean)
+IL_011d: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::DisconnectIncomingAndOutgoingSignals(Godot.Node)
+IL_012c: callvirt System.Int32 Godot.Node::GetChildCount(System.Boolean)
+
+==== NodePool`1.DisconnectSignal ====
+IL_0002: call Godot.GodotObject Godot.Callable::get_Target()
+IL_000d: call Godot.StringName Godot.Callable::get_Method()
+IL_0013: call System.Boolean Godot.StringName::op_Equality(Godot.StringName,Godot.StringName)
+IL_001f: call System.Boolean Godot.GodotObject::IsInstanceValid(Godot.GodotObject)
+IL_0029: call Godot.StringName Godot.Signal::get_Name()
+IL_003a: callvirt System.Boolean Godot.Node::IsInsideTree()
+IL_0044: call Godot.GodotObject Godot.Signal::get_Owner()
+IL_004b: call System.Boolean Godot.GodotObject::IsInstanceValid(Godot.GodotObject)
+IL_0060: callvirt System.Boolean Godot.GodotObject::HasSignal(Godot.StringName)
+IL_006a: callvirt System.Boolean Godot.GodotObject::IsConnected(Godot.StringName,Godot.Callable)
+IL_0074: callvirt System.Void Godot.GodotObject::Disconnect(Godot.StringName,Godot.Callable)
+IL_0081: callvirt System.Boolean Godot.GodotObject::HasSignal(Godot.StringName)
+IL_008c: callvirt System.Boolean Godot.GodotObject::IsConnected(Godot.StringName,Godot.Callable)
+IL_0097: callvirt System.Void Godot.GodotObject::Disconnect(Godot.StringName,Godot.Callable)
+
+==== NodePool.Init ====
+IL_0005: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+IL_000b: ldsfld System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::_pools
+IL_0013: callvirt System.Boolean System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool>::TryGetValue(!0,!1&)
+IL_001f: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+IL_0026: ldstr "Tried to init NodePool for type "
+IL_002b: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_0037: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+IL_003c: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+IL_0043: ldstr " but it's already initialized!"
+IL_0048: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+IL_004f: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+IL_0062: ldsfld System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::_pools
+IL_0069: callvirt System.Void System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool>::set_Item(!0,!1)
+
+==== NCardGrid.AnimateOut ====
+IL_0000: ldarg.0
+IL_0001: ldarg.0
+IL_0002: call System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::AnimateOutInternal()
+IL_0007: stfld System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_animatingOutTask
+IL_000c: ldarg.0
+IL_000d: ldfld System.Threading.Tasks.Task MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid::_animatingOutTask
+IL_0012: ret
+
+==== NCardGrid.AnimateOutInternal ====
+IL_0000: ldloca.s V_0
+IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80::<>t__builder
+IL_000c: ldloca.s V_0
+IL_000e: ldarg.0
+IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80::<>4__this
+IL_0014: ldloca.s V_0
+IL_0016: ldc.i4.m1
+IL_0017: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80::<>1__state
+IL_001c: ldloca.s V_0
+IL_001e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80::<>t__builder
+IL_0023: ldloca.s V_0
+IL_0025: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80>(!!0&)
+IL_002a: ldloca.s V_0
+IL_002c: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateOutInternal>d__80::<>t__builder
+IL_0031: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+IL_0036: ret
+
+==== NCardGrid.AnimateIn ====
+IL_0000: ldloca.s V_0
+IL_0002: call System.Runtime.CompilerServices.AsyncTaskMethodBuilder System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Create()
+IL_0007: stfld System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81::<>t__builder
+IL_000c: ldloca.s V_0
+IL_000e: ldarg.0
+IL_000f: stfld MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81::<>4__this
+IL_0014: ldloca.s V_0
+IL_0016: ldc.i4.m1
+IL_0017: stfld System.Int32 MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81::<>1__state
+IL_001c: ldloca.s V_0
+IL_001e: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81::<>t__builder
+IL_0023: ldloca.s V_0
+IL_0025: call System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::Start<MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81>(!!0&)
+IL_002a: ldloca.s V_0
+IL_002c: ldflda System.Runtime.CompilerServices.AsyncTaskMethodBuilder MegaCrit.Sts2.Core.Nodes.Cards.NCardGrid/<AnimateIn>d__81::<>t__builder
+IL_0031: call System.Threading.Tasks.Task System.Runtime.CompilerServices.AsyncTaskMethodBuilder::get_Task()
+IL_0036: ret

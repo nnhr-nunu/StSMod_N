@@ -1,0 +1,150 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\Program.cs(103,34): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\SpawnProbe4.csproj]
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\Program.cs(129,151): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\SpawnProbe4.csproj]
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\Program.cs(44,20): warning CS8602: null 蜿ら・縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧九ｂ縺ｮ縺ｮ騾・盾辣ｧ縺ｧ縺吶・[D:\Dev\antigravity\StSMod_N\_reflect_tmp\_spawn_probe4\SpawnProbe4.csproj]
+
+===== GENERIC/TOKENS Fabricator.SpawnBot =====
+METHOD System.Threading.Tasks.Task SpawnBot(System.Collections.Generic.IEnumerable`1[MegaCrit.Sts2.Core.Models.MonsterModel])
+  GENERIC CALL Enumerable.Where<MonsterModel>(IEnumerable`1,Func`2)
+  GENERIC CALL Enumerable.ToList<MonsterModel>(IEnumerable`1)
+  CALL RunRngSet.get_MonsterAi() ret=Rng
+  GENERIC CALL Rng.NextItem<MonsterModel>(IEnumerable`1)
+  CALL CreatureCmd.Add(MonsterModel,ICombatState,CombatSide,String) ret=Task`1
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<SpawnBot>d__25>(TaskAwaiter`1&,<SpawnBot>d__25&)
+  GENERIC CALL PowerCmd.Apply<MinionPower>(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<SpawnBot>d__25>(TaskAwaiter`1&,<SpawnBot>d__25&)
+
+===== GENERIC/TOKENS Zapbot.AfterAddedToRoom =====
+METHOD System.Threading.Tasks.Task AfterAddedToRoom()
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter,<AfterAddedToRoom>d__8>(TaskAwaiter&,<AfterAddedToRoom>d__8&)
+  GENERIC CALL PowerCmd.Apply<HighVoltagePower>(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<AfterAddedToRoom>d__8>(TaskAwaiter`1&,<AfterAddedToRoom>d__8&)
+
+===== GENERIC/TOKENS BattleFriendV1.AfterAddedToRoom =====
+METHOD System.Threading.Tasks.Task AfterAddedToRoom()
+  GENERIC CALL PowerCmd.Apply<BattlewornDummyTimeLimitPower>(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<AfterAddedToRoom>d__6>(TaskAwaiter`1&,<AfterAddedToRoom>d__6&)
+
+===== GENERIC/TOKENS MockAttackAndSummonMinionMonster.AttackAndSummonMinionMove =====
+METHOD System.Threading.Tasks.Task AttackAndSummonMinionMove(System.Collections.Generic.IReadOnlyList`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature])
+  CALL AttackCommand.FromMonster(MonsterModel) ret=AttackCommand
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<AttackAndSummonMinionMove>d__9>(TaskAwaiter`1&,<AttackAndSummonMinionMove>d__9&)
+  GENERIC CALL CreatureCmd.Add<BigDummy>(ICombatState,String)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<AttackAndSummonMinionMove>d__9>(TaskAwaiter`1&,<AttackAndSummonMinionMove>d__9&)
+  GENERIC CALL PowerCmd.Apply<MinionPower>(PlayerChoiceContext,Creature,Decimal,Creature,CardModel,Boolean)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<AttackAndSummonMinionMove>d__9>(TaskAwaiter`1&,<AttackAndSummonMinionMove>d__9&)
+
+===== GENERIC/TOKENS CreatureCmd.Add =====
+METHOD System.Threading.Tasks.Task`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature] Add[T](MegaCrit.Sts2.Core.Combat.ICombatState, System.String)
+  generic def params: T
+  CALL ICombatState.CreateCreature(MonsterModel,CombatSide,String) ret=Creature
+  CALL CreatureCmd.Add(Creature) ret=Task
+METHOD System.Threading.Tasks.Task`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature] Add(MegaCrit.Sts2.Core.Models.MonsterModel, MegaCrit.Sts2.Core.Combat.ICombatState, MegaCrit.Sts2.Core.Combat.CombatSide, System.String)
+  CALL ICombatState.CreateCreature(MonsterModel,CombatSide,String) ret=Creature
+  CALL CreatureCmd.Add(Creature) ret=Task
+  GENERIC CALL AsyncTaskMethodBuilder`1.AwaitUnsafeOnCompleted<TaskAwaiter,<Add>d__1>(TaskAwaiter&,<Add>d__1&)
+METHOD System.Threading.Tasks.Task Add(MegaCrit.Sts2.Core.Entities.Creatures.Creature)
+  CALL ICombatState.AddCreature(Creature) ret=Void
+  CALL CombatManager.AddCreature(Creature) ret=Void
+  CALL NCombatRoom.AddCreature(Creature) ret=Void
+  CALL CombatManager.AfterCreatureAdded(Creature) ret=Task
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter,<Add>d__2>(TaskAwaiter&,<Add>d__2&)
+  CALL Creature.get_IsMonster() ret=Boolean
+  GENERIC CALL Enumerable.Select<Player,Creature>(IEnumerable`1,Func`2)
+  GENERIC CALL Enumerable.Last<MapPointRoomHistoryEntry>(IEnumerable`1)
+  CALL Creature.get_Monster() ret=MonsterModel
+  CALL MapPointRoomHistoryEntry.get_MonsterIds() ret=List`1
+  CALL Creature.get_Monster() ret=MonsterModel
+  CALL MapPointRoomHistoryEntry.get_MonsterIds() ret=List`1
+  CALL Creature.get_Monster() ret=MonsterModel
+  CALL List`1.Add(ModelId) ret=Void
+  CALL Hook.AfterCreatureAddedToCombat(ICombatState,Creature) ret=Task
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter,<Add>d__2>(TaskAwaiter&,<Add>d__2&)
+
+===== GENERIC/TOKENS PlayerCmd.AddPet =====
+METHOD System.Threading.Tasks.Task`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature] AddPet[T](MegaCrit.Sts2.Core.Entities.Players.Player)
+  generic def params: T
+  CALL ICombatState.CreateCreature(MonsterModel,CombatSide,String) ret=Creature
+  CALL PlayerCmd.AddPet(Creature,Player) ret=Task
+METHOD System.Threading.Tasks.Task AddPet(MegaCrit.Sts2.Core.Entities.Creatures.Creature, MegaCrit.Sts2.Core.Entities.Players.Player)
+  CALL PlayerCombatState.AddPetInternal(Creature) ret=Void
+  CALL CreatureCmd.Add(Creature) ret=Task
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter,<AddPet>d__15>(TaskAwaiter&,<AddPet>d__15&)
+
+===== GENERIC/TOKENS Byrdpip.SummonPet =====
+METHOD System.Threading.Tasks.Task SummonPet()
+  GENERIC CALL PlayerCmd.AddPet<Byrdpip>(Player)
+  GENERIC CALL AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted<TaskAwaiter`1,<SummonPet>d__18>(TaskAwaiter`1&,<SummonPet>d__18&)
+
+===== Fabricator field initializers / ctor =====
+CTOR Void .ctor()
+  MonsterModel..ctor
+CTOR Void .cctor()
+  HashSet`1..ctor
+  ModelDb.Monster
+  HashSet`1.Add
+  ModelDb.Monster
+  HashSet`1.Add
+  HashSet`1..ctor
+  ModelDb.Monster
+  HashSet`1.Add
+  ModelDb.Monster
+  HashSet`1.Add
+
+CCTOR found
+ HashSet`1..ctor
+ ModelDb.Monster
+ HashSet`1.Add
+ ModelDb.Monster
+ HashSet`1.Add
+ HashSet`1..ctor
+ ModelDb.Monster
+ HashSet`1.Add
+ ModelDb.Monster
+ HashSet`1.Add
+
+===== PowerCmd.Apply overloads =====
+System.Threading.Tasks.Task`1[System.Collections.Generic.IReadOnlyList`1[T]] Apply[T](MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext, System.Collections.Generic.IEnumerable`1[MegaCrit.Sts2.Core.Entities.Creatures.Creature], System.Decimal, MegaCrit.Sts2.Core.Entities.Creatures.Creature, MegaCrit.Sts2.Core.Models.CardModel, Boolean)
+System.Threading.Tasks.Task`1[T] Apply[T](MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext, MegaCrit.Sts2.Core.Entities.Creatures.Creature, System.Decimal, MegaCrit.Sts2.Core.Entities.Creatures.Creature, MegaCrit.Sts2.Core.Models.CardModel, Boolean)
+System.Threading.Tasks.Task Apply(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext, MegaCrit.Sts2.Core.Models.PowerModel, MegaCrit.Sts2.Core.Entities.Creatures.Creature, System.Decimal, MegaCrit.Sts2.Core.Entities.Creatures.Creature, MegaCrit.Sts2.Core.Models.CardModel, Boolean)
+
+===== CombatManager enemy/player turn creature iteration keywords =====
+StartTurn
+  CombatState.get_CurrentSide
+  CombatState.get_CreaturesOnCurrentSide
+  CombatState.get_CurrentSide
+  CombatState.get_CurrentSide
+  CombatState.get_CurrentSide
+  CombatState.get_CurrentSide
+  CombatState.get_PlayerCreatures
+  NEnemyTurnBanner.Create
+  CombatState.get_CurrentSide
+  CombatState.get_CurrentSide
+  CombatState.get_CurrentSide
+  CombatManager.set_IsEnemyTurnStarted
+  CombatManager.set_IsEnemyTurnStarted
+  CombatManager.ExecuteEnemyTurn
+AfterCreatureAdded
+  Creature.get_IsEnemy
+  CombatState.get_CurrentSide
+
+===== Loc entries =====
+
+===== BaseLib spawn/pet/ally =====
+BaseLib.Patches.Features.ShowMultiCreatureTargetingVisualsPatch
+BaseLib.Patches.Features.ControllerSingleCreatureTargetingPatch
+BaseLib.Patches.Features.AllowedToTargetCreaturePatch
+BaseLib.Utils.BetaMainCompatibility+Creature_
+
+===== ModelDb Monster methods =====
+T Monster[T]()
+System.Collections.Generic.IEnumerable`1[MegaCrit.Sts2.Core.Models.MonsterModel] get_Monsters()
+
+===== GENERIC/TOKENS EncounterModel.GetNextSlot =====
+METHOD System.String GetNextSlot(MegaCrit.Sts2.Core.Combat.ICombatState)
+  GENERIC CALL Enumerable.FirstOrDefault<String>(IEnumerable`1,Func`2,String)
+
+GetNextSlot methods:
+System.String GetNextSlot(MegaCrit.Sts2.Core.Combat.ICombatState)
+Void GenerateMonstersWithSlots(MegaCrit.Sts2.Core.Runs.IRunState)
+System.Collections.Generic.IReadOnlyList`1[System.ValueTuple`2[MegaCrit.Sts2.Core.Models.MonsterModel,System.String]] get_MonstersWithSlots()
+System.Collections.Generic.IReadOnlyList`1[System.String] get_Slots()

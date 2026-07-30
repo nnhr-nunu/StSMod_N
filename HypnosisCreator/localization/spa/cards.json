@@ -165,7 +165,7 @@
   "HYPNOSISCREATOR-CORROSION.title": "Corrosión",
   "HYPNOSISCREATOR-CORROSION.description": "Cada vez que juegas una carta de [gold]ataque[/gold], añade 1 carta de [gold]Cuenta[/gold] hipnótica aleatoria a la [gold]mano[/gold].",
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "Recuerdo de tentáculos",
-  "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Otorga [gold]Constricción[/gold] {ConstrictPower:diff()}. En el próximo turno, añade una copia de esta carta a la [gold]mano[/gold].",
+  "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Otorga [gold]Constricción[/gold] {ConstrictPower:diff()} y despierta Anormal. El siguiente turno, añade una copia de esta carta a la [gold]mano[/gold].",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "Hilo de mejora infinita",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "El objetivo pierde {LoseHp:diff()} PV. [gold]Trance[/gold] {Trance:diff()}. Esta carta puede mejorarse un número ilimitado de veces.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Orden de entrenamiento",

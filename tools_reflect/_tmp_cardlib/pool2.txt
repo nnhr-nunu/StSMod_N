@@ -1,0 +1,170 @@
+TYPE MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable base=
+TYPE MegaCrit.Sts2.Core.Nodes.Pooling.NodePool base=System.Object
+
+== NodePool.Get ==
+  IL_0008: callvirt System.Boolean System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool>::TryGetValue(!0,!1&)
+  IL_0014: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+  IL_001b: ldstr "Tried to get pool for type "
+  IL_0020: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0028: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_002f: ldstr " before it was initialized!"
+  IL_0034: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_003b: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+  IL_0040: newobj System.Void System.InvalidOperationException::.ctor(System.String)
+  IL_0047: callvirt MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Nodes.Pooling.INodePool::Get()
+
+== NodePool.Free ==
+  IL_0001: callvirt System.Type System.Object::GetType()
+  IL_000f: callvirt System.Boolean System.Collections.Generic.Dictionary`2<System.Type,MegaCrit.Sts2.Core.Nodes.Pooling.INodePool>::TryGetValue(!0,!1&)
+  IL_001b: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+  IL_0022: ldstr "Tried to get pool for type "
+  IL_0027: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_002f: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_0036: ldstr " before it was initialized!"
+  IL_003b: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0042: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+  IL_0047: newobj System.Void System.InvalidOperationException::.ctor(System.String)
+  IL_004f: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Pooling.INodePool::Free(MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable)
+
+== NodePool.Get ==
+  IL_0005: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+  IL_000a: call MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Get(System.Type)
+
+== NodePool.Free ==
+  IL_0006: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Free(MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable)
+TYPE MegaCrit.Sts2.Core.Nodes.Pooling.INodePool base=
+TYPE MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1 base=System.Object
+
+== NodePool`1.get_DebugFreeObjects ==
+  IL_0001: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+
+== NodePool`1.MegaCrit.Sts2.Core.Nodes.Pooling.INodePool.Get ==
+  IL_0001: call T MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::Get()
+
+== NodePool`1.MegaCrit.Sts2.Core.Nodes.Pooling.INodePool.Free ==
+  IL_0007: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::Free(T)
+
+== NodePool`1.Get ==
+  IL_0001: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_0006: callvirt System.Int32 System.Collections.Generic.List`1<T>::get_Count()
+  IL_000f: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_0015: callvirt System.Int32 System.Collections.Generic.List`1<T>::get_Count()
+  IL_001c: callvirt !0 System.Collections.Generic.List`1<T>::get_Item(System.Int32)
+  IL_0023: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_0029: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_002e: callvirt System.Int32 System.Collections.Generic.List`1<T>::get_Count()
+  IL_0035: callvirt System.Void System.Collections.Generic.List`1<T>::RemoveAt(System.Int32)
+  IL_003d: call T MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::Instantiate()
+  IL_0044: ldfld System.Collections.Generic.HashSet`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_usedObjects
+  IL_004a: callvirt System.Boolean System.Collections.Generic.HashSet`1<T>::Add(!0)
+  IL_0056: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable::OnReturnedFromPool()
+
+== NodePool`1.Free ==
+  IL_0001: ldfld System.Collections.Generic.HashSet`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_usedObjects
+  IL_0007: callvirt System.Boolean System.Collections.Generic.HashSet`1<T>::Contains(!0)
+  IL_0012: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_0018: callvirt System.Boolean System.Collections.Generic.List`1<T>::Contains(!0)
+  IL_0024: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+  IL_002b: ldstr "Tried to free object "
+  IL_0030: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0038: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<T>(!!0)
+  IL_003f: ldstr " ("
+  IL_0044: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0051: callvirt System.Type System.Object::GetType()
+  IL_0056: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_005d: ldstr ") back to pool "
+  IL_0062: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_006e: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+  IL_0073: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_007a: ldstr " but it's already been freed!"
+  IL_007f: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_0086: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+  IL_008c: call System.Void MegaCrit.Sts2.Core.Logging.Log::Error(System.String,System.Int32)
+  IL_0097: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::.ctor(System.Int32,System.Int32)
+  IL_009e: ldstr "Tried to free object "
+  IL_00a3: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_00ab: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<T>(!!0)
+  IL_00b2: ldstr " ("
+  IL_00b7: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_00c4: callvirt System.Type System.Object::GetType()
+  IL_00c9: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_00d0: ldstr ") back to pool "
+  IL_00d5: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_00e1: call System.Type System.Type::GetTypeFromHandle(System.RuntimeTypeHandle)
+  IL_00e6: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendFormatted<System.Type>(!!0)
+  IL_00ed: ldstr " but it's not part of the pool!"
+  IL_00f2: call System.Void System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::AppendLiteral(System.String)
+  IL_00f9: call System.String System.Runtime.CompilerServices.DefaultInterpolatedStringHandler::ToStringAndClear()
+  IL_00ff: call System.Void MegaCrit.Sts2.Core.Logging.Log::Error(System.String,System.Int32)
+  IL_010a: call System.Void MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions::QueueFreeSafelyNoPool(Godot.Node)
+  IL_0117: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::DisconnectIncomingAndOutgoingSignals(Godot.Node)
+  IL_011d: ldfld System.Collections.Generic.HashSet`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_usedObjects
+  IL_0123: callvirt System.Boolean System.Collections.Generic.HashSet`1<T>::Remove(!0)
+  IL_012a: ldfld System.Collections.Generic.List`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T>::_freeObjects
+  IL_0130: callvirt System.Void System.Collections.Generic.List`1<T>::Add(!0)
+  IL_013b: callvirt System.Void MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable::OnFreedToPool()
+
+NESTED <>c__DisplayClass5_0
+-- .ctor --
+  IL_0000: ldarg.0
+  IL_0001: call System.Void System.Object::.ctor()
+  IL_0006: ret
+-- <QueueFreeSafely>b__0 --
+  IL_0000: ldarg.0
+  IL_0001: ldfld MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable MegaCrit.Sts2.Core.Helpers.GodotTreeExtensions/<>c__DisplayClass5_0::poolable
+  IL_0006: call System.Void MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Free(MegaCrit.Sts2.Core.Nodes.Pooling.IPoolable)
+  IL_000b: ret
+
+NCardHolder interfaces: 
+
+NGridCardHolder interfaces: IPoolable
+NGH.InitPool
+  IL_0000: call System.String MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::get_ScenePath()
+  IL_0005: ldc.i4.s 30
+  IL_0007: call MegaCrit.Sts2.Core.Nodes.Pooling.NodePool`1<T> MegaCrit.Sts2.Core.Nodes.Pooling.NodePool::Init<MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder>(System.String,System.Int32)
+  IL_000c: pop
+  IL_000d: ret
+NGH.OnReturnedFromPool
+  IL_0000: ldarg.0
+  IL_0001: call System.Boolean Godot.Node::IsNodeReady()
+  IL_0006: brfalse.s IL_007a
+  IL_0008: ldarg.0
+  IL_0009: call Godot.Vector2 Godot.Vector2::get_Zero()
+  IL_000e: call System.Void Godot.Control::set_Position(Godot.Vector2)
+  IL_0013: ldarg.0
+  IL_0014: ldc.r4 0
+  IL_0019: call System.Void Godot.Control::set_Rotation(System.Single)
+  IL_001e: ldarg.0
+  IL_001f: call Godot.Vector2 Godot.Vector2::get_One()
+  IL_0024: call System.Void Godot.Control::set_Scale(Godot.Vector2)
+  IL_0029: ldarg.0
+  IL_002a: call Godot.Color Godot.Colors::get_White()
+  IL_002f: call System.Void Godot.CanvasItem::set_Modulate(Godot.Color)
+  IL_0034: ldarg.0
+  IL_0035: ldc.i4.1
+  IL_0036: call System.Void Godot.CanvasItem::set_Visible(System.Boolean)
+  IL_003b: ldarg.0
+  IL_003c: ldc.i4.1
+  IL_003d: call System.Void MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::SetClickable(System.Boolean)
+  IL_0042: ldarg.0
+  IL_0043: call MegaCrit.Sts2.Core.Nodes.GodotExtensions.NClickableControl MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder::get_Hitbox()
+  IL_0048: ldc.i4.0
+  IL_0049: conv.i8
+  IL_004a: callvirt System.Void Godot.Control::set_MouseDefaultCursorShape(Godot.Control/CursorShape)
+  IL_004f: ldarg.0
+  IL_0050: ldc.i4.0
+  IL_0051: stfld System.Boolean MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::_isPreviewingUpgrade
+  IL_0056: ldarg.0
+  IL_0057: call MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryStats MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::get_CardLibraryStats()
+  IL_005c: brfalse.s IL_007a
+  IL_005e: ldarg.0
+  IL_005f: call MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryStats MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::get_CardLibraryStats()
+  IL_0064: ldc.i4.0
+  IL_0065: callvirt System.Void Godot.CanvasItem::set_Visible(System.Boolean)
+  IL_006a: ldarg.0
+  IL_006b: call MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary.NCardLibraryStats MegaCrit.Sts2.Core.Nodes.Cards.Holders.NGridCardHolder::get_CardLibraryStats()
+  IL_0070: call Godot.Color Godot.Colors::get_White()
+  IL_0075: callvirt System.Void Godot.CanvasItem::set_Modulate(Godot.Color)
+  IL_007a: ret
+NGH.OnFreedToPool
+  IL_0000: ret

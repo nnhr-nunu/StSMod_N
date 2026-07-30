@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\bin\Debug\net9.0\DumpStrikeProps.exe
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\bin\Debug\net9.0\DumpStrikeProps.deps.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\bin\Debug\net9.0\DumpStrikeProps.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\bin\Debug\net9.0\DumpStrikeProps.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\bin\Debug\net9.0\DumpStrikeProps.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.sourcelink.json
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\refint\DumpStrikeProps.dll
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.pdb
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\DumpStrikeProps.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\_reflect_tmp\DumpStrikeProps\obj\Debug\net9.0\ref\DumpStrikeProps.dll

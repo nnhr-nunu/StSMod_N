@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "bHHz8noZ13E=",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCardPile\\DumpCardPile.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d6729ba50b851eccbe22c36e380392f6\\nuget\\icsharpcode.decompiler\\8.2.0.7535\\icsharpcode.decompiler.8.2.0.7535.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d6729ba50b851eccbe22c36e380392f6\\nuget\\mono.cecil\\0.11.5\\mono.cecil.0.11.5.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d6729ba50b851eccbe22c36e380392f6\\nuget\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d6729ba50b851eccbe22c36e380392f6\\nuget\\system.reflection.metadata\\6.0.0\\system.reflection.metadata.6.0.0.nupkg.sha512",
+    "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d6729ba50b851eccbe22c36e380392f6\\nuget\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

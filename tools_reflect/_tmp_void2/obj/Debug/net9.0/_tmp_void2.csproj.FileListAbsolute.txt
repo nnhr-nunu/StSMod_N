@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\bin\Debug\net9.0\_tmp_void2.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\bin\Debug\net9.0\_tmp_void2.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\bin\Debug\net9.0\_tmp_void2.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\bin\Debug\net9.0\_tmp_void2.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\bin\Debug\net9.0\_tmp_void2.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\refint\_tmp_void2.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\_tmp_void2.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_void2\obj\Debug\net9.0\ref\_tmp_void2.dll

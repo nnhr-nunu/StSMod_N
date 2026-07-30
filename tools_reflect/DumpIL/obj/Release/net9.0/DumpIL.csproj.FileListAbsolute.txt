@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\bin\Release\net9.0\DumpIL.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\bin\Release\net9.0\DumpIL.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\bin\Release\net9.0\DumpIL.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\bin\Release\net9.0\DumpIL.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\bin\Release\net9.0\DumpIL.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\refint\DumpIL.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\DumpIL.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpIL\obj\Release\net9.0\ref\DumpIL.dll

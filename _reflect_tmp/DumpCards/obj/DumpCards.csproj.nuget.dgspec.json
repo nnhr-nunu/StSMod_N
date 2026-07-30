@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCards\\DumpCards.csproj": {}
+  },
+  "projects": {
+    "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCards\\DumpCards.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCards\\DumpCards.csproj",
+        "projectName": "DumpCards",
+        "projectPath": "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCards\\DumpCards.csproj",
+        "packagesPath": "C:\\Users\\homut\\AppData\\Local\\Temp\\cursor-sandbox-cache\\fb0158c0c4783cc3194354de550c1be1\\nuget",
+        "outputPath": "D:\\Dev\\antigravity\\StSMod_N\\_reflect_tmp\\DumpCards\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\homut\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Mono.Cecil": {
+              "target": "Package",
+              "version": "[0.11.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

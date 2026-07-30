@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\bin\Release\net9.0\DumpRelicCmd.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\bin\Release\net9.0\DumpRelicCmd.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\bin\Release\net9.0\DumpRelicCmd.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\bin\Release\net9.0\DumpRelicCmd.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\bin\Release\net9.0\DumpRelicCmd.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\refint\DumpRelicCmd.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\DumpRelicCmd.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpRelicCmd\obj\Release\net9.0\ref\DumpRelicCmd.dll

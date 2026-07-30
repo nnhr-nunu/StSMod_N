@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\bin\Debug\net9.0\DumpApi.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\bin\Debug\net9.0\DumpApi.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\bin\Debug\net9.0\DumpApi.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\bin\Debug\net9.0\DumpApi.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\bin\Debug\net9.0\DumpApi.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\refint\DumpApi.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\DumpApi.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\_tmp_api\obj\Debug\net9.0\ref\DumpApi.dll

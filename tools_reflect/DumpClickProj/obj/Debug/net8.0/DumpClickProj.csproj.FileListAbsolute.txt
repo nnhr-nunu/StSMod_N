@@ -1,0 +1,15 @@
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\bin\Debug\net8.0\DumpClickProj.exe
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\bin\Debug\net8.0\DumpClickProj.deps.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\bin\Debug\net8.0\DumpClickProj.runtimeconfig.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\bin\Debug\net8.0\DumpClickProj.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\bin\Debug\net8.0\DumpClickProj.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.AssemblyInfoInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.AssemblyInfo.cs
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.csproj.CoreCompileInputs.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.sourcelink.json
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\refint\DumpClickProj.dll
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.pdb
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\DumpClickProj.genruntimeconfig.cache
+D:\Dev\antigravity\StSMod_N\tools_reflect\DumpClickProj\obj\Debug\net8.0\ref\DumpClickProj.dll

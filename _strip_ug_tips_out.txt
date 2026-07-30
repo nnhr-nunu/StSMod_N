@@ -1,0 +1,205 @@
+cards.json HYPNOSISCREATOR-FINGER_SNAP.description
+  - 'トランス1。破滅5を付与する。\n[gold]UG: 保留。[/gold]'
+  + 'トランス1。破滅5を付与する。'
+cards.json HYPNOSISCREATOR-HARMONY.description
+  - '相手の攻撃と同値のブロックを得る。\n[gold]UG: 廃棄が消える。[/gold]'
+  + '相手の攻撃と同値のブロックを得る。'
+cards.json HYPNOSISCREATOR-MIRRORING.description
+  - '相手の攻撃予定と同じ攻撃を行う。\n[gold]UG: 廃棄が消える。[/gold]'
+  + '相手の攻撃予定と同じ攻撃を行う。'
+cards.json HYPNOSISCREATOR-DEEP_BREATH.description
+  - 'カードを1枚引く。次のターンエナジー1を得る。\n[gold]UG: 廃棄が消える。[/gold]'
+  + 'カードを1枚引く。次のターンエナジー1を得る。'
+cards.json HYPNOSISCREATOR-SENSITIVITY3000.description
+  - 'トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。\n[gold]UG: コスト1。[/gold]'
+  + 'トランス3。必ず性癖に刺さる。このターン、相手の受けるダメージを3.000倍にする。'
+cards.json HYPNOSISCREATOR-BREATH_CONTROL.description
+  - 'このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。\n[gold]UG: 保留。[/gold]'
+  + 'このターン、カードをプレイするたび相手は筋力1を失う。相手の攻撃値が0点になった時、スタンする。'
+cards.json HYPNOSISCREATOR-ZERO_OUT.description
+  - 'カウント。相手の攻撃値を0にする。トランス1。\n[gold]UG: 攻撃値とブロックを0にする。[/gold]'
+  + 'カウント。相手の攻撃値を0にする。トランス1。'
+cards.json HYPNOSISCREATOR-SPANKING.description
+  - '{Damage:diff()}ダメージを2回与える。性癖に刺さった時、もう一度プレイできる。\n[gold]UG: リプレイ2。[/gold]'
+  + '{Damage:diff()}ダメージを2回与える。性癖に刺さった時、もう一度プレイできる。'
+cards.json HYPNOSISCREATOR-KICK.description
+  - '{Damage:diff()}ダメージを与える。SMとDomSubの性癖に目覚めさせる。アップグレード後：プレイ後、山札に入る。'
+  + '{Damage:diff()}ダメージを与える。SMとDomSubの性癖に目覚めさせる'
+cards.json HYPNOSISCREATOR-WHISPER.description
+  - '山札のカードを{Cards:diff()}枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。\n[gold]UG: このカードは必ず性癖にささる。[/gold]'
+  + '山札のカードを{Cards:diff()}枚選ぶ。対象は、選んだカードに対応する性癖に目覚める。廃棄。'
+cards.json HYPNOSISCREATOR-SOFT_TECHNIQUE.description
+  - 'デバフを1種類解除する。\n[gold]UG: デバフすべてを解除する。[/gold]'
+  + 'デバフを1種類解除する。'
+cards.json HYPNOSISCREATOR-CONTINUOUS_TRANCE.description
+  - 'トランス1を3回付与し、性癖に「トランス」を追加する。\n[gold]UG: 相手すべてに適用する。[/gold]'
+  + 'トランス1を3回付与し、性癖に「トランス」を追加する。'
+cards.json HYPNOSISCREATOR-FINGER_COUNT.description
+  - '手札のカウントカードすべてのコストを1下げる。\n[gold]UG: コスト0。[/gold]'
+  + '手札のカウントカードすべてのコストを1下げる。'
+cards.json HYPNOSISCREATOR-SENSE_SHARE.description
+  - 'このターン中、単体へのアタックカードは全体が対象になる。\n[gold]UG: コスト0。[/gold]'
+  + 'このターン中、単体へのアタックカードは全体が対象になる。'
+cards.json HYPNOSISCREATOR-ERICKSONIAN.description
+  - '相手の性癖を刺した時、手札のカードのカウントがひとつ進む。\n[gold]UG: コスト0。[/gold]'
+  + '相手の性癖を刺した時、手札のカードのカウントがひとつ進む。'
+cards.json HYPNOSISCREATOR-OVER_FOCUS.description
+  - '手札にあるスキルカード1枚につき、エナジー1を得る。\n[gold]UG: 廃棄が消える。[/gold]'
+  + '手札にあるスキルカード1枚につき、エナジー1を得る。'
+cards.json HYPNOSISCREATOR-RITUAL_REVEAL.description
+  - '催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。\n[gold]UG: コスト0。[/gold]'
+  + '催眠系カウントカードを山札からランダムに2枚、手札に加える。1枚は相手の性癖に合致するカードが優先して選ばれる。'
+cards.json HYPNOSISCREATOR-ZERO_SHORTCUT.description
+  - '3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）\n[gold]UG: コスト2。[/gold]'
+  + '3ブロックを得る。これを1数値を減らして0ブロックを得るまで繰り返す。手札の催眠系カウントカードのコストを0にする。（Nブロックを得る）'
+cards.json HYPNOSISCREATOR-KNOW_IT_ALL.description
+  - '性癖を刺した時の効果が2倍になる。\n[gold]UG: 天賦。[/gold]'
+  + '性癖を刺した時の効果が2倍になる。'
+cards.json HYPNOSISCREATOR-TOTAL_CONTROL.description
+  - 'トランス3以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる。アップグレードで廃棄が消える。'
+  + 'トランス3以上の対象にのみプレイできる。このターン、すべての攻撃ダメージを肩代わりさせる'
+cards.json HYPNOSISCREATOR-ALL_IN_ONE.description
+  - 'カウント。すべての催眠系カウントカードを対象にプレイする。トランス1。\n[gold]UG: 廃棄されたものも含める。[/gold]'
+  + 'カウント。すべての催眠系カウントカードを対象にプレイする。トランス1。'
+cards.json HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description
+  - 'カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。\n[gold]UG: 心停止時に追加のレリック報酬を獲得する。[/gold]'
+  + 'カウント。3ターン後、相手の心臓が止まる。ボスの場合は2倍のターン数になる。'
+cards.json HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description
+  - 'X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。\n[gold]UG: ランダムなアップグレード済みの他色アブノーマルカードに変化する。[/gold]'
+  + 'X枚まで手札のカードをランダムな他色アブノーマルカードに変化させ、このターン、コストなしでプレイできる。'
+cards.json HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description
+  - '敵の数だけドローする。引いたカードをランダムな相手にプレイする。\n[gold]UG: コスト1。[/gold]'
+  + '敵の数だけドローする。引いたカードをランダムな相手にプレイする。'
+cards.json HYPNOSISCREATOR-MASS_HYPNOSIS.description
+  - '催眠系カウントカードの対象が相手すべてになる。\n[gold]UG: 天賦。[/gold]'
+  + '催眠系カウントカードの対象が相手すべてになる。'
+cards.json HYPNOSISCREATOR-RAPPORT.description
+  - '手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。\n[gold]UG: ターン開始時、条件なしで手札のカウントがひとつ追加で進む。[/gold]'
+  + '手札のカウントを1つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に手札のカウントがひとつ追加で進む。'
+cards.json HYPNOSISCREATOR-CATALEPSY.description
+  - '相手にスロー1を付与する。\n[gold]UG: 相手がトランス時はスローの蓄積量がリセットされない。[/gold]'
+  + '相手にスロー1を付与する。'
+cards.json HYPNOSISCREATOR-STATUS_HYPNOSIS.description
+  - 'トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。\n[gold]UG: 天賦。[/gold]'
+  + 'トランス状態の相手に、状態異常と呪いカードをプレイできるようになる。'
+cards.json HYPNOSISCREATOR-LOVE_HYPNOSIS.description
+  - 'カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。\n[gold]UG: バフまたはブロック行動も対象。[/gold]'
+  + 'カウント。相手がバフ行動を予定している場合、その対象をプレイヤーに変更する。トランス1。'
+cards.json HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description
+  - 'カウント。このターン、対象の攻撃を他の敵へ移し替える（プレイヤーには当てない）。トランス{Trance:diff()}。アップグレードで全敵に適用。'
+  + 'カウント。このターン、対象の攻撃を他の敵へ移し替える（プレイヤーには当てない）。トランス{Trance:diff()}'
+cards.json HYPNOSISCREATOR-SOFTEN.description
+  - 'トランス状態の相手が与えるダメージが、スタック数1につき20%低下する。\n[gold]UG: コスト1。[/gold]'
+  + 'トランス状態の相手が与えるダメージが、スタック数1につき20%低下する。'
+cards.json HYPNOSISCREATOR-MASTERY.description
+  - 'プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。\n[gold]UG: コスト1。[/gold]'
+  + 'プレイした催眠系カウントカードすべてを戦闘終了後にアップグレードする。'
+cards.json HYPNOSISCREATOR-CORROSION.description
+  - 'アタックをプレイするたび、ランダムな催眠系カウントカードを手札に1枚加える。\n[gold]UG: 相手の性癖に該当するカードが優先して生成される。[/gold]'
+  + 'アタックをプレイするたび、ランダムな催眠系カウントカードを手札に1枚加える。'
+cards.json HYPNOSISCREATOR-HUNDRED_EIGHT.description
+  - 'すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。\n[gold]UG: プレイ後は山札に入る。[/gold]'
+  + 'すべての相手を、すべての性癖に目覚めさせる。プレイ後、コストが1増加する。3コストのこのカードをプレイした時、すべての敵に1ダメージを108回与えて廃棄される。'
+cards.json HYPNOSISCREATOR-SUGGESTION_RELEASE.description
+  - '0ダメージを与える。相手のトランス状態を解除し、その数値に応じたエナジーを獲得する。\n[gold]UG: 同じ数だけカードも引く。[/gold]'
+  + '0ダメージを与える。相手のトランス状態を解除し、その数値に応じたエナジーを獲得する。'
+cards.json HYPNOSISCREATOR-AS_YOU_WISH.description
+  - '性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。\n[gold]UG: アブノーマルは筋力1と敏捷1、SMは活力3、DomSubはブロック2。[/gold]'
+  + '性癖カードをプレイするたび、対応する効果を得る。アブノーマル：筋力1を得る。SM：活力2を得る。DomSub：ブロック1を得る。'
+cards.json HYPNOSISCREATOR-HEART_CRAVING.description
+  - '保有しているすべての心臓レリックがこの戦闘中、再使用可能状態になる。\n[gold]UG: すべての心臓レリックが再使用可能状態になる。[/gold]'
+  + '保有しているすべての心臓レリックがこの戦闘中、再使用可能状態になる。'
+cards.json HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description
+  - '自分が失っているHPに応じたダメージを与える。({Damage:diff()}ダメージ)。アップグレードで廃棄が消える。'
+  + '自分が失っているHPに応じたダメージを与える。({Damage:diff()}ダメージ)'
+cards.json HYPNOSISCREATOR-COLLAR_TRAINING.description
+  - '相手を引き寄せる。すでに相手が引き寄せられている場合、破滅{Doom:diff()}を付与してDomSub性癖に目覚めさせる。\n[gold]UG: さらにランダムな調教命令カードを2枚手札に加える。[/gold]'
+  + '相手を引き寄せる。すでに相手が引き寄せられている場合、破滅{Doom:diff()}を付与してDomSub性癖に目覚めさせる。'
+cards.json HYPNOSISCREATOR-ACCEPTANCE_NEED.description
+  - 'ダメージを受けた回数分、次のターンにエナジーを得てカードを引く。\n[gold]UG: コスト1。[/gold]'
+  + 'ダメージを受けた回数分、次のターンにエナジーを得てカードを引く。'
+cards.json HYPNOSISCREATOR-ENCORE.description
+  - 'プレイした催眠系カウントカードは、コストが初期値にリセットされて手札に戻る。\n[gold]UG: コスト0。[/gold]'
+  + 'プレイした催眠系カウントカードは、コストが初期値にリセットされて手札に戻る。'
+cards.json HYPNOSISCREATOR-HEARTBEAT_SHARE.description
+  - '保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。\n[gold]UG: すべてに共有する。[/gold]'
+  + '保有している心臓レリックから得た効果を味方プレイヤー1人に共有する。'
+cards.json HYPNOSISCREATOR-KICK.description
+  - 'Deal {Damage:diff()} damage.\nAwaken SM and DomSub.\n[gold]Upgrade: after play, enter your draw pile.[/gold]'
+  + 'Deal {Damage:diff()} damage.\nAwaken SM and DomSub.'
+cards.json HYPNOSISCREATOR-WHISPER.description
+  - 'Choose {Cards:diff()} Fetish card(s) from your draw pile. Awaken their fetishes on the target. Exhaust.\n[gold]Upgrade: This card always hits Fetish.[/gold]'
+  + 'Choose {Cards:diff()} Fetish card(s) from your draw pile. Awaken their fetishes on the target. Exhaust.'
+cards.json HYPNOSISCREATOR-SOFT_TECHNIQUE.description
+  - 'Remove 1 random debuff from yourself.\n[gold]Upgrade: remove all of them.[/gold]'
+  + 'Remove 1 random debuff from yourself.'
+cards.json HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description
+  - 'Deal {Damage:diff()} damage to ALL enemies 5 times. Replay X. Exhaust.\n[gold]Upgrade: Retain.[/gold]'
+  + 'Deal {Damage:diff()} damage to ALL enemies 5 times. Replay X. Exhaust.'
+cards.json HYPNOSISCREATOR-FETISH_CHAMPION.description
+  - 'Awaken all fetishes on the target. Apply {Doom:diff()} Doom.\n[gold]Upgrade: also gain 6 Block.[/gold]'
+  + 'Awaken all fetishes on the target. Apply {Doom:diff()} Doom.'
+cards.json HYPNOSISCREATOR-TOTAL_CONTROL.description
+  - 'Requires the target to have at least 3 Trance.\nThis turn, all attack damage is redirected to you.\n[gold]Upgrade: no longer Exhausts.[/gold]'
+  + 'Requires the target to have at least 3 Trance.\nThis turn, all attack damage is redirected to you.'
+cards.json HYPNOSISCREATOR-ALL_IN_ONE.description
+  - '[gold]Count.[/gold] Play every other [gold]Count[/gold] card from your draw pile, hand, and discard on the target. Apply {Trance:diff()} Trance.\n[gold]Upgrade: also include Exhaust pile.[/gold]'
+  + '[gold]Count.[/gold] Play every other [gold]Count[/gold] card from your draw pile, hand, and discard on the target. Apply {Trance:diff()} Trance.'
+cards.json HYPNOSISCREATOR-CARDIAC_ARREST_HYPNOSIS.description
+  - "[gold]Count.[/gold] After {Turns:diff()} of the target's turns, they die instantly (doubled against bosses).\n[gold]Upgrade: bonus heart relic when the heart stops.[/gold]"
+  + "[gold]Count.[/gold] After {Turns:diff()} of the target's turns, they die instantly (doubled against bosses)."
+cards.json HYPNOSISCREATOR-ABNORMAL_TRANSFORM.description
+  - 'Choose up to X cards in your hand. Transform them into random Abnormal Fetish cards for this combat only, with 0 cost.\n[gold]Upgrade: transform into upgraded Abnormal cards.[/gold]'
+  + 'Choose up to X cards in your hand. Transform them into random Abnormal Fetish cards for this combat only, with 0 cost.'
+cards.json HYPNOSISCREATOR-MASS_HYPNOSIS.description
+  - 'Whenever you play a single-target [gold]Count[/gold] card, also play its effect on every other enemy.\n[gold]Upgrade: Innate.[/gold]'
+  + 'Whenever you play a single-target [gold]Count[/gold] card, also play its effect on every other enemy.'
+cards.json HYPNOSISCREATOR-RAPPORT.description
+  - "At the start of your turn, reduce the cost of [gold]Count[/gold] cards in your hand by 1 more. If you didn't attack an enemy last turn, reduce it by 1 more.\n[gold]Upgrade: always apply the extra reduction.[/gold]"
+  + "At the start of your turn, reduce the cost of [gold]Count[/gold] cards in your hand by 1 more. If you didn't attack an enemy last turn, reduce it by 1 more."
+cards.json HYPNOSISCREATOR-CATALEPSY.description
+  - 'Apply {Slow:diff()} Slow.\n[gold]Upgrade: while the target is Tranced, Slow does not reset.[/gold]'
+  + 'Apply {Slow:diff()} Slow.'
+cards.json HYPNOSISCREATOR-STATUS_HYPNOSIS.description
+  - 'Make status and curse cards easier to inflict on Tranced enemies.\n[gold]Upgrade: Innate.[/gold]'
+  + 'Make status and curse cards easier to inflict on Tranced enemies.'
+cards.json HYPNOSISCREATOR-LOVE_HYPNOSIS.description
+  - '[gold]Count.[/gold] Confuse the target (buff-intent retarget API unavailable; best-effort). Apply {Trance:diff()} Trance.\n[gold]Upgrade: also apply Weak.[/gold]'
+  + '[gold]Count.[/gold] Confuse the target (buff-intent retarget API unavailable; best-effort). Apply {Trance:diff()} Trance.'
+cards.json HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.description
+  - "[gold]Count.[/gold] This turn, redirect the target's attacks to another enemy (never the player). Apply {Trance:diff()} Trance.\n[gold]Upgrade: affect all enemies.[/gold]"
+  + "[gold]Count.[/gold] This turn, redirect the target's attacks to another enemy (never the player). Apply {Trance:diff()} Trance."
+cards.json HYPNOSISCREATOR-SOFTEN.description
+  - 'Tranced enemies deal 20% less damage per stack of Trance they have.\n[gold]Upgrade: cost 1.[/gold]'
+  + 'Tranced enemies deal 20% less damage per stack of Trance they have.'
+cards.json HYPNOSISCREATOR-MASTERY.description
+  - 'At the end of combat, permanently upgrade every [gold]Count[/gold] card you played while this was active.\n[gold]Upgrade: cost 1.[/gold]'
+  + 'At the end of combat, permanently upgrade every [gold]Count[/gold] card you played while this was active.'
+cards.json HYPNOSISCREATOR-CORROSION.description
+  - 'Whenever you play an Attack, add a random Hypnosis [gold]Count[/gold] card to your hand.\n[gold]Upgrade: prefer cards sharing a fetish with the Attack played.[/gold]'
+  + 'Whenever you play an Attack, add a random Hypnosis [gold]Count[/gold] card to your hand.'
+cards.json HYPNOSISCREATOR-SUGGESTION_RELEASE.description
+  - 'Remove all Trance from the target and gain [gold]Energy[/gold] equal to the amount removed.\n[gold]Upgrade: also draw that many cards.[/gold]'
+  + 'Remove all Trance from the target and gain [gold]Energy[/gold] equal to the amount removed.'
+cards.json HYPNOSISCREATOR-AS_YOU_WISH.description
+  - 'Whenever you play a Fetish card, gain a bonus based on its fetish: Abnormal grants Strength, SM grants Vigor, DomSub grants Block.\n[gold]Upgrade: gain more of each.[/gold]'
+  + 'Whenever you play a Fetish card, gain a bonus based on its fetish: Abnormal grants Strength, SM grants Vigor, DomSub grants Block.'
+cards.json HYPNOSISCREATOR-PERVERSION_TRUE_DESIRE.description
+  - 'Deal damage equal to your missing HP.\n[gold]Upgrade: no longer Exhausts.[/gold]'
+  + 'Deal damage equal to your missing HP.'
+cards.json HYPNOSISCREATOR-COLLAR_TRAINING.description
+  - 'Pull the target. If they were already Pulled, apply {Doom:diff()} Doom and awaken DomSub.\n[gold]Upgrade: also add 2 Training Command cards when Doom is applied.[/gold]'
+  + 'Pull the target. If they were already Pulled, apply {Doom:diff()} Doom and awaken DomSub.'
+cards.json HYPNOSISCREATOR-ACCEPTANCE_NEED.description
+  - 'Whenever you take attack damage, remember it. At the start of your next turn, gain [gold]Energy[/gold] and draw cards equal to the number of hits taken.\n[gold]Upgrade: cost 1.[/gold]'
+  + 'Whenever you take attack damage, remember it. At the start of your next turn, gain [gold]Energy[/gold] and draw cards equal to the number of hits taken.'
+cards.json HYPNOSISCREATOR-MEET_EXPECTATIONS.description
+  - 'Deal damage equal to the square of (total resolved cost of [gold]Count[/gold] cards in your hand + 1), then reduce their cost by 1.\n(Deals {CalculatedDamage:diff()} damage)\n[gold]Upgrade: Retain.[/gold]'
+  + 'Deal damage equal to the square of (total resolved cost of [gold]Count[/gold] cards in your hand + 1), then reduce their cost by 1.\n(Deals {CalculatedDamage:diff()} damage)'
+cards.json HYPNOSISCREATOR-ENCORE.description
+  - 'Whenever a [gold]Count[/gold] card you played would Exhaust, it returns to your hand instead.\n[gold]Upgrade: cost 0.[/gold]'
+  + 'Whenever a [gold]Count[/gold] card you played would Exhaust, it returns to your hand instead.'
+cards.json HYPNOSISCREATOR-HEARTBEAT_SHARE.description
+  - '[gold]Multiplayer.[/gold] Share your Stolen Heart relics with one ally.\n[gold]Upgrade: share with all allies.[/gold]'
+  + '[gold]Multiplayer.[/gold] Share your Stolen Heart relics with one ally.'
+stripped 68 descriptions
