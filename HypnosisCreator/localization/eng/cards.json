@@ -41,7 +41,7 @@
   "HYPNOSISCREATOR-STARE.title": "Stare",
   "HYPNOSISCREATOR-STARE.description": "Deal {Damage:diff()} damage. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-KICK.title": "Kick",
-  "HYPNOSISCREATOR-KICK.description": "Deal {Damage:diff()} damage. Awaken SM and DomSub.",
+  "HYPNOSISCREATOR-KICK.description": "Deal {Damage:diff()} damage. Awaken SM and DomSub. Reduce the cost of this card by [blue]1[/blue].",
   "HYPNOSISCREATOR-PETTING.title": "Petting",
   "HYPNOSISCREATOR-PETTING.description": "Apply {WeakPower:diff()} [gold]Weak[/gold]. Draw {Cards:diff()} {Cards:plural:card|cards}.",
   "HYPNOSISCREATOR-WHISPER.title": "Whisper",

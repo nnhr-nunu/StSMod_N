@@ -41,7 +41,7 @@
   "HYPNOSISCREATOR-STARE.title": "Starrer Blick",
   "HYPNOSISCREATOR-STARE.description": "Verursache {Damage:diff()} Schaden. [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-KICK.title": "Tritt",
-  "HYPNOSISCREATOR-KICK.description": "Verursache {Damage:diff()} Schaden. Erweckt die Fetische SM und DomSub.",
+  "HYPNOSISCREATOR-KICK.description": "Verursache {Damage:diff()} Schaden. Erweckt die Fetische SM und DomSub. Verringert die Kosten dieser Karte um [blue]1[/blue].",
   "HYPNOSISCREATOR-PETTING.title": "Streicheln",
   "HYPNOSISCREATOR-PETTING.description": "Verursache [gold]Schwäche[/gold] {WeakPower:diff()}. Ziehe {Cards:diff()} Karte(n).",
   "HYPNOSISCREATOR-WHISPER.title": "Flüstern",

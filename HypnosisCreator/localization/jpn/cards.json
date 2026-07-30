@@ -41,7 +41,7 @@
   "HYPNOSISCREATOR-STARE.title": "凝視",
   "HYPNOSISCREATOR-STARE.description": "{Damage:diff()}ダメージを与える。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-KICK.title": "足蹴",
-  "HYPNOSISCREATOR-KICK.description": "{Damage:diff()}ダメージを与える。SMとDomSubの性癖に目覚めさせる。",
+  "HYPNOSISCREATOR-KICK.description": "{Damage:diff()}ダメージを与える。SMとDomSubの性癖に目覚めさせる。このカードのコストが[blue]1[/blue]減少する。",
   "HYPNOSISCREATOR-PETTING.title": "なでなで",
   "HYPNOSISCREATOR-PETTING.description": "[gold]脱力[/gold]{WeakPower:diff()}を付与する。カードを{Cards:diff()}枚引く。",
   "HYPNOSISCREATOR-WHISPER.title": "囁き",

@@ -41,7 +41,7 @@
   "HYPNOSISCREATOR-STARE.title": "凝視",
   "HYPNOSISCREATOR-STARE.description": "造成{Damage:diff()}傷害。[gold]恍惚[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-KICK.title": "踢踹",
-  "HYPNOSISCREATOR-KICK.description": "造成{Damage:diff()}傷害。使其覺醒SM與DomSub性癖。",
+  "HYPNOSISCREATOR-KICK.description": "造成{Damage:diff()}傷害。使其覺醒SM與DomSub性癖。這張牌的耗能減少[blue]1[/blue]點。",
   "HYPNOSISCREATOR-PETTING.title": "摸摸頭",
   "HYPNOSISCREATOR-PETTING.description": "賦予[gold]脫力[/gold]{WeakPower:diff()}。抽{Cards:diff()}張卡牌。",
   "HYPNOSISCREATOR-WHISPER.title": "低語",

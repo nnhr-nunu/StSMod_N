@@ -34,6 +34,8 @@ public class Kick() : HypnosisCreatorCard(2,
         await ResolveFetishOnTarget(choiceContext, play);
         FetishCombat.Awaken(play.Target, FetishType.Sm, Owner);
         FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+
+        EnergyCost.AddThisCombat(-1);
     }
 
     protected override CardLocation GetResultLocationForCardPlay() =>

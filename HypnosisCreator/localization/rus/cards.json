@@ -41,7 +41,7 @@
   "HYPNOSISCREATOR-STARE.title": "Взгляд",
   "HYPNOSISCREATOR-STARE.description": "Нанесите {Damage:diff()} урона. [gold]Транс[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-KICK.title": "Удар ногой",
-  "HYPNOSISCREATOR-KICK.description": "Нанесите {Damage:diff()} урона. Пробуждает фетиши SM и DomSub.",
+  "HYPNOSISCREATOR-KICK.description": "Нанесите {Damage:diff()} урона. Пробуждает фетиши SM и DomSub. Уменьшает стоимость этой карты на [blue]1[/blue].",
   "HYPNOSISCREATOR-PETTING.title": "Поглаживание",
   "HYPNOSISCREATOR-PETTING.description": "Наложите [gold]Бессилие[/gold] {WeakPower:diff()}. Возьмите {Cards:diff()} карт(ы).",
   "HYPNOSISCREATOR-WHISPER.title": "Шёпот",
