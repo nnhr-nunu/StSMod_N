@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 /// 触手の想起 — アブノーマル。締め付け5＋アブノーマル目覚め。次ターン開始時にコピーを手札へ（UGは締め付け9）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class TentacleRecall() : HypnosisCreatorCard(1,
+public class TentacleRecall() : HypnosisCreatorCard(0,
     CardType.Attack, CardRarity.Common,
     TargetType.AnyEnemy)
 {
