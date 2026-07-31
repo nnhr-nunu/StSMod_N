@@ -56,7 +56,11 @@ public class CatalepsyPower : HypnosisCreatorPower
         return Task.CompletedTask;
     }
 
-    public override Task AfterSideTurnStart(
+    /// <summary>
+    /// 本家 <see cref="SlowPower"/> は <see cref="AbstractModel.AfterSideTurnStart"/> で蓄積を0に戻す。
+    /// 復元は必ず <see cref="AbstractModel.AfterSideTurnStartLate"/> で行う（メトロノームと同型）。
+    /// </summary>
+    public override Task AfterSideTurnStartLate(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
@@ -82,7 +86,7 @@ public class CatalepsyPower : HypnosisCreatorPower
         var slow = Owner.GetPower<SlowPower>();
         if (slow == null) return Task.CompletedTask;
 
-        // SlowPower のリセット後に積み直す（フック順に依存しないよう、保存値で上書き）
+        // SlowAmount を積み直す（表示は SlowPower.DisplayAmount = SlowAmount×10）
         slow.DynamicVars["SlowAmount"].BaseValue = _savedSlowAmount;
         return Task.CompletedTask;
     }
