@@ -92,19 +92,7 @@ public static class MechanicKeywordRules
 
         string? text = null;
         if (!KeywordPatchGuard.IsNested)
-        {
-            try
-            {
-                var loc = new LocString(CardsLocTable, $"{entryId}.description");
-                card.DynamicVars.AddTo(loc);
-                text = loc.GetFormattedText();
-            }
-            catch (Exception ex)
-            {
-                MainFile.Logger.Warn($"Mechanic keyword description lookup failed for {entryId}: {ex.Message}");
-                text = null;
-            }
-        }
+            text = CardLocRawText.TryGet(CardsLocTable, $"{entryId}.description");
 
         DescriptionCache.TryAdd(entryId, text);
         return text;

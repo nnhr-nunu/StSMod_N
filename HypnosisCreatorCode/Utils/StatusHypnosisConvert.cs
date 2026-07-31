@@ -146,7 +146,8 @@ public static class StatusHypnosisConvert
             return;
         }
 
-        var results = await CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player);
+        var results = await CardPileCmd.AddGeneratedCardsToCombat(
+            cards, pile, player, CombatCardPilePreview.DefaultPositionFor(pile));
         await CombatCardPilePreview.PreviewAddAsync(results, pile);
     }
 

@@ -17,6 +17,20 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CombatCardPilePreview
 {
+    /// <summary>生成カード追加時の既定位置。<see cref="CardPilePosition.None"/> は本家で例外になる。</summary>
+    public static CardPilePosition DefaultPositionFor(PileType pile) =>
+        pile switch
+        {
+            PileType.Hand => CardPilePosition.Top,
+            PileType.Discard => CardPilePosition.Bottom,
+            PileType.Draw => CardPilePosition.Top,
+            PileType.Exhaust => CardPilePosition.Bottom,
+            _ => CardPilePosition.Top
+        };
+
+    private static CardPilePosition ResolvePosition(PileType pile, CardPilePosition position) =>
+        position == CardPilePosition.None ? DefaultPositionFor(pile) : position;
+
     public static async Task<IReadOnlyList<CardPileAddResult>> AddGeneratedCardsAsync(
         IReadOnlyList<CardModel> cards,
         PileType pile,
@@ -25,6 +39,8 @@ public static class CombatCardPilePreview
     {
         if (cards.Count == 0)
             return Array.Empty<CardPileAddResult>();
+
+        position = ResolvePosition(pile, position);
 
         if (pile == PileType.Hand && CombatManager.Instance.IsExecutingCardOrPotionEffect(player))
         {
@@ -44,6 +60,7 @@ public static class CombatCardPilePreview
         Player player,
         CardPilePosition position = default)
     {
+        position = ResolvePosition(pile, position);
         if (pile == PileType.Hand && CombatManager.Instance.IsExecutingCardOrPotionEffect(player))
         {
             await AddToHandDuringCardPlayAsync([card], player);
@@ -66,6 +83,7 @@ public static class CombatCardPilePreview
         if (cards.Count == 0)
             return Task.FromResult<IReadOnlyList<CardPileAddResult>>(Array.Empty<CardPileAddResult>());
 
+        position = ResolvePosition(pile, position);
         return CardPileCmd.AddGeneratedCardsToCombat(cards, pile, player, position);
     }
 
@@ -90,6 +108,7 @@ public static class CombatCardPilePreview
         if (CombatManager.Instance.IsExecutingCardOrPotionEffect(player))
             return AddToHandDuringCardPlayAsync(cards, player);
 
+        position = ResolvePosition(PileType.Hand, position);
         return CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, player, position);
     }
 
