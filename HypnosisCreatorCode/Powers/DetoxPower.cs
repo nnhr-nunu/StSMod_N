@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 public class DetoxPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     // No.108 カード原画をパワーアイコンに流用
     public override string CustomPackedIconPath => "detox.png".CardImagePath();
@@ -23,7 +23,10 @@ public class DetoxPower : HypnosisCreatorPower
         var player = Owner?.Player;
         if (player == null) return;
 
-        room.AddExtraReward(player, new DetoxDeckUpgradeReward(player));
+        var rewardCount = Math.Max(1, Amount);
+        for (var i = 0; i < rewardCount; i++)
+            room.AddExtraReward(player, new DetoxDeckUpgradeReward(player));
+
         await PowerCmd.Remove(this);
     }
 }

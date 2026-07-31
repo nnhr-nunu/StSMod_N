@@ -190,7 +190,7 @@
   "HYPNOSISCREATOR-NEXT_TURN_ASLEEP_POWER.smartDescription": "В начале вашего следующего хода накладывает [gold]Сон[/gold] [blue]{Amount}[/blue].",
   "HYPNOSISCREATOR-DETOX_POWER.title": "Detox",
   "HYPNOSISCREATOR-DETOX_POWER.description": "At the end of combat, you may [gold]Upgrade[/gold] [blue]1[/blue] card in your deck.",
-  "HYPNOSISCREATOR-DETOX_POWER.smartDescription": "At the end of combat, you may [gold]Upgrade[/gold] [blue]1[/blue] card in your deck.",
+  "HYPNOSISCREATOR-DETOX_POWER.smartDescription": "At the end of combat, you may [gold]Upgrade[/gold] [blue]{Amount}[/blue] card in your deck.",
   "HYPNOSISCREATOR-AGAPE_POWER.title": "Agape",
   "HYPNOSISCREATOR-AGAPE_POWER.description": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Block[/gold].",
   "HYPNOSISCREATOR-AGAPE_POWER.smartDescription": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Block[/gold]."
