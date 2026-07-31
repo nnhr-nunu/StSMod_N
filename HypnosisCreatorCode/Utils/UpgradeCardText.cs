@@ -1,18 +1,132 @@
 using System.Text.RegularExpressions;
-using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// UG説明の差分表示。説明全文の差し替えは禁止（[gold]キーワード／性癖プレフィックスが消える）。
-/// 追加・置換箇所だけ [green] で示す。
+/// UG説明の差分表示。定性差分は <c>cards.json</c> の
+/// <c>.upgradeAppend</c> / <c>.upgradeReplaceFrom</c> / <c>.upgradeReplaceTo</c> を正本とする。
 /// </summary>
 public static class UpgradeCardText
 {
+    private const string LocTable = "cards";
+    private const string UpgradeAppendSuffix = ".upgradeAppend";
+    private const string UpgradeReplaceFromSuffix = ".upgradeReplaceFrom";
+    private const string UpgradeReplaceToSuffix = ".upgradeReplaceTo";
+    private const string UpgradeEnergyMultiplierSuffix = ".upgradeEnergyMultiplier";
+
     public static string Green(string text) => $"[green]{text}[/green]";
+
+    /// <summary>UG説明差分を loc キーから適用する（カードライブラリ表示でも有効）。</summary>
+    public static void ApplyLocalizedUpgrade(CardModel card, ref string description)
+    {
+        if (!card.IsUpgraded) return;
+
+        TryApplyReplace(card, ref description);
+        TryApplyAppend(card, ref description);
+    }
+
+    private static void TryApplyReplace(CardModel card, ref string description)
+    {
+        if (!TryGetCardLocText(card, UpgradeReplaceFromSuffix, out var from))
+            return;
+
+        TryGetCardLocText(card, UpgradeReplaceToSuffix, out var to);
+
+        if (!string.IsNullOrEmpty(to) && description.Contains(to, StringComparison.Ordinal))
+            return;
+
+        if (description.Contains(from, StringComparison.Ordinal))
+        {
+            description = description.Replace(from, to, StringComparison.Ordinal);
+            return;
+        }
+
+        if (card.Id.Entry.EndsWith("SUGGESTION_RELEASE", StringComparison.Ordinal))
+            TryApplySuggestionReleaseEnergyFallback(card, ref description, from, to);
+    }
+
+    private static void TryApplyAppend(CardModel card, ref string description)
+    {
+        if (!TryGetCardLocText(card, UpgradeAppendSuffix, out var plain))
+            return;
+
+        plain = plain.TrimEnd();
+        if (string.IsNullOrWhiteSpace(plain)) return;
+        if (description.Contains(plain, StringComparison.OrdinalIgnoreCase)) return;
+
+        var line = Green(plain);
+        if (description.Contains(line, StringComparison.OrdinalIgnoreCase)) return;
+        description = description.TrimEnd() + "\n" + line;
+    }
+
+    /// <summary>
+    /// 暗示解除+: 英語など energyIcons 展開後は単純置換が効かない場合のフォールバック。
+    /// </summary>
+    private static void TryApplySuggestionReleaseEnergyFallback(
+        CardModel card,
+        ref string description,
+        string from,
+        string to)
+    {
+        if (!card.Id.Entry.EndsWith("SUGGESTION_RELEASE", StringComparison.Ordinal))
+            return;
+
+        if (!string.IsNullOrEmpty(from) && description.Contains(from, StringComparison.Ordinal))
+        {
+            description = description.Replace(from, to, StringComparison.Ordinal);
+            return;
+        }
+
+        if (!TryGetCardLocText(card, UpgradeEnergyMultiplierSuffix, out var multiplier)
+            || string.IsNullOrWhiteSpace(multiplier))
+        {
+            return;
+        }
+
+        if (description.Contains($"[green]{multiplier}[/green]", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        var match = Regex.Match(
+            description,
+            @"Gain (.+?) equal to the amount removed and",
+            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (!match.Success) return;
+
+        var replacement =
+            $"Gain [green]{multiplier}[/green] as much {match.Groups[1].Value} as the amount removed and";
+        description = description[..match.Index]
+                      + replacement
+                      + description[(match.Index + match.Length)..];
+    }
+
+    private static bool TryGetCardLocText(CardModel card, string suffix, out string text)
+    {
+        text = "";
+        var key = card.Id.Entry + suffix;
+        try
+        {
+            text = new LocString(LocTable, key).GetFormattedText() ?? "";
+        }
+        catch
+        {
+            return false;
+        }
+
+        if (IsUnresolvedLoc(key, text))
+        {
+            text = "";
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool IsUnresolvedLoc(string key, string text) =>
+        string.IsNullOrWhiteSpace(text)
+        || string.Equals(text, key, StringComparison.Ordinal)
+        || text.Contains(key, StringComparison.Ordinal);
 
     public static bool IsJapaneseUi()
     {
@@ -28,106 +142,4 @@ public static class UpgradeCardText
         }
     }
 
-    /// <summary>UG時のみ、説明末尾に緑の1行を追加する。</summary>
-    public static void AppendGreenLine(
-        CardModel card,
-        ref string description,
-        Func<CardModel, bool> match,
-        string jpnLine,
-        string engLine)
-    {
-        if (!match(card) || !card.IsUpgraded) return;
-
-        var plain = IsJapaneseUi() ? jpnLine : engLine;
-        if (string.IsNullOrWhiteSpace(plain)) return;
-        if (description.Contains(plain, StringComparison.OrdinalIgnoreCase)) return;
-
-        var line = Green(plain.TrimEnd());
-        if (description.Contains(line, StringComparison.OrdinalIgnoreCase)) return;
-        description = description.TrimEnd() + "\n" + line;
-    }
-
-    /// <summary>
-    /// 暗示解除+: エナジー獲得2倍。CustomizeDescriptionPost は energyIcons 展開後のため、
-    /// プレースホルダ文字列ではなく前後の固定文言で差し替える。
-    /// </summary>
-    public static void ApplySuggestionReleaseEnergyUpgrade(CardModel card, ref string description)
-    {
-        if (card is not SuggestionRelease || !card.IsUpgraded) return;
-
-        if (IsJapaneseUi())
-        {
-            const string upgraded = "その数値の[green]2[/green]倍の";
-            if (description.Contains(upgraded, StringComparison.Ordinal)) return;
-            if (description.Contains("その数値に応じて", StringComparison.Ordinal))
-            {
-                description = description.Replace(
-                    "その数値に応じて",
-                    upgraded,
-                    StringComparison.Ordinal);
-            }
-
-            return;
-        }
-
-        if (description.Contains("[green]twice[/green]", StringComparison.OrdinalIgnoreCase)) return;
-
-        var match = Regex.Match(
-            description,
-            @"Gain (.+?) equal to the amount removed and",
-            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-        if (!match.Success) return;
-
-        var replacement =
-            $"Gain [green]twice[/green] as much {match.Groups[1].Value} as the amount removed and";
-        description = description[..match.Index]
-                      + replacement
-                      + description[(match.Index + match.Length)..];
-    }
-
-    /// <summary>UG時のみ、説明中の文言を置換する（to 側に [green] を含めてよい）。</summary>
-    public static void ReplaceWhenUpgraded(
-        CardModel card,
-        ref string description,
-        Func<CardModel, bool> match,
-        string jpnFrom,
-        string jpnTo,
-        string engFrom,
-        string engTo)
-    {
-        if (!match(card) || !card.IsUpgraded) return;
-
-        if (IsJapaneseUi())
-        {
-            if (!string.IsNullOrEmpty(jpnTo) && description.Contains(jpnTo, StringComparison.Ordinal)) return;
-            if (description.Contains(jpnFrom, StringComparison.Ordinal))
-                description = description.Replace(jpnFrom, jpnTo, StringComparison.Ordinal);
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(engTo) && description.Contains(engTo, StringComparison.OrdinalIgnoreCase)) return;
-        if (description.Contains(engFrom, StringComparison.OrdinalIgnoreCase))
-            description = description.Replace(engFrom, engTo, StringComparison.OrdinalIgnoreCase);
-    }
-
-    // CustomizeDescriptionPost 用の薄いラッパ（Creature 引数を捨てる）
-    public static void AppendGreenLine(
-        CardModel card,
-        Creature? _,
-        ref string description,
-        Func<CardModel, bool> match,
-        string jpnLine,
-        string engLine) =>
-        AppendGreenLine(card, ref description, match, jpnLine, engLine);
-
-    public static void ReplaceWhenUpgraded(
-        CardModel card,
-        Creature? _,
-        ref string description,
-        Func<CardModel, bool> match,
-        string jpnFrom,
-        string jpnTo,
-        string engFrom,
-        string engTo) =>
-        ReplaceWhenUpgraded(card, ref description, match, jpnFrom, jpnTo, engFrom, engTo);
 }
