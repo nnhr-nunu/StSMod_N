@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Saves.Runs;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Rewards;
 
@@ -37,6 +38,14 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
     public override void Populate() { }
 
     public override void MarkContentAsSeen() { }
+
+    /// <summary>カード実体なし（<see cref="SerializableReward.SpecialCard"/> は null）がセーブ上の識別子。</summary>
+    public override SerializableReward ToSerializable()
+    {
+        var save = base.ToSerializable();
+        save.SpecialCard = null;
+        return save;
+    }
 
     private static string RewardIcon => ImageHelper.GetImagePath(RewardIconPath);
 
