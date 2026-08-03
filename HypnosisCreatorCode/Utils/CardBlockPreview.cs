@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -47,7 +48,59 @@ public static class CardBlockPreview
     {
         decimal total = 0m;
         for (var block = startBlock; block >= 0; block--)
-            total += ApplyModifiers(card, block, props, previewMode);
+        {
+            var enchanted = ApplyEnchantmentModifiers(card, block, props);
+            total += ApplyModifiers(card, enchanted, props, previewMode);
+        }
         return total;
+    }
+
+    /// <summary>本家 BlockVar と同様にエンチャントの加算・倍率を反映する。</summary>
+    public static decimal ApplyEnchantmentModifiers(
+        CardModel card,
+        decimal raw,
+        ValueProp props)
+    {
+        var enchant = card.Enchantment;
+        if (enchant == null) return raw;
+
+        try
+        {
+            var additive = enchant.EnchantBlockAdditive(raw);
+            var multiplicative = enchant.EnchantBlockMultiplicative(additive);
+            return Math.Max(multiplicative, 0m);
+        }
+        catch
+        {
+            return raw;
+        }
+    }
+
+    /// <summary>ブロック用。エンチャント付与プレビューでも :diff() が効くようにする。</summary>
+    public static void SetBlockPreviewPair(
+        CardModel card,
+        DynamicVar var,
+        decimal rawBase,
+        decimal preview,
+        ValueProp props)
+    {
+        var enchantedBase = ApplyEnchantmentModifiers(card, rawBase, props);
+
+        if (card.IsEnchantmentPreview)
+        {
+            var.EnchantedValue = rawBase;
+            var.PreviewValue = Math.Max(preview, enchantedBase);
+            return;
+        }
+
+        if (card.Enchantment != null)
+        {
+            var.EnchantedValue = enchantedBase;
+            var.PreviewValue = preview;
+            return;
+        }
+
+        var.EnchantedValue = rawBase;
+        var.PreviewValue = preview;
     }
 }

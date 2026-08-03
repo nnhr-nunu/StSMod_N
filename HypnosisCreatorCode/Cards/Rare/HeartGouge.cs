@@ -77,10 +77,11 @@ public class HeartGouge() : HypnosisCreatorCard(1,
         CardPreviewMode previewMode)
     {
         var raw = card.DynamicVars.Damage.BaseValue;
+        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
         return CardDamagePreview.ApplyAfterSelfVulnerable(
             card,
             target ?? card.CurrentTarget,
-            raw,
+            enchanted,
             card.DynamicVars["VulnerablePower"].BaseValue,
             ValueProp.Move,
             previewMode);

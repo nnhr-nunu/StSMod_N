@@ -30,9 +30,10 @@ public static class TimeStopStrikeDamagePreviewPatch
         if (card is not TimeStopStrike strike) return;
 
         var raw = strike.DynamicVars.Damage.BaseValue;
+        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(strike, raw, ValueProp.Move);
         var preview = TimeStopStrikeDamage.ResolvePreview(
-            strike, target ?? strike.CurrentTarget, raw, previewMode);
-        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+            strike, target ?? strike.CurrentTarget, enchanted, previewMode);
+        CardDamagePreview.SetDamagePreviewPair(strike, __instance, raw, preview, ValueProp.Move);
     }
 }
 
@@ -54,7 +55,7 @@ public static class HeartGougeDamagePreviewPatch
 
         var raw = gouge.DynamicVars.Damage.BaseValue;
         var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode);
-        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+        CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, preview, __instance.Props);
     }
 }
 
@@ -80,7 +81,8 @@ public static class MirroringDamagePreviewPatch
             return;
         }
 
-        CardDamagePreview.SetPreviewPair(__instance, perHit, perHit);
+        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(mirroring, perHit, __instance.Props);
+        CardDamagePreview.SetDamagePreviewPair(mirroring, __instance, perHit, enchanted, __instance.Props);
     }
 }
 
@@ -134,7 +136,7 @@ public static class HarmonyBlockPreviewPatch
         var block = previewTarget != null
             ? EnemyAttackIntents.GetTotalDamage(previewTarget)
             : 0;
-        CardDamagePreview.SetPreviewPair(__instance, block, block);
+        CardBlockPreview.SetBlockPreviewPair(card, __instance, block, block, __instance.Props);
     }
 }
 
@@ -157,8 +159,9 @@ public static class ZeroShortcutFirstBlockPreviewPatch
         if (card is not ZeroShortcut) return;
 
         var raw = ZeroShortcut.StartBlock;
-        var preview = CardBlockPreview.ApplyModifiers(card, raw, ValueProp.Move, previewMode);
-        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+        var enchanted = CardBlockPreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
+        var preview = CardBlockPreview.ApplyModifiers(card, enchanted, ValueProp.Move, previewMode);
+        CardBlockPreview.SetBlockPreviewPair(card, __instance, raw, preview, ValueProp.Move);
     }
 }
 
@@ -181,6 +184,6 @@ public static class ZeroShortcutBlockPreviewPatch
 
         var baseline = ZeroShortcut.BaselineTotalBlock;
         var preview = ZeroShortcut.ComputePreviewTotalBlock(shortcut, previewMode);
-        CardDamagePreview.SetPreviewPair(__instance, baseline, preview);
+        CardBlockPreview.SetBlockPreviewPair(shortcut, __instance, baseline, preview, __instance.Props);
     }
 }

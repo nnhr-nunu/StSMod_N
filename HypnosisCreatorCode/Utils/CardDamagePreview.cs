@@ -86,11 +86,63 @@ public static class CardDamagePreview
     }
 
     /// <summary>
+    /// 本家 <see cref="DamageVar.UpdateCardPreview"/> と同様にエンチャントの加算・倍率を反映する。
+    /// </summary>
+    public static decimal ApplyEnchantmentModifiers(
+        CardModel card,
+        decimal raw,
+        ValueProp props)
+    {
+        var enchant = card.Enchantment;
+        if (enchant == null) return raw;
+
+        try
+        {
+            var additive = enchant.EnchantDamageAdditive(raw, props);
+            var multiplicative = enchant.EnchantDamageMultiplicative(additive, props);
+            return Math.Max(multiplicative, 0m);
+        }
+        catch
+        {
+            return raw;
+        }
+    }
+
+    /// <summary>
     /// Enchanted＝修正前、Preview＝修正後。:diff() の緑表示に使う。
     /// </summary>
     public static void SetPreviewPair(DynamicVar var, decimal raw, decimal preview)
     {
         var.EnchantedValue = raw;
         var.PreviewValue = preview;
+    }
+
+    /// <summary>
+    /// カスタムプレビュー後にエンチャント付与 UI でも差分が出るよう Enchanted / Preview を揃える。
+    /// </summary>
+    public static void SetDamagePreviewPair(
+        CardModel card,
+        DynamicVar var,
+        decimal rawBase,
+        decimal preview,
+        ValueProp props)
+    {
+        var enchantedBase = ApplyEnchantmentModifiers(card, rawBase, props);
+
+        if (card.IsEnchantmentPreview)
+        {
+            var.EnchantedValue = rawBase;
+            var.PreviewValue = Math.Max(preview, enchantedBase);
+            return;
+        }
+
+        if (card.Enchantment != null)
+        {
+            var.EnchantedValue = enchantedBase;
+            var.PreviewValue = preview;
+            return;
+        }
+
+        SetPreviewPair(var, rawBase, preview);
     }
 }
