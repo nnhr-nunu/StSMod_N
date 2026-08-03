@@ -14,7 +14,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// 心臓への渇望 — 保有心臓数×無慈悲25（本家 Cruelty 同値）。UGで残虐2（本家 ViciousPower）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class HeartCraving() : HypnosisCreatorCard(3,
+public class HeartCraving() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
