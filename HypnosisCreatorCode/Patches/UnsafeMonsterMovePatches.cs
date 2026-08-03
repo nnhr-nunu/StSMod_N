@@ -26,6 +26,13 @@ public static class UnsafeMonsterPerformMovePatch
             return false;
         }
 
+        var marshmallow = creature.GetPower<MarshmallowDefendPower>();
+        if (marshmallow is { ShouldReplacePerform: true })
+        {
+            __result = RunMarshmallowReplaceAsync(__instance, marshmallow);
+            return false;
+        }
+
         var sleep = creature.GetPower<ForcedSleepVisualPower>();
         if (sleep is { ShouldSkipPerform: true })
         {
@@ -51,6 +58,13 @@ public static class UnsafeMonsterPerformMovePatch
         UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext: true);
     }
 
+    private static async Task RunMarshmallowReplaceAsync(MonsterModel monster, MarshmallowDefendPower power)
+    {
+        KaiserClubBackgroundSafety.StabilizeArm(monster.Creature);
+        await power.TryReplacePerformAsync();
+        UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext: true);
+    }
+
     private static async Task RunSkipAsync(MonsterModel monster, bool rollNext)
     {
         await Task.CompletedTask;
@@ -68,6 +82,14 @@ public static class UnsafeMonsterPerformIntentPatch
 
         var slime = creature.GetPower<SlimeHypnosisPower>();
         if (slime is { ShouldReplacePerform: true })
+        {
+            UnsafeMonsterMoveCompletion.HideIntentImmediate(__instance);
+            __result = Task.CompletedTask;
+            return false;
+        }
+
+        var marshmallow = creature.GetPower<MarshmallowDefendPower>();
+        if (marshmallow is { ShouldReplacePerform: true })
         {
             UnsafeMonsterMoveCompletion.HideIntentImmediate(__instance);
             __result = Task.CompletedTask;

@@ -68,7 +68,18 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
         if (!EnemyAttackIntents.IntendsToAttack(play.Target)) return;
 
         var block = DynamicVars["Block"].BaseValue;
-        TryOverwriteToDefend(play.Target, block);
+        if (IntentOverwriteUnsafeMonsters.IsUnsafe(play.Target))
+        {
+            await PowerCmd.Apply<MarshmallowDefendPower>(
+                choiceContext, play.Target, block, Owner.Creature, this, silent: true);
+            KaiserClubBackgroundSafety.StabilizeArm(play.Target);
+            await MarshmallowIntentPresentation.TryRefreshAsync(play.Target);
+        }
+        else
+        {
+            TryOverwriteToDefend(play.Target, block);
+        }
+
         await PowerCmd.Apply<BogPower>(
             choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
     }
@@ -76,7 +87,6 @@ public class MarshmallowAnswer() : HypnosisCreatorCard(1,
     private static void TryOverwriteToDefend(Creature enemy, decimal block)
     {
         if (enemy.Monster == null) return;
-        // Crusher / Rocket は SetMoveImmediate が進行不能になりうるため意図上書きしない（沼は付与済み）
         if (IntentOverwriteUnsafeMonsters.IsUnsafe(enemy)) return;
         try
         {
