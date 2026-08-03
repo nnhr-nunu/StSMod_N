@@ -1,6 +1,7 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Ancient;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,6 +12,28 @@ using MegaCrit.Sts2.Core.ValueProps;
 using HarmonyCard = HypnosisCreator.HypnosisCreatorCode.Cards.Basic.Harmony;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
+
+/// <summary>
+/// 心臓えぐり出し — 先付与の弱体と無慈悲を {Damage:diff()} に反映（アーティファクト時は例外）。
+/// </summary>
+[HarmonyPatch(typeof(DamageVar), "UpdateCardPreview")]
+public static class HeartGougeDamagePreviewPatch
+{
+    public static void Postfix(
+        DamageVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target,
+        bool runGlobalHooks)
+    {
+        _ = runGlobalHooks;
+        if (card is not HeartGouge gouge) return;
+
+        var raw = gouge.DynamicVars.Damage.BaseValue;
+        var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode);
+        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+    }
+}
 
 /// <summary>
 /// ミラーリング — 相手の攻撃意図からダメージをプレビューに載せる。

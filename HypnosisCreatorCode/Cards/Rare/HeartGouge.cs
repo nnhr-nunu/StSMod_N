@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
@@ -13,9 +14,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。15ダメージ。廃棄。
-/// リーサルで追加レリック報酬（未UG・UG共通）。
-/// UG追加: ダメージ後も生存かつ破滅が残りHPの50%以上ならとどめ（通常戦闘のみ）＋同報酬。
+/// 心臓えぐり出し — 攻撃・アブノーマル・ハート。コスト1。
+/// 弱体1→15ダメージ。リーサルで追加レリック報酬。廃棄。
+/// UG: 生存かつ破滅≥残りHP50%で破滅とどめ（通常戦闘のみ）＋同報酬。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartGouge() : HypnosisCreatorCard(1,
@@ -26,7 +27,13 @@ public class HeartGouge() : HypnosisCreatorCard(1,
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Abnormal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(15M, ValueProp.Move)];
+    [
+        new PowerVar<VulnerablePower>(1M),
+        new DamageVar(15M, ValueProp.Move)
+    ];
+
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
+        [HoverTipFactory.FromPower<VulnerablePower>()];
 
     protected override bool ShouldGlowWhenConditionMet() =>
         IsUpgraded && GlowIfTargetOrAnyEnemy(CanDoomExecute);
@@ -34,6 +41,14 @@ public class HeartGouge() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext,
+            play.Target,
+            DynamicVars["VulnerablePower"].BaseValue,
+            Owner.Creature,
+            this);
+
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, play)
             .Targeting(play.Target)
@@ -42,12 +57,10 @@ public class HeartGouge() : HypnosisCreatorCard(1,
 
         if (play.Target is { IsAlive: false })
         {
-            // リーサル時は報酬画面の追加レリックへ（解剖・心停止＋と同じ）
             HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
         }
         else if (IsUpgraded && CanDoomExecute(play.Target))
         {
-            // UG: ダメージ後も生存しており、破滅が残りHPの50%以上ならとどめ（通常戦闘のみ）
             HeartCapture.TryAddExtraRelicReward(Owner, play.Target);
             await CreatureCmd.Kill(play.Target);
         }
@@ -55,13 +68,25 @@ public class HeartGouge() : HypnosisCreatorCard(1,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    /// <summary>定性UGのみ（ダメージは15のまま）。</summary>
+    /// <summary>定性UGのみ（ダメージ・弱体は据え置き）。</summary>
     protected override void OnUpgrade() { }
 
-    /// <summary>
-    /// とどめ条件: 通常戦闘（Monster）かつ 破滅×2 ≥ 残りHP。
-    /// エリート／ボスでは発生しない。
-    /// </summary>
+    internal static decimal ComputeDamagePreview(
+        HeartGouge card,
+        Creature? target,
+        CardPreviewMode previewMode)
+    {
+        var raw = card.DynamicVars.Damage.BaseValue;
+        return CardDamagePreview.ApplyAfterSelfVulnerable(
+            card,
+            target ?? card.CurrentTarget,
+            raw,
+            card.DynamicVars["VulnerablePower"].BaseValue,
+            ValueProp.Move,
+            previewMode);
+    }
+
+    /// <summary>とどめ条件: 通常戦闘かつ 破滅×2 ≥ 残りHP。</summary>
     internal static bool CanDoomExecute(Creature target)
     {
         if (!target.IsAlive) return false;
@@ -70,7 +95,6 @@ public class HeartGouge() : HypnosisCreatorCard(1,
         var doom = target.GetPowerAmount<DoomPower>();
         if (doom <= 0) return false;
 
-        // 破滅が残りHPの50%以上 ⇔ doom * 2 >= remainingHp
         return doom * 2 >= target.CurrentHp;
     }
 
