@@ -38,7 +38,7 @@ public class KnifeAndGun() : HypnosisCreatorCard(1,
         }
 
         await ResolveFetishOnTarget(choiceContext, play);
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Abnormal, Owner);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);

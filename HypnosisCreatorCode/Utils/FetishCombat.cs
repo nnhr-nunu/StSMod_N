@@ -72,13 +72,36 @@ public static class FetishCombat
             .ToList();
     }
 
+    public static async Task<bool> AwakenAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        FetishType type,
+        Player owner)
+    {
+        if (!enemy.IsEnemy) return false;
+        if (HasFetish(enemy, type)) return false;
+
+        EnemyFetishSlots.AddCapacity(enemy, 1);
+        var planted = type switch
+        {
+            FetishType.Sm => await EnemyFetishSlots.TryPlantAsync<SmFetishOrb>(choiceContext, enemy, owner),
+            FetishType.DomSub => await EnemyFetishSlots.TryPlantAsync<DsFetishOrb>(choiceContext, enemy, owner),
+            FetishType.Abnormal => await EnemyFetishSlots.TryPlantAsync<AbnormalFetishOrb>(choiceContext, enemy, owner),
+            FetishType.Trance => await EnemyFetishSlots.TryPlantAsync<TranceFetishOrb>(choiceContext, enemy, owner),
+            _ => false
+        };
+        if (planted)
+            MarkAwakenedThisPlay(enemy, type);
+        return planted;
+    }
+
+    [Obsolete("Use AwakenAsync during card play / any synchronized combat action.")]
     public static bool Awaken(Creature enemy, FetishType type, Player owner)
     {
         if (!enemy.IsEnemy) return false;
         if (HasFetish(enemy, type)) return false;
 
         EnemyFetishSlots.AddCapacity(enemy, 1);
-        // TryPlant 内で SyncFetishPowers する
         var planted = type switch
         {
             FetishType.Sm => EnemyFetishSlots.TryPlant<SmFetishOrb>(enemy, owner),
@@ -131,25 +154,35 @@ public static class FetishCombat
 
     /// <summary>
     /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。
-    /// 同期フックから呼ぶ。GetResult 禁止 — 表示パワーの CustomScaledWait でゲームループが止まりフリーズする。
+    /// 戦闘フックからの呼び出しは fire-and-forget。カードプレイ中は <see cref="SyncFetishPowersAsync"/> を await する。
     /// </summary>
     public static void SyncFetishPowers(Creature enemy, Player owner)
     {
         if (!enemy.IsEnemy || owner.Creature == null) return;
-        _ = SyncFetishPowersAsync(enemy, owner);
+        _ = SyncFetishPowersAsync(new ThrowingPlayerChoiceContext(), enemy, owner);
     }
 
-    private static async Task SyncFetishPowersAsync(Creature enemy, Player owner)
+    public static Task SyncFetishPowersAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        Player owner)
+    {
+        if (!enemy.IsEnemy || owner.Creature == null) return Task.CompletedTask;
+        return SyncFetishPowersCoreAsync(choiceContext, enemy, owner);
+    }
+
+    private static async Task SyncFetishPowersCoreAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        Player owner)
     {
         try
         {
             var amount = CalcFetishDoomAmount(enemy, owner.Creature);
-            // 選択は発生しない表示同期。null だと AfterPowerAmountChanged で落ちうる。
-            var ctx = new ThrowingPlayerChoiceContext();
-            await EnsureFetishPowerAsync<SmFetishPower>(ctx, enemy, owner, FetishType.Sm, amount);
-            await EnsureFetishPowerAsync<DsFetishPower>(ctx, enemy, owner, FetishType.DomSub, amount);
-            await EnsureFetishPowerAsync<AbnormalFetishPower>(ctx, enemy, owner, FetishType.Abnormal, amount);
-            await EnsureFetishPowerAsync<TranceFetishPower>(ctx, enemy, owner, FetishType.Trance, amount);
+            await EnsureFetishPowerAsync<SmFetishPower>(choiceContext, enemy, owner, FetishType.Sm, amount);
+            await EnsureFetishPowerAsync<DsFetishPower>(choiceContext, enemy, owner, FetishType.DomSub, amount);
+            await EnsureFetishPowerAsync<AbnormalFetishPower>(choiceContext, enemy, owner, FetishType.Abnormal, amount);
+            await EnsureFetishPowerAsync<TranceFetishPower>(choiceContext, enemy, owner, FetishType.Trance, amount);
         }
         catch (Exception e)
         {
@@ -221,10 +254,21 @@ public static class FetishCombat
         }
     }
 
+    public static async Task AwakenAllAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        Player owner)
+    {
+        foreach (FetishType type in Enum.GetValues<FetishType>())
+            await AwakenAsync(choiceContext, enemy, type, owner);
+    }
+
     public static void AwakenAll(Creature enemy, Player owner)
     {
         foreach (FetishType type in Enum.GetValues<FetishType>())
+#pragma warning disable CS0618
             Awaken(enemy, type, owner);
+#pragma warning restore CS0618
     }
 
     public static int CalcFetishDoomAmount(Creature enemy, Creature? applier = null)

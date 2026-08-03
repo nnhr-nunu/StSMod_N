@@ -26,11 +26,10 @@ public class SporeMindCurse() : PlayableCurseCard(0,
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust];
 
-    protected override Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override async Task PlayCurseEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
-        return Task.CompletedTask;
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Abnormal, Owner);
     }
 
 }

@@ -16,7 +16,7 @@ public class Come() : TrainingCommand
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         await PullTracker.TryPull(play.Target, Owner.Creature, choiceContext, this);
-        FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.DomSub, Owner);
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);
     }

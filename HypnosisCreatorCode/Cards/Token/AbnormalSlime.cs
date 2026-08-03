@@ -25,7 +25,7 @@ public class AbnormalSlime() : PlayableStatusCard(0,
     protected override async Task PlayStatusEffect(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Abnormal, Owner);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 }

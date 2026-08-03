@@ -43,7 +43,7 @@ public class HundredEight() : HypnosisCreatorCard(1,
         // 既存性癖へ刺さり → 目覚め（同プレイで目覚めた性癖は刺さらない）
         await ResolveFetishOnAllEnemies(choiceContext, play);
         foreach (var enemy in CombatState.HittableEnemies.ToList())
-            FetishCombat.AwakenAll(enemy, Owner);
+            await FetishCombat.AwakenAllAsync(choiceContext, enemy, Owner);
 
         if (resolvedCost >= FinalCostThreshold)
         {

@@ -37,7 +37,7 @@ public class TentacleRecall() : HypnosisCreatorCard(0,
 
         await ResolveFetishOnTarget(choiceContext, play);
         if (IsUpgraded)
-            FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
+            await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Abnormal, Owner);
 
         // Single 再付与で Schedule 済みの参照が消えないよう、未所持のときだけ Apply する
         var power = Owner.Creature.GetPower<TentacleRecallPower>();

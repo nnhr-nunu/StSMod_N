@@ -32,8 +32,8 @@ public class Kick() : HypnosisCreatorCard(2,
         // 先に既存性癖への刺さりを解決してから目覚めさせる
         // （目覚め直後に刺さるとアブノーマル敵にも必ず破滅が乗る）
         await ResolveFetishOnTarget(choiceContext, play);
-        FetishCombat.Awaken(play.Target, FetishType.Sm, Owner);
-        FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Sm, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.DomSub, Owner);
 
         EnergyCost.AddThisCombat(-1);
     }

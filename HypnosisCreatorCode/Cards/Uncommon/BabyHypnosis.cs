@@ -45,7 +45,7 @@ public class BabyHypnosis() : HypnosisCreatorCard(3,
         foreach (var power in play.Target.Powers.Where(BuffStripRules.CanStripFromEnemy).ToList())
             await PowerCmd.Remove(power);
 
-        FetishCombat.SyncFetishPowers(play.Target, Owner);
+        await FetishCombat.SyncFetishPowersAsync(choiceContext, play.Target, Owner);
 
         await PowerCmd.Apply<ShrinkPower>(
             choiceContext, play.Target, DynamicVars["ShrinkPower"].BaseValue, self, this);

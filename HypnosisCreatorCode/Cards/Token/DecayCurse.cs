@@ -35,7 +35,7 @@ public class DecayCurse() : PlayableCurseCard(0,
         await CreatureCmd.Damage(
             choiceContext, play.Target, DynamicVars.Damage.BaseValue,
             ValueProp.Unpowered, Owner.Creature, this, play);
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.Abnormal, Owner);
     }
 
 }

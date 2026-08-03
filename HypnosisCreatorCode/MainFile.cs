@@ -3,6 +3,7 @@ using Godot;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Config;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Modding;
 
 namespace HypnosisCreator.HypnosisCreatorCode;
@@ -32,6 +33,8 @@ public partial class MainFile : Node
         Sensitivity3000Description.Register();
 
         ApplyHarmonyPatches();
+        // mod 読込後に INetAction（心臓発動など）を ActionTypes へ登録する。
+        ActionTypes.Initialize();
     }
 
     /// <summary>

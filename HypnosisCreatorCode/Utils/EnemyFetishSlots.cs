@@ -3,6 +3,7 @@ using HypnosisCreator.HypnosisCreatorCode.Orbs;
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
 
@@ -59,7 +60,32 @@ public static class EnemyFetishSlots
     }
 
     /// <summary>空スロットへ性癖を植え付ける。同種は追加しない（mechanics-lock）。</summary>
+    public static async Task<bool> TryPlantAsync<TFetish>(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        Player owner)
+        where TFetish : HypnosisCreatorOrb =>
+        await TryPlantAsync(choiceContext, enemy, ModelDb.Orb<TFetish>(), owner);
+
+    public static async Task<bool> TryPlantAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        OrbModel fetish,
+        Player owner)
+    {
+        if (!TryPlantCore(enemy, fetish, owner)) return false;
+        await FetishCombat.SyncFetishPowersAsync(choiceContext, enemy, owner);
+        return true;
+    }
+
     public static bool TryPlant(Creature enemy, OrbModel fetish, Player owner)
+    {
+        if (!TryPlantCore(enemy, fetish, owner)) return false;
+        FetishCombat.SyncFetishPowers(enemy, owner);
+        return true;
+    }
+
+    private static bool TryPlantCore(Creature enemy, OrbModel fetish, Player owner)
     {
         if (!enemy.IsEnemy) return false;
         if (fetish is not HypnosisCreatorOrb) return false;
@@ -76,7 +102,6 @@ public static class EnemyFetishSlots
         mutable.Owner = owner;
         state.Fetishes.Add(mutable);
         FetishOrbHud.QueueRefresh(enemy, visible: false);
-        FetishCombat.SyncFetishPowers(enemy, owner);
         return true;
     }
 

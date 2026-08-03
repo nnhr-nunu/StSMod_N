@@ -87,7 +87,7 @@ public class Whisper() : HypnosisCreatorCard(0,
         foreach (var card in selected)
         {
             foreach (var fetish in CardFetishLookup.GetFetishes(card))
-                FetishCombat.Awaken(play.Target, fetish, Owner);
+                await FetishCombat.AwakenAsync(choiceContext, play.Target, fetish, Owner);
         }
 
         // UG「必ず性癖に刺さる」はカード属性（Glow／プレビュー）。目覚め直後の同プレイ刺さりはしない。

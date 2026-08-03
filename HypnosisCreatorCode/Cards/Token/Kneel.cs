@@ -27,6 +27,6 @@ public class Kneel() : TrainingCommand
         ArgumentNullException.ThrowIfNull(play.Target);
         await PowerCmd.Apply<BogPower>(
             choiceContext, play.Target, DynamicVars["Bog"].BaseValue, Owner.Creature, this);
-        FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.DomSub, Owner);
     }
 }

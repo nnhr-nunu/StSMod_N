@@ -1,11 +1,12 @@
 using HarmonyLib;
+using HypnosisCreator.HypnosisCreatorCode.GameActions;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Relics;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -51,17 +52,31 @@ public static class HeartRelicActivation
     {
         if (_activating || heart == null || !CanActivateNow(heart, player)) return false;
 
-        _activating = true;
-        _ = ActivateThenUnlock(heart, player!);
-        return true;
+        var run = RunManager.Instance;
+        if (run == null) return false;
+
+        try
+        {
+            var owned = ResolveOwnedHeart(heart, player) ?? heart;
+            var action = new ActivateRareHeartAction(owned);
+            _activating = true;
+            run.ActionQueueSynchronizer.RequestEnqueue(action);
+            _ = WaitForActivationEnd(action, owned);
+            return true;
+        }
+        catch (Exception e)
+        {
+            _activating = false;
+            MainFile.Logger.Warn($"Rare heart enqueue failed: {heart.Id.Entry}: {e}");
+            return false;
+        }
     }
 
-    private static async Task ActivateThenUnlock(EnemyHeartRelic heart, Player player)
+    private static async Task WaitForActivationEnd(ActivateRareHeartAction action, EnemyHeartRelic heart)
     {
         try
         {
-            var ctx = new BlockingPlayerChoiceContext();
-            await heart.ActivateAsync(ctx, player);
+            await action.CompletionTask;
         }
         catch (Exception e)
         {

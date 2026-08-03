@@ -67,7 +67,7 @@ public static class FetishPlantPending
             if (!enemy.IsAlive) continue;
             foreach (var fetish in distinct)
             {
-                if (FetishCombat.Awaken(enemy, fetish, player))
+                if (await FetishCombat.AwakenAsync(choiceContext, enemy, fetish, player))
                     plantedAny = true;
             }
         }

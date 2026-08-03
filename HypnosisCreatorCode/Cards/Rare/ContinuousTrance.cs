@@ -60,7 +60,7 @@ public class ContinuousTrance() : HypnosisCreatorCard(0,
             choiceContext, enemy, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await PowerCmd.Apply<BogPower>(
             choiceContext, enemy, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
-        FetishCombat.Awaken(enemy, FetishType.Trance, Owner);
+        await FetishCombat.AwakenAsync(choiceContext, enemy, FetishType.Trance, Owner);
     }
 
     protected override void OnUpgrade() { }

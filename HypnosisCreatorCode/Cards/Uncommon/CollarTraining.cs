@@ -36,7 +36,7 @@ public class CollarTraining() : HypnosisCreatorCard(0,
         if (alreadyPulled)
         {
             await FetishCombat.ApplyDoom(choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
-            FetishCombat.Awaken(play.Target, FetishType.DomSub, Owner);
+            await FetishCombat.AwakenAsync(choiceContext, play.Target, FetishType.DomSub, Owner);
 
             if (IsUpgraded && CombatState != null)
             {
