@@ -29,7 +29,13 @@ public static class ProselytizeRewards
         Table.GetValue(player, static _ => new GoldState()).Amount += amount;
         MainFile.Logger.Info(
             $"Proselytize gold pending: +{amount} (total {PeekGold(player)}) for {player.Character?.Id.Entry}");
-        SyncGoldPower(player);
+    }
+
+    /// <summary>カードプレイ中は choiceContext を渡して await する（GetResult 禁止）。</summary>
+    public static async Task AddGoldAsync(PlayerChoiceContext choiceContext, Player player, decimal amount)
+    {
+        AddGold(player, amount);
+        await SyncGoldPowerAsync(choiceContext, player);
     }
 
     /// <summary>互換: Creature から Player を解決して加算。</summary>
@@ -51,7 +57,7 @@ public static class ProselytizeRewards
         if (!Table.TryGetValue(player, out var state)) return 0M;
         var amount = state.Amount;
         state.Amount = 0M;
-        SyncGoldPower(player);
+        ScheduleSyncGoldPower(player);
         return amount;
     }
 
@@ -59,14 +65,25 @@ public static class ProselytizeRewards
     public static decimal TakeGold(Creature playerCreature) =>
         playerCreature?.Player is { } player ? TakeGold(player) : 0M;
 
+    /// <summary>同期コンテキスト外（戦闘終了清算など）からの反映。GetResult は使わない。</summary>
+    public static void ScheduleSyncGoldPower(Player player) =>
+        _ = SyncGoldPowerAsync(new ThrowingPlayerChoiceContext(), player);
+
     /// <summary>累計ゴールドをプレイヤーバフアイコンの数字へ反映する。</summary>
-    public static void SyncGoldPower(Player player)
+    public static Task SyncGoldPowerAsync(PlayerChoiceContext choiceContext, Player player)
     {
         var creature = player.Creature;
-        if (creature == null) return;
+        if (creature == null) return Task.CompletedTask;
 
+        return SyncGoldPowerCoreAsync(choiceContext, creature, player);
+    }
+
+    private static async Task SyncGoldPowerCoreAsync(
+        PlayerChoiceContext choiceContext,
+        Creature creature,
+        Player player)
+    {
         var total = (int)Math.Max(0M, PeekGold(player));
-        var ctx = new ThrowingPlayerChoiceContext();
 
         try
         {
@@ -74,22 +91,22 @@ public static class ProselytizeRewards
             {
                 var existing = creature.GetPower<ProselytizeGoldPower>();
                 if (existing != null)
-                    PowerCmd.Remove(existing).GetAwaiter().GetResult();
+                    await PowerCmd.Remove(existing);
                 return;
             }
 
             var power = creature.GetPower<ProselytizeGoldPower>();
             if (power == null)
             {
-                PowerCmd.Apply<ProselytizeGoldPower>(
-                    ctx, creature, total, creature, null, silent: true).GetAwaiter().GetResult();
+                await PowerCmd.Apply<ProselytizeGoldPower>(
+                    choiceContext, creature, total, creature, null, silent: true);
                 return;
             }
 
             var delta = total - (int)power.Amount;
             if (delta == 0) return;
 
-            PowerCmd.ModifyAmount(ctx, power, delta, creature, null, silent: true).GetAwaiter().GetResult();
+            await PowerCmd.ModifyAmount(choiceContext, power, delta, creature, null, silent: true);
         }
         catch (Exception ex)
         {
