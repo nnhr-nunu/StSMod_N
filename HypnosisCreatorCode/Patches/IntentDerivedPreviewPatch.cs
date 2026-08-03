@@ -43,28 +43,32 @@ public static class TimeStopStrikeDamagePreviewPatch
 [HarmonyPatch(typeof(DamageVar), "UpdateCardPreview")]
 public static class HeartGougeDamagePreviewPatch
 {
-    public static void Postfix(
+    /// <summary>
+    /// 本家 DamageVar は runGlobalHooks を見ず常に Hook.ModifyDamage を呼ぶ。
+    /// デッキ一覧等で PreviewValue が 1 になるため、心臓えぐり出しは vanilla を通さない。
+    /// </summary>
+    public static bool Prefix(
         DamageVar __instance,
         CardModel card,
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks)
     {
-        if (card is not HeartGouge gouge) return;
+        if (card is not HeartGouge gouge) return true;
 
         var raw = gouge.DynamicVars.Damage.BaseValue;
         var props = __instance.Props;
 
-        // エンチャント付与プレビューは戦闘フック・先付与弱体より蝕み等の倍率だけ見せる
         if (gouge.IsEnchantmentPreview)
         {
             var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(gouge, raw, props);
             CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, enchanted, props);
-            return;
+            return false;
         }
 
         var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode, runGlobalHooks);
         CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, preview, props);
+        return false;
     }
 }
 
