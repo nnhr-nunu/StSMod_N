@@ -9,6 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// 希少な心臓の右クリック入力（GuiInput・インベントリ _Input・シグナル配線）。
+/// <c>NButton._Input</c> は全画面の未処理入力を拾うためパッチしない（誤発動の原因）。
 /// e631028 の <c>NRelicInventoryHolder._GuiInput</c> / <c>EmitSignalMousePressed</c> パッチは
 /// Harmony 適用失敗でクラス全体が無効化されていたため、ここに集約する。
 /// </summary>
@@ -53,15 +54,4 @@ public static class HeartRelicInputPatch
         return false;
     }
 
-    [HarmonyPatch(typeof(NButton), "_Input")]
-    [HarmonyPrefix]
-    public static bool ButtonInputPrefix(NButton __instance, InputEvent inputEvent)
-    {
-        if (__instance is not NRelicInventoryHolder holder) return true;
-        if (!HeartRelicInput.TryHandle(holder, inputEvent)) return true;
-
-        holder.AcceptEvent();
-        __instance.GetViewport()?.SetInputAsHandled();
-        return false;
-    }
 }

@@ -25,12 +25,10 @@ public static class HeartRelicInspectPatch
     private static readonly AccessTools.FieldRef<NInspectRelicScreen, MegaLabel> RarityLabel =
         AccessTools.FieldRefAccess<NInspectRelicScreen, MegaLabel>("_rarityLabel");
 
-    [HarmonyPatch(typeof(Control), "_GuiInput")]
+    [HarmonyPatch(typeof(NInspectRelicScreen), "_Input")]
     [HarmonyPrefix]
-    public static bool GuiInputPrefix(Control __instance, InputEvent @event)
+    public static bool InputPrefix(NInspectRelicScreen inspectScreen, InputEvent @event)
     {
-        if (__instance is not NInspectRelicScreen inspectScreen) return true;
-
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
             return true;
 

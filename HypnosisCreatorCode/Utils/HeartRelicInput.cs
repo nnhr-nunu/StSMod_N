@@ -39,8 +39,7 @@ internal static class HeartRelicInput
 
         foreach (var holder in inventory.RelicNodes)
         {
-            if (!holder.Visible) continue;
-            if (!holder.GetGlobalRect().HasPoint(pos.Value)) continue;
+            if (!IsPointerOverHolder(holder, pos.Value)) continue;
             if (!TryHandle(holder, @event)) continue;
 
             inventory.GetViewport()?.SetInputAsHandled();
@@ -53,6 +52,8 @@ internal static class HeartRelicInput
     public static bool TryHandle(NRelicInventoryHolder holder, InputEvent @event)
     {
         if (!IsRightPress(@event)) return false;
+        if (@event is InputEventMouse mouse && !IsPointerOverHolder(holder, mouse.GlobalPosition))
+            return false;
 
         if (!HeartRelicActivation.TryBeginFromHolder(holder)) return false;
 
@@ -63,4 +64,7 @@ internal static class HeartRelicInput
 
     private static bool IsRightPress(InputEvent @event) =>
         @event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right };
+
+    private static bool IsPointerOverHolder(NRelicInventoryHolder holder, Vector2 globalPosition) =>
+        holder.Visible && holder.GetGlobalRect().HasPoint(globalPosition);
 }

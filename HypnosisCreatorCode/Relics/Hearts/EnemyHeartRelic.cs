@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
@@ -59,7 +60,19 @@ public abstract class EnemyHeartRelic : HypnosisCreatorRelic
         }
     }
 
-    public bool WasUsed { get; set; }
+    private bool _wasUsed;
+
+    /// <summary>当該層で使用済み。層クリアでリセット。<see cref="MegaCrit.Sts2.Core.Saves.Runs.SavedPropertyAttribute"/> でセーブに永続化。</summary>
+    [SavedProperty]
+    public bool WasUsed
+    {
+        get => _wasUsed;
+        set
+        {
+            AssertMutable();
+            _wasUsed = value;
+        }
+    }
 
     public override bool IsUsedUp => IsRareHeart && WasUsed && !CombatReuseActive;
 
