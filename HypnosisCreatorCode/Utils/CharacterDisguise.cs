@@ -29,14 +29,17 @@ public static class CharacterDisguise
         public required CharacterModel DisguiseCharacter { get; init; }
         public NCreatureVisuals? OriginalVisuals { get; init; }
         public NCreatureVisuals? DisguiseVisuals { get; init; }
+        /// <summary>トランス対象の位置に合わせて Scale.X を反転したとき true。</summary>
+        public bool FlippedForTargetSide { get; init; }
     }
 
-    public static State? Apply(Creature creature, CharacterModel disguiseCharacter)
+    public static State? Apply(Creature creature, CharacterModel disguiseCharacter, Creature? faceTowardTarget = null)
     {
         if (creature is not { IsPlayer: true }) return null;
 
         NCreatureVisuals? original = null;
         NCreatureVisuals? created = null;
+        var flipped = false;
 
         try
         {
@@ -45,6 +48,7 @@ public static class CharacterDisguise
             {
                 original = node.Visuals;
                 created = disguiseCharacter.CreateVisuals();
+                flipped = TryFaceTowardTarget(creature, faceTowardTarget, node, created);
                 SwapVisuals(node, original, created);
                 RefreshAnimator(node, disguiseCharacter);
             }
@@ -58,7 +62,8 @@ public static class CharacterDisguise
         {
             DisguiseCharacter = disguiseCharacter,
             OriginalVisuals = original,
-            DisguiseVisuals = created
+            DisguiseVisuals = created,
+            FlippedForTargetSide = flipped
         };
     }
 
@@ -136,5 +141,63 @@ public static class CharacterDisguise
         {
             MainFile.Logger.Warn($"Character disguise animator refresh failed: {e.Message}");
         }
+    }
+
+    /// <summary>
+    /// 認知シャッフル先の敵へ向くよう見た目の Scale.X を調整する。
+    /// カイザークラブ挟み撃ちは左右爪の配置が特殊なため ID で向きを固定する。
+    /// </summary>
+    private static bool TryFaceTowardTarget(
+        Creature player,
+        Creature? target,
+        NCreature playerNode,
+        NCreatureVisuals disguise)
+    {
+        if (target is not { IsAlive: true, IsEnemy: true }) return false;
+
+        try
+        {
+            if (IntentOverwriteUnsafeMonsters.IsKaiserClubClaw(target))
+            {
+                var id = HeartRegistry.GetMonsterId(target);
+                if (string.Equals(id, "CRUSHER", StringComparison.OrdinalIgnoreCase))
+                    return TrySetFacing(disguise, faceLeft: true);
+                if (string.Equals(id, "ROCKET", StringComparison.OrdinalIgnoreCase))
+                    return TrySetFacing(disguise, faceLeft: false);
+            }
+
+            var targetNode = NCombatRoom.Instance?.GetCreatureNode(target);
+            if (targetNode == null) return false;
+
+            // 画面左の対象 → 左向き（負の Scale.X）、右の対象 → 右向き
+            if (targetNode.GlobalPosition.X < playerNode.GlobalPosition.X - 1f)
+                return TrySetFacing(disguise, faceLeft: true);
+            if (targetNode.GlobalPosition.X > playerNode.GlobalPosition.X + 1f)
+                return TrySetFacing(disguise, faceLeft: false);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Character disguise facing failed: {e.Message}");
+        }
+
+        return false;
+    }
+
+    private static bool TrySetFacing(NCreatureVisuals disguise, bool faceLeft)
+    {
+        var scale = disguise.Scale;
+        var absX = Math.Abs(scale.X);
+        if (absX < 0.001f)
+        {
+            var def = Math.Abs(disguise.DefaultScale);
+            absX = def > 0.001f ? def : 1f;
+        }
+
+        var y = Math.Abs(scale.Y) > 0.001f ? scale.Y : absX;
+        var signedX = faceLeft ? -absX : absX;
+        if (Math.Abs(scale.X - signedX) < 0.001f) return false;
+
+        disguise.Scale = new Vector2(signedX, y);
+        return true;
     }
 }

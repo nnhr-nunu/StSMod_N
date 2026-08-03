@@ -72,7 +72,9 @@ public class CognitiveShufflePower : HypnosisCreatorPower
     public void ApplyDisguise()
     {
         if (Owner == null || _disguiseCharacter == null) return;
-        _disguise = CharacterDisguise.Apply(Owner, _disguiseCharacter);
+        var faceTarget = _tranceTargets.FirstOrDefault(t => t is { IsAlive: true })
+                         ?? _tranceTargets.FirstOrDefault();
+        _disguise = CharacterDisguise.Apply(Owner, _disguiseCharacter, faceTarget);
     }
 
     public override async Task BeforeHandDraw(
