@@ -14,6 +14,29 @@ using HarmonyCard = HypnosisCreator.HypnosisCreatorCode.Cards.Basic.Harmony;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
+/// 時止めストライク — ターン終了ダメージの弱体・感度3000倍等を {Damage:diff()} に反映。
+/// </summary>
+[HarmonyPatch(typeof(DamageVar), "UpdateCardPreview")]
+public static class TimeStopStrikeDamagePreviewPatch
+{
+    public static void Postfix(
+        DamageVar __instance,
+        CardModel card,
+        CardPreviewMode previewMode,
+        Creature? target,
+        bool runGlobalHooks)
+    {
+        _ = runGlobalHooks;
+        if (card is not TimeStopStrike strike) return;
+
+        var raw = strike.DynamicVars.Damage.BaseValue;
+        var preview = TimeStopStrikeDamage.ResolvePreview(
+            strike, target ?? strike.CurrentTarget, raw, previewMode);
+        CardDamagePreview.SetPreviewPair(__instance, raw, preview);
+    }
+}
+
+/// <summary>
 /// 心臓えぐり出し — 先付与の弱体と無慈悲を {Damage:diff()} に反映（アーティファクト時は例外）。
 /// </summary>
 [HarmonyPatch(typeof(DamageVar), "UpdateCardPreview")]

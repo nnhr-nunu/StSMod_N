@@ -41,7 +41,7 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
         GlowIfTargetOrAnyEnemy(TranceCombat.HasTrance);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(6M, ValueProp.Move)];
+        [new DamageVar(7M, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<TimeStopMarkPower>()];

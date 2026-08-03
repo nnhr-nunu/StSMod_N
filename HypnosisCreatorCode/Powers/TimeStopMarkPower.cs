@@ -22,17 +22,30 @@ public class TimeStopMarkPower : HypnosisCreatorPower
         if (side != CombatSide.Player) return;
         if (Owner == null || !Owner.IsAlive) return;
 
-        var dmg = Amount;
+        var stackedBase = Amount;
+        var dealer = TimeStopStrikeDamage.ResolveDealer(Applier, Owner);
+        var combat = Owner.CombatState;
+        var runState = dealer?.Player?.RunState;
         await PowerCmd.Remove(this);
-        if (dmg > 0)
-        {
-            if (Applier?.Player != null
-                && FingerSnapCardRules.IsHypnosisCreatorPlayer(Applier.Player))
-            {
-                VanillaAttackSfx.PlayStrike();
-            }
+        if (stackedBase <= 0 || dealer == null || combat == null || runState == null) return;
 
-            await CreatureCmd.Damage(choiceContext, Owner, dmg, ValueProp.Move, Applier ?? Owner);
+        var dmg = TimeStopStrikeDamage.ResolveTurnEnd(runState, combat, Owner, dealer, stackedBase);
+        if (dmg <= 0) return;
+
+        if (dealer.Player != null
+            && FingerSnapCardRules.IsHypnosisCreatorPlayer(dealer.Player))
+        {
+            VanillaAttackSfx.PlayStrike();
         }
+
+        // 弱体・感度3000倍等は上で反映済み。二重適用を避けるため Unpowered で与える。
+        await CreatureCmd.Damage(
+            choiceContext,
+            Owner,
+            dmg,
+            ValueProp.Unpowered,
+            dealer,
+            null,
+            null);
     }
 }
