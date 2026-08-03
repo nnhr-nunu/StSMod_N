@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "连续打响指",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "对所有对手造成{Damage:diff()}伤害[blue]5[/blue]次。将此行为重复X次。",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "性癖之霸主",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "按对象拥有的性癖数量，造成对应次数的{Damage:diff()}伤害。",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "必定刺中性癖。造成{Damage:diff()}伤害。每拥有一个性癖便重播一次。",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "我全都知道哦",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "刺中性癖时的效果变为[blue]2[/blue]倍。",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "完全掌控",

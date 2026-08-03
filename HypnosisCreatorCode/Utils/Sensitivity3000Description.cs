@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using BaseLib.Patches.Localization;
-using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
@@ -8,8 +7,8 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 感度3000倍 —「必ず性癖に刺さる」等を1文字レインボー表示。
-/// 文言は <c>cards.json</c> の <c>.rainbowPhrase</c> から読み、言語追加時はキーを足すだけ。
+/// 「必ず性癖に刺さる」等を1文字レインボー表示（感度3000倍・性癖の覇者・心酔・囁きUG 等）。
+/// 文言は <c>cards.json</c> の <c>HYPNOSISCREATOR-SENSITIVITY3000.rainbowPhrase</c> から読む。
 /// </summary>
 public static class Sensitivity3000Description
 {
@@ -26,8 +25,8 @@ public static class Sensitivity3000Description
     private static void Apply(CardModel card, Creature? target, ref string description)
     {
         _ = target;
+        _ = card;
         if (CardLibraryUiGuard.IsActive) return;
-        if (card is not Sensitivity3000) return;
 
         var phrase = ResolveRainbowPhrase();
         if (string.IsNullOrEmpty(phrase)) return;

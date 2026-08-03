@@ -24,6 +24,7 @@ public static class DuplicationExtraReplayPatch
         {
             Spanking s => s.DynamicVars["Replays"].IntValue,
             InfiniteUpgradeString i => i.DynamicVars["Replays"].IntValue,
+            FetishChampion => card.BaseReplayCount,
             _ => 0
         };
     }

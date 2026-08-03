@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "연속 손가락 튕기기",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "모든 상대에게 {Damage:diff()} 피해를 [blue]5[/blue]회 입힌다. 이것을 X회 반복한다.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "페티시의 제왕",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "대상이 가진 페티시 수만큼 {Damage:diff()} 피해를 입힌다.",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "반드시 페티시에 적중한다. {Damage:diff()} 피해를 입힌다. 대상이 가진 페티시 수만큼 리플레이한다.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "다 알고 있어",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "페티시를 자극했을 때의 효과가 [blue]2[/blue]배가 된다.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "완전 장악",

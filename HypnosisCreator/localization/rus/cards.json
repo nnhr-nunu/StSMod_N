@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Бесконечные щелчки пальцами",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Нанесите {Damage:diff()} урона всем противникам [blue]5[/blue] раз. Повторите это X раз(а).",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Владыка фетишей",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Нанесите {Damage:diff()} урона за каждый фетиш цели.",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Гарантированно попадает в фетиш. Нанесите {Damage:diff()} урона. Переиграйте по разу за каждый фетиш цели.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "Я всё знаю",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "Эффект от попадания в фетиш удваивается.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "Полный контроль",

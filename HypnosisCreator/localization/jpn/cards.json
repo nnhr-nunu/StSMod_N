@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "連続指パッチン",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "すべての相手に{Damage:diff()}ダメージを[blue]5[/blue]回与える。これをX回行う。",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "性癖の覇者",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "対象の性癖の数だけ{Damage:diff()}ダメージを与える。",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "必ず性癖に刺さる。{Damage:diff()}ダメージを与える。対象の性癖の数だけリプレイする。",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "ぜんぶ知ってるよ",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "性癖を刺した時の効果が[blue]2[/blue]倍になる。",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "完全掌握",

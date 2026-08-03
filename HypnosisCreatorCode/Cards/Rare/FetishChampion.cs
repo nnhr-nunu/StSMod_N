@@ -12,8 +12,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 性癖の覇者 — 対象の性癖数だけ20ダメージを与える（UG25）。
-/// 1ヒットは {Damage:diff()}、回数は戦闘中プレビュー。
+/// 性癖の覇者 — 必ず性癖に刺さる。8ダメージ（UG12）。対象の性癖数だけリプレイ（最低1）。
+/// リプレイ回数は戦闘中プレビュー。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FetishChampion() : HypnosisCreatorCard(3,
@@ -23,20 +23,29 @@ public class FetishChampion() : HypnosisCreatorCard(3,
     public override IReadOnlyList<FetishType> CardFetishes =>
         [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(20M, ValueProp.Move)];
+    public override bool AlwaysHitsFetish => true;
 
-    private static int CalcHitCount(CardModel card, Creature? target) =>
-        target == null ? 0 : FetishCombat.GetFetishes(target).Count;
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DamageVar(8M, ValueProp.Move)];
+
+    internal static int CalcReplayCount(Creature? target) =>
+        target is not { IsAlive: true, IsEnemy: true }
+            ? 0
+            : Math.Max(1, FetishCombat.GetFetishes(target).Count);
+
+    /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
+    internal void PrepareReplay(Creature? target)
+    {
+        var replays = CalcReplayCount(target);
+        if (replays <= 0) return;
+        BaseReplayCount = Math.Max(BaseReplayCount, replays);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var hits = CalcHitCount(this, play.Target);
-        if (hits <= 0) return;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(hits)
             .FromCard(this, play)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
@@ -44,7 +53,7 @@ public class FetishChampion() : HypnosisCreatorCard(3,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5M);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4M);
 
     internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
@@ -52,12 +61,12 @@ public class FetishChampion() : HypnosisCreatorCard(3,
         if (!CombatPreviewText.IsActive(champion)) return;
 
         var previewTarget = target ?? champion.CurrentTarget;
-        var hits = CalcHitCount(champion, previewTarget);
-        if (hits <= 0) return;
+        var replays = CalcReplayCount(previewTarget);
+        if (replays <= 0) return;
 
         var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（攻撃回数：{hits}回）"
-            : $" ({hits} hits)";
+            ? $"（リプレイ{replays}）"
+            : $" (Replay {replays})";
         CombatPreviewText.AppendSuffix(champion, ref description, suffix);
     }
 }

@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Infinite Finger Snap",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Deal {Damage:diff()} damage to ALL opponents [blue]5[/blue] times. Do this X times.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Fetish Champion",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Deal {Damage:diff()} damage once for each fetish the target has.",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Always hits Fetish. Deal {Damage:diff()} damage. Replay once for each fetish the target has.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "I Know It All",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "Effects from Fetish hits are doubled.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "Total Control",

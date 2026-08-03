@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// スパンキング／糸色丁頁 — リプレイ付与は OnPlayWrapper 内の GeneratePlayCount より前に確定させる。
+/// スパンキング／糸色丁頁／性癖の覇者 — リプレイ付与は OnPlayWrapper 内の GeneratePlayCount より前に確定させる。
 /// BeforeCardPlayed では遅い（PlayCount は既に確定済み）。
 /// </summary>
 [HarmonyPatch(typeof(CardModel), "GeneratePlayCount")]
@@ -22,5 +22,7 @@ public static class SpankingReplayGeneratePlayCountPatch
             spanking.PrepareReplay(target);
         else if (__instance is InfiniteUpgradeString infiniteUpgradeString)
             infiniteUpgradeString.PrepareReplay();
+        else if (__instance is FetishChampion fetishChampion)
+            fetishChampion.PrepareReplay(target);
     }
 }

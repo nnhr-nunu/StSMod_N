@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Endloses Fingerschnippen",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Verursache {Damage:diff()} Schaden bei allen Gegnern, [blue]5[/blue]-mal. Wiederhole dies X-mal.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Herrscher der Fetische",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Verursache {Damage:diff()} Schaden für jeden Fetisch des Ziels.",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Trifft garantiert einen Fetisch. Verursache {Damage:diff()} Schaden. Spiele die Karte erneut für jeden Fetisch des Ziels.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "Ich weiß alles",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "Der Effekt eines Fetischtreffers wird verdoppelt.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "Vollständige Kontrolle",

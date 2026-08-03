@@ -103,7 +103,7 @@
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "Chasquidos de dedos infinitos",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.description": "Infligue {Damage:diff()} de daño a todos los enemigos, [blue]5[/blue] veces. Repite esto X veces.",
   "HYPNOSISCREATOR-FETISH_CHAMPION.title": "Soberano de los fetiches",
-  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Infligue {Damage:diff()} de daño por cada fetiche que tenga el objetivo.",
+  "HYPNOSISCREATOR-FETISH_CHAMPION.description": "Acierta el fetiche garantizadamente. Inflige {Damage:diff()} de daño. Rejuega una vez por cada fetiche del objetivo.",
   "HYPNOSISCREATOR-KNOW_IT_ALL.title": "Lo sé todo",
   "HYPNOSISCREATOR-KNOW_IT_ALL.description": "El efecto de acertar un fetiche se duplica.",
   "HYPNOSISCREATOR-TOTAL_CONTROL.title": "Control total",
