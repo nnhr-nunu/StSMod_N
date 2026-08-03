@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
-using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
@@ -16,26 +15,16 @@ public static class PlayerAttackTrackerCardPlayedPatch
 {
     public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay play)
     {
+        _ = combatState;
         _ = choiceContext;
+        // CSV: 「アタックをプレイしていないターン」— 敵に当たったかではなくカード種別で判定
         if (play.Card.Type != CardType.Attack) return;
-        if (!TargetsEnemy(play, combatState)) return;
 
         var player = play.Card.Owner;
         if (player == null) return;
 
         var turn = player.PlayerCombatState?.TurnNumber ?? 0;
         PlayerAttackTracker.RecordAttack(player, turn);
-    }
-
-    private static bool TargetsEnemy(CardPlay play, ICombatState combatState)
-    {
-        if (play.Target is { IsEnemy: true }) return true;
-
-        return play.Card.TargetType switch
-        {
-            TargetType.AllEnemies or TargetType.RandomEnemy => true,
-            _ => false
-        };
     }
 }
 

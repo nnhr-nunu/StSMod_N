@@ -73,10 +73,19 @@ public class VitalPoint() : HypnosisCreatorCard(1,
     internal static void AppendDescriptionSuffix(CardModel card, Creature? target, ref string description)
     {
         if (card is not VitalPoint vital) return;
+        if (!CombatPreviewText.IsActive(vital)) return;
 
         var raw = ComputeDamage(vital);
-        if (raw <= 0) return;
+        if (raw > 0)
+            CombatDamageSuffixPreview.AppendDealDamageSuffix(vital, target, ref description, raw, ValueProp.Move);
 
-        CombatDamageSuffixPreview.AppendDealDamageSuffix(vital, target, ref description, raw, ValueProp.Move);
+        if (vital.Owner == null) return;
+        var gaps = PlayerAttackTracker.CompletedNonAttackTurns(vital.Owner);
+        if (gaps <= 0) return;
+
+        var suffix = UpgradeCardText.IsJapaneseUi()
+            ? $"（未アタック{gaps}ターン）"
+            : $" ({gaps} non-attack turn{(gaps == 1 ? "" : "s")})";
+        CombatPreviewText.AppendSuffix(vital, ref description, suffix);
     }
 }
