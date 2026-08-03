@@ -106,7 +106,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 
             async Task OnPerform(IReadOnlyList<Creature> targets)
             {
-                await ApplySlimeCardsAsync(combat, source, targets, count);
+                // 敵ターン中のプレビュー待ち・Attack 待ちは進行不能の原因になりやすい（カイザー系と同型）
+                await ApplySlimeCardsAsync(combat, source, targets, count, silentPreview: true);
             }
 
             var move = new MoveState(SlimeMoveId, OnPerform, [new StatusIntent(count)]);
@@ -135,8 +136,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     {
         if (count <= 0 || targets.Count == 0) return;
 
-        // Crusher / Rocket は背景一体型。本体 Attack 待ちは進行不能の原因になるので飛ばす。
-        if (!IntentOverwriteUnsafeMonsters.IsUnsafe(source))
+        // 敵ターン差し替え（silentPreview）と不安全敵は Attack 待ちで進行不能になりやすい
+        if (!silentPreview && !IntentOverwriteUnsafeMonsters.IsUnsafe(source))
         {
             try
             {
