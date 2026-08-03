@@ -115,7 +115,7 @@
   "HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.title": "ポリネシアン催眠",
   "HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.description": "相手すべてに[gold]睡眠[/gold]{AsleepPower:diff()}、[gold]沼[/gold]{Bog:diff()}、[gold]トランス[/gold]{Trance:diff()}を付与する。",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS.title": "ASMR催眠",
-  "HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "プレイヤーは「左」「右」に割り振られる。左右交互にプレイするたび、対象に[gold]破滅[/gold]{Doom:diff()}を付与する。",
+  "HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "プレイヤーは「左」「右」にできるだけ均等に割り振られる。左右交互にプレイするたび、対象の敵に[gold]破滅[/gold]{Doom:diff()}を付与する。",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.title": "スライム催眠",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "[blue]1[/blue]ターンの間、相手の存在をランダムなスライムに変化させ、行動を「[gold]粘液[/gold]付与{Slimed:diff()}枚」に上書きする。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.title": "認知シャッフル催眠",

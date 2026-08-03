@@ -26,7 +26,9 @@ public class FetishParty() : HypnosisCreatorCard(1,
         [new CardsVar(2)];
 
     private static bool IsFetishCard(CardModel c) =>
-        c is HypnosisCreatorCard { CardFetishes.Count: > 0 } && c.Rarity != CardRarity.Token;
+        c is HypnosisCreatorCard { CardFetishes.Count: > 0 }
+        && c.Rarity != CardRarity.Token
+        && c.Type is not CardType.Status and not CardType.Curse;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

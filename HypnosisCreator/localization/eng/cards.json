@@ -115,7 +115,7 @@
   "HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.title": "Polynesian Hypnosis",
   "HYPNOSISCREATOR-POLYNESIAN_HYPNOSIS.description": "Apply {AsleepPower:diff()} [gold]Asleep[/gold], {Bog:diff()} [gold]Bog[/gold], and {Trance:diff()} [gold]Trance[/gold] to ALL opponents.",
   "HYPNOSISCREATOR-ASMR_HYPNOSIS.title": "ASMR Hypnosis",
-  "HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "Players are assigned Left/Right. Whenever play alternates sides, apply {Doom:diff()} [gold]Doom[/gold] to the target.",
+  "HYPNOSISCREATOR-ASMR_HYPNOSIS.description": "Players are assigned Left or Right as evenly as possible. Whenever play alternates sides, apply {Doom:diff()} [gold]Doom[/gold] to the targeted enemy.",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.title": "Slime Hypnosis",
   "HYPNOSISCREATOR-SLIME_HYPNOSIS.description": "For [blue]1[/blue] turn, transform the target into a random slime and overwrite their intent to add {Slimed:diff()} [gold]Slimed[/gold]. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-COGNITIVE_SHUFFLE.title": "Cognitive Shuffle",

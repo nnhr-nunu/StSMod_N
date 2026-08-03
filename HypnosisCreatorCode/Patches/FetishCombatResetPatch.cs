@@ -35,6 +35,7 @@ public static class FetishCombatResetPatch
         FetishCombat.CultLeaderActive = false;
         FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
+        AsmrSideRules.Reset();
         PendingDiscardPileCardPreview.Clear();
         if (combatState != null)
         {
