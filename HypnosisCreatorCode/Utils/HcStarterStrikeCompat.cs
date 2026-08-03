@@ -11,6 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// HC は初期デッキに本家ストライクが無い。ランごとにスターター攻撃3種のいずれかを
 /// 「ストライク相当」として扱い、カプセル／ネオーのタリスマン／湿布／ストライクタグ判定を救済する。
+/// パンドラの箱は3枚すべてを基本ストライク扱い。ストライクダミーは時止めストライク等の実タグのみ。
 /// </summary>
 public static class HcStarterStrikeCompat
 {
@@ -68,6 +69,7 @@ public static class HcStarterStrikeCompat
 
     public static bool ShouldInjectStrikeTag(CardModel card) => IsStandInStrike(card);
 
+    /// <summary>パンドラの箱・空の檻など <see cref="CardModel.IsBasicStrikeOrDefend"/> 用。攻撃3枚すべて＋防御。</summary>
     public static bool MatchesBasicStrikeOrDefend(CardModel card)
     {
         if (!HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
@@ -76,6 +78,10 @@ public static class HcStarterStrikeCompat
         if (card.Rarity != CardRarity.Basic)
             return false;
 
-        return IsHcBasicDefend(card) || IsStandInStrike(card);
+        return IsHcBasicDefend(card) || IsHcStarterAttack(card);
     }
+
+    /// <summary>ストライクダミー等、スターター攻撃3枚をストライク扱いしない効果向け。</summary>
+    public static bool IsStrikeDummyExcludedStarter(CardModel? card) =>
+        card != null && IsHcStarterAttack(card);
 }

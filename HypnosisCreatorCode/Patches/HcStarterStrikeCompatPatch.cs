@@ -78,4 +78,16 @@ public static class HcStarterStrikeCompatPatch
                 __result = true;
         }
     }
+
+    /// <summary>スターター攻撃3枚は仮想 Strike を付けてもダミー対象外（時止めストライク等の実タグのみ）。</summary>
+    [HarmonyPatch(typeof(StrikeDummy), "ModifyDamageAdditive")]
+    [HarmonyPatch(typeof(FakeStrikeDummy), "ModifyDamageAdditive")]
+    public static class StrikeDummyExcludeHcStarterPatch
+    {
+        public static void Postfix(CardModel card, ref decimal __result)
+        {
+            if (HcStarterStrikeCompat.IsStrikeDummyExcludedStarter(card))
+                __result = 0M;
+        }
+    }
 }
