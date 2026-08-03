@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 触手の想起 — アブノーマル。締め付け5＋アブノーマル目覚め。次ターン開始時にコピーを手札へ（UGは締め付け9）。
+/// 触手の想起 — アブノーマル。締め付け5。次ターン開始時にコピーを手札へ（UGは締め付け7＋アブノーマル目覚め）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class TentacleRecall() : HypnosisCreatorCard(0,
@@ -36,7 +36,8 @@ public class TentacleRecall() : HypnosisCreatorCard(0,
         VanillaAttackSfx.PlayConstrictCast();
 
         await ResolveFetishOnTarget(choiceContext, play);
-        FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
+        if (IsUpgraded)
+            FetishCombat.Awaken(play.Target, FetishType.Abnormal, Owner);
 
         // Single 再付与で Schedule 済みの参照が消えないよう、未所持のときだけ Apply する
         var power = Owner.Creature.GetPower<TentacleRecallPower>();
@@ -50,5 +51,5 @@ public class TentacleRecall() : HypnosisCreatorCard(0,
         power?.Schedule(this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(4M);
+    protected override void OnUpgrade() => DynamicVars["ConstrictPower"].UpgradeValueBy(2M);
 }

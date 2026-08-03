@@ -310,6 +310,8 @@
   "HYPNOSISCREATOR-ZERO_OUT.upgradeReplaceFrom": "將對手的攻擊值變為[blue]0[/blue]。",
   "HYPNOSISCREATOR-ZERO_OUT.upgradeReplaceTo": "將對手的攻擊值變為[blue]0[/blue]，[green]並將格擋也變為0[/green]。",
   "HYPNOSISCREATOR-HEART_CRAVING.upgradeAppend": "獲得[blue]2[/blue][gold]殘忍[/gold]。",
+  "HYPNOSISCREATOR-TENTACLE_RECALL.upgradeReplaceFrom": "。下個回合",
+  "HYPNOSISCREATOR-TENTACLE_RECALL.upgradeReplaceTo": "並[green]使目標覺醒為異常性癖[/green]。下個回合",
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.upgradeReplaceFrom": "共享給[blue]1[/blue]名同伴玩家。",
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.upgradeReplaceTo": "共享給[green]所有[/green]同伴玩家。",
   "HYPNOSISCREATOR-MARSHMALLOW_ANSWER.upgradeReplaceFrom": "將一張隨機詛咒卡加入[gold]手牌[/gold]。",
