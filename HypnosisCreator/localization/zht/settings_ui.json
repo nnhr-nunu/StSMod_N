@@ -24,15 +24,17 @@
   "HYPNOSISCREATOR-card_zoom.title": "卡牌 縮放",
   "HYPNOSISCREATOR-reset_card_art_defaults.title": "將此區塊還原為預設值",
   "HYPNOSISCREATOR-list_card_ids.title": "輸出卡牌ID清單日誌",
-  "HYPNOSISCREATOR-rest_site.title": "營火（休息處）立繪",
+  "HYPNOSISCREATOR-rest_site_position.title": "營火 — 各座位位置",
   "HYPNOSISCREATOR-rest_site_preview_seat.title": "編輯座位（0=前左 / 1=前右 / 2=後左 / 3=後右）",
-  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "以預覽座位顯示（1=開啟）",
-  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "模擬多人佈局（1=開啟）",
+  "HYPNOSISCREATOR-rest_site_offset_x.title": "左右（px・負值向左）",
+  "HYPNOSISCREATOR-rest_site_offset_y.title": "上下（px・正值向下）",
+  "HYPNOSISCREATOR-reset_rest_site_seat_default.title": "僅還原選中座位為預設",
+  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "還原所有營火位置與預覽",
+  "HYPNOSISCREATOR-rest_site_solo_preview.title": "營火 — 單人多人佈局預覽",
+  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "模擬多人佈局（1=開啟・僅單人）",
   "HYPNOSISCREATOR-rest_site_sim_seat0.title": "座位0角色（0=空 / 1=鐵衣 / 2=靜默 / 3=缺陷 / 4=攝政 / 5=死靈 / 6=催眠創作者）",
   "HYPNOSISCREATOR-rest_site_sim_seat1.title": "座位1角色（0=空 / 1=鐵衣 / 2=靜默 / 3=缺陷 / 4=攝政 / 5=死靈 / 6=催眠創作者）",
   "HYPNOSISCREATOR-rest_site_sim_seat2.title": "座位2角色（0=空 / 1=鐵衣 / 2=靜默 / 3=缺陷 / 4=攝政 / 5=死靈 / 6=催眠創作者）",
   "HYPNOSISCREATOR-rest_site_sim_seat3.title": "座位3角色（0=空 / 1=鐵衣 / 2=靜默 / 3=缺陷 / 4=攝政 / 5=死靈 / 6=催眠創作者）",
-  "HYPNOSISCREATOR-rest_site_offset_x.title": "左右（px）",
-  "HYPNOSISCREATOR-rest_site_offset_y.title": "上下（px・正值向下）",
-  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "將此區塊還原為預設值"
+  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "以預覽座位顯示（1=開啟・僅單人）"
 }

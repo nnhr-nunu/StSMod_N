@@ -24,15 +24,17 @@
   "HYPNOSISCREATOR-card_zoom.title": "카드 확대",
   "HYPNOSISCREATOR-reset_card_art_defaults.title": "이 섹션을 기본값으로 초기화",
   "HYPNOSISCREATOR-list_card_ids.title": "카드 ID 목록 로그 출력",
-  "HYPNOSISCREATOR-rest_site.title": "캠프파이어（휴식처） 일러스트",
+  "HYPNOSISCREATOR-rest_site_position.title": "캠프파이어 — 자리별 위치",
   "HYPNOSISCREATOR-rest_site_preview_seat.title": "편집할 자리（0=앞왼쪽 / 1=앞오른쪽 / 2=뒤왼쪽 / 3=뒤오른쪽）",
-  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "미리보기 자리로 표시（1=켜짐）",
-  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "멀티 배치 시뮬레이션（1=켜짐）",
+  "HYPNOSISCREATOR-rest_site_offset_x.title": "좌우（px・마이너스는 왼쪽）",
+  "HYPNOSISCREATOR-rest_site_offset_y.title": "상하（px・+는 아래로）",
+  "HYPNOSISCREATOR-reset_rest_site_seat_default.title": "선택한 자리만 기본값으로",
+  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "캠프파이어 위치・미리보기 전체 초기화",
+  "HYPNOSISCREATOR-rest_site_solo_preview.title": "캠프파이어 — 솔로 멀티 배치 미리보기",
+  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "멀티 배치 시뮬레이션（1=켜짐・솔로 전용）",
   "HYPNOSISCREATOR-rest_site_sim_seat0.title": "자리0 캐릭터（0=없음 / 1=아이언클래드 / 2=사일런트 / 3=디펙트 / 4=리젠트 / 5=네크로바인더 / 6=히프노 크리에이터）",
   "HYPNOSISCREATOR-rest_site_sim_seat1.title": "자리1 캐릭터（0=없음 / 1=아이언클래드 / 2=사일런트 / 3=디펙트 / 4=리젠트 / 5=네크로바인더 / 6=히프노 크리에이터）",
   "HYPNOSISCREATOR-rest_site_sim_seat2.title": "자리2 캐릭터（0=없음 / 1=아이언클래드 / 2=사일런트 / 3=디펙트 / 4=리젠트 / 5=네크로바인더 / 6=히프노 크리에이터）",
   "HYPNOSISCREATOR-rest_site_sim_seat3.title": "자리3 캐릭터（0=없음 / 1=아이언클래드 / 2=사일런트 / 3=디펙트 / 4=리젠트 / 5=네크로바인더 / 6=히프노 크리에이터）",
-  "HYPNOSISCREATOR-rest_site_offset_x.title": "좌우（px）",
-  "HYPNOSISCREATOR-rest_site_offset_y.title": "상하（px・+는 아래로）",
-  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "이 섹션을 기본값으로 초기화"
+  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "미리보기 자리로 표시（1=켜짐・솔로 전용）"
 }

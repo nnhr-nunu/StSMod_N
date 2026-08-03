@@ -143,16 +143,44 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
         MainFile.Logger.Info("Use _default for all cards without a specific override. Example: cooking_hypnosis");
     }
 
-    // --- 篝火立ち絵（席 0〜3。プレビュー切替でマルチ席の見え方を確認可能） ---
+    // --- 篝火：席ごとの位置（マルチ実戦の焚き火でも即反映） ---
 
-    [ConfigSection("RestSite")]
+    [ConfigSection("RestSitePosition")]
     [ConfigSlider(0, 3, 1, Format = "Seat {0:0}")]
     public static double RestSitePreviewSeat { get; set; } = HypnosisCreatorConfigDefaults.RestSitePreviewSeat;
 
-    /// <summary>1＝休憩所でプレビュー席の配置を表示（ソロでも席1〜3を確認）。</summary>
-    [ConfigSlider(0, 1, 1, Format = "{0:0}")]
-    public static double RestSiteUsePreviewLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteUsePreviewLayout;
+    [ConfigSlider(-1200, 1200, 1, Format = "{0:0}px")]
+    public static double RestSiteOffsetX { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetX;
 
+    [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
+    public static double RestSiteOffsetY { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetY;
+
+    [ConfigHideInUI]
+    public static string RestSiteSeatOffsetsJson { get; set; } = "{}";
+
+    [ConfigButton("ResetRestSiteSeatDefault")]
+    public static void OnResetRestSiteSeatDefault(ModConfig cfg, NConfigOptionRow row)
+    {
+        _ = row;
+        var seat = RestSiteSeatStore.ClampSeat((int)RestSitePreviewSeat);
+        RestSiteSeatStore.RemoveSeat(seat);
+        _lastRestSiteSeat = seat;
+        RestSiteSeatStore.ApplyToSliders(seat);
+        cfg.Changed();
+    }
+
+    [ConfigButton("ResetRestSiteDefaults")]
+    public static void OnResetRestSiteDefaults(ModConfig cfg, NConfigOptionRow row)
+    {
+        _ = row;
+        RestSiteSeatStore.ResetAllDefaults();
+        _lastRestSiteSeat = 0;
+        cfg.Changed();
+    }
+
+    // --- 篝火：ソロでのマルチ配置プレビュー（実マルチの位置は上の「席ごとの位置」で調整） ---
+
+    [ConfigSection("RestSiteSoloPreview")]
     /// <summary>1＝席0〜3にキャラを並べてマルチ配置をシミュレート。</summary>
     [ConfigSlider(0, 1, 1, Format = "{0:0}")]
     public static double RestSiteSimulateMultiLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimulateMultiLayout;
@@ -170,23 +198,9 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
     [ConfigSlider(0, 6, 1, Format = "Seat3 {0:0}")]
     public static double RestSiteSimSeat3 { get; set; } = HypnosisCreatorConfigDefaults.RestSiteSimSeat3;
 
-    [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
-    public static double RestSiteOffsetX { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetX;
-
-    [ConfigSlider(-500, 500, 1, Format = "{0:0}px")]
-    public static double RestSiteOffsetY { get; set; } = HypnosisCreatorConfigDefaults.RestSiteOffsetY;
-
-    [ConfigHideInUI]
-    public static string RestSiteSeatOffsetsJson { get; set; } = "{}";
-
-    [ConfigButton("ResetRestSiteDefaults")]
-    public static void OnResetRestSiteDefaults(ModConfig cfg, NConfigOptionRow row)
-    {
-        _ = row;
-        RestSiteSeatStore.ResetAllDefaults();
-        _lastRestSiteSeat = 0;
-        cfg.Changed();
-    }
+    /// <summary>1＝休憩所でプレビュー席の配置を表示（ソロでも席1〜3を確認）。</summary>
+    [ConfigSlider(0, 1, 1, Format = "{0:0}")]
+    public static double RestSiteUsePreviewLayout { get; set; } = HypnosisCreatorConfigDefaults.RestSiteUsePreviewLayout;
 
     public static Color GetChromaKeyColor() =>
         new((float)ChromaKeyR, (float)ChromaKeyG, (float)ChromaKeyB, 1f);

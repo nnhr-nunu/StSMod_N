@@ -24,15 +24,17 @@
   "HYPNOSISCREATOR-card_zoom.title": "Karte Zoom",
   "HYPNOSISCREATOR-reset_card_art_defaults.title": "Diesen Abschnitt zurücksetzen",
   "HYPNOSISCREATOR-list_card_ids.title": "Kartenliste ins Log ausgeben",
-  "HYPNOSISCREATOR-rest_site.title": "Lagerfeuer (Ruheplatz) Artwork",
+  "HYPNOSISCREATOR-rest_site_position.title": "Lagerfeuer — Position pro Platz",
   "HYPNOSISCREATOR-rest_site_preview_seat.title": "Bearbeiteter Platz (0=vorne-L / 1=vorne-R / 2=hinten-L / 3=hinten-R)",
-  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "Vorschau-Platzlayout anzeigen (1 = An)",
-  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "Mehrspieler-Layout simulieren (1 = An)",
+  "HYPNOSISCREATOR-rest_site_offset_x.title": "Versatz X (px, minus = links)",
+  "HYPNOSISCREATOR-rest_site_offset_y.title": "Versatz Y (px, + = runter)",
+  "HYPNOSISCREATOR-reset_rest_site_seat_default.title": "Ausgewählten Platz auf Standard zurücksetzen",
+  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "Alle Lagerfeuer-Positionen & Vorschau zurücksetzen",
+  "HYPNOSISCREATOR-rest_site_solo_preview.title": "Lagerfeuer — Mehrspieler-Vorschau (Solo)",
+  "HYPNOSISCREATOR-rest_site_simulate_multi_layout.title": "Mehrspieler-Layout simulieren (1 = An, nur Solo)",
   "HYPNOSISCREATOR-rest_site_sim_seat0.title": "Charakter Platz 0 (0=leer / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnose-Erschaffer)",
   "HYPNOSISCREATOR-rest_site_sim_seat1.title": "Charakter Platz 1 (0=leer / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnose-Erschaffer)",
   "HYPNOSISCREATOR-rest_site_sim_seat2.title": "Charakter Platz 2 (0=leer / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnose-Erschaffer)",
   "HYPNOSISCREATOR-rest_site_sim_seat3.title": "Charakter Platz 3 (0=leer / 1=Ironclad / 2=Silent / 3=Defect / 4=Regent / 5=Necrobinder / 6=Hypnose-Erschaffer)",
-  "HYPNOSISCREATOR-rest_site_offset_x.title": "Versatz X (px)",
-  "HYPNOSISCREATOR-rest_site_offset_y.title": "Versatz Y (px, + = runter)",
-  "HYPNOSISCREATOR-reset_rest_site_defaults.title": "Diesen Abschnitt zurücksetzen"
+  "HYPNOSISCREATOR-rest_site_use_preview_layout.title": "Vorschau-Platzlayout anzeigen (1 = An, nur Solo)"
 }
