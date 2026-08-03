@@ -41,7 +41,7 @@ public static class PendingHandCardAddGeneratedDeferPatch
     }
 }
 
-/// <summary>既存カードの手札移動（演出あり）もプレイ中は遅延する。</summary>
+/// <summary>既存カードの手札移動もプレイ中は遅延する（skipVisuals 含む）。</summary>
 [HarmonyPatch(typeof(CardPileCmd), nameof(CardPileCmd.Add),
     typeof(CardModel), typeof(PileType), typeof(CardPilePosition), typeof(AbstractModel), typeof(bool))]
 public static class PendingHandCardAddExistingDeferPatch
@@ -54,7 +54,8 @@ public static class PendingHandCardAddExistingDeferPatch
         bool skipVisuals,
         ref Task<CardPileAddResult> __result)
     {
-        if (newPileType != PileType.Hand || skipVisuals || PendingHandCardAdd.IsFlushing)
+        _ = skipVisuals;
+        if (newPileType != PileType.Hand || PendingHandCardAdd.IsFlushing)
             return true;
 
         var player = card.Owner;

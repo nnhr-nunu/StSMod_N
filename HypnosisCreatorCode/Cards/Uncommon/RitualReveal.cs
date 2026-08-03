@@ -2,7 +2,6 @@ using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Cards;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -28,15 +27,15 @@ public class RitualReveal() : HypnosisCreatorCard(1,
         return draw != null && draw.Cards.Any(CountRules.HasCountKeyword);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
         var combat = Owner.PlayerCombatState;
         var draw = combat?.DrawPile;
-        if (draw == null) return;
+        if (draw == null) return Task.CompletedTask;
 
         var candidates = draw.Cards.Where(CountRules.HasCountKeyword).ToList();
-        if (candidates.Count == 0) return;
+        if (candidates.Count == 0) return Task.CompletedTask;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
         var targetFetishes = FetishCombat.GetFetishes(play.Target).ToHashSet();
@@ -56,8 +55,9 @@ public class RitualReveal() : HypnosisCreatorCard(1,
             remaining.Remove(pick);
         }
 
-        foreach (var card in selected)
-            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top, this, skipVisuals: true);
+        // プレイ中の即時手札移動は飛来演出と競合する。Good! 同様に遅延キューへ（演出なしでも可）。
+        PendingHandCardAdd.EnqueueExisting(selected, Owner, this, CardPilePosition.Top);
+        return Task.CompletedTask;
     }
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
