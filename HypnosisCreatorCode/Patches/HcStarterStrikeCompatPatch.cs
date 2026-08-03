@@ -2,8 +2,11 @@ using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Relics;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
@@ -88,6 +91,35 @@ public static class HcStarterStrikeCompatPatch
         {
             if (HcStarterStrikeCompat.IsStrikeDummyExcludedStarter(card))
                 __result = 0M;
+        }
+    }
+
+    /// <summary>HC ではドロー時オートプレイを時止めストライクのみに限定。</summary>
+    [HarmonyPatch(typeof(HellraiserPower), nameof(HellraiserPower.AfterCardDrawnEarly))]
+    public static class HellraiserDrawPatch
+    {
+        public static bool Prefix(CardModel card, ref Task __result)
+        {
+            if (!HcStarterStrikeCompat.ShouldSuppressHellraiserEffect(card))
+                return true;
+
+            __result = Task.CompletedTask;
+            return false;
+        }
+    }
+
+    /// <summary>HC では手動プレイ時のヘルレイザー演出も時止めストライクのみ。</summary>
+    [HarmonyPatch(typeof(HellraiserPower), nameof(HellraiserPower.BeforeAttack))]
+    public static class HellraiserBeforeAttackPatch
+    {
+        public static bool Prefix(AttackCommand command, ref Task __result)
+        {
+            if (command.ModelSource is not CardModel card
+                || !HcStarterStrikeCompat.ShouldSuppressHellraiserEffect(card))
+                return true;
+
+            __result = Task.CompletedTask;
+            return false;
         }
     }
 }

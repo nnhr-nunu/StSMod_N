@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using HypnosisCreator.HypnosisCreatorCode.Character;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -11,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>
 /// HC は初期デッキに本家ストライクが無い。ランごとにスターター攻撃3種のいずれかを
 /// 「ストライク相当」として扱い、カプセル／ネオーのタリスマン／湿布／ストライクタグ判定を救済する。
-/// パンドラの箱は3枚すべてを基本ストライク扱い。ストライクダミーは時止めストライク等の実タグのみ。
+/// パンドラの箱は3枚すべてを基本ストライク扱い。ストライクダミー／ヘルレイザーは時止めストライク等の実タグのみ。
 /// </summary>
 public static class HcStarterStrikeCompat
 {
@@ -84,4 +85,13 @@ public static class HcStarterStrikeCompat
     /// <summary>ストライクダミー等、スターター攻撃3枚をストライク扱いしない効果向け。</summary>
     public static bool IsStrikeDummyExcludedStarter(CardModel? card) =>
         card != null && IsHcStarterAttack(card);
+
+    /// <summary>HC ではヘルレイザーは時止めストライクのみ発動（仮想 Strike のスターターは対象外）。</summary>
+    public static bool ShouldSuppressHellraiserEffect(CardModel? card)
+    {
+        if (card == null || !HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
+            return false;
+
+        return card is not TimeStopStrike;
+    }
 }
