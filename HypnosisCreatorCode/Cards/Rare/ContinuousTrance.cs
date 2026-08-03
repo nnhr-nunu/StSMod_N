@@ -34,6 +34,9 @@ public class ContinuousTrance() : HypnosisCreatorCard(0,
     internal void PrepareReplay() =>
         BaseReplayCount = Math.Max(BaseReplayCount, 1);
 
+    /// <summary>手札・コレクションの説明文は BaseReplayCount からリプレイ行を自動追記する。</summary>
+    public override void AfterCreated() => PrepareReplay();
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (IsUpgraded && CombatState != null)

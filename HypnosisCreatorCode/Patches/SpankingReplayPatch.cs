@@ -28,3 +28,16 @@ public static class SpankingReplayGeneratePlayCountPatch
             continuousTrance.PrepareReplay();
     }
 }
+
+/// <summary>
+/// 連続トランス — 正本（immutable）カードは BaseReplayCount を書けないが、説明のリプレイ行は GetEnchantedReplayCount から組み立てられる。
+/// </summary>
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.GetEnchantedReplayCount))]
+public static class ContinuousTranceReplayDisplayPatch
+{
+    public static void Postfix(CardModel __instance, ref int __result)
+    {
+        if (__instance is ContinuousTrance)
+            __result = Math.Max(__result, 1);
+    }
+}
