@@ -25,6 +25,13 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
     /// <summary>現在のリダイレクト先。死亡などで無効なら再抽選。</summary>
     public Creature? LockedTarget { get; private set; }
 
+    /// <summary>直近の攻撃着弾先。同一行動内のデバフ付与もここへ向ける。</summary>
+    public Creature? LastAttackRedirectTarget { get; private set; }
+
+    /// <summary>攻撃リダイレクト後にプレイヤーへ向かうデバフの付与先。</summary>
+    public Creature? GetAttackDebuffRedirectTarget() =>
+        LastAttackRedirectTarget is { IsAlive: true } alive ? alive : null;
+
     public override LocString Description
     {
         get
@@ -45,13 +52,16 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
         Creature target, decimal amount, ValueProp props, Creature? dealer)
     {
         if (Owner == null || dealer != Owner || CombatState == null) return target;
-        return ResolveRetarget();
+        var retarget = ResolveRetarget();
+        RememberAttackRedirect(retarget);
+        return retarget;
     }
 
     public override Task BeforeAttack(AttackCommand command)
     {
         if (Owner == null || command.Attacker != Owner) return Task.CompletedTask;
         var retarget = ResolveRetarget();
+        RememberAttackRedirect(retarget);
         try
         {
             SingleTargetField?.SetValue(command, retarget);
@@ -74,6 +84,12 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
         if (side != Owner.Side) return;
         if (!participants.Contains(Owner)) return;
         await PowerCmd.Remove(this);
+    }
+
+    private void RememberAttackRedirect(Creature retarget)
+    {
+        if (retarget is { IsAlive: true })
+            LastAttackRedirectTarget = retarget;
     }
 
     private Creature ResolveRetarget()
