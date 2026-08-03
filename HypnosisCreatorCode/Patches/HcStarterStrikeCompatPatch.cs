@@ -4,10 +4,12 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
@@ -87,10 +89,23 @@ public static class HcStarterStrikeCompatPatch
     [HarmonyPatch(typeof(FakeStrikeDummy), "ModifyDamageAdditive")]
     public static class StrikeDummyExcludeHcStarterPatch
     {
-        public static void Postfix(CardModel card, ref decimal __result)
+        public static void Postfix(
+            Creature? target,
+            decimal amount,
+            ValueProp props,
+            Creature? dealer,
+            CardModel? cardSource,
+            CardPlay? cardPlay,
+            ref decimal __result)
         {
-            if (HcStarterStrikeCompat.IsStrikeDummyExcludedStarter(card))
-                __result = 0M;
+            _ = target;
+            _ = amount;
+            _ = props;
+            _ = dealer;
+            _ = cardPlay;
+            if (cardSource == null || !HcStarterStrikeCompat.IsStrikeDummyExcludedStarter(cardSource))
+                return;
+            __result = 0M;
         }
     }
 

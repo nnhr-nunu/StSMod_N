@@ -36,18 +36,18 @@ public static class HeartRelicInputPatch
 
     [HarmonyPatch(typeof(NRelicInventory), "_Input")]
     [HarmonyPrefix]
-    public static bool InventoryInputPrefix(NRelicInventory __instance, InputEvent @event)
+    public static bool InventoryInputPrefix(NRelicInventory __instance, InputEvent inputEvent)
     {
-        if (!HeartRelicInput.TryHandleInventoryInput(__instance, @event)) return true;
+        if (!HeartRelicInput.TryHandleInventoryInput(__instance, inputEvent)) return true;
         return false;
     }
 
     [HarmonyPatch(typeof(NClickableControl), "_GuiInput")]
     [HarmonyPrefix]
-    public static bool ClickableGuiInputPrefix(NClickableControl __instance, InputEvent @event)
+    public static bool ClickableGuiInputPrefix(NClickableControl __instance, InputEvent inputEvent)
     {
         if (__instance is not NRelicInventoryHolder holder) return true;
-        if (!HeartRelicInput.TryHandle(holder, @event)) return true;
+        if (!HeartRelicInput.TryHandle(holder, inputEvent)) return true;
 
         holder.AcceptEvent();
         return false;
@@ -55,10 +55,10 @@ public static class HeartRelicInputPatch
 
     [HarmonyPatch(typeof(NButton), "_Input")]
     [HarmonyPrefix]
-    public static bool ButtonInputPrefix(NButton __instance, InputEvent @event)
+    public static bool ButtonInputPrefix(NButton __instance, InputEvent inputEvent)
     {
         if (__instance is not NRelicInventoryHolder holder) return true;
-        if (!HeartRelicInput.TryHandle(holder, @event)) return true;
+        if (!HeartRelicInput.TryHandle(holder, inputEvent)) return true;
 
         holder.AcceptEvent();
         __instance.GetViewport()?.SetInputAsHandled();

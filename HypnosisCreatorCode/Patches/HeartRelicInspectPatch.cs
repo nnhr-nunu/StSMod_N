@@ -25,17 +25,19 @@ public static class HeartRelicInspectPatch
     private static readonly AccessTools.FieldRef<NInspectRelicScreen, MegaLabel> RarityLabel =
         AccessTools.FieldRefAccess<NInspectRelicScreen, MegaLabel>("_rarityLabel");
 
-    [HarmonyPatch(typeof(NInspectRelicScreen), "_GuiInput")]
+    [HarmonyPatch(typeof(Control), "_GuiInput")]
     [HarmonyPrefix]
-    public static bool GuiInputPrefix(NInspectRelicScreen __instance, InputEvent @event)
+    public static bool GuiInputPrefix(Control __instance, InputEvent @event)
     {
+        if (__instance is not NInspectRelicScreen inspectScreen) return true;
+
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
             return true;
 
         if (CombatManager.Instance is not { IsInProgress: true }) return true;
 
-        var relics = Relics(__instance);
-        var index = Index(__instance);
+        var relics = Relics(inspectScreen);
+        var index = Index(inspectScreen);
         if (relics == null || index < 0 || index >= relics.Count) return true;
 
         var model = relics[index];
@@ -43,7 +45,7 @@ public static class HeartRelicInspectPatch
 
         if (!HeartRelicActivation.TryBeginFromModel(heart, heart.Owner)) return true;
 
-        __instance.AcceptEvent();
+        inspectScreen.AcceptEvent();
         return false;
     }
 

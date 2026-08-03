@@ -15,6 +15,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CardDamagePreview
 {
+    /// <summary>本家 VulnerablePower の1スタックあたりの被ダメージ倍率加算（50%）。</summary>
+    private const decimal VulnerableMultiplierPerStack = 0.5m;
+
     public static decimal ApplyModifiers(
         CardModel card,
         Creature? target,
@@ -53,6 +56,7 @@ public static class CardDamagePreview
     /// <summary>
     /// 自カードが先に弱体などを付与してから与えるダメージのプレビュー。
     /// 対象に <see cref="ArtifactPower"/> があるときはデバフが防がれるため、現状の補正のみ。
+    /// プレビュー中に PowerCmd を同期待ちしない（ドラッグ中のフリーズ防止）。
     /// </summary>
     public static decimal ApplyAfterSelfVulnerable(
         CardModel card,
@@ -65,82 +69,20 @@ public static class CardDamagePreview
         if (vulnerableToApply <= 0)
             return ApplyModifiers(card, target, raw, props, previewMode);
 
-        var owner = card.Owner;
-        if (owner?.Creature == null)
-            return ApplyModifiers(card, target, raw, props, previewMode);
-
         if (target is not { IsAlive: true, IsEnemy: true })
             return ApplyModifiers(card, target, raw, props, previewMode);
 
         if (target.GetPowerAmount<ArtifactPower>() > 0)
             return ApplyModifiers(card, target, raw, props, previewMode);
 
-        var vuln = target.GetPower<VulnerablePower>();
-        var hadVuln = vuln != null;
-        var createdTemp = false;
+        var atCurrent = ApplyModifiers(card, target, raw, props, previewMode);
+        var currentVuln = target.GetPowerAmount<VulnerablePower>();
+        var oldMult = 1m + VulnerableMultiplierPerStack * currentVuln;
+        var newMult = 1m + VulnerableMultiplierPerStack * (currentVuln + vulnerableToApply);
+        if (oldMult <= 0m) return atCurrent;
 
-        try
-        {
-            if (hadVuln)
-            {
-                PowerCmd.ModifyAmount(
-                    new ThrowingPlayerChoiceContext(),
-                    vuln!,
-                    vulnerableToApply,
-                    owner.Creature,
-                    card,
-                    silent: true).GetAwaiter().GetResult();
-            }
-            else
-            {
-                PowerCmd.Apply<VulnerablePower>(
-                    new ThrowingPlayerChoiceContext(),
-                    target,
-                    vulnerableToApply,
-                    owner.Creature,
-                    card,
-                    silent: true).GetAwaiter().GetResult();
-                createdTemp = true;
-            }
-
-            return ApplyModifiers(card, target, raw, props, previewMode);
-        }
-        catch
-        {
-            return raw;
-        }
-        finally
-        {
-            try
-            {
-                if (createdTemp)
-                {
-                    var temp = target.GetPower<VulnerablePower>();
-                    if (temp != null)
-                        PowerCmd.ModifyAmount(
-                            new ThrowingPlayerChoiceContext(),
-                            temp,
-                            -vulnerableToApply,
-                            owner.Creature,
-                            card,
-                            silent: true).GetAwaiter().GetResult();
-                }
-                else if (hadVuln && vuln != null)
-                {
-                    PowerCmd.ModifyAmount(
-                        new ThrowingPlayerChoiceContext(),
-                        vuln,
-                        -vulnerableToApply,
-                        owner.Creature,
-                        card,
-                        silent: true).GetAwaiter().GetResult();
-                }
-            }
-            catch
-            {
-                // プレビュー復元失敗は戦闘実効に影響しない
-            }
-        }
+        var preview = atCurrent * newMult / oldMult;
+        return CombatPreviewText.RoundDisplayAmount(preview);
     }
 
     /// <summary>

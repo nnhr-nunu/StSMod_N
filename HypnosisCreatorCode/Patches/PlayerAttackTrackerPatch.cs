@@ -13,14 +13,14 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class PlayerAttackTrackerCardPlayedPatch
 {
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay play)
+    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = combatState;
         _ = choiceContext;
         // CSV: 「アタックをプレイしていないターン」— 敵に当たったかではなくカード種別で判定
-        if (play.Card.Type != CardType.Attack) return;
+        if (cardPlay.Card.Type != CardType.Attack) return;
 
-        var player = play.Card.Owner;
+        var player = cardPlay.Card.Owner;
         if (player == null) return;
 
         var turn = player.PlayerCombatState?.TurnNumber ?? 0;

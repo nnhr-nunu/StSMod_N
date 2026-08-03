@@ -22,14 +22,14 @@ public static class PersonalHiveCardAddPreviewPatch
         PersonalHivePower __instance,
         PlayerChoiceContext choiceContext,
         Creature target,
-        DamageResult result,
+        [HarmonyArgument("_")] DamageResult damageResult,
         ValueProp props,
-        Creature? dealer,
+        Creature dealer,
         CardModel? cardSource,
         ref Task __result)
     {
         _ = choiceContext;
-        _ = result;
+        _ = damageResult;
         _ = cardSource;
         __result = ApplyAsync(__instance, target, props, dealer, cardSource);
         return false;

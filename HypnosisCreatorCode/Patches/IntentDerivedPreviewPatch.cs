@@ -86,12 +86,13 @@ public static class MirroringDamagePreviewPatch
 
 /// <summary>
 /// ミラーリング — 相手の攻撃意図から連撃数をプレビューに載せる。
+/// RepeatVar は UpdateCardPreview を継承しないため DynamicVar をパッチする。
 /// </summary>
-[HarmonyPatch(typeof(RepeatVar), "UpdateCardPreview")]
+[HarmonyPatch(typeof(DynamicVar), nameof(DynamicVar.UpdateCardPreview))]
 public static class MirroringRepeatPreviewPatch
 {
     public static void Postfix(
-        RepeatVar __instance,
+        DynamicVar __instance,
         CardModel card,
         CardPreviewMode previewMode,
         Creature? target,
@@ -99,6 +100,7 @@ public static class MirroringRepeatPreviewPatch
     {
         _ = previewMode;
         _ = runGlobalHooks;
+        if (__instance is not RepeatVar) return;
         if (card is not Mirroring mirroring) return;
 
         if (!Mirroring.TryGetIntentAttack(mirroring, target, out _, out var hits))

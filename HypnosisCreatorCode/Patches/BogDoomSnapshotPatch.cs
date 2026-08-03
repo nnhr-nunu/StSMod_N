@@ -15,9 +15,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCardPlayed))]
 public static class BogDoomSnapshotBeforePatch
 {
-    public static void Prefix(ICombatState combatState, CardPlay play)
+    public static void Prefix(ICombatState combatState, CardPlay cardPlay)
     {
-        _ = play;
+        _ = cardPlay;
         FetishCombat.PushBogSnapshot(combatState);
         FetishCombat.PushAwakenPlayScope();
     }
@@ -32,11 +32,11 @@ public static class BogDoomSnapshotAfterPatch
 {
     /// <summary>他の AfterCardPlayed より先に外し、カード付与後の沼を反応側へ見せる。</summary>
     [HarmonyPriority(Priority.First)]
-    public static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay play)
+    public static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = combatState;
         _ = choiceContext;
-        _ = play;
+        _ = cardPlay;
         FetishCombat.PopBogSnapshot();
     }
 }
@@ -48,11 +48,11 @@ public static class BogDoomSnapshotAfterPatch
 public static class AwakenPlayScopeAfterPatch
 {
     [HarmonyPriority(Priority.Last)]
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay play)
+    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = combatState;
         _ = choiceContext;
-        _ = play;
+        _ = cardPlay;
         FetishCombat.PopAwakenPlayScope();
     }
 }

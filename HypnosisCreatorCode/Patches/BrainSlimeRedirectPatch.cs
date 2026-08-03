@@ -15,40 +15,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 public static class BrainSlimeRedirectPowerModelApplyPatch
 {
     private static MethodBase TargetMethod() =>
-        AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
+        AccessTools.DeclaredMethod(typeof(PowerCmd), nameof(PowerCmd.Apply),
         [
             typeof(PlayerChoiceContext), typeof(PowerModel), typeof(Creature),
             typeof(decimal), typeof(Creature), typeof(CardModel), typeof(bool)
-        ]);
+        ])!;
 
     public static void Prefix(Creature? applier, ref Creature target) =>
         BrainSlimeRedirectRules.TryRetarget(applier, ref target);
-}
-
-[HarmonyPatch]
-public static class BrainSlimeRedirectGenericApplyPatch
-{
-    private static MethodBase TargetMethod() =>
-        AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
-        [
-            typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal),
-            typeof(Creature), typeof(CardModel), typeof(bool)
-        ]);
-
-    public static void Prefix(Creature? applier, ref Creature target) =>
-        BrainSlimeRedirectRules.TryRetarget(applier, ref target);
-}
-
-[HarmonyPatch]
-public static class BrainSlimeRedirectMultiApplyPatch
-{
-    private static MethodBase TargetMethod() =>
-        AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
-        [
-            typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal),
-            typeof(Creature), typeof(CardModel), typeof(bool)
-        ]);
-
-    public static void Prefix(Creature? applier, ref IEnumerable<Creature> targets) =>
-        BrainSlimeRedirectRules.TryRetargetAll(applier, ref targets);
 }
