@@ -118,9 +118,11 @@ public static class CognitiveShuffleCompletion
             CognitiveShufflePowerUi.RefreshRowIcon(shufflePower);
         }
 
-        await ApplyFormPowerAsync(choiceContext, cardSource, self, pending.FormType, shufflePower);
-
+        // 見た目差し替えを形態パワーより先に行う。後だと Form Vfx が元キャラ Visuals に付き、
+        // 変身中は非表示・復帰後にだけエフェクトが見える（本家の大蛇化／悪魔化／反響化等）。
         shufflePower?.ApplyDisguise();
+
+        await ApplyFormPowerAsync(choiceContext, cardSource, self, pending.FormType, shufflePower);
     }
 
     private static async Task ApplyFormPowerAsync(

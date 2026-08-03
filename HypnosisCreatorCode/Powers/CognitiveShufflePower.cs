@@ -167,10 +167,10 @@ public class CognitiveShufflePower : HypnosisCreatorPower
 
     public override async Task AfterRemoved(Creature oldOwner)
     {
+        await RemoveGrantedFormsAsync();
         CharacterDisguise.Restore(oldOwner, _disguise);
         _disguise = null;
         _tranceTargets.Clear();
-        _grantedForms.Clear();
         await base.AfterRemoved(oldOwner);
     }
 
@@ -187,10 +187,11 @@ public class CognitiveShufflePower : HypnosisCreatorPower
 
         try
         {
+            // 形態 Vfx は差し替え Visuals に付くため、見た目復帰より先にパワー解除する。
+            await RemoveGrantedFormsAsync();
             CharacterDisguise.Restore(Owner, _disguise);
             _disguise = null;
             _tranceTargets.Clear();
-            await RemoveGrantedFormsAsync();
             await PowerCmd.Remove(this);
         }
         finally
