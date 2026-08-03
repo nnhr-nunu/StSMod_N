@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "アブノーマル",
   "HYPNOSISCREATOR-ABNORMAL.description": "アブノーマル性癖を持つ相手にこのカードをプレイした時、最大HPに応じた破滅を付与する。",
   "HYPNOSISCREATOR-TRANCE.title": "トランス性癖",
-  "HYPNOSISCREATOR-TRANCE.description": "トランス性癖を持つ相手にトランスを付与するたび、破滅を付与する（量は最大HPの4%+6。沼があると1.5倍）。",
+  "HYPNOSISCREATOR-TRANCE.description": "トランス性癖を持つ相手にトランスを付与するたび、破滅を付与する（量は最大HPの3%+8。沼があると1.5倍）。",
   "HYPNOSISCREATOR-TRANCESTATE.title": "トランス",
   "HYPNOSISCREATOR-TRANCESTATE.description": "コストが0ではない[gold]カウント[/gold]カードが使用できるようになる。プレイヤーのターン開始時に[blue]1[/blue]減少する。",
   "HYPNOSISCREATOR-DOOM.title": "破滅",

@@ -15,8 +15,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>性癖刺さり・目覚め・破滅付与。仕様は mechanics-lock.md。</summary>
 public static class FetishCombat
 {
-    public const decimal FetishDoomHpPercent = 0.04M;
-    public const int FetishDoomFlat = 6;
+    public const decimal FetishDoomHpPercent = 0.03M;
+    public const int FetishDoomFlat = 8;
     public const decimal BogDoomMultiplier = 1.5M;
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
     public const decimal FetishAbyssDoomMultiplier = 1.5M;
