@@ -1,17 +1,18 @@
+using System.Collections.Generic;
 using System.Reflection;
+using Godot;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Multiplayer.Messages.Game.Flavor;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// マルチのターン終了ピン押下時、ヒプノクリエイターなら指パッチン SE を鳴らす。
-/// 送信側は毎回（連打可）。受信側はネットメッセージ到着時に同期再生（みんなで演奏）。
-/// セリフは characters.json の endTurnPing（本家 FlavorSynchronizer）。
+/// ヒプノクリエイターのターン終了ピン — 指パッチン SE を連打で全員に同期。
+/// EndTurnPingMessage を毎押下で配信し、吹き出しだけ本家同様 1 秒に 1 回に制限する。
 /// </summary>
 [HarmonyPatch(typeof(FlavorSynchronizer), nameof(FlavorSynchronizer.SendEndTurnPing))]
 public static class EndTurnPingFingerSnapSendPatch
@@ -19,14 +20,41 @@ public static class EndTurnPingFingerSnapSendPatch
     private static readonly PropertyInfo? LocalPlayerProperty =
         AccessTools.Property(typeof(FlavorSynchronizer), "LocalPlayer");
 
-    public static void Prefix(FlavorSynchronizer __instance)
+    private static readonly FieldInfo? GameServiceField =
+        AccessTools.Field(typeof(FlavorSynchronizer), "_gameService");
+
+    private static readonly FieldInfo? NextAllowedPingTimeField =
+        AccessTools.Field(typeof(FlavorSynchronizer), "_nextAllowedPingTime");
+
+    private static readonly MethodInfo? CreateDialogueMethod =
+        AccessTools.Method(typeof(FlavorSynchronizer), "CreateEndTurnPingDialogueIfNecessary");
+
+    public static bool Prefix(FlavorSynchronizer __instance)
     {
-        if (LocalPlayerProperty == null) return;
+        if (LocalPlayerProperty == null) return true;
 
         var localPlayer = LocalPlayerProperty.GetValue(__instance) as Player;
-        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(localPlayer)) return;
+        if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(localPlayer))
+            return true;
 
         FingerSnapSfx.PlayNormal();
+
+        var gameService = GameServiceField?.GetValue(__instance) as INetGameService;
+        if (gameService is { IsConnected: true })
+            gameService.SendMessage(default(EndTurnPingMessage));
+
+        var now = (long)Time.GetTicksMsec();
+        if (NextAllowedPingTimeField != null && CreateDialogueMethod != null)
+        {
+            var nextAllowed = (long)NextAllowedPingTimeField.GetValue(__instance)!;
+            if (now >= nextAllowed)
+            {
+                NextAllowedPingTimeField.SetValue(__instance, now + 1000);
+                CreateDialogueMethod.Invoke(__instance, [localPlayer]);
+            }
+        }
+
+        return false;
     }
 }
 
@@ -60,5 +88,27 @@ public static class EndTurnPingFingerSnapReceivePatch
         if (!FingerSnapCardRules.IsHypnosisCreatorPlayer(sender)) return;
 
         FingerSnapSfx.PlayNormal();
+    }
+}
+
+/// <summary>
+/// 連打配信時に吹き出しだけプレイヤーごと 1 秒に 1 回へ制限（SE は毎回）。
+/// </summary>
+[HarmonyPatch(typeof(FlavorSynchronizer), "CreateEndTurnPingDialogueIfNecessary")]
+public static class EndTurnPingDialogueDebouncePatch
+{
+    private const long DebounceMsec = 1000;
+
+    private static readonly Dictionary<ulong, long> LastDialogueMsecByNetId = new();
+
+    public static bool Prefix(Player player)
+    {
+        var netId = player.NetId;
+        var now = (long)Time.GetTicksMsec();
+        if (LastDialogueMsecByNetId.TryGetValue(netId, out var last) && now - last < DebounceMsec)
+            return false;
+
+        LastDialogueMsecByNetId[netId] = now;
+        return true;
     }
 }
