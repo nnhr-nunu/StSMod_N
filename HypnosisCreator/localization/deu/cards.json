@@ -167,7 +167,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "Erinnerung der Tentakel",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Verursache [gold]Umklammerung[/gold] {ConstrictPower:diff()} und wecke Abnormal. Lege nächste Runde eine Kopie dieser Karte in die [gold]Hand[/gold].",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "Faden endloser Verbesserung",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "Das Ziel verliert {LoseHp:diff()} KP. [gold]Trance[/gold] {Trance:diff()}. Diese Karte kann beliebig oft verbessert werden.",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "Das Ziel verliert {LoseHp:diff()} KP. Verursache [gold]Trance[/gold] {Trance:diff()} und [gold]Verwundbar[/gold] {VulnerablePower:diff()}. Diese Karte kann beliebig oft verbessert werden.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Trainingsbefehl",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Lege {Cards:diff()} zufällige DomSub-Befehlskarten in die [gold]Hand[/gold].",
   "HYPNOSISCREATOR-AUTOPSY.title": "Autopsie",

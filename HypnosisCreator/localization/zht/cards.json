@@ -167,7 +167,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "觸手的回想",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "賦予[gold]束縛[/gold]{ConstrictPower:diff()}。下個回合，將此卡的複製加入[gold]手牌[/gold]。",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "無窮升級繩",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "對象失去HP{LoseHp:diff()}。[gold]恍惚[/gold]{Trance:diff()}。此卡可以無限次升級。",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "對象失去HP{LoseHp:diff()}。賦予[gold]恍惚[/gold]{Trance:diff()}和[gold]弱體[/gold]{VulnerablePower:diff()}。此卡可以無限次升級。",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "調教指令",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "將隨機的{Cards:diff()}張DomSub指令卡加入[gold]手牌[/gold]。",
   "HYPNOSISCREATOR-AUTOPSY.title": "解剖",

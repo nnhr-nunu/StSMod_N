@@ -167,7 +167,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "촉수의 회상",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "[gold]속박[/gold]{ConstrictPower:diff()}을 부여하고 어블노멀을 각성시킨다. 다음 턴, 이 카드의 복사본을 [gold]손[/gold]에 추가한다.",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "무한 강화의 실",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "대상은 체력{LoseHp:diff()}을 잃는다. [gold]트랜스[/gold]{Trance:diff()}. 이 카드는 몇 번이든 강화할 수 있다.",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "대상은 체력{LoseHp:diff()}을 잃는다. [gold]트랜스[/gold]{Trance:diff()}과 [gold]약화[/gold]{VulnerablePower:diff()}를 부여한다. 이 카드는 몇 번이든 강화할 수 있다.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "조교 명령",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "무작위 DomSub 명령 카드 {Cards:diff()}장을 [gold]손[/gold]에 추가한다.",
   "HYPNOSISCREATOR-AUTOPSY.title": "해부",

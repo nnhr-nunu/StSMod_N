@@ -167,7 +167,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Наложите [gold]Опутывание[/gold] {ConstrictPower:diff()} и пробудите Абнормал. В следующем ходу добавьте копию этой карты в [gold]руку[/gold].",
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "Воспоминание щупалец",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "Нить бесконечного улучшения",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "Цель теряет {LoseHp:diff()} ОЗ. [gold]Транс[/gold] {Trance:diff()}. Эту карту можно улучшать сколько угодно раз.",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "Цель теряет {LoseHp:diff()} ОЗ. Наложите [gold]Транс[/gold] {Trance:diff()} и [gold]Слабость[/gold] {VulnerablePower:diff()}. Эту карту можно улучшать сколько угодно раз.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Команда для тренировки",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Добавьте {Cards:diff()} случайных карт-команд DomSub в [gold]руку[/gold].",
   "HYPNOSISCREATOR-AUTOPSY.title": "Аутопсия",

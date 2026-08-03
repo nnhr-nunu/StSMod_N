@@ -4,13 +4,15 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 糸色丁頁 — カウント。対象はHP19を失う。トランス1。
+/// 糸色丁頁 — カウント。対象はHP19を失う。トランス1・弱体1。
 /// 無限UG：1回目でリプレイ1、以降UGするたびリプレイ+1（説明にリプレイは書かない）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -26,8 +28,12 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     [
         new DynamicVar("LoseHp", 19M),
         new DynamicVar("Trance", 1M),
+        new PowerVar<VulnerablePower>(1M),
         new DynamicVar("Replays", 0M)
     ];
+
+    protected override IEnumerable<IHoverTip> CardHoverTips =>
+        [HoverTipFactory.FromPower<VulnerablePower>()];
 
     /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
     internal void PrepareReplay()
@@ -43,6 +49,8 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, Owner.Creature, this, play);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext, play.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
 

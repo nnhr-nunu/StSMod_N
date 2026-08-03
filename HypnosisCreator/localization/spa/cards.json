@@ -167,7 +167,7 @@
   "HYPNOSISCREATOR-TENTACLE_RECALL.title": "Recuerdo de tentáculos",
   "HYPNOSISCREATOR-TENTACLE_RECALL.description": "Otorga [gold]Constricción[/gold] {ConstrictPower:diff()} y despierta Anormal. El siguiente turno, añade una copia de esta carta a la [gold]mano[/gold].",
   "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.title": "Hilo de mejora infinita",
-  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "El objetivo pierde {LoseHp:diff()} PV. [gold]Trance[/gold] {Trance:diff()}. Esta carta puede mejorarse un número ilimitado de veces.",
+  "HYPNOSISCREATOR-INFINITE_UPGRADE_STRING.description": "El objetivo pierde {LoseHp:diff()} PV. Aplica [gold]Trance[/gold] {Trance:diff()} y [gold]Vulnerable[/gold] {VulnerablePower:diff()}. Esta carta puede mejorarse un número ilimitado de veces.",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.title": "Orden de entrenamiento",
   "HYPNOSISCREATOR-TRAINING_COMMAND_CARD.description": "Añade {Cards:diff()} cartas de orden DomSub aleatorias a la [gold]mano[/gold].",
   "HYPNOSISCREATOR-AUTOPSY.title": "Autopsia",
