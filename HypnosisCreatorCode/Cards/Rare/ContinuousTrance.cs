@@ -12,8 +12,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 連続トランス — トランス1→沼1→トランス性癖目覚め。リプレイ2。
-/// 未所持なら1回目は目覚めのみ（刺さらず）、2〜3回目で刺さる。所持済みなら最大3回刺さる。
+/// 連続トランス — トランス1→沼1→トランス性癖目覚め。リプレイ1（計2回）。
+/// 未所持なら1回目は目覚めのみ（刺さらず）、2回目で刺さる。所持済みなら最大2回刺さる。
 /// UGで相手すべてに同効果。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -30,13 +30,12 @@ public class ContinuousTrance() : HypnosisCreatorCard(0,
     protected override IEnumerable<IHoverTip> CardHoverTips =>
         [HoverTipFactory.FromPower<BogPower>()];
 
+    /// <summary>GeneratePlayCount Prefix から呼ぶ。PlayCount 確定より前に BaseReplayCount をセットする。</summary>
+    internal void PrepareReplay() =>
+        BaseReplayCount = Math.Max(BaseReplayCount, 1);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        // 説明文には「リプレイ」を書かない（BaseReplayCount の自動追記と二重になるため）。
-        // シリーズ中に再セットするとリプレイが伸びるので、先頭プレイだけ付与する。
-        if (play.IsFirstInSeries)
-            BaseReplayCount = 2;
-
         if (IsUpgraded && CombatState != null)
         {
             foreach (var enemy in CombatState.HittableEnemies.ToList())
