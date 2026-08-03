@@ -163,8 +163,9 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 
             if (silentPreview)
             {
-                await CombatCardPilePreview.AddGeneratedCardsSilentAsync(
+                var results = await CombatCardPilePreview.AddGeneratedCardsSilentAsync(
                     cards, PileType.Discard, player);
+                PendingDiscardPileCardPreview.Enqueue(results);
             }
             else
             {

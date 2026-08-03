@@ -156,6 +156,32 @@ public static class PendingDrawPileCardPreview
 }
 
 /// <summary>
+/// 敵ターン中に捨て札へ入るカード（スライム催眠の粘液等）を、行動完了後にまとめてプレビューする。
+/// 敵ターン中の即時プレビュー待ちは進行不能の原因になりやすい。
+/// </summary>
+public static class PendingDiscardPileCardPreview
+{
+    private static readonly List<CardPileAddResult> Queue = [];
+
+    public static void Enqueue(IReadOnlyList<CardPileAddResult> results)
+    {
+        foreach (var result in results)
+            Queue.Add(result);
+    }
+
+    public static async Task FlushIfAnyAsync()
+    {
+        if (Queue.Count == 0) return;
+
+        var batch = Queue.ToList();
+        Queue.Clear();
+        await CombatCardPilePreview.PreviewAddAsync(batch, PileType.Discard);
+    }
+
+    public static void Clear() => Queue.Clear();
+}
+
+/// <summary>
 /// カードプレイ中に手札へ入れるカードをキューし、プレイ完了後にまとめて追加する。
 /// </summary>
 public static class PendingHandCardAdd

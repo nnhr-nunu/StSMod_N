@@ -35,6 +35,7 @@ public static class FetishCombatResetPatch
         FetishCombat.CultLeaderActive = false;
         FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
+        PendingDiscardPileCardPreview.Clear();
         if (combatState != null)
         {
             foreach (var player in combatState.Players)

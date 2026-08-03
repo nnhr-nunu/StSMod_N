@@ -130,6 +130,7 @@ public static class DrawPileCardAddPreviewTurnStartPatch
         await original;
         await PendingStatusHypnosisConvert.FlushIfAnyAsync();
         PendingDrawPileCardPreview.Clear();
+        PendingDiscardPileCardPreview.Clear();
         PendingHandCardAdd.Clear();
         PendingStatusHypnosisConvert.Clear();
     }

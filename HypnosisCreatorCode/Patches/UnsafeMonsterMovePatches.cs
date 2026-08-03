@@ -55,6 +55,7 @@ public static class UnsafeMonsterPerformMovePatch
     {
         KaiserClubBackgroundSafety.StabilizeArm(monster.Creature);
         await slime.TryReplacePerformAsync();
+        await PendingDiscardPileCardPreview.FlushIfAnyAsync();
         UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext: true);
     }
 
