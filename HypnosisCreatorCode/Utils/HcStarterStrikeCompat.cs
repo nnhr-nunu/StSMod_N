@@ -1,0 +1,81 @@
+using System.Runtime.CompilerServices;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
+using HypnosisCreator.HypnosisCreatorCode.Character;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Models;
+using HcCharacter = HypnosisCreator.HypnosisCreatorCode.Character.HypnosisCreator;
+
+namespace HypnosisCreator.HypnosisCreatorCode.Utils;
+
+/// <summary>
+/// HC は初期デッキに本家ストライクが無い。ランごとにスターター攻撃3種のいずれかを
+/// 「ストライク相当」として扱い、カプセル／ネオーのタリスマン／湿布／ストライクタグ判定を救済する。
+/// </summary>
+public static class HcStarterStrikeCompat
+{
+    private static readonly Type[] StarterAttackTypes =
+    [
+        typeof(StunGun),
+        typeof(SayYoureSorry),
+        typeof(WristCut)
+    ];
+
+    private static readonly ConditionalWeakTable<Player, Type> StandInByPlayer = new();
+
+    public static bool IsHcCharacter(CharacterModel? character) =>
+        character?.Id.Entry.Contains(HcCharacter.CharacterId, StringComparison.OrdinalIgnoreCase) == true;
+
+    public static bool IsHcStarterAttack(CardModel card) =>
+        card is StunGun or SayYoureSorry or WristCut;
+
+    public static bool IsHcBasicDefend(CardModel card) =>
+        card is HcDefend;
+
+    public static Type GetStandInType(Player player)
+    {
+        if (StandInByPlayer.TryGetValue(player, out var cached))
+            return cached;
+
+        var rng = player.RunState.Rng.CombatCardSelection;
+        var picked = StarterAttackTypes[rng.NextInt(StarterAttackTypes.Length)];
+        StandInByPlayer.Add(player, picked);
+        return picked;
+    }
+
+    public static CardModel GetStandInPrototype(Player player) =>
+        CardFromType(GetStandInType(player));
+
+    private static CardModel CardFromType(Type cardType) =>
+        cardType switch
+        {
+            not null when cardType == typeof(StunGun) => ModelDb.Card<StunGun>(),
+            not null when cardType == typeof(SayYoureSorry) => ModelDb.Card<SayYoureSorry>(),
+            not null when cardType == typeof(WristCut) => ModelDb.Card<WristCut>(),
+            _ => ModelDb.Card<StunGun>()
+        };
+
+    public static bool IsStandInStrike(CardModel card)
+    {
+        if (!HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
+            return false;
+
+        if (card.Owner is not { } player)
+            return false;
+
+        return card.GetType() == GetStandInType(player);
+    }
+
+    public static bool ShouldInjectStrikeTag(CardModel card) => IsStandInStrike(card);
+
+    public static bool MatchesBasicStrikeOrDefend(CardModel card)
+    {
+        if (!HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
+            return false;
+
+        if (card.Rarity != CardRarity.Basic)
+            return false;
+
+        return IsHcBasicDefend(card) || IsStandInStrike(card);
+    }
+}
