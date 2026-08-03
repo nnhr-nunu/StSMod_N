@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "若已被拉近，將2張隨機調教命令卡加入手牌。",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "對手處於恍惚時，遲緩層數不會重置。",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "使手牌中的計數推進1次。",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "對所有對手施加[blue]2[/blue]層[gold]恍惚[/gold]。",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "使[gold]手牌[/gold]中所有[gold]計數[/gold]卡的費用降低[blue]1[/blue]。",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "此外，將自身受到的傷害傳播給所有對手。",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "此卡必定刺中性癖。",

@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "Если цель уже притянута, добавьте 2 случайные карты Приказа дрессировки в руку.",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "Пока цель в Трансе, стаки Замедления не сбрасываются.",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "Продвиньте Счётчик карты в руке на 1.",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "Накладывает [blue]2[/blue] [gold]Транса[/gold] на ВСЕХ противников.",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "Уменьшите стоимость всех карт [gold]Счётчика[/gold] в [gold]руке[/gold] на [blue]1[/blue].",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "Дополнительно распространяйте получаемый урон на ВСЕХ противников.",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "Эта карта всегда попадает в фетиш.",

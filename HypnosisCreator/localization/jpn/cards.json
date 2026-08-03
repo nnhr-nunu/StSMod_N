@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "すでに引き寄せられている場合、ランダムな調教命令を2枚手札に加える。",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "相手がトランス時はスローの蓄積量がリセットされない。",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "手札のカウントを1つ進める。",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "すべての相手に[gold]トランス[/gold][blue]2[/blue]を付与する。",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "[gold]手札[/gold]の[gold]カウント[/gold]カードすべてのコストを[blue]1[/blue]下げる。",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "さらに、自分が受けたダメージを相手全体へ伝播させる。",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "このカードは必ず性癖に刺さる。",

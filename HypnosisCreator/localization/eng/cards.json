@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "If already Pulled, add 2 random Training Command cards to your hand.",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "While Tranced, Slow stacks do not reset.",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "Advance Count costs in your hand by 1.",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "Apply [blue]2[/blue] [gold]Trance[/gold] to ALL enemies.",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "Reduce the cost of all [gold]Count[/gold] cards in your [gold]Hand[/gold] by [blue]1[/blue].",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "Additionally, propagate damage you receive to ALL opponents.",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "This card always hits Fetish.",

@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "Si ya está atraído, añade 2 cartas de Orden de adiestramiento aleatorias a la mano.",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "Mientras esté en Trance, las acumulaciones de Lentitud no se reinician.",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "Avanza la Cuenta de una carta en la mano en 1.",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "Aplica [blue]2[/blue] de [gold]Trance[/gold] a TODOS los enemigos.",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "Reduce el coste de todas las cartas de [gold]Cuenta[/gold] en la [gold]mano[/gold] en [blue]1[/blue].",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "Además, propaga el daño que recibes a TODOS los enemigos.",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "Esta carta siempre acierta el fetiche.",

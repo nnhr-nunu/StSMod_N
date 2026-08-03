@@ -295,6 +295,7 @@
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "이미 끌어당겨진 경우, 무작위 조교 명령 카드 2장을 손에 추가한다.",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "상대가 트랜스 상태일 때 슬로우 누적량이 초기화되지 않는다.",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "손에 있는 카운트를 1 진행시킨다.",
+  "HYPNOSISCREATOR-STATUS_HYPNOSIS.upgradeAppend": "모든 상대에게 [gold]트랜스[/gold] [blue]2[/blue]를 부여한다.",
   "HYPNOSISCREATOR-FINGER_SNAP.upgradeAppend": "[gold]손[/gold]에 있는 모든 [gold]카운트[/gold] 카드의 코스트를 [blue]1[/blue] 낮춘다.",
   "HYPNOSISCREATOR-SENSE_SHARE.upgradeAppend": "추가로, 자신이 받은 피해를 모든 상대에게 전파한다.",
   "HYPNOSISCREATOR-WHISPER.upgradeAppend": "이 카드는 반드시 페티시에 적중한다.",
