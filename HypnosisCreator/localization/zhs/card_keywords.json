@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "异常",
   "HYPNOSISCREATOR-ABNORMAL.description": "对拥有异常性癖的对手使用此牌时，根据其最大生命值赋予破灭。",
   "HYPNOSISCREATOR-TRANCE.title": "恍惚性癖",
-  "HYPNOSISCREATOR-TRANCE.description": "每当对拥有恍惚性癖的对手赋予恍惚时，赋予破灭（数值为最大生命值的5%+5，若对方有泥沼则×1.5）。",
+  "HYPNOSISCREATOR-TRANCE.description": "每当对拥有恍惚性癖的对手赋予恍惚时，赋予破灭（数值为最大生命值的4%+6，若对方有泥沼则×1.5）。",
   "HYPNOSISCREATOR-TRANCESTATE.title": "恍惚",
   "HYPNOSISCREATOR-TRANCESTATE.description": "使费用不为0的[gold]计数[/gold]卡也能使用。玩家回合开始时减少[blue]1[/blue]点。",
   "HYPNOSISCREATOR-DOOM.title": "破灭",
