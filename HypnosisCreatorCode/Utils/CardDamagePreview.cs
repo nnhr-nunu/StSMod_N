@@ -152,7 +152,8 @@ public static class CardDamagePreview
 
         if (card.IsEnchantmentPreview)
         {
-            var.EnchantedValue = rawBase;
+            // 本家 DamageVar と同様、EnchantedValue はエンチャント反映後（NEnchantPreview の 15▶22 表示用）
+            var.EnchantedValue = enchantedBase;
             var.PreviewValue = Math.Max(Math.Max(preview, enchantedBase), rawBase);
             return;
         }

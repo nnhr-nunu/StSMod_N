@@ -53,8 +53,18 @@ public static class HeartGougeDamagePreviewPatch
         if (card is not HeartGouge gouge) return;
 
         var raw = gouge.DynamicVars.Damage.BaseValue;
+        var props = __instance.Props;
+
+        // エンチャント付与プレビューは戦闘フック・先付与弱体より蝕み等の倍率だけ見せる
+        if (gouge.IsEnchantmentPreview)
+        {
+            var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(gouge, raw, props);
+            CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, enchanted, props);
+            return;
+        }
+
         var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode, runGlobalHooks);
-        CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, preview, __instance.Props);
+        CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, preview, props);
     }
 }
 

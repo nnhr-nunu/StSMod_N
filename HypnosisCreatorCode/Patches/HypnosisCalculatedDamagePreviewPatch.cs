@@ -57,6 +57,14 @@ public static class HypnosisCalculatedDamagePreviewPatch
         if (raw == null) return;
 
         var baseDamage = raw.Value;
+
+        if (card.IsEnchantmentPreview)
+        {
+            var enchantedPreview = CardDamagePreview.ApplyEnchantmentModifiers(card, baseDamage, ValueProp.Move);
+            CardDamagePreview.SetDamagePreviewPair(card, __instance, baseDamage, enchantedPreview, ValueProp.Move);
+            return;
+        }
+
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, baseDamage, ValueProp.Move);
         var preview = CardDamagePreview.ApplyModifiers(
             card, target, enchanted, ValueProp.Move, previewMode, runGlobalHooks);

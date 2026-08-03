@@ -105,7 +105,7 @@ public static class CardBlockPreview
 
         if (card.IsEnchantmentPreview)
         {
-            var.EnchantedValue = rawBase;
+            var.EnchantedValue = enchantedBase;
             var.PreviewValue = Math.Max(Math.Max(preview, enchantedBase), rawBase);
             return;
         }
