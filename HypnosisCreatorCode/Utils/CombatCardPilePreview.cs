@@ -271,3 +271,41 @@ public static class PendingHandCardAdd
         ExistingQueue.Clear();
     }
 }
+
+/// <summary>
+/// カードプレイ中の味方への手札パスをキューし、プレイ完了後に <see cref="CardPileCmd.GiveToAnotherPlayer"/> で実行する。
+/// OnPlay 内の即時 Give はマルチ同期・演出タイミングで欠落しやすい。
+/// </summary>
+public static class PendingCardPassToPlayer
+{
+    private sealed class PassMove
+    {
+        public required CardModel Card { get; init; }
+        public required Player Recipient { get; init; }
+        public AbstractModel? Source { get; init; }
+    }
+
+    private static readonly List<PassMove> Queue = [];
+
+    public static void Enqueue(
+        IReadOnlyList<CardModel> cards,
+        Player recipient,
+        AbstractModel? source = null)
+    {
+        foreach (var card in cards)
+            Queue.Add(new PassMove { Card = card, Recipient = recipient, Source = source });
+    }
+
+    public static async Task FlushIfAnyAsync()
+    {
+        if (Queue.Count == 0) return;
+
+        var batch = Queue.ToList();
+        Queue.Clear();
+        foreach (var move in batch)
+            await CardPileCmd.GiveToAnotherPlayer(
+                move.Card, move.Recipient, PileType.Hand, CardPilePosition.Top, move.Source);
+    }
+
+    public static void Clear() => Queue.Clear();
+}

@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// フリーハグ — マルチ用。対象を「引き寄せ」る。既に引き寄せ済みの相手には破滅と沼を与え、
-/// 手札のカード複製を2枚ランダムな味方に渡す（本家ボール同様、実カードは手元に残す）。
+/// 手札のカードをランダムな味方に渡す（実カードが手札から移動する）。
 /// アタックだがダメージは与えない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -64,10 +64,10 @@ public class FreeHug() : HypnosisCreatorCard(0,
                     {
                         var hand = Owner.PlayerCombatState?.Hand;
                         var candidates = hand?.Cards.Where(c => c != this).ToList() ?? [];
-                        var dupes = CreateHandDupesForRecipient(candidates, recipient, DynamicVars.Cards.IntValue);
+                        var toPass = SelectRandomHandCards(candidates, DynamicVars.Cards.IntValue);
 
-                        if (dupes.Count > 0)
-                            await CombatCardPilePreview.AddToHandDuringCardPlayAsync(dupes, Owner);
+                        if (toPass.Count > 0)
+                            PendingCardPassToPlayer.Enqueue(toPass, recipient, this);
                     }
                 }
             }
@@ -82,22 +82,21 @@ public class FreeHug() : HypnosisCreatorCard(0,
 
     protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
 
-    private List<CardModel> CreateHandDupesForRecipient(
-        List<CardModel> candidates,
-        Player recipient,
-        int count)
+    private List<CardModel> SelectRandomHandCards(List<CardModel> candidates, int count)
     {
         if (candidates.Count == 0 || count <= 0)
             return [];
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
-        var dupes = new List<CardModel>(count);
-        for (var i = 0; i < count; i++)
+        var pool = candidates.ToList();
+        var selected = new List<CardModel>(Math.Min(count, pool.Count));
+        for (var i = 0; i < count && pool.Count > 0; i++)
         {
-            var source = candidates[rng.NextInt(candidates.Count)];
-            dupes.Add(source.CreateDupe(recipient));
+            var idx = rng.NextInt(pool.Count);
+            selected.Add(pool[idx]);
+            pool.RemoveAt(idx);
         }
 
-        return dupes;
+        return selected;
     }
 }

@@ -112,6 +112,7 @@ internal static class PendingHandCardAddFlush
     {
         await original;
         await PendingHandCardAdd.FlushIfAnyAsync();
+        await PendingCardPassToPlayer.FlushIfAnyAsync();
         await PendingStatusHypnosisConvert.FlushIfAnyAsync();
     }
 }
@@ -132,6 +133,7 @@ public static class DrawPileCardAddPreviewTurnStartPatch
         PendingDrawPileCardPreview.Clear();
         PendingDiscardPileCardPreview.Clear();
         PendingHandCardAdd.Clear();
+        PendingCardPassToPlayer.Clear();
         PendingStatusHypnosisConvert.Clear();
     }
 }
