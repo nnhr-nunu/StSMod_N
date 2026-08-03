@@ -1,11 +1,13 @@
 using System.Runtime.CompilerServices;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// Crusher / Rocket など、意図ステート書き換え（SetMoveImmediate）や
-/// 本体 Attack アニメ待ち・引き寄せアニメが進行不能／見た目ずれを招きやすいモンスター。
+/// Crusher / Rocket / AdaptablePower 多段ボス（実験体など）など、
+/// 意図ステート書き換え（SetMoveImmediate）や Visuals 差し替え・Attack アニメ待ちが
+/// 進行不能／見た目ずれを招きやすいモンスター。
 /// 睡眠は全敵共通の PerformMove スキップで扱う。ここはスタン等の1回スキップ予約用。
 /// </summary>
 public static class IntentOverwriteUnsafeMonsters
@@ -22,7 +24,10 @@ public static class IntentOverwriteUnsafeMonsters
     {
         if (creature is not { IsEnemy: true }) return false;
         var id = HeartRegistry.GetMonsterId(creature);
-        return id != null && UnsafeIds.Contains(id);
+        if (id != null && UnsafeIds.Contains(id))
+            return true;
+        // 多段ボスは SetMoveImmediate でステートマシンが壊れやすい（実験体の進行不能等）
+        return creature.GetPower<AdaptablePower>() != null;
     }
 
     /// <summary>カイザークラブの左右爪（引き寄せ不可・専用吹き出し用）。</summary>

@@ -25,7 +25,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
     private const float SlimeAttackAnimDelay = 0.65f;
 
     public override PowerType Type => PowerType.Debuff;
-    public override PowerStackType StackType => PowerStackType.Counter;
+    // 重ねがけは _remainingEnemyTurns で持続延長。Amount（粘液枚数）は Single のまま固定。
+    public override PowerStackType StackType => PowerStackType.Single;
 
     public string? DisguiseName { get; private set; }
 
