@@ -15,7 +15,7 @@ public class UnconsciousGuidance() : HypnosisCreatorCard(1,
     TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("Block", 3M)];
+        [new DynamicVar("Block", 2M)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
         await PowerCmd.Apply<UnconsciousGuidancePower>(
