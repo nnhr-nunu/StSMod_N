@@ -4,15 +4,19 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// フリーハグ — マルチ用。対象を「引き寄せ」る。既に引き寄せ済みの相手には破滅と沼を与え、
-/// カードを2枚ランダムな味方に渡す。アタックだがダメージは与えない。
+/// 手札のカード複製を2枚ランダムな味方に渡す（本家ボール同様、実カードは手元に残す）。
+/// アタックだがダメージは与えない。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FreeHug() : HypnosisCreatorCard(0,
@@ -48,21 +52,23 @@ public class FreeHug() : HypnosisCreatorCard(0,
 
             if (CombatState != null)
             {
-                var allies = CombatState.Allies.Where(a => a != Owner.Creature && a.IsAlive).ToList();
-                var recipient = allies.Count > 0
-                    ? allies[Owner.RunState.Rng.CombatCardSelection.NextInt(allies.Count)].Player
-                    : null;
+                var teammates = CombatState.GetTeammatesOf(Owner.Creature)
+                    .Where(c => c != Owner.Creature && c.IsAlive && c.IsPlayer && c.Player != Owner)
+                    .ToList();
 
-                if (recipient != null)
+                if (teammates.Count > 0)
                 {
-                    var hand = Owner.PlayerCombatState?.Hand;
-                    var toGive = hand?.Cards.Where(c => c != this)
-                        .OrderBy(_ => Guid.NewGuid())
-                        .Take(DynamicVars.Cards.IntValue)
-                        .ToList() ?? [];
+                    var recipientCreature = Owner.RunState.Rng.CombatTargets.NextItem(teammates);
+                    var recipient = recipientCreature?.Player;
+                    if (recipient != null)
+                    {
+                        var hand = Owner.PlayerCombatState?.Hand;
+                        var candidates = hand?.Cards.Where(c => c != this).ToList() ?? [];
+                        var dupes = CreateHandDupesForRecipient(candidates, recipient, DynamicVars.Cards.IntValue);
 
-                    foreach (var card in toGive)
-                        await CardPileCmd.GiveToAnotherPlayer(card, recipient, PileType.Hand);
+                        if (dupes.Count > 0)
+                            await CombatCardPilePreview.AddToHandDuringCardPlayAsync(dupes, Owner);
+                    }
                 }
             }
         }
@@ -75,4 +81,23 @@ public class FreeHug() : HypnosisCreatorCard(0,
     }
 
     protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
+
+    private List<CardModel> CreateHandDupesForRecipient(
+        List<CardModel> candidates,
+        Player recipient,
+        int count)
+    {
+        if (candidates.Count == 0 || count <= 0)
+            return [];
+
+        var rng = Owner.RunState.Rng.CombatCardSelection;
+        var dupes = new List<CardModel>(count);
+        for (var i = 0; i < count; i++)
+        {
+            var source = candidates[rng.NextInt(candidates.Count)];
+            dupes.Add(source.CreateDupe(recipient));
+        }
+
+        return dupes;
+    }
 }
