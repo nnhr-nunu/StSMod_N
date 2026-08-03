@@ -98,6 +98,7 @@ public static class CardDamagePreview
     {
         if (!runGlobalHooks) return false;
         if (card.IsEnchantmentPreview) return false;
+        if (EnchantPreviewUiGuard.IsActive) return false;
         if (card.PreviewOutsideOfCombat) return false;
 
         var owner = card.Owner;
