@@ -5,7 +5,6 @@ using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 
@@ -32,14 +31,8 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
         new DynamicVar("Trance", 1M)
     ];
 
-    protected override IEnumerable<IHoverTip> CardHoverTips =>
-    [
-        HoverTipFactory.FromPower<PoisonPower>(),
-        HoverTipFactory.FromPower<StrengthPower>(),
-        HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<WeakPower>(),
-        HoverTipFactory.FromPower<BogPower>()
-    ];
+    // 効果は説明文の [gold] キーワード＋MechanicKeywordPatch（トランス／破滅／沼）で足す。
+    // 本家デバフ5種の CardHoverTips は過多になり戦闘ホバーが見切れるため付けない。
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

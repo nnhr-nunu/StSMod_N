@@ -29,6 +29,10 @@ public static class HoverTipCrowding
     public static bool ShouldOmitStarterFetishKeywordTips(CardModel card) =>
         IsCrowded(card);
 
+    /// <summary>過多時は <see cref="HypnosisCreatorCard.CardHoverTips"/> も出さない（戦闘ホバーの縦はみ出し防止）。</summary>
+    public static bool ShouldOmitCardHoverTips(CardModel card) =>
+        IsCrowded(card);
+
     public static bool IsCrowded(CardModel card) =>
         EstimateIfShowingAll(card) >= Threshold;
 

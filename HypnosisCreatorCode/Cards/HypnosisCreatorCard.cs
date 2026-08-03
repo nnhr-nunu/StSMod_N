@@ -36,6 +36,8 @@ public abstract class HypnosisCreatorCard(
     {
         get
         {
+            if (HoverTipCrowding.ShouldOmitCardHoverTips(this))
+                yield break;
             foreach (var tip in CardHoverTips)
                 yield return tip;
         }
