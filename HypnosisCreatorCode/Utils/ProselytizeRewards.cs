@@ -1,7 +1,10 @@
 using System.Runtime.CompilerServices;
 using HypnosisCreator.HypnosisCreatorCode;
+using HypnosisCreator.HypnosisCreatorCode.Powers;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -9,6 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// 布教欲求の戦闘終了ゴールドをプレイヤー単位で溜める。
 /// SpireField は保持に失敗する事例があるため <see cref="ConditionalWeakTable{TKey,TValue}"/> を使う。
 /// 清算時は本家 Royalties と同様、報酬画面の追加 GoldReward として出す。
+/// 累計は <see cref="ProselytizeGoldPower"/> のアイコン数字で表示する。
 /// </summary>
 public static class ProselytizeRewards
 {
@@ -25,6 +29,7 @@ public static class ProselytizeRewards
         Table.GetValue(player, static _ => new GoldState()).Amount += amount;
         MainFile.Logger.Info(
             $"Proselytize gold pending: +{amount} (total {PeekGold(player)}) for {player.Character?.Id.Entry}");
+        SyncGoldPower(player);
     }
 
     /// <summary>互換: Creature から Player を解決して加算。</summary>
@@ -46,10 +51,49 @@ public static class ProselytizeRewards
         if (!Table.TryGetValue(player, out var state)) return 0M;
         var amount = state.Amount;
         state.Amount = 0M;
+        SyncGoldPower(player);
         return amount;
     }
 
     /// <summary>互換: Creature 経由。</summary>
     public static decimal TakeGold(Creature playerCreature) =>
         playerCreature?.Player is { } player ? TakeGold(player) : 0M;
+
+    /// <summary>累計ゴールドをプレイヤーバフアイコンの数字へ反映する。</summary>
+    public static void SyncGoldPower(Player player)
+    {
+        var creature = player.Creature;
+        if (creature == null) return;
+
+        var total = (int)Math.Max(0M, PeekGold(player));
+        var ctx = new ThrowingPlayerChoiceContext();
+
+        try
+        {
+            if (total <= 0)
+            {
+                var existing = creature.GetPower<ProselytizeGoldPower>();
+                if (existing != null)
+                    PowerCmd.Remove(existing).GetAwaiter().GetResult();
+                return;
+            }
+
+            var power = creature.GetPower<ProselytizeGoldPower>();
+            if (power == null)
+            {
+                PowerCmd.Apply<ProselytizeGoldPower>(
+                    ctx, creature, total, creature, null, silent: true).GetAwaiter().GetResult();
+                return;
+            }
+
+            var delta = total - (int)power.Amount;
+            if (delta == 0) return;
+
+            PowerCmd.ModifyAmount(ctx, power, delta, creature, null, silent: true).GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            MainFile.Logger.Warn($"Proselytize gold power sync failed: {ex.Message}");
+        }
+    }
 }
