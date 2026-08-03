@@ -16,7 +16,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// リプレイ回数は戦闘中プレビュー。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class FetishChampion() : HypnosisCreatorCard(3,
+public class FetishChampion() : HypnosisCreatorCard(2,
     CardType.Attack, CardRarity.Rare,
     TargetType.AnyEnemy)
 {
