@@ -11,7 +11,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 壱佰捌煩悩 — 全性癖タグ。敵全体の性癖を目覚めさせ、プレイ後コスト+1。
-/// 3コストでプレイ時、すべての敵に1ダメージ×108回を与えて廃棄。
+/// 3コストでプレイ時、すべての敵に0ダメージ×108回（筋力・弱体が乗る）を与えて廃棄。
 /// UG: プレイ後は山札に入る（説明は UpgradeDescriptionHooks）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -32,7 +32,7 @@ public class HundredEight() : HypnosisCreatorCard(1,
         EnergyCost.GetResolved() >= FinalCostThreshold;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(1M, ValueProp.Move)];
+        [new DamageVar(0M, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -47,7 +47,7 @@ public class HundredEight() : HypnosisCreatorCard(1,
 
         if (resolvedCost >= FinalCostThreshold)
         {
-            // 1ダメージ×108回を全敵へ。攻撃中は指パッチンをループ
+            // 0ダメージ×108回を全敵へ（筋力・弱体等は Hook 経由）。攻撃中は指パッチンをループ
             CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
             try
             {
