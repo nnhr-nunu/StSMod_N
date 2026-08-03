@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
-/// 外骨格蟲の心臓 — 希少。このターン、不死身9（本家 HardToKill と同性能・敵ターン終了で解除）。
+/// 外骨格蟲の心臓 — 希少。このターン、不死身9（ブロック後のHP喪失を最大9・敵ターン終了で解除）。
 /// </summary>
 public class ExoskeletonBugHeart : EnemyHeartRelic
 {

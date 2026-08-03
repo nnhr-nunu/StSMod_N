@@ -13,7 +13,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 外骨格蟲の心臓 — 本家 <see cref="HardToKillPower"/> と同じ被ダメ／HP喪失の上限（Amount）。
+/// 外骨格蟲の心臓 — 本家 <see cref="HardToKillPower"/> 同趣旨の「不死身」。
+/// ブロック後に残る HP 喪失を Amount までに抑える（敵の攻撃意図表示は上書きしない）。
 /// 基本1敵ターン、重ねがけで残り敵ターン+1。解除は敵ターン終了ごと。
 /// </summary>
 public class ExoskeletonBugBuffPower : HypnosisCreatorPower
@@ -34,18 +35,18 @@ public class ExoskeletonBugBuffPower : HypnosisCreatorPower
         return Task.CompletedTask;
     }
 
-    public override decimal ModifyDamageCap(
-        Creature? target,
+    public override decimal ModifyHpLostBeforeOstyLate(
+        Creature target,
+        decimal amount,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource,
-        CardPlay? cardPlay)
+        CardModel? cardSource)
     {
-        if (target != Owner) return decimal.MaxValue;
-        return Amount;
+        if (target != Owner || amount == 0m) return amount;
+        return Math.Min(amount, Amount);
     }
 
-    public override Task AfterModifyingDamageAmount(CardModel? cardSource)
+    public override Task AfterModifyingHpLostBeforeOsty()
     {
         Flash();
         return Task.CompletedTask;
