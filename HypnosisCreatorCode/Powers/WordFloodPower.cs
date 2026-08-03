@@ -6,7 +6,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
-/// <summary>言葉の洪水 — カウントカードをプレイするたび、Amount 枚のカードを引く。</summary>
+/// <summary>
+/// 言葉の洪水 — 催眠系カウントカードをプレイするたび、1エナジーを得て Amount 枚ドロー。
+/// </summary>
 public class WordFloodPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
@@ -22,6 +24,7 @@ public class WordFloodPower : HypnosisCreatorPower
         var player = Owner.Player;
         if (player == null) return;
 
+        await PlayerCmd.GainEnergy(1, player);
         await CardPileCmd.Draw(choiceContext, Amount, player);
     }
 }

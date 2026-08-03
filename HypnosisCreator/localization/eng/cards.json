@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Baby Hypnosis",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Remove all buffs from the target. Apply {ShrinkPower:diff()} [gold]Shrink[/gold] and {VulnerablePower:diff()} [gold]Vulnerable[/gold]. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Word Flood",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "Whenever you play a Hypnosis [gold]Count[/gold] card, draw {Draw:diff()} {Draw:plural:card|cards}.",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "Whenever you play a Hypnosis [gold]Count[/gold] card, gain {Energy:energyIcons()} and draw {Draw:diff()} {Draw:plural:card|cards}.",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Suggestion Release",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Deal [blue]0[/blue] damage. Remove the target's [gold]Trance[/gold]. Gain {energyPrefix:energyIcons(1)} equal to the amount removed and draw the same number of cards.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "As You Wish, Master",

@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "아기 최면",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "대상의 모든 버프를 해제하고 [gold]압축[/gold]{ShrinkPower:diff()}과 [gold]취약[/gold]{VulnerablePower:diff()}을 부여한다. [gold]트랜스[/gold]{Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "말의 홍수",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "최면계 [gold]카운트[/gold] 카드를 사용했을 때, 카드를 {Draw:diff()}장 뽑는다.",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "최면계 [gold]카운트[/gold] 카드를 사용했을 때, {Energy:energyIcons()}를 얻고 카드를 {Draw:diff()}장 뽑는다.",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "암시 해제",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "0의 피해를 입힌다. 상대의 [gold]트랜스[/gold] 상태를 해제한다. 그 수치에 따라 {energyPrefix:energyIcons(1)}을 얻고 같은 수만큼 카드를 뽑는다.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "주인님 말씀대로",

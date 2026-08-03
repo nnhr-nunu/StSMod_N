@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "嬰兒催眠",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "解除對象所有增益，並賦予[gold]縮小[/gold]{ShrinkPower:diff()}和[gold]弱體[/gold]{VulnerablePower:diff()}。[gold]恍惚[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "話語的洪流",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "使用催眠系[gold]計數[/gold]卡時，抽{Draw:diff()}張卡牌。",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "使用催眠系[gold]計數[/gold]卡時，獲得{Energy:energyIcons()}並抽{Draw:diff()}張卡牌。",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "解除暗示",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "造成0傷害。解除對手的[gold]恍惚[/gold]狀態。按其數值獲得{energyPrefix:energyIcons(1)}，並抽取同等數量的卡牌。",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "遵從主人的話",

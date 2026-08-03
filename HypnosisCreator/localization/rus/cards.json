@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Гипноз младенца",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Снимите со цели все положительные эффекты и наложите [gold]Уменьшение[/gold] {ShrinkPower:diff()} и [gold]Уязвимость[/gold] {VulnerablePower:diff()}. [gold]Транс[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Поток слов",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "Когда вы разыгрываете гипнотическую карту [gold]Счётчика[/gold], возьмите {Draw:diff()} карт(ы).",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "Когда вы разыгрываете гипнотическую карту [gold]Счётчика[/gold], получите {Energy:energyIcons()} и возьмите {Draw:diff()} карт(ы).",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Снятие внушения",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Наносит 0 урона. Снимает [gold]Транс[/gold] с противника. Получите {energyPrefix:energyIcons(1)} и возьмите столько же карт, сколько было снято уровней.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "Как пожелаете, хозяин",

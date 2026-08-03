@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "赤ちゃん催眠",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "対象のバフをすべて解除し、[gold]縮小[/gold]{ShrinkPower:diff()}と[gold]弱体[/gold]{VulnerablePower:diff()}を付与する。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "言葉の洪水",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "催眠系[gold]カウント[/gold]カードをプレイした時、カードを{Draw:diff()}枚引く。",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "催眠系[gold]カウント[/gold]カードをプレイした時、{Energy:energyIcons()}を得てカードを{Draw:diff()}枚引く。",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "暗示解除",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "0ダメージを与える。相手の[gold]トランス[/gold]状態を解除する。その数値に応じて{energyPrefix:energyIcons(1)}を獲得し、同じ数だけカードを引く。",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "ご主人様の言うとおり",

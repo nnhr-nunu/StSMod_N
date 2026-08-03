@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Hipnosis de bebé",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Elimina todos los efectos positivos del objetivo y otorga [gold]Encogimiento[/gold] {ShrinkPower:diff()} y [gold]Vulnerable[/gold] {VulnerablePower:diff()}. [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Diluvio de palabras",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "Cuando juegas una carta de [gold]Cuenta[/gold] hipnótica, roba {Draw:diff()} carta(s).",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "Cuando juegas una carta de [gold]Cuenta[/gold] hipnótica, gana {Energy:energyIcons()} y roba {Draw:diff()} carta(s).",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Liberación de sugestión",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Infligue 0 de daño. Elimina el [gold]Trance[/gold] del enemigo. Obtén {energyPrefix:energyIcons(1)} y roba la misma cantidad de cartas.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "Como usted desee, amo",

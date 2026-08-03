@@ -179,7 +179,7 @@
   "HYPNOSISCREATOR-BABY_HYPNOSIS.title": "Baby-Hypnose",
   "HYPNOSISCREATOR-BABY_HYPNOSIS.description": "Entferne alle positiven Effekte des Ziels und verursache [gold]Schrumpfen[/gold] {ShrinkPower:diff()} und [gold]Verwundbar[/gold] {VulnerablePower:diff()}. [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-WORD_FLOOD.title": "Wortflut",
-  "HYPNOSISCREATOR-WORD_FLOOD.description": "Wenn du eine Hypnose-[gold]Countdown[/gold]-Karte spielst, ziehe {Draw:diff()} Karte(n).",
+  "HYPNOSISCREATOR-WORD_FLOOD.description": "Wenn du eine Hypnose-[gold]Countdown[/gold]-Karte spielst, erhalte {Energy:energyIcons()} und ziehe {Draw:diff()} Karte(n).",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.title": "Suggestionsauflösung",
   "HYPNOSISCREATOR-SUGGESTION_RELEASE.description": "Verursacht 0 Schaden. Entfernt [gold]Trance[/gold] beim Gegner. Erhalte {energyPrefix:energyIcons(1)} und ziehe entsprechend viele Karten.",
   "HYPNOSISCREATOR-AS_YOU_WISH.title": "Wie du wünschst, Meister",
