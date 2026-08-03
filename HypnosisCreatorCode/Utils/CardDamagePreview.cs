@@ -23,8 +23,12 @@ public static class CardDamagePreview
         Creature? target,
         decimal raw,
         ValueProp props,
-        CardPreviewMode previewMode = CardPreviewMode.Normal)
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true)
     {
+        if (!ShouldUseCombatDamageHooks(card, runGlobalHooks))
+            return raw;
+
         var owner = card.Owner;
         if (owner?.Creature == null) return raw;
 
@@ -64,18 +68,19 @@ public static class CardDamagePreview
         decimal raw,
         decimal vulnerableToApply,
         ValueProp props,
-        CardPreviewMode previewMode = CardPreviewMode.Normal)
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true)
     {
         if (vulnerableToApply <= 0)
-            return ApplyModifiers(card, target, raw, props, previewMode);
+            return ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
 
         if (target is not { IsAlive: true, IsEnemy: true })
-            return ApplyModifiers(card, target, raw, props, previewMode);
+            return ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
 
         if (target.GetPowerAmount<ArtifactPower>() > 0)
-            return ApplyModifiers(card, target, raw, props, previewMode);
+            return ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
 
-        var atCurrent = ApplyModifiers(card, target, raw, props, previewMode);
+        var atCurrent = ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
         var currentVuln = target.GetPowerAmount<VulnerablePower>();
         var oldMult = 1m + VulnerableMultiplierPerStack * currentVuln;
         var newMult = 1m + VulnerableMultiplierPerStack * (currentVuln + vulnerableToApply);
@@ -83,6 +88,22 @@ public static class CardDamagePreview
 
         var preview = atCurrent * newMult / oldMult;
         return CombatPreviewText.RoundDisplayAmount(preview);
+    }
+
+    /// <summary>
+    /// イベントのエンチャント付与プレビュー等では本家も戦闘フックを走らせない。
+    /// ここで誤って <see cref="Hook.ModifyDamage"/> すると 15→1 のような表示になる。
+    /// </summary>
+    public static bool ShouldUseCombatDamageHooks(CardModel card, bool runGlobalHooks)
+    {
+        if (!runGlobalHooks) return false;
+        if (card.IsEnchantmentPreview) return false;
+        if (card.PreviewOutsideOfCombat) return false;
+
+        var owner = card.Owner;
+        if (owner?.Creature == null) return false;
+
+        return (card.CombatState ?? owner.Creature.CombatState) != null;
     }
 
     /// <summary>
@@ -132,17 +153,17 @@ public static class CardDamagePreview
         if (card.IsEnchantmentPreview)
         {
             var.EnchantedValue = rawBase;
-            var.PreviewValue = Math.Max(preview, enchantedBase);
+            var.PreviewValue = Math.Max(Math.Max(preview, enchantedBase), rawBase);
             return;
         }
 
         if (card.Enchantment != null)
         {
             var.EnchantedValue = enchantedBase;
-            var.PreviewValue = preview;
+            var.PreviewValue = Math.Max(preview, enchantedBase);
             return;
         }
 
-        SetPreviewPair(var, rawBase, preview);
+        SetPreviewPair(var, rawBase, Math.Max(preview, rawBase));
     }
 }

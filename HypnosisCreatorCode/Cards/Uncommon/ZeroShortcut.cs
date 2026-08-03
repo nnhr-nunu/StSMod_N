@@ -25,8 +25,9 @@ public class ZeroShortcut() : HypnosisCreatorCard(3,
 
     internal static decimal ComputePreviewTotalBlock(
         ZeroShortcut card,
-        CardPreviewMode previewMode = CardPreviewMode.Normal) =>
-        CardBlockPreview.SumSequentialGains(card, StartBlock, ValueProp.Move, previewMode);
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true) =>
+        CardBlockPreview.SumSequentialGains(card, StartBlock, ValueProp.Move, previewMode, runGlobalHooks);
 
     public override bool GainsBlock => true;
 

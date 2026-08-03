@@ -32,7 +32,7 @@ public static class TimeStopStrikeDamagePreviewPatch
         var raw = strike.DynamicVars.Damage.BaseValue;
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(strike, raw, ValueProp.Move);
         var preview = TimeStopStrikeDamage.ResolvePreview(
-            strike, target ?? strike.CurrentTarget, enchanted, previewMode);
+            strike, target ?? strike.CurrentTarget, enchanted, previewMode, runGlobalHooks);
         CardDamagePreview.SetDamagePreviewPair(strike, __instance, raw, preview, ValueProp.Move);
     }
 }
@@ -50,11 +50,10 @@ public static class HeartGougeDamagePreviewPatch
         Creature? target,
         bool runGlobalHooks)
     {
-        _ = runGlobalHooks;
         if (card is not HeartGouge gouge) return;
 
         var raw = gouge.DynamicVars.Damage.BaseValue;
-        var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode);
+        var preview = HeartGouge.ComputeDamagePreview(gouge, target, previewMode, runGlobalHooks);
         CardDamagePreview.SetDamagePreviewPair(gouge, __instance, raw, preview, __instance.Props);
     }
 }
@@ -160,7 +159,8 @@ public static class ZeroShortcutFirstBlockPreviewPatch
 
         var raw = ZeroShortcut.StartBlock;
         var enchanted = CardBlockPreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
-        var preview = CardBlockPreview.ApplyModifiers(card, enchanted, ValueProp.Move, previewMode);
+        var preview = CardBlockPreview.ApplyModifiers(
+            card, enchanted, ValueProp.Move, previewMode, runGlobalHooks);
         CardBlockPreview.SetBlockPreviewPair(card, __instance, raw, preview, ValueProp.Move);
     }
 }
@@ -183,7 +183,7 @@ public static class ZeroShortcutBlockPreviewPatch
         if (card is not ZeroShortcut shortcut) return;
 
         var baseline = ZeroShortcut.BaselineTotalBlock;
-        var preview = ZeroShortcut.ComputePreviewTotalBlock(shortcut, previewMode);
+        var preview = ZeroShortcut.ComputePreviewTotalBlock(shortcut, previewMode, runGlobalHooks);
         CardBlockPreview.SetBlockPreviewPair(shortcut, __instance, baseline, preview, __instance.Props);
     }
 }

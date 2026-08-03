@@ -19,8 +19,10 @@ public static class TimeStopStrikeDamage
         CardModel card,
         Creature? target,
         decimal stackedBase,
-        CardPreviewMode previewMode = CardPreviewMode.Normal) =>
-        CardDamagePreview.ApplyModifiers(card, target, stackedBase, ValueProp.Move, previewMode);
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true) =>
+        CardDamagePreview.ApplyModifiers(
+            card, target, stackedBase, ValueProp.Move, previewMode, runGlobalHooks);
 
     public static decimal ResolveTurnEnd(
         IRunState runState,

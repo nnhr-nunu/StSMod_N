@@ -74,7 +74,8 @@ public class HeartGouge() : HypnosisCreatorCard(1,
     internal static decimal ComputeDamagePreview(
         HeartGouge card,
         Creature? target,
-        CardPreviewMode previewMode)
+        CardPreviewMode previewMode,
+        bool runGlobalHooks = true)
     {
         var raw = card.DynamicVars.Damage.BaseValue;
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
@@ -84,7 +85,8 @@ public class HeartGouge() : HypnosisCreatorCard(1,
             enchanted,
             card.DynamicVars["VulnerablePower"].BaseValue,
             ValueProp.Move,
-            previewMode);
+            previewMode,
+            runGlobalHooks);
     }
 
     /// <summary>とどめ条件: 通常戦闘かつ 破滅×2 ≥ 残りHP。</summary>

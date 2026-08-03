@@ -30,7 +30,7 @@ public static class HypnosisCalculatedDamagePreviewPatch
         {
             if (CardLibraryUiGuard.IsActive) return;
 
-            ApplyPreview(__instance, card, previewMode, target);
+            ApplyPreview(__instance, card, previewMode, target, runGlobalHooks);
         }
         catch (Exception ex)
         {
@@ -42,7 +42,8 @@ public static class HypnosisCalculatedDamagePreviewPatch
         CalculatedDamageVar __instance,
         CardModel card,
         CardPreviewMode previewMode,
-        Creature? target)
+        Creature? target,
+        bool runGlobalHooks)
     {
         decimal? raw = card switch
         {
@@ -58,7 +59,7 @@ public static class HypnosisCalculatedDamagePreviewPatch
         var baseDamage = raw.Value;
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, baseDamage, ValueProp.Move);
         var preview = CardDamagePreview.ApplyModifiers(
-            card, target, enchanted, ValueProp.Move, previewMode);
+            card, target, enchanted, ValueProp.Move, previewMode, runGlobalHooks);
         CardDamagePreview.SetDamagePreviewPair(card, __instance, baseDamage, preview, ValueProp.Move);
     }
 }

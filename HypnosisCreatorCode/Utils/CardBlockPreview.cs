@@ -16,9 +16,13 @@ public static class CardBlockPreview
         CardModel card,
         decimal raw,
         ValueProp props,
-        CardPreviewMode previewMode = CardPreviewMode.Normal)
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true)
     {
         _ = previewMode;
+        if (!ShouldUseCombatBlockHooks(card, runGlobalHooks))
+            return raw;
+
         var owner = card.Owner;
         if (owner?.Creature == null) return raw;
 
@@ -44,15 +48,28 @@ public static class CardBlockPreview
         CardModel card,
         int startBlock,
         ValueProp props,
-        CardPreviewMode previewMode = CardPreviewMode.Normal)
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true)
     {
         decimal total = 0m;
         for (var block = startBlock; block >= 0; block--)
         {
             var enchanted = ApplyEnchantmentModifiers(card, block, props);
-            total += ApplyModifiers(card, enchanted, props, previewMode);
+            total += ApplyModifiers(card, enchanted, props, previewMode, runGlobalHooks);
         }
         return total;
+    }
+
+    public static bool ShouldUseCombatBlockHooks(CardModel card, bool runGlobalHooks)
+    {
+        if (!runGlobalHooks) return false;
+        if (card.IsEnchantmentPreview) return false;
+        if (card.PreviewOutsideOfCombat) return false;
+
+        var owner = card.Owner;
+        if (owner?.Creature == null) return false;
+
+        return (card.CombatState ?? owner.Creature.CombatState) != null;
     }
 
     /// <summary>本家 BlockVar と同様にエンチャントの加算・倍率を反映する。</summary>
@@ -89,18 +106,18 @@ public static class CardBlockPreview
         if (card.IsEnchantmentPreview)
         {
             var.EnchantedValue = rawBase;
-            var.PreviewValue = Math.Max(preview, enchantedBase);
+            var.PreviewValue = Math.Max(Math.Max(preview, enchantedBase), rawBase);
             return;
         }
 
         if (card.Enchantment != null)
         {
             var.EnchantedValue = enchantedBase;
-            var.PreviewValue = preview;
+            var.PreviewValue = Math.Max(preview, enchantedBase);
             return;
         }
 
         var.EnchantedValue = rawBase;
-        var.PreviewValue = preview;
+        var.PreviewValue = Math.Max(preview, rawBase);
     }
 }
