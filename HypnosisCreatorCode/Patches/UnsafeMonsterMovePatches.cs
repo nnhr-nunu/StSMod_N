@@ -46,6 +46,7 @@ public static class UnsafeMonsterPerformMovePatch
 
     private static async Task RunSlimeReplaceAsync(MonsterModel monster, SlimeHypnosisPower slime)
     {
+        KaiserClubBackgroundSafety.StabilizeArm(monster.Creature);
         await slime.TryReplacePerformAsync();
         UnsafeMonsterMoveCompletion.AfterSubstitutedPerform(monster, rollNext: true);
     }

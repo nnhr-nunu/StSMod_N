@@ -54,6 +54,9 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
         {
             _replacePerform = true;
+            KaiserClubBackgroundSafety.StabilizeArm(Owner);
+            SlimeDisguiseBanter.TryShowBlocked(applier, Owner);
+            _ = SlimeIntentPresentation.TryRefreshAsync(Owner);
             return Task.CompletedTask;
         }
 
@@ -71,7 +74,7 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
 
         var count = Math.Max(1, Amount);
         var targets = CombatState.GetOpponentsOf(Owner).ToList();
-        await ApplySlimeCardsAsync(CombatState, Owner, targets, count);
+        await ApplySlimeCardsAsync(CombatState, Owner, targets, count, silentPreview: true);
     }
 
     private void TryApplyDisguise(Creature? applier)
@@ -127,7 +130,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         ICombatState combat,
         Creature source,
         IReadOnlyList<Creature> targets,
-        int count)
+        int count,
+        bool silentPreview = false)
     {
         if (count <= 0 || targets.Count == 0) return;
 
@@ -156,8 +160,16 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
                 cards.Add(combat.CreateCard(ModelDb.Card<Slimed>(), player));
             }
 
-            var results = await CombatCardPilePreview.AddGeneratedCardsAsync(
-                cards, PileType.Discard, player);
+            if (silentPreview)
+            {
+                await CombatCardPilePreview.AddGeneratedCardsSilentAsync(
+                    cards, PileType.Discard, player);
+            }
+            else
+            {
+                await CombatCardPilePreview.AddGeneratedCardsAsync(
+                    cards, PileType.Discard, player);
+            }
         }
     }
 
@@ -202,6 +214,8 @@ public class SlimeHypnosisPower : HypnosisCreatorPower
         if (IntentOverwriteUnsafeMonsters.IsUnsafe(Owner))
         {
             _replacePerform = true;
+            KaiserClubBackgroundSafety.StabilizeArm(Owner);
+            _ = SlimeIntentPresentation.TryRefreshAsync(Owner);
             return;
         }
 

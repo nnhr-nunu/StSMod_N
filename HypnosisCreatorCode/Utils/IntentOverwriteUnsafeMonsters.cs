@@ -30,6 +30,9 @@ public static class IntentOverwriteUnsafeMonsters
         return creature.GetPower<AdaptablePower>() != null;
     }
 
+    /// <summary>見た目スライム化（Visuals 差し替え）をスキップする敵。</summary>
+    public static bool SkipsVisualDisguise(Creature? creature) => IsUnsafe(creature);
+
     /// <summary>カイザークラブの左右爪（引き寄せ不可・専用吹き出し用）。</summary>
     public static bool IsKaiserClubClaw(Creature? creature)
     {
