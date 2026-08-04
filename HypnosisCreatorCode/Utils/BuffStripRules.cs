@@ -17,6 +17,10 @@ public static class BuffStripRules
         if (power.Type != PowerType.Buff) return false;
         if (power.Owner is not { IsEnemy: true }) return false;
 
+        // 筋力・敏捷は PowerType が Buff だが負数は筋力低下／敏捷低下（デバフ）。解除対象にしない。
+        if (IsNegativeStatBuff(power))
+            return false;
+
         // 性癖スロット表示用。剥がすと HUD が消えるがスロットデータは残るため再同期が必要になる。
         if (power is FetishAttributePower)
             return false;
@@ -53,4 +57,11 @@ public static class BuffStripRules
             or SkittishPower
             or SteamEruptionPower
             or SurprisePower;
+
+    private static bool IsNegativeStatBuff(PowerModel power) =>
+        power.Amount < 0
+        && power is StrengthPower
+            or DexterityPower
+            or TemporaryStrengthPower
+            or TemporaryDexterityPower;
 }
