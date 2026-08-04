@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 不動明王 — デバフ解除＋アーティファクト2＋プレート5。
+/// 不動明王 — デバフ解除＋アーティファクト2（UG108）＋プレート5。
 /// 相手がデバフを付与してくるたびダメージ10（UG15）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -20,14 +20,15 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
-    private const decimal ArtifactAmount = 2M;
+    private const decimal ArtifactBase = 2M;
+    private const decimal ArtifactUpgraded = 108M;
     private const decimal PlatingAmount = 5M;
     private const decimal ReflectBase = 10M;
     private const decimal ReflectUpgradeBonus = 5M;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<ArtifactPower>(ArtifactAmount),
+        new PowerVar<ArtifactPower>(ArtifactBase),
         new PowerVar<PlatingPower>(PlatingAmount),
         new PowerVar<FudoMyooPower>(ReflectBase)
     ];
@@ -46,14 +47,17 @@ public class FudoMyoo() : HypnosisCreatorCard(2,
         foreach (var power in self.Powers.Where(p => p.Type == PowerType.Debuff).ToList())
             await PowerCmd.Remove(power);
 
-        await PowerCmd.Apply<ArtifactPower>(
-            choiceContext, self, DynamicVars["ArtifactPower"].BaseValue, self, this);
+        var artifact = IsUpgraded ? ArtifactUpgraded : ArtifactBase;
+        await PowerCmd.Apply<ArtifactPower>(choiceContext, self, artifact, self, this);
         await PowerCmd.Apply<PlatingPower>(
             choiceContext, self, DynamicVars["PlatingPower"].BaseValue, self, this);
         await PowerCmd.Apply<FudoMyooPower>(
             choiceContext, self, DynamicVars["FudoMyooPower"].BaseValue, self, this);
     }
 
-    protected override void OnUpgrade() =>
+    protected override void OnUpgrade()
+    {
+        DynamicVars["ArtifactPower"].BaseValue = ArtifactUpgraded;
         DynamicVars["FudoMyooPower"].UpgradeValueBy(ReflectUpgradeBonus);
+    }
 }
