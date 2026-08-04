@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
-/// <summary>ふにゃへにゃ — パワー。トランス1につき与ダメ20%減。重ねがけごとに+10%（2枚30%…）。UGでコスト1。</summary>
+/// <summary>ふにゃへにゃ — トランス1につき与ダメ20%減（最大50%）。UGでコスト1。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Soften() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Uncommon,

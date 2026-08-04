@@ -8,15 +8,15 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// ふにゃへにゃ — トランス1につき与ダメ減少。1枚20%、重ねがけごとに+10%（2枚30%、3枚40%…）。
+/// ふにゃへにゃ — トランス1スタックにつき与ダメ20%減。合計最大50%減。
 /// </summary>
 public class SoftenPower : HypnosisCreatorPower
 {
+    private const decimal ReductionPerTrance = 0.20M;
+    private const decimal MaxReduction = 0.50M;
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    /// <summary>トランス1スタックあたりの減少率（1枚20%、2枚30%、3枚40%…）。</summary>
-    public decimal ReductionPerTrance => 0.10M + 0.10M * Math.Max(1, Amount);
 
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props, Creature? dealer,
@@ -25,9 +25,13 @@ public class SoftenPower : HypnosisCreatorPower
         if (target != Owner) return 1M;
         if (dealer == null || !dealer.IsEnemy) return 1M;
 
+        var primary = Owner?.Powers.OfType<SoftenPower>().FirstOrDefault();
+        if (primary != this) return 1M;
+
         var trance = TranceCombat.GetTrance(dealer);
         if (trance <= 0) return 1M;
 
-        return Math.Max(0.1M, 1M - ReductionPerTrance * trance);
+        var reduction = Math.Min(MaxReduction, ReductionPerTrance * trance);
+        return 1M - reduction;
     }
 }
