@@ -15,7 +15,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
 /// フリーハグ — マルチ用。引き寄せ＋手札2枚パス（毎回）。
-/// 引き寄せ済みの相手には破滅・沼。引き寄せ回数に応じて破滅が増加。
+/// 引き寄せ済みの相手には破滅・沼。戦闘中の引き寄せ回数（他カードの引き寄せ含む）に応じて破滅が増加。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FreeHug() : HypnosisCreatorCard(0,
@@ -42,13 +42,12 @@ public class FreeHug() : HypnosisCreatorCard(0,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var alreadyPulled = PullTracker.IsPulled(play.Target);
+        var pullCountBeforePull = PullTracker.GetPullCount(play.Target);
 
-        if (alreadyPulled)
+        if (pullCountBeforePull > 0)
         {
-            var pullCount = PullTracker.GetPullCount(play.Target);
             var doomPerPull = DynamicVars["DoomPerPull"].IntValue;
-            var totalDoom = DynamicVars["Doom"].IntValue + pullCount * doomPerPull;
+            var totalDoom = DynamicVars["Doom"].IntValue + pullCountBeforePull * doomPerPull;
 
             await FetishCombat.ApplyDoom(choiceContext, play.Target, totalDoom, Owner.Creature, this);
             await PowerCmd.Apply<BogPower>(
