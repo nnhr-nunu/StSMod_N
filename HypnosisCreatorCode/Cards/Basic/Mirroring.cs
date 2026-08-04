@@ -39,7 +39,8 @@ public class Mirroring() : HypnosisCreatorCard(1,
         hits = 0;
 
         var previewTarget = target ?? mirroring.CurrentTarget;
-        if (previewTarget == null || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out hits))
+        if (previewTarget == null
+            || !EnemyAttackIntents.TryGetPerHit(previewTarget, out var damage, out hits, mirroring.Owner))
             return false;
 
         hits = Math.Max(1, hits);
@@ -67,7 +68,7 @@ public class Mirroring() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        if (!EnemyAttackIntents.TryGetPerHit(play.Target, out var damage, out var hits))
+        if (!EnemyAttackIntents.TryGetPerHit(play.Target, out var damage, out var hits, Owner))
             return;
 
         hits = Math.Max(1, hits);

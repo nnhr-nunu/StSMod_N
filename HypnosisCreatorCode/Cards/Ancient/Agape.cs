@@ -38,7 +38,7 @@ public class Agape() : HypnosisCreatorCard(1,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
-        var block = EnemyAttackIntents.GetTotalDamage(play.Target);
+        var block = EnemyAttackIntents.GetTotalDamage(play.Target, Owner);
         if (block <= 0) return;
 
         await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Unpowered, play);

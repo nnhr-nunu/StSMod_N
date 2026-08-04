@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -35,7 +36,7 @@ public class BreathControlPower : HypnosisCreatorPower
             choiceContext, Owner, -loss, Applier ?? Owner, cardPlay.Card);
         _strengthDrained += loss;
 
-        if (IsAttackValueZero(Owner))
+        if (IsAttackValueZero(Owner, cardPlay.Card.Owner))
             await CreatureCmd.Stun(Owner);
     }
 
@@ -69,7 +70,7 @@ public class BreathControlPower : HypnosisCreatorPower
         await PowerCmd.Remove(this);
     }
 
-    private static bool IsAttackValueZero(Creature enemy) =>
-        EnemyAttackIntents.IntendsToAttack(enemy) &&
-        EnemyAttackIntents.GetTotalDamage(enemy) <= 0;
+    private static bool IsAttackValueZero(Creature enemy, Player? perspectivePlayer) =>
+        EnemyAttackIntents.IntendsToAttack(enemy)
+        && EnemyAttackIntents.GetTotalDamage(enemy, perspectivePlayer) <= 0;
 }

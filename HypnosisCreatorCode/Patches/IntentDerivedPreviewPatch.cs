@@ -152,7 +152,7 @@ public static class HarmonyBlockPreviewPatch
 
         var previewTarget = target ?? card.CurrentTarget;
         var block = previewTarget != null
-            ? EnemyAttackIntents.GetTotalDamage(previewTarget)
+            ? EnemyAttackIntents.GetTotalDamage(previewTarget, card.Owner)
             : 0;
         CardBlockPreview.SetBlockPreviewPair(card, __instance, block, block, __instance.Props);
     }
