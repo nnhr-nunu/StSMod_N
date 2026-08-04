@@ -9,15 +9,12 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
 /// 心臓えぐり出しのダメージプレビュー。
-/// イベント付与・デッキ詳細は弱体なしでエンチャント +50% 固定表示（本家フックが 1 になる経路を避ける）。
+/// イベント付与・デッキ詳細は弱体なし＋本家エンチャント計算のみ（Hook.ModifyDamage を避ける）。
 /// 戦闘中の手札／プレイは弱体先付与込みのフルプレビュー。
 /// </summary>
 internal static class HeartGougePreview
 {
     internal const string IdEntrySuffix = "HEART_GOUGE";
-
-    /// <summary>蝕み等のイベント／デッキ表示用固定倍率（CSV・本家 Corrupted と同じ 50%）。</summary>
-    internal const decimal EventDeckEnchantMultiplier = 1.5m;
 
     private static int _descriptionContextDepth;
     private static CardModel? _descriptionCard;
@@ -107,63 +104,31 @@ internal static class HeartGougePreview
             return;
         }
 
+        if (card is not HeartGouge gouge) return;
+
         var raw = damageVar.BaseValue;
         var props = damageVar.Props;
         var effectiveHooks = runGlobalHooks && !EnchantPreviewUiGuard.IsActive;
-        var preview = card is HeartGouge gouge
-            ? HeartGouge.ComputeDamagePreview(gouge, target, previewMode, effectiveHooks)
-            : ComputeFallbackPreview(card, target, raw, props, previewMode, effectiveHooks);
-
-        CardDamagePreview.SetDamagePreviewPair(card, damageVar, raw, preview, props);
+        var preview = HeartGouge.ComputeDamagePreview(
+            gouge, target, previewMode, effectiveHooks);
+        CardDamagePreview.SetDamagePreviewPair(gouge, damageVar, raw, preview, props);
     }
 
     /// <summary>
-    /// エンチャント付与確認の右カード: Enchanted=素値、Preview=+50%。
-    /// エンチャント済みデッキ: 両方 +50% 後（差分なしで 22 等を表示）。
-    /// 未エンチャント: 素値のみ。
+    /// 戦闘外表示: 本家のエンチャント加算／倍率のみ（鋭利・蝕み等を個別に反映）。弱体先付与は含めない。
     /// </summary>
     internal static void ApplySimplifiedDamagePreview(CardModel card, DamageVar damageVar)
     {
         var raw = damageVar.BaseValue;
-
-        if (card.IsEnchantmentPreview)
-        {
-            damageVar.EnchantedValue = raw;
-            damageVar.PreviewValue = ResolveEnchantedDisplayDamage(card, raw);
-            return;
-        }
-
-        if (card.Enchantment != null)
-        {
-            var enchanted = ResolveEnchantedDisplayDamage(card, raw);
-            damageVar.EnchantedValue = enchanted;
-            damageVar.PreviewValue = enchanted;
-            return;
-        }
-
-        damageVar.EnchantedValue = raw;
-        damageVar.PreviewValue = raw;
-    }
-
-    internal static decimal ResolveEnchantedDisplayDamage(CardModel card, decimal raw)
-    {
-        if (card.Enchantment == null) return raw;
-
-        return CombatPreviewText.RoundDisplayAmount(raw * EventDeckEnchantMultiplier);
-    }
-
-    private static decimal ComputeFallbackPreview(
-        CardModel card,
-        Creature? target,
-        decimal raw,
-        ValueProp props,
-        CardPreviewMode previewMode,
-        bool runGlobalHooks)
-    {
+        var props = damageVar.Props;
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, raw, props);
-        if (!runGlobalHooks) return enchanted;
 
-        return CardDamagePreview.ApplyModifiers(
-            card, target, enchanted, props, previewMode, runGlobalHooks);
+        if (card.Enchantment != null || card.IsEnchantmentPreview)
+        {
+            CardDamagePreview.SetDamagePreviewPair(card, damageVar, raw, enchanted, props);
+            return;
+        }
+
+        CardDamagePreview.SetPreviewPair(damageVar, raw, raw);
     }
 }
