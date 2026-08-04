@@ -36,7 +36,13 @@ public class HeartGouge() : HypnosisCreatorCard(1,
         [HoverTipFactory.FromPower<VulnerablePower>()];
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        IsUpgraded && GlowIfTargetOrAnyEnemy(CanDoomExecute);
+        GlowIfTargetOrAnyEnemy(c => HeartGougeLethalPreview.WouldShowHeartLethal(this, c));
+
+    internal static void AppendDescriptionSuffix(
+        HeartGouge card,
+        Creature? target,
+        ref string description) =>
+        HeartGougeLethalPreview.AppendDescriptionSuffix(card, target, ref description);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

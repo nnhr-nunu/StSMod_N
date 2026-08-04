@@ -73,6 +73,9 @@ public static class CombatSuffixDescriptionHooks
             case SuggestionRelease release:
                 SuggestionRelease.AppendDescriptionSuffix(release, target, ref description);
                 break;
+            case HeartGouge gouge:
+                HeartGouge.AppendDescriptionSuffix(gouge, target, ref description);
+                break;
         }
     }
 }
