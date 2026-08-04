@@ -135,7 +135,7 @@
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.title": "Ambush Hypnosis",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "Draw cards equal to the number of opponents. Play each drawn card on a random opponent.",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.title": "Mass Hypnosis",
-  "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "Hypnosis [gold]Count[/gold] cards target ALL opponents.",
+  "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "Hypnosis [gold]Count[/gold] cards target ALL opponents. Choose 1 of 3 Hypnosis [gold]Count[/gold] cards and add it to your [gold]Hand[/gold].",
   "HYPNOSISCREATOR-RAPPORT.title": "Rapport",
   "HYPNOSISCREATOR-RAPPORT.description": "Advance [gold]Count[/gold] in your [gold]Hand[/gold] by [blue]1[/blue]. At the start of your turn, if you did not attack an opponent last turn, advance [gold]Count[/gold] in your [gold]Hand[/gold] once more.",
   "HYPNOSISCREATOR-CATALEPSY.title": "Catalepsy",

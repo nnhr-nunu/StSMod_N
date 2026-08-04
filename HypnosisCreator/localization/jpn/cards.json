@@ -135,7 +135,7 @@
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.title": "不意打ち催眠",
   "HYPNOSISCREATOR-AMBUSH_HYPNOSIS.description": "相手の数だけカードを引く。引いたカードをランダムな相手にプレイする。",
   "HYPNOSISCREATOR-MASS_HYPNOSIS.title": "集団催眠",
-  "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "催眠系[gold]カウント[/gold]カードの対象が相手すべてになる。",
+  "HYPNOSISCREATOR-MASS_HYPNOSIS.description": "催眠系[gold]カウント[/gold]カードの対象が相手すべてになる。催眠系[gold]カウント[/gold]カード[blue]3[/blue]枚から[blue]1[/blue]枚を選び、[gold]手札[/gold]に加える。",
   "HYPNOSISCREATOR-RAPPORT.title": "ラポール",
   "HYPNOSISCREATOR-RAPPORT.description": "[gold]手札[/gold]の[gold]カウント[/gold]を[blue]1[/blue]つ進める。ターン開始時、前のターンに相手を攻撃していなかった場合に[gold]手札[/gold]の[gold]カウント[/gold]がひとつ追加で進む。",
   "HYPNOSISCREATOR-CATALEPSY.title": "カタレプシー",
