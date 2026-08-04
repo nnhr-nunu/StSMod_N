@@ -10,6 +10,7 @@ public static class BrainSlimeRedirectRules
     {
         if (applier == null || !target.IsPlayer) return false;
         if (applier.GetPower<BrainSlimeRedirectPower>() is not { } redirect) return false;
+        if (redirect.RedirectAllEnemies) return false;
 
         var newTarget = redirect.GetAttackDebuffRedirectTarget();
         if (newTarget is not { IsAlive: true } || newTarget.IsPlayer) return false;

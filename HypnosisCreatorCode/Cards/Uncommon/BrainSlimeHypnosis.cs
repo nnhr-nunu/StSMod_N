@@ -10,10 +10,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 脳くちゅ催眠 — カウント。攻撃着弾を他敵へリダイレクト。UGで全敵に適用。
+/// 脳くちゅ催眠 — カウント。攻撃着弾を他敵へリダイレクト（UGで相手全員へ）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class BrainSlimeHypnosis() : HypnosisCreatorCard(3,
+public class BrainSlimeHypnosis() : HypnosisCreatorCard(5,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
@@ -27,24 +27,14 @@ public class BrainSlimeHypnosis() : HypnosisCreatorCard(3,
     {
         ArgumentNullException.ThrowIfNull(play.Target);
 
-        // UGの全敵付与は手動1回だけ。波及側ではリダイレクトを重ねない（トランス／性癖のみ）。
         if (!MassHypnosisPower.IsPropagating)
         {
-            if (IsUpgraded && CombatState != null)
-            {
-                foreach (var enemy in CombatState.HittableEnemies.ToList())
-                {
-                    await PowerCmd.Apply<BrainSlimeRedirectPower>(
-                        choiceContext, enemy, 1M, Owner.Creature, this);
-                }
-            }
-            else
-            {
-                await PowerCmd.Apply<BrainSlimeRedirectPower>(
-                    choiceContext, play.Target, 1M, Owner.Creature, this);
-            }
+            var power = await PowerCmd.Apply<BrainSlimeRedirectPower>(
+                choiceContext, play.Target, 1M, Owner.Creature, this);
+            if (power != null && IsUpgraded)
+                power.RedirectAllEnemies = true;
         }
-        else if (!IsUpgraded)
+        else
         {
             await PowerCmd.Apply<BrainSlimeRedirectPower>(
                 choiceContext, play.Target, 1M, Owner.Creature, this);
@@ -54,4 +44,6 @@ public class BrainSlimeHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await ResolveFetishOnTarget(choiceContext, play);
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-2);
 }

@@ -1,4 +1,5 @@
 using System.Reflection;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -13,11 +14,15 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 脳くちゅ催眠 — 所有者（敵）の攻撃を他敵へ寄せる。1ターンのみ。プレイヤーには当てない。
+/// UG時は相手全員へ飛ばす（催眠対象は1体のまま）。
 /// </summary>
 public class BrainSlimeRedirectPower : HypnosisCreatorPower
 {
     private static readonly FieldInfo? SingleTargetField =
         typeof(AttackCommand).GetField("_singleTarget", BindingFlags.Instance | BindingFlags.NonPublic);
+
+    /// <summary>UG — 攻撃・付随デバフを相手全員へ広げる。</summary>
+    public bool RedirectAllEnemies { get; set; }
 
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Single;
@@ -37,6 +42,8 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
         get
         {
             var loc = base.Description;
+            if (RedirectAllEnemies)
+                return loc;
             loc.Add("Target", TargetDisplayName());
             return loc;
         }
@@ -52,6 +59,7 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
         Creature target, decimal amount, ValueProp props, Creature? dealer)
     {
         if (Owner == null || dealer != Owner || CombatState == null) return target;
+        if (RedirectAllEnemies) return target;
         var retarget = ResolveRetarget();
         RememberAttackRedirect(retarget);
         return retarget;
@@ -59,7 +67,15 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
 
     public override Task BeforeAttack(AttackCommand command)
     {
-        if (Owner == null || command.Attacker != Owner) return Task.CompletedTask;
+        if (Owner is not { IsAlive: true }) return Task.CompletedTask;
+
+        if (RedirectAllEnemies && command.Attacker == Owner)
+        {
+            BrainSlimeAoETargeting.TryEnable(command, this);
+            return Task.CompletedTask;
+        }
+
+        if (command.Attacker != Owner) return Task.CompletedTask;
         var retarget = ResolveRetarget();
         RememberAttackRedirect(retarget);
         try

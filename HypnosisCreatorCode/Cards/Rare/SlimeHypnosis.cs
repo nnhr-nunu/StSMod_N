@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// スライム催眠 — カウント・アブノーマル。1ターン意図を粘液×5（UGは×3）へ上書き＋トランス1。
+/// スライム催眠 — カウント・アブノーマル。1ターン意図を粘液×6（UGは×3）へ上書き＋トランス1。
 /// 見た目・名前は全スライム敵（S/M・バーサーカー含む）からランダム差し替え。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -23,7 +23,7 @@ public class SlimeHypnosis() : HypnosisCreatorCard(3,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Slimed", 5M),
+        new DynamicVar("Slimed", 6M),
         new DynamicVar("Trance", 1M)
     ];
 
@@ -37,6 +37,6 @@ public class SlimeHypnosis() : HypnosisCreatorCard(3,
         await ResolveFetishOnTarget(choiceContext, play);
     }
 
-    // CSV UG: 「粘液付与3枚」→ プレイヤーに不利な粘液枚数を 5→3 に減らす
-    protected override void OnUpgrade() => DynamicVars["Slimed"].UpgradeValueBy(-2M);
+    // CSV UG: 「粘液付与3枚」→ プレイヤーに不利な粘液枚数を 6→3 に減らす
+    protected override void OnUpgrade() => DynamicVars["Slimed"].UpgradeValueBy(-3M);
 }
