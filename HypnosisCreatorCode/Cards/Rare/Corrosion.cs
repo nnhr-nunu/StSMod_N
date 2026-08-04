@@ -12,7 +12,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 /// UGで、プレイしたアタックの性癖タグに一致するカウントカードを優先する。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class Corrosion() : HypnosisCreatorCard(2,
+public class Corrosion() : HypnosisCreatorCard(3,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
@@ -27,5 +27,5 @@ public class Corrosion() : HypnosisCreatorCard(2,
         }
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
