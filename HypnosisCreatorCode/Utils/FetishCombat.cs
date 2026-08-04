@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Threading;
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
@@ -45,6 +46,9 @@ public static class FetishCombat
     /// 同一カードプレイ中に目覚めた性癖。そのプレイの刺さり判定からは除外する（次のカード／リプレイから有効）。
     /// </summary>
     private static readonly AsyncLocal<Stack<HashSet<(Creature Enemy, FetishType Type)>>?> AwakenedThisPlayStack = new();
+
+    /// <summary>敵ごとの性癖パワー同期を直列化（マルチで fire-and-forget が競合しないように）。</summary>
+    private static readonly ConcurrentDictionary<Creature, SemaphoreSlim> SyncLocks = new();
 
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
@@ -176,9 +180,12 @@ public static class FetishCombat
         Creature enemy,
         Player owner)
     {
+        var gate = SyncLocks.GetOrAdd(enemy, static _ => new SemaphoreSlim(1, 1));
+        await gate.WaitAsync();
         try
         {
-            var amount = CalcFetishDoomAmount(enemy, owner.Creature);
+            // バフ行 Amount は全員共通の基礎値（HP%＋8）。深淵・ぜんぶ知ってるよ等は刺さり時の applier で反映。
+            var amount = CalcFetishDoomDisplayAmount(enemy);
             await EnsureFetishPowerAsync<SmFetishPower>(choiceContext, enemy, owner, FetishType.Sm, amount);
             await EnsureFetishPowerAsync<DsFetishPower>(choiceContext, enemy, owner, FetishType.DomSub, amount);
             await EnsureFetishPowerAsync<AbnormalFetishPower>(choiceContext, enemy, owner, FetishType.Abnormal, amount);
@@ -187,6 +194,10 @@ public static class FetishCombat
         catch (Exception e)
         {
             MainFile.Logger.Warn($"Fetish SyncFetishPowers failed: {e}");
+        }
+        finally
+        {
+            gate.Release();
         }
     }
 
@@ -203,7 +214,7 @@ public static class FetishCombat
         var existing = enemy.GetPower<TPower>();
         if (existing != null)
         {
-            // ツールチップの破滅Nをこの敵の実計算値に保つ
+            // バフ行は基礎破滅量。刺さり時の実量は CalcFetishDoomAmount(applier) を参照。
             if (existing.Amount != amount)
             {
                 await PowerCmd.ModifyAmount(
@@ -270,6 +281,13 @@ public static class FetishCombat
             Awaken(enemy, type, owner);
 #pragma warning restore CS0618
     }
+
+    /// <summary>
+    /// 敵バフ行の性癖パワー表示用。マルチで全員が同じ Amount になるよう applier 倍率は含めない。
+    /// 実際の刺さりは <see cref="CalcFetishDoomAmount"/> を使う。
+    /// </summary>
+    public static int CalcFetishDoomDisplayAmount(Creature enemy) =>
+        CalcFetishDoomAmount(enemy, applier: null);
 
     public static int CalcFetishDoomAmount(Creature enemy, Creature? applier = null)
     {

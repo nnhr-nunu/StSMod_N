@@ -23,7 +23,25 @@ public static class EnemyFetishSlots
     /// <summary>出現時: スロット1・トランス以外のランダム性癖1つ。</summary>
     public static void EnsureSpawnDefaults(Creature enemy, Player owner, Rng rng)
     {
-        if (!enemy.IsEnemy) return;
+        if (!TryEnsureSpawnInitialized(enemy, owner, rng)) return;
+        FetishOrbHud.QueueRefresh(enemy, visible: false);
+        FetishCombat.SyncFetishPowers(enemy, owner);
+    }
+
+    public static async Task EnsureSpawnDefaultsAsync(
+        PlayerChoiceContext choiceContext,
+        Creature enemy,
+        Player owner,
+        Rng rng)
+    {
+        if (!TryEnsureSpawnInitialized(enemy, owner, rng)) return;
+        FetishOrbHud.QueueRefresh(enemy, visible: false);
+        await FetishCombat.SyncFetishPowersAsync(choiceContext, enemy, owner);
+    }
+
+    private static bool TryEnsureSpawnInitialized(Creature enemy, Player owner, Rng rng)
+    {
+        if (!enemy.IsEnemy) return false;
 
         try
         {
@@ -39,13 +57,12 @@ public static class EnemyFetishSlots
                     $"Fetish spawn: {enemy.Name} -> {state.Fetishes[0].Id.Entry} (cap={state.Capacity})");
             }
 
-            // オーブHUDは廃止。バフ行の性癖パワーを同期する。
-            FetishOrbHud.QueueRefresh(enemy, visible: false);
-            FetishCombat.SyncFetishPowers(enemy, owner);
+            return true;
         }
         catch (Exception e)
         {
             MainFile.Logger.Warn($"Fetish EnsureSpawnDefaults failed: {e}");
+            return false;
         }
     }
 

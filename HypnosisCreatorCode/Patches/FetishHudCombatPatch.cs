@@ -38,6 +38,18 @@ internal static class FetishOwnerLookup
         foreach (var enemy in combatState.HittableEnemies.ToList())
             EnemyFetishSlots.EnsureSpawnDefaults(enemy, owner, rng);
     }
+
+    public static async Task EnsureAllEnemiesAsync(
+        ICombatState combatState,
+        PlayerChoiceContext choiceContext)
+    {
+        var owner = Find(combatState);
+        if (owner == null) return;
+
+        var rng = owner.RunState.Rng.CombatOrbGeneration;
+        foreach (var enemy in combatState.HittableEnemies.ToList())
+            await EnemyFetishSlots.EnsureSpawnDefaultsAsync(choiceContext, enemy, owner, rng);
+    }
 }
 
 /// <summary>敵出現時に性癖を付与し、バフ行へ同期する。</summary>
@@ -83,9 +95,25 @@ public static class FetishHudBeforeCombatPatch
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
 public static class FetishHudTurnStartPatch
 {
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
+    public static void Postfix(
+        ICombatState combatState,
+        PlayerChoiceContext choiceContext,
+        Player player,
+        ref Task __result)
     {
+        _ = player;
         if (FetishOwnerLookup.Find(combatState) == null) return;
-        FetishOwnerLookup.EnsureAllEnemies(combatState);
+
+        var original = __result;
+        __result = ContinueAsync(original, combatState, choiceContext);
+    }
+
+    private static async Task ContinueAsync(
+        Task original,
+        ICombatState combatState,
+        PlayerChoiceContext choiceContext)
+    {
+        await original;
+        await FetishOwnerLookup.EnsureAllEnemiesAsync(combatState, choiceContext);
     }
 }
