@@ -59,6 +59,9 @@ public static class HcStarterStrikeCompat
 
     public static bool IsStandInStrike(CardModel card)
     {
+        if (!IsHcStarterAttack(card))
+            return false;
+
         if (!HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
             return false;
 
