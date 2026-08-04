@@ -11,14 +11,11 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
 /// 侵食 — アタックカードをプレイするたび、ランダムな催眠カウントカードを手札に加える。
-/// アップグレード後は、プレイしたアタックの性癖タグと一致するカウントカードを優先する。
 /// </summary>
 public class CorrosionPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
-
-    public bool PreferMatchingFetish { get; set; }
 
     private static bool IsCountCandidate(CardModel c) =>
         c is HypnosisCreatorCard { Rarity: not CardRarity.Token } &&
@@ -40,21 +37,7 @@ public class CorrosionPower : HypnosisCreatorPower
 
         var rng = player.RunState.Rng.CombatCardSelection;
 
-        CardModel canonical;
-        var sourceFetishes = CardFetishLookup.GetFetishes(cardPlay.Card);
-        if (PreferMatchingFetish && sourceFetishes.Count > 0)
-        {
-            var matching = pool
-                .Where(c => CardFetishLookup.GetFetishes(c).Any(f => sourceFetishes.Contains(f)))
-                .ToList();
-            canonical = matching.Count > 0
-                ? matching[rng.NextInt(matching.Count)]
-                : pool[rng.NextInt(pool.Count)];
-        }
-        else
-        {
-            canonical = pool[rng.NextInt(pool.Count)];
-        }
+        var canonical = pool[rng.NextInt(pool.Count)];
 
         var generated = CombatState!.CreateCard(canonical, player);
         await CombatCardPilePreview.AddGeneratedCardAsync(generated, PileType.Hand, player);

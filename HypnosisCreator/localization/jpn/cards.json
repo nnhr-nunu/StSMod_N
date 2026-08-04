@@ -295,7 +295,6 @@
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.upgradeReplaceFrom": "攻撃対象を、対象を含むランダムな相手に移し替える。",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.upgradeReplaceTo": "攻撃対象を、対象を含む相手全員に移し替える。",
   "HYPNOSISCREATOR-ALL_IN_ONE.upgradeAppend": "廃棄山のカードも含める。",
-  "HYPNOSISCREATOR-CORROSION.upgradeAppend": "相手の性癖に該当するカードを優先して生成する。",
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "すでに引き寄せられている場合、ランダムな調教命令を2枚手札に加える。",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "相手がトランス時はスローの蓄積量がリセットされない。",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "手札のカウントを1つ進める。",

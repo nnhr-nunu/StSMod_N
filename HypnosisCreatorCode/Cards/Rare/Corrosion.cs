@@ -9,7 +9,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 侵食 — パワー。アタックカードをプレイするたび、ランダムな催眠カウントカードを手札に加える。
-/// UGで、プレイしたアタックの性癖タグに一致するカウントカードを優先する。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Corrosion() : HypnosisCreatorCard(3,
@@ -18,13 +17,8 @@ public class Corrosion() : HypnosisCreatorCard(3,
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await PowerCmd.Apply<CorrosionPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
-
-        if (IsUpgraded)
-        {
-            var power = Owner.Creature.GetPower<CorrosionPower>();
-            if (power != null) power.PreferMatchingFetish = true;
-        }
+        await PowerCmd.Apply<CorrosionPower>(
+            choiceContext, Owner.Creature, 1M, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);

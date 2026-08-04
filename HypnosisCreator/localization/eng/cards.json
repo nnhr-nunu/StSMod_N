@@ -295,7 +295,6 @@
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.upgradeReplaceFrom": "Redirect the attack target to a random opponent that includes the target.",
   "HYPNOSISCREATOR-BRAIN_SLIME_HYPNOSIS.upgradeReplaceTo": "Redirect the attack target to all opponents that include the target.",
   "HYPNOSISCREATOR-ALL_IN_ONE.upgradeAppend": "Include cards in your Exhaust pile.",
-  "HYPNOSISCREATOR-CORROSION.upgradeAppend": "Prefer Count cards matching the opponent's Fetish.",
   "HYPNOSISCREATOR-COLLAR_TRAINING.upgradeAppend": "If already Pulled, add 2 random Training Command cards to your hand.",
   "HYPNOSISCREATOR-CATALEPSY.upgradeAppend": "While Tranced, Slow stacks do not reset.",
   "HYPNOSISCREATOR-STARE.upgradeAppend": "Advance Count costs in your hand by 1.",
