@@ -160,6 +160,7 @@
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.description": "Apply {AsleepPower:diff()} [gold]Asleep[/gold]. Heal the target for {Heal:diff()} HP. Apply {Trance:diff()} [gold]Trance[/gold].",
   "HYPNOSISCREATOR-MASTERY.title": "Mastery",
   "HYPNOSISCREATOR-MASTERY.description": "At the end of combat, upgrade every Hypnosis [gold]Count[/gold] card you played.",
+  "HYPNOSISCREATOR-MASTERY.upgradeAppend": "After combat, gain an additional Hypnosis [gold]Count[/gold] card reward.",
   "HYPNOSISCREATOR-MELT_INTO_TRANCE.title": "Melt Into Trance",
   "HYPNOSISCREATOR-MELT_INTO_TRANCE.description": "Deal {PerTrance:diff()} damage for each time the target has fallen into [gold]Trance[/gold].",
   "HYPNOSISCREATOR-CORROSION.title": "Corrosion",

@@ -9,15 +9,20 @@ namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
 /// 練達 — パワー。有効な間にプレイしたカウントカードを、戦闘終了時に永続アップグレードする。
-/// CSV: 支援カードのためカウントキーワードは付けない（mechanics-lock.md）。UGでコスト1。
+/// UGで、戦闘終了後に催眠系カウントカード報酬を追加する。コストは2のまま。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class Mastery() : HypnosisCreatorCard(2,
     CardType.Power, CardRarity.Rare,
     TargetType.Self)
 {
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play) =>
-        await PowerCmd.Apply<MasteryPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        var power = await PowerCmd.Apply<MasteryPower>(
+            choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+        if (power != null && IsUpgraded)
+            power.AddHypnosisCountCardReward = true;
+    }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() { }
 }

@@ -16,6 +16,8 @@ public class MasteryPower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
+    public bool AddHypnosisCountCardReward { get; set; }
+
     private readonly HashSet<CardModel> _playedCountCards = [];
     public IReadOnlyCollection<CardModel> PlayedCountCards => _playedCountCards;
 

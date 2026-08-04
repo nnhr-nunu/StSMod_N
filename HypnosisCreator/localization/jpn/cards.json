@@ -160,6 +160,7 @@
   "HYPNOSISCREATOR-LULLABY_HYPNOSIS.description": "[gold]睡眠[/gold]{AsleepPower:diff()}を与える。対象のHPを{Heal:diff()}回復する。[gold]トランス[/gold]{Trance:diff()}。",
   "HYPNOSISCREATOR-MASTERY.title": "練達",
   "HYPNOSISCREATOR-MASTERY.description": "プレイした催眠系[gold]カウント[/gold]カードすべてを戦闘終了後にアップグレードする。",
+  "HYPNOSISCREATOR-MASTERY.upgradeAppend": "戦闘終了後に、追加の催眠系[gold]カウント[/gold]カード報酬を得る。",
   "HYPNOSISCREATOR-MELT_INTO_TRANCE.title": "トランスに溶けゆく",
   "HYPNOSISCREATOR-MELT_INTO_TRANCE.description": "対象が[gold]トランス[/gold]に落ちた回数分、{PerTrance:diff()}ダメージを与える。",
   "HYPNOSISCREATOR-CORROSION.title": "侵食",
