@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// フリーハグ — マルチ用。引き寄せ＋手札2枚パス（毎回）。
+/// フリーハグ — マルチ用。引き寄せ＋このカードの複製2枚を味方へパス（毎回）。
 /// 引き寄せ済みの相手には破滅・沼。戦闘中の引き寄せ回数（他カードの引き寄せ含む）に応じて破滅が増加。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -78,31 +78,9 @@ public class FreeHug() : HypnosisCreatorCard(0,
         var recipient = recipientCreature?.Player;
         if (recipient == null) return;
 
-        var hand = Owner.PlayerCombatState?.Hand;
-        var candidates = hand?.Cards
-            .Where(c => c != this && c.Pile?.Type == PileType.Hand)
-            .ToList() ?? [];
-        var toPass = SelectRandomHandCards(candidates, DynamicVars.Cards.IntValue);
-
-        if (toPass.Count > 0)
-            PendingCardPassToPlayer.Enqueue(toPass, recipient, this);
-    }
-
-    private List<CardModel> SelectRandomHandCards(List<CardModel> candidates, int count)
-    {
-        if (candidates.Count == 0 || count <= 0)
-            return [];
-
-        var rng = Owner.RunState.Rng.CombatCardSelection;
-        var pool = candidates.ToList();
-        var selected = new List<CardModel>(Math.Min(count, pool.Count));
-        for (var i = 0; i < count && pool.Count > 0; i++)
-        {
-            var idx = rng.NextInt(pool.Count);
-            selected.Add(pool[idx]);
-            pool.RemoveAt(idx);
-        }
-
-        return selected;
+        var copies = Enumerable.Range(0, DynamicVars.Cards.IntValue)
+            .Select(_ => CreateDupe(recipient))
+            .ToList();
+        PendingCardPassToPlayer.Enqueue(copies, recipient);
     }
 }

@@ -23,7 +23,9 @@ public static class PendingHandCardAddGeneratedDeferPatch
         Player? creator,
         ref Task<IReadOnlyList<CardPileAddResult>> __result)
     {
-        if (newPileType != PileType.Hand || PendingHandCardAdd.IsFlushing)
+        if (newPileType != PileType.Hand
+            || PendingHandCardAdd.IsFlushing
+            || PendingCardPassToPlayer.IsFlushing)
             return true;
 
         var list = cards.ToList();

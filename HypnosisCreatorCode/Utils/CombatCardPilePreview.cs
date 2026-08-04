@@ -273,27 +273,30 @@ public static class PendingHandCardAdd
 }
 
 /// <summary>
-/// カードプレイ中の味方への手札パスをキューし、プレイ完了後に <see cref="CardPileCmd.GiveToAnotherPlayer"/> で実行する。
-/// OnPlay 内の即時 Give はマルチ同期・演出タイミングで欠落しやすい。
+/// カードプレイ中に生成した味方へのカードパスをキューし、プレイ完了後に手札へ追加する。
+/// 生成カードは本家の生成カード経路を使い、マルチ履歴と所有者を正しく登録する。
 /// </summary>
 public static class PendingCardPassToPlayer
 {
-    private sealed class PassMove
+    private sealed class PassBatch
     {
-        public required CardModel Card { get; init; }
+        public required List<CardModel> Cards { get; init; }
         public required Player Recipient { get; init; }
-        public AbstractModel? Source { get; init; }
     }
 
-    private static readonly List<PassMove> Queue = [];
+    private static readonly List<PassBatch> Queue = [];
+    internal static bool IsFlushing { get; private set; }
 
     public static void Enqueue(
         IReadOnlyList<CardModel> cards,
-        Player recipient,
-        AbstractModel? source = null)
+        Player recipient)
     {
-        foreach (var card in cards)
-            Queue.Add(new PassMove { Card = card, Recipient = recipient, Source = source });
+        if (cards.Count == 0) return;
+        Queue.Add(new PassBatch
+        {
+            Cards = cards.ToList(),
+            Recipient = recipient
+        });
     }
 
     public static async Task FlushIfAnyAsync()
@@ -302,9 +305,21 @@ public static class PendingCardPassToPlayer
 
         var batch = Queue.ToList();
         Queue.Clear();
-        foreach (var move in batch)
-            await CardPileCmd.GiveToAnotherPlayer(
-                move.Card, move.Recipient, PileType.Hand, CardPilePosition.Top, move.Source);
+        IsFlushing = true;
+        try
+        {
+            foreach (var move in batch)
+            {
+                var results = await CardPileCmd.AddGeneratedCardsToCombat(
+                    move.Cards, PileType.Hand, move.Recipient, CardPilePosition.Top);
+                if (results.Any(r => r.success))
+                    await CombatCardPilePreview.PreviewAddAsync(results, PileType.Hand);
+            }
+        }
+        finally
+        {
+            IsFlushing = false;
+        }
     }
 
     public static void Clear() => Queue.Clear();
