@@ -44,12 +44,6 @@ public class LoveHypnosis() : HypnosisCreatorCard(3,
 
         await PowerCmd.Apply<LoveHypnosisPower>(
             choiceContext, play.Target, 1M, Owner.Creature, this);
-        var power = play.Target.GetPower<LoveHypnosisPower>();
-        if (power != null)
-        {
-            power.StealBuff = true;
-            power.StealBlock = IsUpgraded;
-        }
 
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);

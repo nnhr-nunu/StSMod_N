@@ -1,9 +1,12 @@
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
@@ -16,11 +19,45 @@ public class LoveHypnosisPower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Single;
 
+    private bool _stealBuff = true;
+    private bool _stealBlock;
+    private int _beneficiaryPlayerIndex = -1;
+
     /// <summary>バフ意図の PowerCmd.Apply をプレイヤーへ。</summary>
-    public bool StealBuff { get; set; } = true;
+    [SavedProperty]
+    public bool StealBuff
+    {
+        get => _stealBuff;
+        set
+        {
+            AssertMutable();
+            _stealBuff = value;
+        }
+    }
 
     /// <summary>防御意図の GainBlock をプレイヤーへ（UG）。</summary>
-    public bool StealBlock { get; set; }
+    [SavedProperty]
+    public bool StealBlock
+    {
+        get => _stealBlock;
+        set
+        {
+            AssertMutable();
+            _stealBlock = value;
+        }
+    }
+
+    /// <summary>奪ったバフの付与先。CombatState.Players のインデックス（マルチ同期用）。</summary>
+    [SavedProperty]
+    public int BeneficiaryPlayerIndex
+    {
+        get => _beneficiaryPlayerIndex;
+        set
+        {
+            AssertMutable();
+            _beneficiaryPlayerIndex = value;
+        }
+    }
 
     public override LocString Description
     {
@@ -32,10 +69,38 @@ public class LoveHypnosisPower : HypnosisCreatorPower
         }
     }
 
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        var player = applier?.Player ?? cardSource?.Owner;
+        if (player != null && CombatState != null)
+        {
+            var players = CombatState.Players.ToList();
+            BeneficiaryPlayerIndex = players.IndexOf(player);
+        }
+
+        StealBuff = true;
+        StealBlock = cardSource is LoveHypnosis { IsUpgraded: true };
+        return Task.CompletedTask;
+    }
+
     public Creature? ResolvePlayerCreature()
     {
-        if (Applier is { IsPlayer: true }) return Applier;
-        return Applier?.Player?.Creature;
+        if (BeneficiaryPlayerIndex >= 0 && CombatState != null)
+        {
+            var players = CombatState.Players.ToList();
+            if (BeneficiaryPlayerIndex < players.Count)
+            {
+                var creature = players[BeneficiaryPlayerIndex].Creature;
+                if (creature is { IsAlive: true })
+                    return creature;
+            }
+        }
+
+        if (Applier is { IsPlayer: true, IsAlive: true })
+            return Applier;
+
+        var fallback = Applier?.Player?.Creature;
+        return fallback is { IsAlive: true } ? fallback : null;
     }
 
     public override async Task AfterSideTurnEnd(
