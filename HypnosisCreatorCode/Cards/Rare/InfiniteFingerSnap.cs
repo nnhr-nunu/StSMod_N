@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 連続指パッチン — 全敵に1ダメージ×5をX回。廃棄。UGで保留。
+/// 連続指パッチン — 全敵に1ダメージ×4をX回。廃棄。UGで保留・5連撃。
 /// 合計ダメージは戦闘中のみ表示し、筋力／弱体などを反映する。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
@@ -20,7 +20,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
     CardType.Attack, CardRarity.Uncommon,
     TargetType.AllEnemies)
 {
-    private const int HitsPerCycle = 5;
+    private const int BaseHitsPerCycle = 4;
+    private const int UpgradedHitsPerCycle = 5;
 
     protected override bool HasEnergyCostX => true;
 
@@ -34,7 +35,7 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
         if (CombatState == null) return;
 
         var x = Math.Max(0, ResolveEnergyXValue());
-        var totalHits = HitsPerCycle * x;
+        var totalHits = GetHitsPerCycle(this) * x;
         if (totalHits <= 0) return;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
@@ -47,6 +48,9 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
+    private static int GetHitsPerCycle(InfiniteFingerSnap card) =>
+        card.IsUpgraded ? UpgradedHitsPerCycle : BaseHitsPerCycle;
+
     internal static void AppendDescriptionSuffix(
         CardModel card, Creature? target, ref string description)
     {
@@ -55,8 +59,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
         var previewX = EnergyXPreview.Resolve(snap);
         var baselineX = EnergyXPreview.ResolveBaseline(snap);
-        var hits = HitsPerCycle * previewX;
-        var baselineHits = HitsPerCycle * baselineX;
+        var hits = GetHitsPerCycle(snap) * previewX;
+        var baselineHits = BaseHitsPerCycle * baselineX;
         if (hits <= 0) return;
 
         var perHitRaw = snap.DynamicVars.Damage.BaseValue;
