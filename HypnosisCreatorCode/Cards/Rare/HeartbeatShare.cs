@@ -40,4 +40,6 @@ public class HeartbeatShare() : HypnosisCreatorCard(1,
             await HeartbeatShareEffects.ShareAll(choiceContext, Owner, allyPlayer);
         }
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
