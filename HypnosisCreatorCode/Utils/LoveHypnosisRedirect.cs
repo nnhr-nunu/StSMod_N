@@ -130,7 +130,7 @@ public static class LoveHypnosisRedirect
     public static bool HasDefendIntent(Creature enemy) =>
         enemy.Monster?.NextMove?.Intents?.OfType<DefendIntent>().Any() == true;
 
-    private static bool TryGetActiveLoveHypnosis(Creature applier, out LoveHypnosisPower hypnosis)
+    internal static bool TryGetActiveLoveHypnosis(Creature applier, out LoveHypnosisPower hypnosis)
     {
         hypnosis = applier.GetPower<LoveHypnosisPower>()!;
         return hypnosis != null;

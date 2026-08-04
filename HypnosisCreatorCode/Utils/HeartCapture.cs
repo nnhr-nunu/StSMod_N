@@ -73,7 +73,8 @@ public static class HeartCapture
         if (!allowWhileSiblingsAlive && HasLivingSiblingForSameHeart(slain))
         {
             var mid = HeartRegistry.GetMonsterId(slain) ?? slain.ModelId.Entry;
-            MainFile.Logger.Info($"Heart deferred until last sibling dies: {mid}");
+            MainFile.Logger.Info($"Heart deferred until combat end (siblings alive): {mid}");
+            QueueCapture(player, mid, slain);
             return;
         }
 

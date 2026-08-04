@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -21,6 +22,81 @@ public struct LoveHypnosisStealData
     public bool Active;
     public decimal Amount;
     public Creature? Player;
+}
+
+/// <summary>
+/// 敵モンスター行動の <c>PowerCmd.Apply&lt;T&gt;(…, Creature, …)</c> 向け奪取。
+/// 非ジェネリック <see cref="PowerCmd.Apply(PowerModel, …)"/> だけだと儀式の獣の筋力などが漏れる。
+/// </summary>
+[HarmonyPatch]
+public static class LoveHypnosisApplyGenericStealPatch
+{
+    private static MethodBase TargetMethod() =>
+        AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
+        [
+            typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal),
+            typeof(Creature), typeof(CardModel), typeof(bool)
+        ]);
+
+    public static void Prefix(
+        Creature target, decimal amount, Creature? applier, ref LoveHypnosisStealData __state)
+    {
+        __state = default;
+        if (amount <= 0m) return;
+        if (applier == null) return;
+        if (target.Side != CombatSide.Enemy) return;
+        if (!LoveHypnosisRedirect.TryGetActiveLoveHypnosis(applier, out var hypnosis) || !hypnosis.StealBuff)
+            return;
+
+        var player = hypnosis.ResolvePlayerCreature();
+        if (player is not { IsAlive: true }) return;
+
+        __state = new LoveHypnosisStealData
+        {
+            Active = true,
+            Amount = amount,
+            Player = player,
+        };
+    }
+
+    public static void Postfix(
+        ref Task __result,
+        LoveHypnosisStealData __state,
+        Creature? applier,
+        CardModel? cardSource,
+        PlayerChoiceContext choiceContext)
+    {
+        if (!__state.Active || __state.Player == null) return;
+        var original = __result;
+        __result = ContinueAfterGenericApply(original, __state, applier, cardSource, choiceContext);
+    }
+
+    private static async Task ContinueAfterGenericApply(
+        Task original,
+        LoveHypnosisStealData state,
+        Creature? applier,
+        CardModel? cardSource,
+        PlayerChoiceContext choiceContext)
+    {
+        await original;
+
+        var power = ExtractAppliedPower(original);
+        if (power == null || power.Type != PowerType.Buff) return;
+        if (!BuffStripRules.CanStripFromEnemy(power)) return;
+        if (state.Amount <= 0m || state.Player == null) return;
+
+        await LoveHypnosisRedirect.TransferBuffToPlayer(
+            choiceContext, power, state.Amount, state.Player, applier, cardSource);
+    }
+
+    private static PowerModel? ExtractAppliedPower(Task task)
+    {
+        var taskType = task.GetType();
+        if (!taskType.IsGenericType) return null;
+
+        var result = taskType.GetProperty("Result")?.GetValue(task);
+        return result as PowerModel;
+    }
 }
 
 [HarmonyPatch]

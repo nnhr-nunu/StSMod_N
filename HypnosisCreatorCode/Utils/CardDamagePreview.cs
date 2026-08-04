@@ -1,11 +1,10 @@
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -80,14 +79,57 @@ public static class CardDamagePreview
         if (target.GetPowerAmount<ArtifactPower>() > 0)
             return ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
 
+        var dealer = card.Owner?.Creature;
+        if (dealer == null)
+            return ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
+
         var atCurrent = ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
         var currentVuln = target.GetPowerAmount<VulnerablePower>();
-        var oldMult = 1m + VulnerableMultiplierPerStack * currentVuln;
-        var newMult = 1m + VulnerableMultiplierPerStack * (currentVuln + vulnerableToApply);
-        if (oldMult <= 0m) return atCurrent;
+        var oldFactor = ResolvePoweredAttackVulnerableFactor(
+            target, dealer, props, card, currentVuln);
+        var newFactor = ResolvePoweredAttackVulnerableFactor(
+            target, dealer, props, card, currentVuln + (int)vulnerableToApply);
+        if (oldFactor <= 0m) return atCurrent;
 
-        var preview = atCurrent * newMult / oldMult;
+        var preview = atCurrent * newFactor / oldFactor;
         return CombatPreviewText.RoundDisplayAmount(preview);
+    }
+
+    /// <summary>
+    /// 本家 <see cref="VulnerablePower.ModifyDamageMultiplicative"/> と同趣旨の弱体系倍率。
+    /// 無慈悲・紙カエル（Paper Phrog）・衰弱（Debilitate）を弱体あり時に反映する。
+    /// </summary>
+    internal static decimal ResolvePoweredAttackVulnerableFactor(
+        Creature target,
+        Creature dealer,
+        ValueProp props,
+        CardModel? cardSource,
+        int vulnerableStacks)
+    {
+        if (vulnerableStacks <= 0) return 1m;
+        if (!props.IsPoweredAttack()) return 1m;
+
+        var stackMult = 1m + VulnerableMultiplierPerStack * vulnerableStacks;
+
+        // 本家 VulnerablePower の DamageIncrease 既定値
+        var vulnComponent = 1.5m;
+        var player = dealer.Player;
+        if (player?.GetRelic<PaperPhrog>() is { } phrog)
+            vulnComponent = phrog.ModifyVulnerableMultiplier(
+                target, vulnComponent, props, dealer, cardSource);
+
+        var cruelty = dealer.GetPower<CrueltyPower>()
+            ?? dealer.PetOwner?.Creature.GetPower<CrueltyPower>();
+        if (cruelty != null)
+            vulnComponent = cruelty.ModifyVulnerableMultiplier(
+                target, vulnComponent, props, dealer, cardSource);
+
+        var debilitate = target.GetPower<DebilitatePower>();
+        if (debilitate != null)
+            vulnComponent = debilitate.ModifyVulnerableMultiplier(
+                target, vulnComponent, props, dealer, cardSource);
+
+        return stackMult * (vulnComponent / 1.5m);
     }
 
     /// <summary>
