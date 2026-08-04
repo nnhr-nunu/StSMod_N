@@ -33,13 +33,14 @@ public static class HeartRelicActivation
     {
         if (!heart.IsRareHeart || heart.IsUsedUp) return false;
         if (player == null) return false;
-        if (heart.Owner != null && !ReferenceEquals(heart.Owner, player)) return false;
+        if (heart.Owner != null && heart.Owner.NetId != player.NetId) return false;
+        if (!LocalContext.IsMe(player)) return false;
 
         var combat = CombatManager.Instance;
         if (combat is not { IsInProgress: true }) return false;
         if (combat.PlayerActionsDisabled) return false;
 
-        var side = player.Creature.CombatState?.CurrentSide;
+        var side = player.Creature?.CombatState?.CurrentSide;
         if (side is not null and not CombatSide.Player) return false;
 
         return true;
@@ -58,10 +59,10 @@ public static class HeartRelicActivation
         try
         {
             var owned = ResolveOwnedHeart(heart, player) ?? heart;
-            var action = new ActivateRareHeartAction(owned);
+            var wasUsed = owned.WasUsed;
             _activating = true;
-            run.ActionQueueSynchronizer.RequestEnqueue(action);
-            _ = WaitForActivationEnd(action, owned);
+            run.ActionQueueSynchronizer.RequestEnqueue(new ActivateRareHeartAction(owned));
+            _ = WaitForActivationEnd(owned, wasUsed);
             return true;
         }
         catch (Exception e)
@@ -72,11 +73,15 @@ public static class HeartRelicActivation
         }
     }
 
-    private static async Task WaitForActivationEnd(ActivateRareHeartAction action, EnemyHeartRelic heart)
+    private static async Task WaitForActivationEnd(EnemyHeartRelic heart, bool wasUsed)
     {
         try
         {
-            await action.CompletionTask;
+            // クライアントは RequestEnqueue したローカル GameAction が実行されないため、
+            // CompletionTask ではなく使用済みフラグの変化を待つ。
+            var deadline = DateTime.UtcNow.AddSeconds(3);
+            while (heart.WasUsed == wasUsed && DateTime.UtcNow < deadline)
+                await Task.Delay(50);
         }
         catch (Exception e)
         {

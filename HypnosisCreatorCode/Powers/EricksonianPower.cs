@@ -9,7 +9,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 public class EricksonianPower : HypnosisCreatorPower
 {
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public static Task TryAdvanceHandCountOnFetishHit(
         PlayerChoiceContext choiceContext,
@@ -18,9 +18,10 @@ public class EricksonianPower : HypnosisCreatorPower
     {
         var player = applier.Player;
         if (player == null) return Task.CompletedTask;
-        if (applier.GetPower<EricksonianPower>() == null) return Task.CompletedTask;
+        var power = applier.GetPower<EricksonianPower>();
+        if (power == null) return Task.CompletedTask;
 
-        CountRules.AdvanceHandCountCards(player);
+        CountRules.AdvanceHandCountCards(player, Math.Max(1, power.Amount));
         return Task.CompletedTask;
     }
 }

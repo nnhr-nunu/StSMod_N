@@ -54,12 +54,12 @@ public class FreeHug() : HypnosisCreatorCard(0,
                 choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
         }
 
-        TryEnqueuePassToRandomAlly();
-
         await PullTracker.TryPull(play.Target, Owner.Creature, choiceContext, this);
 
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);
+
+        TryEnqueuePassToRandomAlly();
     }
 
     protected override void OnUpgrade() => DynamicVars["DoomPerPull"].UpgradeValueBy(2M);

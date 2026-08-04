@@ -127,7 +127,7 @@
   "HYPNOSISCREATOR-BOTTOMLESS_BOG_POWER.smartDescription": "At the end of your turn, apply [blue]{Amount}[/blue] [gold]Doom[/gold] for each point of [gold]Trance[/gold] and [gold]Bog[/gold].",
   "HYPNOSISCREATOR-ERICKSONIAN_POWER.title": "Ericksonian Induction",
   "HYPNOSISCREATOR-ERICKSONIAN_POWER.description": "Whenever you land a Fetish hit, advance [gold]Count[/gold] in hand by [blue]1[/blue].",
-  "HYPNOSISCREATOR-ERICKSONIAN_POWER.smartDescription": "Whenever you land a Fetish hit, advance [gold]Count[/gold] in hand.",
+  "HYPNOSISCREATOR-ERICKSONIAN_POWER.smartDescription": "Whenever you land a Fetish hit, advance [gold]Count[/gold] in hand by [blue]{Amount}[/blue].",
   "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.title": "Attack Tracker",
   "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.description": "Tracks opponent attacks on the player.",
   "HYPNOSISCREATOR-ENEMY_PLAYER_ATTACK_TRACKER_POWER.smartDescription": "Tracks opponent attacks on the player.",
