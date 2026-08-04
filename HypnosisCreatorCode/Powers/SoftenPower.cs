@@ -8,19 +8,22 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// ふにゃへにゃ — トランス1スタックにつき与ダメ20%減。最大40%減（UGカード由来は60%）。
+/// ふにゃへにゃ — トランス1スタックあたりの減少率 = 10%＋10%×本パワースタック（1枚20%、2枚30%…）。
+/// 合計は最大40%（UGカード由来は60%）。下限ダメージ倍率10%。
 /// </summary>
 public class SoftenPower : HypnosisCreatorPower
 {
     public const decimal DefaultMaxReduction = 0.40M;
     public const decimal UpgradedMaxReduction = 0.60M;
 
-    private const decimal ReductionPerTrance = 0.20M;
-
     public decimal MaxReductionCap { get; set; } = DefaultMaxReduction;
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    /// <summary>トランス1スタックあたりの減少率（本パワーのスタック数で上がる）。</summary>
+    public decimal ReductionPerTranceStack =>
+        0.10M + 0.10M * Math.Max(1, Amount);
 
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props, Creature? dealer,
@@ -29,15 +32,13 @@ public class SoftenPower : HypnosisCreatorPower
         if (target != Owner) return 1M;
         if (dealer == null || !dealer.IsEnemy) return 1M;
 
-        var softenPowers = Owner?.Powers.OfType<SoftenPower>().ToList();
-        if (softenPowers is not { Count: > 0 }) return 1M;
-        if (softenPowers[0] != this) return 1M;
+        var soften = Owner?.GetPower<SoftenPower>();
+        if (soften == null || soften != this) return 1M;
 
         var trance = TranceCombat.GetTrance(dealer);
         if (trance <= 0) return 1M;
 
-        var maxReduction = softenPowers.Max(p => p.MaxReductionCap);
-        var reduction = Math.Min(maxReduction, ReductionPerTrance * trance);
-        return 1M - reduction;
+        var reduction = Math.Min(MaxReductionCap, ReductionPerTranceStack * trance);
+        return Math.Max(0.10M, 1M - reduction);
     }
 }
