@@ -4,22 +4,24 @@ using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// 術式の開示 — 天賦・廃棄。山札からカウント2枚を手札へ（1枚は性癖優先）。UG0コスト。
+/// 術式の開示 — 0コスト・天賦・廃棄。山札からカウント2枚を手札へ（1枚は性癖優先）。UGで3枚。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
-public class RitualReveal() : HypnosisCreatorCard(1,
+public class RitualReveal() : HypnosisCreatorCard(0,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Innate, CardKeyword.Exhaust];
 
-    private const int PullCount = 2;
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar("Cards", 2M)];
 
     protected override bool ShouldGlowWhenConditionMet()
     {
@@ -48,7 +50,7 @@ public class RitualReveal() : HypnosisCreatorCard(1,
             selected.Add(fetishMatch[rng.NextInt(fetishMatch.Count)]);
 
         var remaining = candidates.Where(c => !selected.Contains(c)).ToList();
-        while (selected.Count < PullCount && remaining.Count > 0)
+        while (selected.Count < DynamicVars["Cards"].IntValue && remaining.Count > 0)
         {
             var pick = remaining[rng.NextInt(remaining.Count)];
             selected.Add(pick);
@@ -60,5 +62,5 @@ public class RitualReveal() : HypnosisCreatorCard(1,
         return Task.CompletedTask;
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["Cards"].UpgradeValueBy(1M);
 }

@@ -97,7 +97,7 @@
   "HYPNOSISCREATOR-BOTTOMLESS_BOG.title": "底なしの沼",
   "HYPNOSISCREATOR-BOTTOMLESS_BOG.description": "ターン終了時、[gold]トランス[/gold]と[gold]沼[/gold]の数値[blue]1[/blue]につき、[gold]破滅[/gold]を{DoomPerStack:diff()}付与する。",
   "HYPNOSISCREATOR-RITUAL_REVEAL.title": "術式の開示",
-  "HYPNOSISCREATOR-RITUAL_REVEAL.description": "催眠系[gold]カウント[/gold]カードを[gold]山札[/gold]からランダムに[blue]2[/blue]枚、[gold]手札[/gold]に加える。[blue]1[/blue]枚は相手の性癖に合致するカードが優先して選ばれる。",
+  "HYPNOSISCREATOR-RITUAL_REVEAL.description": "催眠系[gold]カウント[/gold]カードを[gold]山札[/gold]からランダムに{Cards:diff()}枚、[gold]手札[/gold]に加える。[blue]1[/blue]枚は相手の性癖に合致するカードが優先して選ばれる。",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.title": "ゼロへの近道",
   "HYPNOSISCREATOR-ZERO_SHORTCUT.description": "{FirstBlock:diff()}[gold]ブロック[/gold]を得る。これを[blue]1[/blue]数値を減らして[blue]0[/blue][gold]ブロック[/gold]を得るまで繰り返す。[gold]手札[/gold]の催眠系[gold]カウント[/gold]カードのコストを[blue]0[/blue]にする。",
   "HYPNOSISCREATOR-INFINITE_FINGER_SNAP.title": "連続指パッチン",
