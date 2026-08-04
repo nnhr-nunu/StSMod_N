@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Common;
 
-/// <summary>薬物催眠 — カウント。毒・破滅・筋力減・弱体・脱力・沼・トランス1。アブノーマル性癖。</summary>
+/// <summary>薬物催眠 — カウント。毒7、破滅7、弱体2、脱力2、筋力低下1、沼1、トランス1。UGで10/10/3/3/2/2/1。アブノーマル性癖。</summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class DrugHypnosis() : HypnosisCreatorCard(3,
     CardType.Skill, CardRarity.Common,
@@ -24,10 +24,10 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
     [
         new PowerVar<PoisonPower>(7M),
         new DynamicVar("Doom", 7M),
-        new PowerVar<StrengthPower>("StrengthLoss", 2M),
         new PowerVar<VulnerablePower>(2M),
         new PowerVar<WeakPower>(2M),
-        new DynamicVar("Bog", 2M),
+        new PowerVar<StrengthPower>("StrengthLoss", 1M),
+        new DynamicVar("Bog", 1M),
         new DynamicVar("Trance", 1M)
     ];
 
@@ -42,12 +42,12 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
             choiceContext, play.Target, DynamicVars.Poison.BaseValue, Owner.Creature, this);
         await FetishCombat.ApplyDoom(
             choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
-        await PowerCmd.Apply<StrengthPower>(
-            choiceContext, play.Target, -DynamicVars["StrengthLoss"].BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext, play.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<WeakPower>(
             choiceContext, play.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(
+            choiceContext, play.Target, -DynamicVars["StrengthLoss"].BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<BogPower>(
             choiceContext, play.Target, DynamicVars["Bog"].BaseValue, Owner.Creature, this);
         await TranceCombat.ApplyTrance(
@@ -58,7 +58,7 @@ public class DrugHypnosis() : HypnosisCreatorCard(3,
     protected override void OnUpgrade()
     {
         DynamicVars.Poison.UpgradeValueBy(3M);
-        DynamicVars["Doom"].UpgradeValueBy(8M);
+        DynamicVars["Doom"].UpgradeValueBy(3M);
         DynamicVars["StrengthLoss"].UpgradeValueBy(1M);
         DynamicVars.Vulnerable.UpgradeValueBy(1M);
         DynamicVars.Weak.UpgradeValueBy(1M);

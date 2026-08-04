@@ -29,7 +29,7 @@
   "HYPNOSISCREATOR-ZERO_OUT.title": "Auf null setzen",
   "HYPNOSISCREATOR-ZERO_OUT.description": "Senkt den Angriffswert des Gegners auf [blue]0[/blue]. [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-DRUG_HYPNOSIS.title": "Drogenhypnose",
-  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "Verursache [gold]Gift[/gold] {PoisonPower:diff()}, [gold]Verhängnis[/gold] {Doom:diff()}, Stärkeverlust {StrengthLoss:diff()}, [gold]Verwundbar[/gold] {VulnerablePower:diff()}, [gold]Schwäche[/gold] {WeakPower:diff()}, [gold]Sumpf[/gold] {Bog:diff()}, [gold]Trance[/gold] {Trance:diff()}.",
+  "HYPNOSISCREATOR-DRUG_HYPNOSIS.description": "Verursache [gold]Gift[/gold] {PoisonPower:diff()}, [gold]Verhängnis[/gold] {Doom:diff()}, [gold]Verwundbar[/gold] {VulnerablePower:diff()}, [gold]Schwäche[/gold] {WeakPower:diff()}, Stärkeverlust {StrengthLoss:diff()}, [gold]Sumpf[/gold] {Bog:diff()}, [gold]Trance[/gold] {Trance:diff()}.",
   "HYPNOSISCREATOR-SPANKING.title": "Versohlen",
   "HYPNOSISCREATOR-SPANKING.description": "Verursache {Damage:diff()} Schaden [blue]2[/blue]-mal. Bei einem Fetischtreffer wird die Karte {Replays:diff()}-mal zusätzlich ausgeführt.",
   "HYPNOSISCREATOR-METRONOME_CARD.title": "Metronom",
