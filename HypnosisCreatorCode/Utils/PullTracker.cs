@@ -48,9 +48,10 @@ public static class PullTracker
     public static bool IsPulled(Creature creature) => Field.Get(creature).Pulled;
 
     /// <summary>
-    /// 戦闘中の引き寄せ効果回数（首輪と調教・Come!・フリーハグなど <see cref="TryPull"/> 共通）。
+    /// 戦闘中に引き寄せが成功した回数（首輪と調教・Come!・フリーハグなど <see cref="TryPull"/> 共通）。
+    /// 引き寄せ不可の相手には加算しない。
     /// </summary>
-    public static int GetPullCount(Creature creature) => Field.Get(creature).CombatPullCount;
+    public static int GetPullCount(Creature creature) => Field.Get(creature).PullAnimCount;
 
     /// <summary>
     /// 引き寄せアニメが可能か。背景一体型（カイザークラブ左右爪など）は NCreature だけ動き見た目が残る。
@@ -86,19 +87,15 @@ public static class PullTracker
         PlayerChoiceContext? choiceContext = null,
         CardModel? cardSource = null)
     {
-        if (creature is not { IsEnemy: true }) return false;
-
-        var state = Field.Get(creature);
-        var wasFirst = state.CombatPullCount == 0;
-        state.CombatPullCount++;
-        state.Pulled = true;
-
         if (!CanPullVisually(creature))
         {
             ShowCannotPullMessage(towardPlayer, creature);
-            return wasFirst;
+            return false;
         }
 
+        var state = Field.Get(creature);
+        var wasFirst = !state.Pulled;
+        state.Pulled = true;
         var distance = NextStepDistance(state.PullAnimCount);
         state.PullAnimCount++;
         await AnimateX(creature, towardPlayer, towardPlayer: true, distance);
@@ -413,13 +410,10 @@ public static class PullTracker
 
 public sealed class PullState
 {
-    /// <summary>引き寄せ効果が一度でも対象に適用されたか（全引き寄せカード共通）。</summary>
+    /// <summary>引き寄せが一度でも成功したか（全引き寄せカード共通）。</summary>
     public bool Pulled { get; set; }
 
-    /// <summary>戦闘中の引き寄せ効果回数（アニメ成否に関わらず TryPull ごとに加算）。</summary>
-    public int CombatPullCount { get; set; }
-
-    /// <summary>見た目が動いた引き寄せアニメ回数（移動量半減用）。</summary>
+    /// <summary>戦闘中に引き寄せが成功した回数（移動量半減・フリーハグ破滅加算など共通）。</summary>
     public int PullAnimCount { get; set; }
     public int PushAnimCount { get; set; }
 
