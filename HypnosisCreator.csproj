@@ -145,11 +145,38 @@
         <Error Text=" Godot path must be set up before publishing; Godot not found at path '$(GodotPath)'. Check Directory.Build.props file."
                Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')"/>
     </Target>
+
+    <!-- Godot headless export はアセット .pck 化のみ。ビルド済み .godot/mono を退避し、sts2 未解決の assembly 読込を避ける。 -->
+    <Target Name="BeginGodotExportProjectPatch"
+            Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$root='$(MSBuildProjectDirectory)'; $mono=Join-Path $root '.godot/mono'; $monoBak=Join-Path $root '.godot/mono.godotexport.bak'; $legacyBak=Join-Path $root '.godot/.godot.mono.bak'; if (Test-Path -LiteralPath $legacyBak) { Remove-Item -LiteralPath $legacyBak -Recurse -Force }; if (Test-Path -LiteralPath $monoBak) { if (Test-Path -LiteralPath $mono) { Remove-Item -LiteralPath $mono -Recurse -Force }; Move-Item -LiteralPath $monoBak -Destination $mono -Force }; if (Test-Path -LiteralPath $mono) { Move-Item -LiteralPath $mono -Destination $monoBak -Force }&quot;"
+              Condition="'$(IsLinux)' != 'true' and '$(IsOSX)' != 'true'" />
+        <Exec Command="sh -c 'root=&quot;$(MSBuildProjectDirectory)&quot;; mono=&quot;$root/.godot/mono&quot;; bak=&quot;$root/.godot/mono.godotexport.bak&quot;; if [ -d &quot;$bak&quot; ]; then rm -rf &quot;$mono&quot;; mv &quot;$bak&quot; &quot;$mono&quot;; fi; if [ -d &quot;$mono&quot; ]; then mv &quot;$mono&quot; &quot;$bak&quot;; fi'"
+              Condition="'$(IsLinux)' == 'true' or '$(IsOSX)' == 'true'" />
+        <Message Text="Staged .godot/mono aside for asset-only Godot export." Importance="high" />
+    </Target>
+
+    <Target Name="RestoreGodotProjectAfterExport">
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$root='$(MSBuildProjectDirectory)'; $mono=Join-Path $root '.godot/mono'; $monoBak=Join-Path $root '.godot/mono.godotexport.bak'; if (Test-Path -LiteralPath $monoBak) { if (Test-Path -LiteralPath $mono) { Remove-Item -LiteralPath $mono -Recurse -Force }; Move-Item -LiteralPath $monoBak -Destination $mono -Force }&quot;"
+              Condition="'$(IsLinux)' != 'true' and '$(IsOSX)' != 'true'" />
+        <Exec Command="sh -c 'root=&quot;$(MSBuildProjectDirectory)&quot;; mono=&quot;$root/.godot/mono&quot;; bak=&quot;$root/.godot/mono.godotexport.bak&quot;; if [ -d &quot;$bak&quot; ]; then rm -rf &quot;$mono&quot;; mv &quot;$bak&quot; &quot;$mono&quot;; fi'"
+              Condition="'$(IsLinux)' == 'true' or '$(IsOSX)' == 'true'" />
+        <Message Text="Restored .godot/mono after Godot export." Importance="high" />
+    </Target>
     
     <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
+        <PropertyGroup>
+            <_GodotPckPath>$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck</_GodotPckPath>
+        </PropertyGroup>
+        <CallTarget Targets="BeginGodotExportProjectPatch" />
         <Message Text="Exporting Godot .pck to mods folder" Importance="high"/>
-        <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
+        <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(_GodotPckPath)&quot;"
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
-              ContinueOnError="WarnAndContinue"/>
+              ContinueOnError="WarnAndContinue">
+            <Output TaskParameter="ExitCode" PropertyName="_GodotExportExitCode" />
+        </Exec>
+        <CallTarget Targets="RestoreGodotProjectAfterExport" />
+        <Error Condition="!Exists('$(_GodotPckPath)')"
+               Text="Godot export failed: $(_GodotPckPath) was not created (Godot exit $(_GodotExportExitCode))." />
     </Target>
 </Project>
