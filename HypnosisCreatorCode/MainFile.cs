@@ -32,6 +32,7 @@ public partial class MainFile : Node
         Sensitivity3000Description.Register();
 
         ApplyHarmonyPatches();
+        ModUpdateGuard.Start();
         // INetAction 登録は ModManager.Initialize 完了後（ActionTypesInitPatch）。
     }
 

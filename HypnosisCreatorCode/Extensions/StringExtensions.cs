@@ -1,4 +1,5 @@
 ﻿using Godot;
+using HypnosisCreator.HypnosisCreatorCode.Utils;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Extensions;
 
@@ -16,7 +17,10 @@ public static class StringExtensions
         if (ResourceLoader.Exists(path)) return path;
         
         MainFile.Logger.Info("Could not find card image path: " + path);
-        return Path.Join(MainFile.ResPath, "images", "card_portraits", "card.png");
+        var fallback = Path.Join(MainFile.ResPath, "images", "card_portraits", "card.png");
+        if (!ResourceLoader.Exists(fallback))
+            ModUpdateGuard.ReportAssetMismatch();
+        return fallback;
     }
 
     public static string BigCardImagePath(this string path)
@@ -25,7 +29,10 @@ public static class StringExtensions
         if (ResourceLoader.Exists(path)) return path;
         
         MainFile.Logger.Info("Could not find big card image path: " + path);
-        return Path.Join(MainFile.ResPath, "images", "card_portraits", "big", "card.png");
+        var fallback = Path.Join(MainFile.ResPath, "images", "card_portraits", "big", "card.png");
+        if (!ResourceLoader.Exists(fallback))
+            ModUpdateGuard.ReportAssetMismatch();
+        return fallback;
     }
 
     public static string PowerImagePath(this string path)
