@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 心臓えぐり出しのリーサル補助プレビュー（🫀🗡️ サフィックス・黄ハイライト）。
+/// 心臓えぐり出しのリーサル補助プレビュー（破滅とどめ＋ダメージリーサル）。
 /// </summary>
 public static class HeartGougeLethalPreview
 {
@@ -18,7 +18,7 @@ public static class HeartGougeLethalPreview
         Creature target,
         CardPreviewMode previewMode = CardPreviewMode.Normal)
     {
-        if (!IsValidLethalTarget(target)) return false;
+        if (!HeartCaptureLethalPreview.IsValidLethalTarget(target)) return false;
         if (!CombatPreviewText.IsActive(card)) return false;
 
         var effectiveDamage = HeartGouge.ComputeDamagePreview(
@@ -32,7 +32,7 @@ public static class HeartGougeLethalPreview
         HeartGouge card,
         Creature target,
         CardPreviewMode previewMode = CardPreviewMode.Normal) =>
-        IsValidLethalTarget(target)
+        HeartCaptureLethalPreview.IsValidLethalTarget(target)
         && (WouldDoomExecuteHeartCapture(card, target)
             || WouldDamageKillHeartCapture(card, target, previewMode));
 
@@ -45,7 +45,7 @@ public static class HeartGougeLethalPreview
         suffix = "";
         if (!CombatPreviewText.IsActive(card)) return false;
 
-        var previewTarget = ResolvePreviewTarget(card, target);
+        var previewTarget = HeartCaptureLethalPreview.ResolvePreviewTarget(card, target);
         if (previewTarget == null) return false;
 
         if (WouldDoomExecuteHeartCapture(card, previewTarget))
@@ -75,12 +75,4 @@ public static class HeartGougeLethalPreview
         if (!TryGetLethalSuffix(card, target, CardPreviewMode.Normal, out var suffix)) return;
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
     }
-
-    private static bool IsValidLethalTarget(Creature? target) =>
-        target is { IsAlive: true, IsEnemy: true };
-
-    private static Creature? ResolvePreviewTarget(HeartGouge card, Creature? target) =>
-        target is { IsAlive: true, IsEnemy: true } ? target
-        : card.CurrentTarget is { IsAlive: true, IsEnemy: true } ? card.CurrentTarget
-        : null;
 }

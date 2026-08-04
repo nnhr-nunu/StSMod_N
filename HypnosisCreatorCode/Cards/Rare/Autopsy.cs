@@ -41,7 +41,11 @@ public class Autopsy() : HypnosisCreatorCard(2,
     }
 
     protected override bool ShouldGlowWhenConditionMet() =>
-        HeartInventory.CountHearts(Owner) > 0;
+        GlowIfTargetOrAnyEnemy(c => WouldShowHeartLethal(this, c));
+
+    internal static bool WouldShowHeartLethal(Autopsy card, Creature target) =>
+        HeartCaptureLethalPreview.WouldDamageKill(
+            card, target, card.ComputeHeartScaledDamage(), ValueProp.Move);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -72,5 +76,7 @@ public class Autopsy() : HypnosisCreatorCard(2,
         if (raw <= 0) return;
 
         CombatDamageSuffixPreview.AppendDealDamageSuffix(autopsy, target, ref description, raw, ValueProp.Move);
+        HeartCaptureLethalPreview.TryAppendDamageLethalSuffix(
+            autopsy, target, raw, ValueProp.Move, ref description);
     }
 }
