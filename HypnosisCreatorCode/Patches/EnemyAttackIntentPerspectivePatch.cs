@@ -1,7 +1,7 @@
 using System.Reflection;
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
-using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
@@ -14,10 +14,7 @@ public static class EnemyAttackIntentPerspectivePatch
 {
     static IEnumerable<MethodBase> TargetMethods()
     {
-        var localContext = AccessTools.TypeByName("MegaCrit.Sts2.Core.Multiplayer.Game.LocalContext");
-        if (localContext == null) yield break;
-
-        foreach (var method in localContext.GetMethods(BindingFlags.Public | BindingFlags.Static))
+        foreach (var method in typeof(LocalContext).GetMethods(BindingFlags.Public | BindingFlags.Static))
         {
             if (method.Name != "GetMe") continue;
             if (method.ReturnType != typeof(Player)) continue;

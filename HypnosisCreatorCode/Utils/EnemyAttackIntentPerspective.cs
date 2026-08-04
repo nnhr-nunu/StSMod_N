@@ -3,7 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 敵攻撃意図の読取り中だけ <see cref="MegaCrit.Sts2.Core.Multiplayer.Game.LocalContext.GetMe"/> を差し替える。
+/// 敵攻撃意図の読取り中だけ <see cref="MegaCrit.Sts2.Core.Context.LocalContext.GetMe"/> を差し替える。
 /// マルチで各端末の「自分」が違うと AttackIntent.GetSingleDamage がズレるため、カード所有者視点に固定する。
 /// </summary>
 public static class EnemyAttackIntentPerspective

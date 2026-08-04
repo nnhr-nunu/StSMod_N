@@ -61,5 +61,12 @@ public partial class MainFile : Node
         }
 
         Logger.Info($"Harmony patches applied: {ok} classes ok, {fail} failed");
+
+        var getMePatches = harmony.GetPatchedMethods()
+            .Count(m => m.DeclaringType?.FullName == "MegaCrit.Sts2.Core.Context.LocalContext" && m.Name == "GetMe");
+        if (getMePatches == 0)
+            Logger.Warn("EnemyAttackIntentPerspectivePatch: LocalContext.GetMe was not patched (mirroring MP desync risk).");
+        else
+            Logger.Info($"EnemyAttackIntentPerspectivePatch: patched {getMePatches} LocalContext.GetMe overload(s).");
     }
 }
