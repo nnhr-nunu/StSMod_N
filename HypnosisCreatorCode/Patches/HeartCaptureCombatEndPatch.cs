@@ -2,8 +2,6 @@ using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Hooks;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.Runs;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
@@ -13,8 +11,17 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCombatEnd))]
 public static class HeartCaptureCombatEndPatch
 {
-    public static void Postfix(IRunState runState, ICombatState? combatState, CombatRoom room)
+    public static void Postfix(ref Task __result)
     {
+        var original = __result;
+        __result = ContinueAfterCombatEnd(original);
+    }
+
+    private static async Task ContinueAfterCombatEnd(Task original)
+    {
+        if (original != null)
+            await original;
+
         HeartCapture.FlushPending();
     }
 }

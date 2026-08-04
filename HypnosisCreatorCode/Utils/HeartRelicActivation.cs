@@ -31,19 +31,29 @@ public static class HeartRelicActivation
 
     public static bool CanActivateNow(EnemyHeartRelic heart, Player? player)
     {
-        if (!heart.IsRareHeart || heart.IsUsedUp) return false;
         if (player == null) return false;
-        if (heart.Owner != null && heart.Owner.NetId != player.NetId) return false;
+        if (!CanExecuteAction(heart, player)) return false;
         if (!LocalContext.IsMe(player)) return false;
 
         var combat = CombatManager.Instance;
-        if (combat is not { IsInProgress: true }) return false;
         if (combat.PlayerActionsDisabled) return false;
 
         var side = player.Creature?.CombatState?.CurrentSide;
         if (side is not null and not CombatSide.Player) return false;
 
         return true;
+    }
+
+    /// <summary>
+    /// ネットワーク受信後の発動アクション用検証。UI入力の所有者判定は含めない。
+    /// </summary>
+    public static bool CanExecuteAction(EnemyHeartRelic heart, Player? player)
+    {
+        if (!heart.IsRareHeart || heart.IsUsedUp) return false;
+        if (player == null) return false;
+        if (heart.Owner != null && heart.Owner.NetId != player.NetId) return false;
+        return CombatManager.Instance is { IsInProgress: true }
+            && player.Creature?.CombatState != null;
     }
 
     public static bool ShouldHighlight(EnemyHeartRelic heart, Player? player) =>

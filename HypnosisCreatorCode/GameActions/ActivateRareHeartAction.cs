@@ -56,7 +56,7 @@ public sealed class ActivateRareHeartAction : GameAction
         }
 
         heart = HeartRelicActivation.ResolveOwnedHeart(heart, _player) ?? heart;
-        if (!HeartRelicActivation.CanActivateNow(heart, _player))
+        if (!HeartRelicActivation.CanExecuteAction(heart, _player))
         {
             Cancel();
             return;
