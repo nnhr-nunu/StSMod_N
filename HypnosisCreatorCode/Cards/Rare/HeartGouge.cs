@@ -78,11 +78,11 @@ public class HeartGouge() : HypnosisCreatorCard(1,
         bool runGlobalHooks = true)
     {
         var raw = card.DynamicVars.Damage.BaseValue;
-        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
+        // 神秘のライター（攻撃+9）等は Hook.ModifyDamage 内で基礎値に加算される。先に足すと二重計上になる。
         return CardDamagePreview.ApplyAfterSelfVulnerable(
             card,
             target ?? card.CurrentTarget,
-            enchanted,
+            raw,
             card.DynamicVars["VulnerablePower"].BaseValue,
             ValueProp.Move,
             previewMode,

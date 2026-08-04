@@ -17,6 +17,10 @@ public static class CardDamagePreview
     /// <summary>本家 VulnerablePower の1スタックあたりの被ダメージ倍率加算（50%）。</summary>
     private const decimal VulnerableMultiplierPerStack = 0.5m;
 
+    /// <summary>
+    /// 本家 <see cref="Hook.ModifyDamage"/> 経路。呼び出し側はカード素のダメージを渡すこと
+    /// （エンチャント加算は Hook 内。神秘のライター +9 等を先に足すと二重になる）。
+    /// </summary>
     public static decimal ApplyModifiers(
         CardModel card,
         Creature? target,
