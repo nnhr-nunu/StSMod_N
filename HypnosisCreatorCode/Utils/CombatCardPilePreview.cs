@@ -303,13 +303,8 @@ public static class PendingCardPassToPlayer
         var batch = Queue.ToList();
         Queue.Clear();
         foreach (var move in batch)
-        {
-            if (move.Card.Pile?.Type != PileType.Hand)
-                continue;
-
             await CardPileCmd.GiveToAnotherPlayer(
                 move.Card, move.Recipient, PileType.Hand, CardPilePosition.Top, move.Source);
-        }
     }
 
     public static void Clear() => Queue.Clear();

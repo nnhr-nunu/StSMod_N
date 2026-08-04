@@ -79,7 +79,9 @@ public class FreeHug() : HypnosisCreatorCard(0,
         if (recipient == null) return;
 
         var hand = Owner.PlayerCombatState?.Hand;
-        var candidates = hand?.Cards.Where(c => c != this).ToList() ?? [];
+        var candidates = hand?.Cards
+            .Where(c => c != this && c.Pile?.Type == PileType.Hand)
+            .ToList() ?? [];
         var toPass = SelectRandomHandCards(candidates, DynamicVars.Cards.IntValue);
 
         if (toPass.Count > 0)
