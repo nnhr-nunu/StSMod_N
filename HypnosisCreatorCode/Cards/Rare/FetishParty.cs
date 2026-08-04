@@ -10,9 +10,8 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 性癖パーリナイ — マルチ用。味方全員の手札にランダムな性癖カードを加える。
-/// ソロプレイでは自分のみが対象になる。
-/// TODO: マルチプレイ環境での動作確認が必要（mechanics-lock.md「マルチ用」参照）。
+/// 性癖パーリナイ — マルチ用。味方全員の手札にランダムな性癖カードを2枚加える。
+/// UGではアップグレード済みの性癖カードになる（説明は UpgradeDescriptionHooks）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FetishParty() : HypnosisCreatorCard(1,
@@ -37,6 +36,13 @@ public class FetishParty() : HypnosisCreatorCard(1,
         var pool = ModelDb.AllCards.Where(IsFetishCard).ToList();
         if (pool.Count == 0) return;
 
+        if (IsUpgraded)
+        {
+            var upgradedPool = pool.Where(c => c.IsUpgradable).ToList();
+            if (upgradedPool.Count > 0)
+                pool = upgradedPool;
+        }
+
         foreach (var player in CombatState.Players)
         {
             var rng = player.RunState.Rng.CombatCardSelection;
@@ -44,12 +50,15 @@ public class FetishParty() : HypnosisCreatorCard(1,
             for (var i = 0; i < DynamicVars.Cards.IntValue; i++)
             {
                 var canonical = pool[rng.NextInt(pool.Count)];
-                generated.Add(CombatState.CreateCard(canonical, player));
+                var card = CombatState.CreateCard(canonical, player);
+                if (IsUpgraded)
+                    CardCmd.Upgrade(card);
+                generated.Add(card);
             }
 
             await CombatCardPilePreview.AddGeneratedCardsAsync(generated, PileType.Hand, player);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1M);
+    protected override void OnUpgrade() { }
 }

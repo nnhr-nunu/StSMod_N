@@ -216,6 +216,8 @@
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.description": "Share the effects gained from your Heart relics with [blue]1[/blue] ally player.",
   "HYPNOSISCREATOR-FETISH_PARTY.title": "Fetish Party Night",
   "HYPNOSISCREATOR-FETISH_PARTY.description": "Add {Cards:diff()} random Fetish {Cards:plural:card|cards} into every ally's [gold]Hand[/gold].",
+  "HYPNOSISCREATOR-FETISH_PARTY.upgradeReplaceFrom": "random Fetish",
+  "HYPNOSISCREATOR-FETISH_PARTY.upgradeReplaceTo": "random [green]upgraded[/green] Fetish",
   "HYPNOSISCREATOR-FREE_HUG.title": "Free Hug",
   "HYPNOSISCREATOR-FREE_HUG.description": "Pull the target and pass two copies of this card to a random ally. If they were already Pulled, apply [blue]7[/blue] [gold]Doom[/gold] and {BogPower:diff()} [gold]Bog[/gold]. The amount of [gold]Doom[/gold] applied increases by {DoomPerPull:diff()} for each time they were Pulled this combat.",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "Slimed",

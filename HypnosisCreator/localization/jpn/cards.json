@@ -216,6 +216,8 @@
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.description": "保有している心臓レリックから得た効果を味方プレイヤー[blue]1[/blue]人に共有する。",
   "HYPNOSISCREATOR-FETISH_PARTY.title": "性癖パーリナイ",
   "HYPNOSISCREATOR-FETISH_PARTY.description": "味方プレイヤーすべての[gold]手札[/gold]にランダムな性癖カード{Cards:diff()}枚を加える。",
+  "HYPNOSISCREATOR-FETISH_PARTY.upgradeReplaceFrom": "ランダムな性癖カード",
+  "HYPNOSISCREATOR-FETISH_PARTY.upgradeReplaceTo": "ランダムな[green]アップグレード済み[/green]性癖カード",
   "HYPNOSISCREATOR-FREE_HUG.title": "フリーハグ<3",
   "HYPNOSISCREATOR-FREE_HUG.description": "相手を引き寄せ、ランダムな味方にこのカードの複製を2枚パスする。すでに相手が引き寄せられている場合、[gold]破滅[/gold][blue]7[/blue]と[gold]沼[/gold]{BogPower:diff()}を与える。相手がこの戦闘中に引き寄せられた回数分、破滅付与量が{DoomPerPull:diff()}増加する。",
   "HYPNOSISCREATOR-ABNORMAL_SLIME.title": "粘液",
