@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Reflection;
 using Godot;
 using HarmonyLib;
@@ -26,9 +25,6 @@ public static class EndTurnPingFingerSnapSendPatch
     private static readonly FieldInfo? NextAllowedPingTimeField =
         AccessTools.Field(typeof(FlavorSynchronizer), "_nextAllowedPingTime");
 
-    private static readonly MethodInfo? CreateDialogueMethod =
-        AccessTools.Method(typeof(FlavorSynchronizer), "CreateEndTurnPingDialogueIfNecessary");
-
     public static bool Prefix(FlavorSynchronizer __instance)
     {
         if (LocalPlayerProperty == null) return true;
@@ -40,21 +36,18 @@ public static class EndTurnPingFingerSnapSendPatch
         FingerSnapSfx.PlayNormal();
 
         var gameService = GameServiceField?.GetValue(__instance) as INetGameService;
-        if (gameService is { IsConnected: true })
-            gameService.SendMessage(default(EndTurnPingMessage));
+        var now = Time.GetTicksMsec();
+        var nextAllowed = NextAllowedPingTimeField == null
+            ? now
+            : (ulong)NextAllowedPingTimeField.GetValue(__instance)!;
 
-        var now = (long)Time.GetTicksMsec();
-        if (NextAllowedPingTimeField != null && CreateDialogueMethod != null)
+        // クールダウン中だけ追加送信する。本家送信時は本家の吹き出し処理を通す。
+        if (now < nextAllowed && gameService is { IsConnected: true })
         {
-            var nextAllowed = (long)NextAllowedPingTimeField.GetValue(__instance)!;
-            if (now >= nextAllowed)
-            {
-                NextAllowedPingTimeField.SetValue(__instance, now + 1000);
-                CreateDialogueMethod.Invoke(__instance, [localPlayer]);
-            }
+            gameService.SendMessage(default(EndTurnPingMessage));
         }
 
-        return false;
+        return true;
     }
 }
 
@@ -91,24 +84,3 @@ public static class EndTurnPingFingerSnapReceivePatch
     }
 }
 
-/// <summary>
-/// 連打配信時に吹き出しだけプレイヤーごと 1 秒に 1 回へ制限（SE は毎回）。
-/// </summary>
-[HarmonyPatch(typeof(FlavorSynchronizer), "CreateEndTurnPingDialogueIfNecessary")]
-public static class EndTurnPingDialogueDebouncePatch
-{
-    private const long DebounceMsec = 1000;
-
-    private static readonly Dictionary<ulong, long> LastDialogueMsecByNetId = new();
-
-    public static bool Prefix(Player player)
-    {
-        var netId = player.NetId;
-        var now = (long)Time.GetTicksMsec();
-        if (LastDialogueMsecByNetId.TryGetValue(netId, out var last) && now - last < DebounceMsec)
-            return false;
-
-        LastDialogueMsecByNetId[netId] = now;
-        return true;
-    }
-}
