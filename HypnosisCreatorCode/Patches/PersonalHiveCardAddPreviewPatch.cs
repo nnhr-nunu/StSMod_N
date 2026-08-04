@@ -62,7 +62,7 @@ public static class PersonalHiveCardAddPreviewPatch
             cards.Add(combat.CreateCard(ModelDb.Card<Dazed>(), player));
 
         var results = await CombatCardPilePreview.AddGeneratedCardsSilentAsync(
-            cards, PileType.Draw, player);
+            cards, PileType.Draw, player, CardPilePosition.Random);
         PendingDrawPileCardPreview.Enqueue(results);
     }
 }

@@ -23,7 +23,7 @@ public static class CombatCardPilePreview
         {
             PileType.Hand => CardPilePosition.Top,
             PileType.Discard => CardPilePosition.Bottom,
-            PileType.Draw => CardPilePosition.Top,
+            PileType.Draw => CardPilePosition.Random,
             PileType.Exhaust => CardPilePosition.Bottom,
             _ => CardPilePosition.Top
         };
