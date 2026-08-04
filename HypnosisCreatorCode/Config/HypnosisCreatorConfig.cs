@@ -92,6 +92,11 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
     [ConfigSlider(0.5, 3.0, 0.01, Format = "{0:0.00}x")]
     public static double SelectBgZoom { get; set; } = HypnosisCreatorConfigDefaults.SelectBgZoom;
 
+    /// <summary>マルチロビー専用の Y 補正（ソロの SelectBgOffsetY に加算）。</summary>
+    [ConfigSlider(-200, 200, 1, Format = "{0:0}px")]
+    public static double SelectBgMultiplayerOffsetY { get; set; } =
+        HypnosisCreatorConfigDefaults.SelectBgMultiplayerOffsetY;
+
     [ConfigButton("ResetSelectBackgroundDefaults")]
     public static void OnResetSelectBackgroundDefaults(ModConfig cfg, NConfigOptionRow row)
     {
@@ -99,6 +104,7 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
         SelectBgOffsetX = HypnosisCreatorConfigDefaults.SelectBgOffsetX;
         SelectBgOffsetY = HypnosisCreatorConfigDefaults.SelectBgOffsetY;
         SelectBgZoom = HypnosisCreatorConfigDefaults.SelectBgZoom;
+        SelectBgMultiplayerOffsetY = HypnosisCreatorConfigDefaults.SelectBgMultiplayerOffsetY;
         cfg.Changed();
     }
 

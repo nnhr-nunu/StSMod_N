@@ -19,6 +19,7 @@ public static class VisualTuner
     private const string MerchantVisualPathHint = "HypnosisCreator/images/character/merchant";
     private const string SelectBgPathHint = "select_bg";
     private const string BaseOffsetsMeta = "hc_base_offsets";
+    private const string SelectBgResizeHookMeta = "hc_select_bg_resize_hook";
     private const string ChromaUniqueMeta = "hc_chroma_unique";
 
     /// <summary>flip_h 立ち絵は素材右下ロゴ＝UV 右側。旧実装の 1（UV左）だとロゴに当たらない。</summary>
@@ -152,11 +153,15 @@ public static class VisualTuner
         }
     }
 
+    private static bool _selectBgResizeQueued;
+
     public static void ApplySelectBackground()
     {
         // 単位 px。Yプラス＝画面下方向へずらす（顔が見切れるとき正の値）
         var ox = (float)HypnosisCreatorConfig.SelectBgOffsetX;
         var oy = (float)HypnosisCreatorConfig.SelectBgOffsetY;
+        if (CharacterSelectScreenUtil.IsMultiplayerLobbyActive())
+            oy += (float)HypnosisCreatorConfig.SelectBgMultiplayerOffsetY;
         var zoom = (float)HypnosisCreatorConfig.SelectBgZoom;
 
         var found = 0;
@@ -164,6 +169,7 @@ public static class VisualTuner
         {
             found++;
             ResetControlOffsets(rect);
+            EnsureSelectBgResizeHook(rect);
 
             var mat = EnsureSelectBgCropMaterial(rect);
             if (mat == null) continue;
@@ -262,15 +268,53 @@ public static class VisualTuner
 
     private static Vector2 PxToSelectBgUvOffset(TextureRect rect, float ox, float oy)
     {
-        var viewSize = rect.GetRect().Size;
-        if (viewSize.X < 1f || viewSize.Y < 1f)
-            viewSize = rect.GetParent<Control>()?.Size ?? new Vector2(1920f, 1080f);
+        var viewSize = GetSelectBgReferenceViewSize(rect);
 
         var tw = rect.Texture?.GetWidth() ?? 1536f;
         var th = rect.Texture?.GetHeight() ?? 1024f;
         var coverScale = Mathf.Max(viewSize.X / tw, viewSize.Y / th);
         // UI「＋＝右／下」→ UV は符号反転（カード絵と同じ）
         return new Vector2(-ox / (tw * coverScale), -oy / (th * coverScale));
+    }
+
+    /// <summary>
+    /// チューニングはフル画面基準。AnimatedBg の一時サイズ差で MP/ソロの見え方がずれないようにする。
+    /// </summary>
+    private static Vector2 GetSelectBgReferenceViewSize(TextureRect rect)
+    {
+        var viewport = rect.GetViewport()?.GetVisibleRect().Size;
+        if (viewport is { X: >= 1f, Y: >= 1f })
+            return viewport.Value;
+
+        var root = rect.GetParent<Control>()?.Size;
+        if (root is { X: >= 1f, Y: >= 1f })
+            return root.Value;
+
+        return new Vector2(1920f, 1080f);
+    }
+
+    private static void EnsureSelectBgResizeHook(TextureRect rect)
+    {
+        if (rect.HasMeta(SelectBgResizeHookMeta))
+            return;
+
+        rect.SetMeta(SelectBgResizeHookMeta, true);
+        rect.Resized += QueueSelectBgResizeApply;
+    }
+
+    private static void QueueSelectBgResizeApply()
+    {
+        if (_selectBgResizeQueued)
+            return;
+
+        _selectBgResizeQueued = true;
+        Callable.From(FlushSelectBgResizeApply).CallDeferred();
+    }
+
+    private static void FlushSelectBgResizeApply()
+    {
+        _selectBgResizeQueued = false;
+        ApplySelectBackground();
     }
 
     private static ShaderMaterial? EnsureSelectBgCropMaterial(TextureRect rect)

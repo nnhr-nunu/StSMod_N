@@ -19,6 +19,8 @@ internal static class HypnosisCreatorConfigDefaults
     public const double SelectBgOffsetX = 156;
     public const double SelectBgOffsetY = 197;
     public const double SelectBgZoom = 1.13;
+    /// <summary>マルチロビー時に SelectBgOffsetY へ加算（顔が高く見えるときは＋）。</summary>
+    public const double SelectBgMultiplayerOffsetY = 42;
 
     public const double CardOffsetX = 0;
     public const double CardOffsetY = 0;
