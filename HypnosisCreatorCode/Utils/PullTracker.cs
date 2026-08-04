@@ -47,6 +47,9 @@ public static class PullTracker
 
     public static bool IsPulled(Creature creature) => Field.Get(creature).Pulled;
 
+    /// <summary>戦闘中に成功した引き寄せアニメ回数（フリーハグの破滅加算など）。</summary>
+    public static int GetPullCount(Creature creature) => Field.Get(creature).PullAnimCount;
+
     /// <summary>
     /// 引き寄せアニメが可能か。背景一体型（カイザークラブ左右爪など）は NCreature だけ動き見た目が残る。
     /// </summary>

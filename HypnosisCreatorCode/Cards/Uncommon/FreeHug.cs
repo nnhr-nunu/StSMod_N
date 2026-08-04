@@ -14,9 +14,8 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// フリーハグ — マルチ用。対象を「引き寄せ」る。既に引き寄せ済みの相手には破滅と沼を与え、
-/// 手札のカードをランダムな味方に渡す（実カードが手札から移動する）。
-/// アタックだがダメージは与えない。
+/// フリーハグ — マルチ用。引き寄せ＋手札2枚パス（毎回）。
+/// 引き寄せ済みの相手には破滅・沼。引き寄せ回数に応じて破滅が増加。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class FreeHug() : HypnosisCreatorCard(0,
@@ -31,7 +30,8 @@ public class FreeHug() : HypnosisCreatorCard(0,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Doom", 10M),
+        new DynamicVar("Doom", 7M),
+        new DynamicVar("DoomPerPull", 2M),
         new PowerVar<BogPower>(1M),
         new CardsVar(2)
     ];
@@ -46,41 +46,46 @@ public class FreeHug() : HypnosisCreatorCard(0,
 
         if (alreadyPulled)
         {
-            await FetishCombat.ApplyDoom(choiceContext, play.Target, DynamicVars["Doom"].IntValue, Owner.Creature, this);
+            var pullCount = PullTracker.GetPullCount(play.Target);
+            var doomPerPull = DynamicVars["DoomPerPull"].IntValue;
+            var totalDoom = DynamicVars["Doom"].IntValue + pullCount * doomPerPull;
+
+            await FetishCombat.ApplyDoom(choiceContext, play.Target, totalDoom, Owner.Creature, this);
             await PowerCmd.Apply<BogPower>(
                 choiceContext, play.Target, DynamicVars["BogPower"].BaseValue, Owner.Creature, this);
-
-            if (CombatState != null)
-            {
-                var teammates = CombatState.GetTeammatesOf(Owner.Creature)
-                    .Where(c => c != Owner.Creature && c.IsAlive && c.IsPlayer && c.Player != Owner)
-                    .ToList();
-
-                if (teammates.Count > 0)
-                {
-                    var recipientCreature = Owner.RunState.Rng.CombatTargets.NextItem(teammates);
-                    var recipient = recipientCreature?.Player;
-                    if (recipient != null)
-                    {
-                        var hand = Owner.PlayerCombatState?.Hand;
-                        var candidates = hand?.Cards.Where(c => c != this).ToList() ?? [];
-                        var toPass = SelectRandomHandCards(candidates, DynamicVars.Cards.IntValue);
-
-                        if (toPass.Count > 0)
-                            PendingCardPassToPlayer.Enqueue(toPass, recipient, this);
-                    }
-                }
-            }
         }
 
-        // 初回も2回目以降も寄る（移動量は PullTracker 側で半減）
+        TryEnqueuePassToRandomAlly();
+
         await PullTracker.TryPull(play.Target, Owner.Creature, choiceContext, this);
 
         await PullTracker.TryNunuHellBonusDamageAsync(
             choiceContext, Owner.Creature, play.Target, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Doom"].UpgradeValueBy(5M);
+    protected override void OnUpgrade() => DynamicVars["DoomPerPull"].UpgradeValueBy(2M);
+
+    private void TryEnqueuePassToRandomAlly()
+    {
+        if (CombatState == null) return;
+
+        var teammates = CombatState.GetTeammatesOf(Owner.Creature)
+            .Where(c => c != Owner.Creature && c.IsAlive && c.IsPlayer && c.Player != Owner)
+            .ToList();
+
+        if (teammates.Count == 0) return;
+
+        var recipientCreature = Owner.RunState.Rng.CombatTargets.NextItem(teammates);
+        var recipient = recipientCreature?.Player;
+        if (recipient == null) return;
+
+        var hand = Owner.PlayerCombatState?.Hand;
+        var candidates = hand?.Cards.Where(c => c != this).ToList() ?? [];
+        var toPass = SelectRandomHandCards(candidates, DynamicVars.Cards.IntValue);
+
+        if (toPass.Count > 0)
+            PendingCardPassToPlayer.Enqueue(toPass, recipient, this);
+    }
 
     private List<CardModel> SelectRandomHandCards(List<CardModel> candidates, int count)
     {
