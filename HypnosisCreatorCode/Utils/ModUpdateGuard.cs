@@ -1,6 +1,4 @@
-using System.Reflection;
 using Godot;
-using MegaCrit.Sts2.Core.Nodes;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -20,6 +18,7 @@ public static class ModUpdateGuard
     private static int _frameCounter;
     private static bool _pending;
     private static bool _started;
+    private static CanvasLayer? _notificationLayer;
 
     public static void Start()
     {
@@ -65,8 +64,7 @@ public static class ModUpdateGuard
         if (!string.Equals(current, _installedFingerprint, StringComparison.Ordinal))
             _pending = true;
 
-        // NRun が存在する間は戦闘・ラン画面の可能性があるため通知しない。
-        if (_pending && NRun.Instance == null)
+        if (_pending)
             ShowOnce();
     }
 
@@ -74,8 +72,43 @@ public static class ModUpdateGuard
     {
         _pending = false;
         WriteMarker(BuildFingerprint());
-        OS.Alert(Message, "Hypno Creator");
+        ShowNotification();
         MainFile.Logger.Warn(Message);
+    }
+
+    private static void ShowNotification()
+    {
+        if (_tree?.Root == null) return;
+        if (_notificationLayer != null && GodotObject.IsInstanceValid(_notificationLayer))
+            return;
+
+        _notificationLayer = new CanvasLayer { Layer = 100 };
+        var button = new Button
+        {
+            Text = Message,
+            TooltipText = "クリックで閉じる",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            Alignment = HorizontalAlignment.Left,
+            CustomMinimumSize = new Vector2(720f, 72f),
+            MouseFilter = Control.MouseFilterEnum.Stop
+        };
+
+        var viewportSize = _tree.Root.Size;
+        var width = Mathf.Max(240f, Mathf.Min(720f, viewportSize.X - 24f));
+        button.Size = new Vector2(width, 72f);
+        button.Position = new Vector2(
+            Mathf.Max(12f, (viewportSize.X - width) * 0.5f),
+            24f);
+        button.Pressed += DismissNotification;
+        _notificationLayer.AddChild(button);
+        _tree.Root.AddChild(_notificationLayer);
+    }
+
+    private static void DismissNotification()
+    {
+        if (_notificationLayer != null && GodotObject.IsInstanceValid(_notificationLayer))
+            _notificationLayer.QueueFree();
+        _notificationLayer = null;
     }
 
     private static string? ReadMarker()
