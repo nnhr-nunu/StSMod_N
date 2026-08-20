@@ -18,10 +18,14 @@ public class Mastery() : HypnosisCreatorCard(2,
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        var power = await PowerCmd.Apply<MasteryPower>(
+        await PowerCmd.Apply<MasteryPower>(
             choiceContext, Owner.Creature, 1M, Owner.Creature, this);
-        if (power != null && IsUpgraded)
-            power.AddHypnosisCountCardReward = true;
+
+        if (!IsUpgraded) return;
+
+        var mastery = Owner.Creature.GetPower<MasteryPower>();
+        if (mastery != null)
+            mastery.AddHypnosisCountCardReward = true;
     }
 
     protected override void OnUpgrade() { }
