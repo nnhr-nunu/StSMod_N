@@ -13,7 +13,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// ターン開始の手札追加は <see cref="CardPileCmd.AddGeneratedCardsToCombat"/> を即時実行。
     /// カードプレイ中の手札追加は <see cref="PendingHandCardAdd"/> でキューし、
     /// <see cref="CardModel.OnPlayWrapper"/> 完了後（廃棄演出後）にフラッシュする。
-/// 直接 <see cref="CardPileCmd"/> を呼ぶ経路も <see cref="Patches.PendingHandCardAddGeneratedDeferPatch"/> が同条件で遅延する。
+/// 直接 <see cref="CardPileCmd"/> を呼ぶ mod 経路も <see cref="Patches.PendingHandCardAddGeneratedDeferPatch"/> が同条件で遅延する（本家カードは対象外）。
 /// </summary>
 public static class CombatCardPilePreview
 {

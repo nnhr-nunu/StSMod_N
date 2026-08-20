@@ -10,9 +10,9 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// カードプレイ中の手札追加を <see cref="PendingHandCardAdd"/> へ一括委譲する。
-/// 本家のスキルポーション等も <see cref="CardPileCmd.AddGeneratedCardToCombat"/> を使うため、
-/// フラッシュは <see cref="CardModel.OnPlayWrapper"/> と <see cref="PotionModel.OnUseWrapper"/> 両方の終了後が必要。
+/// カードプレイ中の mod カード手札追加を <see cref="PendingHandCardAdd"/> へ委譲する。
+/// 本家カード（リージェントの Forge／顕現など）は対象外。フラッシュは
+/// <see cref="CardModel.OnPlayWrapper"/> と <see cref="PotionModel.OnUseWrapper"/> 終了後。
 /// </summary>
 [HarmonyPatch(typeof(CardPileCmd), nameof(CardPileCmd.AddGeneratedCardsToCombat))]
 public static class PendingHandCardAddGeneratedDeferPatch
@@ -29,7 +29,7 @@ public static class PendingHandCardAddGeneratedDeferPatch
             return true;
 
         var list = cards.ToList();
-        if (list.Count == 0)
+        if (list.Count == 0 || !PendingHandCardAddRules.ShouldDeferGeneratedHandAdd(list))
             return true;
 
         var player = creator ?? list[0].Owner;
@@ -43,7 +43,7 @@ public static class PendingHandCardAddGeneratedDeferPatch
     }
 }
 
-/// <summary>既存カードの手札移動もプレイ中は遅延する（skipVisuals 含む）。</summary>
+/// <summary>mod カードの既存手札移動をプレイ中は遅延する（skipVisuals 含む）。</summary>
 [HarmonyPatch(typeof(CardPileCmd), nameof(CardPileCmd.Add),
     typeof(CardModel), typeof(PileType), typeof(CardPilePosition), typeof(AbstractModel), typeof(bool))]
 public static class PendingHandCardAddExistingDeferPatch
@@ -57,7 +57,9 @@ public static class PendingHandCardAddExistingDeferPatch
         ref Task<CardPileAddResult> __result)
     {
         _ = skipVisuals;
-        if (newPileType != PileType.Hand || PendingHandCardAdd.IsFlushing)
+        if (newPileType != PileType.Hand
+            || PendingHandCardAdd.IsFlushing
+            || !PendingHandCardAddRules.ShouldDeferExistingHandAdd(card))
             return true;
 
         var player = card.Owner;
