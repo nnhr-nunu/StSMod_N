@@ -122,13 +122,6 @@ internal static class HeartGougePreview
         var raw = damageVar.BaseValue;
         var props = damageVar.Props;
         var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(card, raw, props);
-
-        if (card.Enchantment != null || card.IsEnchantmentPreview)
-        {
-            CardDamagePreview.SetDamagePreviewPair(card, damageVar, raw, enchanted, props);
-            return;
-        }
-
-        CardDamagePreview.SetPreviewPair(damageVar, raw, raw);
+        CardDamagePreview.SetDamagePreviewPair(card, damageVar, raw, enchanted, props);
     }
 }

@@ -21,13 +21,15 @@ public static class CardBlockPreview
     {
         _ = previewMode;
         if (!ShouldUseCombatBlockHooks(card, runGlobalHooks))
-            return raw;
+            return ApplyEnchantmentModifiers(card, raw, props);
 
         var owner = card.Owner;
-        if (owner?.Creature == null) return raw;
+        if (owner?.Creature == null)
+            return ApplyEnchantmentModifiers(card, raw, props);
 
         var combat = card.CombatState ?? owner.Creature.CombatState;
-        if (combat == null) return raw;
+        if (combat == null)
+            return ApplyEnchantmentModifiers(card, raw, props);
         if (raw < 0) return 0m;
 
         try
@@ -39,7 +41,7 @@ public static class CardBlockPreview
         }
         catch
         {
-            return raw;
+            return ApplyEnchantmentModifiers(card, raw, props);
         }
     }
 
@@ -53,10 +55,7 @@ public static class CardBlockPreview
     {
         decimal total = 0m;
         for (var block = startBlock; block >= 0; block--)
-        {
-            var enchanted = ApplyEnchantmentModifiers(card, block, props);
-            total += ApplyModifiers(card, enchanted, props, previewMode, runGlobalHooks);
-        }
+            total += ApplyModifiers(card, block, props, previewMode, runGlobalHooks);
         return total;
     }
 
@@ -94,7 +93,7 @@ public static class CardBlockPreview
         }
     }
 
-    /// <summary>ブロック用。エンチャント付与プレビューでも :diff() が効くようにする。</summary>
+    /// <summary>本家 BlockVar と同様。弱体相当の減少（脆弱）も Max で隠さない。</summary>
     public static void SetBlockPreviewPair(
         CardModel card,
         DynamicVar var,
@@ -103,22 +102,20 @@ public static class CardBlockPreview
         ValueProp props)
     {
         var enchantedBase = ApplyEnchantmentModifiers(card, rawBase, props);
-
-        if (card.IsEnchantmentPreview)
-        {
-            var.EnchantedValue = rawBase;
-            var.PreviewValue = enchantedBase;
-            return;
-        }
-
-        if (card.Enchantment != null)
-        {
-            var.EnchantedValue = enchantedBase;
-            var.PreviewValue = Math.Max(preview, enchantedBase);
-            return;
-        }
-
-        var.EnchantedValue = rawBase;
-        var.PreviewValue = Math.Max(preview, rawBase);
+        var pair = EnchantPreviewPair.Resolve(
+            rawBase, enchantedBase, preview, card.IsEnchantmentPreview);
+        var.EnchantedValue = pair.EnchantedValue;
+        var.PreviewValue = pair.PreviewValue;
     }
+
+    /// <summary>
+    /// 戦闘フックが使えるときは本家 Hook（エンチャント込み）。使えないときはエンチャントのみ。
+    /// </summary>
+    public static decimal ResolvePreview(
+        CardModel card,
+        decimal raw,
+        ValueProp props,
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true) =>
+        ApplyModifiers(card, raw, props, previewMode, runGlobalHooks);
 }

@@ -30,13 +30,15 @@ public static class CardDamagePreview
         bool runGlobalHooks = true)
     {
         if (!ShouldUseCombatDamageHooks(card, runGlobalHooks))
-            return raw;
+            return ApplyEnchantmentModifiers(card, raw, props);
 
         var owner = card.Owner;
-        if (owner?.Creature == null) return raw;
+        if (owner?.Creature == null)
+            return ApplyEnchantmentModifiers(card, raw, props);
 
         var combat = card.CombatState ?? owner.Creature.CombatState;
-        if (combat == null) return raw;
+        if (combat == null)
+            return ApplyEnchantmentModifiers(card, raw, props);
 
         try
         {
@@ -56,7 +58,7 @@ public static class CardDamagePreview
         }
         catch
         {
-            return raw;
+            return ApplyEnchantmentModifiers(card, raw, props);
         }
     }
 
@@ -186,7 +188,7 @@ public static class CardDamagePreview
     }
 
     /// <summary>
-    /// カスタムプレビュー後にエンチャント付与 UI でも差分が出るよう Enchanted / Preview を揃える。
+    /// 本家 DamageVar と同様。付与確認は素値→エンチャント後。戦闘中は弱体などでプレビューが下がってもそのまま出す。
     /// </summary>
     public static void SetDamagePreviewPair(
         CardModel card,
@@ -196,23 +198,21 @@ public static class CardDamagePreview
         ValueProp props)
     {
         var enchantedBase = ApplyEnchantmentModifiers(card, rawBase, props);
-
-        if (card.IsEnchantmentPreview)
-        {
-            // 本家は EnchantedValue だけ更新し PreviewValue は Base のまま。
-            // NEnchantPreview の矢印は PreviewValue を比較するため Preview＝エンチャント後、Enchanted＝素値。
-            var.EnchantedValue = rawBase;
-            var.PreviewValue = enchantedBase;
-            return;
-        }
-
-        if (card.Enchantment != null)
-        {
-            var.EnchantedValue = enchantedBase;
-            var.PreviewValue = Math.Max(preview, enchantedBase);
-            return;
-        }
-
-        SetPreviewPair(var, rawBase, Math.Max(preview, rawBase));
+        var pair = EnchantPreviewPair.Resolve(
+            rawBase, enchantedBase, preview, card.IsEnchantmentPreview);
+        var.EnchantedValue = pair.EnchantedValue;
+        var.PreviewValue = pair.PreviewValue;
     }
+
+    /// <summary>
+    /// 戦闘フックが使えるときは本家 Hook（エンチャント込み）。使えないときはエンチャントのみ。先にエンチャントしてから Hook に渡さない。
+    /// </summary>
+    public static decimal ResolvePreview(
+        CardModel card,
+        Creature? target,
+        decimal raw,
+        ValueProp props,
+        CardPreviewMode previewMode = CardPreviewMode.Normal,
+        bool runGlobalHooks = true) =>
+        ApplyModifiers(card, target, raw, props, previewMode, runGlobalHooks);
 }

@@ -26,13 +26,11 @@ public static class TimeStopStrikeDamagePreviewPatch
         Creature? target,
         bool runGlobalHooks)
     {
-        _ = runGlobalHooks;
         if (card is not TimeStopStrike strike) return;
 
         var raw = strike.DynamicVars.Damage.BaseValue;
-        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(strike, raw, ValueProp.Move);
         var preview = TimeStopStrikeDamage.ResolvePreview(
-            strike, target ?? strike.CurrentTarget, enchanted, previewMode, runGlobalHooks);
+            strike, target ?? strike.CurrentTarget, raw, previewMode, runGlobalHooks);
         CardDamagePreview.SetDamagePreviewPair(strike, __instance, raw, preview, ValueProp.Move);
     }
 }
@@ -99,8 +97,8 @@ public static class MirroringDamagePreviewPatch
             return;
         }
 
-        var enchanted = CardDamagePreview.ApplyEnchantmentModifiers(mirroring, perHit, __instance.Props);
-        CardDamagePreview.SetDamagePreviewPair(mirroring, __instance, perHit, enchanted, __instance.Props);
+        var preview = CardDamagePreview.ApplyEnchantmentModifiers(mirroring, perHit, __instance.Props);
+        CardDamagePreview.SetDamagePreviewPair(mirroring, __instance, perHit, preview, __instance.Props);
     }
 }
 
@@ -146,15 +144,15 @@ public static class HarmonyBlockPreviewPatch
         Creature? target,
         bool runGlobalHooks)
     {
-        _ = previewMode;
-        _ = runGlobalHooks;
         if (card is not (HarmonyCard or Agape)) return;
 
         var previewTarget = target ?? card.CurrentTarget;
         var block = previewTarget != null
             ? EnemyAttackIntents.GetTotalDamage(previewTarget, card.Owner)
             : 0;
-        CardBlockPreview.SetBlockPreviewPair(card, __instance, block, block, __instance.Props);
+        var preview = CardBlockPreview.ResolvePreview(
+            card, block, __instance.Props, previewMode, runGlobalHooks);
+        CardBlockPreview.SetBlockPreviewPair(card, __instance, block, preview, __instance.Props);
     }
 }
 
@@ -171,15 +169,12 @@ public static class ZeroShortcutFirstBlockPreviewPatch
         Creature? target,
         bool runGlobalHooks)
     {
-        _ = target;
-        _ = runGlobalHooks;
         if (__instance.Name != "FirstBlock") return;
         if (card is not ZeroShortcut) return;
 
         var raw = ZeroShortcut.StartBlock;
-        var enchanted = CardBlockPreview.ApplyEnchantmentModifiers(card, raw, ValueProp.Move);
-        var preview = CardBlockPreview.ApplyModifiers(
-            card, enchanted, ValueProp.Move, previewMode, runGlobalHooks);
+        var preview = CardBlockPreview.ResolvePreview(
+            card, raw, ValueProp.Move, previewMode, runGlobalHooks);
         CardBlockPreview.SetBlockPreviewPair(card, __instance, raw, preview, ValueProp.Move);
     }
 }
@@ -198,7 +193,6 @@ public static class ZeroShortcutBlockPreviewPatch
         bool runGlobalHooks)
     {
         _ = target;
-        _ = runGlobalHooks;
         if (card is not ZeroShortcut shortcut) return;
 
         var baseline = ZeroShortcut.BaselineTotalBlock;
