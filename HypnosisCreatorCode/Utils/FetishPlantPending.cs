@@ -1,6 +1,7 @@
 using BaseLib.Utils;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,9 +10,9 @@ using MegaCrit.Sts2.Core.Models;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 初心者向け催眠: 次にプレイする性癖カードのタグを、アーム済みの敵へ植え付ける。
-/// 集団催眠で波及した場合は対象を複数保持し、1枚の性癖カードで全員に植え付ける。
-/// 予約は実際に植え付けが起きたときだけ消費する（目覚め済みの性癖カードでは消費しない）。
+/// 初心者向け催眠: 催眠した敵へ性癖カードを使ったとき、未所持の性癖だけ植え付ける。
+/// 予約は敵ごと。当たっていない敵や既に所持している性癖では消費しない。
+/// 集団催眠で波及した対象もそれぞれアームする。
 /// </summary>
 public static class FetishPlantPending
 {
@@ -30,19 +31,17 @@ public static class FetishPlantPending
         var state = Field.Get(player);
         PruneDead(state);
 
-        if (!state.Targets.Contains(target))
-            state.Targets.Add(target);
-
-        // 波及コピーは同じ PlantCards。枚数は Max で揃え、対象だけ増やす。
-        state.Remaining = Math.Max(state.Remaining, Math.Max(0, remainingCards));
-
-        if (state.Remaining <= 0 || state.Targets.Count == 0 || player.Creature == null)
+        var remaining = Math.Max(0, remainingCards);
+        if (remaining <= 0)
         {
-            state.Targets.Clear();
-            state.Remaining = 0;
-            await ClearPlayerPower(choiceContext, player);
+            state.RemainingByTarget.Remove(target);
+            await SyncPlayerPower(choiceContext, player, source);
             return;
         }
+
+        if (!state.RemainingByTarget.TryGetValue(target, out var current))
+            current = 0;
+        state.RemainingByTarget[target] = Math.Max(current, remaining);
 
         await SyncPlayerPower(choiceContext, player, source);
     }
@@ -50,39 +49,75 @@ public static class FetishPlantPending
     public static async Task TryConsumeOnPlay(
         PlayerChoiceContext choiceContext,
         Player player,
-        Creature? playTarget,
+        CardPlay cardPlay,
         IReadOnlyList<FetishType> fetishes,
         CardModel? source)
     {
-        _ = playTarget;
         var state = Field.Get(player);
         PruneDead(state);
-        if (state.Remaining <= 0 || state.Targets.Count == 0) return;
+        if (state.RemainingByTarget.Count == 0) return;
         if (fetishes.Count == 0) return;
 
         var distinct = fetishes.Distinct().ToList();
-        var plantedAny = false;
-        foreach (var enemy in state.Targets.ToList())
+        var changed = false;
+        foreach (var enemy in HitEnemies(cardPlay))
         {
-            if (!enemy.IsAlive) continue;
+            if (!state.RemainingByTarget.TryGetValue(enemy, out var remaining) || remaining <= 0)
+                continue;
+
+            var plantedAny = false;
             foreach (var fetish in distinct)
             {
                 if (await FetishCombat.AwakenAsync(choiceContext, enemy, fetish, player))
                     plantedAny = true;
             }
+
+            if (!plantedAny) continue;
+
+            remaining--;
+            if (remaining <= 0)
+                state.RemainingByTarget.Remove(enemy);
+            else
+                state.RemainingByTarget[enemy] = remaining;
+            changed = true;
         }
 
-        if (!plantedAny) return;
-
-        state.Remaining--;
-        if (state.Remaining <= 0)
-            state.Targets.Clear();
+        if (!changed) return;
 
         await SyncPlayerPower(choiceContext, player, source);
     }
 
-    private static void PruneDead(PlantState state) =>
-        state.Targets.RemoveAll(t => t is not { IsAlive: true, IsEnemy: true });
+    private static IEnumerable<Creature> HitEnemies(CardPlay play)
+    {
+        var combat = play.Card.CombatState;
+        if (play.Card.TargetType == TargetType.AllEnemies)
+        {
+            if (combat == null) yield break;
+            foreach (var enemy in combat.HittableEnemies)
+            {
+                if (enemy is { IsAlive: true, IsEnemy: true })
+                    yield return enemy;
+            }
+
+            yield break;
+        }
+
+        var target = CardFetishLookup.ResolveFetishPlayTarget(play, combat);
+        if (target != null)
+            yield return target;
+    }
+
+    private static void PruneDead(PlantState state)
+    {
+        var dead = state.RemainingByTarget.Keys
+            .Where(t => t is not { IsAlive: true, IsEnemy: true })
+            .ToList();
+        foreach (var creature in dead)
+            state.RemainingByTarget.Remove(creature);
+    }
+
+    private static int DisplayRemaining(PlantState state) =>
+        state.RemainingByTarget.Count == 0 ? 0 : state.RemainingByTarget.Values.Max();
 
     private static async Task SyncPlayerPower(
         PlayerChoiceContext choiceContext,
@@ -94,19 +129,19 @@ public static class FetishPlantPending
 
         var state = Field.Get(player);
         PruneDead(state);
+        var remaining = DisplayRemaining(state);
         var existing = creature.GetPower<FetishPlantPendingPower>();
 
-        if (state.Remaining <= 0 || state.Targets.Count == 0)
+        if (remaining <= 0)
         {
-            state.Remaining = 0;
-            state.Targets.Clear();
+            state.RemainingByTarget.Clear();
             await ClearPlayerPower(choiceContext, player);
             return;
         }
 
         if (existing != null)
         {
-            var delta = state.Remaining - existing.Amount;
+            var delta = remaining - existing.Amount;
             if (delta != 0)
             {
                 await PowerCmd.ModifyAmount(
@@ -116,7 +151,7 @@ public static class FetishPlantPending
         }
 
         await PowerCmd.Apply<FetishPlantPendingPower>(
-            choiceContext, creature, state.Remaining, creature, source);
+            choiceContext, creature, remaining, creature, source);
     }
 
     private static async Task ClearPlayerPower(PlayerChoiceContext choiceContext, Player player)
@@ -129,7 +164,6 @@ public static class FetishPlantPending
 
     private sealed class PlantState
     {
-        public List<Creature> Targets { get; } = [];
-        public int Remaining { get; set; }
+        public Dictionary<Creature, int> RemainingByTarget { get; } = [];
     }
 }

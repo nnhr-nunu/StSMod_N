@@ -8,8 +8,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Basic;
 
 /// <summary>
-/// 初心者向け催眠 — カウント。破滅12＋次の性癖カードのタグを植え付け＋トランス1。
-/// 集団催眠で波及した対象も Arm に積み上げ、次の性癖カードで全員へ植え付ける。
+/// 初心者向け催眠 — カウント。破滅12＋対象へ次の性癖カードのタグを植え付け＋トランス1。
+/// 集団催眠で波及した対象もそれぞれ Arm する。植え付けは当たった対象かつ未所持のときだけ。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class BeginnerHypnosis() : HypnosisCreatorCard(3,
