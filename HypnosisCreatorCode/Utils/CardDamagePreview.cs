@@ -54,7 +54,7 @@ public static class CardDamagePreview
                 ModifyDamageHookType.All,
                 previewMode,
                 out _);
-            return CombatPreviewText.RoundDisplayAmount(modified);
+            return Math.Max(0m, modified);
         }
         catch
         {
@@ -97,8 +97,8 @@ public static class CardDamagePreview
             target, dealer, props, card, currentVuln + (int)vulnerableToApply);
         if (oldFactor <= 0m) return atCurrent;
 
-        var preview = atCurrent * newFactor / oldFactor;
-        return CombatPreviewText.RoundDisplayAmount(preview);
+        var preview = CombatPreviewMath.ScaleByUpcomingVulnerable(atCurrent, oldFactor, newFactor);
+        return preview;
     }
 
     /// <summary>

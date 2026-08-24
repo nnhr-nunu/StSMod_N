@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\HypnosisCreatorCode\Utils\EnchantPreviewPair.cs" />
+    <Compile Include="..\..\HypnosisCreatorCode\Utils\CombatPreviewMath.cs" />
   </ItemGroup>
 </Project>

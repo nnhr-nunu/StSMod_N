@@ -33,7 +33,10 @@ public static class CombatPreviewText
         description = description.TrimEnd() + suffix;
     }
 
-    /// <summary>戦闘プレビュー表示用。本家 DynamicVar の PreviewValue 表示と同じく小数は 0 方向へ切り捨て。</summary>
+    /// <summary>
+    /// 説明文の括弧など、人が見る数字用。本家 DynamicVar 表示と同じく 0 方向へ切り捨て。
+    /// 実ダメージ計算の途中では呼ばない（先に切るとスロウ×弱体で1ずれる）。
+    /// </summary>
     public static decimal RoundDisplayAmount(decimal amount) =>
         decimal.Truncate(Math.Max(0m, amount));
 

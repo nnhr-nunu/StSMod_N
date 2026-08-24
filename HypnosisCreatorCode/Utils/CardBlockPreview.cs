@@ -37,7 +37,7 @@ public static class CardBlockPreview
             var modified = Hook.ModifyBlock(
                 combat, owner.Creature, raw, props, card, null, out _);
             modified = Math.Max(modified, 0m);
-            return CombatPreviewText.RoundDisplayAmount(modified);
+            return Math.Max(0m, modified);
         }
         catch
         {

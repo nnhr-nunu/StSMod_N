@@ -21,5 +21,10 @@ if (enchanted != 24m || preview != 18m)
 if (enchanted != 15m || preview != 11m)
     return Fail($"unenchanted weak: enchanted={enchanted} preview={preview}");
 
+// スロウで 15×1.25=18.75 のあと弱体1.5。途中切り捨てだと 18×1.5=27、本家は 28.125→表示28
+var scaled = CombatPreviewMath.ScaleByUpcomingVulnerable(18.75m, 1m, 1.5m);
+if (scaled != 28.125m)
+    return Fail($"vuln scale: {scaled}");
+
 Console.WriteLine("EnchantPreviewPairCheck ok");
 return 0;
