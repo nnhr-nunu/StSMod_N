@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "어브노멀",
   "HYPNOSISCREATOR-ABNORMAL.description": "어브노멀 페티시를 가진 상대에게 이 카드를 사용하면, 최대 체력에 따라 파멸을 부여한다.",
   "HYPNOSISCREATOR-TRANCE.title": "트랜스 페티시",
-  "HYPNOSISCREATOR-TRANCE.description": "트랜스 페티시를 가진 상대에게 트랜스를 부여할 때마다, 파멸을 부여한다(수치는 최대 체력의 3%+8. 늪이 있으면 1.5배).",
+  "HYPNOSISCREATOR-TRANCE.description": "트랜스 페티시를 가진 상대에게 트랜스를 부여할 때마다, 파멸을 부여한다(수치는 최대 체력의 2%+7. 늪이 있으면 1.5배).",
   "HYPNOSISCREATOR-TRANCESTATE.title": "트랜스",
   "HYPNOSISCREATOR-TRANCESTATE.description": "코스트가 0이 아닌 [gold]카운트[/gold] 카드도 사용할 수 있게 된다. 플레이어 턴 시작 시 [blue]1[/blue] 감소한다.",
   "HYPNOSISCREATOR-DOOM.title": "파멸",

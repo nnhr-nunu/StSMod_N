@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "Абнормальность",
   "HYPNOSISCREATOR-ABNORMAL.description": "При использовании этой карты на противнике с фетишем Абнормальность наложите Гибель в зависимости от его максимального здоровья.",
   "HYPNOSISCREATOR-TRANCE.title": "Фетиш Транса",
-  "HYPNOSISCREATOR-TRANCE.description": "Каждый раз, когда противнику с фетишем Транса накладывается Транс, наложите Гибель (5% от максимального здоровья + 5; ×1,5, если есть Трясина).",
+  "HYPNOSISCREATOR-TRANCE.description": "Каждый раз, когда противнику с фетишем Транса накладывается Транс, наложите Гибель (2% от максимального здоровья + 7; ×1,5, если есть Трясина).",
   "HYPNOSISCREATOR-TRANCESTATE.title": "Транс",
   "HYPNOSISCREATOR-TRANCESTATE.description": "Позволяет разыгрывать карты [gold]Отсчёта[/gold], даже если их стоимость не равна 0. Уменьшается на [blue]1[/blue] в начале вашего хода.",
   "HYPNOSISCREATOR-DOOM.title": "Гибель",

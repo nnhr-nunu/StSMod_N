@@ -16,8 +16,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// <summary>性癖刺さり・目覚め・破滅付与。仕様は mechanics-lock.md。</summary>
 public static class FetishCombat
 {
-    public const decimal FetishDoomHpPercent = 0.03M;
-    public const int FetishDoomFlat = 8;
+    public const decimal FetishDoomHpPercent = 0.02M;
+    public const int FetishDoomFlat = 7;
     public const decimal BogDoomMultiplier = 1.5M;
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
     public const decimal FetishAbyssDoomMultiplier = 1.5M;
@@ -184,7 +184,7 @@ public static class FetishCombat
         await gate.WaitAsync();
         try
         {
-            // バフ行 Amount は全員共通の基礎値（HP%＋8）。深淵・ぜんぶ知ってるよ等は刺さり時の applier で反映。
+            // バフ行 Amount は全員共通の基礎値（HP2%＋7）。深淵・ぜんぶ知ってるよ等は刺さり時の applier で反映。
             var amount = CalcFetishDoomDisplayAmount(enemy);
             await EnsureFetishPowerAsync<SmFetishPower>(choiceContext, enemy, owner, FetishType.Sm, amount);
             await EnsureFetishPowerAsync<DsFetishPower>(choiceContext, enemy, owner, FetishType.DomSub, amount);

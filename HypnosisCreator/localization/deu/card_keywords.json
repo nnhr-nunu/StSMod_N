@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "Abnorm",
   "HYPNOSISCREATOR-ABNORMAL.description": "Wenn diese Karte gegen einen Gegner mit dem Fetisch Abnorm gespielt wird, füge Verderben basierend auf seiner maximalen Lebensenergie zu.",
   "HYPNOSISCREATOR-TRANCE.title": "Trance-Fetisch",
-  "HYPNOSISCREATOR-TRANCE.description": "Immer wenn einem Gegner mit dem Fetisch Trance Trance zugefügt wird, füge Verderben zu (5% der maximalen Lebensenergie + 5; ×1,5 bei vorhandenem Sumpf).",
+  "HYPNOSISCREATOR-TRANCE.description": "Immer wenn einem Gegner mit dem Fetisch Trance Trance zugefügt wird, füge Verderben zu (2% der maximalen Lebensenergie + 7; ×1,5 bei vorhandenem Sumpf).",
   "HYPNOSISCREATOR-TRANCESTATE.title": "Trance",
   "HYPNOSISCREATOR-TRANCESTATE.description": "Erlaubt das Spielen von [gold]Countdown[/gold]-Karten, auch wenn ihre Kosten nicht 0 sind. Sinkt zu Beginn deines Zuges um [blue]1[/blue].",
   "HYPNOSISCREATOR-DOOM.title": "Verderben",

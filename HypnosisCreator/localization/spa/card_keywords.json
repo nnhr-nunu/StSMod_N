@@ -8,7 +8,7 @@
   "HYPNOSISCREATOR-ABNORMAL.title": "Anormal",
   "HYPNOSISCREATOR-ABNORMAL.description": "Al jugar esta carta sobre un oponente con el fetiche Anormal, aplica Perdición según su HP máximo.",
   "HYPNOSISCREATOR-TRANCE.title": "Fetiche de Trance",
-  "HYPNOSISCREATOR-TRANCE.description": "Cada vez que se aplique Trance a un oponente con el fetiche Trance, aplica Perdición (5% del HP máximo + 5; ×1.5 si tiene Pantano).",
+  "HYPNOSISCREATOR-TRANCE.description": "Cada vez que se aplique Trance a un oponente con el fetiche Trance, aplica Perdición (2% del HP máximo + 7; ×1.5 si tiene Pantano).",
   "HYPNOSISCREATOR-TRANCESTATE.title": "Trance",
   "HYPNOSISCREATOR-TRANCESTATE.description": "Permite jugar cartas de [gold]Cuenta[/gold] aunque su coste no sea 0. Disminuye en [blue]1[/blue] al inicio de tu turno.",
   "HYPNOSISCREATOR-DOOM.title": "Perdición",
