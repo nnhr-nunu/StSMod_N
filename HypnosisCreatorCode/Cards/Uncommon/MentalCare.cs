@@ -14,13 +14,15 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 
 /// <summary>
-/// メンタルケア — 破滅以外の対象デバフを解除し、種類×8ブロック＋沼1。UGで10/種＋沼2。
+/// メンタルケア — 保留。破滅以外の対象デバフを解除し、種類×8ブロック＋沼1。UGで10/種＋沼2。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class MentalCare() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
+
     public override bool GainsBlock => true;
 
     protected override bool ShouldGlowWhenConditionMet() =>
