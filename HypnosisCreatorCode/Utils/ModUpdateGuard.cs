@@ -1,4 +1,5 @@
 using Godot;
+using MegaCrit.Sts2.Core.Localization;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
@@ -9,8 +10,9 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 public static class ModUpdateGuard
 {
     private const int CheckEveryFrames = 120;
-    private const string Message =
-        "Modの更新またはアセット読み込み不整合を検出しました。ゲームを再起動してください。";
+    private const string LocTable = "gameplay_ui";
+    private const string MessageKey = "HYPNOSISCREATOR-MOD_UPDATE_NOTIFICATION";
+    private const string TooltipKey = "HYPNOSISCREATOR-MOD_UPDATE_NOTIFICATION_DISMISS";
 
     private static SceneTree? _tree;
     private static string? _installedFingerprint;
@@ -73,7 +75,7 @@ public static class ModUpdateGuard
         _pending = false;
         WriteMarker(BuildFingerprint());
         ShowNotification();
-        MainFile.Logger.Warn(Message);
+        MainFile.Logger.Warn(ResolveMessage());
     }
 
     private static void ShowNotification()
@@ -85,8 +87,8 @@ public static class ModUpdateGuard
         _notificationLayer = new CanvasLayer { Layer = 100 };
         var button = new Button
         {
-            Text = Message,
-            TooltipText = "クリックで閉じる",
+            Text = ResolveMessage(),
+            TooltipText = ResolveTooltip(),
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Alignment = HorizontalAlignment.Left,
             CustomMinimumSize = new Vector2(720f, 72f),
@@ -168,5 +170,34 @@ public static class ModUpdateGuard
                     return $"{path}:unreadable";
                 }
             }));
+    }
+
+    private static string ResolveMessage() =>
+        ResolveLocalizedLine(
+            MessageKey,
+            "Modの更新またはアセット読み込み不整合を検出しました。ゲームを再起動してください。",
+            "A mod update or asset mismatch was detected. Please restart the game.");
+
+    private static string ResolveTooltip() =>
+        ResolveLocalizedLine(
+            TooltipKey,
+            "クリックで閉じる",
+            "Click to dismiss");
+
+    private static string ResolveLocalizedLine(string key, string japaneseFallback, string englishFallback)
+    {
+        try
+        {
+            var text = new LocString(LocTable, key).GetFormattedText()?.Trim();
+            if (!string.IsNullOrWhiteSpace(text)
+                && !text.StartsWith("HYPNOSISCREATOR-", StringComparison.Ordinal))
+                return text;
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return UpgradeCardText.IsJapaneseUi() ? japaneseFallback : englishFallback;
     }
 }
