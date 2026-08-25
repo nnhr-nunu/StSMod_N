@@ -20,10 +20,12 @@ public static class HypnosisCountCardPool
         if (pool.Count == 0) return [];
 
         var rng = player.RunState.Rng.CombatCardSelection;
+        // ModelDb の canonical に CreateCloneForPlayer は不可（AssertMutable）。
+        // 報酬カードは本家 CardFactory と同じ RunState.CreateCard。
         return pool
             .OrderBy(_ => rng.NextInt(int.MaxValue))
             .Take(count)
-            .Select(card => card.CreateCloneForPlayer(player))
+            .Select(card => player.RunState.CreateCard(card, player))
             .ToList();
     }
 }
