@@ -17,9 +17,6 @@ public class PleasureCycle() : HypnosisCreatorCard(1,
     CardType.Skill, CardRarity.Common,
     TargetType.AnyEnemy)
 {
-    public override IReadOnlyList<FetishType> CardFetishes =>
-        [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
-
     public override bool AlwaysHitsFetish => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
