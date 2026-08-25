@@ -57,4 +57,6 @@ public class PleasureCycle() : HypnosisCreatorCard(1,
 
     protected override CardLocation GetResultLocationForCardPlay() =>
         new(Owner, PileType.Hand, CardPilePosition.Top);
+
+    protected override void OnUpgrade() { }
 }

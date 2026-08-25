@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -29,10 +30,10 @@ public static class UpgradeCardText
 
     private static void TryApplyReplace(CardModel card, ref string description)
     {
-        if (!TryGetCardLocText(card, UpgradeReplaceFromSuffix, out var from))
+        if (!TryGetFormattedUpgradeLocText(card, UpgradeReplaceFromSuffix, out var from))
             return;
 
-        TryGetCardLocText(card, UpgradeReplaceToSuffix, out var to);
+        TryGetFormattedUpgradeLocText(card, UpgradeReplaceToSuffix, out var to);
 
         if (!string.IsNullOrEmpty(to) && description.Contains(to, StringComparison.Ordinal))
             return;
@@ -108,6 +109,35 @@ public static class UpgradeCardText
         try
         {
             text = new LocString(LocTable, key).GetFormattedText() ?? "";
+        }
+        catch
+        {
+            return false;
+        }
+
+        if (IsUnresolvedLoc(key, text))
+        {
+            text = "";
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// upgradeReplace* は説明と同じ DynamicVar / IfUpgraded 文脈で展開する（{Damage:diff()} 等）。
+    /// </summary>
+    private static bool TryGetFormattedUpgradeLocText(CardModel card, string suffix, out string text)
+    {
+        text = "";
+        var key = card.Id.Entry + suffix;
+        try
+        {
+            var loc = new LocString(LocTable, key);
+            card.DynamicVars.AddTo(loc);
+            var upgradeDisplay = card.IsUpgraded ? UpgradeDisplay.Upgraded : UpgradeDisplay.Normal;
+            loc.Add(new IfUpgradedVar(upgradeDisplay));
+            text = loc.GetFormattedText() ?? "";
         }
         catch
         {
