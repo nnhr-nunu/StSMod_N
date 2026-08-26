@@ -79,7 +79,7 @@ public static class FetishDoomPreview
         {
             types = fetishes.Count > 0
                 ? fetishes.Distinct().ToList()
-                : [FetishType.Abnormal];
+                : FetishCombat.AlwaysHitFetishTypes.ToList();
         }
         else
         {

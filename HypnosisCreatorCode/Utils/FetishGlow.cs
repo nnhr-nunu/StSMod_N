@@ -42,7 +42,7 @@ public static class FetishGlow
         IReadOnlyList<FetishType> fetishes,
         bool alwaysHit)
     {
-        if (alwaysHit && fetishes.Count > 0) return true;
+        if (alwaysHit) return true;
 
         foreach (var fetish in fetishes.Distinct())
         {

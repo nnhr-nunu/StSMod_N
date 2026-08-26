@@ -22,6 +22,10 @@ public static class FetishCombat
     /// <summary>性癖の深淵 — 刺さり破滅の追加倍率（沼の1.5倍とは別枠で乗算）。</summary>
     public const decimal FetishAbyssDoomMultiplier = 1.5M;
 
+    /// <summary>タグなし必中カード（快の循環等）が刺さり判定に使う性癖種別。1プレイ1破滅は維持。</summary>
+    public static readonly IReadOnlyList<FetishType> AlwaysHitFetishTypes =
+        [FetishType.Abnormal, FetishType.Sm, FetishType.DomSub];
+
     /// <summary>ぜんぶ知ってるよの総倍率（未所持なら1）。パワー Amount＝倍率（2＝2倍）。</summary>
     public static decimal ResolveFetishHitMultiplier(Creature? applier)
     {
@@ -400,7 +404,7 @@ public static class FetishCombat
         {
             types = (cardFetishes.Count > 0
                 ? cardFetishes.Distinct()
-                : [FetishType.Abnormal])
+                : AlwaysHitFetishTypes)
                 .Where(f => !WasAwakenedThisPlay(target, f))
                 .ToList();
         }
