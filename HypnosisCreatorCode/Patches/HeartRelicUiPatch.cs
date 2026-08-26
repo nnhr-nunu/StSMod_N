@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.Relics;
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
-/// 希少な心臓の使用可能明滅と右クリック説明ホバー。
+/// 希少な心臓の使用可能脈打ちと右クリック説明ホバー。
 /// </summary>
 [HarmonyPatch]
 public static class HeartRelicUiPatch

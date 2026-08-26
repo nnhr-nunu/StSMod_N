@@ -9,16 +9,24 @@ using MegaCrit.Sts2.Core.Nodes.Relics;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
-/// <summary>希少な心臓の UI（使用可能時の明滅・発動ホバー）。</summary>
+/// <summary>希少な心臓の UI（使用可能時の脈打ち・発動ホバー）。</summary>
 public static class HeartRelicUi
 {
     private const string LocTable = "relics";
     private const string ActivateTitleKey = "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.title";
     private const string ActivateDescriptionKey = "HYPNOSISCREATOR-HEART_ACTIVATE_HOVER.description";
-    private const string OverlayName = "HcHeartPulseOverlay";
-    private const float PulseHz = 1.35f;
+    private const string LegacyOverlayName = "HcHeartPulseOverlay";
 
-    /// <summary>筋力／弱体のキーワードに近い金色。</summary>
+    /// <summary>約 45 BPM。二拍のあと周期の半分以上を静止にする。</summary>
+    private const float PeriodSec = 1.3f;
+    private const float StrongPeak = 1.12f;
+    private const float WeakPeak = 1.07f;
+    private const float StrongStart = 0f;
+    private const float StrongDuration = 0.22f;
+    private const float WeakStart = 0.28f;
+    private const float WeakDuration = 0.18f;
+
+    /// <summary>詳細画面の使用可能ラベル用。バー上のアイコン色は変えない。</summary>
     public static readonly Color ActivatableModulate = new(1f, 0.82f, 0.35f);
 
     private static readonly ConditionalWeakTable<NRelicInventoryHolder, PulseTarget> Targets = new();
@@ -38,7 +46,7 @@ public static class HeartRelicUi
     public static bool ShouldShowActivationHover(EnemyHeartRelic heart, Player? player) =>
         heart.IsRareHeart;
 
-    /// <summary>戦闘中に今すぐ右クリック発動できるときだけ点滅する。</summary>
+    /// <summary>戦闘中に今すぐ右クリック発動できるときだけ脈打つ。</summary>
     public static bool ShouldHighlightForActivation(EnemyHeartRelic heart, Player? player) =>
         HeartRelicActivation.ShouldHighlight(heart, player);
 
@@ -85,14 +93,12 @@ public static class HeartRelicUi
         var icon = target.Icon;
         if (icon == null || !GodotObject.IsInstanceValid(icon)) return;
 
-        var overlay = EnsureOverlay(icon);
-        overlay.Texture = icon.Texture;
-        overlay.Position = Vector2.Zero;
-        overlay.Size = icon.Size;
+        FreeLegacyOverlay(icon);
+        icon.PivotOffset = icon.Size * 0.5f;
 
         if (target.Model is not EnemyHeartRelic heart)
         {
-            overlay.Visible = false;
+            icon.Scale = Vector2.One;
             return;
         }
 
@@ -100,34 +106,35 @@ public static class HeartRelicUi
         var owned = HeartRelicActivation.ResolveOwnedHeart(heart, player) ?? heart;
         if (!ShouldHighlightForActivation(owned, player))
         {
-            overlay.Visible = false;
+            icon.Scale = Vector2.One;
             return;
         }
 
-        var wave = (Mathf.Sin(Time.GetTicksMsec() / 1000f * Mathf.Tau * PulseHz) + 1f) * 0.5f;
-        overlay.Modulate = new Color(1f, 0.78f, 0.18f, Mathf.Lerp(0.2f, 0.92f, wave));
-        overlay.Visible = true;
+        var t = Time.GetTicksMsec() / 1000f % PeriodSec;
+        var scale = HeartbeatScale(t);
+        icon.Scale = new Vector2(scale, scale);
     }
 
-    private static TextureRect EnsureOverlay(TextureRect icon)
+    /// <summary>強拍 → 弱拍 → 長い休み。サイン波の単調な拡縮は使わない。</summary>
+    private static float HeartbeatScale(float tInPeriod)
     {
-        var existing = icon.GetNodeOrNull<TextureRect>(OverlayName);
-        if (existing != null) return existing;
+        var strong = TriangleBump(tInPeriod, StrongStart, StrongDuration, StrongPeak);
+        var weak = TriangleBump(tInPeriod, WeakStart, WeakDuration, WeakPeak);
+        return Mathf.Max(strong, weak);
+    }
 
-        var overlay = new TextureRect
-        {
-            Name = OverlayName,
-            MouseFilter = Control.MouseFilterEnum.Ignore,
-            ExpandMode = icon.ExpandMode,
-            StretchMode = icon.StretchMode,
-            Texture = icon.Texture
-        };
-        overlay.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        overlay.MouseFilter = Control.MouseFilterEnum.Ignore;
-        icon.AddChild(overlay);
-        overlay.Position = Vector2.Zero;
-        overlay.Size = icon.Size;
-        return overlay;
+    private static float TriangleBump(float t, float start, float duration, float peak)
+    {
+        if (t < start || t > start + duration) return 1f;
+        var u = (t - start) / duration;
+        var tri = u < 0.5f ? u * 2f : (1f - u) * 2f;
+        return Mathf.Lerp(1f, peak, tri);
+    }
+
+    private static void FreeLegacyOverlay(TextureRect icon)
+    {
+        var leftover = icon.GetNodeOrNull<TextureRect>(LegacyOverlayName);
+        leftover?.QueueFree();
     }
 
     private sealed class PulseTarget(TextureRect icon, RelicModel? model, Player? player)
