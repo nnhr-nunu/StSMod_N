@@ -65,9 +65,8 @@ public class InfiniteFingerSnap() : HypnosisCreatorCard(-1,
 
         var perHitRaw = snap.DynamicVars.Damage.BaseValue;
         var perHitPreview = CombatDamageSuffixPreview.ResolveAoEPerHit(snap, perHitRaw, ValueProp.Move);
-        var total = perHitPreview * hits;
-        var baselineTotal = perHitRaw * baselineHits;
-        if (total <= 0) return;
+        var total = CombatDamageSuffixPreview.SumRepeatedHits(perHitPreview, hits);
+        var baselineTotal = CombatDamageSuffixPreview.SumRepeatedHits(perHitRaw, baselineHits);
 
         CombatDamageSuffixPreview.AppendTotalDamageSuffix(snap, ref description, total, baselineTotal);
     }

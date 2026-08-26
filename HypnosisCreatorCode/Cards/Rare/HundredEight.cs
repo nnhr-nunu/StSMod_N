@@ -3,8 +3,10 @@ using HypnosisCreator.HypnosisCreatorCode.Character;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
@@ -84,5 +86,20 @@ public class HundredEight() : HypnosisCreatorCard(1,
         return EnergyCost.GetResolved() >= FinalCostThreshold
             ? new CardLocation(Owner, PileType.Exhaust, CardPilePosition.Bottom)
             : base.GetResultLocationForCardPlay();
+    }
+
+    internal static void AppendDescriptionSuffix(CardModel card, Creature? _, ref string description)
+    {
+        if (card is not HundredEight hundred) return;
+        if (!CombatPreviewText.IsActive(hundred)) return;
+        if (hundred.EnergyCost.GetResolved() < FinalCostThreshold) return;
+
+        var perHitRaw = hundred.DynamicVars.Damage.BaseValue;
+        var perHitPreview = CombatDamageSuffixPreview.ResolveAoEPerHit(
+            hundred, perHitRaw, ValueProp.Move);
+        var total = CombatDamageSuffixPreview.SumRepeatedHits(perHitPreview, FinalHitCount);
+        var baselineTotal = CombatDamageSuffixPreview.SumRepeatedHits(perHitRaw, FinalHitCount);
+        CombatDamageSuffixPreview.AppendTotalDamageSuffix(
+            hundred, ref description, total, baselineTotal);
     }
 }

@@ -40,6 +40,16 @@ public static class CombatDamageSuffixPreview
         return CardDamagePreview.ApplyModifiers(card, null, raw, props);
     }
 
+    /// <summary>
+    /// 多段の合計。本家 <c>LoseHpInternal</c> はヒットごとに <c>(int)</c>（0方向切り捨て）するため、
+    /// 0.5×回数を先に足すと飛行・脱力で実ダメージ0なのに合計だけ残る。
+    /// </summary>
+    public static decimal SumRepeatedHits(decimal perHitAfterHooks, int hits)
+    {
+        if (hits <= 0) return 0m;
+        return CombatPreviewText.RoundDisplayAmount(perHitAfterHooks) * hits;
+    }
+
     public static void AppendDealDamageSuffix(
         CardModel card,
         Creature? target,
@@ -109,7 +119,8 @@ public static class CombatDamageSuffixPreview
         decimal baselineTotal)
     {
         if (!CombatPreviewText.IsActive(card)) return;
-        if (previewTotal <= 0) return;
+        if (previewTotal < 0m) return;
+        if (previewTotal == 0m && baselineTotal <= 0m) return;
 
         var formatted = CombatPreviewText.FormatPreviewAmount(previewTotal, baselineTotal);
         var suffix = UpgradeCardText.IsJapaneseUi()

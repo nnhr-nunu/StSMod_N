@@ -58,6 +58,9 @@ public static class CombatSuffixDescriptionHooks
             case InfiniteFingerSnap snap:
                 InfiniteFingerSnap.AppendDescriptionSuffix(snap, target, ref description);
                 break;
+            case HundredEight hundred:
+                HundredEight.AppendDescriptionSuffix(hundred, target, ref description);
+                break;
             case Punishment punishment:
                 Punishment.AppendDescriptionSuffix(punishment, target, ref description);
                 break;
