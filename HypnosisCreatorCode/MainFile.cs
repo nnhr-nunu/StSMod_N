@@ -33,6 +33,7 @@ public partial class MainFile : Node
 
         ApplyHarmonyPatches();
         ModUpdateGuard.Start();
+        HeartRelicUi.Start();
         // INetAction 登録は ModManager.Initialize 完了後（ActionTypesInitPatch）。
     }
 
