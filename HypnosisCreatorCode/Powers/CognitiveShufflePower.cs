@@ -140,8 +140,10 @@ public class CognitiveShufflePower : HypnosisCreatorPower
         if (FormCanonical?.Pool == null || CombatState == null) return;
 
         var poolType = FormCanonical.Pool.GetType();
+        var runConstraint = player.RunState.CardMultiplayerConstraint;
         var candidates = ModelDb.AllCards
             .Where(c =>
+                CombatCardGenerationRules.MatchesRunMultiplayerConstraint(c, runConstraint) &&
                 c.Pool?.GetType() == poolType &&
                 c.Rarity is CardRarity.Common or CardRarity.Uncommon or CardRarity.Rare &&
                 c.Type is not CardType.Status and not CardType.Curse &&
