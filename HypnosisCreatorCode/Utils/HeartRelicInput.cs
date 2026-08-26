@@ -19,6 +19,14 @@ internal static class HeartRelicInput
 
         holder.GuiInput += evt => TryHandle(holder, evt);
         holder.MousePressed += evt => TryHandle(holder, evt);
+
+        var relic = holder.Relic;
+        if (relic != null)
+        {
+            var player = HeartRelicActivation.ResolvePlayerFromHolder(holder);
+            var heart = HeartRelicActivation.ResolveOwnedHeart(relic.Model, player);
+            HeartRelicUi.ApplyHolderVisual(holder, heart, relic.Icon, player);
+        }
     }
 
     public static void WireAll(NRelicInventory? inventory)

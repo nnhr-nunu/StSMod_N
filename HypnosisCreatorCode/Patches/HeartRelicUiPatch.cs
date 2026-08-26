@@ -22,7 +22,7 @@ public static class HeartRelicUiPatch
 
         var player = HeartRelicActivation.ResolvePlayerFromHolder(__instance);
         var heart = HeartRelicActivation.ResolveOwnedHeart(relic.Model, player);
-        HeartRelicUi.ApplyHolderVisual(heart, relic.Icon, player);
+        HeartRelicUi.ApplyHolderVisual(__instance, heart, relic.Icon, player);
     }
 
     [HarmonyPatch(typeof(RelicModel), nameof(RelicModel.HoverTips), MethodType.Getter)]

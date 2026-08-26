@@ -4,8 +4,7 @@ using MegaCrit.Sts2.Core.Localization;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 実行中のmod差し替えやPCK不整合を検知し、安全な画面で再起動を案内する。
-/// 戦闘中にはダイアログを出さない。
+/// 実行中に Hypno Creator 自身の dll / pck / json が差し替わったときだけ、再起動を案内する。
 /// </summary>
 public static class ModUpdateGuard
 {
@@ -45,13 +44,6 @@ public static class ModUpdateGuard
             WriteMarker(_installedFingerprint);
 
         _tree.ProcessFrame += OnProcessFrame;
-    }
-
-    /// <summary>必須フォールバックアセットまで読めない場合に通知を予約する。</summary>
-    public static void ReportAssetMismatch()
-    {
-        if (_started)
-            _pending = true;
     }
 
     private static void OnProcessFrame()
@@ -175,8 +167,8 @@ public static class ModUpdateGuard
     private static string ResolveMessage() =>
         ResolveLocalizedLine(
             MessageKey,
-            "Modの更新またはアセット読み込み不整合を検出しました。ゲームを再起動してください。",
-            "A mod update or asset mismatch was detected. Please restart the game.");
+            "Hypno Creator の更新を検出しました。ゲームを再起動してください。",
+            "Hypno Creator was updated. Please restart the game.");
 
     private static string ResolveTooltip() =>
         ResolveLocalizedLine(
