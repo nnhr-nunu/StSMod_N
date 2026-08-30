@@ -32,9 +32,35 @@ public partial class MainFile : Node
         Sensitivity3000Description.Register();
 
         ApplyHarmonyPatches();
+        LogLoadedSource();
         ModUpdateGuard.Start();
         HeartRelicUi.Start();
         // INetAction 登録は ModManager.Initialize 完了後（ActionTypesInitPatch）。
+    }
+
+    /// <summary>
+    /// ローカル mods/ と Workshop が同じバージョンだと本家はローカルを優先する。
+    /// ソースが食い違うとマルチで「ホストに足りません」になる。
+    /// </summary>
+    private static void LogLoadedSource()
+    {
+        var path = typeof(MainFile).Assembly.Location;
+        if (string.IsNullOrEmpty(path))
+        {
+            Logger.Warn("Hypno Creator assembly location was unavailable.");
+            return;
+        }
+
+        Logger.Info($"Hypno Creator loaded from: {path}");
+
+        if (ModLoadSource.IsLocalModsPath(path))
+        {
+            Logger.Warn(
+                "Hypno Creator is loading from the game mods/ folder, not Steam Workshop. " +
+                "If a Workshop copy is also subscribed at the same version, the local copy wins and " +
+                "multiplayer can report that the host is missing Hypno Creator. " +
+                "For Workshop-only play, delete mods/HypnosisCreator and restart the game.");
+        }
     }
 
     /// <summary>
