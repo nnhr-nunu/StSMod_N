@@ -35,6 +35,18 @@ dotnet publish        # 画像・ローカライズ・シーン込み（.pck 生
 
 ゲーム内で **BaseLib** と **Hypno Creator** を有効化。
 
+## マルチプレイで「ホストに足りません」と出るとき
+
+本家は **同じバージョンならローカル `mods/` を Workshop より優先**する。開発用の `dotnet publish` 残りや ZIP 展開が `mods/HypnosisCreator/` にあると、購読し直してもソースが食い違い、双方ホスト交代でも「ホストに Hypno Creator vX.Y.Z が足りません」になる。
+
+Workshop だけで遊ぶ場合:
+
+1. ゲームを終了する
+2. `Slay the Spire 2/mods/HypnosisCreator/` を削除する（あれば）
+3. Steam Workshop の Hypno Creator を再購読し、ゲームを起動する
+
+`godot.log` に `Hypno Creator loaded from:` が出る。パスが `workshop/content/` なら Workshop、`mods/HypnosisCreator` ならローカル。
+
 ## 主なディレクトリ
 
 - `HypnosisCreatorCode/` … C#（キャラ・カード・レリック・パッチ）

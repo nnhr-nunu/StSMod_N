@@ -116,6 +116,17 @@
                  Text="Updated BaseLib dependency version in mod manifest json to version $(BaseLibVersion)"
                  Importance="high" />
     </Target>
+
+    <!-- WriteLinesToFile UTF-8 は BOM を付ける。マニフェストの BOM は JSON 読取を壊し、マルチ照合から外れることがある。 -->
+    <Target Name="StripManifestBom" AfterTargets="UpdateDependencyVersions" BeforeTargets="BeforeBuild">
+        <PropertyGroup>
+            <ManifestPath>$(MSBuildProjectName).json</ManifestPath>
+        </PropertyGroup>
+        <Exec Condition="'$(IsLinux)' == 'true' or '$(IsOSX)' == 'true'"
+              Command="python3 -c &quot;from pathlib import Path; p=Path(r'$(ManifestPath)'); b=p.read_bytes(); p.write_bytes(b[3:] if b.startswith(bytes([0xEF,0xBB,0xBF])) else b)&quot;" />
+        <Exec Condition="'$(IsLinux)' != 'true' and '$(IsOSX)' != 'true'"
+              Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$p='$(ManifestPath)'; $b=[IO.File]::ReadAllBytes($p); if ($b.Length -ge 3 -and $b[0] -eq 239 -and $b[1] -eq 187 -and $b[2] -eq 191) { $n=New-Object byte[] ($b.Length-3); [Array]::Copy($b,3,$n,0,$n.Length); [IO.File]::WriteAllBytes($p,$n) }&quot;" />
+    </Target>
     
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying .dll .pdb and .json to mods folder." Importance="high" />
