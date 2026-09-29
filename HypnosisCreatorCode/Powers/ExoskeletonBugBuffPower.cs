@@ -29,9 +29,13 @@ public class ExoskeletonBugBuffPower : HypnosisCreatorPower
     public override string CustomPackedIconPath => VanillaHardToKill.PackedIconPath;
     public override string CustomBigIconPath => VanillaHardToKill.ResolvedBigIconPath;
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    // 再適用は ModifyAmount に回り AfterApplied が呼ばれないため、AfterPowerAmountChanged で残りターンを積む。
+    public override Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
     {
-        _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
+        if (power == this && amount > 0m)
+            _remainingEnemyTurns = TurnScopedDuration.AddStack(_remainingEnemyTurns);
         return Task.CompletedTask;
     }
 

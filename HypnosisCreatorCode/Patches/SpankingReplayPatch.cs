@@ -15,9 +15,10 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPriority(Priority.First)]
 public static class SpankingReplayGeneratePlayCountPatch
 {
-    public static void Prefix(CardModel __instance, ICombatState combatState, Creature target)
+    public static void Prefix(CardModel __instance, ICombatState combatState, Creature target, out int __state)
     {
         _ = combatState;
+        __state = __instance.BaseReplayCount;
         if (__instance is Spanking spanking)
             spanking.PrepareReplay(target);
         else if (__instance is InfiniteUpgradeString infiniteUpgradeString)
@@ -26,6 +27,18 @@ public static class SpankingReplayGeneratePlayCountPatch
             fetishChampion.PrepareReplay(target);
         else if (__instance is ContinuousTrance continuousTrance)
             continuousTrance.PrepareReplay();
+    }
+
+    /// <summary>
+    /// 対象の性癖で決まるリプレイ（スパンキング／性癖の覇者）はそのプレイ限りの値。
+    /// BaseReplayCount は永続プロパティなので、戻さないと次のプレイで性癖に刺さらない敵にも引き継がれる。
+    /// PlayCount は GeneratePlayCount の同期区間（最初の await より前）で確定するため、Postfix で戻して問題ない。
+    /// </summary>
+    public static void Postfix(CardModel __instance, int __state)
+    {
+        if (__instance is not (Spanking or FetishChampion)) return;
+        if (__instance.BaseReplayCount != __state)
+            __instance.BaseReplayCount = __state;
     }
 }
 

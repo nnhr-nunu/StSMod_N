@@ -10,3 +10,8 @@ packages/
 .editorconfig
 *.user
 Directory.Build.props
+# ビルド生成物・一時ファイル（追跡しない）
+obj/
+__pycache__/
+_build_check/
+_build_tmp_out/

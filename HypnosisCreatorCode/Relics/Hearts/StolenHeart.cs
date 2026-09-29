@@ -28,6 +28,8 @@ public class StolenHeart : HypnosisCreatorRelic
         if (player.PlayerCombatState == null || player.PlayerCombatState.TurnNumber > 1) return;
         var stacks = Owner.Relics.Count(r => r is StolenHeart);
         if (stacks <= 0) return;
+        // 所持数ぶんの合計を1回だけ与える。各インスタンスが発動すると N 個で N×2N ブロックになる。
+        if (!ReferenceEquals(Owner.Relics.First(r => r is StolenHeart), this)) return;
         Flash();
         await CreatureCmd.GainBlock(
             Owner.Creature,

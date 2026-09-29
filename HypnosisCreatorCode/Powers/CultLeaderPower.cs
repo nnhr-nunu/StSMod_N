@@ -26,18 +26,6 @@ public class CultLeaderPower : HypnosisCreatorPower
         CountRules.HasCountKeyword(c) &&
         c is not TrainingCommand;
 
-    public override Task AfterApplied(Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? cardSource)
-    {
-        FetishCombat.CultLeaderActive = true;
-        return Task.CompletedTask;
-    }
-
-    public override Task AfterRemoved(Creature oldOwner)
-    {
-        FetishCombat.CultLeaderActive = false;
-        return Task.CompletedTask;
-    }
-
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (Owner == null || player.Creature != Owner || CombatState == null) return;

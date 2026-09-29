@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -42,13 +43,16 @@ public static class PersonalHiveCardAddPreviewPatch
         Creature? dealer,
         CardModel? cardSource)
     {
-        if (power.Owner == null) return;
+        // 本家 PersonalHivePower と同じく、被弾したのがこのパワーの持ち主のときだけ働く。
+        // （置換版でこの判定が抜けると、プレイヤーが他の敵を攻撃するたびにめまいが山札へ入る）
+        if (power.Owner == null || target != power.Owner) return;
+        if (dealer == null) return;
         if (!props.IsPoweredAttack() && (cardSource?.Type != CardType.Attack)) return;
 
-        if (target.Monster == null && target.PetOwner?.Creature != null)
-            dealer = target.PetOwner.Creature;
+        if (dealer.Monster is Osty && dealer.PetOwner?.Creature != null)
+            dealer = dealer.PetOwner.Creature;
 
-        var player = dealer?.Player;
+        var player = dealer.Player;
         if (player == null) return;
 
         var combat = power.CombatState;

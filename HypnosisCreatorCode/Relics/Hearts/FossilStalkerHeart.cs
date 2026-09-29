@@ -4,11 +4,11 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>化石ストーカーの心臓 — 希少。吸血1。</summary>
+/// <summary>化石ストーカーの心臓 — 希少。吸血（SuckPower）1。</summary>
 public class FossilStalkerHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "FOSSIL_STALKER";
 
     public override async Task ActivateAsync(PlayerChoiceContext choiceContext, Player player) =>
-        await HeartActivationHelpers.ActivateRareSelfPower<DevourLifePower>(this, choiceContext, player, 1);
+        await HeartActivationHelpers.ActivateRareSelfPower<SuckPower>(this, choiceContext, player, 1);
 }

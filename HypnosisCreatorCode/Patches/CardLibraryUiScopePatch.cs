@@ -17,7 +17,11 @@ public static class CardLibraryUiScopePatch
             CardLibraryUiGuard.Push();
     }
 
-    public static void Postfix(bool __state)
+    /// <summary>
+    /// Postfix だと本家が例外を投げたとき呼ばれず depth が上がったままになり、以後ずっと mod の表示改変が止まる。
+    /// Finalizer は例外時も必ず走る（戻り値 void なので例外は握りつぶさない）。
+    /// </summary>
+    public static void Finalizer(bool __state)
     {
         if (__state)
             CardLibraryUiGuard.Pop();

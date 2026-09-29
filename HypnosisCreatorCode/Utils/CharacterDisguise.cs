@@ -50,7 +50,8 @@ public static class CharacterDisguise
                 created = disguiseCharacter.CreateVisuals();
                 flipped = TryFaceTowardTarget(creature, faceTowardTarget, node, created);
                 SwapVisuals(node, original, created);
-                RefreshAnimator(node, disguiseCharacter);
+                RefreshAnimator(node, disguiseCharacter, creature);
+                IntangibleVisualRefresh.TryRefresh(creature);
             }
         }
         catch (Exception e)
@@ -83,7 +84,7 @@ public static class CharacterDisguise
             {
                 SwapVisuals(node, disguise, state.OriginalVisuals);
                 if (originalCharacter != null)
-                    RefreshAnimator(node, originalCharacter);
+                    RefreshAnimator(node, originalCharacter, creature);
                 disguise.QueueFree();
             }
             else
@@ -91,8 +92,10 @@ public static class CharacterDisguise
                 state.OriginalVisuals.Visible = true;
                 SetVisuals(node, state.OriginalVisuals);
                 if (originalCharacter != null)
-                    RefreshAnimator(node, originalCharacter);
+                    RefreshAnimator(node, originalCharacter, creature);
             }
+
+            IntangibleVisualRefresh.TryRefreshDeferred(creature);
         }
         catch (Exception e)
         {
@@ -119,7 +122,7 @@ public static class CharacterDisguise
     private static void SetVisuals(NCreature node, NCreatureVisuals visuals) =>
         VisualsField?.SetValue(node, visuals);
 
-    private static void RefreshAnimator(NCreature node, CharacterModel character)
+    private static void RefreshAnimator(NCreature node, CharacterModel character, Creature creature)
     {
         try
         {
@@ -132,7 +135,7 @@ public static class CharacterDisguise
                 return;
             }
 
-            var animator = character.GenerateAnimator(spine);
+            var animator = character.GenerateAnimator(spine, creature);
             SpineAnimatorField?.SetValue(node, animator);
             ConnectSpineMethod?.Invoke(node, null);
             node.SetAnimationTrigger("Idle");

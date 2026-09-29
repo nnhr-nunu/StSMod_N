@@ -47,7 +47,7 @@ public static class FetishGlow
         foreach (var fetish in fetishes.Distinct())
         {
             if (FetishCombat.HasFetish(target, fetish)) return true;
-            if (FetishCombat.CultLeaderActive && fetish != FetishType.Trance) return true;
+            if (fetish != FetishType.Trance && FetishCombat.IsCultLeaderActive(card.Owner?.Creature)) return true;
         }
 
         return false;

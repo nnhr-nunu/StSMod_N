@@ -15,7 +15,6 @@ public static class ModUpdateGuard
 
     private static SceneTree? _tree;
     private static string? _installedFingerprint;
-    private static string? _markerPath;
     private static int _frameCounter;
     private static bool _pending;
     private static bool _started;
@@ -33,15 +32,9 @@ public static class ModUpdateGuard
             return;
         }
 
+        // 起動時点のファイルが「読み込み済みの版」。これと変わったときだけ通知する。
+        // （前回起動の記録とは比べない: 更新後の初回起動は新しい版を読んでいるので通知は誤り）
         _installedFingerprint = BuildFingerprint();
-        _markerPath = Path.Combine(OS.GetUserDataDir(), "hypnosis_creator_mod_fingerprint.txt");
-
-        var previous = ReadMarker();
-        _pending = !string.IsNullOrEmpty(previous)
-            && !string.Equals(previous, _installedFingerprint, StringComparison.Ordinal);
-
-        if (string.IsNullOrEmpty(previous))
-            WriteMarker(_installedFingerprint);
 
         _tree.ProcessFrame += OnProcessFrame;
     }
@@ -65,7 +58,8 @@ public static class ModUpdateGuard
     private static void ShowOnce()
     {
         _pending = false;
-        WriteMarker(BuildFingerprint());
+        // 通知済みの版を基準に更新し直す（しないと2秒ごとに再通知され、閉じても復活する）。
+        _installedFingerprint = BuildFingerprint();
         ShowNotification();
         MainFile.Logger.Warn(ResolveMessage());
     }
@@ -103,35 +97,6 @@ public static class ModUpdateGuard
         if (_notificationLayer != null && GodotObject.IsInstanceValid(_notificationLayer))
             _notificationLayer.QueueFree();
         _notificationLayer = null;
-    }
-
-    private static string? ReadMarker()
-    {
-        try
-        {
-            return _markerPath != null && File.Exists(_markerPath)
-                ? File.ReadAllText(_markerPath)
-                : null;
-        }
-        catch (Exception ex)
-        {
-            MainFile.Logger.Warn($"ModUpdateGuard: marker read failed: {ex.Message}");
-            return null;
-        }
-    }
-
-    private static void WriteMarker(string fingerprint)
-    {
-        try
-        {
-            if (_markerPath == null) return;
-            Directory.CreateDirectory(Path.GetDirectoryName(_markerPath)!);
-            File.WriteAllText(_markerPath, fingerprint);
-        }
-        catch (Exception ex)
-        {
-            MainFile.Logger.Warn($"ModUpdateGuard: marker write failed: {ex.Message}");
-        }
     }
 
     private static string BuildFingerprint()

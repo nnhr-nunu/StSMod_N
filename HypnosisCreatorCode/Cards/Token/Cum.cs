@@ -18,7 +18,9 @@ public class Cum() : TrainingCommand
     protected override async Task OnCommandPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+        // 「体力を失う」効果: ブロックで防げない（本modの他の HP 喪失カードと同じ ValueProp）
         await CreatureCmd.Damage(
-            choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Unpowered, Owner.Creature, this, play);
+            choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue,
+            ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, Owner.Creature, this, play);
     }
 }

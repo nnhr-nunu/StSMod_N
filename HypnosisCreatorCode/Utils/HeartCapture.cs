@@ -46,6 +46,11 @@ public static class HeartCapture
     }
 
     /// <summary>予約済み捕獲をすべて追加レリック報酬として解決する（戦闘終了フックから呼ぶ）。</summary>
+    /// <summary>
+    /// 予約を破棄する。戦闘開始時に呼ぶ（敗北・中断だと FlushPending が走らず、次の戦闘の勝利時に前戦闘ぶんが報酬になる）。
+    /// </summary>
+    public static void ClearPending() => Pending.Clear();
+
     public static void FlushPending()
     {
         if (Pending.Count == 0) return;

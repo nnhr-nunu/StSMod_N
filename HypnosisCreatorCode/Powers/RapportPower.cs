@@ -20,9 +20,12 @@ public class RapportPower : HypnosisCreatorPower
     /// <summary>UG版ラポールを一度でも適用したら true（未UGとの混在でも優先）。</summary>
     public bool AlwaysAdvance { get; private set; }
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    // 再適用（UG版を後から重ねる）は ModifyAmount に回り AfterApplied が呼ばれないため、AfterPowerAmountChanged で扱う。
+    public override Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
     {
-        if (cardSource is { IsUpgraded: true })
+        if (power == this && amount > 0m && cardSource is { IsUpgraded: true })
             AlwaysAdvance = true;
         return Task.CompletedTask;
     }

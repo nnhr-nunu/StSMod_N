@@ -97,6 +97,7 @@ public static class SlimeDisguise
                 RefreshAnimator(node, disguise);
                 // 通常スライムは左向き。画面左の敵はプレイヤーへ向くよう反転する。
                 flipped = TryFaceTowardPlayer(creature, node, created);
+                IntangibleVisualRefresh.TryRefresh(creature);
             }
         }
         catch (Exception e)
@@ -138,6 +139,8 @@ public static class SlimeDisguise
                 if (creature.Monster != null)
                     RefreshAnimator(node, creature.Monster);
             }
+
+            IntangibleVisualRefresh.TryRefreshDeferred(creature);
         }
         catch (Exception e)
         {

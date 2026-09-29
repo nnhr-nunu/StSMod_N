@@ -39,8 +39,10 @@ public static class HcStarterStrikeCompat
         if (StandInByPlayer.TryGetValue(player, out var cached))
             return cached;
 
-        var rng = player.RunState.Rng.CombatCardSelection;
-        var picked = StarterAttackTypes[rng.NextInt(StarterAttackTypes.Length)];
+        // 共有 RNG（CombatCardSelection）を初回参照時に消費すると、ホバー等で参照タイミングが端末ごとに違う共闘で
+        // 乱数列がずれる。ラン seed とプレイヤー ID から決定的に選ぶ（セーブ/ロードを跨いでも同じスターターになる）。
+        var mix = player.RunState.Rng.Seed ^ (player.NetId * 0x9E3779B97F4A7C15UL);
+        var picked = StarterAttackTypes[(int)(mix % (ulong)StarterAttackTypes.Length)];
         StandInByPlayer.Add(player, picked);
         return picked;
     }
@@ -89,10 +91,13 @@ public static class HcStarterStrikeCompat
     public static bool IsStrikeDummyExcludedStarter(CardModel? card) =>
         card != null && IsHcStarterAttack(card);
 
-    /// <summary>HC ではヘルレイザーは時止めストライクのみ発動（仮想 Strike のスターターは対象外）。</summary>
+    /// <summary>
+    /// HC ではヘルレイザーは時止めストライクのみ発動（仮想 Strike のスターターは対象外）。
+    /// 共闘で他キャラのヘルレイザーまで止めないよう、HC が持ち主のカードだけを対象にする。
+    /// </summary>
     public static bool ShouldSuppressHellraiserEffect(CardModel? card)
     {
-        if (card == null || !HypnosisCreatorRunRules.IsHypnosisCreatorActive(card))
+        if (card == null || card.IsCanonical || !HypnosisCreatorRunRules.IsHypnosisCreator(card.Owner))
             return false;
 
         return card is not TimeStopStrike;

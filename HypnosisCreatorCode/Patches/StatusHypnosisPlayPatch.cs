@@ -9,6 +9,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
 /// <summary>
 /// 敵対象の状態異常／呪い：状態異常催眠＋トランス、または心臓の自由プレイ時のみ使用可。
+/// 本家の判定（エナジー・Hook.ShouldPlay の制限など）は残したまま、条件を満たさないときだけ不可にする
+/// （結果を丸ごと上書きすると本家側の不可理由を素通りしてしまう）。
 /// </summary>
 [HarmonyPatch(
     typeof(CardModel),
@@ -19,7 +21,7 @@ public static class StatusHypnosisUnplayablePatch
 {
     public static void Postfix(CardModel __instance, ref bool __result)
     {
-        if (!NeedsGate(__instance)) return;
+        if (!__result || !NeedsGate(__instance)) return;
         __result = StatusHypnosisRules.CanStartPlay(__instance);
     }
 
@@ -32,7 +34,7 @@ public static class StatusHypnosisUnplayableNoArgPatch
 {
     public static void Postfix(CardModel __instance, ref bool __result)
     {
-        if (!StatusHypnosisUnplayablePatch.NeedsGate(__instance)) return;
+        if (!__result || !StatusHypnosisUnplayablePatch.NeedsGate(__instance)) return;
         __result = StatusHypnosisRules.CanStartPlay(__instance);
     }
 }
@@ -42,7 +44,7 @@ public static class StatusHypnosisCanPlayTargetingPatch
 {
     public static void Postfix(CardModel __instance, Creature target, ref bool __result)
     {
-        if (!StatusHypnosisUnplayablePatch.NeedsGate(__instance)) return;
+        if (!__result || !StatusHypnosisUnplayablePatch.NeedsGate(__instance)) return;
         __result = StatusHypnosisRules.CanPlayTargeting(__instance, target);
     }
 }

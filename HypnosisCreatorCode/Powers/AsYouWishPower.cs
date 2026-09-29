@@ -25,8 +25,14 @@ public class AsYouWishPower : HypnosisCreatorPower
     public int VigorBonus { get; private set; }
     public int BlockBonus { get; private set; }
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    // 重ねがけは PowerCmd.Apply が ModifyAmount に回すため AfterApplied は初回しか呼ばれない。
+    // 初回・再適用の両方で呼ばれる AfterPowerAmountChanged で積み上げる。
+    public override Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
     {
+        if (power != this || amount <= 0m) return Task.CompletedTask;
+
         if (cardSource is { IsUpgraded: true })
         {
             StrengthBonus += 1;

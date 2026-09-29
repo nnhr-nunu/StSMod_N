@@ -99,7 +99,9 @@ internal static class HeartActivationHelpers
     }
 
     /// <summary>
-    /// 攻撃系心臓のダメージ。本家活力はカード攻撃のみ対象なので、多段も含め手動で加算・消費する。
+    /// 攻撃系心臓のダメージ。活力の加算は本家 Hook.ModifyDamage（VigorPower.ModifyDamageAdditive）が
+    /// カード無しの威力ダメージにも行うので手動加算しない（二重加算になる）。
+    /// AttackCommand を経由しないため本家の消費（AfterAttack）は走らず、ここで多段を含め1回だけ消費する。
     /// </summary>
     public static async Task DealHeartAttackDamage(
         PlayerChoiceContext ctx, Player player, Creature target, decimal damage, int hits = 1)
@@ -111,12 +113,8 @@ internal static class HeartActivationHelpers
 
         for (var i = 0; i < hits; i++)
         {
-            var hitDamage = damage;
-            if (vigorBonus > 0)
-                hitDamage += vigorBonus;
-
             await CreatureCmd.Damage(
-                ctx, target, hitDamage, ValueProp.Move, player.Creature, null, null);
+                ctx, target, damage, ValueProp.Move, player.Creature, null, null);
         }
 
         if (vigorBonus > 0 && vigor != null)

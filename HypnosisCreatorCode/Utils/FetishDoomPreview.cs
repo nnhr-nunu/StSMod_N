@@ -85,7 +85,7 @@ public static class FetishDoomPreview
         {
             types = fetishes
                 .Where(f => FetishCombat.HasFetish(target, f)
-                            || (FetishCombat.CultLeaderActive && f != FetishType.Trance))
+                            || (f != FetishType.Trance && FetishCombat.IsCultLeaderActive(card.Owner?.Creature)))
                 .Distinct()
                 .ToList();
         }

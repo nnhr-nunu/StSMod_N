@@ -29,7 +29,13 @@ public static class TranceCombat
         CardModel? cardSource = null)
     {
         if (amount <= 0 || !target.IsEnemy) return;
+
+        // アーティファクト等で無効化されたときは、性癖刺さり・教祖化のエナジー/ドローも発生させない。
+        // 既存スタックへの再適用は無効でも既存パワーが返るため、戻り値ではなく実際の増加量で判定する。
+        var before = GetTrance(target);
         await PowerCmd.Apply<TrancePower>(choiceContext, target, amount, applier, cardSource!);
+        if (GetTrance(target) <= before) return;
+
         TranceFallTracker.Add(target, amount);
         await FetishCombat.TryTranceFetishHitOnApply(choiceContext, target, applier, cardSource);
         await NotifyTranceAppliedForCultLeader(choiceContext, applier);

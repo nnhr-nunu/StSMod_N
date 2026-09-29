@@ -14,9 +14,6 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class CardDamagePreview
 {
-    /// <summary>本家 VulnerablePower の1スタックあたりの被ダメージ倍率加算（50%）。</summary>
-    private const decimal VulnerableMultiplierPerStack = 0.5m;
-
     /// <summary>
     /// 本家 <see cref="Hook.ModifyDamage"/> 経路。呼び出し側はカード素のダメージを渡すこと
     /// （エンチャント加算は Hook 内。神秘のライター +9 等を先に足すと二重になる）。
@@ -115,8 +112,6 @@ public static class CardDamagePreview
         if (vulnerableStacks <= 0) return 1m;
         if (!props.IsPoweredAttack()) return 1m;
 
-        var stackMult = 1m + VulnerableMultiplierPerStack * vulnerableStacks;
-
         // 本家 VulnerablePower の DamageIncrease 既定値
         var vulnComponent = 1.5m;
         var player = dealer.Player;
@@ -135,7 +130,8 @@ public static class CardDamagePreview
             vulnComponent = debilitate.ModifyVulnerableMultiplier(
                 target, vulnComponent, props, dealer, cardSource);
 
-        return stackMult * (vulnComponent / 1.5m);
+        // 本家 VulnerablePower は Amount（残りターン）に関わらず定倍率。スタック数では増えない。
+        return vulnComponent;
     }
 
     /// <summary>
@@ -168,9 +164,11 @@ public static class CardDamagePreview
 
         try
         {
-            var additive = enchant.EnchantDamageAdditive(raw, props);
-            var multiplicative = enchant.EnchantDamageMultiplicative(additive, props);
-            return Math.Max(multiplicative, 0m);
+            // 本家 DamageVar.UpdateCardPreview と同じ: 加算は「加える量」、乗算は「掛ける倍率」を返す。
+            var value = raw;
+            value += enchant.EnchantDamageAdditive(value, props);
+            value *= enchant.EnchantDamageMultiplicative(value, props);
+            return Math.Max(value, 0m);
         }
         catch
         {

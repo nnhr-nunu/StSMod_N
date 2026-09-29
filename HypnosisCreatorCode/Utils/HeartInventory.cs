@@ -1,3 +1,4 @@
+using HypnosisCreator.HypnosisCreatorCode.Relics;
 using HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
@@ -16,9 +17,17 @@ public static class HeartInventory
     public static IEnumerable<EnemyHeartRelic> OwnedEnemyHearts(Player player) =>
         player.Relics.OfType<EnemyHeartRelic>();
 
-    /// <summary>所持済みの心臓タイプか（同名レリックの再ドロップ抑止）。</summary>
-    public static bool OwnsHeartType(Player player, Type heartType) =>
-        player.Relics.Any(r => r.GetType() == heartType);
+    /// <summary>
+    /// 所持済みの心臓タイプか（同名レリックの再ドロップ抑止）。
+    /// 戦闘終了で消える一時コピー（自己暗示など）は数えない（数えると本物の報酬が落ちず、戦闘後には何も残らない）。
+    /// <see cref="StolenHeart"/> は重ねて持てる仕様なので常に「未所持」扱い。
+    /// </summary>
+    public static bool OwnsHeartType(Player player, Type heartType)
+    {
+        if (heartType == typeof(StolenHeart)) return false;
+        return player.Relics.Any(r =>
+            r.GetType() == heartType && r is not HypnosisCreatorRelic { RemoveAtCombatEnd: true });
+    }
 
     /// <summary>No.86: 使用済み希少心臓だけ、この戦闘中再使用可能にする。</summary>
     public static void RefreshAllForCombat(Player player)

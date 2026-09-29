@@ -5,7 +5,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
-/// <summary>フライコニドの心臓 — 希少。ランダム敵に脆弱+1・弱体+1。</summary>
+/// <summary>フライコニドの心臓 — 希少。ランダム敵に脆弱（Frail）+1・弱体（Vulnerable）+1。</summary>
 public class FlyconidHeart : EnemyHeartRelic
 {
     public override string MonsterIdEntry => "FLYCONID";
@@ -17,7 +17,7 @@ public class FlyconidHeart : EnemyHeartRelic
 
         Flash();
         await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, 1, player.Creature, null!);
-        await PowerCmd.Apply<WeakPower>(choiceContext, enemy, 1, player.Creature, null!);
+        await PowerCmd.Apply<FrailPower>(choiceContext, enemy, 1, player.Creature, null!);
         MarkUsed();
     }
 }

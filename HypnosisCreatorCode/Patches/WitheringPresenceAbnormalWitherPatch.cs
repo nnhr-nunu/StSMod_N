@@ -15,8 +15,16 @@ namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 [HarmonyPatch(typeof(WitheringPresencePower), nameof(WitheringPresencePower.AfterCardPlayed))]
 public static class WitheringPresenceAbnormalWitherSkipPatch
 {
-    /// <summary>衰微プレイを「カード1枚」として数えない。</summary>
-    public static bool Prefix(CardPlay cardPlay) => cardPlay.Card is not AbnormalWither;
+    /// <summary>
+    /// 衰微プレイを「カード1枚」として数えない。
+    /// 元メソッドは async Task なので、スキップ時は完了済み Task を返す（null だと Hook 側の await が NRE）。
+    /// </summary>
+    public static bool Prefix(CardPlay cardPlay, ref Task __result)
+    {
+        if (cardPlay.Card is not AbnormalWither) return true;
+        __result = Task.CompletedTask;
+        return false;
+    }
 }
 
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]

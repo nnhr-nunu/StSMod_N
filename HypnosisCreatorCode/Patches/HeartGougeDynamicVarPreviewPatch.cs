@@ -33,7 +33,8 @@ public static class HeartGougeDescriptionPreviewPatch
         HeartGougePreview.RefreshForDescription(__instance, pileType, target);
     }
 
-    public static void Postfix() => HeartGougePreview.LeaveDescriptionContext();
+    // 説明生成が例外で抜けても文脈（depth）を必ず戻す。Postfix だと固着して以後のプレビューが狂う。
+    public static void Finalizer() => HeartGougePreview.LeaveDescriptionContext();
 }
 
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.GetDescriptionForUpgradePreview))]
@@ -45,7 +46,8 @@ public static class HeartGougeUpgradeDescriptionPreviewPatch
         HeartGougePreview.RefreshForDescription(__instance, PileType.None, null);
     }
 
-    public static void Postfix() => HeartGougePreview.LeaveDescriptionContext();
+    // 説明生成が例外で抜けても文脈（depth）を必ず戻す。Postfix だと固着して以後のプレビューが狂う。
+    public static void Finalizer() => HeartGougePreview.LeaveDescriptionContext();
 }
 
 /// <summary>

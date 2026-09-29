@@ -54,8 +54,10 @@ public static class BrainSlimeAoEDebuff
 
         foreach (var enemy in state.RemainingTargets.Where(e => e.IsAlive))
         {
+            // PowerModel.Owner は付け替え不可。最初の敵に使ったインスタンスは流用せず、敵ごとに新規生成する。
+            var fresh = ModelDb.GetById<PowerModel>(power.Id).ToMutable();
             await PowerCmd.Apply(
-                choiceContext, power, enemy, amount, state.Applier, cardSource, true);
+                choiceContext, fresh, enemy, amount, state.Applier, cardSource, true);
         }
     }
 }

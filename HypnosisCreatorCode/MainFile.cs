@@ -20,21 +20,35 @@ public partial class MainFile : Node
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
 
-        ModConfigRegistry.Register(ModId, new HypnosisCreatorConfig());
-        VisualTuner.ApplyAll();
-        FetishCardText.Register();
-        CountCardText.Register();
-        FetishDoomPreview.Register();
-        UpgradeDescriptionHooks.Register();
-        KeywordLineLayout.Register();
-        CognitiveCharacterChoiceText.Register();
-        CombatSuffixDescriptionHooks.Register();
-        Sensitivity3000Description.Register();
+        // どれか1つが例外を投げても Harmony パッチ適用まで届くよう、個別に保護する
+        // （ここで落ちると ApplyHarmonyPatches が走らず、mod の挙動が全滅する）。
+        SafeInit(nameof(ModConfigRegistry), () => ModConfigRegistry.Register(ModId, new HypnosisCreatorConfig()));
+        SafeInit(nameof(VisualTuner), VisualTuner.ApplyAll);
+        SafeInit(nameof(FetishCardText), FetishCardText.Register);
+        SafeInit(nameof(CountCardText), CountCardText.Register);
+        SafeInit(nameof(FetishDoomPreview), FetishDoomPreview.Register);
+        SafeInit(nameof(UpgradeDescriptionHooks), UpgradeDescriptionHooks.Register);
+        SafeInit(nameof(KeywordLineLayout), KeywordLineLayout.Register);
+        SafeInit(nameof(CognitiveCharacterChoiceText), CognitiveCharacterChoiceText.Register);
+        SafeInit(nameof(CombatSuffixDescriptionHooks), CombatSuffixDescriptionHooks.Register);
+        SafeInit(nameof(Sensitivity3000Description), Sensitivity3000Description.Register);
 
         ApplyHarmonyPatches();
-        ModUpdateGuard.Start();
-        HeartRelicUi.Start();
+        SafeInit(nameof(ModUpdateGuard), ModUpdateGuard.Start);
+        SafeInit(nameof(HeartRelicUi), HeartRelicUi.Start);
         // INetAction 登録は ModManager.Initialize 完了後（ActionTypesInitPatch）。
+    }
+
+    private static void SafeInit(string name, Action init)
+    {
+        try
+        {
+            init();
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"{name} initialization failed: {ex}");
+        }
     }
 
     /// <summary>

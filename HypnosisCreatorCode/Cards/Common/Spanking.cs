@@ -52,7 +52,7 @@ public class Spanking() : HypnosisCreatorCard(1,
 
     private bool ShouldReplayForTarget(Creature target)
     {
-        if (FetishCombat.CultLeaderActive) return true;
+        if (FetishCombat.IsCultLeaderActive(Owner?.Creature)) return true;
         if (FetishCombat.WasAwakenedThisPlay(target, FetishType.Sm)) return false;
         return FetishCombat.HasFetish(target, FetishType.Sm);
     }

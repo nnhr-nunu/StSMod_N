@@ -102,10 +102,27 @@ public static class UpgradeCardText
                       + description[(match.Index + match.Length)..];
     }
 
+    /// <summary>
+    /// 任意キー（.upgradeAppend など）は、未定義のまま LocString で引くと BaseLib が毎回 WARN を出す
+    /// （UG カードの描画のたびに1万行規模）。先に存在を確かめて、無ければ引かない。
+    /// </summary>
+    private static bool HasLocKey(string key)
+    {
+        try
+        {
+            return LocManager.Instance?.GetTable(LocTable)?.HasEntry(key) == true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     private static bool TryGetCardLocText(CardModel card, string suffix, out string text)
     {
         text = "";
         var key = card.Id.Entry + suffix;
+        if (!HasLocKey(key)) return false;
         try
         {
             text = new LocString(LocTable, key).GetFormattedText() ?? "";
@@ -131,6 +148,7 @@ public static class UpgradeCardText
     {
         text = "";
         var key = card.Id.Entry + suffix;
+        if (!HasLocKey(key)) return false;
         try
         {
             var loc = new LocString(LocTable, key);

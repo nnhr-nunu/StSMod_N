@@ -66,26 +66,27 @@ public static class HeartRelicUi
         if (icon == null || !GodotObject.IsInstanceValid(icon)) return;
         if (!GodotObject.IsInstanceValid(holder)) return;
 
-        Targets.Remove(holder);
+        if (Targets.TryGetValue(holder, out var previous))
+        {
+            ResetScaleIfPulsing(previous);
+            Targets.Remove(holder);
+        }
+
+        // 心臓以外のレリックは触らない（本家のホバー拡大などを毎フレーム上書きしないため）
+        if (model is not EnemyHeartRelic) return;
+
+        FreeLegacyOverlay(icon);
         Targets.Add(holder, new PulseTarget(icon, model, player));
     }
 
     private static void OnProcessFrame()
     {
-        foreach (var holder in SnapshotHolders())
-        {
-            if (!GodotObject.IsInstanceValid(holder)) continue;
-            if (!Targets.TryGetValue(holder, out var target)) continue;
-            ApplyPulse(target);
-        }
-    }
-
-    private static List<NRelicInventoryHolder> SnapshotHolders()
-    {
-        var list = new List<NRelicInventoryHolder>();
+        // ハンドラ内では Targets を変更しないので、毎フレームのコピーを作らず直接列挙する。
         foreach (var entry in Targets)
-            list.Add(entry.Key);
-        return list;
+        {
+            if (!GodotObject.IsInstanceValid(entry.Key)) continue;
+            ApplyPulse(entry.Value);
+        }
     }
 
     private static void ApplyPulse(PulseTarget target)
@@ -93,12 +94,9 @@ public static class HeartRelicUi
         var icon = target.Icon;
         if (icon == null || !GodotObject.IsInstanceValid(icon)) return;
 
-        FreeLegacyOverlay(icon);
-        icon.PivotOffset = icon.Size * 0.5f;
-
         if (target.Model is not EnemyHeartRelic heart)
         {
-            icon.Scale = Vector2.One;
+            ResetScaleIfPulsing(target);
             return;
         }
 
@@ -106,13 +104,25 @@ public static class HeartRelicUi
         var owned = HeartRelicActivation.ResolveOwnedHeart(heart, player) ?? heart;
         if (!ShouldHighlightForActivation(owned, player))
         {
-            icon.Scale = Vector2.One;
+            ResetScaleIfPulsing(target);
             return;
         }
 
+        target.Pulsing = true;
+        icon.PivotOffset = icon.Size * 0.5f;
         var t = Time.GetTicksMsec() / 1000f % PeriodSec;
         var scale = HeartbeatScale(t);
         icon.Scale = new Vector2(scale, scale);
+    }
+
+    /// <summary>脈打ちを止めた1回だけ倍率を戻す。常時 Scale を書くと本家のホバー拡大と競合する。</summary>
+    private static void ResetScaleIfPulsing(PulseTarget target)
+    {
+        if (!target.Pulsing) return;
+        target.Pulsing = false;
+        var icon = target.Icon;
+        if (icon != null && GodotObject.IsInstanceValid(icon))
+            icon.Scale = Vector2.One;
     }
 
     /// <summary>強拍 → 弱拍 → 長い休み。サイン波の単調な拡縮は使わない。</summary>
@@ -142,5 +152,6 @@ public static class HeartRelicUi
         public TextureRect Icon { get; } = icon;
         public RelicModel? Model { get; } = model;
         public Player? Player { get; } = player;
+        public bool Pulsing { get; set; }
     }
 }

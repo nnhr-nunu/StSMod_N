@@ -83,6 +83,16 @@ public class LoveHypnosisPower : HypnosisCreatorPower
         return Task.CompletedTask;
     }
 
+    // 未UG→UG の順に重ねがけしたとき（再適用は ModifyAmount で AfterApplied が飛ばない）でもブロック奪取を有効にする。
+    public override Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
+    {
+        if (power == this && amount > 0m && cardSource is LoveHypnosis { IsUpgraded: true })
+            StealBlock = true;
+        return Task.CompletedTask;
+    }
+
     public Creature? ResolvePlayerCreature()
     {
         if (BeneficiaryPlayerIndex >= 0 && CombatState != null)

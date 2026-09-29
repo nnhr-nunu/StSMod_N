@@ -45,8 +45,10 @@ public class InfiniteUpgradeString() : HypnosisCreatorCard(3,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
+        // 「HPを失う」効果: ブロック・筋力・弱体の影響を受けない（本modの他の HP 喪失カードと同じ ValueProp）
         await CreatureCmd.Damage(
-            choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue, ValueProp.Move, Owner.Creature, this, play);
+            choiceContext, play.Target, DynamicVars["LoseHp"].BaseValue,
+            ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, Owner.Creature, this, play);
         await TranceCombat.ApplyTrance(
             choiceContext, play.Target, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         await PowerCmd.Apply<VulnerablePower>(

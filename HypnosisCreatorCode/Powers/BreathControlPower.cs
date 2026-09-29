@@ -32,9 +32,13 @@ public class BreathControlPower : HypnosisCreatorPower
         if (cardPlay.Card is BreathControl) return;
 
         var loss = Math.Max(1, Amount);
+        // アーティファクト等で無効化されたぶんは戻さない（後で筋力が増える）ため、実際の減少量を記録する。
+        var before = Owner.GetPower<StrengthPower>()?.Amount ?? 0;
         await PowerCmd.Apply<StrengthPower>(
             choiceContext, Owner, -loss, Applier ?? Owner, cardPlay.Card);
-        _strengthDrained += loss;
+        var drained = before - (Owner.GetPower<StrengthPower>()?.Amount ?? 0);
+        if (drained > 0)
+            _strengthDrained += drained;
 
         if (IsAttackValueZero(Owner, cardPlay.Card.Owner))
             await CreatureCmd.Stun(Owner);

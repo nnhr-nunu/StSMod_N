@@ -1,5 +1,6 @@
 using HarmonyLib;
 using HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
+using HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -36,6 +37,8 @@ public static class CountUnplayablePatch
 
         if (__instance is TotalControl && !TotalControl.CanStartPlay(__instance))
             __result = false;
+        else if (__instance is TimeStopStrike && !TimeStopStrike.CanStartPlay(__instance))
+            __result = false;
     }
 }
 
@@ -56,6 +59,8 @@ public static class CountUnplayableNoArgPatch
 
         if (__instance is TotalControl && !TotalControl.CanStartPlay(__instance))
             __result = false;
+        else if (__instance is TimeStopStrike && !TimeStopStrike.CanStartPlay(__instance))
+            __result = false;
     }
 }
 
@@ -73,6 +78,12 @@ public static class CountCanPlayTargetingPatch
         }
 
         if (__instance is TotalControl && !TotalControl.IsValidTranceTarget(target))
+        {
+            __result = false;
+            return;
+        }
+
+        if (__instance is TimeStopStrike && !TimeStopStrike.IsValidTranceTarget(target))
         {
             __result = false;
             return;
