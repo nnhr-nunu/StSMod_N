@@ -38,8 +38,12 @@ public class Kick() : HypnosisCreatorCard(2,
         EnergyCost.AddThisCombat(-1);
     }
 
-    protected override CardLocation GetResultLocationForCardPlay() =>
-        IsUpgraded
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        // 複製（本家 HistoryCourse 等の CreateDupe）は本家どおり消える。上書き先へ送ると恒久的に1枚増える。
+        if (IsDupe) return base.GetResultLocationForCardPlay();
+        return IsUpgraded
             ? new CardLocation(Owner, PileType.Draw, CardPilePosition.Random)
             : base.GetResultLocationForCardPlay();
+    }
 }

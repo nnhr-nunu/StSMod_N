@@ -55,8 +55,12 @@ public class PleasureCycle() : HypnosisCreatorCard(1,
             .Execute(choiceContext);
     }
 
-    protected override CardLocation GetResultLocationForCardPlay() =>
-        new(Owner, PileType.Hand, CardPilePosition.Top);
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        // 複製（本家 HistoryCourse 等の CreateDupe）は本家どおり消える。上書き先へ送ると恒久的に1枚増える。
+        if (IsDupe) return base.GetResultLocationForCardPlay();
+        return new(Owner, PileType.Hand, CardPilePosition.Top);
+    }
 
     protected override void OnUpgrade() { }
 }

@@ -120,7 +120,20 @@
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying .dll .pdb and .json to mods folder." Importance="high" />
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
-        <Copy SourceFiles="$(AssemblyName).json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+        <!-- 共闘の同期ずれ対策: 同じ version でも中身の違うビルド同士は、ロビー参加時の「mod 不一致」で弾かれるよう、
+             dll のハッシュ先頭8桁を version の +メタデータとして付ける（例 v0.1.1+1a2b3c4d）。リポジトリの json は変えない。
+             本家 SemanticVersion は + 以降を大小比較に使わないので、Steam 版との優先順位（同版ならローカル優先）は変わらない。
+             Workshop / ZIP 配布は mods フォルダの json（識別子付き）をそのまま使うこと。 -->
+        <GetFileHash Files="$(TargetPath)" Algorithm="SHA256">
+            <Output TaskParameter="Hash" PropertyName="_HcDllHash" />
+        </GetFileHash>
+        <PropertyGroup>
+            <_HcBuildTag>$(_HcDllHash.Substring(0, 8).ToLowerInvariant())</_HcBuildTag>
+            <_HcManifest>$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/$(AssemblyName).json'))</_HcManifest>
+            <_HcManifestStamped>$([System.Text.RegularExpressions.Regex]::Replace($(_HcManifest), '("version":\s*"[^"+]*)[^"]*"', '${1}+$(_HcBuildTag)"'))</_HcManifestStamped>
+        </PropertyGroup>
+        <WriteLinesToFile File="$(ModsPath)$(MSBuildProjectName)/$(AssemblyName).json" Lines="$(_HcManifestStamped)" Overwrite="true" Encoding="UTF-8" />
+        <Message Text="Mod manifest version stamped with build tag +$(_HcBuildTag)" Importance="high" />
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
     </Target>
 

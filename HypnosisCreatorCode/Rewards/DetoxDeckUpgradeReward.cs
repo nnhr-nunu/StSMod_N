@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization;
@@ -23,7 +24,14 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
     /// <summary>休憩所鍛冶と同じアイコン（<c>option_smith</c> は小文字）。</summary>
     private const string RewardIconPath = "ui/rest_site/option_smith.png";
 
-    protected override RewardType RewardType => RewardType.SpecialCard;
+    /// <summary>
+    /// セーブ上の識別子（<see cref="SerializableReward.OptionCount"/>）。種別は本家カード削除報酬と同じ RemoveCard にする。
+    /// 以前の「SpecialCard でカード実体なし」は、共闘のセーブ読込でホストが報酬を送るとき本家
+    /// <see cref="SerializableReward.Serialize"/> が null のカードを書こうとして例外になり、続きから遊べなかった。
+    /// </summary>
+    internal const int SaveMarker = -0x4843;
+
+    protected override RewardType RewardType => RewardType.RemoveCard;
 
     public override int RewardsSetIndex => 7;
 
@@ -39,13 +47,17 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
 
     public override void MarkContentAsSeen() { }
 
-    /// <summary>カード実体なし（<see cref="SerializableReward.SpecialCard"/> は null）がセーブ上の識別子。</summary>
     public override SerializableReward ToSerializable()
     {
         var save = base.ToSerializable();
-        save.SpecialCard = null;
+        save.OptionCount = SaveMarker;
         return save;
     }
+
+    /// <summary>セーブ上の報酬がデトックス鍛冶報酬か（旧形式: SpecialCard でカード実体なし、も含む）。</summary>
+    internal static bool IsSaved(SerializableReward save) =>
+        (save.RewardType == RewardType.RemoveCard && save.OptionCount == SaveMarker)
+        || (save.RewardType == RewardType.SpecialCard && save.SpecialCard == null);
 
     private static string RewardIcon => ImageHelper.GetImagePath(RewardIconPath);
 
@@ -65,7 +77,9 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
         foreach (var card in upgraded)
             CardCmd.Upgrade(card, CardPreviewStyle.None);
 
-        await PlaySmithUpgradePresentation(upgraded);
+        // 共闘では選択結果が全員の端末でこの OnSelect を通る。演出と待ちは本人の画面だけ（本家鍛冶の DoLocalPostSelectVfx と同じ）。
+        if (LocalContext.IsMe(Player))
+            await PlaySmithUpgradePresentation(upgraded);
         return true;
     }
 
@@ -77,6 +91,9 @@ public sealed class DetoxDeckUpgradeReward(Player player) : Reward(player)
             return;
 
         var vfx = NCardSmithVfx.Create(cards, playSfx: true);
+        if (vfx == null)
+            return;
+
         GodotTreeExtensions.AddChildSafely(container, vfx);
         await Cmd.CustomScaledWait(1f, 2f);
     }

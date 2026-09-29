@@ -144,11 +144,10 @@ public class BrainSlimeRedirectPower : HypnosisCreatorPower
         return candidates[rng.NextInt(candidates.Count)];
     }
 
-    private string TargetDisplayName()
-    {
-        EnsureLockedTarget(forceReroll: false);
-        if (LockedTarget is { IsAlive: true })
-            return LockedTarget.Name;
-        return "—";
-    }
+    /// <summary>
+    /// 説明文用。表示は端末ごとにタイミングが違うため、ここで再抽選すると共有 RNG と寄せ先が
+    /// 共闘でずれる（同期失敗）。読むだけにして、引き直しは攻撃時（<see cref="ResolveRetarget"/>）だけ行う。
+    /// </summary>
+    private string TargetDisplayName() =>
+        LockedTarget is { IsAlive: true } target ? target.Name : "—";
 }

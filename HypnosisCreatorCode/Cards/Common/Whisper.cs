@@ -58,6 +58,8 @@ public class Whisper() : HypnosisCreatorCard(0,
 
         if (drawCandidates.Count == 0) return;
 
+        // 選択に失敗したときの代替はシード付き RNG で（Guid だとマルチで端末ごとに結果が変わる）
+        var rng = Owner.RunState.Rng.CombatCardSelection;
         IReadOnlyList<CardModel> selected;
         try
         {
@@ -68,10 +70,12 @@ public class Whisper() : HypnosisCreatorCard(0,
                 new CardSelectorPrefs(SelectionScreenPrompt, count),
                 IsSelectable)).ToList();
         }
-        catch
+        // 選択できない文脈（ThrowingPlayerChoiceContext）だけ代替する。これは全端末で同じく起きる。
+        // 画面の取り消し等は選ぶ本人の端末でしか起きないため握りつぶさない（片方だけ代替が走ると共闘で同期ずれ）。
+        catch (NotImplementedException)
         {
             selected = drawCandidates
-                .OrderBy(_ => Guid.NewGuid())
+                .OrderBy(_ => rng.NextInt())
                 .Take(count)
                 .ToList();
         }
@@ -79,7 +83,7 @@ public class Whisper() : HypnosisCreatorCard(0,
         if (selected.Count == 0)
         {
             selected = drawCandidates
-                .OrderBy(_ => Guid.NewGuid())
+                .OrderBy(_ => rng.NextInt())
                 .Take(count)
                 .ToList();
         }

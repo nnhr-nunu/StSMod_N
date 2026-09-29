@@ -49,7 +49,9 @@ public class Infect() : PlayableStatusCard(0,
                 new CardSelectorPrefs(SelectionScreenPrompt, 1),
                 IsCandidate)).ToList();
         }
-        catch
+        // 選択できない文脈（ThrowingPlayerChoiceContext）だけ代替する。これは全端末で同じく起きる。
+        // 画面の取り消し等は選ぶ本人の端末でしか起きないため握りつぶさない（片方だけ代替が走ると共闘で同期ずれ）。
+        catch (NotImplementedException)
         {
             var rng = Owner.RunState.Rng.CombatCardSelection;
             selected = [candidates[rng.NextInt(candidates.Count)]];

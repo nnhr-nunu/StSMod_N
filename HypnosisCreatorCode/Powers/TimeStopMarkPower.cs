@@ -14,6 +14,12 @@ public class TimeStopMarkPower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    /// <summary>
+    /// 付与者ごとに別インスタンス（本家 Strangle と同じ）。共通だと共闘で2人目の蓄積分まで1人目の
+    /// 筋力・レリックで計算され、1人目の攻撃として与えられる。
+    /// </summary>
+    public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
+
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,

@@ -233,17 +233,16 @@ public static class PendingHandCardAdd
     {
         if (GeneratedQueue.Count == 0 && ExistingQueue.Count == 0) return;
 
-        var involvedPlayers = GeneratedQueue.Select(b => b.Player)
-            .Concat(ExistingQueue.Select(m => m.Player))
-            .Distinct()
-            .ToList();
-        if (involvedPlayers.Any(p => CombatManager.Instance.IsExecutingCardOrPotionEffect(p)))
-            return;
+        // 効果が終わったプレイヤーの分だけ流す。共闘で別プレイヤーの効果が選択待ちで止まっていても、
+        // こちらの手札追加まで巻き込んで遅らせない（その人の分は本人の効果終了時に流れる）。
+        static bool Ready(Player player) => !CombatManager.Instance.IsExecutingCardOrPotionEffect(player);
 
-        var generated = GeneratedQueue.ToList();
-        var existing = ExistingQueue.ToList();
-        GeneratedQueue.Clear();
-        ExistingQueue.Clear();
+        var generated = GeneratedQueue.Where(b => Ready(b.Player)).ToList();
+        var existing = ExistingQueue.Where(m => Ready(m.Player)).ToList();
+        if (generated.Count == 0 && existing.Count == 0) return;
+
+        GeneratedQueue.RemoveAll(generated.Contains);
+        ExistingQueue.RemoveAll(existing.Contains);
 
         IsFlushing = true;
         try

@@ -1,6 +1,7 @@
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 
@@ -24,8 +25,8 @@ public class FetishBog : HypnosisCreatorRelic
 
         Flash();
         var rng = Owner.RunState.Rng.CombatOrbGeneration;
-        EnemyFetishSlots.EnsureSpawnDefaults(creature, Owner, rng);
-        await Task.CompletedTask;
+        // 性癖パワーの付与（表示待ち込み）まで待つ。投げっぱなしだと完了時刻が端末の早送り設定で変わり、共闘で同期がずれる。
+        await EnemyFetishSlots.EnsureSpawnDefaultsAsync(new ThrowingPlayerChoiceContext(), creature, Owner, rng);
     }
 
     public override async Task AfterCombatEnd(CombatRoom room)

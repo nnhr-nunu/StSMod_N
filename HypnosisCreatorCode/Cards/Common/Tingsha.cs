@@ -34,13 +34,15 @@ public class Tingsha() : HypnosisCreatorCard(1,
     {
         if (CombatState == null) return;
 
+        // 敵ごとに AttackCommand を分けると活力（1回の攻撃ぶんだけ消費）が最初の敵にしか乗らない。全体攻撃は1コマンドで。
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, play)
+            .TargetingAllOpponents(CombatState)
+            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+            .Execute(choiceContext);
+
         foreach (var enemy in CombatState.HittableEnemies.ToList())
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this, play)
-                .Targeting(enemy)
-                .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
-                .Execute(choiceContext);
             await TranceCombat.ApplyTrance(
                 choiceContext, enemy, DynamicVars["Trance"].IntValue, Owner.Creature, this);
         }
@@ -48,6 +50,8 @@ public class Tingsha() : HypnosisCreatorCard(1,
 
     protected override CardLocation GetResultLocationForCardPlay()
     {
+        // 複製（本家 HistoryCourse 等の CreateDupe）は本家どおり消える。上書き先へ送ると恒久的に1枚増える。
+        if (IsDupe) return base.GetResultLocationForCardPlay();
         if (!_countedThisPlayWrapper)
         {
             RecordPlayThisTurn();

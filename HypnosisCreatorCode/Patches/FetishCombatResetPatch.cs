@@ -32,7 +32,6 @@ public static class FetishCombatResetPatch
         CombatRoom room)
     {
         _ = runState;
-        FetishCombat.CultLeaderActive = false;
         FetishCombat.ClearPlayScopes();
         EnemyPlayerAttackTracker.Reset();
         AsmrSideRules.Reset();
@@ -79,7 +78,7 @@ public static class FetishCombatResetPatch
                 .Where(r => r.RemoveAtCombatEnd)
                 .ToList();
             foreach (var relic in temps)
-                _ = RelicCmd.Remove(relic);
+                await RelicCmd.Remove(relic);
         }
     }
 }

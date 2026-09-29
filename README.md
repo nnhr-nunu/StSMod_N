@@ -54,3 +54,8 @@ HypnosisCreator.dll
 HypnosisCreator.pck
 HypnosisCreator.json
 
+**3つともゲームの mods フォルダ（`Slay the Spire 2/mods/HypnosisCreator/`）にあるものをそのまま使う。**
+ビルド時に mods フォルダの json の version へビルド識別子が付く（例 `v0.1.1+1a2b3c4d`。リポジトリ直下の json は `v0.1.1` のまま）。
+共闘では中身の違うビルド同士がロビー参加時に「mod 不一致」で弾かれるので、同期失敗を防げる。
+Workshop を更新したら、一緒に遊ぶ人も更新する（自分の手元はローカル版が優先されるため、Workshop 版と同じビルドにしておく）。
+

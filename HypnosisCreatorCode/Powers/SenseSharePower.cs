@@ -20,11 +20,11 @@ public class SenseSharePower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    [ThreadStatic]
-    private static bool _resolving;
+    // 再入防止は await の流れごとに持つ（AsyncLocal）。ThreadStatic だと全プレイヤーで共有され、
+    // 共闘で片方の波及が選択待ちで止まっている間、もう片方の感覚共有まで止まる。
+    private static readonly AsyncLocal<bool> Resolving = new();
 
-    [ThreadStatic]
-    private static bool _propagating;
+    private static readonly AsyncLocal<bool> Propagating = new();
 
     private int _remainingPlayerTurns;
 
@@ -34,8 +34,13 @@ public class SenseSharePower : HypnosisCreatorPower
     /// <summary>UG — 次の自ターン開始まで受けたダメージを敵全体へ伝播。</summary>
     public bool ReflectDamageActive { get; private set; }
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    // 再適用は ModifyAmount に回り AfterApplied が呼ばれないため、初回・再適用とも AfterPowerAmountChanged で扱う。
+    public override Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
     {
+        if (power != this || amount <= 0m) return Task.CompletedTask;
+
         if (AttackAoEActive)
             _remainingPlayerTurns = TurnScopedDuration.AddStack(_remainingPlayerTurns);
         else
@@ -51,7 +56,7 @@ public class SenseSharePower : HypnosisCreatorPower
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (!AttackAoEActive) return;
-        if (_resolving) return;
+        if (Resolving.Value) return;
         if (Owner == null || CombatState == null) return;
         if (cardPlay.Card.Owner?.Creature != Owner) return;
         if (cardPlay.Card.Type != CardType.Attack) return;
@@ -64,16 +69,15 @@ public class SenseSharePower : HypnosisCreatorPower
         var others = CombatState.HittableEnemies.Where(e => e != primary && e.IsAlive).ToList();
         if (others.Count == 0) return;
 
-        _resolving = true;
+        Resolving.Value = true;
         try
         {
-            var canonical = cardPlay.Card.CanonicalInstance ?? cardPlay.Card;
             foreach (var enemy in others)
-                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, canonical, player, enemy);
+                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, cardPlay.Card, player, enemy);
         }
         finally
         {
-            _resolving = false;
+            Resolving.Value = false;
         }
     }
 
@@ -86,12 +90,12 @@ public class SenseSharePower : HypnosisCreatorPower
         CardModel? cardSource)
     {
         if (!ReflectDamageActive || target != Owner || CombatState == null) return;
-        if (_propagating || result.UnblockedDamage <= 0) return;
+        if (Propagating.Value || result.UnblockedDamage <= 0) return;
 
         var enemies = CombatState.HittableEnemies.Where(e => e.IsAlive && e.IsEnemy).ToList();
         if (enemies.Count == 0) return;
 
-        _propagating = true;
+        Propagating.Value = true;
         try
         {
             foreach (var enemy in enemies)
@@ -108,7 +112,7 @@ public class SenseSharePower : HypnosisCreatorPower
         }
         finally
         {
-            _propagating = false;
+            Propagating.Value = false;
         }
     }
 

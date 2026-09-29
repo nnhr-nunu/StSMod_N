@@ -53,7 +53,10 @@ public static class CardFetishLookup
             && play.Card.CurrentTarget is { IsEnemy: true, IsAlive: true })
             return play.Card.CurrentTarget;
 
-        if (combatState != null
+        // 対象なしでプレイされたときだけ、唯一の敵を対象とみなす。
+        // 対象がこのカードで倒れた場合に、残った別の敵へ刺さり・植え付けを移さない。
+        if (play.Target == null
+            && combatState != null
             && play.Card.TargetType == TargetType.AnyEnemy
             && combatState.HittableEnemies.Count == 1)
         {

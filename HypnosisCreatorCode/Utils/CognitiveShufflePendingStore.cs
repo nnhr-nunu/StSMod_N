@@ -53,4 +53,11 @@ public static class CognitiveShufflePendingStore
         pending = state;
         return true;
     }
+
+    /// <summary>戦闘開始時に前の戦闘の予約を捨てる（選択中に戦闘が終わると AfterCardPlayed が来ず残る）。</summary>
+    public static void Clear(Player player)
+    {
+        if (Table.TryGetValue(player, out var state))
+            state.Active = false;
+    }
 }

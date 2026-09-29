@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
+using MegaCrit.Sts2.Core.Random;
 using HcMain = HypnosisCreator.HypnosisCreatorCode.MainFile;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -69,7 +70,7 @@ public static class FetishHitFloat
         try
         {
             var lines = UpgradeCardText.IsJapaneseUi() ? JapaneseLines : EnglishLines;
-            var text = lines[PickIndex(target, lines.Length)];
+            var text = lines[PickIndex(lines.Length)];
 
             var node = target.GetCreatureNode();
             var side = ResolveDialogueSide(target, node);
@@ -172,15 +173,10 @@ public static class FetishHitFloat
         }
     }
 
-    private static int PickIndex(Creature target, int count)
-    {
-        if (count <= 1) return 0;
-
-        var player = target.CombatState?.Players.FirstOrDefault();
-        var rng = player?.RunState?.Rng?.CombatCardSelection;
-        if (rng != null)
-            return rng.NextInt(count);
-
-        return Random.Shared.Next(count);
-    }
+    /// <summary>
+    /// 見た目だけの抽選なので本家の非同期用 <see cref="Rng.Chaotic"/> を使う。
+    /// 共有 RNG（CombatCardSelection）を回すと、吹き出しの有無でカード抽選の乱数列が変わり共闘の同期ずれの元になる。
+    /// </summary>
+    private static int PickIndex(int count) =>
+        count <= 1 ? 0 : Rng.Chaotic.NextInt(count);
 }

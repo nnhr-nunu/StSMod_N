@@ -35,6 +35,7 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
         if (count <= 0) return;
 
         // 「X枚まで」なので 1〜X で確定可能（ちょうどX枚必須にしない）
+        var rng = Owner.RunState.Rng.CombatCardSelection;
         IReadOnlyList<CardModel> selected;
         try
         {
@@ -43,13 +44,14 @@ public class AbnormalTransform() : HypnosisCreatorCard(-1,
                 new CardSelectorPrefs(SelectionScreenPrompt, minCount: 1, maxCount: count),
                 c => c != this)).ToList();
         }
-        catch
+        // 選択できない文脈（ThrowingPlayerChoiceContext）だけ代替する。これは全端末で同じく起きる。
+        // 画面の取り消し等は選ぶ本人の端末でしか起きないため握りつぶさない（片方だけ代替が走ると共闘で同期ずれ）。
+        catch (NotImplementedException)
         {
             selected = hand.Cards.Where(c => c != this)
-                .OrderBy(_ => Guid.NewGuid()).Take(1).ToList();
+                .OrderBy(_ => rng.NextInt()).Take(1).ToList();
         }
 
-        var rng = Owner.RunState.Rng.CombatCardSelection;
         foreach (var card in selected)
         {
             var canonical = pool[rng.NextInt(pool.Count)];

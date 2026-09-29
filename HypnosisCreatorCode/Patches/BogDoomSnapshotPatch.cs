@@ -43,16 +43,24 @@ public static class BogDoomSnapshotAfterPatch
 
 /// <summary>
 /// 目覚め除外スコープは AfterCardPlayed の刺さり解決（植え付け予約・他色）のあとで外す。
+/// 戻り値なしの Postfix だとフックの最初の待ち（早送り設定で有無が変わる）の時点で外れてしまい、
+/// 端末ごとに刺さり判定が変わって共闘で同期がずれる。最後の後続としてフックの Task に繋ぐ。
 /// </summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class AwakenPlayScopeAfterPatch
 {
     [HarmonyPriority(Priority.Last)]
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public static void Postfix(ref Task __result) => __result = PopAfterAsync(__result);
+
+    private static async Task PopAfterAsync(Task original)
     {
-        _ = combatState;
-        _ = choiceContext;
-        _ = cardPlay;
-        FetishCombat.PopAwakenPlayScope();
+        try
+        {
+            await original;
+        }
+        finally
+        {
+            FetishCombat.PopAwakenPlayScope();
+        }
     }
 }

@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
@@ -85,14 +86,22 @@ public static class AsmrSideRules
             var right = playerCreature.GetPower<AsmrRightPower>();
             if (right != null) await PowerCmd.Remove(right);
             if (playerCreature.GetPower<AsmrLeftPower>() == null)
-                await PowerCmd.Apply<AsmrLeftPower>(choiceContext, playerCreature, 1M, applier, null!, silent: true);
+            {
+                var marker = (AsmrLeftPower)ModelDb.Power<AsmrLeftPower>().ToMutable();
+                marker.ForPlayer = true;
+                await PowerCmd.Apply(choiceContext, marker, playerCreature, 1M, applier, null, silent: true);
+            }
         }
         else
         {
             var left = playerCreature.GetPower<AsmrLeftPower>();
             if (left != null) await PowerCmd.Remove(left);
             if (playerCreature.GetPower<AsmrRightPower>() == null)
-                await PowerCmd.Apply<AsmrRightPower>(choiceContext, playerCreature, 1M, applier, null!, silent: true);
+            {
+                var marker = (AsmrRightPower)ModelDb.Power<AsmrRightPower>().ToMutable();
+                marker.ForPlayer = true;
+                await PowerCmd.Apply(choiceContext, marker, playerCreature, 1M, applier, null, silent: true);
+            }
         }
     }
 }

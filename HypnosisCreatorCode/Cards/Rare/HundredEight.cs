@@ -53,16 +53,14 @@ public class HundredEight() : HypnosisCreatorCard(1,
             CombatFrameAnimator.BeginAttackLoop(Owner.Creature);
             try
             {
-                foreach (var enemy in CombatState.HittableEnemies.ToList())
-                {
-                    await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                        .WithHitCount(FinalHitCount)
-                        .FromCard(this, play)
-                        .Targeting(enemy)
-                        .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
-                        .WithNoAttackerAnim()
-                        .Execute(choiceContext);
-                }
+                // 敵ごとに AttackCommand を分けると活力が最初の敵にしか乗らないため、全体攻撃は1コマンドで
+                await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                    .WithHitCount(FinalHitCount)
+                    .FromCard(this, play)
+                    .TargetingAllOpponents(CombatState)
+                    .WithHitFx("vfx/vfx_attack_slash", tmpSfx: "attack_sword.mp3")
+                    .WithNoAttackerAnim()
+                    .Execute(choiceContext);
             }
             finally
             {
@@ -80,6 +78,8 @@ public class HundredEight() : HypnosisCreatorCard(1,
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
+        // 複製（本家 HistoryCourse 等の CreateDupe）は本家どおり消える。上書き先へ送ると恒久的に1枚増える。
+        if (IsDupe) return base.GetResultLocationForCardPlay();
         if (IsUpgraded)
             return new CardLocation(Owner, PileType.Draw, CardPilePosition.Random);
 

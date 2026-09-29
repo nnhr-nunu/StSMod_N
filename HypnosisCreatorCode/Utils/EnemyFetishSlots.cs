@@ -20,14 +20,10 @@ public static class EnemyFetishSlots
     public static FetishSlotState Get(Creature creature) =>
         Table.GetValue(creature, static _ => new FetishSlotState());
 
-    /// <summary>出現時: スロット1・トランス以外のランダム性癖1つ。</summary>
-    public static void EnsureSpawnDefaults(Creature enemy, Player owner, Rng rng)
-    {
-        if (!TryEnsureSpawnInitialized(enemy, owner, rng)) return;
-        FetishOrbHud.QueueRefresh(enemy, visible: false);
-        FetishCombat.SyncFetishPowers(enemy, owner);
-    }
-
+    /// <summary>
+    /// 出現時: スロット1・トランス以外のランダム性癖1つ。性癖パワーの付与まで await すること
+    /// （投げっぱなしは共闘で同期がずれるため、同期版は置かない）。
+    /// </summary>
     public static async Task EnsureSpawnDefaultsAsync(
         PlayerChoiceContext choiceContext,
         Creature enemy,
@@ -95,13 +91,6 @@ public static class EnemyFetishSlots
         return true;
     }
 
-    public static bool TryPlant(Creature enemy, OrbModel fetish, Player owner)
-    {
-        if (!TryPlantCore(enemy, fetish, owner)) return false;
-        FetishCombat.SyncFetishPowers(enemy, owner);
-        return true;
-    }
-
     private static bool TryPlantCore(Creature enemy, OrbModel fetish, Player owner)
     {
         if (!enemy.IsEnemy) return false;
@@ -122,13 +111,6 @@ public static class EnemyFetishSlots
         return true;
     }
 
-    public static bool TryPlant<TFetish>(Creature enemy, Player owner)
-        where TFetish : HypnosisCreatorOrb =>
-        TryPlant(enemy, ModelDb.Orb<TFetish>(), owner);
-
-    public static bool TryPlantRandom(Creature enemy, Player owner, Rng rng) =>
-        TryPlant(enemy, CreateSpawnFetish(owner, rng), owner);
-
     /// <summary>出現時／ランダム植え付け: SM・DomSub・アブノーマルのみ（トランス除外）。</summary>
     public static OrbModel CreateSpawnFetish(Player owner, Rng rng)
     {
@@ -143,9 +125,6 @@ public static class EnemyFetishSlots
         mutable.Owner = owner;
         return mutable;
     }
-
-    [Obsolete("Use CreateSpawnFetish")]
-    public static OrbModel CreateRandom(Player owner, Rng rng) => CreateSpawnFetish(owner, rng);
 }
 
 public sealed class FetishSlotState

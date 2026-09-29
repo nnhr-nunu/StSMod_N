@@ -27,23 +27,24 @@ public static class HeartRelicInspectPatch
 
     [HarmonyPatch(typeof(NInspectRelicScreen), "_Input")]
     [HarmonyPrefix]
-    public static bool InputPrefix(NInspectRelicScreen inspectScreen, InputEvent @event)
+    // 引数名は本家 _Input(InputEvent inputEvent) に合わせる（違うと束縛失敗でクラスごと未適用になる）
+    public static bool InputPrefix(NInspectRelicScreen __instance, InputEvent inputEvent)
     {
-        if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
+        if (inputEvent is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
             return true;
 
         if (CombatManager.Instance is not { IsInProgress: true }) return true;
 
-        var relics = Relics(inspectScreen);
-        var index = Index(inspectScreen);
+        var relics = Relics(__instance);
+        var index = Index(__instance);
         if (relics == null || index < 0 || index >= relics.Count) return true;
 
         var model = relics[index];
-        if (model is not EnemyHeartRelic heart) return true;
+        if (model is not EnemyHeartRelic { IsMutable: true } heart) return true;
 
         if (!HeartRelicActivation.TryBeginFromModel(heart, heart.Owner)) return true;
 
-        inspectScreen.AcceptEvent();
+        __instance.AcceptEvent();
         return false;
     }
 
@@ -56,7 +57,8 @@ public static class HeartRelicInspectPatch
         if (relics == null || index < 0 || index >= relics.Count) return;
 
         var model = relics[index];
-        if (model is not EnemyHeartRelic heart) return;
+        // 図鑑などの正本（canonical）は Owner を読むと例外になる
+        if (model is not EnemyHeartRelic { IsMutable: true } heart) return;
         if (!HeartRelicUi.ShouldHighlightForActivation(heart, heart.Owner)) return;
 
         var label = RarityLabel(__instance);

@@ -72,19 +72,24 @@ public static class LoveHypnosisRedirect
     /// 敵への付与が完了したあと、同量を敵から剥がしてプレイヤーへ移す。
     /// Prefix で target を差し替えると敵行動中の CustomScaledWait で進行不能になるため、Postfix 奪取のみ使う。
     /// </summary>
+    /// <param name="removeFromEnemy">
+    /// 敵から剥がす量（省略時は <paramref name="amount"/>）。共闘では本家が敵への新規付与を人数ぶん増やす
+    /// （ShouldScaleInMultiplayer）ため、付与量のままだと増えた分が敵に残る。
+    /// </param>
     public static async Task TransferBuffToPlayer(
         PlayerChoiceContext choiceContext,
         PowerModel enemyPower,
         decimal amount,
         Creature player,
         Creature? applier,
-        CardModel? cardSource)
+        CardModel? cardSource,
+        decimal? removeFromEnemy = null)
     {
         if (amount <= 0m) return;
 
         if (enemyPower is AdaptablePower) return;
 
-        var remove = (int)Math.Min(amount, enemyPower.Amount);
+        var remove = (int)Math.Min(removeFromEnemy ?? amount, enemyPower.Amount);
         if (remove > 0)
             await PowerCmd.ModifyAmount(choiceContext, enemyPower, -remove, applier, cardSource, silent: true);
 

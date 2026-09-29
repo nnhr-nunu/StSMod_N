@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using HypnosisCreator.HypnosisCreatorCode.Orbs.Fetishes;
 using HypnosisCreator.HypnosisCreatorCode.Powers;
@@ -35,10 +36,11 @@ public static class FetishCombat
     }
 
     /// <summary>
-    /// 教祖化 用。有効な間、SM・DomSub・アブノーマルの性癖カードは対象の性癖有無に関わらず必ず刺さる
-    /// （トランス性癖は対象外）。戦闘終了時にリセットされる。
+    /// 教祖化 用。所有者が教祖化を持つ間、SM・DomSub・アブノーマルの性癖カードは対象の性癖有無に関わらず必ず刺さる
+    /// （トランス性癖は対象外）。パワー自体を見るので、共闘で他プレイヤーに効いたり、敗北後に持ち越したりしない。
     /// </summary>
-    public static bool CultLeaderActive { get; set; }
+    public static bool IsCultLeaderActive(Creature? owner) =>
+        owner?.GetPower<CultLeaderPower>() != null;
 
     /// <summary>
     /// カードプレイ開始時点の沼スタック。同一プレイ内で付与した沼は×1.5に使わない。
@@ -51,8 +53,11 @@ public static class FetishCombat
     /// </summary>
     private static readonly AsyncLocal<Stack<HashSet<(Creature Enemy, FetishType Type)>>?> AwakenedThisPlayStack = new();
 
-    /// <summary>敵ごとの性癖パワー同期を直列化（マルチで fire-and-forget が競合しないように）。</summary>
-    private static readonly ConcurrentDictionary<Creature, SemaphoreSlim> SyncLocks = new();
+    /// <summary>
+    /// 敵ごとの性癖パワー同期を直列化（マルチで fire-and-forget が競合しないように）。
+    /// 弱参照キーなので、戦闘が終わって Creature が破棄されればロックも解放される。
+    /// </summary>
+    private static readonly ConditionalWeakTable<Creature, SemaphoreSlim> SyncLocks = new();
 
     public static FetishType? ToFetishType(OrbModel orb) => orb switch
     {
@@ -103,26 +108,6 @@ public static class FetishCombat
         return planted;
     }
 
-    [Obsolete("Use AwakenAsync during card play / any synchronized combat action.")]
-    public static bool Awaken(Creature enemy, FetishType type, Player owner)
-    {
-        if (!enemy.IsEnemy) return false;
-        if (HasFetish(enemy, type)) return false;
-
-        EnemyFetishSlots.AddCapacity(enemy, 1);
-        var planted = type switch
-        {
-            FetishType.Sm => EnemyFetishSlots.TryPlant<SmFetishOrb>(enemy, owner),
-            FetishType.DomSub => EnemyFetishSlots.TryPlant<DsFetishOrb>(enemy, owner),
-            FetishType.Abnormal => EnemyFetishSlots.TryPlant<AbnormalFetishOrb>(enemy, owner),
-            FetishType.Trance => EnemyFetishSlots.TryPlant<TranceFetishOrb>(enemy, owner),
-            _ => false
-        };
-        if (planted)
-            MarkAwakenedThisPlay(enemy, type);
-        return planted;
-    }
-
     public static bool WasAwakenedThisPlay(Creature enemy, FetishType type)
     {
         var stack = AwakenedThisPlayStack.Value;
@@ -161,15 +146,9 @@ public static class FetishCombat
     public static void ClearAwakenPlayScopes() => AwakenedThisPlayStack.Value = null;
 
     /// <summary>
-    /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。
-    /// 戦闘フックからの呼び出しは fire-and-forget。カードプレイ中は <see cref="SyncFetishPowersAsync"/> を await する。
+    /// スロット上の性癖をバフ行のパワーとして同期する（表示＋ツールチップ用）。必ず await する
+    /// （投げっぱなしだと表示待ち後の処理が端末ごとの早送り設定で前後し、共闘で同期がずれる）。
     /// </summary>
-    public static void SyncFetishPowers(Creature enemy, Player owner)
-    {
-        if (!enemy.IsEnemy || owner.Creature == null) return;
-        _ = SyncFetishPowersAsync(new ThrowingPlayerChoiceContext(), enemy, owner);
-    }
-
     public static Task SyncFetishPowersAsync(
         PlayerChoiceContext choiceContext,
         Creature enemy,
@@ -184,7 +163,7 @@ public static class FetishCombat
         Creature enemy,
         Player owner)
     {
-        var gate = SyncLocks.GetOrAdd(enemy, static _ => new SemaphoreSlim(1, 1));
+        var gate = SyncLocks.GetValue(enemy, static _ => new SemaphoreSlim(1, 1));
         await gate.WaitAsync();
         try
         {
@@ -276,14 +255,6 @@ public static class FetishCombat
     {
         foreach (FetishType type in Enum.GetValues<FetishType>())
             await AwakenAsync(choiceContext, enemy, type, owner);
-    }
-
-    public static void AwakenAll(Creature enemy, Player owner)
-    {
-        foreach (FetishType type in Enum.GetValues<FetishType>())
-#pragma warning disable CS0618
-            Awaken(enemy, type, owner);
-#pragma warning restore CS0618
     }
 
     /// <summary>
@@ -414,7 +385,7 @@ public static class FetishCombat
                 .Where(f =>
                 {
                     if (WasAwakenedThisPlay(target, f)) return false;
-                    if (CultLeaderActive && f != FetishType.Trance) return true;
+                    if (f != FetishType.Trance && IsCultLeaderActive(applier)) return true;
                     return HasFetish(target, f);
                 })
                 .Distinct()

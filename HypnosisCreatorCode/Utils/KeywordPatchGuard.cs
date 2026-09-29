@@ -1,8 +1,8 @@
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// <see cref="MegaCrit.Sts2.Core.Models.CardModel.GetKeywordsWithSources"/> パッチの再入を検出する。
-/// Loc 解決がキーワード取得を再び呼ぶとデッドロック／スタック溢れになるため。
+/// 表示用キーワードのツールチップ（<see cref="Patches.MechanicKeywordPatch"/>）の再入を検出する。
+/// Loc 解決やツールチップ見積もりが同じ処理を再び呼ぶとスタック溢れになるため。
 /// </summary>
 internal static class KeywordPatchGuard
 {

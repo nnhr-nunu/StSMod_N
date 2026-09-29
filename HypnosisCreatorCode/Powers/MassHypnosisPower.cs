@@ -14,33 +14,35 @@ public class MassHypnosisPower : HypnosisCreatorPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    [ThreadStatic]
-    private static bool _resolving;
+    // await の流れごとに持つ（AsyncLocal）。ThreadStatic だと全プレイヤーで共有され、共闘で片方のカードが
+    // 選択待ちで止まっている間、もう片方の行動まで「波及中／抑止中」扱いになる。
+    private static readonly AsyncLocal<bool> Resolving = new();
 
-    [ThreadStatic]
-    private static int _suppressDepth;
+    private static readonly AsyncLocal<int> SuppressDepth = new();
 
     /// <summary>集団催眠の AutoPlay 波及中か。プレイヤー側の「1枚1回」副作用を抑止する判定用。</summary>
-    public static bool IsPropagating => _resolving;
+    public static bool IsPropagating => Resolving.Value;
 
     /// <summary>
     /// オールインワン等の内部 AutoPlay 中。
     /// 集団催眠の再波及を止め、内部プレイは対象1体に留める。
     /// </summary>
-    public static bool IsPropagationSuppressed => _suppressDepth > 0;
+    public static bool IsPropagationSuppressed => SuppressDepth.Value > 0;
 
-    public static void BeginSuppressPropagation() => _suppressDepth++;
+    public static void BeginSuppressPropagation() => SuppressDepth.Value++;
 
     public static void EndSuppressPropagation()
     {
-        if (_suppressDepth > 0)
-            _suppressDepth--;
+        if (SuppressDepth.Value > 0)
+            SuppressDepth.Value--;
     }
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (_resolving || IsPropagationSuppressed) return;
+        if (Resolving.Value || IsPropagationSuppressed) return;
         if (Owner == null || CombatState == null) return;
+        // 自分がプレイしたカードだけ（共闘で仲間のカードまで波及させない／2人とも所持で二重波及しない）
+        if (cardPlay.Card.Owner?.Creature != Owner) return;
         if (!CountRules.HasCountKeyword(cardPlay.Card)) return;
         if (cardPlay.Card.TargetType != TargetType.AnyEnemy) return;
         if (cardPlay.Target is not { IsEnemy: true } primary) return;
@@ -51,16 +53,15 @@ public class MassHypnosisPower : HypnosisCreatorPower
         var others = CombatState.HittableEnemies.Where(e => e != primary && e.IsAlive).ToList();
         if (others.Count == 0) return;
 
-        _resolving = true;
+        Resolving.Value = true;
         try
         {
-            var canonical = cardPlay.Card.CanonicalInstance ?? cardPlay.Card;
             foreach (var enemy in others)
-                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, canonical, player, enemy);
+                await PropagatedCardPlay.OnEnemy(choiceContext, CombatState, cardPlay.Card, player, enemy);
         }
         finally
         {
-            _resolving = false;
+            Resolving.Value = false;
         }
     }
 }

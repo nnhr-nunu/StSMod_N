@@ -9,11 +9,15 @@ using MegaCrit.Sts2.Core.Hooks;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Patches;
 
+// 本家のフックは async。戻り値なしの Postfix は「最初の待ち」の時点で走り、その位置は早送り設定
+// （Instant かどうか）で変わるため、共闘で記録の前後がずれうる。ここでは Prefix（フック開始前）か、
+// フックの Task への後続（完了後）で記録して、どの端末でも同じ順序にする。
+
 /// <summary>プレイヤーのアタックプレイ／ターン進行を記録する（急所の一刺し・ラポール等）。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCardPlayed))]
 public static class PlayerAttackTrackerCardPlayedPatch
 {
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = combatState;
         _ = choiceContext;
@@ -28,10 +32,11 @@ public static class PlayerAttackTrackerCardPlayedPatch
     }
 }
 
+/// <summary>ターン開始フックの前にリセットする（開始時に自動プレイされたアタックもそのターンに数える）。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
 public static class PlayerAttackTrackerTurnStartPatch
 {
-    public static void Postfix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
+    public static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
     {
         _ = combatState;
         _ = choiceContext;
@@ -39,10 +44,12 @@ public static class PlayerAttackTrackerTurnStartPatch
     }
 }
 
+/// <summary>ターン終了前フックの完了後に締める（終了時に自動プレイされたアタックもそのターンに数える）。</summary>
 [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeSideTurnEnd))]
 public static class PlayerAttackTrackerTurnEndPatch
 {
     public static void Postfix(
+        ref Task __result,
         ICombatState combatState,
         CombatSide side,
         IEnumerable<Creature> participants)
@@ -50,6 +57,12 @@ public static class PlayerAttackTrackerTurnEndPatch
         _ = combatState;
         if (side != CombatSide.Player) return;
 
+        __result = FinalizeAfterAsync(__result, participants.ToList());
+    }
+
+    private static async Task FinalizeAfterAsync(Task original, IReadOnlyList<Creature> participants)
+    {
+        await original;
         foreach (var creature in participants)
         {
             var player = creature.Player;

@@ -4,9 +4,11 @@ using HypnosisCreator.HypnosisCreatorCode.Powers;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Uncommon;
@@ -31,6 +33,13 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     private bool _countedThisPlayWrapper;
 
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
+
+    /// <summary>説明どおり「相手がトランス時にのみプレイ可」。<see cref="Patches.CountCanPlayTargetingPatch"/> から参照。</summary>
+    internal static bool IsValidTranceTarget(Creature target) =>
+        target.IsAlive && TranceCombat.HasTrance(target);
+
+    internal static bool CanStartPlay(CardModel card) =>
+        card.CombatState?.HittableEnemies.Any(e => e.IsAlive && e.IsEnemy && IsValidTranceTarget(e)) ?? false;
 
     public override IReadOnlyList<FetishType> CardFetishes => [FetishType.Sm];
 
@@ -67,6 +76,8 @@ public class TimeStopStrike() : HypnosisCreatorCard(0,
     /// </summary>
     protected override CardLocation GetResultLocationForCardPlay()
     {
+        // 複製（本家 HistoryCourse 等の CreateDupe）は本家どおり消える。上書き先へ送ると恒久的に1枚増える。
+        if (IsDupe) return base.GetResultLocationForCardPlay();
         if (!_countedThisPlayWrapper)
         {
             RecordPlayThisTurn();

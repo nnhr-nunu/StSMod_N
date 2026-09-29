@@ -101,10 +101,17 @@ public static class StatusHypnosisConvert
         {
             // 永劫付き呪い（災厄・強欲・愚行・鐘の呪い・魅了）は本家 IsTransformable=false のため、
             // 一時除去してから置換する（プレイ可能版側の CanonicalKeywords で再付与される）。
-            if (card.Keywords.Contains(CardKeyword.Eternal))
+            var removedEternal = card.Keywords.Contains(CardKeyword.Eternal);
+            if (removedEternal)
                 card.RemoveKeyword(CardKeyword.Eternal);
 
-            if (!card.IsTransformable) return;
+            if (!card.IsTransformable)
+            {
+                // 永劫以外の理由で置換できないときは、外した永劫を戻す（変換もされず永劫だけ失うのを防ぐ）
+                if (removedEternal)
+                    card.AddKeyword(CardKeyword.Eternal);
+                return;
+            }
 
             var replacement = combat.CreateCard(canonical, player);
             await CardCmd.Transform(card, replacement, CardPreviewStyle.None);

@@ -88,6 +88,22 @@ public static class CognitiveShuffleCompletion
         }
     }
 
+    /// <summary>
+    /// OnPlay が例外（選択画面の取り消し等）で抜けたときの後始末。AfterCardPlayed の EndGate が走らないと、
+    /// この持ち主は以降の戦闘でもカードを出せなくなる。
+    /// </summary>
+    public static void CancelGate(Player player) => EndGate(player);
+
+    /// <summary>
+    /// 戦闘開始時のリセット。共闘で選択中に仲間の行動で戦闘が終わると、プレイが打ち切られて
+    /// AfterCardPlayed が来ないため、ゲートと予約が次の戦闘まで残り、この持ち主がカードを出せなくなる。
+    /// </summary>
+    public static void ResetForNewCombat(Player player)
+    {
+        EndGate(player);
+        CognitiveShufflePendingStore.Clear(player);
+    }
+
     private static void EndGate(Player player)
     {
         if (!Gates.TryGetValue(player, out var gate)) return;

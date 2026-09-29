@@ -30,7 +30,8 @@ public static class HeartRelicUiPatch
     public static void HoverTipsPostfix(RelicModel __instance, ref IEnumerable<IHoverTip> __result)
     {
         if (__instance is not EnemyHeartRelic heart) return;
-        if (!HeartRelicUi.ShouldShowActivationHover(heart, heart.Owner)) return;
+        // 図鑑などの正本（canonical）は Owner を読むと例外になる
+        if (!HeartRelicUi.ShouldShowActivationHover(heart, heart.IsMutable ? heart.Owner : null)) return;
 
         var tips = __result.ToList();
         tips.Add(HeartRelicUi.CreateActivationHoverTip());

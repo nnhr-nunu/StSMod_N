@@ -17,6 +17,9 @@ public static class HeartRelicPreview
 {
     public static void Refresh(RelicModel relic)
     {
+        // 図鑑などの正本（canonical）は Owner を読むと例外（AssertMutable）になる。所持者がいないので更新不要。
+        if (!relic.IsMutable) return;
+
         switch (relic)
         {
             case StolenHeart stolen:

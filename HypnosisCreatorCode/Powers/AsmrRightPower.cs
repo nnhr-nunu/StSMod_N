@@ -8,8 +8,14 @@ namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 /// <summary>ASMR催眠 — プレイヤーは「右」担当、敵は最後の攻撃者が「右」担当だったことを示す。</summary>
 public class AsmrRightPower : HypnosisCreatorPower
 {
+    /// <summary>
+    /// プレイヤーの担当マーカーとして付与するとき、付与前に立てる。付与の途中は Owner が未設定で弱体扱いになり、
+    /// プレイヤーのアーティファクトに防がれて（1消費して）表示が付かなかった。
+    /// </summary>
+    public bool ForPlayer { get; set; }
+
     public override PowerType Type =>
-        Owner is { IsPlayer: true } ? PowerType.Buff : PowerType.Debuff;
+        ForPlayer || (IsMutable && Owner is { IsPlayer: true }) ? PowerType.Buff : PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Single;
 
