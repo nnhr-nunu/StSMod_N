@@ -177,6 +177,8 @@
         <Message Text="Restored .godot/mono after Godot export." Importance="high" />
     </Target>
     
+    <!-- .pck の中身は export_presets.cfg の BasicExport で決まる。export_filter=all_resources なので、
+         res:// 内の json・画像・.translation 等は exclude_filter に当たらない限り全部入る（ルート直下の _* / tools_* は除外済み）。 -->
     <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
         <PropertyGroup>
             <_GodotPckPath>$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck</_GodotPckPath>
