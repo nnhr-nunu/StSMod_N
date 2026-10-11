@@ -2,13 +2,15 @@ using BaseLib.Config;
 using BaseLib.Config.UI;
 using Godot;
 
+using HypnosisCreator.HypnosisCreatorCode.Config.PlayerSettings;
 using HypnosisCreator.HypnosisCreatorCode.Utils;
 
 namespace HypnosisCreator.HypnosisCreatorCode.Config;
 
 /// <summary>
 /// Mod設定（Settings → Mod Settings → Hypno Creator）。
-/// スライダーを動かすと VisualTuner 経由で即反映され、閉じると自動保存される。
+/// 画面にはプレイヤー向けの項目（<see cref="PlayerSettingsUi"/>）だけを出す。
+/// 下の開発者向けスライダーは非表示だが、保存値は今までどおり読み込まれ VisualTuner 経由で反映される。
 /// </summary>
 public sealed class HypnosisCreatorConfig : SimpleModConfig
 {
@@ -22,6 +24,19 @@ public sealed class HypnosisCreatorConfig : SimpleModConfig
         ConfigChanged += (_, _) => OnAnyConfigChanged();
         OnConfigReloaded += OnAnyConfigChanged;
     }
+
+    // 既定は「表示される属性付き項目があるか」で決まる。UI を自前で組むので常に一覧へ出す
+    public override bool VisibleInModList() => true;
+
+    public override void SetupConfigUI(Control optionContainer)
+    {
+        // 開発者向けの調整項目（クロマキー・透かし・背景・カード絵・篝火）。調整するときだけコメントを外す。
+        // base.SetupConfigUI(optionContainer);
+        PlayerSettingsUi.Build(this, optionContainer);
+    }
+
+    /// <summary>PlayerSettingsUi から BaseLib 標準のボタンを作るための窓口（CreateRawButtonControl は protected）。</summary>
+    internal NConfigButton CreateButton(string label, Action onPressed) => CreateRawButtonControl(label, onPressed);
 
     // --- クロマキー（立ち絵 GB 透過） ---
 

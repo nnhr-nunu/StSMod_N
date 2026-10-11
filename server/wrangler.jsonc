@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "stsmod-n",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "account_id": "b1921f40cc673e291e3348515ab8fca4",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stsmod-n",
+      "database_id": "2b72e66f-6fa4-4829-bf85-30ec9ba6ed5d",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

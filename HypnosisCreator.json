@@ -2,7 +2,7 @@
   "id": "HypnosisCreator",
   "name": "Hypno Creator",
   "author": "ぬぬはら",
-  "description": "Hypno Creator — カウント／トランス／心臓の三軸キャラクターmod（原案：ぬぬはら）",
+  "description": "Hypno Creator — カウント／トランス／心臓の三軸キャラクターmod（原案：ぬぬはら）。ゲーム本体のデータ送信設定がONのとき、催眠術師でのランの結果（勝敗・デッキ・カード選択など）を Steam ID や名前を含めずに送信します（Mod設定から OFF にできます）。",
   "version": "v0.1.1",
   "min_game_version": "0.108.0",
   "has_pck": true,

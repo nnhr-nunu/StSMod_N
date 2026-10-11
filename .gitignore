@@ -15,3 +15,7 @@ obj/
 __pycache__/
 _build_check/
 _build_tmp_out/
+
+# Cloudflare Worker（server/）のローカル状態
+server/.wrangler/
+server/node_modules/

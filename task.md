@@ -5,3 +5,7 @@
 - 動画サムネイルをカード絵・キャラUIに流用
 - 初期デッキ／通しプレイのバランス調整
 - フォルダ名 `名称未設定` のリネーム検討
+- Mod設定のプレイヤー向け画面（2026-10-12 追加）の実機確認: フィードバック送信→Discord 着信、A1〜A10 解放とリセット、全要素解放、データ送信スイッチと本家設定の連動、ラン終了で D1 `runs` に1件入る
+- Worker `stsmod-n` の secret `DISCORD_WEBHOOK_URL` 登録（`server/` で `npx wrangler@4.144.0 secret put DISCORD_WEBHOOK_URL`）
+- D1 のデプロイ確認用テスト行を削除（SQL は `server/README.md` 末尾）
+- Workshop の説明文に匿名データ送信の説明を追記（manifest の description には追記済み）
