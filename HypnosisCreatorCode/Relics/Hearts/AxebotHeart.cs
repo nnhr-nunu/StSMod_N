@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
-/// アックスマシン（Axebot）の心臓 — 希少。「アックスマシン」バフ（HP1踏みとどまり×2、重ねで+2）。
+/// アックスボット（Axebot）の心臓 — 希少。「アックスボット」バフ（HP1踏みとどまり×2、重ねで+2）。
 /// </summary>
 public class AxebotHeart : EnemyHeartRelic
 {

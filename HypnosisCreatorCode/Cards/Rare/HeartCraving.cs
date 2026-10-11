@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace HypnosisCreator.HypnosisCreatorCode.Cards.Rare;
 
 /// <summary>
-/// 心臓への渇望 — 保有心臓数×無慈悲25（本家 Cruelty 同値）。UGで残虐2（本家 ViciousPower）。
+/// 心臓への渇望 — 保有心臓数×無慈悲25（本家 Cruelty 同値）。UGで残忍2（本家 ViciousPower）。
 /// </summary>
 [Pool(typeof(HypnosisCreatorCardPool))]
 public class HeartCraving() : HypnosisCreatorCard(2,
@@ -63,6 +63,6 @@ public class HeartCraving() : HypnosisCreatorCard(2,
 
     protected override void OnUpgrade()
     {
-        // 残虐2追加分は upgradeAppend 説明。コスト据え置き。
+        // 残忍2追加分は upgradeAppend 説明。コスト据え置き。
     }
 }

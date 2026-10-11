@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// ふにゃへにゃ — トランス1スタックあたりの減少率 = 10%＋10%×本パワースタック（1枚20%、2枚30%…）。
+/// ふにゃへにゃ — トランス1スタックあたりの減少率 = 20%×本パワースタック（1枚20%、2枚40%…）。
 /// 合計は最大40%（UGカード由来は60%）。下限ダメージ倍率10%。
 /// </summary>
 public class SoftenPower : HypnosisCreatorPower
@@ -23,7 +23,7 @@ public class SoftenPower : HypnosisCreatorPower
 
     /// <summary>トランス1スタックあたりの減少率（本パワーのスタック数で上がる）。</summary>
     public decimal ReductionPerTranceStack =>
-        0.10M + 0.10M * Math.Max(1, Amount);
+        0.20M * Math.Max(1, Amount);
 
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props, Creature? dealer,

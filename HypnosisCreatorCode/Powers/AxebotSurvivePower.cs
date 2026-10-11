@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// アックスマシン — HP0になりそうなとき HP1 で踏みとどまる。
+/// アックスボット — HP0になりそうなとき HP1 で踏みとどまる。
 /// Amount＝残り回数。重ねがけで +2。
 /// </summary>
 public class AxebotSurvivePower : HypnosisCreatorPower

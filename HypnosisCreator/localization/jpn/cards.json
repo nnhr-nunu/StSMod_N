@@ -319,7 +319,7 @@
   "HYPNOSISCREATOR-SOFT_TECHNIQUE.upgradeReplaceTo": "デバフを[green]すべて[/green]解除する。",
   "HYPNOSISCREATOR-ZERO_OUT.upgradeReplaceFrom": "相手の攻撃値を[blue]0[/blue]にする。",
   "HYPNOSISCREATOR-ZERO_OUT.upgradeReplaceTo": "相手の攻撃値を[blue]0[/blue]にし、[green]ブロックも0にする[/green]。",
-  "HYPNOSISCREATOR-HEART_CRAVING.upgradeAppend": "[gold]残虐[/gold][blue]2[/blue]を得る。",
+  "HYPNOSISCREATOR-HEART_CRAVING.upgradeAppend": "[gold]残忍[/gold][blue]2[/blue]を得る。",
   "HYPNOSISCREATOR-TENTACLE_RECALL.upgradeReplaceFrom": "を付与する。次のターン",
   "HYPNOSISCREATOR-TENTACLE_RECALL.upgradeReplaceTo": "を付与し[green]アブノーマルに目覚めさせる[/green]。次のターン",
   "HYPNOSISCREATOR-HEARTBEAT_SHARE.upgradeReplaceFrom": "味方プレイヤー[blue]1[/blue]人に共有する。",

@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 
 /// <summary>
-/// 味方ザップマシン（Zapbot ペット）の攻撃。
+/// 味方ザップボット（Zapbot ペット）の攻撃。
 /// AttackCommand + SourceType.Monster は味方攻撃時に PlayerCreatures を狙うため、直接ダメージを与える。
 /// </summary>
 internal static class AllyZapbotAttacks

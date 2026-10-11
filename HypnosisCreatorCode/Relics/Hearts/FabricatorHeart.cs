@@ -8,7 +8,7 @@ namespace HypnosisCreator.HypnosisCreatorCode.Relics.Hearts;
 
 /// <summary>
 /// ファブリケーターの心臓 — 希少。
-/// ザップマシン（Zapbot）を味方ペットとして召喚し、プレイヤーターン終了時にランダム敵を攻撃する。
+/// ザップボット（Zapbot）を味方ペットとして召喚し、プレイヤーターン終了時にランダム敵を攻撃する。
 /// </summary>
 public class FabricatorHeart : EnemyHeartRelic
 {

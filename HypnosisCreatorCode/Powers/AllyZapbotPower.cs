@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models.Monsters;
 namespace HypnosisCreator.HypnosisCreatorCode.Powers;
 
 /// <summary>
-/// 味方ザップマシン用。プレイヤーターン終了時にランダムな敵を1体攻撃する。
+/// 味方ザップボット用。プレイヤーターン終了時にランダムな敵を1体攻撃する。
 /// </summary>
 public class AllyZapbotPower : HypnosisCreatorPower
 {
