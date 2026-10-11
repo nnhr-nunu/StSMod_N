@@ -1,18 +1,18 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "计数",
-  "HYPNOSISCREATOR-COUNT.description": "保留。回合开始时费用减少1点。费用为0时可以使用。",
+  "HYPNOSISCREATOR-COUNT.description": "保留。回合开始时耗能减少1。耗能为0时可以打出。",
   "HYPNOSISCREATOR-SM.title": "SM",
-  "HYPNOSISCREATOR-SM.description": "对拥有SM性癖的对手使用此牌时，根据其最大生命值赋予破灭。",
+  "HYPNOSISCREATOR-SM.description": "对拥有SM性癖的对手打出这张牌时，根据其最大生命值给予灾厄。",
   "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
-  "HYPNOSISCREATOR-DOMSUB.description": "对拥有DomSub性癖的对手使用此牌时，根据其最大生命值赋予破灭。",
+  "HYPNOSISCREATOR-DOMSUB.description": "对拥有DomSub性癖的对手打出这张牌时，根据其最大生命值给予灾厄。",
   "HYPNOSISCREATOR-ABNORMAL.title": "异常",
-  "HYPNOSISCREATOR-ABNORMAL.description": "对拥有异常性癖的对手使用此牌时，根据其最大生命值赋予破灭。",
+  "HYPNOSISCREATOR-ABNORMAL.description": "对拥有异常性癖的对手打出这张牌时，根据其最大生命值给予灾厄。",
   "HYPNOSISCREATOR-TRANCE.title": "恍惚性癖",
-  "HYPNOSISCREATOR-TRANCE.description": "每当对拥有恍惚性癖的对手赋予恍惚时，赋予破灭（数值为最大生命值的2%+7，若对方有泥沼则×1.5）。",
+  "HYPNOSISCREATOR-TRANCE.description": "每当对拥有恍惚性癖的对手给予恍惚时，就给予灾厄（数量为最大生命值的2%+7；若对方有泥沼，则×1.5）。",
   "HYPNOSISCREATOR-TRANCESTATE.title": "恍惚",
-  "HYPNOSISCREATOR-TRANCESTATE.description": "使费用不为0的[gold]计数[/gold]卡也能使用。玩家回合开始时减少[blue]1[/blue]点。",
-  "HYPNOSISCREATOR-DOOM.title": "破灭",
-  "HYPNOSISCREATOR-DOOM.description": "敌人回合结束时，若积累的破灭达到或超过其当前生命值，则立即死亡。",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "使耗能不为0的[gold]计数[/gold]牌也能打出。玩家回合开始时减少[blue]1[/blue]。",
+  "HYPNOSISCREATOR-DOOM.title": "灾厄",
+  "HYPNOSISCREATOR-DOOM.description": "在敌人回合结束时，若其积累的灾厄达到或超过当前生命，则其立即死亡。",
   "HYPNOSISCREATOR-BOG.title": "泥沼",
-  "HYPNOSISCREATOR-BOG.description": "受到的[gold]破灭[/gold]增加[blue]50%[/blue]。回合结束时减少[blue]1[/blue]点。"
+  "HYPNOSISCREATOR-BOG.description": "受到的[gold]灾厄[/gold]增加[blue]50%[/blue]。回合结束时减少[blue]1[/blue]。"
 }

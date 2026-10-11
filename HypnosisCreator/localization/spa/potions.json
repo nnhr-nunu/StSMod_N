@@ -1,4 +1,4 @@
 {
-  "HYPNOSISCREATOR-CHLOROFORM_POTION.title": "Poción de Cloroformo",
-  "HYPNOSISCREATOR-CHLOROFORM_POTION.description": "Aplica Trance{Trance:diff()} y Sueño{AsleepPower:diff()}."
+  "HYPNOSISCREATOR-CHLOROFORM_POTION.title": "Poción de cloroformo",
+  "HYPNOSISCREATOR-CHLOROFORM_POTION.description": "Aplica {Trance:diff()} de Trance y {AsleepPower:diff()} de Siesta."
 }

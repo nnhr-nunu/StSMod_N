@@ -127,7 +127,7 @@ public static class FetishOrbHud
             .Select(p => p.Creature)
             .FirstOrDefault(c => FetishCombat.OwnerHasFetishAbyss(c));
         var tip = fetish == null
-            ? "空の性癖スロット"
+            ? ModLocText.Get("HYPNOSISCREATOR-FETISH_SLOT_EMPTY", "空の性癖スロット", "Empty Fetish slot")
             : FetishCombat.ToFetishType(fetish) is { } type
                 ? FetishCombat.FormatEnemyFetishTooltip(type, creature, applier)
                 : fetish.Title.GetFormattedText();

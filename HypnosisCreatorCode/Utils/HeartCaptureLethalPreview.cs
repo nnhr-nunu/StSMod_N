@@ -43,11 +43,16 @@ public static class HeartCaptureLethalPreview
         if (previewTarget == null) return false;
         if (!WouldDamageKill(card, previewTarget, rawDamage, props, previewMode)) return false;
 
-        suffix = UpgradeCardText.IsJapaneseUi()
-            ? "（🫀🗡️ リーサル）"
-            : " (🫀🗡️ Lethal)";
+        suffix = LethalSuffix();
         return true;
     }
+
+    /// <summary>心臓奪取リーサルの括弧（ハート抉りと共通）。</summary>
+    public static string LethalSuffix() =>
+        ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_LETHAL",
+            "（🫀🗡️ リーサル）",
+            " (🫀🗡️ Lethal)");
 
     public static void TryAppendDamageLethalSuffix(
         CardModel card,

@@ -61,9 +61,11 @@ public class Punishment() : HypnosisCreatorCard(2,
         if (hits <= 0) return;
 
         // 1ヒットの弱体等は {Damage:diff()} が緑表示。括弧は回数のみ（手計算合計は誤認しやすい）。
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（現在の攻撃回数：{hits}回）"
-            : $" (Current attacks: {hits})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_CURRENT_ATTACKS",
+            $"（現在の攻撃回数：{hits}回）",
+            $" (Current attacks: {hits})",
+            loc => loc.Add("Count", hits));
         CombatPreviewText.AppendSuffix(punishment, ref description, suffix);
     }
 }

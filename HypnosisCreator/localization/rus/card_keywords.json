@@ -1,18 +1,18 @@
 {
   "HYPNOSISCREATOR-COUNT.title": "Отсчёт",
-  "HYPNOSISCREATOR-COUNT.description": "Сохранение. Стоимость уменьшается на 1 в начале хода. Можно сыграть, когда стоимость равна 0.",
+  "HYPNOSISCREATOR-COUNT.description": "Оставляется. Стоимость уменьшается на 1 в начале хода. Эту карту можно разыграть, когда ее стоимость равна 0.",
   "HYPNOSISCREATOR-SM.title": "SM",
-  "HYPNOSISCREATOR-SM.description": "При использовании этой карты на противнике с фетишем SM наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-SM.description": "Когда эта карта разыгрывается на противника с фетишем SM, накладывает злой рок в зависимости от его максимальных ОЗ.",
   "HYPNOSISCREATOR-DOMSUB.title": "DomSub",
-  "HYPNOSISCREATOR-DOMSUB.description": "При использовании этой карты на противнике с фетишем DomSub наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-DOMSUB.description": "Когда эта карта разыгрывается на противника с фетишем DomSub, накладывает злой рок в зависимости от его максимальных ОЗ.",
   "HYPNOSISCREATOR-ABNORMAL.title": "Абнормальность",
-  "HYPNOSISCREATOR-ABNORMAL.description": "При использовании этой карты на противнике с фетишем Абнормальность наложите Гибель в зависимости от его максимального здоровья.",
+  "HYPNOSISCREATOR-ABNORMAL.description": "Когда эта карта разыгрывается на противника с фетишем Абнормальность, накладывает злой рок в зависимости от его максимальных ОЗ.",
   "HYPNOSISCREATOR-TRANCE.title": "Фетиш Транса",
-  "HYPNOSISCREATOR-TRANCE.description": "Каждый раз, когда противнику с фетишем Транса накладывается Транс, наложите Гибель (2% от максимального здоровья + 7; ×1,5, если есть Трясина).",
+  "HYPNOSISCREATOR-TRANCE.description": "Каждый раз, когда на противника с фетишем Транса накладывается транс, накладывает злой рок (количество: 2% от максимальных ОЗ + 7; ×1,5 при наличии трясины).",
   "HYPNOSISCREATOR-TRANCESTATE.title": "Транс",
-  "HYPNOSISCREATOR-TRANCESTATE.description": "Позволяет разыгрывать карты [gold]Отсчёта[/gold], даже если их стоимость не равна 0. Уменьшается на [blue]1[/blue] в начале вашего хода.",
-  "HYPNOSISCREATOR-DOOM.title": "Гибель",
-  "HYPNOSISCREATOR-DOOM.description": "В конце хода врага, если накопленная Гибель равна или превышает его текущее здоровье, он мгновенно умирает.",
+  "HYPNOSISCREATOR-TRANCESTATE.description": "Позволяет разыгрывать карты [gold]отсчёта[/gold], даже если их стоимость не равна 0. Понижается на [blue]1[/blue] в начале хода игрока.",
+  "HYPNOSISCREATOR-DOOM.title": "Злой рок",
+  "HYPNOSISCREATOR-DOOM.description": "Если в конце хода врага накопленный злой рок не ниже его текущих ОЗ, он мгновенно погибает.",
   "HYPNOSISCREATOR-BOG.title": "Трясина",
-  "HYPNOSISCREATOR-BOG.description": "Получаемая [gold]Гибель[/gold] увеличивается на [blue]50%[/blue]. Уменьшается на [blue]1[/blue] в конце хода."
+  "HYPNOSISCREATOR-BOG.description": "Получаемый [gold]злой рок[/gold] повышается на [blue]50%[/blue]. Понижается на [blue]1[/blue] в конце хода."
 }

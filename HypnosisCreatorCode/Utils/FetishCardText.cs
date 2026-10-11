@@ -40,39 +40,11 @@ public static class FetishCardText
         foreach (var fetish in CardFetishLookup.GetFetishes(card).Distinct())
         {
             if (ToKeyword(fetish) is null) continue;
-            titles.Add($"[gold]{LocalizedTitle(fetish)}[/gold]");
+            titles.Add($"[gold]{FetishCombat.FetishDisplayName(fetish)}[/gold]");
         }
 
         if (titles.Count == 0) return null;
-        var period = IsJapaneseUi() ? "。" : ".";
-        return string.Join("/", titles) + period;
-    }
-
-    private static string LocalizedTitle(FetishType type)
-    {
-        var jpn = IsJapaneseUi();
-        return type switch
-        {
-            FetishType.Sm => "SM",
-            FetishType.DomSub => "DomSub",
-            FetishType.Abnormal => jpn ? "アブノーマル" : "Abnormal",
-            FetishType.Trance => jpn ? "トランス" : "Trance",
-            _ => type.ToString()
-        };
-    }
-
-    private static bool IsJapaneseUi()
-    {
-        try
-        {
-            var lang = LocManager.Instance?.Language ?? "";
-            return lang.Contains("jpn", StringComparison.OrdinalIgnoreCase)
-                   || lang.Contains("ja", StringComparison.OrdinalIgnoreCase);
-        }
-        catch
-        {
-            return false;
-        }
+        return string.Join("/", titles) + ModLocText.Period();
     }
 
     private static void PrependFetishLine(CardModel card, Creature? target, ref string description)

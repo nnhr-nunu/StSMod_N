@@ -69,7 +69,8 @@ public static class FetishHitFloat
 
         try
         {
-            var lines = UpgradeCardText.IsJapaneseUi() ? JapaneseLines : EnglishLines;
+            var lines = ModLocText.GetLines("HYPNOSISCREATOR-FETISH_HIT_LINES")
+                        ?? (UpgradeCardText.IsJapaneseUi() ? JapaneseLines : EnglishLines);
             var text = lines[PickIndex(lines.Length)];
 
             var node = target.GetCreatureNode();

@@ -83,9 +83,11 @@ public class VitalPoint() : HypnosisCreatorCard(1,
         var gaps = PlayerAttackTracker.CompletedNonAttackTurns(vital.Owner);
         if (gaps <= 0) return;
 
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（未アタック{gaps}ターン）"
-            : $" ({gaps} non-attack turn{(gaps == 1 ? "" : "s")})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_NON_ATTACK_TURNS",
+            $"（未アタック{gaps}ターン）",
+            $" ({gaps} non-attack turn{(gaps == 1 ? "" : "s")})",
+            loc => loc.Add("Count", gaps));
         CombatPreviewText.AppendSuffix(vital, ref description, suffix);
     }
 }

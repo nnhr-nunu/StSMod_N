@@ -50,9 +50,11 @@ public class HypnosisIntro() : HypnosisCreatorCard(0,
 
         var previewTarget = target ?? intro.CurrentTarget;
         var n = CalcCurrentDraw(intro, previewTarget);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（現在{n}枚引く）"
-            : $" (Currently draws {n})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_CURRENT_DRAW",
+            $"（現在{n}枚引く）",
+            $" (Currently draws {n})",
+            loc => loc.Add("Count", n));
         CombatPreviewText.AppendSuffix(intro, ref description, suffix);
     }
 }

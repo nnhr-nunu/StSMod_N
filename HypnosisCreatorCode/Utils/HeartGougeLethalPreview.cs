@@ -50,17 +50,16 @@ public static class HeartGougeLethalPreview
 
         if (WouldDoomExecuteHeartCapture(card, previewTarget))
         {
-            suffix = UpgradeCardText.IsJapaneseUi()
-                ? "（🫀🗡️ 破滅とどめ）"
-                : " (🫀🗡️ Doom execute)";
+            suffix = ModLocText.Get(
+                "HYPNOSISCREATOR-PREVIEW_DOOM_EXECUTE",
+                "（🫀🗡️ 破滅とどめ）",
+                " (🫀🗡️ Doom execute)");
             return true;
         }
 
         if (WouldDamageKillHeartCapture(card, previewTarget, previewMode))
         {
-            suffix = UpgradeCardText.IsJapaneseUi()
-                ? "（🫀🗡️ リーサル）"
-                : " (🫀🗡️ Lethal)";
+            suffix = HeartCaptureLethalPreview.LethalSuffix();
             return true;
         }
 

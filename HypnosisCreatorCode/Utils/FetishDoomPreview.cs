@@ -11,6 +11,8 @@ namespace HypnosisCreator.HypnosisCreatorCode.Utils;
 /// </summary>
 public static class FetishDoomPreview
 {
+    private const string ApplyDoomKey = "HYPNOSISCREATOR-PREVIEW_APPLY_DOOM";
+
     private static readonly Regex JapaneseDoomSuffix =
         new(@"（破滅.*を付与する）\s*$", RegexOptions.Compiled);
 
@@ -50,15 +52,21 @@ public static class FetishDoomPreview
         if (total <= 0) return;
 
         var formatted = CombatPreviewText.FormatCombatPreviewAmount(total);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（破滅{formatted}を付与する）"
-            : $" (Apply {formatted} Doom)";
+        var suffix = ModLocText.Get(
+            ApplyDoomKey,
+            $"（破滅{formatted}を付与する）",
+            $" (Apply {formatted} Doom)",
+            loc => loc.Add("Doom", formatted));
 
         description = StripDoomPreviewSuffix(description).TrimEnd() + suffix;
     }
 
-    public static string StripDoomPreviewSuffix(string description) =>
-        EnglishDoomSuffix.Replace(JapaneseDoomSuffix.Replace(description, string.Empty), string.Empty);
+    public static string StripDoomPreviewSuffix(string description)
+    {
+        var stripped = EnglishDoomSuffix.Replace(JapaneseDoomSuffix.Replace(description, string.Empty), string.Empty);
+        var localized = ModLocText.SuffixPattern(ApplyDoomKey, "Doom");
+        return localized == null ? stripped : localized.Replace(stripped, string.Empty);
+    }
 
     /// <summary>照準対象に対して、実際の刺さりと同じ回数を返す。</summary>
     public static int CountPreviewHits(CardModel card, Creature target)

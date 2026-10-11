@@ -64,9 +64,11 @@ public class FetishChampion() : HypnosisCreatorCard(2,
         var replays = CalcReplayCount(previewTarget);
         if (replays <= 0) return;
 
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（リプレイ{replays}）"
-            : $" (Replay {replays})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_REPLAY",
+            $"（リプレイ{replays}）",
+            $" (Replay {replays})",
+            loc => loc.Add("Count", replays));
         CombatPreviewText.AppendSuffix(champion, ref description, suffix);
     }
 }

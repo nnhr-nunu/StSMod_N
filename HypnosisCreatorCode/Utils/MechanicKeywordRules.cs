@@ -58,21 +58,28 @@ public static class MechanicKeywordRules
 
         if (!flags.Trance
             && (description.Contains("[gold]トランス[/gold]", StringComparison.Ordinal)
-                || description.Contains("[gold]Trance[/gold]", StringComparison.Ordinal)))
+                || description.Contains("[gold]Trance[/gold]", StringComparison.Ordinal)
+                || MentionsLocalizedKeyword(description, "HYPNOSISCREATOR-TRANCESTATE.title")))
             flags.Trance = true;
 
         if (!flags.Doom
             && (description.Contains("[gold]破滅[/gold]", StringComparison.Ordinal)
-                || description.Contains("[gold]Doom[/gold]", StringComparison.Ordinal)))
+                || description.Contains("[gold]Doom[/gold]", StringComparison.Ordinal)
+                || MentionsLocalizedKeyword(description, "HYPNOSISCREATOR-DOOM.title")))
             flags.Doom = true;
 
         if (!flags.Bog
             && (description.Contains("[gold]沼[/gold]", StringComparison.Ordinal)
-                || description.Contains("[gold]Bog[/gold]", StringComparison.Ordinal)))
+                || description.Contains("[gold]Bog[/gold]", StringComparison.Ordinal)
+                || MentionsLocalizedKeyword(description, "HYPNOSISCREATOR-BOG.title")))
             flags.Bog = true;
 
         return flags;
     }
+
+    /// <summary>jpn/eng 以外の表示言語のキーワード名（card_keywords）で本文を探す。</summary>
+    private static bool MentionsLocalizedKeyword(string description, string titleKey) =>
+        ModLocText.KeywordMentionPattern(titleKey)?.IsMatch(description) == true;
 
     private static MechanicKeywordFlags ComputeMechanicFlagsVarsOnly(CardModel card) =>
         new()

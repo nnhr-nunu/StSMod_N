@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 using BaseLib.Patches.Localization;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
@@ -30,12 +31,16 @@ public static class Sensitivity3000Description
 
         var phrase = ResolveRainbowPhrase();
         if (string.IsNullOrEmpty(phrase)) return;
-        if (!description.Contains(phrase, StringComparison.Ordinal)) return;
+        // 文中では小文字始まりになる言語がある（eng "This card always hits Fetish." 等）ので大文字小文字は無視し、一致した綴りのまま虹色にする
+        if (!description.Contains(phrase, StringComparison.OrdinalIgnoreCase)) return;
 
-        var rainbow = RainbowCache.GetOrAdd(
-            $"{RainbowPaletteVersion}:{phrase}",
-            static key => RainbowText.LetterByLetter(key[(key.IndexOf(':') + 1)..]));
-        description = description.Replace(phrase, rainbow, StringComparison.Ordinal);
+        description = Regex.Replace(
+            description,
+            Regex.Escape(phrase),
+            static match => RainbowCache.GetOrAdd(
+                $"{RainbowPaletteVersion}:{match.Value}",
+                static key => RainbowText.LetterByLetter(key[(key.IndexOf(':') + 1)..])),
+            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
     }
 
     private static string? ResolveRainbowPhrase()

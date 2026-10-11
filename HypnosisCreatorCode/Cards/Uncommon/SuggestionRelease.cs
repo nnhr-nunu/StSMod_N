@@ -72,9 +72,16 @@ public class SuggestionRelease() : HypnosisCreatorCard(0,
             release, previewTarget, 0M, ValueProp.Move);
         var energy = CalcEnergyGain(release, trance);
 
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（ダメージ：{(int)damage}／エナジー：{energy}／ドロー：{energy}枚）"
-            : $" (Damage: {(int)damage} / Energy: {energy} / Draw: {energy})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_SUGGESTION_RELEASE",
+            $"（ダメージ：{(int)damage}／エナジー：{energy}／ドロー：{energy}枚）",
+            $" (Damage: {(int)damage} / Energy: {energy} / Draw: {energy})",
+            loc =>
+            {
+                loc.Add("Damage", (int)damage);
+                loc.Add("Energy", energy);
+                loc.Add("Draw", energy);
+            });
         CombatPreviewText.AppendSuffix(release, ref description, suffix);
     }
 }

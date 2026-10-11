@@ -88,9 +88,15 @@ public static class CombatDamageSuffixPreview
 
         var damageFormatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
         var doomFormatted = CombatPreviewText.FormatCombatPreviewAmount(doomTotal);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{damageFormatted}ダメージを与え、破滅{doomFormatted}を付与する）"
-            : $" ({damageFormatted} damage and Apply {doomFormatted} Doom)";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_DAMAGE_AND_DOOM",
+            $"（{damageFormatted}ダメージを与え、破滅{doomFormatted}を付与する）",
+            $" ({damageFormatted} damage and Apply {doomFormatted} Doom)",
+            loc =>
+            {
+                loc.Add("Damage", damageFormatted);
+                loc.Add("Doom", doomFormatted);
+            });
 
         description = FetishDoomPreview.StripDoomPreviewSuffix(description).TrimEnd();
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
@@ -106,9 +112,11 @@ public static class CombatDamageSuffixPreview
         if (!CombatPreviewText.IsActive(card)) return;
 
         var formatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{formatted}ダメージを与える）"
-            : $" ({formatted} damage)";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_DEAL_DAMAGE",
+            $"（{formatted}ダメージを与える）",
+            $" ({formatted} damage)",
+            loc => loc.Add("Damage", formatted));
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
     }
 
@@ -123,9 +131,11 @@ public static class CombatDamageSuffixPreview
         if (previewTotal == 0m && baselineTotal <= 0m) return;
 
         var formatted = CombatPreviewText.FormatPreviewAmount(previewTotal, baselineTotal);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（合計{formatted}ダメージ）"
-            : $" (Total {formatted} damage)";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_TOTAL_DAMAGE",
+            $"（合計{formatted}ダメージ）",
+            $" (Total {formatted} damage)",
+            loc => loc.Add("Damage", formatted));
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
     }
 
@@ -135,9 +145,11 @@ public static class CombatDamageSuffixPreview
         if (preview <= 0) return;
 
         var formatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{formatted}ブロックを得る）"
-            : $" ({formatted} Block)";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_GAIN_BLOCK",
+            $"（{formatted}ブロックを得る）",
+            $" ({formatted} Block)",
+            loc => loc.Add("Block", formatted));
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
     }
 
@@ -166,9 +178,7 @@ public static class CombatDamageSuffixPreview
         if (!CombatPreviewText.IsActive(card)) return;
 
         var formatted = CombatPreviewText.FormatPreviewAmount(preview, baseline);
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{formatted}ダメージ）"
-            : $" ({formatted} damage)";
+        var suffix = CompactDamageSuffix(formatted);
         InsertBeforeExhaustOrAppend(card, ref description, suffix);
     }
 
@@ -184,14 +194,25 @@ public static class CombatDamageSuffixPreview
 
         var formatted = CombatPreviewText.FormatAmount(perHit);
         var suffix = hits > 1
-            ? UpgradeCardText.IsJapaneseUi()
-                ? $"（{formatted}×{hits}ダメージ）"
-                : $" ({formatted}×{hits} damage)"
-            : UpgradeCardText.IsJapaneseUi()
-                ? $"（{formatted}ダメージ）"
-                : $" ({formatted} damage)";
+            ? ModLocText.Get(
+                "HYPNOSISCREATOR-PREVIEW_DAMAGE_MULTI",
+                $"（{formatted}×{hits}ダメージ）",
+                $" ({formatted}×{hits} damage)",
+                loc =>
+                {
+                    loc.Add("Damage", formatted);
+                    loc.Add("Hits", hits);
+                })
+            : CompactDamageSuffix(formatted);
         InsertBeforeExhaustOrAppend(card, ref description, suffix);
     }
+
+    private static string CompactDamageSuffix(string formatted) =>
+        ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_DAMAGE",
+            $"（{formatted}ダメージ）",
+            $" ({formatted} damage)",
+            loc => loc.Add("Damage", formatted));
 
     private static void InsertBeforeExhaustOrAppend(CardModel card, ref string description, string suffix)
     {
@@ -199,10 +220,9 @@ public static class CombatDamageSuffixPreview
 
         if (HasExhaustKeyword(card))
         {
-            var match = ExhaustKeywordToken.Match(description);
-            if (match.Success)
+            var insertAt = FindExhaustKeywordIndex(description);
+            if (insertAt >= 0)
             {
-                var insertAt = match.Index;
                 var prefix = insertAt > 0 && description[insertAt - 1] == '\n' ? "" : "\n";
                 description = description.Insert(insertAt, prefix + suffix);
                 return;
@@ -210,6 +230,20 @@ public static class CombatDamageSuffixPreview
         }
 
         CombatPreviewText.AppendSuffix(card, ref description, suffix);
+    }
+
+    /// <summary>自動挿入された廃棄キーワード行の位置（表示言語のキーワード名で探す）。無ければ -1。</summary>
+    private static int FindExhaustKeywordIndex(string description)
+    {
+        var localized = ModLocText.KeywordCardText("EXHAUST");
+        if (localized != null)
+        {
+            var index = description.IndexOf(localized, StringComparison.Ordinal);
+            if (index >= 0) return index;
+        }
+
+        var match = ExhaustKeywordToken.Match(description);
+        return match.Success ? match.Index : -1;
     }
 
     private static bool HasExhaustKeyword(CardModel card) =>

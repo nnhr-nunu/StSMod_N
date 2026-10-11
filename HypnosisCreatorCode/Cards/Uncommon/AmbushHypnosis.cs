@@ -58,9 +58,11 @@ public class AmbushHypnosis() : HypnosisCreatorCard(1,
         var n = CalcDraw(ambush);
         if (n <= 0) return;
 
-        var suffix = UpgradeCardText.IsJapaneseUi()
-            ? $"（{n}枚）"
-            : $" ({n})";
+        var suffix = ModLocText.Get(
+            "HYPNOSISCREATOR-PREVIEW_CARD_COUNT",
+            $"（{n}枚）",
+            $" ({n})",
+            loc => loc.Add("Count", n));
         CombatPreviewText.AppendSuffix(ambush, ref description, suffix);
     }
 }

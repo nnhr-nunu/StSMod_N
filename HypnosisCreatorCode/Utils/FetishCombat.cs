@@ -214,20 +214,29 @@ public static class FetishCombat
     public static string FormatEnemyFetishTooltip(FetishType type, int doomAmount)
     {
         var name = FetishDisplayName(type);
-        if (IsJapaneseUi())
-            return $"{name}が性癖。性癖に刺さる行動を受けた時、破滅{doomAmount}を得る。";
-        return $"{name} fetish. When receiving an action that hits this fetish, gain {doomAmount} Doom.";
+        return ModLocText.Get(
+            "HYPNOSISCREATOR-ENEMY_FETISH_TOOLTIP",
+            $"{name}が性癖。性癖に刺さる行動を受けた時、破滅{doomAmount}を得る。",
+            $"{name} fetish. When receiving an action that hits this fetish, gain {doomAmount} Doom.",
+            loc =>
+            {
+                loc.Add("Fetish", name);
+                loc.Add("Doom", doomAmount);
+            });
     }
 
     public static string FormatEnemyFetishTooltip(FetishType type, Creature enemy, Creature? applier = null) =>
         FormatEnemyFetishTooltip(type, CalcFetishDoomAmount(enemy, applier));
 
+    /// <summary>性癖名。card_keywords のタイトル（トランス性癖は「トランス」表記）を表示言語で引く。</summary>
     public static string FetishDisplayName(FetishType type) => type switch
     {
-        FetishType.Sm => "SM",
-        FetishType.DomSub => "DomSub",
-        FetishType.Abnormal => IsJapaneseUi() ? "アブノーマル" : "Abnormal",
-        FetishType.Trance => IsJapaneseUi() ? "トランス" : "Trance",
+        FetishType.Sm => ModLocText.KeywordTitle("HYPNOSISCREATOR-SM.title") ?? "SM",
+        FetishType.DomSub => ModLocText.KeywordTitle("HYPNOSISCREATOR-DOMSUB.title") ?? "DomSub",
+        FetishType.Abnormal => ModLocText.KeywordTitle("HYPNOSISCREATOR-ABNORMAL.title")
+                               ?? (IsJapaneseUi() ? "アブノーマル" : "Abnormal"),
+        FetishType.Trance => ModLocText.KeywordTitle("HYPNOSISCREATOR-TRANCESTATE.title")
+                             ?? (IsJapaneseUi() ? "トランス" : "Trance"),
         _ => type.ToString()
     };
 

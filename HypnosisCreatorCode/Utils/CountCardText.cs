@@ -38,6 +38,8 @@ public static class CountCardText
         // CardKeyword.Retain は beforeDescription へ [gold]保留[/gold]。 を自動挿入する。
         // カウントのキーワード説明がすでに「保留。」を含むため、説明欄だけ重複を外す。
         description = RetainKeywordLine.Replace(description, "");
+        // jpn/eng 以外は表示言語の保留キーワード名で探す
+        description = ModLocText.KeywordLinePattern("RETAIN")?.Replace(description, "") ?? description;
     }
 
     private static void StripRedundantPlainExhaust(CardModel card, Creature? target, ref string description)
