@@ -32,6 +32,11 @@ public static class BuffStripRules
         if (IsProtectedMechanicOrHypnosisBuff(power))
             return false;
 
+        // 撃破時の増援待ち（アックスボットの在庫・寄生・不意打ち等）。剥がすと増援が出ず、
+        // 奪ってプレイヤーへ移すと戦闘終了を止め続けて終わらない戦闘になる。
+        if (power.ShouldStopCombatFromEnding())
+            return false;
+
         // 本家フック（幻影蟲 Illusion 等が false）
         if (!Hook.ShouldPowerBeRemovedOnDeath(power))
             return false;
