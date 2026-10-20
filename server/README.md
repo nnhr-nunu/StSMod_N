@@ -7,6 +7,7 @@ Hypno Creator の Mod設定画面から送られる「フィードバック」�
 - 保存先: D1 `stsmod-n`（テーブル `feedback` / `runs` / `rate_limits`）
 - フィードバックは D1 に保存し、secret `DISCORD_WEBHOOK_URL` があれば Discord にも通知する
 - ランのデータは D1 に貯め、毎日 9:00（日本時間）に直近24時間の集計を同じ Discord へ送る（0件の日は送らない。`wrangler.jsonc` の `triggers.crons`）
+- 日報のカード名・敵の名前は `src/names.json`（本家と mod の日本語名）。カードや敵を足したら `python tools/gen_worker_names.py` で作り直して push する
 
 ## エンドポイント
 

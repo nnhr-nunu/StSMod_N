@@ -1,6 +1,9 @@
 // Hypno Creator（StSMod_N）のフィードバックと匿名プレイデータを受け取る Worker。
 // MOD に入るのはこの Worker の URL だけ。通知先の Discord Webhook は secret（DISCORD_WEBHOOK_URL）。
 
+// カード・敵・イベントの日本語名（tools/gen_worker_names.py で作る）
+import NAMES from "./names.json";
+
 const FEEDBACK_MAX_CHARS = 8000;
 const FEEDBACK_MAX_BYTES = 32 * 1024;
 const RUN_MAX_BYTES = 256 * 1024;
@@ -88,9 +91,9 @@ function buildRunSummary(rows, totalRuns) {
     } catch {
       continue;
     }
-    if (row.outcome === "loss" && report.killedBy) increment(killedBy, shortId(report.killedBy));
+    if (row.outcome === "loss" && report.killedBy) increment(killedBy, displayName(report.killedBy));
     for (const choice of report.cardChoices ?? []) {
-      const id = shortId(choice.id);
+      const id = displayName(choice.id);
       increment(cardOffers, id);
       if (choice.picked) increment(cardPicks, id);
     }
@@ -146,9 +149,9 @@ function formatCounts(entries) {
   return entries.map(([key, n]) => `${key}×${n}`).join(" ") || "なし";
 }
 
-// CARD.HYPNOSISCREATOR-FOO_BAR → FOO_BAR（種類と mod の接頭辞を外す）
-function shortId(id) {
-  return String(id).replace(/^[A-Z_]+\./, "").replace(/^HYPNOSISCREATOR-/, "");
+// CARD.HYPNOSISCREATOR-HARMONY → 調和。表に無い ID は種類と mod の接頭辞を外して出す
+function displayName(id) {
+  return NAMES[id] ?? String(id).replace(/^[A-Z_]+\./, "").replace(/^HYPNOSISCREATOR-/, "");
 }
 
 async function handleFeedback(request, env, ctx) {
