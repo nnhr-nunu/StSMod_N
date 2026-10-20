@@ -3,7 +3,6 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Saves;
 
@@ -23,7 +22,7 @@ internal enum TelemetrySendStatus
 /// フィードバックと匿名プレイデータを自前の Cloudflare Worker（リポジトリの server/）へ送る。
 /// MOD に入るのはこの URL だけで、通知先（Discord）やメールアドレスは Worker 側の secret にしかない。
 /// </summary>
-internal static partial class TelemetryClient
+internal static class TelemetryClient
 {
     private const string BaseUrl = "https://stsmod-n.nnhr.workers.dev/";
 
@@ -58,7 +57,7 @@ internal static partial class TelemetryClient
             try
             {
                 var language = SaveManager.Instance.SettingsSave?.Language?.ToLowerInvariant();
-                return language != null && LanguageCode().IsMatch(language) ? language : "unknown";
+                return language != null && IsLanguageCode(language) ? language : "unknown";
             }
             catch
             {
@@ -76,10 +75,10 @@ internal static partial class TelemetryClient
 
     /// <summary>Worker 側の検証（英数字と ._+- のみ）に合わない値は unknown にする。</summary>
     public static string SafeToken(string? value) =>
-        value != null && Token().IsMatch(value) ? value : "unknown";
+        IsToken(value) ? value! : "unknown";
 
     /// <summary>モデル ID（CARD.XXX など）が Worker 側の検証に合うときだけ返す。</summary>
-    public static bool IsSafeModelId(string? value) => value != null && ModelIdPattern().IsMatch(value);
+    public static bool IsSafeModelId(string? value) => IsAllowed(value, 128, allowPlus: false);
 
     public static async Task<TelemetrySendStatus> PostAsync<T>(Uri endpoint, T body)
     {
@@ -103,12 +102,13 @@ internal static partial class TelemetryClient
         }
     }
 
-    [GeneratedRegex("^[a-z]{3}$")]
-    private static partial Regex LanguageCode();
+    // [GeneratedRegex] は本家同梱の正規表現ランタイムで型の初期化に失敗するので、文字を直接調べる（Worker 側の正規表現と同じ条件）
+    private static bool IsLanguageCode(string value) => value.Length == 3 && value.All(c => c is >= 'a' and <= 'z');
 
-    [GeneratedRegex(@"^[A-Za-z0-9_.+\-]{1,64}$")]
-    private static partial Regex Token();
+    private static bool IsToken(string? value) => IsAllowed(value, 64, allowPlus: true);
 
-    [GeneratedRegex(@"^[A-Za-z0-9_.\-]{1,128}$")]
-    private static partial Regex ModelIdPattern();
+    private static bool IsAllowed(string? value, int maxLength, bool allowPlus) =>
+        value is { Length: > 0 } && value.Length <= maxLength && value.All(c =>
+            c is >= 'A' and <= 'Z' or >= 'a' and <= 'z' or >= '0' and <= '9' or '_' or '.' or '-'
+            || (allowPlus && c == '+'));
 }
