@@ -34,7 +34,122 @@ export default {
       return json({ error: "server_error" }, 500);
     }
   },
+
+  // 毎朝（wrangler.jsonc の crons）直近24時間のラン集計を Discord に送る。0件の日は送らない
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(sendDailyRunSummary(env, controller.scheduledTime));
+  },
 };
+
+const SUMMARY_WINDOW_MS = 24 * 3_600_000;
+const SUMMARY_MAX_RUNS = 2000;
+
+async function sendDailyRunSummary(env, now) {
+  const since = new Date(now - SUMMARY_WINDOW_MS).toISOString();
+  const { results } = await env.DB.prepare(
+    `SELECT mod_version, outcome, ascension, floors_visited, payload FROM runs
+     WHERE received_at >= ?1 ORDER BY id LIMIT ?2`,
+  )
+    .bind(since, SUMMARY_MAX_RUNS)
+    .all();
+  if (results.length === 0) return;
+
+  const total = await env.DB.prepare("SELECT COUNT(*) AS n FROM runs").first();
+  const payload = buildRunSummary(results, total.n);
+  if (!env.DISCORD_WEBHOOK_URL) {
+    console.log("run summary (no webhook)", JSON.stringify(payload));
+    return;
+  }
+  await postDiscord(env.DISCORD_WEBHOOK_URL, payload, "summary");
+}
+
+function buildRunSummary(rows, totalRuns) {
+  const outcomes = { win: 0, loss: 0, abandoned: 0 };
+  const winsByAscension = new Map();
+  const killedBy = new Map();
+  const versions = new Map();
+  const cardOffers = new Map();
+  const cardPicks = new Map();
+  let floorSum = 0;
+  let floorRuns = 0;
+
+  for (const row of rows) {
+    outcomes[row.outcome] = (outcomes[row.outcome] ?? 0) + 1;
+    increment(versions, row.mod_version);
+    if (row.outcome === "win") increment(winsByAscension, `A${row.ascension}`);
+    if (row.outcome !== "abandoned") {
+      floorSum += row.floors_visited;
+      floorRuns++;
+    }
+
+    let report;
+    try {
+      report = JSON.parse(row.payload);
+    } catch {
+      continue;
+    }
+    if (row.outcome === "loss" && report.killedBy) increment(killedBy, shortId(report.killedBy));
+    for (const choice of report.cardChoices ?? []) {
+      const id = shortId(choice.id);
+      increment(cardOffers, id);
+      if (choice.picked) increment(cardPicks, id);
+    }
+  }
+
+  const pickLines = top(cardPicks, 5).map(
+    ([id, picks]) => `${id}：${picks}/${cardOffers.get(id)}回`,
+  );
+  const fields = [
+    {
+      name: "結果",
+      value: `勝利 ${outcomes.win} / 敗北 ${outcomes.loss} / 放棄 ${outcomes.abandoned}`,
+      inline: false,
+    },
+    { name: "勝利したアセンション", value: formatCounts(sortByAscension(winsByAscension)), inline: true },
+    {
+      name: "平均到達階（放棄を除く）",
+      value: floorRuns > 0 ? (floorSum / floorRuns).toFixed(1) : "なし",
+      inline: true,
+    },
+    { name: "倒された相手 上位3", value: formatCounts(top(killedBy, 3)), inline: false },
+    { name: "よく取られたカード 上位5（取った/出た）", value: pickLines.join("\n") || "なし", inline: false },
+    { name: "MOD の版", value: formatCounts(top(versions, 5)), inline: false },
+  ];
+
+  return {
+    username: "Hypno Creator Run Report",
+    allowed_mentions: { parse: [] },
+    embeds: [
+      {
+        title: `ラン日報：直近24時間で ${rows.length} 件（累計 ${totalRuns} 件）`,
+        color: 0xb08ad8,
+        fields: fields.map((f) => ({ ...f, value: f.value.slice(0, 1024) })),
+        timestamp: new Date().toISOString(),
+      },
+    ],
+  };
+}
+
+function increment(map, key) {
+  map.set(key, (map.get(key) ?? 0) + 1);
+}
+
+function top(map, count) {
+  return [...map].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))).slice(0, count);
+}
+
+function sortByAscension(map) {
+  return [...map].sort((a, b) => Number(a[0].slice(1)) - Number(b[0].slice(1)));
+}
+
+function formatCounts(entries) {
+  return entries.map(([key, n]) => `${key}×${n}`).join(" ") || "なし";
+}
+
+// CARD.HYPNOSISCREATOR-FOO_BAR → FOO_BAR（種類と mod の接頭辞を外す）
+function shortId(id) {
+  return String(id).replace(/^[A-Z_]+\./, "").replace(/^HYPNOSISCREATOR-/, "");
+}
 
 async function handleFeedback(request, env, ctx) {
   const body = await readJson(request, FEEDBACK_MAX_BYTES);
@@ -187,15 +302,19 @@ async function notifyDiscord(webhookUrl, feedbackId, report, message) {
       },
     ],
   };
+  await postDiscord(webhookUrl, payload, "feedback");
+}
+
+async function postDiscord(webhookUrl, payload, kind) {
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!response.ok) console.error("discord", response.status, await response.text());
+    if (!response.ok) console.error("discord", kind, response.status, await response.text());
   } catch (error) {
-    console.error("discord", error);
+    console.error("discord", kind, error);
   }
 }
 

@@ -7,6 +7,8 @@
   "workers_dev": true,
   "preview_urls": false,
   "observability": { "enabled": true },
+  // 毎日 0:00 UTC（日本時間 9:00）にラン日報を Discord へ
+  "triggers": { "crons": ["0 0 * * *"] },
   "d1_databases": [
     {
       "binding": "DB",

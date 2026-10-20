@@ -6,6 +6,7 @@ Hypno Creator の Mod設定画面から送られる「フィードバック」�
 - アカウント: nnhr（`b1921f40cc673e291e3348515ab8fca4`）
 - 保存先: D1 `stsmod-n`（テーブル `feedback` / `runs` / `rate_limits`）
 - フィードバックは D1 に保存し、secret `DISCORD_WEBHOOK_URL` があれば Discord にも通知する
+- ランのデータは D1 に貯め、毎日 9:00（日本時間）に直近24時間の集計を同じ Discord へ送る（0件の日は送らない。`wrangler.jsonc` の `triggers.crons`）
 
 ## エンドポイント
 
